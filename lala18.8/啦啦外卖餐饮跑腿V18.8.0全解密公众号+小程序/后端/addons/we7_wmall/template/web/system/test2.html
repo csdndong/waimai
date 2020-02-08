@@ -1,0 +1,257 @@
+{itemplate 'public/header'}
+<style type="text/css">
+	.menu{position: relative;width: 100%;height: 100%;}
+	.menu .menu-bd{height: calc(669px - 80px);}
+	.menu-bd .menu-order{width: 320px;height: 100%;margin: 10px auto;border: 1px solid #eee;background: #f8f8f8;overflow-y: auto;}
+	.menu-bd .menu-order .menu-cart-hd{background: #f85;padding: 12px 15px;color: #fff;box-sizing: border-box;overflow: hidden;}
+	.menu-bd .menu-order .menu-cart-hd .menu-cart-title{width: 50%;float: left;font-size: 16px;}
+	.menu-bd .menu-order .menu-cart-hd .menu-cart-opt{margin-left: 150px;text-align: right;font-size: 16px;}
+	.menu-bd .menu-order .menu-cart-hd .menu-cart-opt .menu-cart-remark{padding-left: 19px;cursor: pointer;background: url(https://img.yzcdn.cn/public_files/2017/06/12/02a0b447a1b6d3c0baa7402f51ca1d80.png) no-repeat;background-position: 0 2.5px;}
+	.menu-bd .menu-order .menu-order-block{padding: 20px 15px;background: #fff;border-top: 1px solid #eee;border-bottom: 1px solid #eee;margin-bottom: 10px;}
+	.menu-bd .menu-order .menu-order-block .menu-order-text{margin-bottom: 10px;font-size: 16px;color: #333;line-height: 20px;}
+	.menu-bd .menu-order .menu-order-block .menu-order-cell-small{display: flex;color: #333;font-size: 12px;line-height: 17px;}
+	.menu-bd .menu-order .menu-order-block .menu-order-cell-small .menu-order-label{width: auto;white-space: nowrap;}
+	.menu-bd .menu-order .menu-order-block .menu-order-list{display: block;}
+	.menu-bd .menu-order .menu-order-block .menu-order-list .menu-user{display: block;font-size: 14px;color: #666;margin-bottom: 8px;}
+	.menu-bd .menu-order .menu-order-block .menu-order-list .menu-user .menu-user-label{display: inline-block;font-size: 14px;line-height: 18px;color: #38f;padding: 0 8px;border: 1px solid #38f;border-radius: 10px;margin-right: 10px;}
+	.menu-bd .menu-order .menu-order-block .menu-order-list .menu-user .menu-user-value{}
+	.menu-bd .menu-order .menu-order-block .menu-order-list .menu-order-item:nth-child(2){margin-top: 0px;}
+	.menu-bd .menu-order .menu-order-block .menu-order-list .menu-order-item{display: flex;margin-top: 20px;font-size: 14px;line-height: 20px;color: #333;}
+	.menu-bd .menu-order .menu-order-block .menu-order-list .menu-order-item .menu-order-item-left{flex: 1;font-size: 14px;color: #333;}
+	.menu-bd .menu-order .menu-order-block .menu-order-list .menu-order-item .menu-order-item-left .menu-order-item-sku{font-size: 12px;color: #666;line-height: 17px;margin-top: 5px;}
+	.menu-bd .menu-order .menu-order-block .menu-order-list .menu-order-item .menu-order-item-center{width: 50px;text-align: right;font-size: 14px;color: #333;}
+	.menu-bd .menu-order .menu-order-block .menu-order-list .menu-order-item .menu-order-item-right{width: 90px;text-align: right;font-size: 14px;color: #333;}
+	.menu-bd .menu-order .menu-order-block .menu-order-cell{display: flex;font-size: 14px;color: #333;line-height: 20px;}
+	.menu-bd .menu-order .menu-order-block .menu-order-cell .menu-order-label{width: 85px;}
+	.menu .menu-footer{margin-top: 10px;width: 100%;height: 60px;display: flex;padding: 12px 20px;box-sizing: border-box;background: #f8f8f8;}
+	.menu .menu-footer .menu-footer-left{flex: 1;text-align: left;line-height: 36px;}
+	.menu .menu-footer .menu-footer-left button{width: 86px;height: 36px;}
+	.menu .menu-footer .menu-footer-right{flex: 1;text-align: right;}
+	.menu .menu-footer .menu-footer-right button{width: 86px;height: 36px;}
+	.menu .menu-footer .menu-footer-right .menu-footer-desc{font-size: 17px;line-height: 36px;color: #333;margin-right: 10px;}
+	.menu .menu-footer .menu-footer-right .menu-footer-desc em{color: #f44;font-style: normal;}
+</style>
+<div class="menu">
+	<div class="menu-bd">
+		<div class="menu-order">
+			<div class="menu-cart-hd">
+				<div class="menu-cart-title">001</div>
+				<div class="menu-cart-opt">
+					<span class="menu-cart-remark">备注</span>
+				</div>
+			</div>
+			<div class="menu-order-block">
+				<div class="menu-order-text">用餐人数：1</div>
+				<div class="menu-order-cell-small">
+					<div class="menu-order-label">商家备注：</div>
+					<div class="menu-order-value">不要辣 微辣 中辣 重辣 少盐 少油 少盐 中辣 重辣</div>
+				</div>
+			</div>
+			<div class="menu-order-block">
+				<div class="menu-order-list">
+					<div class="menu-user">
+						<span class="menu-user-label">商家</span>
+						<span class="menu-user-name">PHP</span>
+					</div>
+					<div class="menu-order-item">
+						<div class="menu-order-item-left">
+							<div class="menu-order-item-title">米饭</div>
+							<div class="menu-order-item-sku">小碗</div>
+						</div>
+						<div class="menu-order-item-center">*10</div>
+						<div class="menu-order-item-right">￥200.00</div>
+					</div>
+					<div class="menu-order-item">
+						<div class="menu-order-item-left">
+							<div class="menu-order-item-title">大碗</div>
+							<div class="menu-order-item-sku">小碗</div>
+						</div>
+						<div class="menu-order-item-center">*10</div>
+						<div class="menu-order-item-right">￥200.00</div>
+					</div>
+				</div>
+			</div>
+			<div class="menu-order-block">
+				<div class="menu-order-cell">
+					<div class="menu-order-label">下单时间</div>
+					<div class="menu-order-value">2017-07-13 14:46:54</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="menu-footer">
+		<div class="menu-footer-left">
+			<button type="button" class="btn btn-primary btn-sm">加菜</button>
+			<button type="button" class="btn btn-default btn-sm">退菜</button>
+			<button type="button" class="btn btn-default btn-sm">打印小票</button>
+			<button type="button" class="btn btn-default btn-sm">取消订单</button>
+		</div>
+		<div class="menu-footer-right">
+			<span class="menu-footer-desc">共13件，合计：<em>￥200.00</em></span>
+			<button type="button" class="btn btn-sm btn-danger account-turncate-item">结账</button>
+		</div>
+	</div>
+</div>
+<style type="text/css">
+	.zent-dialog-r{width: calc(100% - 40px);height: calc(100% - 40px);min-width: 960px;max-width: 1350px;min-height: 500px;margin: 20px;position: relative;display: inline-block;vertical-align: middle;background: #fff;border-radius: 4px;padding: 20px;font-size: 16px;white-space: normal;}
+	.zent-dialog-r .zent-dialog-r-close{display: inline-block;position: absolute;top: 14px;right: 12px;color: #999;font-size: 20px;line-height: 20px;text-align: right;vertical-align: middle;cursor: pointer;background: #fff;padding: 0 6px;}
+	.zent-dialog-r .zent-dialog-r-header .zent-dialog-r-title{padding-bottom: 10px;border-bottom: 1px solid #e5e5e5;margin-bottom: 20px;}
+	.zent-dialog-r .zent-dialog-r-header .zent-dialog-r-title .zent-dialog-r-title-text{font-size: 15px;line-height: 1;font-weight: 700;color: #333;}
+	.zent-dialog-r .zent-dialog-r-body{color: #666;}
+	.zent-dialog-r .zent-dialog-r-body .menu .menu-bd .menu-cart{float: left;width: 320px;height: 100%;background: #f8f8f8;border: 1px solid #e5e5e5;}
+	.zent-dialog-r .zent-dialog-r-body .menu .menu-bd .menu-cart .menu-cart-hd{background: #f85;color: #fff;padding: 12px 15px;line-height: 20px;box-sizing: border-box;overflow: hidden;}
+	.zent-dialog-r .zent-dialog-r-body .menu .menu-bd .menu-cart .menu-cart-hd .menu-cart-title{float: left;width: 140px;}
+	.zent-dialog-r .zent-dialog-r-body .menu .menu-bd .menu-cart .menu-cart-hd .menu-cart-opt{margin-left: 150px;text-align: right;}
+	.zent-dialog-r .zent-dialog-r-body .menu .menu-bd .menu-cart .menu-cart-hd .menu-cart-opt .menu-cart-opt-remark{padding-left: 19px;cursor: pointer;background: url(https://img.yzcdn.cn/public_files/2017/06/12/02a0b447a1b6d3c0baa7402f51ca1d80.png) no-repeat;background-position: 0 2.5px;}
+	.zent-dialog-r .zent-dialog-r-body .menu .menu-bd .menu-cart .menu-cart-hd .menu-cart-opt .menu-cart-opt-clear{margin-left: 30px;padding-left: 19px;cursor: pointer;background: url(https://img.yzcdn.cn/public_files/2017/06/12/7c66081dc7dbfa212111f6b74fd0dfb2.png) no-repeat;background-position: 0 2.5px;}
+	.zent-dialog-r .zent-dialog-r-body .menu .menu-bd .menu-cart .menu-cart-use-num{padding: 20px 15px;line-height: 24px;color: #333;background: #fff;border-bottom: 1px solid #e5e5e5;border-left: 1px solid #e5e5e5;}
+	.zent-dialog-r .zent-dialog-r-body .menu .menu-bd .menu-cart .menu-cart-use-num .widget-count-number{display: inline-block;width: 80px;height: 24px;line-height: 25px;text-align: center;overflow: hidden;position: relative;border: 1px solid #bbb;color: #333;font-size: 12px;border-radius: 2px;background: #fff;vertical-align: middle;}
+	.zent-dialog-r .zent-dialog-r-body .menu .menu-bd .menu-cart .menu-cart-use-num .widget-count-number .subtract-number{display: inline-block;width: 23px;height: 100%;float: left;border-right: 1px solid #bbb;text-align: center;color: #333;font-size: 14px;}
+	.zent-dialog-r .zent-dialog-r-body .menu .menu-bd .menu-cart .menu-cart-use-num .widget-count-number .add-number{display: inline-block;width: 23px;height: 100%;float: right;border-left: 1px solid #bbb;text-align: center;color: #333;font-size: 14px;}
+	.zent-dialog-r .zent-dialog-r-body .menu .menu-bd .menu-cart .menu-cart-bd{height: calc(100% - 109px);padding: 10px 0 34px;box-sizing: border-box;overflow-y: auto;}
+	.zent-dialog-r .zent-dialog-r-body .menu .menu-bd .menu-cart .menu-cart-bd .menu-cart-list{background: #fff;border-top: 1px solid #e5e5e5;border-bottom: 1px solid #e5e5e5;}
+	.zent-dialog-r .zent-dialog-r-body .menu .menu-bd .menu-cart .menu-cart-bd .menu-cart-list .menu-cart-item{display: flex;flex-wrap: wrap;padding: 20px 15px;border-bottom: 1px solid #e5e5e5;border-left: 1px solid #e5e5e5;}
+	.zent-dialog-r .zent-dialog-r-body .menu .menu-bd .menu-cart .menu-cart-bd .menu-cart-list .menu-cart-item:last-child{border-bottom: none;}
+	.zent-dialog-r .zent-dialog-r-body .menu .menu-bd .menu-cart .menu-cart-bd .menu-cart-list .menu-cart-item .menu-cart-item-row{display: flex;min-width: 100%;}
+	.zent-dialog-r .zent-dialog-r-body .menu .menu-bd .menu-cart .menu-cart-bd .menu-cart-list .menu-cart-item .menu-cart-item-row .menu-cart-item-left{-webkit-box-flex: 1;flex: 1;}
+	.zent-dialog-r .zent-dialog-r-body .menu .menu-bd .menu-cart .menu-cart-bd .menu-cart-list .menu-cart-item .menu-cart-item-row .menu-cart-item-left .menu-cart-item-title{color: #333;font-size: 14px;line-height: 20px;overflow: hidden;text-overflow: ellipsis;}
+	.zent-dialog-r .zent-dialog-r-body .menu .menu-bd .menu-cart .menu-cart-bd .menu-cart-list .menu-cart-item .menu-cart-item-row .menu-cart-item-left .menu-cart-item-sku{font-size: 12px;color: #666;margin-top: 5px;}
+	.zent-dialog-r .zent-dialog-r-body .menu .menu-bd .menu-cart .menu-cart-bd .menu-cart-list .menu-cart-item .menu-cart-item-row .menu-cart-item-right{width: 80px;text-align: right;}
+	.zent-dialog-r .zent-dialog-r-body .menu .menu-bd .menu-cart .menu-cart-bd .menu-cart-list .menu-cart-item .menu-cart-item-row .menu-cart-item-right .menu-cart-item-price{color: #333;font-size: 14px;line-height: 20px;}
+	.zent-dialog-r .zent-dialog-r-body .menu .menu-bd .menu-cart .menu-cart-bd .menu-cart-list .menu-cart-item .menu-cart-item-row .menu-cart-item-right .menu-cart-item-quantity{margin-top: 5px;}
+	.zent-dialog-r .zent-dialog-r-body .menu .menu-bd .menu-cart .menu-cart-bd .menu-cart-list .menu-cart-item .menu-cart-item-row .menu-cart-item-right .menu-cart-item-quantity .widget-count-number{display: inline-block;width: 80px;height: 25px;line-height: 25px;text-align: center;overflow: hidden;position: relative;border: 1px solid #bbb;color: #333;font-size: 12px;border-radius: 2px;background: #fff;vertical-align: middle;margin-top: 3px;}
+	.zent-dialog-r .zent-dialog-r-body .menu .menu-bd .menu-cart .menu-cart-bd .menu-cart-list .menu-cart-item .menu-cart-item-row .menu-cart-item-right .menu-cart-item-quantity .widget-count-number .subtract-number{display: inline-block;width: 23px;height: 100%;float: left;border-right: 1px solid #bbb;text-align: center;color: #333;font-size: 14px;}
+	.zent-dialog-r .zent-dialog-r-body .menu .menu-bd .menu-cart .menu-cart-bd .menu-cart-list .menu-cart-item .menu-cart-item-row .menu-cart-item-right .menu-cart-item-quantity .widget-count-number .add-number{display: inline-block;width: 23px;height: 100%;float: right;border-left: 1px solid #bbb;text-align: center;color: #333;font-size: 14px;}
+	.zent-dialog-r .zent-dialog-r-body .menu .menu-bd .menu-goods{margin-left: 340px;height: 100%;}
+	.zent-dialog-r .zent-dialog-r-body .menu .menu-bd .menu-goods .menu-goods-hd{padding: 15px 20px;background: #f8f8f8;box-shadow: inset 0 1px 0 0 #eee, inset 0 -1px 0 0 #eee;}
+	.zent-dialog-r .zent-dialog-r-body .menu .menu-bd .menu-goods .menu-goods-hd .menu-goods-search-input{width: 210px;display: flex;}
+	.zent-dialog-r .zent-dialog-r-body .menu .menu-bd .menu-goods .menu-goods-hd .menu-goods-search-input button{margin-left: 10px;}
+	.zent-dialog-r .zent-dialog-r-body .menu .menu-bd .menu-goods .menu-goods-bd{height: calc(100% - 60px);}
+	.zent-dialog-r .zent-dialog-r-body .menu .menu-bd .menu-goods .menu-goods-bd .menu-goods-tag-list{display: block;float: left;width: 120px;height: 100%;background: #f8f8f8;overflow-y: auto;}
+	.zent-dialog-r .zent-dialog-r-body .menu .menu-bd .menu-goods .menu-goods-bd .menu-goods-tag-list .active{background: #fff;box-shadow: 1px 0 0 0 #fff;}
+	.zent-dialog-r .zent-dialog-r-body .menu .menu-bd .menu-goods .menu-goods-bd .menu-goods-tag-list li{line-height: 20px;border-bottom: 1px solid #eee;padding: 15px 10px 15px 30px;font-size: 12px;color: #555;cursor: pointer;}
+	.zent-dialog-r .zent-dialog-r-body .menu .menu-bd .menu-goods .menu-goods-bd .menu-goods-item-list{height: calc(100% - 40px);padding: 20px 0 20px 10px;margin-left: 120px;overflow-y: auto;}
+	.zent-dialog-r .zent-dialog-r-body .menu .menu-bd .menu-goods .menu-goods-bd .menu-goods-item-list .menu-goods-item{float: left;margin-left: 10px;margin-bottom: 20px;width: 270px;height: 90px;box-sizing: border-box;overflow: hidden;}
+	.zent-dialog-r .zent-dialog-r-body .menu .menu-bd .menu-goods .menu-goods-bd .menu-goods-item-list .menu-goods-item .menu-goods-item-hd{width: 90px;height: 90px;border-radius: 2px 0 0 2px;position: relative;float: left;background: #f8f8f8;}
+	.zent-dialog-r .zent-dialog-r-body .menu .menu-bd .menu-goods .menu-goods-bd .menu-goods-item-list .menu-goods-item .menu-goods-item-hd .menu-goods-item-pic{width: 90px;height: 90px;border-radius: 2px 0 0 2px;background: url(https://img.yzcdn.cn/upload_files/2017/04/27/FtvOdad16RteFoU6cxeejF2imaCr.png?imageView2/2/w/180/h/180/q/90/format/webp) no-repeat;background-size: cover;background-position: 50%;}
+	.zent-dialog-r .zent-dialog-r-body .menu .menu-bd .menu-goods .menu-goods-bd .menu-goods-item-list .menu-goods-item .menu-goods-item-bd{position: relative;margin-left: 90px;height: 100%;box-sizing: border-box;border: 1px solid #eee;border-left: 0;border-radius: 0 2px 2px 0;padding: 10px;}
+	.zent-dialog-r .zent-dialog-r-body .menu .menu-bd .menu-goods .menu-goods-bd .menu-goods-item-list .menu-goods-item .menu-goods-item-bd .menu-goods-item-title{color: #111;font-size: 14px;line-height: 20px;max-height: 40px;overflow: hidden;text-overflow: ellipsis;}
+	.zent-dialog-r .zent-dialog-r-body .menu .menu-bd .menu-goods .menu-goods-bd .menu-goods-item-list .menu-goods-item .menu-goods-item-bd .menu-goods-item-price{position: absolute;bottom: 11px;left: 10px;font-size: 12px;color: #f44;line-height: 17px;}
+	.zent-dialog-r .zent-dialog-r-body .menu .menu-bd .menu-goods .menu-goods-bd .menu-goods-item-list .menu-goods-item .menu-goods-item-bd .menu-goods-item-add-wrap{position: absolute;right: 0;bottom: 0;padding: 10px;}
+	.zent-dialog-r .zent-dialog-r-body .menu .menu-bd .menu-goods .menu-goods-bd .menu-goods-item-list .menu-goods-item .menu-goods-item-bd .menu-goods-item-add-wrap .menu-goods-item-add{position: relative;width: 24px;height: 24px;cursor: pointer;border-radius: 2px;background: #38f url(https://img.yzcdn.cn/public_files/2017/06/15/00067c0c36bf599c77f4ca2519948708.png) no-repeat;background-position: 50%;}
+	.zent-dialog-r .zent-dialog-r-body .menu .menu-bd .menu-goods .menu-goods-bd .menu-footer .menu-footer-left{-webkit-box-flex: 1;flex: 1;text-align: left;}
+	.zent-dialog-r .zent-dialog-r-body .menu .menu-bd .menu-goods .menu-goods-bd .menu-footer .menu-footer-right{-webkit-box-flex: 1;flex: 1;text-align: right;}
+	.zent-dialog-r .zent-dialog-r-body .menu .menu-bd .menu-goods .menu-goods-bd .menu-footer .menu-footer-right .menu-footer-desc{font-size: 17px;line-height: 22px;color: #333;margin-right: 10px;}
+	.zent-dialog-r .zent-dialog-r-body .menu .menu-bd .menu-goods .menu-goods-bd .menu-footer .menu-footer-right .menu-footer-desc em{font-style: normal;color: #f44;}
+</style>
+<div class="zent-dialog-r">
+	<span class="zent-dialog-r-close">&times;</span>
+	<div class="zent-dialog-r-header">
+		<div class="zent-dialog-r-title">
+			<span class="zent-dialog-r-title-text">小桌-001</span>
+		</div>
+	</div>
+	<div class="zent-dialog-r-body">
+		<div class="menu">
+			<div class="menu-bd">
+				<div class="menu-cart">
+					<div class="menu-cart-hd">
+						<div class="menu-cart-title">001</div>
+						<div class="menu-cart-opt">
+							<span class="menu-cart-opt-remark">备注</span>
+							<span class="menu-cart-opt-clear">清空</span>
+						</div>
+					</div>
+					<div class="menu-cart-use-num">
+						用餐人数：
+						<div class="widget-count-number">
+							<a href="" class="subtract-number">-</a>
+							1
+							<a href="" class="add-number">+</a>
+						</div>
+					</div>
+					<div class="menu-cart-bd">
+						<div class="menu-cart-list">
+							<div class="menu-cart-item">
+								<div class="menu-cart-item-row">
+									<div class="menu-cart-item-left">
+										<div class="menu-cart-item-title">米饭</div>
+										<div class="menu-cart-item-sku">小碗</div>
+									</div>
+									<div class="menu-cart-item-right">
+										<div class="menu-cart-item-price">￥200.00</div>
+										<div class="menu-cart-item-quantity">
+											<div class="widget-count-number">
+												<a href="" class="subtract-number">-</a>
+												1
+												<a href="" class="add-number">+</a>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="menu-cart-item">
+								<div class="menu-cart-item-row">
+									<div class="menu-cart-item-left">
+										<div class="menu-cart-item-title">米饭</div>
+										<div class="menu-cart-item-sku">小碗</div>
+									</div>
+									<div class="menu-cart-item-right">
+										<div class="menu-cart-item-price">￥200.00</div>
+										<div class="menu-cart-item-quantity">
+											<div class="widget-count-number">
+												<a href="" class="subtract-number">-</a>
+												1
+												<a href="" class="add-number">+</a>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="menu-goods">
+					<div class="menu-goods-hd">
+						<div class="menu-goods-search-input">
+							<input type="text" name="" class="form-control" placeholder="搜索商品">
+							<button type="button" class="btn btn-primary btn-sm">搜索</button>
+						</div>
+					</div>
+					<div class="menu-goods-bd">
+						<ul class="menu-goods-tag-list">
+							<li class="active">主食</li>
+							<li class="">热菜</li>
+							<li class="">冷菜</li>
+							<li class="">饮料</li>
+						</ul>
+						<div class="menu-goods-item-list">
+							<div class="menu-goods-item">
+								<div class="menu-goods-item-hd">
+									<div class="menu-goods-item-pic"></div>
+								</div>
+								<div class="menu-goods-item-bd">
+									<div class="menu-goods-item-title">米饭</div>
+									<div class="menu-goods-item-price">￥3.00</div>
+									<div class="menu-goods-item-add-wrap">
+										<div class="menu-goods-item-add"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="menu-footer">
+				<div class="menu-footer-left">
+					<button type="button" class="btn btn-default btn-sm">取消加菜</button>
+				</div>
+				<div class="menu-footer-right">
+					<span class="menu-footer-desc">共4件，合计：<em>￥200.00</em></span>
+					<button type="button" class="btn btn-sm btn-danger account-turncate-item">结账</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{itemplate 'public/footer'}

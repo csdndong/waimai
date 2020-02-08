@@ -1,0 +1,6 @@
+{
+    "navigationBarTitleText": "积分商城",
+    "usingComponents": {
+        "cardlist": "/zh_cjdianc/dist/cardlist/index"
+    }
+}

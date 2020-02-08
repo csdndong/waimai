@@ -1,0 +1,178 @@
+<form bindreset="formReset" bindsubmit="formSubmit" reportSubmit="true">
+    <view class="font">
+        <view class="blbanner">
+            <view class="b-head" style="border-color:{{color}}">预约信息</view>
+        </view>
+        <view class="reserve">
+            <view class="flex reserve_type">
+                <view>选择人数</view>
+                <view class="reserve_date">
+                    <picker bindchange="bindjcrsChange" name="jcrs" range="{{jcrsarray}}" value="{{jcrsarray[jindex]}}">
+                        <view class="picker">{{jcrsarray[jindex]}}</view>
+                    </picker>
+                    <image class="reserve_arrow" src="../../img/huise@2x.png"></image>
+                </view>
+            </view>
+            <navigator class="flex reserve_type" url="reservetime?storeid={{storeid}}">
+                <view>选择时间</view>
+                <view class="reserve_date">
+                    <view class="picker">{{date}}日{{time}}</view>
+                    <image class="reserve_arrow" src="../../img/huise@2x.png"></image>
+                </view>
+            </navigator>
+            <block wx:if="{{StoreInfo.storeset.is_yyzw=='1'}}">
+                <view class="flex reserve_type {{item.open?'kind-list__item-hd_show':''}}">
+                    <view>选择桌位类型</view>
+                    <view class="reserve_date">
+                        <view class="reserve_tab">
+                            <picker bindchange="bindPickerChange" name="zwpicker" range="{{array}}" rangeKey="name" value="{{array[index]}}">
+                                <view class="picker reserve_sele" wx:if="{{array.length!=0}}">{{array[index].name}}--最低消费{{array[index].zd_cost}}</view>
+                                <view class="picker reserve_sele" wx:else>商家暂未添加桌位类型</view>
+                            </picker>
+                        </view>
+                        <image class="reserve_arrow" src="../../img/huise@2x.png"></image>
+                    </view>
+                </view>
+                <view class="flex reserve_type">
+                    <view>桌位预定费用</view>
+                    <view class="reserve_date">
+                        <view class="picker">{{array[index].yd_cost}}元</view>
+                        <image class="reserve_arrow" src=""></image>
+                    </view>
+                </view>
+            </block>
+            <view class="reserve_type reserve_man">
+                <view class="reserve_num">联系人</view>
+                <input class="flex-grow-1 reserve_inp" name="lxr" placeholder="请输入联系人称呼" placeholderStyle="color: #999;font-size: 30rpx;"></input>
+                <view class="flex-grow-0">
+                    <radio-group class="radio-group" name="sexradiogroup">
+                        <label class="radio" style="margin-left:{{index==0?'0':''}}" wx:for="{{items}}">
+                            <radio checked="{{item.checked}}" color="{{color}}" value="{{item.value}}"></radio>{{item.name}}
+            </label>
+                    </radio-group>
+                </view>
+            </view>
+            <view class="reserve_type reserve_man" style="border:none;">
+                <view class="reserve_num">联系电话</view>
+                <input class="flex-grow-1 reserve_inp" name="tel" placeholder="请输入电话号码" placeholderStyle="color: #999;font-size: 30rpx;" type="number"></input>
+            </view>
+        </view>
+        <view class="blbanner">
+            <view class="b-head" style="border-color:{{color}}">预约模式</view>
+        </view>
+        <view class="weui-cells weui-cells_after-title" style="margin-bottom:40rpx;">
+            <radio-group bindchange="radioChange1" class="msradiogroup" name="radioChange1">
+                <label class="weui-cell weui-check__label" style="background:{{item.checked?color:''}};color:{{item.checked?'#fff':''}}" wx:for="{{radioItems}}" wx:key="value">
+                    <radio checked="{{item.checked}}" class="weui-check" value="{{item.value}}"></radio>
+                    <view class="weui-cell__bd">{{item.name}}</view>
+                    <view class="weui-cell__hd weui-check__hd_in-checkbox">
+                        <icon class="weui-icon-checkbox_circle" color="#DEDEDE" size="23" type="circle" wx:if="{{!item.checked}}"></icon>
+                        <icon class="weui-icon-checkbox_success" color="#FFFFFF" size="23" type="success" wx:if="{{item.checked}}"></icon>
+                    </view>
+                </label>
+            </radio-group>
+        </view>
+        <block wx:if="{{radioItems[1].checked}}">
+            <view class="blbanner">
+                <view class="b-head" style="border-color:{{color}}">商品列表</view>
+            </view>
+            <view class="reserve ">
+                <navigator class="flex reserve_type" style="border:none;" url="../smdc/smdcxgsp?storeid={{store.id}}&zuid={{zuid}}&dr_id={{drid}}&tableid={{tableid}}&isyy=1">
+                    <view>前往选择商品</view>
+                    <view class="reserve_date">
+                        <image class="reserve_arrow" src="../../img/huise@2x.png"></image>
+                    </view>
+                </navigator>
+                <view class="cart-item flex-row flex-y-center" wx:for="{{cart_list}}" wx:key="*this">
+                    <view class="xzhiding" wx:if="{{item.is_jc=='1'}}">加菜</view>
+                    <view class="flex-grow-0 flex-y-center">
+                        <image class="goods-pic" mode="aspectFill" src="{{item.logo}}"></image>
+                    </view>
+                    <view class="flex-grow-1 flex-col">
+                        <view class="flex-grow-1">
+                            <view class="goods-name">{{item.name}}</view>
+                            <view class="attr-list">
+                                <view class="attr-item">{{item.spec}}
+                  </view>
+                            </view>
+                        </view>
+                        <view class="flex-grow-0 flex-row">
+                            <view class="flex-grow-1 num">×{{item.num}}</view>
+                            <view class="flex-grow-0 price">￥{{item.money}}</view>
+                        </view>
+                    </view>
+                </view>
+                <view class="sfk flex-row flex-y-center" wx:if="{{cart_list.length>0}}">
+                    <view class="sfk-fv flex-grow-0">实付款</view>
+                    <view class="flex-grow-1 xiaoji">
+                        <view>{{gwcinfo.num}}份商品</view>
+                        <view>小计</view>
+                        <view>￥{{gwcprice}}</view>
+                    </view>
+                </view>
+            </view>
+        </block>
+        <view class="reserve_marks reserve">
+            <view>备注</view>
+            <textarea class="reserve_text" name="beizhu" placeholder="请输入备注信息"></textarea>
+        </view>
+        <view class="footer">
+            <button formType="submit" style="background:{{color}}">立即预约</button>
+        </view>
+    </view>
+</form>
+<form bindreset="formReset" bindsubmit="qdzf" reportSubmit="true">
+    <view bindtap="yczz" class="drawer_screen" wx:if="{{showModal}}"></view>
+    <view class="drawer_box" wx:if="{{showModal}}">
+        <view class="drawer_title">请选择支付方式</view>
+        <view class="weui-cells weui-cells_after-title">
+            <radio-group bindchange="radioChange" class="radio-group" name="radiogroup">
+                <label>
+                    <view class="weui-cell">
+                        <view class="zfimg">
+                            <image src="../../img/weixin.png"></image>
+                        </view>
+                        <view class="weui-cell__bd">微信支付</view>
+                        <view class="weui-cell__ft">
+                            <radio checked="{{zffs==1}}" value="wxzf"></radio>
+                        </view>
+                    </view>
+                </label>
+                <label wx:if="{{kqyue}}">
+                    <view class="weui-cell" style="border-top:1rpx solid #e6e6e6;">
+                        <view class="zfimg">
+                            <image src="../../img/yeqb.png"></image>
+                        </view>
+                        <view class="weui-cell__bd">余额支付
+              <text class="yetext">您的余额 {{userInfo.wallet}}</text>
+                        </view>
+                        <view class="weui-cell__ft">
+                            <radio checked="{{zffs==2}}" color="#FF9700" disabled="{{!kqyue}}" value="yezf"></radio>
+                        </view>
+                    </view>
+                </label>
+            </radio-group>
+        </view>
+        <view class="drawer_title1">您选择的{{zfwz}}
+      <text wx:if="{{zffs==3}}">({{jf_proportion}}积分可抵1元)</text>
+        </view>
+        <button class="{{btntype}}" disabled="{{zfz}}" formType="submit">
+            <view wx:if="{{!zfz&&zffs!=4}}">确定支付
+        <text class="zftext">￥{{totalprice}}</text>
+            </view>
+            <view wx:if="{{!zfz&&zffs==4}}">确定到付
+        <text class="zftext">￥{{totalprice}}</text>
+            </view>
+            <view wx:if="{{zfz}}">
+                <text class="zfztext">支付中...</text>
+            </view>
+        </button>
+    </view>
+</form>
+<view bindtap="mdoalclose" class="modalzz" hidden="{{mdoaltoggle}}"></view>
+<view class="modal {{mdoaltoggle?'':'active'}}">
+    <view class="modalbd">
+        <icon size="50" type="success"></icon>
+        <view class="xdcg">下单成功!</view>
+    </view>
+</view>

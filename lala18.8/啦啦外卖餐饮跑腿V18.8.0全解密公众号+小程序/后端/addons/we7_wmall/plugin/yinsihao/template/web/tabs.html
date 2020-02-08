@@ -1,0 +1,15 @@
+<div class="second-sidebar-title">{$_W['_plugin']['title']}</div>
+<div class="nav slimscroll">
+	<div class="menu-header">设置</div>
+	<ul class="menu-item">
+		<li {if $_W['_router'] == 'yinsihao/config/basic'}class="active"{/if}>
+			<a href="{php echo iurl('yinsihao/config/basic');}">基本设置</a>
+		</li>
+	</ul>
+	<div class="menu-header">绑定</div>
+	<ul class="menu-item">
+		<li {if $_W['_router'] == 'yinsihao/bind/list'}class="active"{/if}>
+			<a href="{php echo iurl('yinsihao/bind/list');}">绑定列表</a>
+		</li>
+	</ul>
+</div>

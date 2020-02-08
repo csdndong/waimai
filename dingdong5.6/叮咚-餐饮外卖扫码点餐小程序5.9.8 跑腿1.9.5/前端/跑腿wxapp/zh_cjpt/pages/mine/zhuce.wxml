@@ -1,0 +1,33 @@
+<form bindreset="formReset" bindsubmit="formSubmit" reportSubmit="true" wx:if="{{sign==false}}">
+    <view class="head rel">
+        <view class="ab" style="background:{{color}}">
+            <image class="bg_img ab" mode="aspectFill" src="../img/bg.png"></image>
+        </view>
+        <view class="ab lr" style="top:15%;">
+            <image class="img" mode="aspectFill" src="{{url}}{{getSystem.logo}}"></image>
+        </view>
+        <view class="ab lr login">
+            <view class="fon_30 bor_bottom">
+                <image class="dis_in" mode="aspectFill" src="../img/acc.png"></image>
+                <input class="dis_in mar_l" name="name" placeholder="请输入您的手机号" type="number"></input>
+            </view>
+            <view class="fon_30 bor_bottom">
+                <image class="dis_in" mode="aspectFill" src="../img/password.png"></image>
+                <input class="dis_in mar_l" name="tel" placeholder="请输入您的登录密码" type="text"></input>
+            </view>
+            <view class="fon_24">
+                <view bindtap="zhuce" class="dis_in wid_50 t_l" style="color:{{color}}">注册账号</view>
+                <view bindtap="uppaword" class="dis_in wid_50 t_r" style="color:red">忘记密码?</view>
+            </view>
+            <button class="color_f fon_30" formType="submit" style="background:{{color}}">登录</button>
+        </view>
+    </view>
+    <view bindtap="wx_login" class="ba_f wechat_login pa_0 fon_30 t_c lr">
+        <image class="dis_in" mode="aspectFill" src="../img/weixin.png"></image>
+        <text class="mar_l dis_in">微信登录</text>
+    </view>
+    <view class="footer fon_24 t_c">
+        <image class="dis_in" mode="aspectFill" src="{{url}}{{getSystem.db_logo}}"></image>
+        <rich-text class="dis_in color_6" nodes="{{getSystem.db_content}}"></rich-text>
+    </view>
+</form>

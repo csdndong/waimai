@@ -1,0 +1,101 @@
+ <{extends file="<{$tempdir}>/public/wxsite.html"}>  
+<{block name=extendcss}> 
+ <link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/gift.css">
+<{/block}>
+ <{block name=extendjs}> 
+  <script src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/js/template.min.js"></script>    
+<{/block}>
+<{block name=myScrolljs}>
+<script> 
+		var myScroll;
+function loaded() {
+	myScroll = new iScroll('wrapper', {
+		useTransform: false,
+		onBeforeScrollStart: function (e) {
+			var target = e.target;
+			while (target.nodeType != 1) target = target.parentNode;
+
+			if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA')
+				e.preventDefault();
+		}
+	});
+}
+document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false); 
+document.addEventListener('DOMContentLoaded', function () { setTimeout(loaded, 200); }, false);
+</script>
+<{/block}>
+ <{block name=hearnav}>
+<div class="toptitCon">
+ <div class="toptitBox">
+  <div class="toptitL"><i></i></div>
+  <div class="toptitC"><h3>余额明细</h3></div>
+ </div>
+</div>
+<{/block}>
+<{block name=sitetitle}><{$sitename}><{/block}>
+<{block name=blockcontent}> 
+ <div id="wrapper" style="top:40px;">
+	<div id="scroller">
+		
+
+ 
+<div class="interdetailCon">
+<{foreach from=$costloglist item=items}>
+ <div class="interdetailBox">
+  <ul class="interdetail">
+   <li>
+    <ul class="interdetailt">
+     <li style='color:#333'><{$items['title']}></li>
+     <li class="intdetr">
+	 <{if $items['addtype'] == 1 }><span class="intespcl1">+<{$items['result']}></span><{/if}><{if $items['addtype'] == 2 }><span class="intespcl2">-<{$items['result']}></span><{/if}></li>
+    </ul>
+   </li>
+   <li>
+    <ul class="interdetailb">
+     <li><{$items['addtime']|date_format:"%Y-%m-%d %H:%M"}></li>
+     <li class="intdetr"></li>
+    </ul>
+   </li>
+  </ul>
+ </div>
+ <{/foreach}>
+</div>
+
+    <div style="height:10px;"></div>
+	</div>
+</div>
+
+ <script>
+ 
+	$(".giftnavqiehuandet").click(function(){
+	 		$(".interuletit li").removeClass('interuleaA');
+			$(".giftnavqiehuangz").find('i').removeClass('interulegz1');
+			$(".giftnavqiehuangz").find('i').addClass('interulegz2');
+			
+			 $(this).addClass('interuleaA');
+			 $(this).find('i').removeClass('interulemx1');
+			 $(this).find('i').addClass('interulemx2');
+			 $(".interdetailCon").show();
+			 $(".interuleCon").hide();
+			 myScroll.refresh();
+		 
+	});
+ 
+	$(".giftnavqiehuangz").click(function(){
+	 		$(".interuletit li").removeClass('interuleaA');
+			$(".giftnavqiehuandet").find('i').removeClass('interulemx2');
+			$(".giftnavqiehuandet").find('i').addClass('interulemx1');
+			
+			 $(this).addClass('interuleaA');
+			 $(this).find('i').removeClass('interulegz2');
+			 $(this).find('i').addClass('interulegz1');
+			 $(".interdetailCon").hide();
+			 $(".interuleCon").show();
+			 myScroll.refresh();
+		 
+	});
+
+ 
+ </script>
+  
+<{/block}>

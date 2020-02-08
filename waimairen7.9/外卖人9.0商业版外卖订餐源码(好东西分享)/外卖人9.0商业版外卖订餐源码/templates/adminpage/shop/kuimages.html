@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>商品库管理后台</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="<{$siteurl}>/templates/<{$tempdir}>/public/shopcenter/css/commom.css" />
+<link rel="stylesheet" type="text/css" href="<{$siteurl}>/templates/<{$tempdir}>/public/shopcenter/css/main.css" />
+<link rel="stylesheet" type="text/css" href="<{$siteurl}>/templates/<{$tempdir}>/public/shopcenter/css/shangjiaAdmin.css" />
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/jquery.js" type="text/javascript" language="javascript"></script>
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/allj.js" type="text/javascript" language="javascript"></script>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/artDialog.js?skin=blue"></script> 
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js" type="text/javascript" language="javascript"></script>
+<script> 
+	var siteurl = "<{$siteurl}>"; 
+</script>
+<!-- <link rel="stylesheet" type="text/css" href="/photo/sysimg/css.css" />
+<link rel="stylesheet" type="text/css" href="/photo/js/jquery.lightbox.css" /> -->
+<script type="text/javascript" src="/photo/js/jquery.js"></script>
+<script type="text/javascript"> LBox_path = "js/"; </script>
+<script type="text/javascript">var $jLB = jQuery.noConflict();</script>
+<script type="text/javascript" src="/photo/js/jquery.lightbox.js"></script>
+<script type="text/javascript">$jLB(function(){$jLB('a[rel*=lightbox]').lightBox();});</script>
+
+
+</head>
+<body>
+	<div style="position: fixed;top: 0;left: 0;right: 0;bottom: 0;z-index: -1;background:url(<{$siteurl}>/templates/<{$tempdir}>/public/shopcenter/images/background.png);"></div>
+<!---header start--->
+<div class="header" style=" height:50px;">
+  <div class="top" style=" height:50px;">
+   <div class="topLeft fl">
+            	<ul style="padding:0px;">
+                 <li style="width:80px;padding:0px;height:50px;list-style: none; line-height:50px;"><a href="<{ofunc type=url link="/adminpage/shop/module/goodslibrary"}>">商品管理</a></li>
+                 <li style="width:80px;padding:0px;height:50px;list-style: none;  line-height:50px;"><a style="color: #27A9E3;  font-size: 16px;  font-weight: bold;" href="<{ofunc type=url link="/adminpage/shop/module/swfupload"}>">上传图库</a></li>
+				 <li style="width:80px;padding:0px;height:50px;list-style: none;  line-height:50px;"><a  href="<{ofunc type=url link="/adminpage/shop/module/swfupload"}>">图库预览</a></li>
+			  </ul>
+                 <div class="cl"></div>
+            </div>
+   
+    <div class="topRight fr">  <span style=" height:50px; line-height:50px;cursor: pointer;" class="username" onclick="openlink('<{ofunc type=url link="/adminpage/order/module/orderlist"}>');">返回后台管理<img src="<{$siteurl}>/templates/<{$tempdir}>/public/shopcenter/images/usernameBg.png" /></span> </div>
+    <div class="cl"></div>
+    <div class="shangjiaTop" style=" top:-22px; margin-left:-150px;">
+      <div class="sjglaa" style="background: rgba(0, 0, 0, 0) url(<{$siteurl}>/templates/<{$tempdir}>/public/shopcenter/images/goodslibtopbg.png) no-repeat scroll 0 0;"> </div>
+    </div>
+  </div>
+</div>
+
+<!---header end---> 
+	
+
+<div class="content">
+	
+	
+	
+  <!---content right start---> 
+        <div class="conWaiSet fr">
+        	
+            <div class="shopSetTop">
+            	<span>图库列表预览</span>
+            </div>
+      
+             <div class="cl"></div>
+                       
+                 
+
+	<DIV id=nav_main>
+		<UL>
+			<LI class=about><A href="slide.php">幻灯模式</A> </LI>
+			<LI class=contact><A  href="index.php">普通模式</A> </LI>
+			</UL>
+	</DIV>
+
+	<DIV id=content>
+
+		<?php showImgList($imgArr, $_GET['page'], $pageSize);?>
+	</DIV>
+
+                
+                
+        </div>
+        <div class="cl"></div>
+        
+        
+       
+        
+        
+        <!---content right end---> 
+ 
+ 
+ </div>
+ 
+ 
+	
+
+	
+	
+	
+	  <div id="palywave" style="display:none;"></div>
+<!------以下是公共的底部部分------->
+    <div class="footer">
+    	<div class="foot1">
+        <center>
+        	<div class="db">
+        	   <{if !empty($toplink)}>
+	 	      <{$toplink = $toplink|unserialize}>
+		  	  <{foreach from=$toplink key=myid item=items}> 
+			         <a href="<{$items['typeurl']}>"><{$items['typename']}></a> | 
+			    <{/foreach}>
+			<{/if}> 
+         
+            </div></center>
+            <div class="cl"></div>
+        </div>
+        <div class="foot2">
+        	<p>@2008-2012 <{$sitename}> <{$beian}> <{$footerdata|stripslashes}></p>
+        </div>
+    </div> 
+
+</body>
+
+</html>

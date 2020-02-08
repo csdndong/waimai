@@ -1,0 +1,12 @@
+<view class="detailed" wx:for="{{statistics}}">
+    <view>{{item.time}}</view>
+    <view wx:if="{{item.note!='提现'}}">
+        <image mode="aspectFill" src="../img/shang1.png"></image>
+    </view>
+    <view wx:else>
+        <image mode="aspectFill" src="../img/xia.png"></image>
+    </view>
+    <view wx:if="{{item.note!='提现'}}">+{{item.money}}</view>
+    <view wx:else>-{{item.money}}</view>
+    <view>{{item.note}}</view>
+</view>

@@ -1,0 +1,115 @@
+<form bindsubmit="onSubmit" reportSubmit="true">
+    <view class="page-deliveryFee">
+        <view class="content">
+            <view class="zan-panel">
+                <view class="zan-cell zan-field">
+                    <view class="zan-cell__hd zan-field__title">活动名称</view>
+                    <input class="zan-field__input zan-cell__bd" name="title" placeholder="请输入活动名称" placeholderClass="zan-field__placeholder"></input>
+                </view>
+            </view>
+            <view class="zan-panel">
+                <view class="zan-cell zan-cell--access">
+                    <view class="zan-cell__bd">起始日期</view>
+                    <view class="zan-cell__ft">
+                        <picker bindchange="changeDateTime" bindcolumnchange="changeDateTimeColumn" data-type="starttime" mode="multiSelector" range="{{dateTimeArray}}" value="{{dateTime}}">
+							{{starttime}}
+						</picker>
+                    </view>
+                </view>
+                <view class="zan-cell zan-cell--access">
+                    <view class="zan-cell__bd">结束日期</view>
+                    <view class="zan-cell__ft">
+                        <picker bindchange="changedateTime" bindcolumnchange="changeDateTimeColumn" data-type="endtime" mode="multiSelector" range="{{dateTimeArray}}" value="{{dateTime}}">
+							{{endtime}}
+						</picker>
+                    </view>
+                </view>
+            </view>
+            <view class="zan-panel">
+                <view class="zan-cell zan-field">
+                    <view class="zan-cell__hd zan-field__title">券包总数</view>
+                    <input class="zan-field__input zan-cell__bd" name="amount"></input>
+                </view>
+            </view>
+            <view class="zan-panel" wx:if="{{type=='couponCollect'}}">
+                <view class="zan-cell zan-cell--access">
+                    <view class="zan-cell__bd">面向人群</view>
+                </view>
+                <radio-group bindchange="onSelectGroup" class="zan-select__list" name="type_limit">
+                    <label>
+                        <view class="zan-cell">
+                            <radio checked="{{type_limit==1?true:false}}" class="zan-select__radio" value="1"></radio>
+                            <view class="zan-cell__bd " style="color: {{type_limit==1?'#33aafc':''}}">新老用户通用</view>
+                            <view class="zan-cell__ft" wx:if="{{type_limit==1}}">
+                                <icon color="#33aafc" size="14" type="success_no_circle"></icon>
+                            </view>
+                        </view>
+                    </label>
+                    <label>
+                        <view class="zan-cell">
+                            <radio checked="{{type_limit==2?true:false}}" class="zan-select__radio" value="2"></radio>
+                            <view class="zan-cell__bd" style="color: {{type_limit==2?'#33aafc':''}}">新用户</view>
+                            <view class="zan-cell__ft" wx:if="{{type_limit==2}}">
+                                <icon color="#33aafc" size="14" type="success_no_circle"></icon>
+                            </view>
+                        </view>
+                    </label>
+                </radio-group>
+            </view>
+            <view class="zan-panel" wx:elif="{{type=='couponGrant'}}">
+                <view class="zan-cell zan-field">
+                    <view class="zan-cell__hd zan-field__title">返券条件</view>
+                    <input class="zan-field__input zan-cell__bd" name="condition"></input>
+                </view>
+            </view>
+            <view class="add">
+                <view bind:tap="onAddCoupon" class="coupon-add">
+                    <view class="icon icon-add"></view>添加优惠卷</view>
+            </view>
+            <view class="coupon-container">
+                <view>
+                    <view class="coupon-detail" wx:for="{{coupons}}">
+                        <view class="coupon-operation">
+                            <view bind:tap="onEditCoupon" class="btn-coupon-edit" data-index="{{index}}">编辑</view>
+                            <view bind:tap="onDelCoupon" class="btn-coupon-edit" data-index="{{index}}">删除</view>
+                        </view>
+                        <view class="coupon-amount">
+                            <text class="discount-amount">{{item.discount}}</text>
+                            <view>满<text class="max-amount">{{item.condition}}</text>可用</view>
+                        </view>
+                        <view class="coupon-term">
+							领券后<i class="deadline">{{item.use_days_limit}}</i>天内有效
+						</view>
+                    </view>
+                </view>
+            </view>
+            <view class="page__bd_spacing">
+                <button class="weui-btn mini-btn" formType="submit" type="warn">确认并保存</button>
+            </view>
+        </view>
+        <view class="wui-dialog" wx:if="{{addCoupon}}">
+            <view class="wui-dialog-mask"></view>
+            <view class="wui-dialog-container">
+                <view class="zan-panel">
+                    <view class="zan-cell zan-field">
+                        <view class="zan-cell__hd zan-field__title">优惠券金额</view>
+                        <input bindblur="onInput" class="zan-field__input zan-cell__bd" data-type="discount" placeholder="请输入优惠券金额" placeholderClass="zan-field__placeholder" type="number" value="{{coupon.discount}}"></input>
+                    </view>
+                    <view class="zan-cell zan-field">
+                        <view class="zan-cell__hd zan-field__title">满多少元可用</view>
+                        <input bindblur="onInput" class="zan-field__input zan-cell__bd" data-type="condition" placeholder="请输入使用条件" placeholderClass="zan-field__placeholder" type="number" value="{{coupon.condition}}"></input>
+                    </view>
+                    <view class="zan-cell zan-field">
+                        <view class="zan-cell__hd zan-field__title">领取后几天内有效</view>
+                        <input bindblur="onInput" class="zan-field__input zan-cell__bd" data-type="use_days_limit" placeholder="请输入有效期" placeholderClass="zan-field__placeholder" type="number" value="{{coupon.use_days_limit}}"></input>
+                    </view>
+                </view>
+                <view class="btn-group">
+                    <button bind:tap="onSaveCoupon" class="weui-btn" type="primary">保存</button>
+                    <button bind:tap="onAddCoupon" class="weui-btn button-hover" data-type="cancel" type="default">取消</button>
+                </view>
+            </view>
+        </view>
+    </view>
+</form>
+<include src="../public/footer.wxml"></include>

@@ -1,0 +1,95 @@
+<!--   time:2019-07-18 01:03:22 -->
+<view bindtap="xzfl" class="xzfl" style="background-color:{{color}}">+新增分类</view>
+<form bindreset="formReset" bindsubmit="formSubmit1">
+	<block wx:if="{{isxz}}">
+		<view class="weui-cells weui-cells_after-title">
+			<view class="weui-cell weui-cell_input">
+				<view class="weui-cell__hd">
+					<view class="weui-label">分类名称</view>
+				</view>
+				<view class="weui-cell__bd">
+					<input class="weui-input" name="flmc" placeholder="请输入分类名称" value="{{item.type_name}}"></input>
+				</view>
+			</view>
+			<view class="weui-cell weui-cell_input">
+				<view class="weui-cell__hd">
+					<view class="weui-label">排序序号</view>
+				</view>
+				<view class="weui-cell__bd">
+					<input class="weui-input" name="pxxh" placeholder="数字越小越靠前" type="number" value="{{item.order_by}}"></input>
+				</view>
+			</view>
+			<view class="weui-cell weui-cell_switch">
+				<view class="weui-cell__bd">是否显示</view>
+				<view class="weui-cell__ft">
+					<switch checked color="{{color}}" name="sfxs"></switch>
+				</view>
+			</view>
+		</view>
+	</block>
+	<block wx:if="{{isxz}}">
+		<view class="weui-btn-area">
+			<button bindtap="qx" class="weui-btn" style="background-color:#e5e5e5;color:#999" type="primary">取消</button>
+			<button class="weui-btn" disabled="{{disabled1}}" formType="submit" style="background-color:{{color}}" type="primary">提交</button>
+		</view>
+	</block>
+</form>
+<view class="weui-cells weui-cells_after-title">
+	<view class="weui-cell bottom headtitle">
+		<view class="weui-cell__hd hdwidth">ID</view>
+		<view class="weui-cell__bd">分类名称</view>
+		<view class="weui-cell__bd bdwidth">状态</view>
+		<view class="weui-cell__ft">
+			<view style="margin-left:40rpx;">查看</view>
+			<view style="margin-left:40rpx;">操作</view>
+		</view>
+	</view>
+	<block wx:for="{{flarr}}" wx:key="{{item.id}}" wx:for-item="item" wx:for-index="index" >
+		<form bindreset="formReset" bindsubmit="formSubmit">
+			<view class="weui-cell bottom">
+				<view class="weui-cell__hd hdwidth">{{item.id}}</view>
+				<view class="weui-cell__bd">{{item.type_name}}</view>
+				<block wx:if="{{item.is_open=='1'}}" >
+					<view class="weui-cell__bd bdwidth" style="color:{{color}}">显示</view>
+				</block>
+				<block wx:else>
+					<view class="weui-cell__bd bdwidth">隐藏</view>
+				</block>
+				<view class="weui-cell__ft">
+					<image bindtap="bianji" data-id="{{item.id}}" src="../../../img/icon/edit.png"></image>
+					<image bindtap="sc" data-id="{{item.id}}" src="../../../img/icon/delete.png"></image>
+				</view>
+			</view>
+			<block wx:if="{{item.id==activeid}}">
+				<view class="bottom">
+					<view class="weui-cell weui-cell_input">
+						<view class="weui-cell__hd">
+							<view class="weui-label">分类名称</view>
+						</view>
+						<view class="weui-cell__bd">
+							<input class="weui-input" name="flmc" placeholder="请输入分类名称" value="{{item.type_name}}"></input>
+						</view>
+					</view>
+					<view class="weui-cell weui-cell_input">
+						<view class="weui-cell__hd">
+							<view class="weui-label">排序序号</view>
+						</view>
+						<view class="weui-cell__bd">
+							<input class="weui-input" name="pxxh" placeholder="数字越小越靠前" type="number" value="{{item.order_by}}"></input>
+						</view>
+					</view>
+					<view class="weui-cell weui-cell_switch">
+						<view class="weui-cell__bd">是否显示</view>
+						<view class="weui-cell__ft">
+							<switch checked="{{item.is_open=='1'}}" color="{{color}}" name="sfxs"></switch>
+						</view>
+					</view>
+					<view class="weui-btn-area">
+						<button bindtap="qxbj" class="weui-btn" style="background-color:#e5e5e5;color:#999" type="primary">取消</button>
+						<button class="weui-btn" formType="submit" style="background-color:{{color}}" type="primary">确定提交</button>
+					</view>
+				</view>
+			</block>
+		</form>
+	</block>
+</view>

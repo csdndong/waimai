@@ -1,0 +1,173 @@
+{template 'public/header'}
+{template 'public/comhead'}
+<link rel="stylesheet" type="text/css" href="../addons/zh_cjdianc/template/public/ygcss.css">
+<style type="text/css">
+    .multi-img-details .multi-item{height: auto;}
+    .storeimg{
+        max-width: 150px;
+        max-height: 150px;
+      }
+    .ygmargin{margin-top: 10px;color: #999;}
+    .bigzheng,.bigfan{min-width: 200px;min-height: 200px;max-width: 300px;max-height: 300px;}
+</style>
+<ul class="nav nav-tabs">
+    <span class="ygxian"></span>
+    <div class="ygdangq">当前位置:</div>    
+    <li class="active"><a href="javascript:void(0);">入驻信息</a></li>
+</ul>
+<div class="main">
+    <form action="" method="post" class="form-horizontal form" enctype="multipart/form-data">
+        <!--<input type="hidden" name="parentid" value="{$parent['id']}" />-->
+        <div class="panel panel-default ygdefault">
+            <div class="panel-heading wyheader">
+                入驻信息
+            </div>
+            <div class="panel-body">  
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">联系人</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="address" class="form-control" value="{$info['user_name']}" readonly/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">联系电话</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="tel" class="form-control" value="{$info['tel']}" readonly/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">商家名称</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="name" class="form-control" value="{$info['store_name']}" readonly/>
+                    </div>
+                </div>
+
+                
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">商家地址</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="address" class="form-control" value="{$info['address']}" readonly/>
+                    </div>
+                </div>
+
+         <div class="form-group">
+          <label class="col-md-2 control-label">营业执照</label>
+          <div class="col-sm-3">
+            <img class="storeimg attzheng" id="usertu3" src="{media $info['img']}" data-toggle="modal" data-target="#myModalu3">
+          <!-- —————————放大图片——————————— -->
+            <div class="modal fade" id="myModalu3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h3 class="modal-title" id="myModalLabel">营业执照</h3>
+                        </div>
+                        <div class="modal-body" style="padding: 5px 30px 15px;text-align: center;">
+                            <img class="bigzheng" src="{media $info['img']}">
+                        </div>
+                        
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">确定</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- —————————放大图片——————————— -->
+            
+          </div>
+          <div class="col-md-2" style="text-align: right;">食品安全许可证</div>
+            <div class="col-sm-3">
+                <img class="storeimg attfan" id="usertu4" src="{media $info['sp_img']}" data-toggle="modal" data-target="#myModalu4">
+                <div class="modal fade" id="myModalu4" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h3 class="modal-title" id="myModalLabel">食品安全许可证</h3>
+                            </div>
+                            <div class="modal-body" style="padding: 5px 30px 15px;text-align: center;">
+                                <img class="bigfan" src="{media $info['sp_img']}">
+                            </div>
+                            
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">确定</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+                <div class="form-group">
+          <label class="col-md-2 control-label">身份证正面照</label>
+          <div class="col-sm-3">
+            <img class="storeimg attzheng" id="usertu1" src="{media $info['sfz_img']}" data-toggle="modal" data-target="#myModalu">
+          <!-- —————————放大图片——————————— -->
+            <div class="modal fade" id="myModalu" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h3 class="modal-title" id="myModalLabel">身份证正面照</h3>
+                        </div>
+                        <div class="modal-body" style="padding: 5px 30px 15px;text-align: center;">
+                            <img class="bigzheng" src="{media $info['sfz_img']}">
+                        </div>
+                        
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">确定</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- —————————放大图片——————————— -->
+            
+          </div>
+          <div class="col-md-2" style="text-align: right;">身份证反面照</div>
+            <div class="col-sm-3">
+                <img class="storeimg attfan" id="usertu2" src="{media $info['sfz_img2']}" data-toggle="modal" data-target="#myModalu2">
+                <div class="modal fade" id="myModalu2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h3 class="modal-title" id="myModalLabel">身份证反面照</h3>
+                            </div>
+                            <div class="modal-body" style="padding: 5px 30px 15px;text-align: center;">
+                                <img class="bigfan" src="{media $info['sfz_img2']}">
+                            </div>
+                            
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">确定</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+                   
+            <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">申请时间</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="time" class="form-control" value="{php echo date('Y-m-d H:i:s',$info['time'])}" readonly />
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+        <div class="form-group">
+<!--             <input type="submit" name="submit" value="提交" class="btn col-lg-3" style="color: white;background-color: #44ABF7;"/>
+            <input type="hidden" name="token" value="{$_W['token']}" /> -->
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+    $(function(){
+        // $("#frame-0").addClass("in");
+        $("#frame-5").show();
+        $("#yframe-5").addClass("wyactive");
+    })
+</script>
+{template 'common/footer'}

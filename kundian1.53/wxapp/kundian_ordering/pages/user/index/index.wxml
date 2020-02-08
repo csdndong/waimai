@@ -1,0 +1,40 @@
+<view class="userBg" style="background-image: url({{center_img}});">
+    <view class="water water_show wavePosition">
+        <view class="water-1" style="background: url({{back_img}}) repeat-x;"></view>
+        <view class="water-2" style="background: url({{back_img}}) repeat-x;"></view>
+        <view class="water-3" style="background: url({{back_img}}) repeat-x;"></view>
+    </view>
+    <view class="userHead">
+        <view class="userHeadImg">
+            <image src="{{avatarUrl}}"></image>
+        </view>
+        <view class="flexCenter mt10">
+            <button bindgetuserinfo="updateUserInfo" class="updateUser" openType="getUserInfo">
+                <text class="cfff" wx:if="{{nickName}}">{{nickName}}</text>
+                <text class="cfff" wx:else>授权获取用户头像昵称</text>
+            </button>
+        </view>
+    </view>
+</view>
+<view class="user-con">
+    <view bindtap="intoAddress" class="u-list">
+        <image class="icon" src="../../../img/user-address.png"></image>
+        <text>收货地址</text>
+        <image class="jiantou" src="../../../img/right.png"></image>
+    </view>
+    <view bindtap="intoSet" class="u-list">
+        <image class="icon" src="../../../img/set.png"></image>
+        <text>设置</text>
+        <image class="jiantou" src="../../../img/right.png"></image>
+    </view>
+    <view bindtap="intoShop" class="u-list" wx:if="{{is_hexiao==2}}">
+        <image class="icon" src="../../../img/user-shop.png"></image>
+        <text>商家入口</text>
+        <image class="jiantou" src="../../../img/right.png"></image>
+    </view>
+    <view bindtap="intoDesk" class="u-list" wx:if="{{is_hexiao==2}}">
+        <image class="icon" src="../../../img/user-shop.png"></image>
+        <text>点餐管理</text>
+        <image class="jiantou" src="../../../img/right.png"></image>
+    </view>
+</view>

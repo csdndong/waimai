@@ -1,0 +1,47 @@
+  <{extends file="<{$tempdir}>/public/admin.html"}> 
+ <{block name=extendjs}>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js"></script>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/datepicker/WdatePicker.js"></script>
+ <{/block}>
+ <{block name=controlname}>色调管理<{/block}>
+ <{block name=bodylist}> 
+	 <div style="width:auto;overflow-x:hidden;overflow-y:auto;height:100%;"> 
+         
+          <div id="tagscontent" >
+            <form method="post" name="form1" action="<{ofunc type=url link="/adminpage/system/module/savecolorset/datatype/json"}>" onsubmit="return subform('',this);">
+              <div>
+                <table border="0" cellspacing="2" cellpadding="4" class="list" name="table" id="table" width="100%">
+                  <tbody>
+                  	<tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff" style='display:block;'>
+                      <td class="left">网站主色调设置</td>
+                      <td style="background-color:#ff6e6e;width:350px;text-align:center"><input type="radio" name="color" id="open_acout" value="1" <{if $color== "red"}>checked<{/if}>>红色</td>
+					  <td style="background-color:#ff7600;width:350px;text-align:center"><input type="radio" name="color" id="open_acout" value="2" <{if $color== "yellow"}>checked<{/if}>>橘色</td>
+					  <td style="background-color:#00cd85;width:350px;text-align:center"><input type="radio" name="color" id="open_acout" value="3" <{if $color== "green"}>checked<{/if}>>绿色</td>
+					  <td style=" margin-left:20px;">
+					  
+					   <input type="submit" value="确认提交" class="button">
+					  
+					  </td>
+                    </tr>  
+                    <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff" style='display:block;'>
+                      <td class="left"></td>
+                      <td><img style="width:300px;margin:10px 25px;" src="/templates/m7/public/wxsite/images/color_red.png" /></td>
+					  <td><img style="width:300px;margin:10px 25px;" src="/templates/m7/public/wxsite/images/color_yellow.png" /></td>
+					  <td><img style="width:300px;margin:10px 25px;" src="/templates/m7/public/wxsite/images/color_green.png" /></td>
+                    </tr>  					
+                  </tbody>
+                </table>
+              </div>
+			  <div style="clear:both;"></div>
+              <div class="blank20"></div>
+              <input type="hidden" name="tijiao" id="tijiao" value="do" class="skey" style="width:250px;">
+              <input type="hidden" name="saction" id="saction" value="siteset" class="skey" style="width:250px;">
+                
+            </form>
+          </div>
+        </div> 
+        
+        
+   
+    </div> 
+ <{/block}>

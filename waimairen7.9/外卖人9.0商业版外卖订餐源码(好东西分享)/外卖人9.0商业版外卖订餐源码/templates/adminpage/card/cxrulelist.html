@@ -1,0 +1,149 @@
+<{extends file="<{$tempdir}>/public/admin4.html"}>
+<{block name=extendjs}>
+<{/block}>
+ <{block name=controlname}>优惠活动列表<{/block}>
+ <{block name=bodylist}>
+<style>
+#close{text-align: center;  color: #f5f5f5;background-color: red;font-weight: bold; position: absolute;top: -10px;right: -10px; width: 25px;height: 25px;border-radius: 20px;line-height: 25px;}
+.search_content div{display:inline-block}
+#addact{background: #169bd5;padding: 5px 21px;margin-top: 8px;border-radius: 5px;color: #fff;}
+</style>
+<script>
+$('#actsm').live('click',function(){
+    $('#actcon').toggle();
+})
+$('#close').live('click',function(){
+    $('#actcon').hide();
+})
+</script>
+    <div style="width:auto;overflow-x:hidden;overflow-y:auto">
+       <div id='actcon' style ='width: 400px;position: absolute;top: 300px;left: 43%;background-color: #fff;box-shadow: 6px 6px 20px #888888;display:none'>
+	   <div id='close' style='cursor:pointer'>X</div>
+	   <div style='padding: 20px 20px 20px 20px;color:#000;font-size:12px;text-align:left'>用户下单计算优惠金额时，促销规则按满赠、满减、折扣、免配送费、首单立减类型顺序依次使用计算，每个规则的金额满足条件都以最初商品总价+打包费为基准。	计算下个规则产生的优惠金额时以上个规则优惠后的金额为基准，同类型的规则取优惠金额最大的使用。首单立减类型优惠与其他满减类型优惠不可共享，后台添加优惠活动时，同类型的平台优惠活动每个商家只能被勾选一次。</div>
+       </div>
+	   <div class="search" style='height: 50px; line-height: 25px;'>
+            <div class="search_content" style='font-size:12px'>
+			<a href="<{ofunc type=url link="/adminpage/card/module/addcxrule"}>"><div id='addact'>添加活动</div></a>
+			<div id='actsm' style='color: #169bd5;margin-left: 25px;cursor:pointer'>优惠规则说明</div>
+			</div>
+        </div>
+ 
+ 
+ 
+          <div class="tags">
+          <div id="tagscontent">
+
+            <div id="con_one_1">
+
+              <div class="table_td" style="margin-top:10px;">
+
+              <form method="post" action="" onsubmit="return remind();" id="delform">
+
+                  <table border="0" cellspacing="2" cellpadding="4" class="list" name="table" id="table" width="100%">
+
+                    <thead>
+
+                      <tr>
+                        <th align="center">活动类型</th>
+                        <th align="center">活动规则</th>                       
+                        <th align="center">活动时间</th>                        
+                        <th align="center">状态</th>
+                        <th align="center">操作</th>
+
+                      </tr>
+
+                    </thead>
+
+                     <tbody>
+                      
+                    <{foreach from=$cxrulelist key=myid item=items}>
+                      <tr class="s_out" onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">                         
+						<td align="center"> 
+						<{if $items['controltype'] == 1}>满赠活动<{/if}>
+						<{if $items['controltype'] == 2}>满减活动<{/if}>
+						<{if $items['controltype'] == 3}>折扣活动<{/if}>
+						<{if $items['controltype'] == 4}>免配送费<{/if}>
+						<{if $items['controltype'] == 5}>首单立减<{/if}>
+						</td>
+                        <td align="center"> <span id="showrule_<{$items['id']}>" data=""></span> </td>
+                        <td align="center">
+						
+						<{if $items['limittype'] == 1}>不限制<{/if}>
+						<{if $items['limittype'] == 2}>每周(星期<{$items['limittime']}>)<{/if}>
+						<{if $items['limittype'] == 3}><{$items['starttime']|date_format:"Y-m-d H:i:s"}> 至 <{$items['endtime']|date_format:"Y-m-d H:i:s"}><{/if}>
+						</td>	
+                        <td align="center">						
+						<{if $items['status'] == 0}>
+						未启用
+						<{else}>
+							<{if $items['limittype']==3 && $items['starttime']>$nowtime}>待生效<{/if}>	
+							<{if $items['limittype'] < 3 ||($items['limittype']==3 && $items['endtime']>$nowtime && $items['starttime']<$nowtime ) }>进行中<{/if}>	
+							<{if $items['limittype']==3 && $items['endtime']<$nowtime}>已结束<{/if}>							 
+						<{/if}></td> 
+			            <td align="center">
+                            <a href="<{ofunc type=url link="/adminpage/card/module/addcxrule/id/<{$items['id']}>"}>"><img style='margin-bottom:-8px' src="<{$siteurl}>/templates/<{$tempdir}>/public/images/admin/edit.jpg"></a> 
+                             <a onclick="return remind(this);"href="<{ofunc type=url link="/adminpage/card/module/delcxrule/id/<{$items['id']}>/datatype/json"}>"> <img style='margin-bottom:-8px' src="<{$siteurl}>/templates/<{$tempdir}>/public/images/admin/del.jpg"></a> 
+                        </td> 
+                                               
+                      </tr>
+                    <{/foreach}>
+				    
+                    </tbody>
+
+                  </table>
+                <{if empty($cxrulelist)}><p style='text-align:center;margin-top: 20px;font-size: 14px;'>暂无满足条件的数据~~~</p><{/if}>
+                <div class="blank20" style="padding-left: 20px;"><font style="color:red;"></font></div>
+
+                </form>
+                 </div>
+ 
+                <div class="blank20"></div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+  </div>
+
+</div>
+<script>
+	var alllist = <{$cxrulelist|@json_encode}>;
+$(function(){  
+	$.each(alllist,function(i,field){
+         
+		var showcontent = '';	
+		if(field.supporttype == 2){
+			showcontent1 ='在线支付满';
+		}else{
+			showcontent1 ='订单满';
+		} 		 
+		if(field.controltype ==  1){
+			showcontent +=showcontent1+''+field.limitcontent+'赠送'+field.presenttitle;
+		}
+		if(field.controltype ==  2){
+			showcontent +=field.name;
+		}
+		if(field.controltype ==  3){
+			var times = field.controlcontent;
+			showcontent +=showcontent1+''+field.limitcontent+'享受'+times+'折优惠';
+		}
+		if(field.controltype ==  4){
+			showcontent +=showcontent1+''+field.limitcontent+'免基础配送费';
+		}
+		if(field.controltype ==  5){
+			showcontent +='新用户下单满'+field.limitcontent+'立减'+field.controlcontent+'元';
+		}
+		 
+		
+		 $('#showrule_'+field.id).text(showcontent);
+	});
+	
+});
+	
+</script>
+<{/block}>

@@ -1,0 +1,87 @@
+page {
+    background: #fff;
+}
+
+.head {
+    width: 100%;
+    height: 300rpx;
+    background: #5aadf9;
+    text-align: center;
+    color: #fff;
+    font-size: 40rpx;
+    line-height: 300rpx;
+    font-weight: bold;
+}
+
+.head>text:nth-child(2) {
+    font-weight: bold;
+}
+
+.pt_jj {
+    padding: 60rpx 30rpx;
+    font-size: 26rpx;
+    color: #999;
+    line-height: 45rpx;
+}
+
+.process {
+    padding: 20rpx;
+}
+
+.process>view:nth-child(1) {
+    text-align: center;
+    font-size: 35rpx;
+    color: #3c3c3c;
+}
+
+button {
+    background: #5aadf9;
+    color: #fff;
+    font-size: 30rpx;
+    height: 80rpx;
+    line-height: 80rpx;
+    width: 95%;
+    margin-top: 50rpx;
+}
+
+button::after {
+    border: none;
+}
+
+.container {
+    width: 100%;
+    overflow: hidden;
+}
+
+.rzlc {
+    margin-top: 50rpx;
+}
+
+.rzitem1 {
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.rzitem {
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 35rpx;
+}
+
+.rzlc image {
+    width: 100rpx;
+    height: 100rpx;
+    margin-bottom: 30rpx;
+}
+
+.rzitem1 image {
+    width: 50rpx;
+    height: 40rpx;
+    margin-top: 30rpx;
+}

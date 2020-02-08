@@ -1,0 +1,115 @@
+ <{extends file="<{$tempdir}>/public/shopcenter.html"}>   
+<{block name=extendjs}>
+  <script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js"></script>
+  <script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/template.min.js"></script>
+  <script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/ajaxfileupload.js"> </script>
+  <script>
+  	var mynomenu='zitiset';
+  	</script>
+<{/block}>
+ <{block name=bodylist}>
+  <!---content right start---> 
+  
+  
+  <div class="conWaiSet fr">
+        	
+            <div class="shopSetTop">
+            	<span>自提设置</span>
+            </div> 
+            	  <{include file="<{$tempdir}>/shopcenter/usereditmenu.html"}>  
+             <div class="cl"></div>  
+                <form id="loginForm" method="post" action="<{ofunc type=url link="/shopcenter/zitiset"}>">
+                  
+                  <div class="jutiSet">
+                   <div class="serxuanze">
+                    	<div class="xuanze_left">
+                        	<span>到店自取：</span>
+                        </div>
+                        <div class="xuanze_right">
+                        	<input type="radio"   name="is_ziti"   value="1" <{if $shopinfo['is_ziti'] == 1}>checked<{/if}>/>开启 
+							<input type="radio"  name="is_ziti"   value="0" <{if $shopinfo['is_ziti'] == 0}>checked<{/if}>/>关闭
+                        </div>
+                        <div class="cl"></div>
+                    </div>
+					
+					
+					<div class="serxuanze">
+                    	<div class="xuanze_left">
+                        	<span>备餐时间：</span>
+                        </div>
+                        <div class="xuanze_right"  >
+                        	<input type="radio"   name="ziti_time"   value="5" <{if $shopinfo['ziti_time'] == 5}>checked<{/if}>/>5分钟&nbsp;&nbsp;&nbsp;
+							<input type="radio"  name="ziti_time"   value="10" <{if $shopinfo['ziti_time'] == 10}>checked<{/if}>/>10分钟&nbsp;&nbsp;&nbsp;
+							<input type="radio"   name="ziti_time"   value="15" <{if $shopinfo['ziti_time'] == 15}>checked<{/if}>/>15分钟&nbsp;&nbsp;&nbsp; 
+							<input type="radio"  name="ziti_time"   value="20" <{if $shopinfo['ziti_time'] == 20}>checked<{/if}>/>20分钟&nbsp;&nbsp;&nbsp;
+							<input type="radio"   name="ziti_time"   value="30" <{if $shopinfo['ziti_time'] == 30}>checked<{/if}>/>30分钟
+                            
+                        </div>
+                        <div class="cl"></div>
+                    </div>
+					
+					<div class="serxuanze">
+                    	<div class="xuanze_left">
+                        	<span>自取说明：</span>
+                        </div>
+                        <div class="xuanze_right" style='line-height: 40px;height: auto;' >
+                        	<p>1.商家可无条件开启到店自取功能</p>
+							<p>2.到店自取订单服务费单独计算</p>
+							<p>3.商家接单后需注意自取订单标识，以免误操作</p>
+							<p>4.顾客下单预留手机号为自取凭证</p>
+							<p>5.如有疑问，请联系网站客服</p>
+                            
+                        </div>
+                        <div class="cl"></div>
+                    </div>
+					<div class="cl"></div>
+                       
+				    
+					
+ 		
+ 
+					
+					
+					
+                  	 <div class="settijiao">         	
+                          <div class="xuanze_right hc_login_btn_div" >保 存</div>
+                        <div class="cl"></div>
+                    </div>
+                    
+                    
+       			 </div>
+              </form>  
+                
+                
+        </div>
+        <div class="cl"></div>
+        
+        
+       
+        
+        
+        <!---content right end---> 
+  
+  
+   
+ <!---content right start---> 
+<script type="text/javascript"> 
+var areagrade ='0';// ;
+var defaultid = '';
+$('.hc_login_btn_div').click(function(){
+	var ziti_time = $('input[name="ziti_time"]:checked').val();
+	var is_ziti = $('input[name="is_ziti"]:checked').val();
+ 
+	var backinfo = ajaxback('<{ofunc type=url link="/shopcenter/saveziti/datatype/json"}>',{'ziti_time':ziti_time,'is_ziti':is_ziti});
+	console.log(backinfo);
+	if(backinfo.flag == true)
+	{
+		diaerror(backinfo.content);
+	}else{
+		artsucces('保存成功');
+		location.reload();
+	}
+}); 
+</script> 
+ 
+ <{/block}>

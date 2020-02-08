@@ -1,0 +1,66 @@
+{itemplate 'public/header'}
+<div class="page clearfix">
+	<h2>基础设置</h2>
+	<form class="form-horizontal form form-validate" id="form1" action="" method="post" enctype="multipart/form-data">
+		<div class="alert alert-warning">
+			JS支付回调地址: <a href="javascript:;" class="js-clip" data-text="{$_W['siteroot']}addons/we7_wmall/payment/qianfan/notify.php">{$_W['siteroot']}addons/we7_wmall/payment/qianfan/notify.php</a>
+			<br>
+			将以上链接填写到：千帆app后台-金币与支付-支付管理-支付js类型-JS支付回调地址。否则将支付失败
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">APP名称</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="text" name="appname" class="form-control" value="{$qianfan['appname']}" placeholder="请输入您的app名称" required="true">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">hostname</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="text" name="hostname" class="form-control" value="{$qianfan['hostname']}" placeholder="请输入千帆App的hostname" required="true">
+				<div class="help-block">请到千帆后台管理-应用配置-网站认证 里,找到 “接口域名”。如您的 “接口域名”为ywei.qianfanapi.com，则您的hostname为“ywei”,将“ywei”填写至此处</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">AppSecret</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="text" name="appsecret" class="form-control" value="{$qianfan['appsecret']}" placeholder="请输入千帆App的AppSecret" required="true">
+				<div class="help-block">请到千帆后台管理-应用配置-网站认证 里,复制 “SecretKey”到此处</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">外卖支付类型ID</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="text" name="type_pay_id" class="form-control" value="{$qianfan['type_pay_id']}" placeholder="外卖支付类型ID" required="true">
+				<div class="help-block">到千帆后台添加js支付类型, 支付类型选择：用户支付。添加完成后获取到ID, 填写到此处</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">外卖退款类型ID</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="text" name="type_refund_id" class="form-control" value="{$qianfan['type_refund_id']}" placeholder="外卖退款类型ID" required="true">
+				<div class="help-block">到千帆后台添加js支付类型, 支付类型选择：用户收入。添加完成后获取到ID, 填写到此处</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">版本提醒</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="text" name="version_notice" class="form-control" placeholder="请输入提示信息" value="{$qianfan['version_notice']}" required="true">
+				<div class="help-block">使用外卖模块，需要千帆App版本不低于2.2。当用户版本低于2.2，提示更新信息</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">App下载链接</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="text" name="download_url" class="form-control" placeholder="请输入App下载链接" value="{$qianfan['download_url']}" required="true">
+				<div class="help-block">版本低于2.2时,用户下载链接</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<input type="hidden" name="token" value="{$_W['token']}">
+				<input type="submit" value="提 交" class="btn btn-primary">
+			</div>
+		</div>
+	</form>
+</div>
+{itemplate 'public/footer'}

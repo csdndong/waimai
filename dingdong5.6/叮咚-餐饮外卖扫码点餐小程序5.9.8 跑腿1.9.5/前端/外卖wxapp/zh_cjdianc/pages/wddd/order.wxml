@@ -1,0 +1,153 @@
+<include src="/zh_cjdianc/pages/commons/navbar/navbar.wxml"></include>
+<navigator class="return-index-btn" openType="redirect" url="/pages/index/index" wx:if="{{show_index}}">
+    <image src="/images/nav-icon-index.png" style="width: 50rpx;height: 50rpx"></image>
+</navigator>
+<view class="flex-row tab-bar">
+    <view class="flex-grow-1">
+        <navigator class="{{status==1?'active':''}}" openType="redirect" url="order?status=1">
+            <text style="color:{{status==1?color:''}};border-bottom:{{status==1?2:0}}rpx solid {{color}}">待付款</text>
+        </navigator>
+    </view>
+    <view class="flex-grow-1">
+        <navigator class="{{status==2?'active':''}}" openType="redirect" url="order?status=2">
+            <text style="color:{{status==2?color:''}};border-bottom:{{status==2?2:0}}rpx solid {{color}}">待发货</text>
+        </navigator>
+    </view>
+    <view class="flex-grow-1">
+        <navigator class="{{status==3?'active':''}}" openType="redirect" url="order?status=3">
+            <text style="color:{{status==3?color:''}};border-bottom:{{status==3?2:0}}rpx solid {{color}}">待收货</text>
+        </navigator>
+    </view>
+    <view class="flex-grow-1">
+        <navigator class="{{status==4?'active':''}}" openType="redirect" url="order?status=4">
+            <text style="color:{{status==4?color:''}};border-bottom:{{status==4?2:0}}rpx solid {{color}}">已完成</text>
+        </navigator>
+    </view>
+    <view class="flex-grow-1">
+        <navigator class="{{status==5?'active':''}}" openType="redirect" url="order?status=5">
+            <text style="color:{{status==5?color:''}};border-bottom:{{status==5?2:0}}rpx solid {{color}}">售后</text>
+        </navigator>
+    </view>
+</view>
+<view class="order-list">
+    <view class="join" style="margin-bottom:20rpx;" wx:if="{{status==1&&dfkts}}">
+        <image class="jion-img" src="../../img/laba.png" style="background:{{color}}"></image>
+        <view class="jionbo ctwz" style="color:#666;border:none;">待付款订单2小时后自动取消，请尽快支付！</view>
+        <image bindtap="closets" class="jion-jtimg" src="../../img/close.png"></image>
+    </view>
+    <view class="no-data-tip zwdd" wx:if="{{order_list.length==0&&mygd}}">
+        <image mode="aspectFit" src="../../img/list.png"></image>
+        <view>您暂无相关订单哦~</view>
+    </view>
+    <view class="order-item" wx:for="{{order_list}}" wx:for-item="oitem">
+        <navigator url="ddxq?oid={{oitem.order.id}}">
+            <view class="flex-row order-info">
+                <view class="flex-grow-1">订单号:{{oitem.order.order_num}}</view>
+                <view class="flex-grow-0" wx:if="{{oitem.order.type=='1'&&oitem.order.order_type=='1'}}">{{System.wm_name}}订单</view>
+                <view class="flex-grow-0" wx:if="{{oitem.order.type=='1'&&oitem.order.order_type=='2'}}">自提订单</view>
+                <view class="flex-grow-0" wx:if="{{oitem.order.type=='2'}}">{{System.dc_name}}订单</view>
+            </view>
+            <view class="flex-row zysp flex-y-center">
+                <image src="{{oitem.order.logo}}"></image>
+                <view class="flex-grow-1 flex-col">
+                    <view class="mdname">
+              {{oitem.order.store_name}}
+            </view>
+                    <view class="mdtime">
+              {{oitem.order.time}}
+            </view>
+                </view>
+                <view class="flex-grow-0">
+                    <image src="../../img/blackjt.png" style="width:40rpx;height:40rpx;"></image>
+                </view>
+            </view>
+            <view class="goods-list">
+                <view class="goods-item flex-row">
+                    <view class="flex-grow-0 flex-row flex-y-center" style="overflow: visible">
+                        <image class="goods-pic" mode="aspectFill" src=""></image>
+                    </view>
+                    <view class="flex-grow-1 flex-col">
+                        <view class="flex-grow-1 flex-row flex-y-center">
+                            <view class="flex-grow-1">{{oitem.good[0].name}}
+                  <text style="margin-left:10rpx;" wx:if="{{oitem.num>1}}">等{{oitem.num}}件商品</text>
+                            </view>
+                            <view class="flex-grow-0 sfmoney">￥{{oitem.order.money}}</view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </navigator>
+        <view class="flex-row">
+            <view class="flex-grow-1 flex-y-center flex-row dbbtn">
+                <block wx:if="{{status==5}}">
+                    <view class="ddbtn" wx:if="{{oitem.order.state==6}}">已取消</view>
+                    <view class="ddbtn" wx:if="{{oitem.order.dn_state==3}}">订单已关闭</view>
+                    <view class="ddbtn" wx:if="{{oitem.order.state==7}}">已拒绝接单</view>
+                    <view class="ddbtn" wx:if="{{oitem.order.state==8}}">等待退款</view>
+                    <view class="ddbtn ddbtn4" wx:if="{{oitem.order.state==9}}">已同意并退款</view>
+                    <view class="ddbtn ddbtn2" wx:if="{{oitem.order.state==10}}">已拒绝退款</view>
+                </block>
+                <block wx:else>
+                    <view class="" wx:if="{{oitem.order.state==1||oitem.order.dn_state==1}}">
+                        <button bindtap="orderPay" class="ddbtn ddbtn1" data-id="{{oitem.order.id}}" data-money="{{oitem.order.money}}" data-type="{{oitem.order.pay_type}}" style="border:1rpx solid {{color}};color:{{color}};">付款</button>
+                    </view>
+                    <view class="" wx:if="{{oitem.order.dn_state==1}}">
+                        <navigator openType="reLaunch" url="../smdc/smdcindex?store_id={{oitem.order.store_id}}&tableid={{oitem.order.table_id}}&oid={{oitem.order.id}}">
+                            <button class="ddbtn ddbtn1" style="border:1rpx solid {{color}};color:{{color}};">加菜</button>
+                        </navigator>
+                    </view>
+                    <view class="" wx:if="{{oitem.order.state==2}}">
+                        <button bindtap="txsj" class="ddbtn" data-tel="{{oitem.order.store_tel}}">提醒商家</button>
+                    </view>
+                    <view class="" wx:if="{{oitem.order.state==2||oitem.order.state==3}}">
+                        <button bindtap="sqtk" class="ddbtn" data-id="{{oitem.order.id}}" style="color:{{color}};border: 1rpx solid {{color}};" wx:if="{{oitem.order.pay_type=='1'||oitem.order.pay_type=='2'}}">申请退款</button>
+                    </view>
+                    <view class="" wx:if="{{oitem.order.state==3&&oitem.order.order_type=='1'}}">
+                        <button bindtap="qrsh" class="ddbtn" data-id="{{oitem.order.id}}">确认收货</button>
+                    </view>
+                    <view class="" wx:if="{{oitem.order.state==3&&oitem.order.order_type=='2'}}">
+                        <button bindtap="hxqh" class="ddbtn" data-id="{{oitem.order.id}}" data-sjid="{{oitem.order.store_id}}">核销取货</button>
+                    </view>
+                    <view class="" wx:if="{{oitem.order.state==4}}">
+                        <navigator class="ddbtn" data-id="{{oitem.order.id}}" style="background-color:{{color}};color:#fff;border:none" url="pjdd?oid={{oitem.order.id}}">评价</navigator>
+                    </view>
+                    <view class="" wx:if="{{oitem.order.state==1||oitem.order.dn_state==1}}">
+                        <button bindtap="canceldd" class="ddbtn" data-id="{{oitem.order.id}}">取消 
+
+                </button>
+                    </view>
+                </block>
+                <view class="" wx:if="{{oitem.order.state==5||oitem.order.state==6||oitem.order.state==7||oitem.order.state==9||oitem.order.state==10||oitem.order.dn_state==3}}">
+                    <button bindtap="orderRevoke" class="ddbtn ddbtn3" data-id="{{oitem.order.id}}">删除 
+
+              </button>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view class="jzz" hidden="{{mygd}}">
+        <image class="Rotation" src="../../img/jzz.png"></image>
+        <view>加载中...</view>
+    </view>
+    <view class="jzwb" wx:if="{{mygd}}">
+        <view class="hx"></view>
+        <view class="wz">加载完毕</view>
+        <view class="hx"></view>
+    </view>
+    <view class="copyright">
+        <navigator appId="{{System.tz_appid}}" class="copyright_logo" extraData="" openType="navigate" path="" target="miniProgram" version="release">
+            <image class="copyright_img" mode="aspectFill" src="{{System.bq_logo}}"></image>
+            <view class="copyright_text">{{System.bq_name}}</view>
+        </navigator>
+        <view class="copyright_txt">{{System.support}}</view>
+    </view>
+</view>
+<view bindtap="hide" class="flex-row flex-y-center modal1 {{hide==1?'hide':''}}">
+    <view class="flex-y-center" style="width:100%;height:800rpx;padding:125rpx;">
+        <view style="background-color:#fff;width:100%;height:100%;border-radius:10rpx;padding:0 50rpx;">
+            <view class="flex-x-center" style="width:100%;height:50rpx;margin:20rpx 0;font-size:13pt;">核销二维码</view>
+            <image src="data:image/png;base64,{{hx_code}}" style="width:400rpx;height:400rpx;"></image>
+            <view class="flex-x-center" style="width:100%;height:50rpx;font-size:9pt;">出示给商家扫码核销</view>
+        </view>
+    </view>
+</view>

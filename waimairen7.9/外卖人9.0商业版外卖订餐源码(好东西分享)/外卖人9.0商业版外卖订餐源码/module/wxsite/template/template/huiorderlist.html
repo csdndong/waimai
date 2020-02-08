@@ -1,0 +1,45 @@
+<{if !empty($orderlist) }>
+ <{foreach from=$orderlist item=items }>
+				 	<div class="editordercon" style="position:relative;"> 	
+				 	 <div class="editordertit">  
+				 	  <ul> 
+				 	   <li><i></i><{$items['shopname']}></li> 
+				 	   <!--<li class="editordright">-->
+                           <!--<span class="editorfoncol">-->
+                           <!--<{if $items['paystatus'] == 1}>-->
+                                   <!--<{if $items['status'] == 1}>-->
+                                       <!--订单已完成-->
+                                    <!--<{else}>-->
+                                        <!--订单未完成-->
+                                    <!--<{/if}>-->
+                           <!--<{else}>-->
+                               <!--订单未支付-->
+                           <!--<{/if}>-->
+                       <!--</span>-->
+                       <!--</li>-->
+				 	  </ul> 
+				 	 </div> 
+				 	 <a href="<{ofunc type=url link="/wxsite/huiordershow/orderid/<{$items['id']}>"}>">
+ 				 	 <div class="editorderbox" > 
+				 	  <ul> 
+				<{if $items['shoplogo'] == '' }>	 
+ 					 	   <li><img <{ofunc type=img  link="<{$shoplogo}>"}> ></li> 
+				<{else}>
+					 	   <li><img <{ofunc type=img  link="<{$items['shoplogo']}>"}> ></li> 
+				<{/if}>
+				 	   <li> 
+				 		<ul> 
+				 		 <li><span>￥<{$items['sjcost']}></span></li>
+				 		 <li><{$items['addtime']}></li>
+					 		 <li>到店消费</li>
+				 		</ul> 
+				 	   </li> 
+ 				 	  </ul> 
+				 	 </div> 
+				 	 </a> 
+		<{if $items['status'] == 0}>
+			 	<div   class="shanchuedit"  onclick="delorder(<{$items['id']}>);"  >删除</div>
+		<{/if}>			 
+				 	</div>
+	<{/foreach}>
+ <{/if}>

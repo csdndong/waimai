@@ -1,0 +1,98 @@
+.main {
+    padding-top: 120rpx;
+}
+
+.sjhb {
+    padding: 20rpx 30rpx;
+}
+
+.sjhbtop {
+    background: #fff;
+    padding: 20rpx 30rpx;
+}
+
+.mdlogo {
+    margin-right: 20rpx;
+}
+
+.mdlogo image {
+    width: 120rpx;
+    height: 120rpx;
+}
+
+.yhname {
+    font-size: 30rpx;
+    font-weight: bold;
+}
+
+.yhtype {
+    font-size: 22rpx;
+    width: 120rpx;
+    text-align: center;
+    border: 1rpx solid #E9453C;
+    border-radius: 10rpx;
+    color: #E9453C;
+    margin: 10rpx 0;
+}
+
+.yhtime {
+    font-size: 22rpx;
+    color: #666;
+}
+
+.yhmoney {
+    font-size: 50rpx;
+    font-weight: bold;
+    color: #E9453C;
+}
+
+.yhtj {
+    margin-top: 20rpx;
+    font-size: 24rpx;
+    color: #666;
+}
+
+.flex-col {
+    justify-content: space-between;
+}
+
+.sjhbbtm {
+    border-top: 2rpx dashed #dddddd;
+    background: #fff;
+    padding: 15rpx 30rpx;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+
+.sysm {
+    font-size: 22rpx;
+    color: #999;
+}
+
+.qsy {
+    color: #E9453C;
+    font-size: 24rpx;
+}
+
+.hyuan1 {
+    position: absolute;
+    width: 40rpx;
+    height: 40rpx;
+    background: #f4f4f4;
+    border-radius: 50%;
+    left: -20rpx;
+    top: -20rpx;
+}
+
+.hyuan2 {
+    position: absolute;
+    width: 40rpx;
+    height: 40rpx;
+    background: #f4f4f4;
+    border-radius: 50%;
+    right: -20rpx;
+    top: -20rpx;
+}

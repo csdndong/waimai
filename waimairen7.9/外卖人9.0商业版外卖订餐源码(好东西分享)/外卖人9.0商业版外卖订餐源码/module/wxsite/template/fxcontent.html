@@ -1,0 +1,34 @@
+<{extends file="<{$tempdir}>/public/diswxsite.html"}>  
+<{block name=extendcss}> 
+<link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/distribution.css">   
+<link href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<{/block}>
+ <{block name=extendjs}>  
+   <script src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/js/template.min.js"></script>    
+<{/block}>
+<{block name=myScrolljs}>
+<{/block}>
+<{block name=sitetitle}><{$sitename}><{/block}>
+<{block name=hearnav}>
+<div class="content">
+	<div class="toptitCon" style='position: fixed;top:0;left:0;z-index: 99999;'>
+		<div class="toptitBox">
+			<div class="toptitL"><i></i></div>
+			<div class="toptitC">
+				<h3>分销说明</h3>
+			</div>
+			<div class="toptitR"></div>
+		</div>
+	</div>
+	<div class="distribution_qrcode_content">			 
+		<div class="distribution_qrcode_txt" style='padding: 20px 15px;'>
+		<{load_data assign="info" table="single" type="one" where="code='fxsm' and title='分销说明' " fileds="*" }> 
+			 <{$info['content']}>
+		</div>
+				 
+	</div>
+</div>
+ 
+<{/block}>
+ 
+ 

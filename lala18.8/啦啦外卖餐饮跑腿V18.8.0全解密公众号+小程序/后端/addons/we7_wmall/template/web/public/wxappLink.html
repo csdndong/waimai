@@ -1,0 +1,205 @@
+<style type="text/css">
+	#select-wxapp-link-modal .modal-dialog{width: 750px;}
+	#select-wxapp-link-modal .modal-dialog .modal-body{padding: 15px;}
+	#select-wxapp-link-modal .link-container{height: 420px; overflow-y: auto;}
+	#select-wxapp-link-modal .page-header{padding: 9px 0; margin-top: 5px; margin-bottom: 8px}
+	#select-wxapp-link-modal .page-header h4{margin: 0; font-size: 14px; font-weight: 600}
+	#select-wxapp-link-modal .btn{margin-bottom: 3px; border: 1px solid #e7eaec;}
+	#select-wxapp-link-modal .btn:hover{border: 1px solid #d2d2d2; background: #ffffff; text-decoration: none}
+	#select-wxapp-link-modal .btn-wxapp:hover{background: #1ab394; text-decoration: none}
+</style>
+<div class="modal-dialog">
+	<div class="modal-content">
+		<div class="modal-header">
+			<button data-dismiss="modal" class="close" type="button">×</button>
+			<h4 class="modal-title">选择链接</h4>
+		</div>
+		<div class="modal-body clearfix link-container">
+			{if $type == 'wmall'}
+				<ul class="nav nav-tabs" role="tablist">
+					<li role="presentation" class="active"><a href="#takeout" aria-controls="takeout" role="tab" data-toggle="pill">外卖</a></li>
+					{if check_plugin_perm('errander')}
+						<li role="presentation"><a href="#errander" aria-controls="errander" role="tab" data-toggle="pill">跑腿</a></li>
+					{/if}
+					{if check_plugin_perm('spread') || check_plugin_perm('ordergrant') || check_plugin_perm('creditshop')}
+						<li role="presentation"><a href="#other" aria-controls="other" role="tab" data-toggle="pill">其他链接</a></li>
+					{/if}
+					{if $getScene == 'page' || $getScene == 'store' || $getScene == 'vuepage' || $getScene == 'menu'}
+						{if check_plugin_perm('diypage')}
+							<li role="presentation" class="#wxdiy"><a href="#wxdiy" aria-controls="wxdiy" role="tab" data-toggle="pill">自定义页面</a></li>
+						{/if}
+						<li role="presentation">
+							<a href="#third" aria-controls="third" role="tab" data-toggle="pill">第三方链接</a>
+						</li>
+						<li role="presentation">
+							<a href="#phone" aria-controls="phone" role="tab" data-toggle="pill">电话</a>
+						</li>
+						{if $getScene != 'vuepage'}
+							<li role="presentation">
+								<a href="#wxapp" aria-controls="wxapp" role="tab" data-toggle="pill">小程序</a>
+							</li>
+							{if $getScene != 'menu'}
+							<li role="presentation">
+								<a href="#operation" aria-controls="operation" role="tab" data-toggle="pill">其他操作</a>
+							</li>
+							{/if}
+						{/if}
+						{if $getScene == 'store' }
+							<li role="presentation">
+								<a href="#store" aria-controls="store" role="tab" data-toggle="pill">商户</a>
+							</li>
+						{/if}
+					{/if}
+				</ul>
+				<div class="tab-content">
+					{if $getScene != 'vuepage' && $getScene != 'menu'}
+						<div class="alert alert-info" style="margin-top: 10px; margin-bottom: 10px; font-size: 18px">
+							在小程序中，如果底部导航菜单中已经选择某个链接，在页面中选择该链接后点击无效。
+							小程序底部菜单只可选择部分页面地址
+						</div>
+					{else}
+						<div style="margin-top: 20px;"></div>
+					{/if}
+					<div class="tab-pane active" role="tabpanel" id="takeout">
+						{loop $data['takeout'] $da}
+							<div class="page-header">
+								<h4><i class="fa fa-folder-open-o"></i> {$da['title']}</h4>
+							</div>
+							{loop $da['items'] $item}
+								<div class="btn btn-default btn-sm btn-link" data-href="{$item['url']}" title="{$item['title']}">{$item['title']}</div>
+							{/loop}
+						{/loop}
+					</div>
+					<div class="tab-pane" role="tabpanel" id="wxdiy">
+						<div class="page-header">
+							<h4><i class="fa fa-folder-open-o"></i> 自定义页面链接</h4>
+						</div>
+						{loop $data['diyPages'] $item}
+							<div class="btn btn-default btn-sm btn-link" data-href="pages/diy/index?id={$item['id']}" title="{$item['name']}">{$item['name']}</div>
+						{/loop}
+					</div>
+					<div class="tab-pane" role="tabpanel" id="errander">
+						{loop $data['errander'] $da}
+							<div class="page-header">
+								<h4><i class="fa fa-folder-open-o"></i> {$da['title']}</h4>
+							</div>
+							{loop $da['items'] $item}
+								<div class="btn btn-default btn-sm btn-link" data-href="{$item['url']}" title="{$item['title']}">{$item['title']}</div>
+							{/loop}
+						{/loop}
+					</div>
+					<div class="tab-pane" role="tabpanel" id="other">
+						{loop $data['other'] $da}
+							<div class="page-header">
+								<h4><i class="fa fa-folder-open-o"></i> {$da['title']}</h4>
+							</div>
+							{loop $da['items'] $item}
+								<div class="btn btn-default btn-sm btn-link" data-href="{$item['url']}" title="{$item['title']}">{$item['title']}</div>
+							{/loop}
+						{/loop}
+					</div>
+					<div class="tab-pane" role="tabpanel" id="third">
+						<div class="input-group">
+							{if $getScene != 'vuepage'}
+								<span class="input-group-addon">https://</span>
+							{/if}
+							{if $getScene != 'vuepage'}
+								<input type="text" placeholder="请输入已在小程序管理后台配置白名单的域名 例如：www.baidu.com" class="form-control">
+							{else}
+								<input type="text" placeholder="请输入以https或者http开头的域名" class="form-control">
+							{/if}
+							<span class="input-group-addon btn btn-primary btn-webview" style="border: 0; background: #1ab394;">确认使用</span>
+						</div>
+						{if $getScene != 'vuepage'}
+							<div class="help-block text-danger" style="color: #a94442;">
+								注意：1. 若为小程序设置链接，目标链接域名需到
+								<a href="https://mp.weixin.qq.com/" target="_black" class="text-danger"><b>小程序管理后台</b></a>配置域名白名单
+							</div>
+							<div class="help-block" style="color: #a94442; padding-left: 43px;">
+								2. 目标链接必须支持https，否则无法打开
+							</div>
+							<div class="help-block" style="color: #a94442; padding-left: 43px;">
+								3. 若为小程序设置链接，点击链接将跳出小程序与小程序无关
+							</div>
+						{/if}
+					</div>
+					<div class="tab-pane" role="tabpanel" id="phone">
+						<div class="input-group">
+							<span class="input-group-addon">电话</span>
+							<input type="text" placeholder="请在此输入有效电话号码" class="form-control">
+							<span class="input-group-addon btn btn-primary btn-phone" style="border: 0; background: #1ab394;">确认使用</span>
+						</div>
+					</div>
+					<div class="tab-pane" role="tabpanel" id="wxapp">
+						{if $getScene == 'menu'}
+						<div class="alert alert-info" style="margin-top: 10px; margin-bottom: 10px; font-size: 18px">
+							若当前菜单用于小程序，链接可设置跳转小程序；若当前菜单用于公众号请勿将链接设置为此项。
+						</div>
+						{/if}
+						<div class="input-group">
+							<span class="input-group-addon">APPID</span>
+							<input type="text" name="appid" placeholder="请在此输入APPID" class="form-control">
+						</div>
+						<div class="help-block" style="color: #a94442;">注意: 此处仅适用于小程序，且必须是同一个公众号下的小程序appid，否则无法跳转</div>
+						<div class="input-group" style="margin-top: 30px;">
+							<span class="input-group-addon">小程序链接</span>
+							<input type="text" name="url" placeholder="请在此输入小程序链接" class="form-control">
+						</div>
+						<div class="help-block" style="color: #a94442;">注意：此处仅适用于小程序，链接留空默认跳到小程序首页</div>
+						<div class="btn-group" style="width: 100%; margin-top: 10px; text-align: center;">
+							<button class="btn btn-primary btn-wxapp" style="float: none; border-color: #1ab394;">确认使用</button>
+						</div>
+					</div>
+					<div class="tab-pane" role="tabpanel" id="operation">
+						{loop $data['operation'] $da}
+						<div class="page-header">
+							<h4><i class="fa fa-folder-open-o"></i> {$da['title']}</h4>
+						</div>
+							{loop $da['items'] $item}
+								<div class="btn btn-default btn-sm btn-link" data-href="{$item['url']}" title="{$item['title']}">{$item['title']}</div>
+							{/loop}
+						{/loop}
+					</div>
+					{if $getScene == 'store'}
+						<div class="tab-pane" role="tabpanel" id="store">
+							{loop $data['store'] $da}
+								<div class="page-header">
+									<h4><i class="fa fa-folder-open-o"></i> {$da['title']}</h4>
+								</div>
+								{loop $da['items'] $item}
+									<div class="btn btn-default btn-sm btn-link" data-href="{$item['url']}" title="{$item['title']}">{$item['title']}</div>
+								{/loop}
+							{/loop}
+						</div>
+					{/if}
+				</div>
+			{else}
+				<ul class="nav nav-tabs" role="tablist">
+					{loop $data $tabIndex $tab}
+						<li role="presentation" class="{if $tabIndex == 'takeout'}active{/if}"><a href="#{$tabIndex}" aria-controls="{$tabIndex}" role="tab" data-toggle="pill">
+							{if $tabIndex == 'plugin'}
+								插件
+							{else}
+								{$tab['sys']['title']}
+							{/if}
+						</a></li>
+					{/loop}
+				</ul>
+				<div class="tab-content">
+					{loop $data $index $url}
+						<div class="tab-pane {if $index == 'takeout'}active{/if}" role="tabpanel" id="{$index}">
+							{loop $url $index1 $val}
+								<div class="page-header">
+									<h4><i class="fa fa-folder-open-o"></i> {$val['title']}</h4>
+								</div>
+								{loop $val['items'] $item}
+									<div class="btn btn-default btn-sm btn-link" data-href="{$item['url']}" title="{$item['title']}">{$item['title']}</div>
+								{/loop}
+							{/loop}
+						</div>
+					{/loop}
+				</div>
+			{/if}
+		</div>
+	</div>
+</div>

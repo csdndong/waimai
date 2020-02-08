@@ -1,0 +1,6 @@
+<view class="fixed tabbar">
+    <view bindtap="tabbar" data-url="{{item.url}}" wx:for="{{tabbar}}">
+        <image mode="widthFix" src="{{item.active?item.sele_icon:item.icon}}"></image>
+        <view style="color:{{item.active?item.sele_color:item.color}}">{{item.name}}</view>
+    </view>
+</view>

@@ -1,0 +1,135 @@
+ <{extends file="<{$tempdir}>/public/admin.html"}>
+ <{block name=controlname}>专题页列表 <{/block}>
+ <{block name=bodylist}>
+ <style>
+     #addzty{
+         float:left;
+         display:block;
+         color:#fff;
+         background-color: #169BD5;
+         width:86px;
+         height:28px;
+         border-radius:5px;
+         line-height:28px;
+         text-align:center;
+         margin:7px 15px;
+     }
+     #search{
+         float:right;
+         margin:7px 15px;
+     }
+     #search input{
+         height:28px;
+     }
+ </style>
+ 
+ 
+ 	  <div class="managShopCon">
+	<div class="managShopBox">
+		<div class="managShopMain">
+			<{include file="<{$tempdir}>/public/commentcate.html"}>  
+			<div class="addShopSingCon">
+			
+ 
+          <div style="width:auto;overflow-x:hidden;overflow-y:auto">
+           <div class="tags">
+          <div id="tagscontent">
+            <div id="con_one_1">
+              <a href="<{ofunc type=url link="/areaadminpage/other/module/addspecialpage"}>" id="addzty">添加专题页</a>
+                <div id="search">
+                    <form method="get" name="form1" action="<{ofunc type=url link="/areaadminpage/other/module/specialpage"}>">
+                        <input type="hidden" name="ctrl" value="areaadminpage">
+                        <input type="hidden" name="action" value="other">
+                        <input type="hidden" name="module" value="specialpage">
+                         <input type="text" name="name" placeholder="专题页活动名称" value="<{$name}>" style="border-radius: 5px;border:1px solid #ccc;">
+                         <input type="submit" value="查询" style="background: #169BD5;color:#fff;border:1px solid #169BD5;width:50px; border-radius:5px;cursor:pointer;">
+                    </form>
+                </div>
+            </div>
+              <div class="table_td" style="margin-top:10px;">
+                  <table border="0" cellspacing="2" cellpadding="4" class="list" name="table" id="table" width="100%">
+                    <thead>
+                      <tr>
+                        <th align="center">专题名称</th>
+                        <th align="center">专题类型</th>
+                        <th align="center">添加时间</th>
+                        <th align="center">状态</th>
+                        <th align="center">操作</th>
+                      </tr>
+                    </thead>
+                     <tbody>
+                       <{load_data assign="list" table="specialpage" showpage="true" where=" id > 0  and ( cityid = '<{$cityid}>' or cityid = 0 )  <{$where}>"   orderby = "orderid  asc"}>
+                        <{if !empty($list['list'])}>
+                            <{foreach from=$list['list'] item=items}>
+							 <{load_data assign="ztyinfo" type="one" table="ztyimginfo"  where=" ztyid = <{$items['id']}> "}>
+                             <td align="center"> <{$items['name']}> </td>
+                             <td align="center">
+                                <{if $items['zttype']==1}>
+                                 店铺
+                                 <{elseif $items['zttype']==2}>
+                                 商品
+                                 <{elseif $items['zttype']==3}>
+                                 店铺分类
+                                 <{elseif $items['zttype']==4}>
+                                 活动
+                                 <{elseif $items['zttype']==5}>
+                                 其他
+                                 <{else}>
+                                 自定义链接
+                                 <{/if}>
+                             </td>
+                            <td align="center"><{$items['addtime']|date_format:"%Y-%m-%d %H:%M:%S"}></td>
+                            <td align="center"><{if !empty($ztyinfo)}><{if $ztyinfo['is_show'] == 1}><font color=#ff6000>使用中</font><{else}>未使用<{/if}><{else}>未使用<{/if}></td>
+                             <td align="center">
+                                <a href="<{ofunc type=url link="/areaadminpage/other/module/addspecialpage/id/<{$items['id']}>"}>" ><img src="<{$siteurl}>/templates/<{$tempdir}>/public/images/admin/edit.jpg"></a>
+                                <a onclick="return remind(this);" href="<{ofunc type=url link="/areaadminpage/other/module/delspecialpage/id/<{$items['id']}>/datatype/json"}>"><img src="<{$siteurl}>/templates/<{$tempdir}>/public/images/admin/del.jpg"></a></td>
+                          </tr>
+                           <{/foreach}>
+                        <{/if}>
+                    </tbody>
+                  </table>
+                <div class="blank20"></div>
+                <div class="page_newc">
+                 	      <!--<div class="select_page"><a href="#" onclick="checkword(true);">全选</a>/<a href="#" onclick="checkword(false);">取消</a> -->
+						  <!--<a onclick="return remindall(this);" href="<{ofunc type=url link="/adminpage/other/module/delspecialpage/datatype/json"}>" class="delurl">删除</a> -->
+						  <!--<a href="<{ofunc type=url link="/adminpage/other/module/addspecialpage"}>" class="delurl">添加专题页</a></div>-->
+                       <div class="show_page" style="width:580px;"><ul><{$list['pagecontent']}></ul></div>
+                 </div>
+               <div class="blank20"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+  </div>
+</div>
+
+
+<div id="xianshiimg" style="display:none;">
+<img  src="<{$siteurl}>/templates/m7/public/images/goodmodule1.png" />
+</div>
+
+
+</div>
+</div>
+</div>
+</div>
+<style>
+.showimg{ cursor:pointer;}
+#xianshiimg{ position:absolute; top:50%; left:50%;  z-index:9999999;}
+</style>
+<script>
+		$(".showimg").hover(function(){
+					 var showimg = $(this).attr('dtsrc');
+					 $("#xianshiimg").show();
+					 $("#xianshiimg img").attr('src',showimg);
+					 var imgwidth = $('#xianshiimg img').width();
+					 var imgheight = $('#xianshiimg img').height();
+					 $("#xianshiimg img").css('margin-left',-imgwidth/2);
+					 $("#xianshiimg img").css('margin-top',-imgheight/2); 
+ 				},function(){
+					$("#xianshiimg img").attr('src','');
+					 $("#xianshiimg").hide();
+					 
+				});
+</script>
+<{/block}>

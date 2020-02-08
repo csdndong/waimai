@@ -1,0 +1,132 @@
+{template 'public/header'}
+{template 'public/comhead'}
+<link rel="stylesheet" type="text/css" href="../addons/zh_cjdianc/template/public/ygcss.css">
+<style type="text/css">
+    input[type="radio"] + label::before {
+        content: "\a0"; /*不换行空格*/
+        display: inline-block;
+        vertical-align: middle;
+        font-size: 16px;
+        width: 1em;
+        height: 1em;
+        margin-right: .4em;
+        border-radius: 50%;
+        border: 2px solid #ddd;
+        text-indent: .15em;
+        line-height: 1; 
+    }
+    input[type="radio"]:checked + label::before {
+        background-color: #44ABF7;
+        background-clip: content-box;
+        padding: .1em;
+        border: 2px solid #44ABF7;
+    }
+    input[type="radio"] {
+        position: absolute;
+        clip: rect(0, 0, 0, 0);
+    }
+            .navback{width: 0}
+    .main{margin: 16px 0px 30px 45px;}
+    .nav_box{
+        left: 150px;
+        top: 48px;
+        bottom: 0;
+        color: #333;
+        border-right: 1px solid #efefef;
+        text-align: center;
+        position: fixed;
+        background: #fff;
+        z-index: 99;   
+        padding:0;     
+    }
+    .left_nav{
+        padding-top: 20px
+    }
+    .left_nav li{
+        line-height: 45px;
+    }
+    .left_nav li.active{
+        color: #00aeff;
+        background: #edf6ff
+    }
+    .left_nav li:hover{
+        background: #edf6ff;
+    }
+    .left_nav li:hover a{
+        color: #00aeff;
+    } 
+</style>
+<div class="nav_box col-md-1">
+    <ul class="left_nav">
+        <li class="active"><a href="javascript:void(0);">门店媒体</a></li>
+    </ul>
+</div>
+<div class="main">
+    <form action="" method="post" class="form-horizontal form" enctype="multipart/form-data" id="invitative">
+        <div class="panel panel-default ygdefault">
+            <div class="panel-heading wyheader">
+                门店媒体
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">音乐链接</label>
+                    <div class="col-sm-10">
+                        <input type="text"  name="store_mp3" value="{$info['store_mp3']}" id="web_name" class="form-control" />
+                         <span class="help-block">*请输入音乐链接，目前支持的格式有 m4a, aac, mp3, wav</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">是否开启音乐</label>
+                    <div class="col-sm-9">
+                        <label class="radio-inline">
+                            <input type="radio" id="emailwy1" name="is_mp3" value="1" {if $info['is_mp3']==1 || empty($info['is_mp3'])}checked{/if} />
+                            <label for="emailwy1">开启</label>
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" id="emailwy2" name="is_mp3" value="2" {if $info['is_mp3']==2}checked{/if} />
+                            <label for="emailwy2">关闭</label>
+                        </label>    
+                    </div>
+                </div>
+                
+                
+
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">视频链接</label>
+                    <div class="col-sm-10">
+                        <input type="text"  name="store_video" value="{$info['store_video']}" id="web_name" class="form-control" />
+                         <span class="help-block">*只支持腾讯视频链接,如:https://v.qq.com/x/cover/29pa6my7yc43egq/b0709atj1i9.html</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">是否开启视频</label>
+                    <div class="col-sm-9">
+                        <label class="radio-inline">
+                            <input type="radio" id="emailwy3" name="is_video" value="1" {if $info['is_video']==1 || empty($info['is_video'])}checked{/if} />
+                            <label for="emailwy3">开启</label>
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" id="emailwy4" name="is_video" value="2" {if $info['is_video']==2}checked{/if} />
+                            <label for="emailwy4">关闭</label>
+                        </label>    
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <input type="submit" name="submit" value="保存设置" class="btn col-lg-3" style="color: white;background-color: #44ABF7;" />
+            <input type="hidden" name="token" value="{$_W['token']}" />
+            <input type="hidden" name="id" value="{$info['id']}" />
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+    $(function(){
+        $("#frame-4").show();
+        $("#yframe-4").addClass("wyactive");
+    })
+</script>
+{template 'common/footer'}

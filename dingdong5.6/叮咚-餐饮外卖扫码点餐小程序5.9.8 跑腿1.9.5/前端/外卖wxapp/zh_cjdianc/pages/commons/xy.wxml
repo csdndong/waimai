@@ -1,0 +1,10 @@
+<template name="xytemp">
+    <view class="zhezhao" hidden="{{fwxy}}"></view>
+    <view class="kcrzxy {{fwxy?'':'active'}}">
+        <view class="kcrzxyhd">{{xymc}}</view>
+        <scroll-view scrollY class="kcrzxybd" style="height: 600rpx;">
+            <rich-text nodes="{{xynr}}"></rich-text>
+        </scroll-view>
+        <view bindtap="queren" class="queren">确定</view>
+    </view>
+</template>

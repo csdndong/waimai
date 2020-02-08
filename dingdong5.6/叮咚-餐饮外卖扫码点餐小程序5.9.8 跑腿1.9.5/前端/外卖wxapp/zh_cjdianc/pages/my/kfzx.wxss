@@ -1,0 +1,31 @@
+page {
+    background: #efeff4;
+    font-family: '微软雅黑',Helvetica,sans-serif;
+}
+
+.kf {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    color: #333;
+    font-size: 30rpx;
+    margin: 100rpx auto 0rpx;
+    background: #fff;
+    height: 200rpx;
+    width: 500rpx;
+    box-sizing: border-box;
+    border-radius: 20rpx;
+}
+
+.kf image {
+    width: 80rpx;
+    height: 80rpx;
+    margin-right: 30rpx;
+}
+
+.main {
+    padding: 20rpx 30rpx;
+    background: #fff;
+    overflow-x: hidden;
+}

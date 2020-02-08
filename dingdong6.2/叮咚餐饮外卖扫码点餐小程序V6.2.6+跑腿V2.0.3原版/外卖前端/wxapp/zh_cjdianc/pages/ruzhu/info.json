@@ -1,0 +1,6 @@
+{
+    "navigationBarTitleText": "商家入驻",
+    "usingComponents": {
+        "cardlist": "/zh_cjdianc/dist/cardlist/index"
+    }
+}

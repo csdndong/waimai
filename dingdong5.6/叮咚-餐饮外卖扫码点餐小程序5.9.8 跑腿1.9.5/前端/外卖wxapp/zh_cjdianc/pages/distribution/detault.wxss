@@ -1,0 +1,108 @@
+page {
+    background-color: #F5F5F5;
+}
+
+.list_imgbk {
+    width: 260rpx;
+    height: 260rpx;
+    margin-bottom: 80rpx;
+}
+
+.list_imgbk2 {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+    height: 700rpx;
+}
+
+.list_imgbk3 {
+    font-size: 30rpx;
+    color: #999;
+    text-align: center;
+    line-height: 30rpx;
+}
+
+.list_header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
+    width: 100%;
+    display: flex;
+    font-size: 30rpx;
+    height: 80rpx;
+    background-color: white;
+    line-height: 80rpx;
+}
+
+.list_title {
+    width: 33.33%;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.list_border {
+    width: 120rpx;
+    height: 7rpx;
+    margin-top: -5rpx;
+}
+
+.selsect {
+    color: #333;
+}
+
+.default {
+    color: #999;
+}
+
+.kong {
+    height: 100rpx;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    font-size: 30rpx;
+    color: #666;
+}
+
+.kong image {
+    width: 60rpx;
+    height: 60rpx;
+    margin-right: 30rpx;
+}
+
+.list {
+    margin-top: 110rpx;
+}
+
+.weui-cells {
+    font-size: 30rpx;
+    color: #333;
+    margin-top: 20rpx;
+}
+
+.weui-cell__ft {
+    color: #34aaff;
+    font-size: 26rpx;
+}
+
+.weui-cell__bd {
+    font-size: 26rpx;
+}
+
+.weui-cell__bd view {
+    height: 60rpx;
+    line-height: 60rpx;
+}
+
+.himg {
+    width: 70rpx;
+    height: 70rpx;
+    margin-right: 30rpx;
+    vertical-align: middle;
+}

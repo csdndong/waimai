@@ -1,0 +1,328 @@
+<{extends file="<{$tempdir}>/public/wxsite.html"}>
+<{block name=extendcss}>
+<link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/editaddress.css">
+
+<{/block}>
+<{block name=footer}>
+<{/block}>
+<{block name=extendjs}>
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/js/template.min.js"></script>
+ <script src="<{$map_comment_link}>webapi.amap.com/maps?v=1.3&key=<{$map_javascript_key}>"></script>
+<{/block}>
+<{block name=myScrolljs}>
+<script>
+    var myScroll;
+    function loaded() {
+        myScroll = new iScroll('wrapper', {
+            useTransform: false,
+            onBeforeScrollStart: function (e) {
+                var target = e.target;
+                while (target.nodeType != 1) target = target.parentNode;
+
+                if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA')
+                    e.preventDefault();
+            }
+        });
+    }
+    document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
+    document.addEventListener('DOMContentLoaded', function () { setTimeout(loaded, 200); }, false);
+</script>
+<{/block}>
+<{block name=sitetitle}><{$sitename}><{/block}>
+<{block name=hearnav}>
+<div class="toptitCon">
+    <div class="toptitBox">
+        <div class="toptitL"><i></i></div>
+        <div class="toptitC"><h3>位置</h3></div>
+		<div class="toptitR"  id="order_sx"><h3><img style="width: 25px;
+    top: 7px;
+    position: absolute;
+    right: 10px;" <{ofunc type=img  link="/upload/map/order_sx.png"}>></h3></div>
+    </div>
+</div>
+<{/block}>
+<{block name=blockcontent}>
+<div id="wrapper" style="top:40px;bottom:0px;">
+    <div id="scroller">
+ 
+ 
+ <div style="width:100%; " id="routeMap">
+	
+ </div>
+ 
+ 
+    </div>
+</div>  
+<script>
+var psymarker;
+var polyline;
+var map_webservice_key = '<{$map_webservice_key}>';
+var mapObj ;
+ 
+			 
+mapObj = new AMap.Map('routeMap', {
+	resizeEnable: true,
+	zoom:14, 
+		 
+ });
+mapObj.plugin(["AMap.ToolBar"],function(){   //在地图中添加ToolBar插件      
+	toolBar = new AMap.ToolBar();  
+	mapObj.addControl(toolBar);       
+});
+	
+$(function(){
+	var windowHeight = $(window).height();
+	console.log(windowHeight);
+	$('#routeMap').css('height',windowHeight-40);
+	
+	<{if !empty($order) }>
+		<{if $order['shoptype'] == 100 && $order['psstatus'] > 0 && $order['status'] !=3   }>
+			<{if $order['psstatus'] < 3}> //  取货/购买以前
+				<{if $order['pttype'] == 2 }> //帮我买
+				    <{if $order['shopaddress'] == '就近购买' }>
+						<{if !empty($order['shoplat'])  && !empty($order['shoplng']) && $order['shoplng'] != '0.000000' && $order['shoplat'] != '0.000000' }>
+							var buyerlnglat = [];
+							buyerlnglat.push(<{$order['shoplng']}>);
+							buyerlnglat.push(<{$order['shoplat']}>);
+							var shopmarker = new AMap.Marker({
+									icon : '<{$siteurl}>/upload/map/order_dw.png',//32px*32px
+									position : buyerlnglat,
+									offset : new AMap.Pixel(-16,-20),
+									map : mapObj
+							});  
+						<{/if}>
+				    <{else}>
+						<{if !empty($order['buyerlat'])  && !empty($order['buyerlng']) && $order['buyerlat'] != '0.000000' && $order['buyerlng'] != '0.000000' }>
+							var buyerlnglat = [];
+							buyerlnglat.push(<{$order['buyerlng']}>);
+							buyerlnglat.push(<{$order['buyerlat']}>);
+							var usermarker = new AMap.Marker({
+									icon : '<{$siteurl}>/upload/map/order_sjwz.png',//32px*32px
+									position : buyerlnglat,
+									offset : new AMap.Pixel(-16,-16),
+									map : mapObj
+							});
+						<{/if}>
+					<{/if}>
+				<{else}>
+					<{if !empty($order['buyerlat'])  && !empty($order['buyerlng']) && $order['buyerlat'] != '0.000000' && $order['buyerlng'] != '0.000000' }>
+						var buyerlnglat = [];
+						buyerlnglat.push(<{$order['buyerlng']}>);
+						buyerlnglat.push(<{$order['buyerlat']}>);
+						var usermarker = new AMap.Marker({
+								icon : '<{$siteurl}>/upload/map/order_sjwz.png',//32px*32px
+								position : buyerlnglat,
+								offset : new AMap.Pixel(-16,-16),
+								map : mapObj
+						});
+					<{/if}>
+				<{/if}>				
+			<{else}>//取货/购买之后
+                <{if !empty($order['shoplat'])  && !empty($order['shoplng']) && $order['shoplng'] != '0.000000' && $order['shoplat'] != '0.000000' }>
+					var buyerlnglat = [];
+					buyerlnglat.push(<{$order['shoplng']}>);
+					buyerlnglat.push(<{$order['shoplat']}>);
+					var shopmarker = new AMap.Marker({
+							icon : '<{$siteurl}>/upload/map/order_dw.png',//32px*32px
+							position : buyerlnglat,
+							offset : new AMap.Pixel(-16,-20),
+							map : mapObj
+					});  
+				<{/if}>
+			<{/if}> 
+		<{else}>
+		    <{if !empty($order['shoplat'])  && !empty($order['shoplng']) && $order['psstatus'] < 3  }>
+				var buyerlnglat = [];
+				buyerlnglat.push(<{$order['shoplng']}>);
+				buyerlnglat.push(<{$order['shoplat']}>);
+				var usermarker = new AMap.Marker({
+						icon : '<{$siteurl}>/upload/map/order_sjwz.png',//32px*32px
+						position : buyerlnglat,
+						offset : new AMap.Pixel(-16,-16),
+						map : mapObj
+				});
+			<{/if}>
+			<{if !empty($order['buyerlat'])  && !empty($order['buyerlng']) && $order['psstatus'] > 2}>
+				var buyerlnglat = [];
+				buyerlnglat.push(<{$order['buyerlng']}>);
+				buyerlnglat.push(<{$order['buyerlat']}>);
+				var shopmarker = new AMap.Marker({
+						icon : '<{$siteurl}>/upload/map/order_dw.png',//32px*32px
+						position : buyerlnglat,
+						offset : new AMap.Pixel(-16,-20),
+						map : mapObj
+				});  
+			<{/if}>
+		<{/if}>
+		
+	<{/if}>
+	// mapObj.setFitView();
+	showroutemap();
+});
+    
+
+$('#order_sx').bind('click',function(){
+	mapObj.remove(psymarker);  
+	//mapObj.remove(polyline);  
+	showroutemap();
+});
+
+function showroutemap(){
+	var url = siteurl+'/index.php?ctrl=wxsite&action=ajaxroutemapshow&id=<{$order['id']}>&datatype=json&random=@random@';   
+ 	        $.ajax({ 
+           dataType: "json",  
+           url: url.replace('@random@', 1+Math.round(Math.random()*1000)),  
+           success: function(content) {    
+           	 if(content.error == false) 
+          	{  
+          		 console.log(content);
+				 var orderinfo = content.msg.order;
+				 if( content.msg.psbpsyinfo != ''  ){
+				 if(  content.msg.psbpsyinfo.posilnglat != ''  ){
+					 var posilnglatarr = content.msg.psbpsyinfo.posilnglatarr;
+					 if( posilnglatarr.length == 2 ){
+						var psylnglat = [];
+						psylnglat.push(posilnglatarr[0]);
+						psylnglat.push(posilnglatarr[1]);
+						psymarker = new AMap.Marker({
+							icon : '<{$siteurl}>/upload/map/psylocation_icon.png',//32px*32px
+							position : psylnglat,
+							offset : new AMap.Pixel(-16,-16),
+							map : mapObj
+						});
+					 }
+				  
+					if(orderinfo.shoptype == 100 && orderinfo.psstatus > 0 && orderinfo.status !=3){
+						if(orderinfo.psstatus < 3){ //  取货/购买以前
+							if(orderinfo.pttype == 2){ //帮我买
+								if(orderinfo.shopaddress == '就近购买'){
+									if(orderinfo.shoplat != ''  &&  orderinfo.shoplng != '' && orderinfo.shoplng != '0.000000' && orderinfo.shoplat != '0.000000'){
+										directionReq( orderinfo.shoplng,orderinfo.shoplat,posilnglatarr[0],posilnglatarr[1]  );//规划路线
+									}
+								}else{
+									if(orderinfo.buyerlat != ''  &&  orderinfo.buyerlng != '' && $orderinfo.buyerlat != '0.000000' && orderinfo.buyerlng != '0.000000'){
+										directionReq( orderinfo.buyerlng,orderinfo.buyerlat,posilnglatarr[0],posilnglatarr[1]  );//规划路线 
+									}
+								}
+							}else{
+								if(orderinfo.buyerlat != ''  &&  orderinfo.buyerlng != '' && orderinfo.buyerlat != '0.000000' && orderinfo.buyerlng != '0.000000'){
+									directionReq( orderinfo.buyerlng,orderinfo.buyerlat,posilnglatarr[0],posilnglatarr[1]  );//规划路线  
+								}
+							}			
+						}else{//取货/购买之后
+							if(orderinfo.shoplng != ''  && orderinfo.shoplng != '' && orderinfo.shoplng != '0.000000' && orderinfo.shoplat != '0.000000' ){
+								directionReq( orderinfo.shoplng,orderinfo.shoplat,posilnglatarr[0],posilnglatarr[1]  );//规划路线  
+							}
+						}
+					}else{
+						if(orderinfo.shoplat != ''  &&  orderinfo.shoplng != '' && orderinfo.psstatus < 3){
+							directionReq( orderinfo.shoplng,orderinfo.shoplat,posilnglatarr[0],posilnglatarr[1]  );//规划路线
+						}
+						if(orderinfo.buyerlat != ''  &&  orderinfo.buyerlng != '' && orderinfo.psstatus > 2){
+							directionReq( orderinfo.buyerlng,orderinfo.buyerlat,posilnglatarr[0],posilnglatarr[1]  );//规划路线  
+						}
+					}
+  
+					mapObj.setFitView();
+				}
+				}
+          	}else{ 
+					Tmsg(content.msg);
+           	}  
+          	 
+	         }, 
+           error: function(content) {  
+             	Tmsg('提交数据失败');
+ 	         }
+       
+         });
+	
+	
+	
+}
+
+
+//driving汽车路径（起点，终点）  riding 骑行
+function directionReq(buyerlng,buyerlat,psylng,psylat){
+					
+	var requestlink = 'http://restapi.amap.com/v3/direction/driving?origin='+buyerlng+','+buyerlat+'&destination='+psylng+','+psylat+'&extensions=all&output=json&key='+map_webservice_key+'&callback=makemapmoreline';
+    $.getScript(requestlink); 
+}
+
+function makemapline(buyerlng,buyerlat,psylng,psylat){
+		var originarr = [];  
+		var destinationarr = [];  
+		
+		originarr.push(buyerlng);
+		originarr.push(buyerlat);
+		
+		destinationarr.push(psylng);
+		destinationarr.push(psylat);
+		var combination =  new Array();
+		combination.push(originarr);
+		combination.push(destinationarr);
+		polyline = new AMap.Polyline({
+			path: combination,          //设置线覆盖物路径
+			strokeColor: '#1e96e9', //线颜色
+			strokeOpacity: 1,       //线透明度
+			strokeWeight: 2,        //线宽
+			strokeStyle: "dashed",   //线样式
+			strokeDasharray: [10, 5] //补充线样式
+		});
+		polyline.setMap(mapObj);
+}
+
+//在地图中画路线(规划路线)
+function makemapmoreline(datas){
+	 console.log(datas);
+	if( datas.status == 1 && datas.info == 'OK' ){
+
+		var origin = datas.route.origin;  
+		var destination = datas.route.destination;  
+		//店铺
+		var originlnglatarr = origin.split(',');
+		var originarr = new Array(); 
+		originarr.push(originlnglatarr[0]);
+		originarr.push(originlnglatarr[1]); 
+		//配送员
+		var destinationlnglatarr = destination.split(',');
+		var destinationarr = new Array(); 
+		destinationarr.push(destinationlnglatarr[0]);
+		destinationarr.push(destinationlnglatarr[1]);
+		
+		//画店铺到配送员路线
+		var stepsarr = datas.route.paths[0].steps;
+			var combination =  new Array();
+			combination.push(originarr);
+			for(i=0;i<stepsarr.length;i++){
+				var polylinearr = [];
+				var tempolyline = stepsarr[i].polyline;
+				var polylinearr = tempolyline.split(";");
+				
+				for(j=0;j<1;j++){
+					var arr =   new Array();;
+					var rr = polylinearr[j];
+					var aaa = rr.split(",");
+					arr.push(aaa[0]);
+					arr.push(aaa[1]);
+					combination.push(arr);
+					 
+				}
+			}  
+		combination.push(destinationarr);
+		polyline = new AMap.Polyline({
+			path: combination,          //设置线覆盖物路径
+			strokeColor: '#1e96e9', //线颜色
+			strokeOpacity: 1,       //线透明度
+			strokeWeight: 2,        //线宽
+			strokeStyle: "solid",   //线样式
+			strokeDasharray: [10, 5] //补充线样式
+		});
+		polyline.setMap(mapObj);
+			
+		}
+	}
+	
+ 
+</script>
+<{/block}>

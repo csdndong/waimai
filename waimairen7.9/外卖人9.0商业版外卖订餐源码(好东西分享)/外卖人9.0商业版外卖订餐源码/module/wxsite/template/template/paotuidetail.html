@@ -1,0 +1,542 @@
+<{extends file="<{$tempdir}>/public/wxsite.html"}>
+<{block name=extendcss}>
+<link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/order.css">
+<link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/ordershow.css">
+<style>
+.statusline{position:absolute; bottom: -60px;width: 2px;border-radius: 0px; height: 100%;background: #ccc;left: 17px;}
+</style>
+<{/block}>
+<{block name=extendjs}>
+<{if empty($order)}>
+<script>
+    $(function(){
+
+        error($('#supplierlist'),'未获取到订单');
+    });
+</script>
+<{/if}>
+<{/block}>
+<{block name=myScrolljs}>
+<script>
+
+    var myScroll;
+    function loaded() {
+        myScroll = new iScroll('wrapper', {
+            useTransform: false,
+            onBeforeScrollStart: function (e) {
+                var target = e.target;
+                while (target.nodeType != 1) target = target.parentNode;
+
+                if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA')
+                    e.preventDefault();
+            }
+        });
+    }
+    document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
+    document.addEventListener('DOMContentLoaded', function () { setTimeout(loaded, 200); }, false);
+</script>
+<script src="<{$map_comment_link}>webapi.amap.com/maps?v=1.3&key=<{$map_javascript_key}>"></script>
+<script>
+    function showorderdetail(){
+
+        $("#showorderstatus").removeClass('ainregaA');
+        $("#showorderdetail").addClass('ainregaA');
+        $("#fis_elm__5").hide();
+        $("#fis_elm__4").show();
+        myScroll.refresh();
+    }
+    function showorderstatus(){
+
+        $("#showorderdetail").removeClass('ainregaA');
+        $("#showorderstatus").addClass('ainregaA');
+
+        $("#fis_elm__5").show();
+        $("#fis_elm__4").hide();
+        myScroll.refresh();
+    }
+</script>
+<{/block}>
+<{block name=sitetitle}><{$sitename}><{/block}>
+<{block name=hearnav}>
+<div class="toptitCon">
+    <div class="toptitBox">
+        <div class="toptitL"><i></i></div>
+        <div class="toptitC"><h3>跑腿订单</h3></div>
+        <div class="toptitR"  onclick="dolink('<{ofunc type=url link="/wxsite/index"}>');" ><h3><img style="width: 25px;
+    top: 7px;
+    position: absolute;
+    right: 10px;" src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/jinruindexBg.png" /></h3></div> </div>
+</div>
+<{/block}>
+<{block name=footer}><{/block}>
+<{block name=blockcontent}>
+<style>
+    .page-app{ background:#f0f0f0;}
+    body{background:#f0f0f0;}
+</style>
+
+
+<div id="fis_elm__3" style="position:fixed;z-index:99999999999; top:40px;" >
+
+
+
+
+    <!--订单链接-->
+    <div class="signinregistertit">
+        <ul>
+            <li id="showorderstatus" onclick="showorderstatus();" class="ainregaA" >订单状态</li>
+            <li   id="showorderdetail"  onclick="showorderdetail();" >订单详情</li>
+        </ul>
+    </div>
+
+
+</div>
+
+
+<div id="wrapper" style="top:85px;bottom:0px; ">
+    <div id="scroller">
+
+        <!--订单列表-->
+
+        <div id="fis_elm__4" style="display:none;">
+
+            <!--订单列表-->
+            <div class="orderdishes">
+                <div class="orderdishestit"><i class="shopicon"></i>跑腿【<{if  $order['pttype']==2}>帮我买<{else}>帮我送<{/if}>】</div>
+                <div class="orderdishesmain">
+                    <{foreach from=$orderdet item=items}>
+                    <ul>
+                        <li class="ordfontele"><{$items['goodsname']}></li>
+                        <li><b>x<{$items['goodscount']}></b></li>
+                        <li>￥<{$items['goodscost']}></li>
+                    </ul>
+                    <{/foreach}>	
+                    <ul>
+                        <li class="ordfontele">订单实价</li>
+                        <li>&nbsp;</li>
+                        <li><span>￥<{$order['allcost']}></span></li>
+                    </ul>
+                </div>
+            </div>
+            <!--订单详情-->
+            <div class="orderdishes">
+                <div class="orderdishestit"><i class="detaicon"></i>订单详情</div>
+ 
+                <div class="orderdetailsmain">
+                    <ul>
+                        <li><b>订单号&nbsp;&nbsp;&nbsp;：</b><span><{$order['dno']}></span></li>
+                        <li><b>下单时间：</b><span><{$order['addtime']}></span></li>
+                        <li><b>支付方式：</b><span>
+						<{if $order['paytype'] == 0 }>
+						货到支付<{if $order['paystatus'] == 0 }>（未付）<{else}>（已付）<{/if}>
+						<{/if}>
+						<{if $order['paytype'] == 1 }>
+							<{if $order['paytype_name'] == '' }>
+							     在线支付
+							<{else}>
+								<{if $order['paytype_name'] == 'open_acout' }>余额支付<{/if}>
+								<{if $order['paytype_name'] == 'weixin' }>微信支付<{/if}>
+								<{if $order['paytype_name'] == 'alipay' ||  $order['paytype_name'] == 'alimobile' }>支付宝支付<{/if}>
+								<{if $order['paystatus'] == 1 }>(已付）<{else}>(未付）<{/if}>
+							<{/if}>
+						<{/if}>
+ 	                    </span></li>
+
+                        <li><b>联系人&nbsp;&nbsp;&nbsp;：</b><span><{$order['buyername']}></span></li>
+                        <li><b>手机号码：</b><span><{$order['buyerphone']}></span></li>   
+                        <{if $order['pttype']==1 }><li><b>取货地址：</b><span><{$order['shopaddress']}></span></li><{/if}>
+                        <li><b>收货地址：</b><span><{$order['buyeraddress']}></span></li>
+						<li><b>配送服务：</b><span>本订单由<{if $order['shoptype'] == 100 }><{$sitename}><{/if}>提供配送服务</span></li>
+                        <{if $order['content']  != '' }>
+                        <li><b>备注&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;：</b><span><{$order['content']}></span></li>
+                        <{/if}>
+                         
+
+                    </ul>
+                </div>
+            </div>
+</div>
+
+
+
+
+
+<!-- 订单状态 -->
+<div id="fis_elm__5" style="margin-bottom:53px;"><div id="order-widget-orderhistory" class="order-widget-orderhistory">
+    <div class="relative-wrapper">
+ 
+        <{foreach from=$orderwuliustatus key=key  item=items name=wuliuindex}>
+        <div class="item">
+            <div class="status-icon">
+			<span class="myline -mark">
+				<{if ($smarty.foreach.wuliuindex.first eq 1)}>
+					<{if $color=='green'}>
+						<img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/ordershow1.png">
+					<{elseif $color=='yellow'}>
+						<img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/ordershow2.png">
+					<{else}>
+						<img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/order_status_bg.png">
+					<{/if}>
+                <{else}>
+				        <img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/oldordershow.png">
+				<{/if}>
+			</span>
+                <{if !($smarty.foreach.wuliuindex.last eq 1)}><div class="statusline"></div><{/if}>
+            </div>
+            <div class="status-card">
+                <div class="card-arrow"></div>
+                <div class="card-content">
+                    <p class="big"><{$items['statustitle']}>
+                        <span><{$items['addtime']|date_format:"%m月 %d日 %H:%M"}></span>
+                    </p>
+                    <p class="small">
+
+                        <{if $items['statustitle']  == '配送员已抢单' ||  $items['statustitle']  == '配送员已接单' }>
+                            <{if !empty($order['psemail']) }>
+                                 <{if $order['pttype'] ==2 }>
+                                 正前往购买地，配送员电话：<a style="color:#368ed9;" href="tel:<{$order['psemail']}>" ><{$order['psemail']}></a>
+                                <{else}>
+                                 正前往取货地，配送员电话：<a style="color:#368ed9;" href="tel:<{$order['psemail']}>" ><{$order['psemail']}></a>
+                                <{/if}>
+                             <{else}>
+                                 <{$items['ststusdesc']}>
+                            <{/if}>
+                        <{else if  $items['statustitle']== '配送员已接指派订单'}>
+							<{if !empty($order['psemail']) }>	 
+								<{$order['psusername']}>接单成功，联系电话：<a style="color:#368ed9;" href="tel:<{$order['psemail']}>" ><{$order['psemail']}></a>
+						    <{else}>							
+                                <{$items['ststusdesc']}>
+							<{/if}>
+						<{else}>
+						    <{$items['ststusdesc']}>
+                        <{/if}>
+                    </p>
+                </div>
+
+                <{if $order['psuid'] > 0 &&  $order['status'] !=3  &&  ( ($items['statustitle'] == '配送员已接单' && $order['psstatus'] == 1  ) || (($items['statustitle'] == '配送员已取货' || $items['statustitle'] == '配送员已购买') &&  $order['psstatus'] == 3) )}>
+                <{if !empty($psbpsyinfo) &&  !empty($psbpsyinfo['posilnglat']) }>
+                <div  onclick="dolink('<{ofunc type=url link="/wxsite/routemapshow/id/<{$order['id']}>"}>');"   style="padding:0px 10px 10px; height:90px; background:#FFF;"  >
+                <div style=" width:100%;height:100%;" id="routeMap" >
+
+                </div>
+            </div>
+            <script>
+
+                var mapObj = new AMap.Map('routeMap', {
+                    resizeEnable: true,
+                    zoom:14,
+                    center: [<{$psbpsyinfo['posilnglat']}>],
+                zoomEnable:false,
+                        dragEnable: false
+                });
+                var marker = new AMap.Marker({
+                    icon : '<{$siteurl}>/upload/map/psylocation_icon.png',//32px*32px
+                    position : [<{$psbpsyinfo['posilnglat']}>],
+                offset : new AMap.Pixel(-16,-16),
+                        map : mapObj
+                });
+               
+            </script>
+			 <{/if}>
+            <{/if}>
+
+
+        </div>
+    </div>
+    <{/foreach}>
+<style>
+.right-btn input{height: 30px;padding: 0px 8px;font-size: 14px;border-radius: 5px;line-height: 30px;}
+.ospub{background-color: #fff;border: 1px solid #ccc;}	
+.osone{background-color: #ff6e6e;color: #fff;border: none;}
+.ostwo{background-color: #fff;color: #ff6e6e;border: 1px solid #ff6e6e;}	
+</style>    
+
+
+</div>
+</div>
+</div>
+<div class="time-btm" style='z-index:200;height:45px;position:fixed;width:100%;bottom:0px;background-color: #fff;line-height: 45px;'> 
+	<div class="right-btn">
+		<div class="title none" style='float:right;padding-right: 10px;' >
+		<!--再来一单   无条件存在--> 
+		<input class='ospub' onclick="dolink('<{ofunc type=url link="/wxsite/paotui"}>');" value='再来一单' type='button'>
+		 
+		<!--取消订单-->  
+		<{if $order['status'] < 3 && $order['is_reback'] == 0 }> 						
+			<{if $order['psstatus'] == 0}>
+				 <!--未抢单的在线支付未付的可以直接取消-->  
+				 <{if ( $order['paytype'] == 1 && $order['paystatus'] == 0  ) || $order['paytype'] == 0  }>	 
+					<input class='ospub' onclick="unorder();" value='取消订单' type='button'>
+				 <{/if}><!--未抢单的在线支付已付的跳到申请退款页面-->  
+				 <{if $order['paytype'] == 1 && $order['paystatus'] == 1 }>	 
+					<input class='ospub' onclick="dolink('<{ofunc type=url link="/wxsite/drawback/orderid/<{$order['id']}>"}>');" value='取消订单' type='button'>
+				 <{/if}> 
+			<{else}>
+				<{if $order['paytype'] == 1 && $order['paystatus'] == 1 }>	 
+					<input class='ospub' onclick="subreback(<{$order['psstatus']}>);" value='申请退款' type='button'>					 
+				<{/if}>
+
+			
+			<{/if}>
+							
+		<{/if}>  
+		<!--立即支付  在线支付未付订单-->
+		<{if $order['paystatus'] == 0 && $order['status'] < 3}>
+		   <input class='osone' onclick="dolink('<{ofunc type=url link="/wxsite/subshow/orderid/<{$order['id']}>"}>');" value='立即支付' type='button'>
+		<{/if}>
+		
+		<!--退款详情  涉及退款的订单--> 
+		<{if $order['is_reback'] > 0}>
+		   <input class='osone' onclick="dolink('<{ofunc type=url link="/wxsite/drawbacklog/orderid/<{$order['id']}>"}>');" value='退款详情' type='button'>				    
+		<{/if}>
+        <!--评价订单  已完成未评价的订单-->
+		<{if $order['is_ping'] == 0 && $order['status'] == 3}>
+		   <input class='osone' onclick="dolink('<{ofunc type=url link="/wxsite/commentorder/orderid/<{$order['id']}>"}>');" value='评价订单' type='button'>				    
+		<{/if}>
+		</div>
+	</div>
+</div> 
+<style>
+p{padding:0px; margin:0px;}
+.zhezhao{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 200%;
+    background-color: rgba(51, 51, 51, 0.6);
+    z-index: 999999999999;
+	display:none; 
+}
+.wdow{
+    width: 80%;
+    background-color: #fff;
+    height: 135px;
+    border-radius: 5px;
+    margin: 60% auto;
+	}
+.tishi{
+    width: 100%;
+    height: 94px;
+    border-bottom: 1px solid #f0f0f0;	 
+}
+.tstext{
+    padding: 20px;
+    line-height: 30px;
+}
+.deletebtn div{
+    display:inline-block;
+	text-align:center;
+	width:48.5%;
+	height:40px;
+	line-height:40px;
+	font-size: 14px;
+}
+.nobtn{
+    border-right: 1px solid #f0f0f0;	
+}
+.p1{ 
+    text-align: center;    
+	line-height: 48px;
+    font-weight: bold;
+}
+.p2{
+    text-align: center;
+    padding: 0 8px;
+    font-size: 14px;
+}
+</style>
+<div class='zhezhao'>
+	<div class='wdow'>
+		<div class='tishi'>
+		    <p class='p1'>提示</p>
+			<p class='p2'></p>
+		</div>
+		<div class='deletebtn' data=''>
+		    <div class='nobtn'>取消</div>
+		    <a href="tel:<{$litel}>">
+			    <div class='yesbtn' style='color:#ff6e6e'>联系客服</div>
+			</a>
+		</div>
+	</div> 
+</div> 
+<input id='noworder' type='hidden' value=''>
+<script>
+function subreback(status){
+    if(status < 3){
+        $('.p2').text('配送员已接单，请联系平台客服处理');
+    }else{
+        $('.p2').text('配送员已取货，请联系平台客服处理');
+    }
+    $('.zhezhao').show();
+}
+$('.nobtn').bind('click',function(){
+   $('.zhezhao').hide();
+   orderid = $('#noworder').val();
+   $('#order_'+orderid).attr('onclick','showorderdet('+orderid+')')
+})
+</script>
+<script>
+    $(".liststyle1 li:even").addClass("tabEven");
+    function unorder(){
+        if(confirm('确认取消订单')){
+            showLoading();
+            var url = siteurl+'/index.php?ctrl=order&action=userunorder&orderid=<{$order['id']}>&datatype=json&random=@random@';
+            $.ajax({
+                dataType: "json",
+                url: url.replace('@random@', 1+Math.round(Math.random()*1000)),
+                success: function(content) {
+                    if(content.error == false)
+                    {
+                        $('#orderstatus').text('已关闭');
+                        $('.cart_gojs').remove();
+                        newhideLoading();
+                        window.location.reload();
+
+                    }else{
+                        Tmsg(content.msg);
+                        newhideLoading();
+                    }
+
+                },
+                error: function(content) {
+                    Tmsg('提交数据失败');
+                   newhideLoading();
+                }
+
+            });
+        }
+        return false;
+    }
+    function acceptorder(){
+        if(confirm('确认收货？')){
+            showLoading();
+            var url = siteurl+'/index.php?ctrl=order&action=acceptorder&orderid=<{$order['id']}>&datatype=json&random=@random@';
+            $.ajax({
+                dataType: "json",
+                url: url.replace('@random@', 1+Math.round(Math.random()*1000)),
+                success: function(content) {
+                    if(content.error == false)
+                    {
+                        $('#orderstatus').text('已关闭');
+                        $('.cart_gojs').remove();
+                        newhideLoading();
+                        window.location.reload();
+
+                    }else{
+                        Tmsg(content.msg);
+                        newhideLoading();
+                    }
+
+                },
+                error: function(content) {
+                    Tmsg('提交数据失败');
+                    newhideLoading();
+                }
+
+            });
+        }
+        return false;
+    }
+    function pingorder(){
+        window.location.href=siteurl+'/index.php?ctrl=wxsite&action=commentorder&orderid=<{$order['id']}>';  //'ordershow.html?orderid='+$(obj).attr('orderid');//  	alert($(obj).attr('orderid'));
+    }
+	function orderhide(){ 
+	 if(<{$order['status']}> == 3 || (<{$order['status']}> > 3 && <{$order['is_reback']}> !=1 && <{$order['is_reback']}> !=4)){//已完成订单，退款成功或者正常订单可删除
+		  if(confirm('订单删除后将不可恢复，是否删除此订单？')){			 
+			showLoading();
+			$.ajax({
+			url:'<{ofunc type=url link="/wxsite/orderhide/datatype/json"}>',
+			data:{orderid:<{$order['id']}>},
+			dataType: 'json',
+			success:function (data, status){	  		 
+				if(data.error == false){
+					Tmsg('订单删除成功');
+					newhideLoading();
+					if(<{$order['shoptype']}> == 100){
+					     window.location.href=siteurl+'/index.php?ctrl=wxsite&action=ptorder';	
+					}else{
+					     window.location.href=siteurl+'/index.php?ctrl=wxsite&action=order';	
+					}
+                    				
+				}else{
+					newhideLoading();
+					Tmsg(data.msg);		
+				}			
+			},
+			error: function (data, status){
+				newhideLoading();
+				Tmsg('删除失败');
+			  }
+		  });	 
+		} 
+    }else{
+	    Tmsg('订单状态不可删除');
+		return false;
+	}
+	   
+}
+</script>
+
+
+</div>
+</div>
+</div>
+
+<{if $sendjuanstatus  == 1  && !empty($juaninfo)  && $WeChatType == 1 }>
+<{if  $order['paytype'] == 0 || ( $order['paytype'] == 1 && $order['paystatus'] == 1 )   }>
+
+
+
+<div  onclick="clickshare();"  style="position:fixed;bottom:83px;z-index:999999999999999; right:20px;">
+    <img <{ofunc type=img  link="/upload/images/wmr_shareredbag.png"}> style="width:50px; height:50px;" />
+</div>
+
+
+
+<div id="zhezhao2" class="zhezhao2"  onclick="zhezhao2();" ></div>
+<div id="zhehzuoshareimg">
+
+    <img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/clicksharebg.png" style="width:50px;height:50px;" />
+</div>
+<style>
+    #zhehzuoshareimg img {width:150px; }
+    #zhehzuoshareimg{
+        position: absolute;z-index: 99999999999999999999;top:5px; right:25px; display:none;
+    }
+    .zhezhao2 {
+        display:none;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 99999999999999999999;
+        width:100%;
+        height:100%;
+        background-color: #000;
+        opacity: 0.5;
+        filter: alpha(opacity=50);
+    }
+</style>
+
+ <script>
+    function clickshare(){
+        $("#zhezhao2").show();
+        $("#zhehzuoshareimg").show();
+    }
+    function zhezhao2(){
+        $("#zhezhao2").hide();
+        $("#zhehzuoshareimg").hide();
+    } 
+      
+</script>
+   
+ <{/if}>  
+ <{/if}>  
+        
+<{/block}>
+<{block name=sharetitle}><{$shareinfo['title']}><{/block}> 
+<{block name=sharedesc}><{$shareinfo['describe']|default:''}><{/block}>
+<{block name=shareimg}><{$siteurl}><{$shareinfo['img']}><{/block}>
+<{block name=sharelink}><{ofunc type=url link="/wxsite/sharehb/did/<{$order['id']}>"}><{/block}>

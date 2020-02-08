@@ -1,0 +1,110 @@
+{itemplate 'public/header'}
+<div class="page clearfix">
+	<form class="form-horizontal form form-validate" id="form1" action="" method="post" enctype="multipart/form-data" style="max-width: 950px;">
+		<div class="tab-content">
+			<div class="tab-pane active">
+				<h3>基础设置</h3>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">新帖子是否需要审核</label>
+					<div class="col-sm-9 col-xs-9 col-md-9">
+						<div class="radio radio-inline">
+							<input type="radio" name="new" value="1" id="new-status-1" {if $tongcheng['audit']['new'] == 1}checked{/if}>
+							<label for="new-status-1">是</label>
+						</div>
+						<div class="radio radio-inline">
+							<input type="radio" name="new" value="0" id="new-status-0" {if $tongcheng['audit']['new'] == 0}checked{/if}>
+							<label for="new-status-0">否</label>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">编辑帖子后帖子审核状态</label>
+					<div class="col-sm-9 col-xs-9 col-md-9">
+						<div class="radio radio-inline">
+							<input type="radio" name="edit" value="0" id="edit-status-0" {if $tongcheng['audit']['edit'] == 0}checked{/if}>
+							<label for="edit-status-0">保持不变</label>
+						</div>
+						<div class="radio radio-inline">
+							<input type="radio" name="edit" value="1" id="edit-status-1" {if $tongcheng['audit']['edit'] == 1}checked{/if}>
+							<label for="edit-status-1">审核通过</label>
+						</div>
+						<div class="radio radio-inline">
+							<input type="radio" name="edit" value="2" id="edit-status-2" {if $tongcheng['audit']['edit'] == 2}checked{/if}>
+							<label for="edit-status-2">待审核</label>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">置顶数量</label>
+					<div class="col-sm-9 col-xs-12">
+						<div class="input-group">
+							<input type="number" class="form-control" name="stick_num" value="{$tongcheng['stick_num']}">
+							<span class="input-group-addon">个</span>
+						</div>
+						<div class="help-block">
+							置顶帖子的数量，不填则无限制。
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">个人发帖总数量</label>
+					<div class="col-sm-9 col-xs-12">
+						<div class="input-group">
+							<input type="number" class="form-control" name="total_num" value="{$tongcheng['limit_num']['total_num']}">
+							<span class="input-group-addon">个</span>
+						</div>
+						<div class="help-block">
+							个人发帖的总数量，不填则无限制。
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">个人每日发帖数</label>
+					<div class="col-sm-9 col-xs-12">
+						<div class="input-group">
+							<input type="number" class="form-control" name="day_num" value="{$tongcheng['limit_num']['day_num']}">
+							<span class="input-group-addon">个</span>
+						</div>
+						<div class="help-block">
+							单日个人发帖的限制数量，不填则无限制。
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">虚拟数据</label>
+					<div class="col-sm-9 col-xs-12">
+						<div class="input-group help-item">
+							<div class="input-group-addon">浏览</div>
+							<input type="number" class="form-control" name="falselooknum" value="{$tongcheng['falselooknum']}">
+							<div class="input-group-addon">发布</div>
+							<input type="number" class="form-control" name="falsefabunum" value="{$tongcheng['falsefabunum']}">
+							<div class="input-group-addon">点赞</div>
+							<input type="number" class="form-control" name="falselikenum" value="{$tongcheng['falselikenum']}">
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">浏览增量</label>
+					<div class="col-sm-9 col-xs-12">
+						<div class="input-group help-item">
+							<div class="input-group-addon">最小</div>
+							<input type="number" class="form-control" name="minup" value="{$tongcheng['minup']}">
+							<div class="input-group-addon">最大</div>
+							<input type="number" class="form-control" name="maxup" value="{$tongcheng['maxup']}">
+						</div>
+						<div class="help-block">
+							每次进入同城页面增加的浏览量，在最大与最小值之间随机增加。注意：下拉刷新页面并不会增加浏览量
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-9 col-xs-9 col-md-9">
+					<input type="hidden" name="token" value="{$_W['token']}">
+					<input type="submit" value="提交" class="btn btn-primary">
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+{itemplate 'public/footer'}

@@ -1,0 +1,180 @@
+<include src="/zh_cjdianc/pages/commons/navbar/navbar.wxml"></include>
+<view bindtap="yczz" class="sq_screen" wx:if="{{hydl}}"></view>
+<view class="sq_box" wx:if="{{hydl}}">
+    <view class="sq_title">需要您的授权</view>
+    <view class="sq_title1">为了提供更好的服务</view>
+    <view class="sq_title1">请在稍后的提示框中点击“允许”</view>
+    <image src="../../img/sqimg.png"></image>
+    <button bindgetuserinfo="bindGetUserInfo" class="btn_ok" openType="getUserInfo" style="color:#fff;background:{{color}}">我知道了</button>
+</view>
+<view class="container">
+    <view class="font">
+        <view class="logs_header" style="background:{{color}}">
+            <view class="logs_img" wx:if="{{userInfo.ishy=='1'&&system.hygn=='1'&&system.is_hy=='1'}}">
+                <image class="logs_imgs" src="{{avatarUrl}}"></image>
+                <image class="huanggimg" mode="aspectFit" src="../../img/personal/huang.png"></image>
+                <view class="logs_name">
+                    <view class="logs_name1 flex-row flex-y-center">
+                        <view>{{userInfo.user_name}}</view>
+                        <view class="cjhy flex-row flex-y-center">
+                            <image mode="aspectFit" src="../../img/personal/huangg.png"></image>
+                            <view>超级会员</view>
+                        </view>
+                    </view>
+                    <view class="logs_user">
+                        <image class="logs_tubiao" src="../../img/personal/shouji.png"></image>
+                        <view class="logs_tel">{{userInfo.user_tel}}</view>
+                    </view>
+                </view>
+            </view>
+            <view class="logs_img" wx:else>
+                <image class="logs_imgs" src="{{avatarUrl}}"></image>
+                <view class="logs_name">
+                    <view class="logs_name1">{{nickName}}</view>
+                </view>
+            </view>
+            <image bindtap="tzhy" class="blackjt" src="../../img/jiantou.png" wx:if="{{system.hygn=='1'&&system.is_hy=='1'}}"></image>
+        </view>
+        <view class="logs_content">
+            <view bindtap="wallet" class="content_left">
+                <view class="content_left1">
+                    <text class="content_font">{{userInfo.wallet}}</text>
+                    <text class="content_coll">元</text>
+                </view>
+                <view class="content_integral">钱包</view>
+            </view>
+            <view bindtap="wdyhq" class="content_left">
+                <view class="content_middle">
+                    <text class="content_font">{{yhnum}}</text>
+                    <text class="content_coll">个</text>
+                </view>
+                <view class="content_integral">优惠</view>
+            </view>
+            <view bindtap="integral" class="content_left">
+                <view class="content_right">
+                    <text class="content_font">{{userInfo.total_score}}</text>
+                    <text class="content_coll">分</text>
+                </view>
+                <view class="content_integral">积分</view>
+            </view>
+        </view>
+        <official-account></official-account>
+        <view class="banner" wx:if="{{lblist.length!=0}}">
+            <view class="swiper-container">
+                <swiper autoplay="true" circular="true" class="swiper" duration="500" indicatorDots="{{lblist.length>1}}" interval="5000">
+                    <swiper-item data-index="{{index}}" wx:for="{{lblist}}" wx:key="unique">
+                        <image bindtap="jumps" class="img" data-appid="{{item.appid}}" data-id="{{item.id}}" data-name="{{item.title}}" data-src="{{item.src}}" data-type="{{item.item}}" data-wb_src="{{item.src2}}" src="{{item.logo}}"></image>
+                    </swiper-item>
+                </swiper>
+            </view>
+        </view>
+        <ad unitId="{{item.src}}" wx:for="{{dbllz}}"></ad>
+        <view class="logs_seller" wx:if="{{system.model=='1'}}">
+            <view bindtap="wdsc" class="logs_center" style="border:none;">
+                <view class="logs_centerimg">
+                    <image class="center_map" mode="aspectFit" src="../../img/wdsc.png"></image>
+                    <view>我的收藏</view>
+                </view>
+                <image class="center_img" src="../../img/blackjt.png"></image>
+            </view>
+        </view>
+        <view class="logs_order">
+            <view bindtap="wddz" class="logs_center">
+                <view class="logs_centerimg">
+                    <image class="center_map" mode="aspectFit" src="../../img/personal/dizhi.png"></image>
+                    <view>收货地址</view>
+                </view>
+                <image class="center_img" src="../../img/blackjt.png"></image>
+            </view>
+            <navigator class="logs_center" url="../qd/qd" wx:if="{{qdset[0].is_open=='1'}}">
+                <view class="logs_centerimg">
+                    <image class="center_map" mode="aspectFit" src="../../img/personal/jifen.png"></image>
+                    <view>每日签到</view>
+                </view>
+                <image class="center_img" src="../../img/blackjt.png"></image>
+            </navigator>
+            <view bindtap="czzx" class="logs_center" wx:if="{{system.is_cz==1}}">
+                <view class="logs_centerimg">
+                    <image class="center_map" mode="aspectFit" src="../../img/personal/chongzhi.png"></image>
+                    <view>充值中心</view>
+                </view>
+                <image class="center_img" src="../../img/blackjt.png"></image>
+            </view>
+            <view bindtap="wdqg" class="logs_center" wx:if="{{system.qggn=='1'}}">
+                <view class="logs_centerimg">
+                    <image class="center_map" mode="aspectFit" src="../../img/personal/time.png"></image>
+                    <view>我的抢购</view>
+                </view>
+                <image class="center_img" src="../../img/blackjt.png"></image>
+            </view>
+            <view bindtap="wdpt" class="logs_center" wx:if="{{system.ptgn=='1'}}">
+                <view class="logs_centerimg">
+                    <image class="center_map" mode="aspectFit" src="../../img/personal/fenx.png"></image>
+                    <view>我的拼团</view>
+                </view>
+                <image class="center_img" src="../../img/blackjt.png"></image>
+            </view>
+            <view bindtap="wdyy" class="logs_center">
+                <view class="logs_centerimg">
+                    <image class="center_map" mode="aspectFit" src="../../img/personal/yuyue.png"></image>
+                    <view>我的预约</view>
+                </view>
+                <image class="center_img" src="../../img/blackjt.png"></image>
+            </view>
+            <view bindtap="wdyhq" class="logs_center">
+                <view class="logs_centerimg">
+                    <image class="center_map" mode="aspectFit" src="../../img/personal/hongbao.png"></image>
+                    <view>我的优惠券</view>
+                </view>
+                <image class="center_img" src="../../img/blackjt.png"></image>
+            </view>
+            <view bindtap="jfsc" class="logs_center" wx:if="{{system.is_jf=='1'&&system.jfgn=='1'}}">
+                <view class="logs_centerimg">
+                    <image class="center_map" mode="aspectFit" src="../../img/personal/jifen.png"></image>
+                    <view>积分商城</view>
+                </view>
+                <image class="center_img" src="../../img/blackjt.png"></image>
+            </view>
+            <view bindtap="fx" class="logs_center" style="border-bottom:0" wx:if="{{fxset.is_open=='1'}}">
+                <view class="logs_centerimg">
+                    <image class="center_map" mode="aspectFit" src="../../img/personal/share.png"></image>
+                    <view>{{fxset.fx_name}}</view>
+                </view>
+                <image class="center_img" src="../../img/blackjt.png"></image>
+            </view>
+        </view>
+        <ad unitId="{{item.src}}" wx:for="{{zbllz}}"></ad>
+        <view class="logs_seller">
+            <view bindtap="sjrz" class="logs_center" wx:if="{{system.is_mdrz==1}}">
+                <view class="logs_centerimg">
+                    <image class="center_map" mode="aspectFit" src="../../img/personal/ruzhus.png"></image>
+                    <view>合作加盟</view>
+                </view>
+                <image class="center_img" src="../../img/blackjt.png"></image>
+            </view>
+            <view bindtap="help" class="logs_center" style="border-bottom:0">
+                <view class="logs_centerimg">
+                    <image class="center_map" mode="aspectFit" src="../../img/personal/kefu.png"></image>
+                    <view>在线客服</view>
+                </view>
+                <image class="center_img" src="../../img/blackjt.png"></image>
+            </view>
+        </view>
+        <view class="logs_seller">
+            <view bindtap="seller" class="logs_center" style="border:none;">
+                <view class="logs_centerimg">
+                    <image class="center_map" mode="aspectFit" src="../../img/personal/sjrk.png"></image>
+                    <view>商家入口</view>
+                </view>
+                <image class="center_img" src="../../img/blackjt.png"></image>
+            </view>
+        </view>
+        <view class="copyright">
+            <navigator appId="{{system.tz_appid}}" class="copyright_logo" extraData="" openType="navigate" path="" target="miniProgram" version="release">
+                <image class="copyright_img" mode="aspectFill" src="{{system.bq_logo}}"></image>
+                <view class="copyright_text">{{system.bq_name}}</view>
+            </navigator>
+            <view class="copyright_txt">{{system.support}}</view>
+        </view>
+    </view>
+</view>

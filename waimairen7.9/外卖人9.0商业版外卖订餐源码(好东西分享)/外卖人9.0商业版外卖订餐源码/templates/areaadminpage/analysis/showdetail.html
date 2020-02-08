@@ -1,0 +1,83 @@
+<html xmlns="http://www.w3.org/1999/xhtml"><head> 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+<meta http-equiv="Content-Language" content="zh-CN"> 
+<meta content="all" name="robots"> 
+<meta name="description" content=""> 
+<meta content="" name="keywords"> 
+<title>订单详情</title> 
+<link rel="stylesheet" type="text/css" href="<{$siteurl}>/templates/<{$tempdir}>/public/css/admin.css">
+ 
+ <script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/jquery.js" type="text/javascript" language="javascript"></script>  
+ <script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/artDialog.js?skin=blue"></script>
+</head>
+<body style="background:none;height:650px;overflow:scroll;width:400px;">
+	 <style>
+	 .hc_login_div{ padding:7px 10px;}
+	 .hc_login_div .redcolor{color:#f00;float:right;}
+	 .hc_login_div img{width:80px; height:50px;}
+	 </style>
+					<div class="hc_login_div">
+						<span class="hc_login_div_span hc_login_zhuce_margin"><span class="hc_login_div_span_span"></span>商品总价：</span>
+						<span class="redcolor"><{$orderinfo['shopcost']}></span>
+						<p class="tip2"></p>
+					</div>
+					<div class="hc_login_div">
+						<span class="hc_login_div_span hc_login_zhuce_margin"><span class="hc_login_div_span_span"></span>打包费：</span>
+						<span class="redcolor"><{$orderinfo['bagcost']}></span>
+					</div>		
+					
+					<div class="hc_login_div">
+						<span class="hc_login_div_span hc_login_zhuce_margin"><span class="hc_login_div_span_span"></span>配送费：</span> 
+							<span class="redcolor"><{$orderinfo['shopps']}></span>
+					</div>
+						
+					<div class="hc_login_div" style="border-bottom:1px dashed">
+						<span class="hc_login_div_span hc_login_zhuce_margin"><span class="hc_login_div_span_span"></span>附加配送费：</span> 
+							<span class="redcolor"><{$orderinfo['addpscost']}></span>
+					</div>
+					<{if !empty($orderinfo['cxdet'])}>
+						<span class="redcolor"></span><{foreach from=$orderinfo['cxdet'] item=items}>
+							<div class="hc_login_div">
+								<span class="hc_login_div_span hc_login_zhuce_margin"><span class="hc_login_div_span_span"></span><{$items['name']}></span> 
+									<span class="redcolor"><{if $items['downcost']=='exempt' && $items['type']==4}>-￥<{$orderinfo['shopps']}><{else}><{$items['downcost']}><{/if}></span>
+							</div>
+						<{/foreach}>
+					<{/if}>
+					<div class="hc_login_div">
+						<span class="hc_login_div_span hc_login_zhuce_margin"><span class="hc_login_div_span_span"></span>优惠券：</span> 
+							<span class="redcolor"><{$orderinfo['yhjcost']}></span>
+					</div>
+					<div class="hc_login_div" style="border-bottom:1px dashed">
+						<span class="hc_login_div_span hc_login_zhuce_margin"><span class="hc_login_div_span_span"></span>积分抵扣：</span> 
+							<span class="redcolor"><{$orderinfo['scoredowncost']}></span>
+					</div>
+					
+					<div class="hc_login_div">
+						<span class="hc_login_div_span hc_login_zhuce_margin"><span class="hc_login_div_span_span"></span>共优惠金额：</span> 
+							<span class="redcolor"><{$orderinfo['cxcost']}></span>
+					</div>
+					<div class="hc_login_div">
+						<span class="hc_login_div_span hc_login_zhuce_margin"><span class="hc_login_div_span_span"></span>平台补贴金额：</span> 
+							<span class="redcolor"><{$orderinfo['shopdowncost']}></span>
+					</div>
+					<div class="hc_login_div" style="border-bottom:1px dashed">
+						<span class="hc_login_div_span hc_login_zhuce_margin"><span class="hc_login_div_span_span"></span>商家补贴金额：</span> 
+							<span class="redcolor"><{$orderinfo['cxcost']-$orderinfo['shopdowncost']}></span>
+					</div>
+					
+					<div class="hc_login_div" style="border-bottom:1px solid">
+						<span class="hc_login_div_span hc_login_zhuce_margin"><span class="hc_login_div_span_span"></span>订单总计：</span> 
+							<span class="redcolor"><{$orderinfo['allcost']}></span>
+					</div>
+					
+					<div class="hc_login_div">
+						<span class="hc_login_div_span hc_login_zhuce_margin"><span class="hc_login_div_span_span"></span>商家佣金比例：</span> 
+							<span class="redcolor"><{$orderinfo['yjb']}></span>
+					</div>
+					<div class="hc_login_div">
+						<span class="hc_login_div_span hc_login_zhuce_margin"><span class="hc_login_div_span_span"></span>订单佣金：</span> 
+							<span class="redcolor"><{$orderinfo['yjcost']}></span>
+					</div>
+					
+</body>
+</html>

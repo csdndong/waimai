@@ -1,0 +1,236 @@
+{template 'public/header'}
+{template 'public/comhead'}
+<style>
+	.panel-default>.wyheader{font-weight: bold;background-color: #F3F3F3;}
+	.chongzhi{margin-bottom: 10px;height: 35px;padding: 0px;}
+	.ygminp,.man2,.man,.man3,.money,.money2{
+		float: left;
+		border:1px solid #eee;
+		height: 35px;
+		line-height: 35px;
+		margin-left: 0px;
+		margin-right: 0px;
+		background-color: white;
+	}
+	.man{
+		padding: 0px 12px;
+		text-align: center;
+		background-color: #f2f2f2;
+	}
+	.man3{
+		padding: 0px 5px;
+		width: 100px;
+		background-color: #f2f2f2;
+	}
+	.man3>span{float: right;}
+	.man2{
+		width: 130px;
+		padding: 0px 12px;
+		text-align: center;
+	}
+	.man4{
+		float: left;
+		height: 34px;
+		border-radius: 0px;
+		line-height: 20px;
+	}
+	.money{
+		width: 60%;
+		text-indent: 1em;
+	}
+	.money2{
+		width: 70%;
+		text-indent: 1em;
+	}
+
+
+</style>
+<link rel="stylesheet" type="text/css" href="../addons/zh_cjdianc/template/public/ygcss.css">
+
+<ul class="nav nav-tabs">
+    <span class="ygxian"></span>
+    <div class="ygdangq">当前位置:</div>
+    <li><a href="{php echo $this->createWebUrl('groupgoods')}">商品列表</a></li>
+    <li class="active"><a href="javascript:void(0);">添加/编辑商品</a></li>    
+</ul>
+<input type="hidden" name="storeid" value="{$storeid}">
+<div class="main">
+	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data">
+		<div class="panel panel-default ygdefault">
+			<div class="panel-heading wyheader">
+				内容编辑
+			</div>
+			<div class="panel-body">
+
+				<div class="form-group">
+					<label class="col-md-2 control-label">排序</label>
+					<div class="col-sm-9">
+						<input type="number" name="num" class="form-control" value="{$info['num']}" id="numpai" />
+						<span class="help-block">*从小到大排序</span>
+					</div>
+				</div>  
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label" style="margin-right: 15px;">商品分类</label>
+					<select class="col-sm-8" id="onefenlei" name='type_id'>
+						{loop $type $key $item}
+						{if $item['id']==$info['type_id']}
+						<option value="{$item['id']}" selected="selected">{$item['name']}</option>
+						{else}
+						<option value="{$item['id']}" >{$item['name']}</option>
+						{/if}
+
+						{/loop}
+					</select>
+				</div>
+
+				<div class="form-group">
+					<label class="col-md-2 control-label">商品名称</label>
+					<div class="col-sm-9">
+						<input type="text" name="name" id="goodname" class="form-control" value="{$info['name']}" />
+					</div>
+				</div>                                       
+				<div class="form-group">
+					<label class="col-md-2 control-label">商品logo</label>
+					<div class="col-sm-9">
+						{php echo tpl_form_field_image('logo', $info['logo'])}
+						<span class="help-block">* 建议尺寸大小:325*325px</span>
+					</div>
+				</div>  
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">商品幻灯片</label>
+					<div class="col-sm-9">
+						{php echo tpl_form_field_multi_image('img',$img);}
+						<span class="help-block">* 建议尺寸大小:450*450px</span>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="inputEmail3" class="col-sm-2 control-label">拼团价格</label>
+					<div class="col-sm-10">
+						<div class="col-md-10 chongzhi">
+
+							<div class="man col-md-1"><span>售价</span></div>
+							<input type="text" onkeyup="value=value.replace(/[^\d.]/g,'')" id="flshou" name="pt_price" value="{$info['pt_price']}" class="ygminp inp1
+							col-md-2">
+							<div class="man3 col-md-1">元 
+								<span>原价</span>
+							</div>
+							<input type="text" onkeyup="value=value.replace(/[^\d.]/g,'')"  id="money2" name="y_price" value="{$info['y_price']}" class="ygminp inp1  col-md-2" id="flyuan">
+							<div class="man3 col-md-1">元 
+								<!--  <span>会员价</span> -->
+							</div>
+               <!--              <input type="text" onkeyup="value=value.replace(/[^\d.]/g,'')" id="vip_money" name="vip_money" value="{$info['vip_money']}" class="ygminp inp1  col-md-2" id="flyuan">
+               <div class="man col-md-1">元</div> -->
+           </div>
+       </div>
+   </div>
+
+   <div class="form-group">
+   	<label class="col-md-2 control-label">单独购价格</label>
+   	<div class="col-sm-9">
+   		<div ></div>
+   		<input type="text" onkeyup="value=value.replace(/[^\d.]/g,'')" id="flshou" name="dd_price" value="{$info['dd_price']}" class="ygminp inp1
+   		col-md-2">
+   		<div class="man3 col-md-1">元 
+
+   		</div>
+   	</div>
+   </div>
+      <div class="form-group">
+   	<label class="col-md-2 control-label">开团人数</label>
+   	<div class="col-sm-9">
+   		<div ></div>
+   		<input type="number"  id="flshou" name="people" value="{$info['people']}" class="ygminp inp1
+   		col-md-2">
+   		<div class="man3 col-md-1">人 
+
+   		</div>
+   	</div>
+   </div>
+   <div class="form-group">
+   	<label class="col-md-2 control-label">商品库存</label>
+   	<div class="col-sm-9">
+   		<input type="text" id="flstock" name="inventory" class="form-control" value="{$info['inventory']}" />
+   	</div>
+   </div> 
+   <div class="form-group">
+   	<label class="col-md-2 control-label">已成团数量</label>
+   	<div class="col-sm-9">
+   		<input type="text" id="flxiao" name="ycd_num" class="form-control" value="{$info['ycd_num']}" />
+   	</div>
+   </div>
+   <div class="form-group">
+   	<label class="col-md-2 control-label">商品销量</label>
+   	<div class="col-sm-9">
+   		<input type="text" id="flxiao" name="ysc_num" class="form-control" value="{$info['ysc_num']}" />
+   	</div>
+   </div>
+   <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">活动开始时间</label>
+    <div class="col-sm-10">
+     {php echo tpl_form_field_date(start_time, $info['start_time'],$withtime = true);}
+ </div>
+
+</div>
+<div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">活动结束时间</label>
+    <div class="col-sm-10">
+        {php echo tpl_form_field_date(end_time, $info['end_time'],$withtime = true);}
+    </div>
+
+</div>
+<div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">消费截止时间</label>
+    <div class="col-sm-10">
+        {php echo tpl_form_field_date(xf_time, $info['xf_time'],$withtime = true);}
+    </div>
+
+</div>
+<div class="form-group">
+	<label class="col-md-2 control-label">商品简介</label>
+	<div class="col-sm-9">
+		<input type="text" name="introduction" id="goodname" class="form-control" value="{$info['introduction']}" />
+	</div>
+</div>  
+
+   <div class="form-group">
+   	<label class="col-xs-12 col-sm-3 col-md-2 control-label">商品详情</label>
+   	<div class="col-sm-10">
+   		{php echo tpl_ueditor('details',$info['details']);}
+   	</div>
+   </div>
+   <div class="form-group">
+   	<label class="col-xs-12 col-sm-3 col-md-2 control-label">状态</label>
+   	<div class="col-sm-9">
+   		<label class="radio-inline">
+   			<input type="radio" id="emailwy1" name="is_shelves" value="1" {if $info['is_shelves']==1 || empty($info['is_shelves'])}checked{/if} />
+   			<label for="emailwy1">上架</label>
+   		</label>
+   		<label class="radio-inline">
+   			<input type="radio" id="emailwy2" name="is_shelves" value="2" {if $info['is_shelves']==2 }checked{/if} />
+   			<label for="emailwy2">下架</label>
+   		</label>
+   	</div>
+   </div>
+
+
+
+
+</div>
+</div>
+    <div class="form-group">
+            <input type="submit" name="submit" value="提交" class="btn col-lg-3" style="color: white;background-color: #44ABF7;"/>
+            <input type="hidden" name="token" value="{$_W['token']}" />
+            <input type="hidden" name="id" value="{$info['id']}" />
+        </div>
+</form>
+
+</div>
+<script type="text/javascript">
+	$(function(){
+        // $("#frame-8").addClass("in");
+        $("#frame-11").show();
+        $("#yframe-11").addClass("wyactive");
+    })
+</script>
+{template 'common/footer'}

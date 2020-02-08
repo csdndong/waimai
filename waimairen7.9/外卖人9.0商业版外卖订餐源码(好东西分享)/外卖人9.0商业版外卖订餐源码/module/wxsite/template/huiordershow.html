@@ -1,0 +1,159 @@
+ <{extends file="<{$tempdir}>/public/wxsite.html"}>
+<{block name=extendcss}>
+<link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/order.css">
+<link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/ordershow.css">
+<style>
+.statusline{    position: absolute;
+    top: 58px;
+    width: 2px;
+    border-radius: 0px;
+    height: 40px;
+    background: #ff6e6e;
+    left: 15px;}
+</style>
+<{/block}>
+ <{block name=extendjs}>
+<{/block}>
+<{block name=myScrolljs}>
+<script>
+		var myScroll;
+function loaded() {
+	myScroll = new iScroll('wrapper', {
+		useTransform: false,
+		onBeforeScrollStart: function (e) {
+			var target = e.target;
+			while (target.nodeType != 1) target = target.parentNode;
+
+			if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA')
+				e.preventDefault();
+		}
+	});
+}
+document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
+document.addEventListener('DOMContentLoaded', function () { setTimeout(loaded, 200); }, false);
+</script>
+<{/block}>
+<{block name=sitetitle}><{$sitename}><{/block}>
+<{block name=hearnav}>
+<div class="toptitCon">
+ <div class="toptitBox">
+  <div class="toptitL"><i></i></div>
+  <div class="toptitC"><h3><{$order['shopname']}></h3></div>
+ <div class="toptitR"  onclick="dolink('<{ofunc type=url link="/wxsite/index"}>');" ><h3><img style="width: 25px;
+    top: 7px;
+    position: absolute;
+    right: 10px;" src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/jinruindexBg.png" /></h3></div> </div>
+</div>
+<{/block}>
+  <{block name=footer}><{/block}>
+<{block name=blockcontent}>
+<style>
+.page-app{ background:#f0f0f0;}
+body{background:#f0f0f0;}
+</style>
+
+ <div id="wrapper" style="top:40px;bottom:0px; ">
+ 	<div id="scroller">
+ <div id="fis_elm__4" style="display:block;">
+<!--订单详情-->
+<div class="orderdishes">
+ <div class="orderdishestit"><i class="detaicon"></i>订单详情</div>
+ <div class="orderdetailsmain">
+  <ul>
+   <li><b>订单号码：</b><span><{$order['dno']}></span></li>
+   <li><b>下单时间：</b><span><{$order['addtime']|date_format:"%Y-%m-%d %H:%M"}></span></li>
+      <li><b>实付金额：</b><span>￥<{$order['sjcost']}></span></li>
+      <li><b>消费金额：</b><span>￥<{$order['xfcost']}></span></li>
+      <li><b>优惠方案：</b><span><{$order['huiname']}></span></li>
+   <li><b>支付方式：</b><span>
+   <{if $order['paytype'] == 1 }>
+	微信支付<{if $order['paystatus'] == 0 }>（未付）<{/if}><{if $order['paystatus'] == 1 }>（已付）<{/if}>
+   <{/if}>
+    <{if $order['paytype'] == 2 }>
+       支付宝支付<{if $order['paystatus'] == 0 }>（未付）<{/if}><{if $order['paystatus'] == 1 }>（已付）<{/if}>
+   <{/if}>
+        <{if $order['paytype'] == 3 }>
+       余额支付<{if $order['paystatus'] == 0 }>（未付）<{/if}><{if $order['paystatus'] == 1 }>（已付）<{/if}>
+   <{/if}>
+   </span></li>
+      <{if $order['buyorderphone']}>
+   <li><b>手机号码：</b><span><{$order['buyorderphone']}></span></li>
+      <{/if}>
+  </ul>
+ </div>
+</div>
+
+
+
+</div>
+<script>
+	$(".liststyle1 li:even").addClass("tabEven");
+	 function unorder(){
+	 	if(confirm('确认取消订单')){
+   	     showLoading();
+   		   var url = siteurl+'/index.php?ctrl=order&action=userunorder&orderid=<{$order['id']}>&datatype=json&random=@random@';
+ 	        $.ajax({
+           dataType: "json",
+           url: url.replace('@random@', 1+Math.round(Math.random()*1000)),
+           success: function(content) {
+           	 if(content.error == false)
+          	{
+          		$('#orderstatus').text('已关闭');
+          		$('.cart_gojs').remove();
+          		newhideLoading();
+				window.location.reload();
+
+          	}else{
+          			Tmsg(content.msg);
+          		  newhideLoading();
+          	}
+
+	         },
+           error: function(content) {
+             	Tmsg('提交数据失败');
+        	    newhideLoading();
+	         }
+
+         });
+     }
+     return false;
+   }
+   function acceptorder(){
+	 	if(confirm('确认收货？')){
+   	      showLoading();
+   		   var url = siteurl+'/index.php?ctrl=order&action=acceptorder&orderid=<{$order['id']}>&datatype=json&random=@random@';
+ 	        $.ajax({
+           dataType: "json",
+           url: url.replace('@random@', 1+Math.round(Math.random()*1000)),
+           success: function(content) {
+           	 if(content.error == false)
+          	{
+          		$('#orderstatus').text('已关闭');
+          		$('.cart_gojs').remove();
+          		newhideLoading();
+				window.location.reload();
+
+          	}else{
+          			Tmsg(content.msg);
+          		 newhideLoading();
+          	}
+
+	         },
+           error: function(content) {
+             	Tmsg('提交数据失败');
+        	    newhideLoading();
+	         }
+
+         });
+     }
+     return false;
+   }
+   function pingorder(){
+   		window.location.href=siteurl+'/index.php?ctrl=wxsite&action=commentorder&orderid=<{$order['id']}>';  //'ordershow.html?orderid='+$(obj).attr('orderid');//  	alert($(obj).attr('orderid'));
+  }
+</script>
+
+
+</div>
+</div>
+<{/block}>

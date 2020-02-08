@@ -1,0 +1,36 @@
+<div id="showimg" style="margin-top:30px;">
+    <ul>
+        <{foreach from=$imglist item=items}>
+        <li style="margin-left:20px;">
+            <a rel="lightbox" href="<{$imgserver}><{$items['imgurl']}>" style="color:#fff;text-decoration: none;" target="_blank"><img class="imgclass" <{ofunc type=img link="<{$items['imgurl']}>" }> border="0" width="100" height="80"></a>
+            <br /><span imglujing="<{$items['imgurl']}>" class="delkuimg">删除</span>
+        </li>
+        <{/foreach}>
+
+    </ul>
+</div>
+<{$pagecontent}>
+
+<script type="text/javascript">
+    $(function(){
+        $('.delkuimg').click(function(){
+            var lujing = $(this).attr('imglujing');
+            var url = '/index.php?ctrl=shopcenter&action=delonegoodsimg&datatype=json';
+            $.ajax({         //script定义
+                url: url,
+                type: 'post',
+                dataType: "json",
+                async:true,
+                data:{'imglujing':lujing},
+                success:function(content) {
+                    if(content.error == false){
+                        refrash();
+                    }
+                },
+                error:function(){
+                    alert('数据提交失败');
+                }
+            });
+        });
+    });
+</script>

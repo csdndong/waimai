@@ -1,0 +1,13 @@
+<view class="page-select">
+    <view bind:tap="onSwitch" class="zan-panel" data-sid="{{item.id}}" wx:if="{{stores.length>0}}" wx:for="{{stores}}">
+        <view class="zan-cell zan-cell--access shop-item">
+            <view class="zan-cell__bd zan-cell_title">
+                <view class="logo">
+                    <image src="{{item.logo}}"></image>
+                </view>
+                <view class="title ellipsis">{{item.title}}</view>
+            </view>
+            <view class="zan-cell__ft"></view>
+        </view>
+    </view>
+</view>

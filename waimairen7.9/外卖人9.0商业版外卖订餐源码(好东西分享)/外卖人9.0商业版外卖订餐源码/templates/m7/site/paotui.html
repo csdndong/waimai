@@ -1,0 +1,23 @@
+<{extends file="<{$tempdir}>/public/site.html"}>  
+<{block name=extendcss}><{/block}> 
+<{block name=sitetitle}>跑腿服务<{/block}>
+<{block name=bgshow}><{/block}>
+ <{block name=shophide}><{/block}>
+ <{block name=top2  }> 
+ 
+ <{/block}>
+<{block name=bodylist}> 
+<style>
+.errandsCon{ width:100%; height:830px; background-image:url(<{$siteurl}>/templates/<{$tempdir}>/public/images/paotui002.png); background-repeat:no-repeat; background-position:center; background-color:#f7f7f7; min-width:1200px; overflow:hidden;}
+.errandsBox{ width:1200px; margin:0 auto; text-align:center; padding-top:60px;}
+</style>
+ <div class="errandsCon">
+	 <div class="errandsBox" style='position:relative'>
+	 <div style='width:165px;height:165px;position:absolute;top: 38%;left: 43%;'>
+	  <img <{ofunc type=img  link="<{$wxewm}>"}> style='width:100%;height:100%'>  
+	 </div>
+	 <img src="<{$siteurl}>/templates/<{$tempdir}>/public/images/paotui001.png">  
+	 </div> 
+</div>
+
+<{/block}>

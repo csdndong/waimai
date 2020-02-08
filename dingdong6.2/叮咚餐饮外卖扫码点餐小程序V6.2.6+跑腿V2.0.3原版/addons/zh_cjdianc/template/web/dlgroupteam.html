@@ -1,0 +1,276 @@
+{template 'public/header'}
+{template 'public/comhead'}
+<link rel="stylesheet" type="text/css" href="../addons/zh_cjdianc/template/public/ygcsslist.css">
+<style type="text/css">
+	.ba_f{
+		background: #fff;
+	}
+	.ba_e{
+		background: #f7f7f7;
+	}
+	.pa{
+		padding: 30px;
+	}
+	.pa_1{
+		padding: 0 20px;
+	}
+	.pa_10{
+		padding: 10px 20px;
+	}
+	.wei{
+		font-weight: bold;
+	}
+	.bor_bottom{
+		border: 1px solid #e5e5e5;
+	}
+	.mar_l{
+		margin-left: 20px;
+	}
+	.dis_in{
+		display: inline-block;
+		vertical-align: middle;
+	}
+	.t_c{
+		text-align: center;
+	}
+	.progess>text{
+		display: inline-block;
+		vertical-align: middle;
+	}
+	.mar_t{
+		margin-top: 20px;
+	}
+	.circular{
+		width: 70px;
+		height: 70px;
+		line-height: 70px;
+		color: #fff;
+		font-size: 12px;
+		border-radius: 50%;
+		background: rgb(68,171,247);
+	}
+	.line{
+		width: 35%;
+		height: 4px;
+		background: #f7f7f7;
+		animation: two 2s;
+	}
+	.line_0{
+		/*background:rgb(68,171,247);*/
+		width: 35%;
+		height: 4px;
+		animation: first 2s;
+	}
+	@keyframes first
+	{
+		from {width : 0;}
+		to {width: 35%;background:rgb(68,171,247);}
+	}
+	@keyframes two
+	{
+		from {width : 0;}
+		to {width: 35%;background:#f7f7f7;}
+	}
+	.shopInfo{
+		width: 100%;
+		height: auto;
+		border: 1px solid #e5e5e5;
+	}
+	.shopInfo>div{
+		width: 49%;
+	}
+	.shopInfo>div p:nth-child(1){
+		width: 100%;
+		height: 30px;
+		line-height: 50px;
+	}
+	.shopInfo>div p:nth-child(2){
+		width: 100%;
+		height: 50px;
+		line-height: 50px;
+	}
+	.shopInfo>div p img{
+		width: 40px;
+		height: 40px;
+	}
+	.group_info img{
+		width: 50px;
+		height: 50px;
+	}
+	.group_info>div{
+		padding: 10px 0;
+	}
+	.group_info>div text:nth-child(1){
+		width: 100px;
+		display: inline-block;
+	}
+	.fail{
+		background: red;
+		padding: 5px 10px;
+		border-radius: 5px;
+		color: #fff;
+	}
+	.succ{
+		background: rgb(68,171,247);
+		padding: 5px 10px;
+		border-radius: 5px;
+		color: #fff;
+	}
+	.ing{
+		background: orange;
+		padding: 5px 10px;
+		border-radius: 5px;
+		color: #fff;
+	}
+	.staff_info>div img{
+		width: 50px;
+		height: 50px;
+	}
+	.staff_info>div:nth-child(1){
+		width: 20%;
+	}
+	.staff_info>div:nth-child(2){
+		width: 20%;
+	}
+	.staff_info>div:nth-child(3){
+		width: 20%;
+	}
+	.staff_info>div:nth-child(4){
+		width: 10%;
+	}
+	.staff_info>div:nth-child(5){
+		width: 20%;
+	}
+	.color_r{
+		color: red;
+	}
+</style>
+<ul class="nav nav-tabs">
+	<span class="ygxian"></span>
+	<div class="ygdangq">当前位置:</div> 
+</ul>
+<!-- 拼团详情 -->
+<div class="ba_f pa mar_t">
+
+	<!-- 拼团中 -->
+	{if $group['state']==1}
+	<div class="t_c progess">
+		<text class="circular">发起拼团</text><text class="line line_0"></text><text class="circular">拼团中</text><text class="line"></text><text class="circular">拼团成功</text>
+	</div>
+	{/if}
+	<!-- 拼团成功或者失败 -->
+	{if $group['state']==2}
+	<div class="t_c progess">
+		<text class="circular">发起拼团</text><text class=" line_0"></text><text class="circular">拼团中</text><text class="line_0"></text><text class="circular">拼团成功</text>
+	</div>
+	{/if}
+	{if $group['state']==3}
+		<div class="t_c progess">
+		<text class="circular">发起拼团</text><text class=" line_0"></text><text class="circular">拼团中</text><text class="line_0"></text><text class="circular">拼团失败</text>
+	</div>
+	{/if}
+	<!-- 商品信息 -->
+	<div class="shopInfo mar_t">
+		<div class="dis_in pa_1">
+			<p>商品图</p>
+			<p>
+				<img class="store_list_img" src="{$group['goods_logo']}" alt=""/>
+			</p>
+		</div>
+		<div class="dis_in pa_1">
+			<p>商品名称</p>
+			<p>
+				{$group['goods_name']}
+			</p>
+		</div>
+	</div>
+	<!-- 拼团信息 -->
+	<div class="pa_1 mar_t bor_bottom group_info">
+		<div>
+			<text>团长昵称</text>
+			<text class="mar_l">{$group['nick_name']}</text>
+		</div>
+		<div>
+			<text>团长头像</text>
+			<img src="{$group['img']}" class="mar_l" alt="">
+		</div>
+		<div>
+			<text>团状态</text>
+			{if $group['state']==1}
+			<text class="mar_l ing">拼团中</text>
+			{elseif $group['state']==2}
+			<text class="mar_l succ">拼团成功</text>
+			{elseif $group['state']==3}
+			<text class="mar_l fail">拼团失败</text>
+			{/if}
+			
+			
+			
+			
+		</div>
+		<div>
+			<text>团ID</text>
+			<text class="mar_l">{$group['id']}</text>
+		</div>
+		<div>
+			<text>团购进度</text>
+			<text class="mar_l">{$group['yg_num']}/{$group['kt_num']}</text>
+		</div>
+	</div>
+	<!-- 订单信息 -->
+	{loop $order $key $item}
+	<div class="group_staff mar_t bor_bottom">
+		<div>
+			<div class="pa_10 ba_e">
+				<text class="wei">{php echo date('Y-m-d H:i:s',$item['time'])}</text>
+				<text class="mar_l">订单编号  ：{$item['order_num']}</text>
+			</div>
+			<div class="pa_10 staff_info">
+				<div class="dis_in">
+					<img src="{$item['logo']}" alt="">
+				</div>
+				<div class="dis_in">
+					{$item['nick_name']}
+				</div>
+				<div class="dis_in">
+					{if $item['pay_type']==1}
+					微信支付
+					{elseif $item['pay_type']==2}
+					余额支付
+					{/if}
+				</div>
+				<div class="dis_in">
+					{$item['money']}
+				</div>
+				<div class="dis_in">
+					<a href="{php echo $this->createWebUrl2('dlgrouporderinfo', array('id' => $item['id']))}"  >查看详情</a>
+				</div>
+				<div class="dis_in color_r">
+					{if $item['state']==1}
+					未付款
+					{elseif $item['state']==2}
+					已付款
+					{elseif $item['state']==3}
+					已完成
+					{elseif $item['state']==4}
+					已关闭
+					{elseif $item['state']==5}
+					已失效
+					{/if}			
+				</div>
+			</div>
+		</div>
+	</div>
+	{/loop}
+</div>
+<script type="text/javascript">
+	$(function(){
+		$("#frame-11").show();
+		$("#yframe-11").addClass("wyactive");
+		$(".line_0").css('background','rgb(68,171,247)')
+		function animation(){
+
+		}
+	})
+</script>
+{template 'common/footer'}

@@ -1,0 +1,268 @@
+<{extends file="<{$tempdir}>/public/wxsite.html"}>
+<{block name=extendcss}>
+<link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/public.css">
+<link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/shoplist.css">
+<link rel="stylesheet" href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/newshop/css/font-awesome.min.css" />
+<link rel="stylesheet" href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/newshop/css/index.css" />
+<link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/weixinlunbo.css">
+<link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/swiper-3.4.1.min.css">
+<script src="<{$siteurl}>/js/Swiper/idangerous.swiper.js"></script>
+<style>
+    .clkitm { min-height: 80px;}
+    #cuisien{padding-left:0px;padding-right:0px;margin-left:0px; margin-right:0px;}
+    #cuisien li{padding-left:0px;padding-right:0px;margin-left:0px; margin-right:0px;}
+	.toptitBox .toptitLs i { background-size: 65%!important;margin-top: 6px!important;}
+</style>
+<{/block}>
+<{block name=loadinghide}><{/block}>
+<{block name=extendjs}>
+<div data-role="page">
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/js/template.min.js"></script>
+<script>
+    var pulldowncate;
+    var can_show = true;
+    var page = 1;
+    var search_input = '<{$search_input|default:' '}>';
+    var html5_config = {'showheader':true,'showfooter':true,'bodyscller':true,'Canfresh':true,'CanloadMore':true,'titilename':'外卖频道'};
+    $(function(){
+        $('.toptitBox .toptitLs').bind("click", function() {
+            window.location.href="<{$siteurl}>/index.php?ctrl=wxsite";
+        });
+        loading();
+
+        //加载页面函数
+        function loading(){
+            if(typeof html5_config == 'undefined'){
+                alert('获取失败');
+            }else{
+                if(html5_config.bodyscller == true){
+                    setTimeout(function(){
+                        $('#wrapper').show();
+                        addfresh();
+                        freshpage()
+                    },500);
+                }
+
+            }
+        }		  
+    });
+
+    function freshpage(){//刷新函数
+		showLoading();
+        page =1;
+        pageend = false;
+        $('#supplierlist').html('');
+        var content = htmlback(siteurl+'/index.php?ctrl=wxsite&action=marketlistdata',{'page':page});
+        if(content.flag == false){
+			newhideLoading();
+            $('#supplierlist').append(content.content);
+            if(  $.trim(content.content) != '' && $("#supplierlist li").length >= 10  ){
+                $("#lodingmore").show();
+            }
+        }else{
+			newhideLoading();
+            Tmsg('xxxx');
+        }
+        hidefresh();
+         
+    }
+    function loadmore(){
+		showLoading();
+        page = page+1; 		 
+         var content = htmlback(siteurl+'/index.php?ctrl=wxsite&action=marketlistdata',{'page':page});
+        if(content.flag == false){
+            $('#lodingmore .moreLoading i').addClass('iconstartloading');
+            $('#lodingmore .moreLoading i').removeClass('iconloading');
+            $('#lodingmore .moreLoading i').removeClass('iconOverload');
+			newhideLoading();
+            $("#lodingmore span").text("上拉更多...");
+            var getmoreContent =  $.trim(content.content);
+            if( getmoreContent == ''  ){
+                pageend = true;
+                $('#lodingmore .moreLoading i').removeClass('iconstartloading');
+                $('#lodingmore .moreLoading i').removeClass('iconloading');
+                $('#lodingmore .moreLoading i').addClass('iconOverload');
+                $("#lodingmore span").text("加载完毕...");
+            }else{
+                $('#supplierlist').append(content.content);
+            }
+
+        }else{
+            pageend = true;
+            $('#lodingmore .moreLoading i').removeClass('iconstartloading');
+            $('#lodingmore .moreLoading i').removeClass('iconloading');
+            $('#lodingmore .moreLoading i').addClass('iconOverload');
+			newhideLoading();
+            $("#lodingmore span").text("加载完毕...");
+        }
+        //  setTimeout("hideloadmore()",500);
+        hideloadmore();
+
+    }
+
+</script>
+
+<{/block}>
+<{block name=myScrolljs}>
+
+
+<{/block}>
+<{block name=sitetitle}><{$sitename}><{/block}>
+<{block name=hearnav}>
+<style>
+    .toptitBox .toptitLs {
+        height: 22px;
+        display: inline-block;
+        width: 3.625%;
+        float: left;
+    }
+    .toptitBox .toptitLs i {
+        display: inline-block;
+        width: 100%;
+        height: 22px;
+        background-image: url(templates/m7/public/wxsite/images/top04.png);
+        background-repeat: no-repeat;
+        background-size: 100%;
+    }
+	.bottom-bar-warp {display:none!important}
+	.popup_content{display:none!important}
+</style>
+
+<div class="toptitCon">
+    <div class="toptitBox">
+        <div class="toptitLs"><a href="#"><i></i></a></div>
+        <div class="toptitC"><h3>超市便利店</h3></div>
+        <div class="toptitR"><a href="#"><i class="search"></i></a></div>
+    </div>
+</div>
+ 
+<{/block}>
+<{block name=blockcontent}>
+ 
+<div class="homscrsear"  onclick="dolink('<{ofunc type=url link="/wxsite/search"}>');"   ><input style="    background-position: 3% center;" readonly type="text" placeholder="请输入店铺名、商品名"></div>
+<div id="wrapper" style="top:74px;bottom:1px;  ">
+    <div id="scroller">
+        <div class="nearbyreCon" style='margin:0;border-top:0'>
+
+		<{if !empty($imglist) }>
+			<div class="device"> 
+				<div class="swiper-container-lb" style="position: relative; ">
+				<div class="swiper-wrapper-lb">
+				<{foreach from=$imglist item=items}>
+				<div class="swiper-slide-lb" ><a href="<{$items['linkurl']}>"><img data-src="<{$items['img']}>"  <{ofunc type=img  link="<{$items['img']}>"}>  style="width:100%; height:114px;" alt=""></a></div>
+				<{/foreach}>	
+				</div>
+				</div>
+			     <div class="pagination"></div>
+			</div>
+<script>
+	var mySwiper = new Swiper('.swiper-container-lb',{
+		wrapperClass:'swiper-wrapper-lb', 
+		slideClass:'swiper-slide-lb',
+		pagination: '.pagination',
+		loop:false,
+		autoplay: 3000,
+		mode : 'horizontal', // or 'vertical'
+		grabCursor: true,
+		paginationClickable: true 
+	});
+	$(function(){ 
+		var mainheight = $(window).height();//窗口高度
+		var mainwidth = $(window).width();//窗口宽度
+	$('.swiper-container-lb,.swiper-slide-lb,.swiper-slide-lb img').css('width',mainwidth+'px');
+		mySwiper.reInit();
+		mySwiper.swipeTo(0);
+	});
+</script>			
+		<{/if}>
+
+            <!--<div class="homscrbusintit" style='padding:6px;font-size:16px'>
+			<img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/newshop/images/mshop.png" style='width:20px;margin-bottom: -5px;' />
+			附近商家
+			</div>-->
+            <div class=" homeNeashopBox ">
+                <ul id="supplierlist">
+                </ul>
+            </div>
+        </div>
+        <div  id="lodingmore" style="background:#f0f0f0;display:none;"   class="downLoading "><div class="moreLoading"><i class="iconstartloading"></i><span>上拉更多...</span></div></div>
+    </div>
+    
+</div>
+<{block name=footer}>
+     <div class="bottom-bar-warp">
+        <div class="bottom-bar" id="bottom-bar">
+            <div class="bbar-btn tap-click" onclick="dolink('<{ofunc type=url link="/wxsite/index"}>');"  >     <i  class="icon icon_home"></i><div class="text" style="margin-top:-8px;">首页</div></div>
+            <div class="bbar-btn tap-click" onclick="dolink('<{ofunc type=url link="/wxsite/order"}>');" >      <i class="icon icon_user"> </i><div class="text" style="margin-top:-8px;">我的订单</div></div>
+            <div class="bbar-btn tap-click" onclick="dolink('<{ofunc type=url link="/wxsite/togethersay"}>');" ><i class="icon icon_order"></i><div class="text" style="margin-top:-8px;">一起说</div></div>
+            <div class="bbar-btn tap-click" onclick="dolink('<{ofunc type=url link="/wxsite/member"}>');">     <i class="icon icon_phone"></i><div class="text" style="margin-top:-8px;">个人中心</div></div>
+        </div>
+    </div>
+<{/block}>
+
+<style>
+.zhengrefu{text-align:center; margin-top:-10px;} 
+.swiper-containeraa { 
+    position: absolute;
+    z-index: 10;
+}
+.swiper-scrollbar { 
+	position: relative;
+	-ms-touch-action: none;
+	background: rgba(0,0,0,0.1)
+}
+.swiper-scrollbar-drag {
+	height: 100%;
+	width: 100%;
+	position: relative;
+	background: rgba(0,0,0,0.5); 
+}
+.swiper-scrollbar-cursor-drag {
+	cursor: move;
+}
+
+.device {
+  width: 100%;
+  height: 114px;
+  background:#fff;
+   position: relative;
+ }
+.swiper-slide-lb{
+	height:114px;
+	 float:left;
+}.swiper-slide-lb img{
+	height:114px;
+	 
+}
+.swiper-container-lb {
+  height:114px;
+  width: 100%;
+}
+.content-slide {
+  padding: 20px;
+  color: #fff;
+}
+ 
+.pagination {
+  position: absolute;
+  left: 0;
+  text-align: center;
+  bottom:0px;
+  width: 100%;
+  z-index:9999999;
+}
+.swiper-pagination-switch {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius:50%;
+  background: #A1A1A1;
+   margin: 0 3px;
+  cursor: pointer;
+}
+.swiper-active-switch {
+  background: #FD5959;
+}
+</style>
+
+<{/block}>

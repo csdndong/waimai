@@ -1,0 +1,315 @@
+ <{extends file="<{$tempdir}>/public/wxsite.html"}>  
+<{block name=extendcss}> 
+ <link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/order.css">
+<{/block}>
+  <{block name=extendjs}> 
+  <script src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/js/template.min.js"></script>   
+
+ <script>
+   var page =0;
+ 	 var can_show = true;//控制是否翻页  
+ 	 $(function(){
+ 	 	 can_show=false; 
+ 	       getspecialpagelist();
+ 	 });
+
+	  function getspecialpagelist(){  
+			var tempurl = siteurl+'/index.php?ctrl=wxsite&action=specialpagelistdata&id=<{$id}>&random=@random@&page=@page@';
+   	 	     tempurl = tempurl.replace('@random@', 1+Math.round(Math.random()*1000)).replace('@page@',page);
+	         $.getScript(tempurl); 
+  
+  }
+  function showmorespeciallist(datas){ 	// 店铺加载
+	var spdatas = eval(datas);
+      if(page==0){
+          var goodstop =  '<div class="specialone_title">';
+          goodstop +=     '<h3><span>每日特惠　诚意满满<img src="/templates/adminpage/public/images/icon_jm.png" /></span></h3>';
+          goodstop +=    '</div>';
+          $('.foodiscoaddconaaa').append(goodstop);
+      }
+     if(spdatas.length > 0){
+			//$("#pullUp").show();
+			for(i=0;i<spdatas.length;i++){
+
+				var backdata = '  ';
+				if(spdatas[i].shoptype ==  1){   
+					backdata +='  <a href="'+siteurl+'/index.php?ctrl=wxsite&action=shopshow&typelx=mk&id='+spdatas[i].id+'"> ';
+				  }else{
+				 	backdata += '<a href="'+siteurl+'/index.php?ctrl=wxsite&action=shopshow&typelx=wm&id='+spdatas[i].id+'">';
+				  }
+				
+				backdata += ' 	<div  class="fullredCon"  style="background:<{$ztyinfo['color']}>;">	';				
+				backdata += ' 	<div class="fullredBox">	';
+				backdata += ' 	   <li>	';
+				backdata += ' 		<div class="fullredT">	';
+				backdata += ' 		 <div class="fullredimg"><img style="width:80px; height:67px;" src="'+spdatas[i].shoplogo+'"></div>	';
+				backdata += ' 		 <div class="fullredinfo">	';
+				backdata += ' 		  <div class="fullredadd">'+spdatas[i].shopname+'</div>	';
+				backdata += ' 		  <div class="fullredeval"  style="padding-top:0px;"> ';
+				for(var s=0;s<spdatas[i].shopstart;s++){backdata += '<i class="fa fa-star"></i> ';}
+				for(var s=0;s<5-spdatas[i].shopstart;s++){backdata += '<i class="fa fa-star"  style="color:#C7C7C7;"  ></i> ';}
+				backdata += ' <span>销售 '+spdatas[i].ordercount+'份</span></div>	'; 
+				backdata += ' 		  <div class="fullredtime"  style="padding-top:0px;"><span>起送价 '+spdatas[i].limitcost+'</span><b>|</b><span>配送费 '+spdatas[i].pscost+'</span>	';
+				 if(  spdatas[i].attrdet.input != undefined ){ backdata +='<b>|</b>';}
+				if(     spdatas[i].attrdet.input != undefined ){
+					backdata +='  			<span>时间 '+spdatas[i].attrdet.input+'</span>	';
+					 }
+				backdata += ' 		 </div>	';
+				backdata += ' 		 </div>	';
+				backdata += ' 		</div>	';
+				if(spdatas[i].cxlist.length > 0){
+					backdata += ' 			<div class="fullredB">	';
+					for(var c=0;c<spdatas[i].cxlist.length;c++){
+						backdata += ' 			<span style="display:block;"><i class="fulljian" style="background:url('+spdatas[i].cxlist[c].imgurl+') no-repeat; margin:0px;   background-size: 75%; "></i>'+spdatas[i].cxlist[c].name+'</span>	';
+					}
+					backdata += ' 			</div>	';
+				}
+				backdata += ' 	   </li>	';
+				backdata += ' 	 </div>	';
+				backdata += ' 	</div>	';
+				backdata += ' 	</a>	';
+
+                $('.rlist').append(backdata);
+			}
+         $(".modelists").hide();
+         $("#modelist").show();
+			myScroll.refresh();
+
+	         
+	}else{
+         $(".modelists").hide();
+         $("#modelist").show();
+         $("#modelist").html("加载完毕");
+		 myScroll.refresh();
+
+
+	 }
+		
+		
+	
+  }
+//   	backdata += '<a href="'+siteurl+'/index.php?ctrl=wxsite&action=foodshow&id='+spdatas[i].id+'">';
+ function showgoodsspeciallist(datas){ 	// 商品加载
+
+	var spdatas = eval(datas);
+     if(page==0){
+         var goodstop =  '<div class="specialone_title">';
+         goodstop +=     '<h3><span>人气热销　吃货首选<img src="/templates/adminpage/public/images/icon_jm.png" /></span></h3>';
+         goodstop +=    '</div>';
+         $('.foodiscoaddconaaa').append(goodstop);
+     }
+     console.log(spdatas);
+     if(spdatas.length > 0){
+		//	$("#pullUp").show();
+		 
+			for(i=0;i<spdatas.length;i++){
+				var backdata = '';
+
+				backdata += ' 	<li>	';
+				backdata += ' 	<div class="fondiscoimg"><img style="height:140px;" src="'+spdatas[i].img+'"></div>	';
+				backdata += ' 	<div class="fondisconame">'+spdatas[i].name+'</div>	';
+
+				backdata += ' 	<div class="fondiscodel" style="height:11px;">';
+
+				backdata += ' 	</div>	';
+                             if(spdatas[i].is_cx == 1){
+				backdata += ' 	<div class="fondiscopric"><span><b>￥'+spdatas[i].cost+'</b>	';
+                             }else{  
+				backdata += ' 	<div class="fondiscopric"><span><b>￥'+spdatas[i].cost+'</b>	';
+                                 }
+                if(spdatas[i].goodattr != ''){
+					backdata += '/'+spdatas[i].goodattr+' ';
+				}else if(spdatas[i].goodattrdefault != ''){
+					backdata += '/'+spdatas[i].goodattrdefault+' ';	 
+				}else{
+				    backdata += '/份 ';	 
+				}
+				backdata += ' </span>	';
+				if(spdatas[i].opentype !=  2 && datas[i].opentype !=  3){  
+ 					backdata += ' 	<input type="button" style="background:#ccc; color:#fff;" value="休息中">	';
+				}else{
+					if(spdatas[i].count > 0 ){
+							if(spdatas[i].shoptype ==  1){   
+								backdata +='  <a  class="paygo" href="'+siteurl+'/index.php?ctrl=wxsite&action=shopshow&typelx=mk&id='+spdatas[i].shopid+'&gid='+spdatas[i].id+'"> ';
+							  }else{
+								backdata += '<a   class="paygo" href="'+siteurl+'/index.php?ctrl=wxsite&action=shopshow&typelx=wm&id='+spdatas[i].shopid+'&gid='+spdatas[i].id+'">';
+							  }
+							  
+						//		backdata += ' <a href="'+siteurl+'/index.php?ctrl=wxsite&action=foodshow&id='+spdatas[i].id+'" class="paygo">	';
+								backdata += '立即抢购		';
+								backdata += '   </a>		';
+					}else{
+						backdata += ' 	<input type="button" style="background:#ccc; color:#fff;"  value="售完">	';
+					}
+					
+				}
+				backdata += ' 	</div>	';
+			   backdata += ' 	</li>	';
+
+                    $(".modelists").hide();
+                    $("#modelist").show();
+			    
+				$('#specialpagelist ul').append(backdata); 
+			}
+
+
+			myScroll.refresh();
+	         
+	}else{
+
+             $(".modelists").hide();
+             $("#modelist").show();
+			$("#modelist").html("加载完毕");
+		 	myScroll.refresh();
+
+		
+	}
+		
+		
+	
+  }  
+ 	</script>
+
+<{/block}>
+<{block name=myScrolljs}>
+<script>
+
+
+	var myScroll, pullDownEl, pullDownOffset,pulldowncate,
+	pullUpEl, pullUpOffset,
+	generatedCount = 0;
+
+function pullDownAction () {   //上拉刷新
+
+}
+
+function pullUpAction () {    //下拉刷新
+	setTimeout(function () {	// <-- Simulate network congestion, remove setTimeout from production!
+
+//        getspecialpagelist();
+
+		myScroll.refresh();		// Remember to refresh when contents are loaded (ie: on ajax completion)
+	}, 200);	// <-- Simulate network congestion, remove setTimeout from production!
+}
+
+
+function loaded() {
+
+	var guizeintroheight = $('.foodiscorulecon').height();
+	if(guizeintroheight == null){
+		guizeintroheight = 50;
+	}
+
+	pullDownEl = document.getElementById('pullDown');
+	pullDownOffset = pullDownEl.offsetHeight;
+	pullUpEl = document.getElementById('pullUp');
+	pullUpOffset = pullUpEl.offsetHeight;
+
+	myScroll = new iScroll('wrapper', {
+		scrollbarClass: 'myScrollbar', /* 重要样式 */
+		useTransition: false, /* 此属性不知用意，本人从true改为false */
+		topOffset: pullDownOffset,
+		onScrollEnd: function () {
+            myScroll.refresh();
+		}
+	});
+
+	setTimeout(function () { document.getElementById('wrapper').style.left = '0'; }, 200);
+}
+
+//初始化绑定iScroll控件
+document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
+document.addEventListener('DOMContentLoaded', loaded, false);
+
+</script>
+<{/block}>
+<{block name=hearnav}>
+ <style>
+
+ </style>
+<div class="toptitCon">
+ <div class="toptitBox">
+  <div class="toptitL"><i></i></div>
+  <div class="toptitC"><h3><{$ztyinfo['name']|default:'无专题活动'}></h3></div>
+ </div>
+</div>
+<{/block}>
+<{block name=sitetitle}><{$sitename}><{/block}>
+<{block name=blockcontent}>
+<style>
+p{padding:0px; margin:0px;}
+</style>
+ <div id="wrapper" style="top:40px; ">
+	<div id="scroller">
+	<div id="pullDown" style="display:none;">
+			<span class="pullDownIcon"></span><span class="pullDownLabel">下拉刷新...</span>
+		</div>
+
+ <{if !empty($ztyinfo['specialimg']) }>
+		<!--活动图-->
+        <{if  $ztyinfo['specialimg'] !='emptyimg' }>
+		<div class="foodiscoactdia" style="height:auto;"><img src="<{$ztyinfo['specialimg']}>"></div>
+        <{/if}>        
+
+<{/if}>
+<!--地址定位-->
+
+
+   <div id="specialpagelist">
+ <div class="foodiscoCon"  style="background:<{$ztyinfo['color']}>;">
+     <div class="foodiscoaddconaaa specialone_title">
+
+     </div>
+ <div class="foodiscoBox">
+  <ul class="rlist">
+
+
+ </ul>
+ </div>
+
+	 <center>
+	<div id="pullUp" style="border-top:0px;display:none; ">
+			<div style="width:35%; float:left;text-align:right;"><span class="pullUpIcon" style="  margin-left:60%;"></span></div>
+			<div style="width:65%; float:left;text-align:left;"><span class="pullUpLabel">上拉加载更多...</span></div>
+		</div>
+   </center>
+
+
+
+        <div class="specialone_load" onclick="loadmoer();">
+            <span id="modelist">点击查看更多</span>
+            <i  class="fa fa-spinner fa-pulse modelists" style="display:none;" ></i>
+            <span style="display:none;" class="modelists">正在努力加载中...</span>
+        </div>
+
+
+    <div class="specialone_notice">
+        <h3 style="border-bottom:1px solid #efefef;">活动规则</h3>
+        <div class="specialone_noticebox">
+            <{if !empty($ztyinfo['ruleintro']) }>
+            <p><{$ztyinfo['ruleintro']|htmlspecialchars_decode}></p>
+            <{else}>
+            <p>暂无活动</p>
+            <{/if}>
+        </div>
+    </div>
+
+<!------------------------------------------------------------------------菜品折扣结束------------------------------------------------------------------------------------->
+    <div style="height:10px;"></div>
+ </div>
+   </div>
+
+</div>
+</div>
+
+ <script>
+     function loadmoer(){
+         page = Number(page+1);
+         $(".modelists").show();
+         $("#modelist").hide();
+         getspecialpagelist();
+     }
+ </script>
+
+
+<{/block}>

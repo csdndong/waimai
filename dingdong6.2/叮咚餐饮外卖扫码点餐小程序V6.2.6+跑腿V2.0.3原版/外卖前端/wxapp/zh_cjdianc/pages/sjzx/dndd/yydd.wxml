@@ -1,0 +1,165 @@
+<!--   time:2019-07-18 01:03:21 -->
+<view class="page">
+	<view class="sxlb">
+		<view bindtap="chosetype" class="sxlbv" style="color:{{selecttype?color:''}};border-bottom:{{selecttype?2:'0'}}rpx solid {{color}}">
+			<view>{{typename}}</view>
+			<image class="{{selecttype?'xs':'xx'}}" src="../../../img/down1.png"></image>
+		</view>
+		<view bindtap="choseinfo" class="sxlbv" style="color:{{selectinfo?color:''}};border-bottom:{{selectinfo?2:'0'}}rpx solid {{color}}">
+			<view>查关键词</view>
+			<image class="{{selectinfo?'xs':'xx'}}" src="../../../img/down1.png"></image>
+		</view>
+		<view bindtap="chosedate" class="sxlbv" style="color:{{selectdate?color:''}};border-bottom:{{selectdate?2:'0'}}rpx solid {{color}}">
+			<view>日期范围</view>
+			<image class="{{selectdate?'xs':'xx'}}" src="../../../img/down1.png"></image>
+		</view>
+		<view class="sorting-list {{!selecttype?' chioce-list-hide':' chioce-list-show'}}">
+			<block wx:for="{{datetype}}" wx:for-item="item" wx:for-index="index" >
+				<view bindtap="xztype" class="sorting-item " data-index="{{index}}">{{item}}</view>
+			</block>
+		</view>
+		<view class="sorting-list {{!selectinfo?' chioce-list-hide':' chioce-list-show'}}">
+			<view class="weui-cell weui-cell_input" style="padding:10rpx 30rpx;">
+				<view class="weui-cell__bd">
+					<input bindinput="qginfoinput" class="weui-input" placeholder="请输入姓名/订单编号" value="{{searchinfo}}"></input>
+				</view>
+			</view>
+			<view class="datebtn">
+				<button catchtap="search" data-id="{{oitem.id}}" style="background:{{color}};color: #fff;">查找</button>
+			</view>
+		</view>
+		<view class="sorting-list {{!selectdate?' chioce-list-hide':' chioce-list-show'}}">
+			<view class="weui-cell weui-cell_input">
+				<view class="weui-cell__hd">
+					<view class="weui-label">起始日期</view>
+				</view>
+				<view class="weui-cell__bd">
+					<picker bindchange="bindTimeChange" end="" mode="date" start="" value="{{timestart}}">
+						<view class="weui-input">{{timestart}}</view>
+					</picker>
+				</view>
+				<view class="weui-cell__ft weui-cell__ft_in-access"></view>
+			</view>
+			<view class="weui-cell weui-cell_input">
+				<view class="weui-cell__hd">
+					<view class="weui-label">结束日期</view>
+				</view>
+				<view class="weui-cell__bd">
+					<picker bindchange="bindTimeChange1" end="" mode="date" start="" value="{{timeend}}">
+						<view class="weui-input">{{timeend}}</view>
+					</picker>
+				</view>
+				<view class="weui-cell__ft weui-cell__ft_in-access"></view>
+			</view>
+			<view class="datebtn">
+				<button catchtap="repeat" class="jjjd" data-id="{{oitem.id}}">重置</button>
+				<button catchtap="find" data-id="{{oitem.id}}" style="background:{{color}};color: #fff;">查找</button>
+			</view>
+		</view>
+	</view>
+	<view bindtap="hidemask" class="mask" hidden="{{(!selecttype&&!selectdate)&&!selectinfo}}"></view>
+	<view class="main">
+		<block wx:if="{{order_list.length==0&&mygd}}">
+			<view class="no-data-tip zwdd">
+				<image mode="aspectFit" src="../../../img/list.png"></image>
+				<view>您暂无相关订单哦~</view>
+			</view>
+		</block>
+		<block wx:for="{{order_list}}" wx:for-item="oitem" wx:for-index="oindex" >
+			<navigator class="weui-cells weui-cells_after-title" hoverClass="none" style="filter: {{oitem.order.state==3?'grayscale(100%)':''}};background:{{oitem.order.state==3?'#EDEDED':''}}">
+				<view class="weui-cell">
+					<view class="weui-cell__hd ddxh" style="color:{{color}}">#{{oitem.order.id}}</view>
+					<view class="weui-cell__bd">预约到店时间：{{oitem.order.delivery_time}}</view>
+					<block wx:if="{{oitem.order.yy_state=='2'}}">
+						<view class="weui-cell__ft" style="color:{{color}}">待确认</view>
+					</block>
+					<block wx:if="{{oitem.order.yy_state=='3'}}">
+						<view class="weui-cell__ft" style="color:{{color}}">已通过</view>
+					</block>
+					<block wx:if="{{oitem.order.yy_state=='4'}}">
+						<view class="weui-cell__ft" style="color:{{color}}">已拒绝</view>
+					</block>
+				</view>
+				<view class="weui-cell">
+					<view class="weui-cell__bd">{{oitem.order.name}}</view>
+					<block wx:if="{{oitem.order.pay_type=='1'}}">
+						<view class="weui-cell__ft bold" style="color:#66CD00">微信支付</view>
+					</block>
+					<block wx:if="{{oitem.order.pay_type=='2'}}">
+						<view class="weui-cell__ft bold" style="color:#EEAD0E">余额支付</view>
+					</block>
+					<block wx:if="{{oitem.order.pay_type=='5'}}">
+						<view class="weui-cell__ft bold" style="color:#FF6347">餐后支付</view>
+					</block>
+				</view>
+				<view class="weui-cell">
+					<view class="weui-cell__bd">预计到店人数：{{oitem.order.tableware}}</view>
+				</view>
+				<view class="weui-cell">
+					<view class="weui-cell__bd">预约方式</view>
+					<block wx:if="{{oitem.good.length>0}}" >						<view class="weui-cell__ft">提前下单</view>
+					</block>
+					<block wx:else>
+						<view class="weui-cell__ft">只订座</view>
+					</block>
+				</view>
+				<block wx:if="{{oitem.good.length>0}}">					<view catchtap="kindToggle" class="weui-cell" id="{{oindex}}">
+						<view class="weui-cell__hd">商品信息：</view>
+						<view class="weui-cell__bd" style="color:#999;font-size:22rpx;">{{oitem.good[0].name}}等{{oitem.num}}件商品</view>
+						<view class="weui-cell__ft">
+							<image class="{{oitem.open?'xs':'xx'}}" mode="aspectFit" src="../../../img/down1.png"></image>
+						</view>
+					</view>
+				</block>
+				<block wx:for="{{oitem.good}}" wx:for-item="item" wx:for-index="index" >
+					<block wx:if="{{oitem.open}}">
+						<view class="weui-cell">
+							<view class="weui-cell__hd">
+								<image src="{{item.img}}"></image>
+							</view>
+							<view class="weui-cell__bd">{{item.name}}</view>
+							<view class="weui-cell__ft cpjg">
+								<text>x{{item.number}}</text>￥{{item.money}}							</view>
+						</view>
+					</block>
+				</block>
+				<view class="weui-cell">
+					<view class="weui-cell__bd">定金：{{oitem.order.deposit}}元</view>
+				</view>
+				<view catchtap="maketel" class="weui-cell" data-tel="{{oitem.order.tel}}">
+					<view class="weui-cell__hd">订单金额：</view>
+					<view class="weui-cell__bd" style="color:{{color}}">{{oitem.order.money}}元</view>
+					<view class="weui-cell__ft">
+						<image mode="aspectFit" src="../../../img/lxsj.png"></image>
+					</view>
+				</view>
+				<view class="ddxx">
+					<view>订单编号：{{oitem.order.order_num}}</view>
+					<view>下单时间：{{oitem.order.time}}</view>
+					<block wx:if="{{oitem.order.note!=''}}">
+						<view>留言备注：{{oitem.order.note}}</view>
+					</block>
+				</view>
+				<view class="footbtn">
+					<block wx:if="{{oitem.order.yy_state=='2'}}">
+						<button catchtap="jjjd" class="jjjd" data-id="{{oitem.order.id}}" data-type="4">拒绝订单</button>
+					</block>
+					<block wx:if="{{oitem.order.yy_state=='2'}}">
+						<button catchtap="jjjd" class="djjd" data-id="{{oitem.order.id}}" data-type="3" style="background:{{color}};color: #fff;">确认接单</button>
+					</block>
+				</view>
+			</navigator>
+		</block>
+		<view class="jzz" hidden="{{mygd}}">
+			<image class="Rotation" src="../../../img/jzz.png"></image>
+			<view>加载中...</view>
+		</view>
+		<block wx:if="{{mygd}}">
+			<view class="jzwb">
+				<view class="hx"></view>
+				<view class="wz">加载完毕</view>
+				<view class="hx"></view>
+			</view>
+		</block>
+	</view>
+</view>

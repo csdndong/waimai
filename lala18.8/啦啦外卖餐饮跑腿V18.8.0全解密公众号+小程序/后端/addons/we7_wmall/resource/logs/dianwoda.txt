@@ -1,0 +1,505 @@
+2019-05-14 19:13:38 点我达回调 :开始==================
+array (
+  'content' => 
+  array (
+    'rider_code' => 1,
+    'order_status' => 'created',
+    'order_original_id' => 't1000152_20190514173816287303',
+    'rider_name' => '都别动这账号',
+    'action_code' => 'rider_switch',
+    'action_detail' => '骑手转单',
+    'time_status_update' => 1557832418035,
+    'rider_mobile' => '18368856978',
+  ),
+  'deliver_times' => 1,
+  'msg_id' => 'a1ff8944c4964d7bbc4e1bdd9688d64f',
+  'pub_time' => 1557832418070,
+)
+2019-05-14 19:13:38 点我达回调 :结束==================
+
+2019-05-14 19:17:09 点我达回调 :开始==================
+array (
+  'content' => 
+  array (
+    'rider_code' => 1,
+    'order_status' => 'dispatched',
+    'order_original_id' => 't1000152_20190514191553668836',
+    'rider_name' => '都别动这账号',
+    'action_code' => 'rider_dispatch',
+    'action_detail' => '骑手接单',
+    'time_status_update' => 1557832629499,
+    'rider_mobile' => '18368856978',
+  ),
+  'deliver_times' => 1,
+  'msg_id' => '69f0ca87efd54fcca5d70a568ab7fb08',
+  'pub_time' => 1557832629508,
+)
+2019-05-14 19:17:09 点我达回调 :结束==================
+
+2019-05-14 19:18:13 点我达回调 :开始==================
+array (
+  'content' => 
+  array (
+    'rider_code' => 1,
+    'order_status' => 'arrived',
+    'order_original_id' => 't1000152_20190514191553668836',
+    'rider_name' => '都别动这账号',
+    'action_code' => 'rider_arrive',
+    'action_detail' => '骑手到店',
+    'time_status_update' => 1557832693406,
+    'rider_mobile' => '18368856978',
+  ),
+  'deliver_times' => 1,
+  'msg_id' => '08fa1fa075a54dc3b7f85def0415ca4b',
+  'pub_time' => 1557832693421,
+)
+2019-05-14 19:18:13 点我达回调 :结束==================
+
+2019-05-14 19:18:58 点我达回调 :开始==================
+array (
+  'content' => 
+  array (
+    'rider_code' => 1,
+    'order_status' => 'obtained',
+    'order_original_id' => 't1000152_20190514191553668836',
+    'rider_name' => '都别动这账号',
+    'action_code' => 'rider_obtain',
+    'action_detail' => '骑手离店',
+    'time_status_update' => 1557832738441,
+    'rider_mobile' => '18368856978',
+  ),
+  'deliver_times' => 1,
+  'msg_id' => '564c1fb374da444385c78bab47795917',
+  'pub_time' => 1557832738463,
+)
+2019-05-14 19:18:58 点我达回调 :结束==================
+
+2019-05-14 19:21:09 点我达回调 :开始==================
+array (
+  'content' => 
+  array (
+    'rider_code' => 1,
+    'order_status' => 'completed',
+    'order_original_id' => 't1000152_20190514191553668836',
+    'rider_name' => '都别动这账号',
+    'action_code' => 'customer_sign',
+    'action_detail' => '货品送达',
+    'time_status_update' => 1557832869000,
+    'rider_mobile' => '18368856978',
+  ),
+  'deliver_times' => 1,
+  'msg_id' => '2ff9d397c71f4b0da82d1560607f072b',
+  'pub_time' => 1557832869667,
+)
+2019-05-14 19:21:09 点我达回调 :结束==================
+
+2019-05-14 20:13:38 点我达回调 :开始==================
+array (
+  'content' => 
+  array (
+    'action_sub_code' => 'platform_for_dispatch_timeout',
+    'order_status' => 'canceled',
+    'order_original_id' => 't1000152_20190514173816287303',
+    'action_code' => 'platform_cancel',
+    'action_detail' => '点我达系统关闭订单-派单超时',
+    'time_status_update' => 1557836018031,
+  ),
+  'deliver_times' => 1,
+  'msg_id' => '82c2cd88f0d4485cac020f7bdd0421f9',
+  'pub_time' => 1557836018040,
+)
+2019-05-14 20:13:38 点我达回调 :结束==================
+
+2019-05-16 09:25:28 点我达回调 :开始==================
+array (
+  'content' => 
+  array (
+    'rider_code' => 1,
+    'order_status' => 'dispatched',
+    'order_original_id' => 't1000152_20190516092128360418',
+    'rider_name' => '都别动这账号',
+    'action_code' => 'rider_dispatch',
+    'action_detail' => '骑手接单',
+    'time_status_update' => 1557969928464,
+    'rider_mobile' => '18368856978',
+  ),
+  'deliver_times' => 1,
+  'msg_id' => '3491762357cc4f2d8f409d67db36897b',
+  'pub_time' => 1557969928473,
+)
+2019-05-16 09:25:28 点我达回调 :结束==================
+
+2019-05-16 09:32:14 点我达回调 :开始==================
+array (
+  'content' => 
+  array (
+    'rider_code' => 1,
+    'order_status' => 'created',
+    'order_original_id' => 't1000152_20190516092128360418',
+    'rider_name' => '都别动这账号',
+    'action_code' => 'rider_switch',
+    'action_detail' => '骑手转单',
+    'time_status_update' => 1557970334501,
+    'rider_mobile' => '18368856978',
+  ),
+  'deliver_times' => 1,
+  'msg_id' => '0d748c4f70c648838253c96236654e33',
+  'pub_time' => 1557970334541,
+)
+2019-05-16 09:32:14 点我达回调 :结束==================
+
+2019-05-16 09:32:23 点我达回调 :开始==================
+array (
+  'content' => 
+  array (
+    'rider_code' => 1,
+    'order_status' => 'dispatched',
+    'order_original_id' => 't1000152_20190516092128360418',
+    'rider_name' => '都别动这账号',
+    'action_code' => 'rider_dispatch',
+    'action_detail' => '骑手接单',
+    'time_status_update' => 1557970343687,
+    'rider_mobile' => '18368856978',
+  ),
+  'deliver_times' => 1,
+  'msg_id' => 'eceb6947bd874e4caace7c546d650945',
+  'pub_time' => 1557970343698,
+)
+2019-05-16 09:32:23 点我达回调 :结束==================
+
+2019-05-16 10:32:24 点我达回调 :开始==================
+array (
+  'content' => 
+  array (
+    'rider_code' => 1,
+    'action_sub_code' => 'platform_for_arrive_timeout',
+    'order_status' => 'canceled',
+    'order_original_id' => 't1000152_20190516092128360418',
+    'rider_name' => '都别动这账号',
+    'action_code' => 'platform_cancel',
+    'action_detail' => '点我达系统关闭订单-长时间未到店',
+    'time_status_update' => 1557973944029,
+    'rider_mobile' => '18368856978',
+  ),
+  'deliver_times' => 1,
+  'msg_id' => 'dd85532701be42d0a1dccf0f92460b1a',
+  'pub_time' => 1557973944044,
+)
+2019-05-16 10:32:24 点我达回调 :结束==================
+
+2019-05-16 10:50:47 点我达回调 :开始==================
+array (
+  'content' => 
+  array (
+    'rider_code' => 1,
+    'order_status' => 'dispatched',
+    'order_original_id' => 't1000152_20190516104925288002',
+    'rider_name' => '都别动这账号',
+    'action_code' => 'rider_dispatch',
+    'action_detail' => '骑手接单',
+    'time_status_update' => 1557975046673,
+    'rider_mobile' => '18368856978',
+  ),
+  'deliver_times' => 1,
+  'msg_id' => 'e363bd8070d54cfaa341f16d34618e7f',
+  'pub_time' => 1557975046682,
+)
+2019-05-16 10:50:47 点我达回调 :结束==================
+
+2019-05-16 10:51:32 点我达回调 :开始==================
+array (
+  'content' => 
+  array (
+    'rider_code' => 1,
+    'action_sub_code' => 'other',
+    'order_status' => 'canceled',
+    'order_original_id' => 't1000152_20190516104925288002',
+    'rider_name' => '都别动这账号',
+    'action_code' => 'platform_cancel',
+    'action_detail' => '点我达系统关闭订单-系统检测或其他特殊原因',
+    'time_status_update' => 1557975092816,
+    'rider_mobile' => '18368856978',
+  ),
+  'deliver_times' => 1,
+  'msg_id' => '7eaf1ff4b877437181859f8a3a857547',
+  'pub_time' => 1557975092826,
+)
+2019-05-16 10:51:32 点我达回调 :结束==================
+
+2019-05-16 11:07:08 点我达回调 :开始==================
+array (
+  'content' => 
+  array (
+    'rider_code' => 1,
+    'order_status' => 'dispatched',
+    'order_original_id' => 't1000152_20190516110610436406',
+    'rider_name' => '都别动这账号',
+    'action_code' => 'rider_dispatch',
+    'action_detail' => '骑手接单',
+    'time_status_update' => 1557976028003,
+    'rider_mobile' => '18368856978',
+  ),
+  'deliver_times' => 1,
+  'msg_id' => 'be6fb662c05446a1951dcf4e91395311',
+  'pub_time' => 1557976028012,
+)
+2019-05-16 11:07:08 点我达回调 :结束==================
+
+2019-05-16 11:07:25 点我达回调 :开始==================
+array (
+  'content' => 
+  array (
+    'rider_code' => 1,
+    'action_sub_code' => 'other',
+    'order_status' => 'canceled',
+    'order_original_id' => 't1000152_20190516110610436406',
+    'rider_name' => '都别动这账号',
+    'action_code' => 'platform_cancel',
+    'action_detail' => '点我达系统关闭订单-系统检测或其他特殊原因',
+    'time_status_update' => 1557976045044,
+    'rider_mobile' => '18368856978',
+  ),
+  'deliver_times' => 1,
+  'msg_id' => 'f9e49e49937a4ed9876480de49b2dc81',
+  'pub_time' => 1557976045052,
+)
+2019-05-16 11:07:25 点我达回调 :结束==================
+
+2019-05-16 11:22:13 点我达回调 :开始==================
+array (
+  'content' => 
+  array (
+    'rider_code' => 1,
+    'order_status' => 'dispatched',
+    'order_original_id' => 't1000152_20190516111636252323',
+    'rider_name' => '都别动这账号',
+    'action_code' => 'rider_dispatch',
+    'action_detail' => '骑手接单',
+    'time_status_update' => 1557976933031,
+    'rider_mobile' => '18368856978',
+  ),
+  'deliver_times' => 1,
+  'msg_id' => '6726835a28584e62a28ec586aa308246',
+  'pub_time' => 1557976933043,
+)
+2019-05-16 11:22:13 点我达回调 :结束==================
+
+2019-05-16 11:22:50 点我达回调 :开始==================
+array (
+  'content' => 
+  array (
+    'rider_code' => 1,
+    'order_status' => 'created',
+    'order_original_id' => 't1000152_20190516111636252323',
+    'rider_name' => '都别动这账号',
+    'action_code' => 'rider_switch',
+    'action_detail' => '骑手转单',
+    'time_status_update' => 1557976970860,
+    'rider_mobile' => '18368856978',
+  ),
+  'deliver_times' => 1,
+  'msg_id' => 'bb1055050f8447c1b29ad57ae124a472',
+  'pub_time' => 1557976970880,
+)
+2019-05-16 11:22:50 点我达回调 :结束==================
+
+2019-05-16 11:22:58 点我达回调 :开始==================
+array (
+  'content' => 
+  array (
+    'rider_code' => 1,
+    'order_status' => 'dispatched',
+    'order_original_id' => 't1000152_20190516111636252323',
+    'rider_name' => '都别动这账号',
+    'action_code' => 'rider_dispatch',
+    'action_detail' => '骑手接单',
+    'time_status_update' => 1557976978559,
+    'rider_mobile' => '18368856978',
+  ),
+  'deliver_times' => 1,
+  'msg_id' => '76bdeae9624444509f398c61fd6d37dd',
+  'pub_time' => 1557976978571,
+)
+2019-05-16 11:22:58 点我达回调 :结束==================
+
+2019-05-16 11:23:31 点我达回调 :开始==================
+array (
+  'content' => 
+  array (
+    'rider_code' => 1,
+    'order_status' => 'created',
+    'order_original_id' => 't1000152_20190516111636252323',
+    'rider_name' => '都别动这账号',
+    'action_code' => 'rider_switch',
+    'action_detail' => '骑手转单',
+    'time_status_update' => 1557977010975,
+    'rider_mobile' => '18368856978',
+  ),
+  'deliver_times' => 1,
+  'msg_id' => 'ba64cfe83c4645b5813b1a9b338794af',
+  'pub_time' => 1557977010996,
+)
+2019-05-16 11:23:31 点我达回调 :结束==================
+
+2019-05-16 11:26:26 点我达回调 :开始==================
+array (
+  'content' => 
+  array (
+    'rider_code' => 1,
+    'order_status' => 'dispatched',
+    'order_original_id' => 't1000152_20190516112549666169',
+    'rider_name' => '都别动这账号',
+    'action_code' => 'rider_dispatch',
+    'action_detail' => '骑手接单',
+    'time_status_update' => 1557977186546,
+    'rider_mobile' => '18368856978',
+  ),
+  'deliver_times' => 1,
+  'msg_id' => 'ff15e0a871fb419f9d9080642c7f2879',
+  'pub_time' => 1557977186554,
+)
+2019-05-16 11:26:26 点我达回调 :结束==================
+
+2019-05-16 11:26:48 点我达回调 :开始==================
+array (
+  'content' => 
+  array (
+    'rider_code' => 1,
+    'order_status' => 'created',
+    'order_original_id' => 't1000152_20190516112549666169',
+    'rider_name' => '都别动这账号',
+    'action_code' => 'rider_switch',
+    'action_detail' => '骑手转单',
+    'time_status_update' => 1557977208190,
+    'rider_mobile' => '18368856978',
+  ),
+  'deliver_times' => 1,
+  'msg_id' => 'cc4a42943a4d4431920d170d8d430898',
+  'pub_time' => 1557977208212,
+)
+2019-05-16 11:26:48 点我达回调 :结束==================
+
+2019-05-16 11:27:45 点我达回调 :开始==================
+array (
+  'content' => 
+  array (
+    'rider_code' => 1,
+    'order_status' => 'dispatched',
+    'order_original_id' => 't1000152_20190516112549666169',
+    'rider_name' => '都别动这账号',
+    'action_code' => 'rider_dispatch',
+    'action_detail' => '骑手接单',
+    'time_status_update' => 1557977265361,
+    'rider_mobile' => '18368856978',
+  ),
+  'deliver_times' => 1,
+  'msg_id' => '23eb8b13365b4e6ab2abc57c04105789',
+  'pub_time' => 1557977265372,
+)
+2019-05-16 11:27:45 点我达回调 :结束==================
+
+2019-05-16 11:28:15 点我达回调 :开始==================
+array (
+  'content' => 
+  array (
+    'rider_code' => 1,
+    'action_sub_code' => 'other',
+    'order_status' => 'canceled',
+    'order_original_id' => 't1000152_20190516112549666169',
+    'rider_name' => '都别动这账号',
+    'action_code' => 'platform_cancel',
+    'action_detail' => '点我达系统关闭订单-系统检测或其他特殊原因',
+    'time_status_update' => 1557977295549,
+    'rider_mobile' => '18368856978',
+  ),
+  'deliver_times' => 1,
+  'msg_id' => '6d7920935a7a4993b209dcef184db5e4',
+  'pub_time' => 1557977295560,
+)
+2019-05-16 11:28:15 点我达回调 :结束==================
+
+2019-05-23 15:35:17 点我达回调 :开始==================
+array (
+  'content' => 
+  array (
+    'action_sub_code' => 'platform_for_dispatch_timeout',
+    'order_status' => 'canceled',
+    'order_original_id' => 't1000152_20190523142401467771',
+    'action_code' => 'platform_cancel',
+    'action_detail' => '点我达系统关闭订单-派单超时',
+    'time_status_update' => 1558596917025,
+  ),
+  'deliver_times' => 1,
+  'msg_id' => 'a6987a141a804cd68e4c0cd245ae7946',
+  'pub_time' => 1558596917034,
+)
+2019-05-23 15:35:17 点我达回调 :结束==================
+
+2019-05-23 15:48:15 点我达回调 :开始==================
+array (
+  'content' => 
+  array (
+    'action_sub_code' => 'platform_for_dispatch_timeout',
+    'order_status' => 'canceled',
+    'order_original_id' => 't1000152_20190523144530224756',
+    'action_code' => 'platform_cancel',
+    'action_detail' => '点我达系统关闭订单-派单超时',
+    'time_status_update' => 1558597695029,
+  ),
+  'deliver_times' => 1,
+  'msg_id' => '93f1263e21ce4e4498e8df294f9afb36',
+  'pub_time' => 1558597695059,
+)
+2019-05-23 15:48:15 点我达回调 :结束==================
+
+2019-05-23 16:19:13 点我达回调 :开始==================
+array (
+  'content' => 
+  array (
+    'action_sub_code' => 'platform_for_dispatch_timeout',
+    'order_status' => 'canceled',
+    'order_original_id' => 't1000152_20190523151854455331',
+    'action_code' => 'platform_cancel',
+    'action_detail' => '点我达系统关闭订单-派单超时',
+    'time_status_update' => 1558599553021,
+  ),
+  'deliver_times' => 1,
+  'msg_id' => 'af11865b36de4bf18efc158b4663ca35',
+  'pub_time' => 1558599553032,
+)
+2019-05-23 16:19:13 点我达回调 :结束==================
+
+2019-05-23 16:53:56 点我达回调 :开始==================
+array (
+  'content' => 
+  array (
+    'action_sub_code' => 'platform_for_dispatch_timeout',
+    'order_status' => 'canceled',
+    'order_original_id' => 't1000152_20190523154514804656',
+    'action_code' => 'platform_cancel',
+    'action_detail' => '点我达系统关闭订单-派单超时',
+    'time_status_update' => 1558601636030,
+  ),
+  'deliver_times' => 1,
+  'msg_id' => '0ca77c775698424e91aff2fbb514dacc',
+  'pub_time' => 1558601636040,
+)
+2019-05-23 16:53:56 点我达回调 :结束==================
+
+2019-05-23 17:16:24 点我达回调 :开始==================
+array (
+  'content' => 
+  array (
+    'action_sub_code' => 'platform_for_dispatch_timeout',
+    'order_status' => 'canceled',
+    'order_original_id' => 't1000152_20190523160637354909',
+    'action_code' => 'platform_cancel',
+    'action_detail' => '点我达系统关闭订单-派单超时',
+    'time_status_update' => 1558602984020,
+  ),
+  'deliver_times' => 1,
+  'msg_id' => '66cc750fa6704d96b5f3d6d2d5f3364f',
+  'pub_time' => 1558602984031,
+)
+2019-05-23 17:16:24 点我达回调 :结束==================
+

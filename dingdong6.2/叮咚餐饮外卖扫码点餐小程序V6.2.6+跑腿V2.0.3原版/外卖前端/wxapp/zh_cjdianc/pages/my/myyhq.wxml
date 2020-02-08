@@ -1,0 +1,91 @@
+<!--   time:2019-07-18 01:07:55 -->
+<view class="list_header" style="background-color:{{color}};">
+	<block wx:for="{{tabs}}" wx:for-item="item" wx:for-index="index" >
+		<view bindtap="tabClick" class="list_title {{activeIndex==index?'selsect':'default'}}" id="{{index}}">
+			<view>{{item}}</view>
+			<view class="list_border" hidden="{{activeIndex!=index}}"></view>
+		</view>
+	</block>
+</view>
+<view class="main">
+	<block wx:if="{{activeIndex==0}}">
+		<block wx:for="{{ptarr}}" wx:for-item="item" wx:for-index="index" >
+			<view class="sjhb">
+				<view class="sjhbtop flex-row flex-y-center">
+					<view class="flex-grow-1 flex-col">
+						<view class="flex-grow-1 yhname">{{item.name}}</view>
+						<block wx:if="{{item.coupon_type=='1'}}">
+							<view class="flex-grow-1 yhtype">店外可用</view>
+						</block>
+						<block wx:if="{{item.coupon_type=='2'}}">
+							<view class="flex-grow-1 yhtype">店内可用</view>
+						</block>
+						<block wx:if="{{item.coupon_type=='3'}}">
+							<view class="flex-grow-1 yhtype">店内店外</view>
+						</block>
+						<view class="flex-grow-1 yhtime">有效期至：{{item.end_time}}</view>
+					</view>
+					<view class="flex-grow-0 flex-col flex-y-center">
+						<view class="flex-grow-1 yhmoney">￥{{item.reduce}}</view>
+						<view class="flex-grow-1 yhtj">满{{item.full}}可用</view>
+					</view>
+				</view>
+				<view class="sjhbbtm">
+					<view class="hyuan1"></view>
+					<view class="hyuan2"></view>
+					<view class="flex-grow-1 sysm">{{item.instruction}},<block wx:if="{{item.type_name.length>0}}">							<text>限<block wx:for="{{item.type_name}}" wx:for-item="item" wx:for-index="index" >
+									<text>{{item}},</text>
+								</block>类商家使用。							</text>
+						</block>
+					</view>
+				</view>
+			</view>
+		</block>
+		<block wx:if="{{ptarr.length==0}}">
+			<view class="list_imgbk2">
+				<image class="list_imgbk" src="../../img/list.png"></image>
+				<view class="list_imgbk3" style="margin-top:-10rpx;">您暂时还没有平台红包哦！</view>
+			</view>
+		</block>
+	</block>
+	<block wx:if="{{activeIndex==1}}">
+		<block wx:for="{{sjarr}}" wx:for-item="item" wx:for-index="index" >
+			<view class="sjhb">
+				<view class="sjhbtop flex-row flex-y-center">
+					<view class="mdlogo flex-row flex-y-center">
+						<image src="{{item.logo}}"></image>
+					</view>
+					<view class="flex-grow-1 flex-col">
+						<view class="flex-grow-1 yhname">{{item.store_name}}</view>
+						<block wx:if="{{item.coupon_type=='1'}}">
+							<view class="flex-grow-1 yhtype">店外可用</view>
+						</block>
+						<block wx:if="{{item.coupon_type=='2'}}">
+							<view class="flex-grow-1 yhtype">店内可用</view>
+						</block>
+						<block wx:if="{{item.coupon_type=='3'}}">
+							<view class="flex-grow-1 yhtype">店内店外</view>
+						</block>
+						<view class="flex-grow-1 yhtime">有效期至：{{item.end_time}}</view>
+					</view>
+					<view class="flex-grow-0 flex-col flex-y-center">
+						<view class="flex-grow-1 yhmoney">￥{{item.reduce}}</view>
+						<view class="flex-grow-1 yhtj">满{{item.full}}可用</view>
+					</view>
+				</view>
+				<view class="sjhbbtm">
+					<view class="hyuan1"></view>
+					<view class="hyuan2"></view>
+					<view class="flex-grow-1 sysm">{{item.instruction}}</view>
+					<view bindtap="qsy" class="flex-grow-0 qsy" data-sjid="{{item.store_id}}">去使用></view>
+				</view>
+			</view>
+		</block>
+		<block wx:if="{{sjarr.length==0}}">
+			<view class="list_imgbk2">
+				<image class="list_imgbk" src="../../img/list.png"></image>
+				<view class="list_imgbk3" style="margin-top:-10rpx;">您暂时还没有商家红包哦！</view>
+			</view>
+		</block>
+	</block>
+</view>

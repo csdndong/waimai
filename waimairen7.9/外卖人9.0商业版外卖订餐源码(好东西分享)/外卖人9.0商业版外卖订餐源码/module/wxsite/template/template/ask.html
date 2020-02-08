@@ -1,0 +1,189 @@
+ <{extends file="<{$tempdir}>/public/wxsite.html"}>  
+<{block name=extendcss}> 
+<link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/shoplist.css">   
+<style>
+	.listselect {
+margin-top: 10px;
+margin-bottom: 10px;
+background-color: #fff;
+}
+.liststyle1 li {
+margin-left: 5px;
+margin-right: 5px;
+padding-left: 10px;
+padding-right: 10px;
+border-bottom: 1px solid #e5e5e5;
+display: -webkit-box;
+display: -moz-box;
+display: -o-box;
+display: box;
+-webkit-box-align: center;
+-moz-box-align: center;
+-o-box-align: center;
+box-align: center;
+padding-top: 5px;
+padding-bottom: 5px;
+}
+.listselect h1 {
+	margin-top:10px;
+color: red;
+font-weight: bold;
+padding-left: 10px;
+line-height: 40px;
+height: 40px;
+border-top: 1px solid #e5e5e5;
+border-bottom: 1px solid #e5e5e5;
+}
+	</style>
+<{/block}>
+ <{block name=extendjs}>  
+ <script> 
+		var myScroll;
+function loaded() {
+	myScroll = new iScroll('wrapper', {
+		useTransform: false,
+		onBeforeScrollStart: function (e) {
+			var target = e.target;
+			while (target.nodeType != 1) target = target.parentNode;
+
+			if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA'){
+				e.preventDefault();
+				}
+		}
+	});
+}
+ 
+
+document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
+document.addEventListener('DOMContentLoaded', loaded, false);
+</script>
+ <script>
+$(function(){ 
+  	$('#feedbackSubmit').click(function(){   
+  	   	 showLoading(); 
+  	    var info = {'content':$('#feedbackContent').val(),'shopid':'0','Captcha':'','type':'5'}; 
+		    var url =  siteurl+'/index.php?ctrl=ask&action=saveask&datatype=json&random=@random@';  
+		     $.ajax({ 
+             url: url.replace('@random@', 1+Math.round(Math.random()*1000)), 
+            dataType: "json", 
+            data:info, 
+            success:function(content) { 
+
+            	    
+            	   if(content.error ==  false){
+				   newhideLoading();
+            	   	Tmsg('操作成功');
+            	   	location.reload();  
+            	   }else{
+				   newhideLoading();
+            	   	Tmsg(content.msg);
+            	   }
+
+            },
+
+            error:function(){
+
+            	    newhideLoading();
+
+            }
+
+         });  
+	 });
+});
+</script>
+<{/block}>
+<{block name=sitetitle}><{$sitename}><{/block}>
+ <{block name=hearnav}>
+<div class="toptitCon">
+ <div class="toptitBox">
+  <div class="toptitL"><i></i></div>
+  <div class="toptitC"><h3>意见反馈</h3></div>
+ </div>
+</div>
+<{/block}>
+<{block name=blockcontent}> 
+  <style>
+  .feedback-input {
+    display: block;
+    width: 100%;
+    height: 130px;
+    margin-top: 5px;
+    font-size: 15px;-webkit-box-sizing: border-box;
+    border: 1px solid #dddddd;
+}
+.comtextarea {
+    border: 1px solid #D2D2D2;
+    resize: none;
+    padding: 10px;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -ms-boder-radius: 3px;
+}
+.feedback-phone {
+    width: 100%;
+    height: 30px;
+    margin-top: 10px;
+    font-size: 15px;
+    border: 1px solid #dddddd;
+    padding-left: 10px;
+}
+.borderradius-3 {-webkit-box-sizing: border-box;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -ms-boder-radius: 3px;
+    -o-boder-radius: 3px;
+}
+  </style>
+
+  
+ <div id="wrapper" style="top:40px;">
+	<div id="scroller">
+	 
+
+	 <div style="padding: 13px 10px 0;">
+		<textarea id="feedbackContent" class="comtextarea feedback-input" placeholder="请留下您的宝贵意见或建议，我们将努力改进"></textarea>
+		<input id="feedbackTelOrEmail" class="feedback-phone borderradius-3" placeholder="请留下手机号码，以便我们回复您">
+
+		<div id="feedback-error" class="feedback-error"></div>
+ 	</div>
+	 
+	 		 <div style="margin-top:10px;"   class="interulebutton"  id="feedbackSubmit" ><input type="button" value="发送反馈"></div>
+<!-- 	 		 <div style="margin-top:10px;"   class="interulebutton"  ><a href="<{$appdownload1}>"><input type="button" value="用户端app下载"></a> </div>
+ -->
+	 
+
+  <div class="container" style="padding-top:0px;background:none; display:none;">
+ 
+  <section class="listselect">
+ 	     <h1>最近10条留言  </h1>
+ 	     <div style="clear:both;"></div>
+  			<ul class="liststyle1">
+  				  <{load_data assign="comentlist" table="ask"   fileds="*"   limit="10" orderby=" id desc" }>  
+  				  <{if count($comentlist['list']) > 0}>
+  				    <{foreach from=$comentlist['list'] item=items}>
+  				     <li class="touchend">
+  			  	      <div class="liwd50"><{$items['content']}></div>
+  			  	      <div class="liwd50 ">
+  			  	      	 <div  >
+  			  	      	 	   <{$items['addtime']|date_format:"%Y-%m-%d %H:%M:%S"}></div>
+  			  	      	  
+  			  	       </div> 
+  			       </li>
+  			     <{/foreach}>
+  				  <{else}>
+  				<li class="touchend" style="height:80px;">
+  					   <div style="line-height:80px;text-align:center;width:100%;">暂无评价</div>
+  			  </li>
+  			   <{/if}>
+  			 
+  			</ul> 
+ </section>
+ </div>
+
+
+ 
+ </div>
+ </div>
+<{/block}>

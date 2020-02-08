@@ -1,0 +1,6 @@
+{
+    "navigationBarTitleText": "备注",
+    "usingComponents": {
+        "cardlist": "/zh_cjdianc/dist/cardlist/index"
+    }
+}

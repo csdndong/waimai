@@ -1,0 +1,63 @@
+page {
+    background: #F5F5F5;
+}
+
+.wallet {
+    width: 100%;
+    overflow-x: hidden;
+}
+
+.mywallet {
+    background-color: white;
+    margin-top: 20rpx;
+    padding: 30rpx;
+}
+
+.title {
+    color: #333;
+    font-size: 30rpx;
+}
+
+.mywallet_info {
+    margin-top: 20rpx;
+}
+
+.wallet_img {
+    width: 70rpx;
+    height: 70rpx;
+}
+
+.wallet_money {
+    color: #333;
+    font-size: 48rpx;
+    margin-left: 20rpx;
+}
+
+.addright {
+    width: 30rpx;
+    height: 30rpx;
+}
+
+.walletcash {
+    font-size: 24rpx;
+    color: #999;
+    margin-right: 20rpx;
+}
+
+.list {
+    margin-top: 20rpx;
+    background-color: white;
+    padding: 0rpx 30rpx;
+    height: 90rpx;
+}
+
+.listimg {
+    width: 40rpx;
+    height: 40rpx;
+    margin-right: 20rpx;
+}
+
+.trade {
+    font-size: 28rpx;
+    color: #666;
+}

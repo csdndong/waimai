@@ -1,0 +1,51 @@
+<!--   time:2019-07-18 01:07:53 -->
+<view class="head ba_f">
+	<view bindtap="one" class="{{ac_index==0?'sele':'no_sele'}}" style="border-color:{{ac_index==0?color:''}}">一级</view>
+	<block wx:if="{{fxset.is_ej=='2'}}">
+		<view bindtap="two" class="{{ac_index==1?'sele':'no_sele'}}" style="border-color:{{ac_index==1?color:''}}">二级</view>
+	</block>
+</view>
+<block wx:if="{{ac_index==0}}">
+	<view class="list mar_t ba_f">
+		<block wx:for="{{MyTeam.one}}" wx:for-item="item" wx:for-index="index" >
+			<view class="pa">
+				<view>
+					<image class="dis_in" mode="aspectFill" src="{{item.img}}"></image>
+					<view class="dis_in">
+						<view class="fon_30 color_6">{{item.name}}</view>
+						<view class="fon_24 color_9 pa_0">成为下线时间 {{item.time}}</view>
+					</view>
+				</view>
+			</view>
+		</block>
+	</view>
+</block>
+<block wx:if="{{ac_index==0&&MyTeam.one.length==0}}">
+	<view class="jzwb">
+		<view class="hx"></view>
+		<view class="wz">您暂无一级团队哦~</view>
+		<view class="hx"></view>
+	</view>
+</block>
+<block wx:if="{{ac_index==1}}">
+	<view class="list mar_t ba_f">
+		<block wx:for="{{MyTeam.two}}" wx:for-item="item" wx:for-index="index" >
+			<view class="pa">
+				<view>
+					<image class="dis_in" mode="aspectFill" src="{{item.img}}"></image>
+					<view class="dis_in">
+						<view class="fon_30 color_6">{{item.name}}</view>
+						<view class="fon_24 color_9 pa_0">成为下线时间 {{item.time}}</view>
+					</view>
+				</view>
+			</view>
+		</block>
+	</view>
+</block>
+<block wx:if="{{ac_index==1&&MyTeam.two.length==0}}">
+	<view class="jzwb">
+		<view class="hx"></view>
+		<view class="wz">您暂无二级团队哦~</view>
+		<view class="hx"></view>
+	</view>
+</block>

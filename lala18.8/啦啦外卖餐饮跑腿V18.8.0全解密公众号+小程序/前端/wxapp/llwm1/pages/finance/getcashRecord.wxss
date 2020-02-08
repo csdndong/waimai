@@ -1,0 +1,120 @@
+page {
+    font-size: 14px;
+    box-sizing: border-box;
+    width: 100%;
+    background-color: #F0EFF5;
+}
+
+::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    color: transparent;
+}
+
+.page-getcashRecord .buttons-tab {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 45px;
+    display: flex;
+    flex-wrap: nowrap;
+    align-self: center;
+    z-index: 9;
+    background-color: #fff;
+}
+
+.page-getcashRecord .buttons-tab .tabs {
+    width: 100%;
+    height: 43px;
+    font-size: 15px;
+    line-height: 43px;
+    padding: 0 10px;
+    text-align: center;
+    text-decoration: none;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+}
+
+.page-getcashRecord .buttons-tab .tabs.active {
+    color: #33aafc;
+    border-color: #33aafc;
+}
+
+.page-getcashRecord .content {
+    padding-top: 45px;
+}
+
+.page-getcashRecord .content .getcash-list {
+    position: relative;
+}
+
+.page-getcashRecord .content .getcash-list .getcash-item {
+    padding: 12px 15px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    line-height: 1.4;
+    font-size: 14px;
+    background-color: #fff;
+}
+
+.page-getcashRecord .content .getcash-list .getcash-item .left .text {
+    line-height: 24px;
+    font-size: 14px;
+}
+
+.page-getcashRecord .content .getcash-list .getcash-item .left .time {
+    line-height: 1.2;
+    font-size: 12px;
+    color: #666;
+}
+
+.page-getcashRecord .content .getcash-list .getcash-item .right {
+    position: relative;
+    text-align: right;
+    color: #666;
+}
+
+.page-getcashRecord .content .getcash-list .getcash-item .right .price {
+    line-height: 24px;
+    font-size: 14px;
+}
+
+.page-getcashRecord .content .getcash-list .getcash-item .right .price.add {
+    color: #4CD964;
+    font-weight: bold;
+}
+
+.page-getcashRecord .content .getcash-list .getcash-item .right .price.del {
+    color: #F6383A;
+    font-weight: bold;
+}
+
+.page-getcashRecord .content .getcash-list .getcash-item .right .fee_price {
+    line-height: 1.2;
+    font-size: 12px;
+    color: #666;
+}
+
+.page-getcashRecord .content .getcash-list .wui-loadmore .wui-loadmore-tips {
+    background-color: #F0EFF5;
+}
+
+.page-getcashRecord .content .no-data {
+    padding-top: 50%;
+    text-align: center;
+}
+
+.page-getcashRecord .content .no-data image {
+    width: 160px;
+}
+
+.page-getcashRecord .content .no-data .tip {
+    font-size: 18px;
+    color: #999;
+}

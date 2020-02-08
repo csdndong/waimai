@@ -1,0 +1,52 @@
+<form bindreset="formReset" bindsubmit="formSubmit" reportSubmit="true">
+    <view class="main" style="background:{{color}}">
+        <view class="top">
+            <view class="pdxh1" style="color:#999;text-align:center;">{{NumberDetail.num}}</view>
+            <view class="pdxh1" style="color:{{color}}">排队序号</view>
+            <view class="pdxh2" style="color:{{color}}">{{NumberDetail.code}}</view>
+            <view class="pdxh3" style="color:{{color}}">前方等待人数：{{NumberDetail.wait}}</view>
+        </view>
+        <view class="xx">
+            <view class="hyuan1" style="background:{{color}}"></view>
+            <view class="hyuan2" style="background:{{color}}"></view>
+        </view>
+        <view class="bottom" style="border-color:{{color}}">
+            <view>{{storeinfo.address}}</view>
+            <view bindtap="seller_info" class="flex-row flex-y-center cxqh" style="background:{{color}}">
+                <image mode="aspectFit" src="../../img/location.png"></image>
+                <view>前往商家</view>
+            </view>
+            <view class="weui-cells weui-cells_after-title sjxx">
+                <view class="weui-cell weui-cell_access" hoverClass="weui-cell_active">
+                    <view class="weui-cell__hd">
+                        <image mode="aspectFit" src="../../img/seller/xiuxi.png"></image>
+                    </view>
+                    <view class="weui-cell__bd">取号时间：
+          </view>
+                    <view class="weui-cell__ft">{{NumberDetail.time}}</view>
+                </view>
+                <navigator class="weui-cell weui-cell_access" hoverClass="weui-cell_active" url="infomation">
+                    <view class="weui-cell__hd">
+                        <image mode="aspectFit" src="../../img/personal/intergal.png"></image>
+                    </view>
+                    <view class="weui-cell__bd">商家环境</view>
+                    <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+                </navigator>
+                <view bindtap="maketel" class="weui-cell weui-cell_access" hoverClass="weui-cell_active">
+                    <view class="weui-cell__hd">
+                        <image mode="aspectFit" src="../../img/seller/tel.png"></image>
+                    </view>
+                    <view class="weui-cell__bd">商家电话：
+          </view>
+                    <view class="weui-cell__ft weui-cell__ft_in-access">{{storeinfo.tel}}</view>
+                </view>
+            </view>
+            <view class="footer">
+                <button formType="submit" style="background:{{color}}">取消排号</button>
+            </view>
+        </view>
+    </view>
+</form>
+<button bindtap="refresh" class="hddb">
+    <image src="../../img/shuaxin.png"></image>
+</button>

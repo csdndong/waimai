@@ -1,0 +1,419 @@
+{template 'public/header'}
+{template 'public/comhead'}
+<link rel="stylesheet" type="text/css" href="../addons/zh_cjpt/template/public/ygcsslist.css">
+<style type="text/css">
+    .yg5_key>div{float: left;line-height: 34px;}
+    .store_td1{height: 45px;}
+    .store_list_img{width: 60px;height: 60px;}
+    .yg5_tabel{border-color: #e5e5e5;outline: 1px solid #e5e5e5;}
+    .yg5_tr2>td{padding: 10px 15px;border: 1px solid #e5e5e5;text-align: center;}
+    .yg5_tr1>th{
+        border: 1px solid #e5e5e5;
+        background-color: #FAFAFA;
+        font-weight: bold;
+        text-align: center;
+    }
+    .yg5_btn{background-color: #EEEEEE;color: #333;border: 1px solid #E4E4E4;border-radius: 6px;width: 100px;height: 34px;}
+    .nav{
+      margin-bottom: 20px;
+    }
+    .red{
+      color: #fd684a
+    }
+    .detail_con.modal-body{
+      padding: 0;
+    }
+    .detail_tittle{
+      font-size: 17px;
+      margin: 20px 30px
+    }
+    .detail_tip{
+      margin:10px 0 20px 30px;;
+    }
+    .qs_state{
+      margin-left: 10px;
+    }
+    .detail_progress{
+      background: #f9f9f9;
+      overflow: hidden;
+      position: relative;
+      padding: 10px 0;
+    }
+    .detail_progress li{
+      float: left;
+      width: 25%;
+      text-align: center;
+    }
+    .detail_progress li i{
+      position: relative;
+      font-style: normal;
+      display: block;
+      width: 20px;
+      height: 20px;
+      margin:0 auto;
+      background: #f9f9f9;
+      z-index: 5
+    }
+    .detail_progress li span{
+      display: block;
+      width: 15px;
+      height: 15px;
+      background: #35b8eb;
+      color: #fff;
+      line-height: 13px;
+      text-align: center;
+      margin:0 auto;
+      border-radius: 100%;
+    }
+    .detail_progress li b{
+    color: #888;
+      display: block;
+      text-align: center;
+      border-top: 1px solid #35b8eb;
+      margin-top: -5px;
+      padding: 6px 0 0;
+      font-weight: normal;
+    }
+    .detail_msg{
+      padding: 0 20px;
+    }
+    .pro_tip{
+      font-size: 14px;
+    }
+    .pro_tip img{
+      width: 30px;
+      height: 30px;
+      border-radius: 100%;
+      margin-right: 10px;
+      background: #ccc;
+    }
+    .detail_custom{
+      float: left;
+      margin-bottom: 20px;
+      width: 50%;
+    }
+    .detail_custom p{
+    margin:0 0 6px 40px;
+
+    }
+    .detail_custom span{
+      color: #888;
+      margin-right: 10px;
+    }
+    .detail_shop{
+      float: left;
+      width: 50%;
+    }
+    .detail_order{
+      margin-left: 40px;
+      overflow: hidden;
+    }
+    .detail_order li{
+      overflow: hidden;
+      margin-bottom: 15px;
+    }
+    .detail_order li span{
+      float: left;
+      width: 20%;
+    }
+    .detail_pay{
+      text-align: right;
+    }
+  .detail_record{
+    margin-left: 40px;
+  }
+
+</style>
+<ul class="nav nav-tabs">
+  <span class="ygxian"></span>
+  <div class="ygdangq">当前位置:</div> 
+  <li  {if $type=='all'} class="active" {/if}><a href="">{$name} {$days} 日配送对账</a></li>
+</ul>
+
+<div class="row ygrow">
+  <div class="col-lg-11 nav_head">
+    <form action="" method="get" class="col-md-4">
+      <input type="hidden" name="c" value="site" />
+      <input type="hidden" name="a" value="entry" />
+      <input type="hidden" name="m" value="zh_cjpt" />
+      <input type="hidden" name="do" value="capitallist" />
+       <input type="hidden" name="qs_id" value="{$qs_id}" />
+        <input type="hidden" name="name" value="{$name}" />
+      <div class="input-group" style="width: 100px">
+        {php echo tpl_form_field_daterange('time',$_GPC['time']);}
+        <span class="input-group-btn">
+          <input type="submit" class="btn btn-default" name="submit2" value="查找"/>
+          <input type="hidden" name="token" value="{$_W['token']}"/>
+        </span>
+      </div><!-- /input-group -->
+    </form>
+  </div><!-- /.col-lg-6 -->
+</div> 
+<div class="main">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            资金对账
+        </div>
+        <div class="panel-body" style="padding: 0px 15px;">
+            <div class="row">
+                <table class="yg5_tabel col-md-12">
+                    <tr class="yg5_tr1">
+                        <th class="store_td1 col-md-2">时间</th>
+                        <th class="col-md-1">骑手</th>
+                        <th class="col-md-1">配送费</th>
+                       <th class="col-md-1">订单号</th>
+                        <th class="col-md-1">运单号</th>
+                        <th class="col-md-2">状态</th>
+                         <th class="col-md-2">操作</th>
+                    </tr>
+
+                      {loop $list $key $row}
+                    
+                    <tr class="yg5_tr2">
+                      <td>{$row['days']}</td>
+                         <td>{$name}</td>
+                        <td>{$row['ps_money']}</td>
+                         <td>{$row['order_id']}</td>
+                          <td>{$row['ps_num']}</td>
+                        {if $row['state']==4}
+                        <td>已入账</td>
+                        {elseif $row['state']!=4&&$row['item']!=2 }
+                        <td>未入账</td>
+                        {elseif $row['item']==2}
+                        <td>异常订单</td>
+                        {/if}
+                    
+                        <td>
+                          <span  class="storespan btn btn-xs js_detail{$row['id']}" data-toggle="modal" data-target="#detail">
+                              <span class="fa fa-pencil"></span>
+                              <span class="bianji">详情
+                                  <span class="arrowdown"></span>
+                              </span>                            
+                          </span>
+                            <script type="text/javascript">
+                              $(function(){
+                                    function ormatDate(dateNum) {
+                                        var date = new Date(dateNum * 1000);
+                                        return date.getFullYear() + "-" + fixZero(date.getMonth() + 1, 2) + "-" + fixZero(date.getDate(), 2) + " " + fixZero(date.getHours(), 2) + ":" + fixZero(date.getMinutes(), 2) + ":" + fixZero(date.getSeconds(), 2);
+                                        function fixZero(num, length) {
+                                        var str = "" + num;
+                                        var len = str.length;
+                                        var s = "";
+                                        for (var i = length; i-- > len;) {
+                                        s += "0";
+                                        }
+                                        return s + str;
+                                        }
+                                    }
+                                    $(".js_detail{$row['id']}").each(function(index){
+                                        $(this).click(function(){            
+                                            id = {$row['id']};
+                                            console.log(id)
+                                            $.ajax({
+                                                type:"post",
+                                                url:"{$_W['siteroot']}app/index.php?i={$_W['uniacid']}&c=entry&do=GetOrderInfo&m=zh_cjpt",
+                                                dataType:"json",
+                                                data:{id:id},
+                                                success:function(res){
+                                                    console.log(res);
+                                                    var list=""
+                                                        list+='<h2 class="detail_tittle">订单编号 :'+res.order_id+'  运单编号 :'+res.ps_num+'<span class="qs_state"></span></h2>';
+                                                        list+='<p class="detail_tip">';
+                                                        if(res.state==1){
+                                                            list+='暂未接单</p>' 
+                                                        }else if(res.state==2||res.state==3){
+                                                          if(res.cs_time!=""){
+                                                            list+='<span>已超时 : <span class="cs_time"></span>分钟 | '
+                                                          }
+                                                          list+=' 预计送达:'+res.sd_time+' |</span> 骑手:'+res.name+' '+res.tel+'</p>'
+                                                        }else if(res.state==4){
+                                                           list+='骑手:'+res.name+' '+res.tel+'</p>' 
+                                                        }else if(res.state==5){
+                                                           list+='订单已取消</p>' 
+                                                        }
+                                                        list+='<ul class="detail_progress">';  
+                                                            if(res.state==1 || res.state==5){ 
+                                                                list+='<li>';
+                                                                    list+='<p>用户下单</p>';
+                                                                    list+='<i><span>√</span></i>';
+                                                                    list+='<b>'+res.time+'</b>';
+                                                                list+='</li>';                                                                
+                                                                list+='<li>';
+                                                                    list+='<p>骑手接单</p>';
+                                                                    list+='<i><span>×</span></i>';
+                                                                    list+='<b>...</b>';
+                                                                list+='</li>';
+                                                                list+='<li>';
+                                                                    list+='<p>开始配送</p>';
+                                                                    list+='<i><span>×</span></i>';
+                                                                    list+='<b>...</b>';
+                                                                list+='<li>';
+                                                                    list+='<p>订单完成</p>';
+                                                                    list+='<i><span>×</span></i>';
+                                                                    list+='<b>...</b>';
+                                                                list+='</li>'; 
+                                                            }else if(res.state==2){
+                                                                list+='<li>';
+                                                                    list+='<p>用户下单</p>';
+                                                                    list+='<i><span>√</span></i>';
+                                                                    list+='<b>'+res.time+'</b>';
+                                                                list+='</li>';
+                                                                list+='<li>';
+                                                                    list+='<p>骑手接单</p>';
+                                                                    list+='<i><span>√</span></i>';
+                                                                    list+='<b>'+res.jd_time+'</b>';
+                                                                list+='</li>';
+                                                                list+='<li>';
+                                                                    list+='<p>开始配送</p>';
+                                                                    list+='<i><span>×</span></i>';
+                                                                    list+='<b>...</b>';
+                                                                list+='<li>';
+                                                                    list+='<p>订单完成</p>';
+                                                                    list+='<i><span>×</span></i>';
+                                                                    list+='<b>...</b>';
+                                                                list+='</li>';                                                                
+                                                                }else if(res.state==3){
+                                                                    list+='<li>';
+                                                                        list+='<p>用户下单</p>';
+                                                                        list+='<i><span>√</span></i>';
+                                                                        list+='<b>'+res.time+'</b>';
+                                                                    list+='</li>';                                                                    
+                                                                    list+='<li>';
+                                                                        list+='<p>骑手接单</p>';
+                                                                        list+='<i><span>√</span></i>';
+                                                                        list+='<b>'+res.jd_time+'</b>';
+                                                                    list+='</li>';
+                                                                    list+='<li>';
+                                                                        list+='<p>开始配送</p>';
+                                                                        list+='<i><span>√</span></i>';
+                                                                        list+='<b>'+res.dd_time+'</b>';
+                                                                    list+='</li>';   
+                                                                    list+='<li>';
+                                                                        list+='<p>订单完成</p>';
+                                                                        list+='<i><span>×</span></i>';
+                                                                        list+='<b>...</b>';
+                                                                    list+='</li>';                                                                     
+                                                            }else if(res.state==4){
+                                                                    list+='<li>';
+                                                                        list+='<p>用户下单</p>';
+                                                                        list+='<i><span>√</span></i>';
+                                                                        list+='<b>'+res.time+'</b>';
+                                                                    list+='</li>';                                                                
+                                                                    list+='<li>';
+                                                                        list+='<p>骑手接单</p>';
+                                                                        list+='<i><span>√</span></i>';
+                                                                        list+='<b>'+res.jd_time+'</b>';
+                                                                    list+='</li>';
+                                                                    list+='<li>';
+                                                                        list+='<p>开始配送</p>';
+                                                                        list+='<i><span>√</span></i>';
+                                                                        list+='<b>'+res.dd_time+'</b>';
+                                                                    list+='</li>'; 
+                                                                    list+='<li>';
+                                                                        list+='<p>订单完成</p>';
+                                                                        list+='<i><span>√</span></i>';
+                                                                        list+='<b>'+res.wc_time+'</b>';
+                                                                    list+='</li>';
+
+                                                            }
+                                                        list+='</ul>';
+                                                        list+='<div class="detail_msg">';
+                                                            list+='<div class="detail_custom">';
+                                                                list+='<div>';
+                                                                    list+='<h3 class="pro_tip"><img src="../addons/zh_cjpt/template/images/recive.png" alt="">取餐信息</h3>';
+                                                                    list+='<p><span>商家名称:</span>'+res.sender_name+'</p>';
+                                                                    list+='<p><span>取餐地址:</span>'+res.sender_address+'</p>';
+                                                                    list+='<p><span>联系电话:</span>'+res.sender_tel+'</p>';
+                                                                list+='</div>';
+                                                                list+='<div>';
+                                                                    list+='<h3 class="pro_tip"><img src="../addons/zh_cjpt/template/images/product.png" alt="">送餐信息</h3>';
+                                                                    list+='<p><span>顾客姓名:</span>'+res.receiver_name+'</p>';
+                                                                    list+='<p><span>送餐地址:</span>'+res.receiver_address+'</p>';
+                                                                    list+='<p><span>联系电话:</span>'+res.receiver_tel+'</p>';
+                                                                list+='</div>';
+                                                            list+='</div>';
+                                                            list+='<div class="detail_shop">';
+                                                                list+='<h3 class="pro_tip"><img src="../addons/zh_cjpt/template/images/send.png" alt="">商品信息</h3>';
+                                                                list+='<ul class="detail_order">';
+                                                                    list+='<li>'+res.goods_info+'</li>';
+                                                                list+='</ul>';
+                                                                list+='<p class="detail_pay">实付 <span class="red">'+res.goods_price+'</span>元</p>';
+                                                                // list+='<p class="detail_record">备注:.....</p>';
+                                                            list+='</div>';
+                                                        list+='</div>';
+                                                        $(".detail_con").html(list)
+                                                   if(res.state==2 || res.state==3){
+                                                        $(".qs_state").html("骑手已接单")
+                                                    }else if(res.state==4){
+                                                        $(".qs_state").html("配送已完成")
+                                                    }
+                                                    var ct_time=res.cs_time
+                                                    var a=ormatDate(ct_time)
+                                                    //console.log(a.substring(10));//2014-06-18 10:33:24
+                                                    var time=a.substring(10,13)*60
+                                                    var min=a.substring(14,16)
+                                                    var miao=a.substring(17,a.length)/60
+                                                    var all_min=parseInt(time+min+miao)
+                                                    // console.log(time)
+                                                    // console.log(min)
+                                                    // console.log(miao)
+                                                    console.log(all_min)
+                                                    if(all_min==0){
+                                                        $(".cs_time").html("0")
+                                                    }else{
+                                                        $(".cs_time").html(all_min)
+                                                    }
+                                                }
+                                            })
+                                    
+                                        });
+                                    });
+                                })
+
+                          </script>
+                        </td>
+                    </tr>  
+                    {/loop}  
+                    {if empty($list)}
+                    <tr class="yg5_tr2">
+                        <td colspan="5">
+                          暂无记录
+                        </td>
+                    </tr>             
+                    {/if}             
+                </table>
+            </div>
+        </div>
+    </div>
+
+    </div>
+       <div class="text-right" style="margin-top:20px">
+   {$pager}
+  </div>
+</div>
+
+<!--编辑详情-->
+<div class="modal fade" id="detail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel" style="font-size: 20px;">订单详情</h4>
+      </div>
+      <div class="modal-body detail_con">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+      </div>
+    </div>     
+  </div>
+</div>
+
+  <script type="text/javascript">
+    $(function(){
+        // $("#frame-1").addClass("in");
+        $("#frame-5").show();
+        $("#yframe-5").addClass("wyactive");
+      })
+    </script>
+{template 'common/footer'}

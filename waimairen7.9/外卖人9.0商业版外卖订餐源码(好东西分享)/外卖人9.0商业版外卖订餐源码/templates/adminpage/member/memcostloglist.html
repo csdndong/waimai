@@ -1,0 +1,152 @@
+
+ <{extends file="<{$tempdir}>/public/admin.html"}>
+   <{block name=extendjs}>
+   <script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/datepicker/WdatePicker.js" type="text/javascript" language="javascript"></script>
+
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js"></script>
+ <{/block}>
+ <{block name=controlname}>会员余额操作日志<{/block}>
+ <{block name=bodylist}>
+ <div style="width:auto;overflow-x:hidden;overflow-y:auto">
+      	<div class="search">
+      		 
+            
+            <div class="search_content">
+            	 
+            	 <form method="post" name="form1" action="<{ofunc type=url link="/adminpage/member/module/memcostloglist"}>">
+            	  <label>查询类型：</label>
+            	  <select name="querytype">
+            	  	<option value="0">未选择</option>
+            	  	<option value="username"  <{if $querytype == 'username'}>selected<{/if}>>用户</option>
+            	  	<option value="czusername"  <{if $querytype == 'czusername'}>selected<{/if}>>操作用户</option> 
+            	  </select>
+            	  <label>查询条件：</label>
+            	   <input type="text" name="searchvalue" value="<{$searchvalue}>">
+            	 
+            	  
+            	   从<input class="Wdate datefmt" type="text" name="starttime" id="starttime" value="<{$starttime|date_format:"%Y-%m-%d"}>"  onFocus="WdatePicker({isShowClear:false,readOnly:true});" />  
+			   		 	  到<input class="Wdate datefmt" type="text" name="endtime" id="endtime" value="<{$endtime|date_format:"%Y-%m-%d"}>"  onFocus="WdatePicker({isShowClear:false,readOnly:true});" />                  
+
+            	  
+            	    <input type="submit" value="提交查询" class="button">  
+            	 
+            	 </form>
+            </div>
+        
+      	</div>
+      	
+
+
+           <div class="tags">
+
+
+
+          <div id="tagscontent">
+
+            <div id="con_one_1">
+
+              <div class="table_td" style="margin-top:10px;">
+
+              <form method="post" action="" onsubmit="return remind();"  id="delform">
+
+                  <table border="0" cellspacing="2" cellpadding="4" class="list" name="table" id="table" width="100%">
+
+                    <thead>
+
+                      <tr>
+
+                        
+
+                        <th align="center">用户</th>
+                         <th align="center">剩余金额</th>
+                        <th align="center">本次充值/扣除金额</th>
+                        <th align="center">当前金额</th>
+                        <th align="center">变动原因</th>
+                        <th align="center">操作用户</th>
+						
+                        <th align="center">操作日期</th>
+
+                      </tr>
+
+                    </thead>
+
+                     <tbody>
+
+                      <{foreach from=$memcostloglist item=items}>
+                      <tr class="s_out" onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                        
+                        <td align="center"><{$items['username']}></td>
+                        <td align="center"><{$items['cost']}></td>
+                        <td align="center"><{if $items['bdtype'] == 1}>增加<{/if}><{if $items['bdtype'] == 2}>减少<{/if}><{$items['bdcost']}>元</td>
+                        <td align="center"><{$items['curcost']}></td>
+                        <td align="center"><{$items['bdliyou']}></td>
+                        <td align="center"><{$items['czusername']}></td>
+                        <td align="center"><{$items['addtime']|date_format:"%Y-%m-%d %H:%M:%S"}></td>
+                       
+                      </tr>
+                       <{/foreach}>
+
+                    </tbody>
+
+                  </table>
+
+                <div class="blank20"></div>
+
+                 <input type="hidden" name="stopoutenable" id="stopoutenable" value="4ce2f22509228162cadfc0ca0473ec19"/>
+
+                </form>
+
+               <div class="page_newc">
+                  
+                       <div class="show_page"><ul><{$pagecontent}></ul></div>
+                 </div>
+
+                <div class="blank20"></div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+  </div>
+ <div id="askback" style="display:none;">
+
+               <div>
+                <table border="0" cellspacing="1" cellpadding="4" class="list" name="table" id="table" width="100%">
+                  <tbody>
+
+                  	<tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+
+                      <td><textarea name="askback" style="height:70px;width:200px"></textarea></td>
+                    </tr>
+
+                    </table>
+                </div>
+              <div class="blank20"></div>
+              <input type="hidden" name="askbackid" id="askbackid" value="" class="skey" style="width:150px;">
+               <input type="submit" value="确认提交" class="button">
+
+  </div>
+ <script>
+	var dialogs ;
+ function reask(ids,obj){
+ 	 var formurl = '<{ofunc type=url link="/adminpage/ask/module/backask/datatype/json"}>';
+ 	 $('#askbackid').val(ids);
+ 	 var showcontent = '<form method="post" name="form1" action="'+formurl+'" onsubmit="return subform(\'<{ofunc type=url link="/adminpage/ask/module/asklist"}>\',this);">'
+
+      showcontent += $('#askback').html();
+      showcontent +='</form>';
+   var dialog =  art.dialog({
+    title:'留言回复',
+    id:'ask',
+    content: showcontent
+  });
+ }
+
+</script>
+</div>
+<{/block}>

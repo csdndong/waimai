@@ -1,0 +1,162 @@
+<{extends file="<{$tempdir}>/public/admin.html"}> 
+<{block name=extendjs}>
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/jquery.PrintArea.js" type="text/javascript" language="javascript"></script>
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/datepicker/WdatePicker.js" type="text/javascript" language="javascript"></script>
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js" type="text/javascript" language="javascript"></script>
+<{/block}>
+
+ <{block name=controlname}>所有订单            	    
+ 
+<{/block}>
+ <{block name=bodylist}>
+ <input style="float:right; margin-right:50px;margin-top:-40px" type="button" value="一键手动清理未完成订单" class="button" onclick="doautodel();">
+     <div style="width:100%;margin-top:-10px;"> 
+      	
+      	<div class="search">
+      		 
+            
+            <div class="search_content">
+            	 
+            	 <form method="post" name="form1" action="<{ofunc type=url link="/adminpage/order/module/shophuiorder"}>">
+            	  <label>查询类型：</label>
+            	  <select name="querytype">
+            	  	<option value="0">未选择</option>
+            	  	<option value="mb.username"  <{if $querytype == 'mb.username'}>selected<{/if}>>会员名</option>
+            	  	<option value="ord.shopname"  <{if $querytype == 'ord.shopname'}>selected<{/if}>>店铺名称</option> 
+            	  	<option value="ord.buyorderphone"  <{if $querytype == 'ord.buyorderphone'}>selected<{/if}>>买家联系手机号</option>
+            	  	<option value="ord.dno"  <{if $querytype == 'ord.dno'}>selected<{/if}>>订单编号</option>
+            	  </select>
+            	  <label>查询条件：</label>
+            	   <input type="text" name="searchvalue" value="<{$searchvalue}>">
+            	   
+            	   <select name="orderstatus">
+            	   	  <option value="all">选择订单状态</option> 
+			   		 	  	  <option value="0" <{if $orderstatus == '0'}>selected<{/if}>>未完成</option>
+			   		 	  	  <option value="1" <{if $orderstatus == '1'}>selected<{/if}>>已完成</option>
+            	  </select>
+            	  
+            	   从<input class="Wdate datefmt" type="text" name="starttime" id="starttime" value="<{$starttime|date_format:"%Y-%m-%d"}>"  onFocus="WdatePicker({isShowClear:false,readOnly:true});" />  
+			   		 	  到<input class="Wdate datefmt" type="text" name="endtime" id="endtime" value="<{$endtime|date_format:"%Y-%m-%d"}>"  onFocus="WdatePicker({isShowClear:false,readOnly:true});" />                  
+
+            	  
+            	    <input type="submit" value="提交查询" class="button">  
+            	 
+            	 </form>
+            </div>
+        
+      	</div>
+      	
+      	
+      	
+           <div class="tags">
+
+      	 	 
+
+          <div id="tagscontent">
+
+            <div id="con_one_1">
+
+              <div class="table_td">
+
+              <form method="post" action="" onsubmit="return remind();">
+                <{if empty($list)}>
+					<div style="font-size:16px; margin:20px 0px 0px 20px;">暂无数据</div>
+                <{/if}>
+                  <{foreach from=$list key=myid item=items}>  
+			   		 
+			   		 <table class="table table-bordered" width=95% style="    padding-bottom: 15px;border-bottom: 2px solid;font-size:12px;margin-top:5px;text-align:left;margin-left:20px;" id="order_area_<{$items['id']}>" onMouseover="colorred(this);" onMouseout="tcolorred(this);">
+		            
+		             <tr style="height:20px;line-height:20px;">
+		             	<td colspan="2" style="text-align:left;">单号：<{$items['dno']}><font color=red><{$shoptype[$items['shoptype']]}></font></td>
+		             	<td colspan="2" style="text-align:left;">买单状态：<font color=red><{if $items['status'] == 1 }>已完成<{else}>未完成<{/if}></font></td>
+						<td colspan="2" style="text-align:left;">完成时间：<{if $items['completetime'] != 0 }><{$items['completetime']|date_format:"%Y-%m-%d %H:%M:%S"}><{else}>未完成<{/if}></td>
+
+		            </tr>
+					<tr style="height:20px;line-height:20px;" >
+					<td colspan="2" style="text-align:left;">创建时间：<{$items['addtime']|date_format:"%Y-%m-%d %H:%M:%S"}></td>
+		             	<td colspan="2" style="text-align:left;">买单人联系电话：<{if !empty($items['shopinfo']['maphone']) }><{$items['shopinfo']['maphone'] }><{/if}></td>
+		             	<td colspan="2" style="text-align:left;">送积分：<{if $items['givejifen'] != 0 }><{$items['givejifen']}><{else}>未送积分<{/if}></td>
+		            </tr>
+					          <tr style="height:20px;line-height:20px;">
+						<td colspan="2" style="text-align:left;">联系人：<{$items['buyername']}>[<{if empty($items['acountname'])}>游客<{else}>帐号:<{$items['acountname']}><{/if}>]</td>
+
+		             	<td colspan="2" style="text-align:left;">支付方式：<font color=red>
+							<{if $items['paytype'] ==1 }>微信支付<{elseif $items['paytype'] ==2 }>支付宝支付<{elseif $items['paytype'] ==3 }>余额支付<{else}>未知<{/if}>
+							 </font></td>
+		             	<td colspan="2" style="text-align:left;">支付状态：<{if $items['paystatus'] == 1}>已付<{else}>未付<{/if}></td>
+		            </tr>
+		          
+           
+		             <tr style="height:20px;line-height:20px;">
+		             	<td colspan="2" style="text-align:left;">店铺名称：<{$items['shopname']}></td>
+		             	<td colspan="2" style="text-align:left;">店铺地址：<{$items['shopinfo']['address']}></td>
+		             	<td colspan="2" style="text-align:left;">店铺电话: <{$items['shopinfo']['phone']}></td> 
+		            </tr>
+					   <tr style="height:20px;line-height:20px;">
+		             	<td colspan="2" style="text-align:left;">消费金额：<{$items['xfcost']}>元</td>
+		             	<td colspan="2" style="text-align:left;">优惠金额：<{$items['yhcost']}>元</td>
+		             	<td colspan="2" style="text-align:left;">实际支付金额: <{$items['sjcost']}>元</td> 
+		            </tr>
+					<{if $items['huitype'] == 2}>
+					  <tr style="height:20px;line-height:20px;">
+		             	<td colspan="2" style="text-align:left;">闪惠名称：<{$items['huiname']}></td>
+		             	<td colspan="2" style="text-align:left;">每满减金额：<{$items['huilimitcost']}>元</td>
+		             	<td colspan="2" style="text-align:left;">减费用: <{$items['huicost']}>元</td>
+		            </tr>
+						<{/if}>
+				<{if $items['huitype'] == 3}>
+					  <tr style="height:20px;line-height:20px;">
+		             	<td colspan="2" style="text-align:left;">闪惠名称：<{$items['huiname']}></td>
+		             	<td colspan="2" style="text-align:left;">折扣最低金额：<{$items['huilimitcost']}>元</td>
+		             	<td colspan="2" style="text-align:left;">折扣: <{$items['huicost']/10|round:2}>折</td>
+		            </tr>					
+					<{/if}>
+					
+		  
+		        
+		            <tr> 
+		            </tr>
+		          
+		              
+		            </table> 
+					
+				
+		          <{/foreach}>
+		          
+		          
+		          
+
+                <div class="blank20"></div> 
+
+                </form>
+
+                <div class="page_newc">
+                 	    
+                       <div class="show_page"><ul><{$pagecontent}></ul></div>
+                 </div>
+                <div class="blank20"></div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        
+  </div>
+  <div id="print_area" style="display:none;font-size:40px;"></div>
+ </div>
+<script type="text/javascript">
+   
+  function doautodel(){
+  	 if(confirm('确认手动操作?\n 操作后将删除未完成订单,\n 删除后将不能恢复！')){
+  	 	var dourl = '<{ofunc type=url link="/adminpage/order/module/shophuiautodel"}>';
+  	 	window.location.href= dourl;
+  	 	
+  	} 
+  }
+  
+ </script>
+<{/block}>

@@ -1,0 +1,152 @@
+{itemplate 'public/header'}
+{if $_GPC['op'] == 'basic'}
+<div class="page clearfix">
+	<h2>配送员小程序基础设置</h2>
+	<form class="form-horizontal form form-validate" id="form1" action="" method="post" enctype="multipart/form-data">
+		<div class="form-group hide">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">是否开启小程序</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="radio radio-inline">
+					<input type="radio" value="1" name="status" id="status-1" {if $wxapp['status'] == 1}checked{/if} required>
+					<label for="status-1">开启</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" value="0" name="status" id="status-0" {if $wxapp['status'] == 0}checked{/if} required>
+					<label for="status-0">关闭</label>
+				</div>
+			</div>
+		</div>
+		{if MODULE_FAMILY == 'wxapp'}
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">小程序模板消息选择</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="radio radio-inline">
+					<input type="radio" value="wxapp" name="wxapp_deliveryer_notice_channel" id="wxapp_deliveryer_notice_channel-wxapp" {if $wxapp['wxapp_deliveryer_notice_channel'] == 'wxapp'}checked{/if} required>
+					<label for="wxapp_deliveryer_notice_channel-wxapp">使用小程序服务通知（如果您没有绑定公众号,只能选择此项）</label>
+				</div>
+				<br/>
+				<div class="radio radio-inline">
+					<input type="radio" value="wechat" name="wxapp_deliveryer_notice_channel" id="wxapp_deliveryer_notice_channel-wechat" {if $wxapp['wxapp_deliveryer_notice_channel'] == 'wechat' || !$wxapp['wxapp_deliveryer_notice_channel']}checked{/if} required>
+					<label for="wxapp_deliveryer_notice_channel-wechat">使用公众号模板消息（如果您绑定了公众号,建议选择此项）</label>
+				</div>
+			</div>
+		</div>
+		{/if}
+		<div class="form-group hide">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">顾客公众号模板消息跳转</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="radio radio-inline">
+					<input type="radio" value="wxapp" name="tpl_consumer_url" id="tpl_consumer_url-wxapp" {if $wxapp['tpl_consumer_url'] == 'wxapp'}checked{/if} required>
+					<label for="tpl_consumer_url-wxapp">跳转到小程序页面</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" value="wechat" name="tpl_consumer_url" id="tpl_consumer_url-wechat" {if $wxapp['tpl_consumer_url'] == 'wechat' || !$wxapp['tpl_consumer_url']}checked{/if} required>
+					<label for="tpl_consumer_url-wechat">跳转到H5页面</label>
+				</div>
+				<div class="help-block">此项仅对（公众号+小程序版）版本适用。<span class="text-danger">如果选择跳转到小程序，请确保小程序已经上线，否则将导致顾客收不到模板消息通知。</span></div>
+			</div>
+		</div>
+		<div class="form-group hide">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">小程序模板消息选择</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="radio radio-inline">
+					<input type="radio" value="wxapp" name="wxapp_consumer_notice_channel" id="wxapp_consumer_notice_channel-wxapp" {if $wxapp['wxapp_consumer_notice_channel'] == 'wxapp' || !$wxapp['wxapp_consumer_notice_channel']}checked{/if} required>
+					<label for="wxapp_consumer_notice_channel-wxapp">优先使用小程序服务通知</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" value="wechat" name="wxapp_consumer_notice_channel" id="wxapp_consumer_notice_channel-wechat" {if $wxapp['wxapp_consumer_notice_channel'] == 'wechat'}checked{/if} required>
+					<label for="wxapp_consumer_notice_channel-wechat">优先使用公众号模板消息</label>
+				</div>
+				<div class="help-block">
+					此项设置顾客小程序下单,并使用微信支付后,使用微信模板消息通知还是小程序服务通知通知顾客。如果顾客小程序下单并选择'货到付款'和'余额支付',系统默认使用公众号模板消息通知顾客
+					<span class="text-danger">
+						注意：微信官方规定,小程序的服务通知仅在"微信支付"（每次支付，最多给粉丝可以发送3条服务通知）或者"提交表单"后才可以发送通知。如果您不想受此限制影响，推荐您使用'优先使用公众号模板消息'.
+					</span>
+					<br/>
+					<div class="help-block">此项仅对（公众号+小程序版）版本适用</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">配送员模板消息跳转</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="radio radio-inline">
+					<input type="radio" value="wxapp" name="tpl_deliveryer_url" id="tpl_deliveryer_url-wxapp" {if $wxapp['tpl_deliveryer_url'] == 'wxapp'}checked{/if} required>
+					<label for="tpl_deliveryer_url-wxapp">跳转到小程序页面</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" value="wechat" name="tpl_deliveryer_url" id="tpl_deliveryer_url-wechat" {if $wxapp['tpl_deliveryer_url'] == 'wechat' || !$wxapp['tpl_deliveryer_url']}checked{/if} required>
+					<label for="tpl_deliveryer_url-wechat">跳转到H5页面</label>
+				</div>
+				<div class="help-block">此项仅对（公众号+小程序版）版本适用。<span class="text-danger">如果选择跳转到小程序，请确保小程序已经上线，否则将导致配送员收不到模板消息通知。</span></div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">小程序AppId</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="text" name="key" class="form-control" value="{$wxapp['key']}" placeholder="请输入key" required="true">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">小程序AppSecret</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="text" name="secret" class="form-control" value="{$wxapp['secret']}" placeholder="请输入Secret" required="true">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">配送员演示账号</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="text" name="test[username]" class="form-control" value="{$wxapp['test']['username']}" placeholder="请输入演示账号">
+				<div class="help-block">此账号用于小程序提交微信官方审核时候，给官方提供的演示账号</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">配送员演示密码</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="text" name="test[password]" class="form-control" value="{$wxapp['test']['password']}" placeholder="请输入演示账号对应的密码">
+				<div class="help-block">此账号用于小程序提交微信官方审核时候，给官方提供的演示账号</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<input type="hidden" name="token" value="{$_W['token']}">
+				<input type="submit" value="提 交" class="btn btn-primary">
+			</div>
+		</div>
+	</form>
+</div>
+{elseif $_GPC['op'] == 'urls'}
+<div class="page clearfix">
+	<form class="form-horizontal form" id="form1" action="" method="post" enctype="multipart/form-data">
+		<h3 class="margin-t-0">小程序入口</h3>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">直接URL</label>
+			<div class="col-sm-9 col-xs-12">
+				<p class="form-control-static js-clip" data-text="pages/order/list" title="点击复制">
+					<a href="javascript:;">pages/order/list</a>
+				</p>
+			</div>
+		</div>
+	</form>
+</div>
+{elseif $_GPC['op'] == 'wxtemplate'}
+<div class="page clearfix">
+	<h2>微信模板消息</h2>
+	<form class="form-horizontal form form-validate" id="form1" action="" method="post" enctype="multipart/form-data">
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">订单状态通知</label>
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<input type="text" class="form-control" name="wechat[status_tpl]" value="{$wechat['status_tpl']}" required>
+				<div class="help-block">*模板编号AT0202,关键词(订单状态,商家名称,订单号,订单类型,下单时间,备注,订单金额</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<input type="hidden" name="wechat[token" value="{$_W['token']}">
+				<input type="submit" value="提交" class="btn btn-primary">
+			</div>
+		</div>
+	</form>
+</div>
+{/if}
+{itemplate 'public/footer'}

@@ -1,0 +1,95 @@
+  
+  
+  <div id="cart-items" style="display:block; background:#fff;">
+    <{foreach from=$carinfo['goodslist'] item=itv}>
+
+	 
+
+	 
+   <div class="item" data-rid="1090">
+      <div class="img">
+        <img src="<{$imgserver}><{$itv['img']|default:$shoplogo}>"></div>
+      <div class="info">
+        <div class="name"><{$itv['name']}>
+		
+		<{if $itv['have_det'] ==1}><font style="font-size:10px;color:#ccc;"><{$itv['gg']['attrname']}></font><{/if}>
+		</div>
+        <div class="bar">
+          <div class="quantity-wrap">
+            <div onclick="<{if $itv['have_det']==1}>removeoneproduct(<{$itv['gg']['id']}>,<{$itv['shopid']}>,1);<{else}>removeonedish(<{$itv['id']}>,<{$itv['shopid']}>,1);<{/if}>" class="ico minus">-</div>
+            <div class="num-wrap">
+              <input    id="cart_count<{$itv['id']}>"  style="border:1px solid #A9A9A9;" class="quantity" type="text" value="<{$itv['count']}>"></div>
+            <div onclick="javascript:<{if $itv['have_det']==1}>uponeproduct(<{$itv['gg']['id']}>,<{$itv['shopid']}>,1,this);<{else}>uponedish(<{$itv['id']}>,<{$itv['shopid']}>,1);<{/if}>" class="ico plus">+</div>
+          </div>
+          <div  onclick="removesupplierdish(<{$itv['id']}>,<{$itv['shopid']}>);" class="del">X</div>
+        </div>
+      </div>
+   </div> 
+    <{/foreach}> 
+   </div>
+
+ 	   	    				      
+ 	   	    				    	<!--产品循环--> 
+ 	   	    				    <{$allcost = $carinfo['pscost']+$carinfo['bagcost']+$carinfo['cx']['surecost']}>  
+         
+        <{$areacost =   $carinfo['pscost']}>
+         <{if  isset($items['cx']['gzdata']) && count($items['cx']['gzdata']) > 0}> 
+         <{$cxshodata = $items['cx']['gzdata']['0']}>
+         <{/if}>
+		 
+
+		 
+    
+
+ <{if count($carinfo['goodslist']) > 0 }>
+            	 <div class="sumup" id="sumup" style="overflow: hidden; display: block; line-height:53px; width: 248px;">
+          <span class="sum-quantity">
+            <span class="food_num n"><{$carinfo['count']}></span>
+            件商品
+          </span>
+          <span class="sum-amount">
+            合计
+            <span class="food_amount n"><{$carinfo['sum']}></span>
+            元
+          </span>
+        </div>
+		 
+		 
+		<{if $shopopeninfo['opentype'] ==2 || $shopopeninfo['opentype'] == 3 }>
+		 <div class="tup">
+              <input type="submit" id="submit-btn"  onclick="ajaxdoorder(<{$shopid}>);" value="提交订单">
+            </div>
+		<{else}>
+			<div class="tup">
+              <input  style="background:#ccc; color:#838383;" type="submit" id="submit-btn"  value="休息中">
+            </div>		
+		<{/if}>	
+
+ 	<{else}>
+	
+          <div id="empty-tip" class="empty-tip" style="overflow: hidden; display: block;">购物车空空的OvO</div>
+    
+	<{/if}>
+  
+<div id="tjdata" allshu="<{$carinfo['count']}>" allcost="<{$allcost}>" areacost="<{$carinfo['areacost']}>" goodscost="<{$carinfo['sum']}>" cxshodata="<{$cxshodata}>"></div>
+
+  <style>
+  .tup{ padding:10px 0;border-top: 1px dotted #f4f3f2; background:#ffffff; text-align:center;}
+  #submit-btn {
+ 
+  background-color: #fd6059;
+  color: #FFF;
+  font-size: 20px;
+  border: 1px solid rgba(0,0,0,0);
+  border-radius: 5px;
+  width: 90%;
+  padding: 8px 13px;
+}
+  </style>  
+<script>
+	function ajaxdoorder(shopid){
+		var url = siteurl+'/index.php?ctrl=site&action=showcart&shopid='+shopid+'&showtype=market'; 
+		window.location.href=url;
+	}
+</script>
+ 

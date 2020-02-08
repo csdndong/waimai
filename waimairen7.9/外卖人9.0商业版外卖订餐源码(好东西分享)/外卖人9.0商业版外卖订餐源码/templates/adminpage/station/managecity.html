@@ -1,0 +1,183 @@
+<{extends file="<{$tempdir}>/public/admin.html"}> 
+   <{block name=extendjs}>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js"></script>
+ <{/block}>
+ <{block name=controlname}>城市添加<{/block}>
+ <{block name=bodylist}>
+ <style>
+ #adrcodeList{display:none;position:absolute;top:32px; left:0px; background:#FFF;border:1px solid #c15050;padding:0px 10px; width:228px;max-height:400px;overflow: auto;}
+ #adrcodeList li{width:100%;color:#0076cf;cursor:pointer;}
+ </style>
+ <div style="width:auto;overflow-x:hidden;overflow-y:auto"> 
+          <div class="tags">
+          <{load_data assign="info" table="area"  type="one"  where="id='<{$id}>'" }> 
+          <div id="tagscontent">
+		  
+            <form method="post" name="form1" action="<{ofunc type=url link="/adminpage/station/module/savecity/datatype/json"}>" onsubmit="return subform('<{ofunc type=url link="/adminpage/station/module/citylist"}>',this);">
+              <div>
+                <table border="0" cellspacing="2" cellpadding="4" class="list" name="table" id="table" width="100%">
+                  <tbody>
+                    <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <td class="left">城市名称</td>
+                      <td style="position:relative;">
+					  <input type="text" name="name"  id="searchKeywords"   id="name" value="<{$info['name']}>" class="skey" style="width:150px;" />
+					  <input type="hidden" name="adcode"  value="<{$info['adcode']}>" class="skey" style="width:150px;" />
+					  <input type="hidden" name="procode"  value="<{$info['procode']}>" class="skey" style="width:150px;" />
+					  注意：请搜索选择城市，勿随便添加
+					  <div id="adrcodeList" >
+							<ul>
+  							</ul>
+					  </div>
+ 					  </td>
+                    </tr>  
+                    <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <td class="left">首字母拼音</td>
+                      <td><input type="text" name="pin" id="pin" value="<{$info['pin']}>" class="skey" style="width:150px;" ></td>
+                    </tr> 
+                    <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <td class="left">排序ID</td>
+                      <td><input type="text" name="orderid" id="orderid" value="<{$info['orderid']}>" class="skey" style="width:150px;" ></td>
+                    </tr> 
+                   
+                    
+                    <input type="hidden" name="uid" id="uid" value="<{$info['id']}>" class="skey" style="width:150px;"> 
+                  </tbody> 
+                </table>
+              </div>
+              <div class="blank20"></div> 
+               <input type="submit" value="确认提交" class="button">  
+			    <!-- <div style="height:300px; padding-left: 150px;padding-top: 20px; line-height: 30px;" class="blank20">
+				<p><b style="color:red;font-size:15px" >添加城市注意事项：</span></b>
+				<p>添加的城市之间可以级别不同，<span style="color:red">但不能存在直接管辖关系。</span></p>
+				<p>举例：</p>
+				<p>【北京市】&nbsp;&nbsp;&nbsp;【海淀区】 &nbsp;(海淀区隶属北京市管辖) </p>
+				<p>【上海市】&nbsp;&nbsp;&nbsp;【黄浦区】 &nbsp;(黄浦区隶属上海市管辖) </p>
+				<p>由于【海淀区】属于【北京市】直接管辖，所以两者不能共存。</p>
+				<p>同理【黄埔区】属于【上海市】直接管辖，所以两者不能共存。</p>
+				<p>但是，【北京市】和【黄浦区】可以共存，【上海市】和【海淀区】可以共存，</p>
+				<p>因为他们虽然级别不同，但是不存在直接管辖关系。</p>
+				<p>【海淀区】 【黄浦区】也可以共存，因为他们之间不存在直接管辖关系</p>
+				 
+				
+				
+				
+				
+				</div>  -->
+			   
+            </form>
+          </div>
+        </div>
+        <div class="blank20"></div> 
+      
+      </div>
+      <div class="clear"></div>
+    </div>
+    
+    
+    
+  </div> 
+<script>
+var biaoqianval = false;
+function bqzhi(){
+	biaoqianval  = false;
+}
+$("#searchKeywords").bind('click',function(e){
+searchAdCodelist();  
+});
+$("#searchKeywords").bind('keyup',function(e){
+					if(biaoqianval == false){
+						biaoqianval  = true;
+						setTimeout("bqzhi()", 500 ); 
+						 
+							searchAdCodelist();	 
+					
+					
+					}
+				});
+
+function searchAdCodelist(){
+
+
+	var searchval  = $("#searchKeywords").val();
+ 								if( searchval != '' && searchval != undefined ){
+									$('#adrcodeList').show();
+									$('#adrcodeList ul').html('');
+									var info = {'searchval':searchval}; 
+									var url = '<{ofunc type=url link="/adminpage/station/module/getcitylist/datatype/json"}>';
+									  var backdata = ajaxback(url,info); 
+									  if(backdata.flag == false){ 
+											console.log(backdata.content);
+											var adrcodelist = backdata.content;
+											if( adrcodelist.length > 0 ){
+												var htmls = '';
+												$.each(adrcodelist, function(i, newobj) {
+												  htmls += '<li adcode="'+newobj.id+'" procode="'+newobj.pid+'"  name="'+newobj.name+'" >'+newobj.name+'</li>';
+												});
+												console.log(htmls);
+												$('#adrcodeList ul').html(htmls);
+												
+												$('#adrcodeList ul li').click(function(){
+													var adcode = $(this).attr('adcode');
+													var procode = $(this).attr('procode');
+													var addname = $(this).attr('name');
+													if( adcode != '' && procode != '' && addname != ''  ){
+														$("#searchKeywords").val(addname);
+														$('input[name="adcode"]').val(adcode);
+														$('input[name="procode"]').val(procode);
+														$('#adrcodeList').hide();
+													}
+												});
+												
+											}else{
+												$('#adrcodeList ul').html('<li adcode="0" procode="0" >未从省市区标准区域找到有关搜索的区域</li>');
+											}
+											
+									  }else{
+ 										 diaerror(backdata.content);
+									  } 
+								} else{
+									$('#adrcodeList').hide();
+								}
+
+
+}				
+				
+				
+	 function addimg()
+	 {
+	 	 var panduan = $("#parent_id  option:selected").val(); 
+	 	 if(panduan == 0)
+	 	 {
+	 	 	showupload();
+	 	 }else{
+	 	 	hideupload();
+	  	} 
+	 }
+	 function showupload()
+	 {
+	 	  $('#imgdo').show();
+	 }
+	 function hideupload()
+	 {
+	 	  $('#imgdo').hide();
+	 }
+	 var dialogs ;
+ function uploads(){  
+ 	  dialogs = art.dialog.open('<{ofunc type=url link="/adminpage/other/module/adminupload/func/uploadsucess"}>');
+ 	  dialogs.title('上传图片'); 
+ } 
+ function uploadsucess(flag,obj,linkurl){
+ 	 if(flag == true){
+ 		alert(linkurl);
+		dialogs.close();
+		uploads();
+ 	 }else{ 
+ 		dialogs.close();
+ 	  $('#imgurl').val(linkurl);
+ 	  $('#imgshow').attr('src',linkurl);
+ 	  $('#imgshow').show(); 
+   }
+ } 
+</script>
+<!--newmain 结束-->
+<{/block}>

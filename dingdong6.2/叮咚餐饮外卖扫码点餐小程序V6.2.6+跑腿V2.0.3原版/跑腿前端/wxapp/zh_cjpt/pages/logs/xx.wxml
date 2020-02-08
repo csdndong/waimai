@@ -1,0 +1,12 @@
+<view class="font">
+    <view class="kefu">
+        <view bindtap="tel" class="kefu_one">
+            <image mode="widthFix" src="../img/tel_img.png"></image>
+            <view>联系电话</view>
+        </view>
+        <button class="kefu_one kefu_two" openType="contact">
+            <image mode="widthFix" src="../img/custom_img.png"></image>
+            <view>在线客服</view>
+        </button>
+    </view>
+</view>

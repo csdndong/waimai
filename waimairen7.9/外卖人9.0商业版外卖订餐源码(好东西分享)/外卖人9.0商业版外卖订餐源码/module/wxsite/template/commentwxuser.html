@@ -1,0 +1,990 @@
+ <{extends file="<{$tempdir}>/public/wxsite.html"}>  
+<{block name=extendcss}> 
+<link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/shopshow.css">   
+<link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/togetersay.css">   
+ <link rel="stylesheet" type="text/css" href="<{$siteurl}>/templates/<{$tempdir}>/public/css/memberCenter.css">  
+<{/block}>
+ <{block name=extendjs}>  
+  <script src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/js/wxshop.js"></script>  
+   <script src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/js/jweixin-1.0.0.js"></script>  
+<{/block}>
+<{block name=sitetitle}><{$sitename}><{/block}>
+<{block name=hearnav}>
+ <!--头部-->
+    <header style="position: fixed;display:block;" id=""><div class="return"></div><{$sitename}></header>
+<{/block}>
+<{block name=myScrolljs}><script> 
+var wxmenuid = <{$member['uid']}>;
+		var myScroll;
+function loaded() {
+	myScroll = new iScroll('wrapper', {
+		useTransform: false,
+		onBeforeScrollStart: function (e) {
+			var target = e.target;
+			while (target.nodeType != 1) target = target.parentNode;
+
+			if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA')
+				e.preventDefault();
+		}
+	});
+}
+document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false); 
+document.addEventListener('DOMContentLoaded', function () { setTimeout(loaded, 200); }, false);
+</script>
+<{/block}>
+<{block name=blockcontent}> 
+<div id="wrapper" >
+<div  class="page-app">
+
+   
+	<div class="wxsaycontentlist">
+
+		<ul>
+
+			<li>
+				<div class="wxusercontent">
+					<div class="wxuserinfo">		
+						<span><img class="userlogo" <{if $wxcommentone['is_top']==1}><{ofunc type=img  link="<{$userlogo}>"}><{else}><{if !empty($wxcommentone['logo'])}><{ofunc type=img  link="<{$wxcommentone['logo']}>"}><{else}><{ofunc type=img  link="<{$userlogo}>"}><{/if}><{/if}> /></span>
+						<span style="margin-left:7px;display:block;">
+							<p class="wxusername <{if $wxcommentone['sex'] == 1}> wxnan <{elseif $wxcommentone['sex'] ==  2}> wxnv <{else}><{/if}>"><{if $wxcommentone['is_top']==1}><{$sitename}><{else}><{$wxcommentone['username']}><{/if}></p>
+							<p class="wxuserxx"><{$wxcommentone['streetname']}>&nbsp;&nbsp;&nbsp;<{$wxcommentone['addtime']|date_format:"%m-%d %H:%M:%S"}></p>
+						</span>
+					</div>
+					<div class="clear"></div>
+					<div  onclick="caozuousercont(<{$wxcommentone['id']}>);"  class="wxusercontdr"><img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/iconfont-chevron-down.png" /></div>
+					<div <{if $wxcommentone['uid'] == $member['uid'] }>onclick="wxuserdel(<{$wxcommentone['id']}>);"<{else}>onclick="wxuserjubao(<{$wxcommentone['id']}>);"<{/if}> class="wxusercomfir wxusercomfir_<{$wxcommentone['id']}>" style="display:none;">
+						<span panduanattr="<{if $wxcommentone['uid'] == $member['uid'] }>shanchu<{else}>jubao<{/if}>"  class="jubaouser"><{if $wxcommentone['uid'] == $member['uid'] }>删除<{else}>举报<{/if}></span>
+					</div>
+					
+					
+					
+					<div class="yiqisayusercont">
+						<{if $wxcommentone['is_top']==1}><span style="color:#fe5052;">[ 置顶 ] </span><{/if}><{$wxcommentone['usercontent']|htmlspecialchars_decode}>
+                                        </div>
+					<div class="yiqisayuserimgs">
+					
+					<{foreach $userimages  item=items}>
+						<{if !empty($items)}>
+						<img <{ofunc type=img  link="<{$items}>"}> />
+                        <{/if}>								
+					<{/foreach}>	
+                   			
+					</div>
+					<{load_data assign="zanmuyou" table="wxpjzan" type="one" where="commentid=<{$wxcommentone['id']}> and uid=<{$member['uid']}> " fileds="*" }>  
+					<div style="height:22px; ">						
+						<div   onclick="pingjiaonewxuser();"  class="zzshuliang  zongmsg"><{$pingjiazongshu}></div>
+						<div id="zongzanshuliang" pingjiaattr="<{if $zanmuyou == '' }>0<{else}>1<{/if}>" class="zzshuliang <{if $zanmuyou == '' }> zongzanshu <{else}> zongzanshucur <{/if}>"><{$zongzanshu}></div>
+					</div>
+					
+				</div>
+			</li>
+		
+		</ul>
+	
+	</div>
+
+   <script>
+     wx.config({
+      debug: false,
+      appId: '<{$signPackage['appId']}>',
+      timestamp: '<{$signPackage['timestamp']}>',
+      nonceStr: '<{$signPackage['nonceStr']}>',
+      signature: '<{$signPackage['signature']}>',
+      jsApiList: [
+        'checkJsApi',
+        'onMenuShareTimeline',
+        'onMenuShareAppMessage',
+        'onMenuShareQQ',
+        'onMenuShareWeibo',
+        'onMenuShareQZone'
+      ]
+  });
+  
+function onMenuShareTimeline (){
+  // 2. 分享接口
+  // 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
+ // document.querySelector('#onMenuShareAppMessage').onclick = function () {
+    wx.onMenuShareAppMessage({
+      title: "<{$wxcommentone['usercontent']}>",
+      desc: "<{$wxcommentone['usercontent']}>",
+      link: '<{ofunc type=url link="/wxsite/commentwxuser/id/<{$id}>"}>',
+      imgUrl: '<{$userimages[0]}>',
+      trigger: function (res) {
+        // 不要尝试在trigger中使用ajax异步请求修改本次分享的内容，因为客户端分享操作是一个同步操作，这时候使用ajax的回包会还没有返回
+      //  Tmsg('用户点击发送给朋友');
+      },
+      success: function (res) {
+        Tmsg('分享成功');
+      },
+      cancel: function (res) {
+       // Tmsg('已取消');
+      },
+      fail: function (res) {
+        Tmsg(JSON.stringify(res));
+      }
+    });
+   // Tmsg('已注册获取“发送给朋友”状态事件');
+//};
+
+
+	 // 2.2 监听“分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
+	//  document.querySelector('#onMenuShareTimeline').onclick = function () {
+		wx.onMenuShareTimeline({
+		  title: "<{$wxcommentone['usercontent']}>",
+		  link: '<{ofunc type=url link="/wxsite/commentwxuser/id/<{$id}>"}>',
+          imgUrl: '<{$userimages[0]}>',
+		  trigger: function (res) {
+			// 不要尝试在trigger中使用ajax异步请求修改本次分享的内容，因为客户端分享操作是一个同步操作，这时候使用ajax的回包会还没有返回
+			//Tmsg('用户点击分享到朋友圈');
+		  },
+		  success: function (res) {
+			Tmsg('分享成功');
+		  },
+		  cancel: function (res) {
+		//	Tmsg('已取消');
+		  },
+		  fail: function (res) {
+			Tmsg(JSON.stringify(res));
+		  }
+		});
+	//	Tmsg('已注册获取“分享到朋友圈”状态事件');
+	//  };
+
+  // 2.3 监听“分享到QQ”按钮点击、自定义分享内容及分享结果接口
+ // document.querySelector('#onMenuShareQQ').onclick = function () {
+    wx.onMenuShareQQ({
+      title: "<{$wxcommentone['usercontent']}>",
+      desc: "<{$wxcommentone['usercontent']}>",
+      link: '<{ofunc type=url link="/wxsite/commentwxuser/id/<{$id}>"}>',
+      imgUrl: '<{$userimages[0]}>',
+      trigger: function (res) {
+       // Tmsg('用户点击分享到QQ');
+      },
+      complete: function (res) {
+        Tmsg(JSON.stringify(res));
+      },
+      success: function (res) {
+        Tmsg('分享成功');
+      },
+      cancel: function (res) {
+     //   Tmsg('已取消');
+      },
+      fail: function (res) {
+        Tmsg(JSON.stringify(res));
+      }
+    });
+  //  Tmsg('已注册获取“分享到 QQ”状态事件');
+ // };
+  
+  // 2.4 监听“分享到微博”按钮点击、自定义分享内容及分享结果接口
+ // document.querySelector('#onMenuShareWeibo').onclick = function () {
+    wx.onMenuShareWeibo({
+      title: "<{$wxcommentone['usercontent']}>",
+      desc: "<{$wxcommentone['usercontent']}>",
+      link: '<{ofunc type=url link="/wxsite/commentwxuser/id/<{$id}>"}>',
+      imgUrl: '<{$userimages[0]}>',
+      trigger: function (res) {
+    //    Tmsg('用户点击分享到微博');
+      },
+      complete: function (res) {
+        Tmsg(JSON.stringify(res));
+      },
+      success: function (res) {
+        Tmsg('分享成功');
+      },
+      cancel: function (res) {
+      //  Tmsg('已取消');
+      },
+      fail: function (res) {
+        Tmsg(JSON.stringify(res));
+      }
+    });
+  //  Tmsg('已注册获取“分享到微博”状态事件');
+//  };
+
+  // 2.5 监听“分享到QZone”按钮点击、自定义分享内容及分享接口
+ // document.querySelector('#onMenuShareQZone').onclick = function () {
+    wx.onMenuShareQZone({
+      title: "<{$wxcommentone['usercontent']}>",
+      desc: "<{$wxcommentone['usercontent']}>",
+      link: '<{ofunc type=url link="/wxsite/commentwxuser/id/<{$id}>"}>',
+      imgUrl: '<{$userimages[0]}>',
+      trigger: function (res) {
+    //    Tmsg('用户点击分享到QZone');
+      },
+      complete: function (res) {
+        Tmsg(JSON.stringify(res));
+      },
+      success: function (res) {
+        Tmsg('分享成功');
+      },
+      cancel: function (res) {
+        Tmsg('已取消');
+      },
+      fail: function (res) {
+   //     Tmsg(JSON.stringify(res));
+      }
+    });
+ //   Tmsg('已注册获取“分享到QZone”状态事件');
+ // };
+
+  
+ }
+   </script>
+ <script>
+
+ 
+ var wxmemuid = <{$member['uid']}>;
+   function quxiaobtnpl(){
+		$(".corfimjubao").hide();
+		$(".cart_zhe").hide();
+		$(".wxusercomfir").hide();
+   } 
+   function quxiaobtndel(){
+		$(".corfimjubaodel").hide();
+		$(".cart_zhe").hide();
+		$(".wxusercomfir").hide();
+   } 
+
+function caozuousercont(commentid){
+		$(".wxusercomfir_"+commentid).toggle();
+}
+function wxuserjubao(commentid){
+	// 举报弹出层
+	$(".corfimjubao").show();
+	$(".cart_zhe").show();
+	$(".quedingjubao").attr('jubaoid',commentid);
+}
+
+
+//确定举报
+function quedingjubao(){
+	 showLoading();
+	var jubaoid = $(".quedingjubao").attr('jubaoid');
+	if( wxmemuid == '' ||  wxmenuid == 0 ){
+		Tmsg("未登录，请先登录~");return false;
+	}
+	$.ajax({
+	  	url:'<{ofunc type=url link="/wxsite/savejubaowxuser/datatype/json"}>',
+	  	data:{uid:wxmemuid,jubaoid:jubaoid},
+	  	dataType: 'json',
+	  	success:function (data, status)
+	  	{
+		
+	  		if(typeof(data.error) != 'undefined')
+				{
+					if(data.error == false)
+					{
+					$(".corfimjubao").hide();
+					$(".cart_zhe").hide();
+					 newhideLoading();
+						Tmsg('举报成功');
+							$('.closegb').live("click", function() {   
+								 $('.popup').slideToggle('slow',function(){$('#mask').remove();$('.popup').remove();}); 
+								
+								 
+							}); 
+				
+					 }else{
+							newhideLoading();
+					 		if(data.msg == '你已经举报过啦~'){
+								Tmsg(data.msg);
+									$(".corfimjubao").hide();
+								$(".cart_zhe").hide();
+							}else{
+								Tmsg(data.msg);
+							}
+							
+					 		
+					}
+				}else{
+				newhideLoading();
+					Tmsg(data.msg);
+				} 
+
+	  	},
+		  error: function (data, status, e)
+		  {
+			newhideLoading();
+					Tmsg('提交连接失败');
+		  }
+	  }); 
+}
+//删除
+function wxuserdel(commentid){
+	// 举报弹出层
+	$(".corfimjubaodel").show();
+	$(".cart_zhe").show();
+	$(".quedingjubaodel").attr('shanchuid',commentid);
+} 
+// 确定删除自己的评论
+function quedingshanchu(){
+	showLoading();
+	if( wxmemuid == '' ||  wxmenuid == 0 ){
+		Tmsg("未登录，请先登录~");return false;
+	}
+	var shanchuid = $(".quedingjubaodel").attr('shanchuid');
+	$.ajax({
+	  	url:'<{ofunc type=url link="/wxsite/saveshanchuwxuser/datatype/json"}>',
+	  	data:{uid:wxmemuid,shanchuid:shanchuid},
+	  	dataType: 'json',
+	  	success:function (data, status)
+	  	{
+		
+	  		if(typeof(data.error) != 'undefined')
+				{
+					if(data.error == false)
+					{
+					 newhideLoading();
+					$(".corfimjubaodel").hide();
+					$(".cart_zhe").hide();
+						$(".wxsaycontentlist .wxusersay_"+shanchuid).remove();
+						Tmsg('删除成功');
+											
+					 }else{
+					  newhideLoading();
+					 		Tmsg(data.msg);
+					 		
+					}
+				}else{
+				 newhideLoading();
+					Tmsg(data.msg);
+				} 
+
+	  	},
+		  error: function (data, status, e)
+		  {
+			 newhideLoading();
+					Tmsg('提交连接失败');
+		  }
+	  }); 
+}
+
+   
+ 
+ 
+ 
+	$("#zongzanshuliang").click(function(){
+		var pingjiavalue = $(this).attr('pingjiaattr');
+		var zongzanshu = $(this).text();
+	
+		if(pingjiavalue == 0){
+			zanyige();
+		}
+		if(pingjiavalue == 1){
+			quxiaozanyige();
+		}
+	});
+	
+	var wxmemuid = <{$member['uid']}>;
+	function zanyige(){
+	if( wxmemuid == '' ||  wxmenuid == 0 ){
+		Tmsg("未登录，请先登录~");return false;
+	}
+	$.ajax({
+	  	url:'<{ofunc type=url link="/wxsite/saveuserzanjia/datatype/json"}>',
+	  	data:{uid:wxmemuid,commentid:<{$wxcommentone['id']}>},
+	  	dataType: 'json',
+	  	success:function (data, status)
+	  	{
+		
+	  		if(typeof(data.error) != 'undefined')
+				{
+					if(data.error == false)
+					{
+					var zongzanshu = $("#zongzanshuliang").text();
+					 $("#zongzanshuliang").removeClass('zongzanshu');
+					 $("#zongzanshuliang").addClass('zongzanshucur');
+					 $("#zongzanshuliang").attr('pingjiaattr','1');
+					 var shijizzs = Number(zongzanshu)+1;
+					
+					 $("#zongzanshuliang").text(shijizzs);
+					 
+					 
+					 
+					  $("#dibuzan i").removeClass('dibuzanshu');
+					  $("#dibuzan i").addClass('dibuzanshucur');
+								 $(".zantext").removeClass('zancolor');
+					  $(".zantext").addClass('zancolorcur');
+					 }else{
+					 		Tmsg(data.msg);
+					}
+				}else{
+					Tmsg(data.msg);
+				} 
+
+	  	},
+		  error: function (data, status, e)
+		  {
+					Tmsg('提交连接失败');
+		  }
+	  }); 
+	}
+	
+	function quxiaozanyige(){
+	if( wxmemuid == '' ||  wxmenuid == 0 ){
+		Tmsg("未登录，请先登录~");return false;
+	}
+	$.ajax({
+	  	url:'<{ofunc type=url link="/wxsite/saveuserzanjian/datatype/json"}>',
+	  	data:{uid:wxmemuid,commentid:<{$wxcommentone['id']}>},
+	  	dataType: 'json',
+	  	success:function (data, status)
+	  	{
+		
+	  		if(typeof(data.error) != 'undefined')
+				{
+					if(data.error == false)
+					{
+					var zongzanshu = $("#zongzanshuliang").text();
+					 $("#zongzanshuliang").removeClass('zongzanshucur');
+					 $("#zongzanshuliang").addClass('zongzanshu');					 
+					  $("#zongzanshuliang").attr('pingjiaattr','0');
+					   	 var shijizzs = Number(zongzanshu)-1;					
+						$("#zongzanshuliang").text(shijizzs);
+						
+						  $("#dibuzan i").removeClass('dibuzanshucur');
+					  $("#dibuzan i").addClass('dibuzanshu');
+						 $(".zantext").removeClass('zancolorcur');
+					  $(".zantext").addClass('zancolor');
+							
+					 }else{
+					 		Tmsg(data.msg);
+					}
+				}else{
+					Tmsg(data.msg);
+				} 
+
+	  	},
+		  error: function (data, status, e)
+		  {
+					Tmsg('提交连接失败');
+		  }
+	  }); 
+	}
+	
+ </script>
+   
+	<div class="allpingjia">
+		<div class="allpjlcontent">
+			<h1>所有评论</h1>
+			<div class="wxsaycontentlist">
+	
+		<ul>
+		<{if !empty($wxreplylist) }>
+			<{foreach $wxreplylist item=items }>		
+			<li style="border-top:1px solid #eeeeee;" 	<{if $items['kejian'] == 1 && $items['uid'] != $member['uid']  }> display:none;  <{/if}> >
+				<div class="wxusercontent" style="width:100%;">
+					<div class="wxuserinfo">		
+						<span><img class="userlogo" <{if !empty($items['logo'])}><{ofunc type=img  link="<{$items['logo']}>"}><{else}><{ofunc type=img  link="<{$userlogo}>"}><{/if}> /></span>
+						<span style="margin-left:7px;display:block;">
+							<p class="wxusername <{if $items['sex'] == 1}> wxnan <{elseif $items['sex'] ==  2}> wxnv <{else}><{/if}>"><{$items['username']}></p>
+							<p class="wxuserxx"><{$items['streetname']}>&nbsp;&nbsp;&nbsp;<{$items['addtime']|date_format:"%m-%d %H:%M"}></p>
+						</span>
+					</div>
+					<div class="clear"></div>
+				
+					<div class="yiqisayusercont">
+						<{$items['content']|htmlspecialchars_decode}>
+					</div>
+									
+				</div>
+			</li>
+		<{/foreach}>
+		<{else}>
+			<li style="border-top:1px solid #eeeeee;" 	<{if $items['kejian'] == 1 && $items['uid'] != $member['uid']  }> display:none;  <{/if}> >
+				<div class="wxusercontent" style="width:100%; text-decoration:2em;">
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;暂无评论~~~
+				</div>
+			</li>
+		<{/if}>
+		</ul>
+	
+	</div>
+		</div>
+	</div>
+	
+
+
+
+
+ </div>
+
+
+
+  </div>
+
+   <div id="cat_zhe" class="cart_zhe"  onclick="quxiaobtnpl();" ></div>
+   <!-- 举报弹出层 -->
+ <div class="corfimjubao" style="display:none;">
+	<p class="jubaotext">确定要举报?</p>
+	<p class="jubaoifqdqx">
+		<span class="jubaospan" ><span onclick="quedingjubao();" jubaoid="" class="quedingjubao">确定</span></span>
+		<span class="jubaospan" ><span  onclick="quxiaobtnpl();" class="quxiaojubao">取消</span></span>
+	</p>
+ </div>
+<!-- 删除弹出层 -->
+ <div class="corfimjubaodel" style="display:none;">
+	<p class="jubaotextdel">确定要删除?</p>
+	<p class="jubaoifqdqxdel">
+		<span class="jubaospandel" ><span onclick="quedingshanchu();" shanchuid="" class="quedingjubaodel">确定</span></span>
+		<span class="jubaospandel" ><span  onclick="quxiaobtndel();" class="quxiaojubaodel">取消</span></span>
+	</p>
+ </div>
+
+   
+   
+   <div id="pinglunwxuser" style="width:100%;  display:none;background:#ffffff;position:fixed;z-index:999999999;top:0px;  ">
+   <div class="fbzhuti" style="background:#ffffff; width:90%;">
+		<textarea  style="height:80px;"  class="fbcontent"  name="microbolg_message" id="microbolg_message" placeholder="回复 <{$wxcommentone['username']}>:" ></textarea>
+		
+		<div class="fasmes" style="position:relative;">
+		
+			<span class="icon_bq" style="float:left;  "><img style="width:25px; " src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/iconfont-img.png" /></span>
+			<span id="kejianzhi" class="pjallkejian" kejianattr="0" style="float:left; color:#595758;font-size:12px; margin-left:5px; ">所有人可见</span>
+			
+			
+			<input type="hidden" id="msgImage" value="">
+			<input type="hidden" id="cityname" value="">
+			<input type="hidden" id="areaname" value="">
+			<input type="hidden" id="streetname" value="">
+			<input type="hidden" id="kejianvalue" value="0">
+			<div id="showareainfo" style="display:none;" class="zttext">正在定位...</div>
+			<span style="float:right; margin-bottom:15px;">
+			
+				<span id="fbconcount">150</span>
+				<span   onclick="quxiaobtnpl();"   class="quxiaobtn">取消</span>		
+				<span class="fasbtn" id="btn_fb">发送</span>
+				
+			</span>
+								<div id="publisher_emotion" style="display:none; top:40px; width:100%; background:#fff; left:0px;" onblur="hiddenthis(this)" >
+										<ul>	
+											<li><a href="javascript:;"><img title="大笑" alt="大笑" <{ofunc type=img  link="/upload/emotion/16.gif?ver=1"}> emotion="(大笑)"></a> </li>
+											<li><a href="javascript:;"><img title="微笑" alt="微笑" <{ofunc type=img  link="/upload/emotion/1.gif?ver=1"}> emotion="(微笑)"></a> </li>
+											<li><a href="javascript:;"><img title="哭" alt="哭" <{ofunc type=img  link="/upload/emotion/3.gif?ver=1"}> emotion="(哭)"></a> </li>
+											<li><a href="javascript:;"><img title="惊讶" alt="惊讶" <{ofunc type=img  link="/upload/emotion/10.gif?ver=1"}> emotion="(惊讶)"></a> </li>
+											<li><a href="javascript:;"><img title="生气" alt="生气" <{ofunc type=img  link="/upload/emotion/5.gif?ver=1"}> emotion="(生气)"></a> </li>
+											<li><a href="javascript:;"><img title="难过" alt="难过" <{ofunc type=img  link="/upload/emotion/6.gif?ver=1"}> emotion="(难过)"></a> </li>
+											<li><a href="javascript:;"><img title="害羞" alt="害羞" <{ofunc type=img  link="/upload/emotion/15.gif?ver=1"}> emotion="(害羞)"></a> </li>
+											<li><a href="javascript:;"><img title="困" alt="困" <{ofunc type=img  link="/upload/emotion/9.gif?ver=1"}> emotion="(困)"></a> </li>
+											<li><a href="javascript:;"><img title="书呆子" alt="书呆子" <{ofunc type=img  link="/upload/emotion/7.gif?ver=1"}> emotion="(书呆子)"></a> </li>
+											<li><a href="javascript:;"><img title="调皮" alt="调皮" <{ofunc type=img  link="/upload/emotion/4.gif?ver=1"}> emotion="(调皮)"></a> </li>
+											<li><a href="javascript:;"><img title="谄笑" alt="谄笑" <{ofunc type=img  link="/upload/emotion/11.gif?ver=1"}> emotion="(谄笑)"></a> </li>
+											<li><a href="javascript:;"><img title="生病" alt="生病" <{ofunc type=img  link="/upload/emotion/8.gif?ver=1"}> emotion="(生病)"></a> </li>
+											<li><a href="javascript:;"><img title="尴尬" alt="尴尬" <{ofunc type=img  link="/upload/emotion/17.gif?ver=1"}> emotion="(尴尬)"></a> </li>
+											<li><a href="javascript:;"><img title="汗" alt="汗" <{ofunc type=img  link="/upload/emotion/18.gif?ver=1"}> emotion="(汗)"></a> </li>
+											<li><a href="javascript:;"><img title="惊恐" alt="惊恐" <{ofunc type=img  link="/upload/emotion/19.gif?ver=1"}> emotion="(惊恐)"></a> </li>
+											<li><a href="javascript:;"><img title="囧-窘迫" alt="囧-窘迫" <{ofunc type=img  link="/upload/emotion/20.gif?ver=1"}> emotion="(囧)"></a> </li>
+											<li><a href="javascript:;"><img title="呕吐" alt="呕吐" <{ofunc type=img  link="/upload/emotion/21.gif?ver=1"}> emotion="(吐)"></a> </li>
+											<li><a href="javascript:;"><img title="酷" alt="酷" <{ofunc type=img  link="/upload/emotion/22.gif?ver=1"}> emotion="(酷)"></a> </li>
+											<li><a href="javascript:;"><img title="流口水" alt="流口水" <{ofunc type=img  link="/upload/emotion/23.gif?ver=1"}> emotion="(流口水)"></a> </li>
+											<li><a href="javascript:;"><img title="猫猫笑" alt="猫猫笑" <{ofunc type=img  link="/upload/emotion/24.gif?ver=1"}> emotion="(猫猫笑)"></a> </li>
+											<li><a href="javascript:;"><img title="晕" alt="晕" <{ofunc type=img  link="/upload/emotion/25.gif?ver=1"}> emotion="(晕)"></a> </li>
+											<li><a href="javascript:;"><img title="色迷迷" alt="色迷迷" <{ofunc type=img  link="/upload/emotion/26.gif?ver=1"}> emotion="(色)"></a> </li>
+											<li><a href="javascript:;"><img title="可爱" alt="可爱" <{ofunc type=img  link="/upload/emotion/27.gif?ver=1"}> emotion="(可爱)"></a> </li>
+											<li><a href="javascript:;"><img title="吃饭" alt="吃饭" <{ofunc type=img  link="/upload/emotion/28.gif?ver=1"}> emotion="(吃饭)"></a> </li>
+											<li><a href="javascript:;"><img title="防流感" alt="防流感" <{ofunc type=img  link="/upload/emotion/29.gif?ver=1"}> emotion="(口罩)"></a> </li>
+											<li><a href="javascript:;"><img title="淘气" alt="淘气" <{ofunc type=img  link="/upload/emotion/30.gif?ver=1"}> emotion="(淘气)"></a> </li>
+											<li><a href="javascript:;"><img title="吻" alt="吻" <{ofunc type=img  link="/upload/emotion/31.gif?ver=1"}> emotion="(吻)"></a> </li>
+											<li><a href="javascript:;"><img title="住嘴" alt="住嘴" <{ofunc type=img  link="/upload/emotion/32.gif?ver=1"}> emotion="(住嘴)"></a> </li>
+											<li><a href="javascript:;"><img title="抠鼻" alt="抠鼻" <{ofunc type=img  link="/upload/emotion/33.gif?ver=1"}> emotion="(kb)"></a> </li>
+											<li><a href="javascript:;"><img title="烧香" alt="烧香" <{ofunc type=img  link="/upload/emotion/34.gif?ver=1"}> emotion="(sx)"></a> </li>
+											<li><a href="javascript:;"><img title="织毛衣" alt="织毛衣" <{ofunc type=img  link="/upload/emotion/35.gif?ver=1"}> emotion="(zmy)"></a> </li>
+											<li><a href="javascript:;"><img title="秋菊" alt="秋菊" <{ofunc type=img  link="/upload/emotion/36.gif?ver=1"}> emotion="(jh)"></a> </li>
+											<li><a href="javascript:;"><img title="降温" alt="降温" <{ofunc type=img  link="/upload/emotion/37.gif?ver=1"}> emotion="(cold)"></a> </li>
+											<li><a href="javascript:;"><img title="暖暖被窝" alt="暖暖被窝" <{ofunc type=img  link="/upload/emotion/38.gif?ver=1"}> emotion="(bw)"></a> </li>
+											<li><a href="javascript:;"><img title="给力" alt="给力" <{ofunc type=img  link="/upload/emotion/39.gif?ver=1"}> emotion="(gl)"></a> </li>
+											<li><a href="javascript:;"><img title="不给力" alt="不给力" <{ofunc type=img  link="/upload/emotion/40.gif?ver=1"}> emotion="(bgl)"></a> </li>
+											<li><a href="javascript:;"><img title="花儿" alt="花儿" <{ofunc type=img  link="/upload/emotion/41.gif?ver=1"}> emotion="(花)"></a> </li>
+											<li><a href="javascript:;"><img title="小蜜蜂" alt="小蜜蜂" <{ofunc type=img  link="/upload/emotion/42.gif?ver=1"}> emotion="(蜜蜂)"></a> </li>
+											<li><a href="javascript:;"><img title="雪花" alt="雪花" <{ofunc type=img  link="/upload/emotion/43.gif?ver=1"}> emotion="(sn)"></a> </li>
+											<li><a href="javascript:;"><img title="默哀" alt="默哀" <{ofunc type=img  link="/upload/emotion/44.gif?ver=1"}> emotion="(qf)"></a> </li>
+										</ul>
+			
+			
+			
+			
+		</div>		
+	</div>
+	<div class="clear"></div>
+
+	
+ </div>
+   </div>
+
+	
+	
+
+   <style>
+   .cart_zhe {
+   display:none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 9;
+  width:100%;
+  height:100%;
+  background-color: #000;
+  opacity: 0.5;
+  filter: alpha(opacity=50);
+}
+
+   </style>
+   
+ <script>
+ $("#kejianzhi").click(function(){
+	var kejianval =  $("#kejianzhi").attr('kejianattr');
+	 if(  kejianval == 0 ){
+		$(this).removeClass('pjallkejian');
+		$(this).addClass('pjdfkejian');
+		$(this).attr('kejianattr',1);
+		$("#kejianvalue").val(1);
+	}
+	 if(  kejianval == 1 ){
+		$(this).removeClass('pjdfkejian');
+		$(this).addClass('pjallkejian');
+		$(this).attr('kejianattr',0);
+		$("#kejianvalue").val(0);
+	}
+ });
+
+ 
+ 
+ //向下滑动 转换
+var biaoqingArray = [];
+var biaoqingImgArray = [];
+var shuoshuotip="说两句吧...";
+$(function(){
+	var biaoqing = $("#publisher_emotion").find('a');
+	for(var i = 0 ,len = biaoqing.length; i < len; i++){
+		biaoqingArray.push(biaoqing[i].childNodes[0].title);
+		biaoqingImgArray.push(biaoqing[i].childNodes[0].src);
+	}
+  $('.icon_bq').live("click", function() {  
+    	$('#publisher_emotion').show();
+  });
+   $('#publisher_emotion a').live('click',function(){
+   	   $("#microbolg_message")[0].value += "["+$(this).find("img").first().attr('title')+"]";
+			$("#publisher_emotion").hide();
+			$('#microbolg_message').trigger('onfocus');
+  });
+  $('.icon_tp').live("click", function() {  
+    	$('#div-messagepicUpload').show();
+  });
+  $('#submitImg').click(function(){
+		ajaxFileUpload();
+	});
+	$('#btn_fb').click(function(){
+		var message = $.trim($("#microbolg_message").val()); 
+	  for(var i=0;i<biaoqingArray.length;i++){
+		  if(message.indexOf("["+biaoqingArray[i]+"]")!=-1){
+			var rel = new RegExp("\\["+biaoqingArray[i]+"\\]",'g'); 
+			message = message.replace(rel,"<img src="+biaoqingImgArray[i]+" alt="+biaoqingArray[i]+" />");
+		  }
+	  }
+	  var image = $("#msgImage").val();
+	  message = message.replace(/\r\n/ig,"<br/>");
+	  if(!message){
+		   Tmsg("评论内容不能为空~");
+		  return false;
+	  }
+	  if(message.length > 150){
+		Tmsg("评论内容不能长度不能超过150");
+		  return false;
+	  }
+	  tijiaoneirong(message,image);
+		//提交comment 内容
+	});
+	$("#microbolg_message").keyup(function(){
+    var count = $("#microbolg_message").val().length;
+		if(count<=150){
+			$("#fbconcount").html( 150-count );
+		}else{
+			$("#microbolg_message").val( $("#microbolg_message").val().substring(0,150));
+			$("#fbconcount").html( 0 );
+		}
+  });
+});
+function checkMessage(){
+	var message = $("#microbolg_message").val();
+	if($.trim( message )=="" || $.trim( message ) == shuoshuotip){
+		$("#microbolg_message").css('backgroundColor','#fcdede');
+		setTimeout(function(){
+			$('#microbolg_message').css('backgroundColor','#fff')
+		},200);
+		return false;
+	}
+	return true;
+}
+function sixinfocus(eve){  
+	if($(eve).val().indexOf("说两句吧...")!=-1){
+		$(eve).val($(eve).val().replace(shuoshuotip,""));
+		$(eve).css('color','#333');
+	} 
+}
+function closeLayer(obj){
+	$('#'+obj).hide();
+}
+ 
+ </script>
+
+ <script>
+ 
+ $(function(){
+ 
+
+ 
+	getLocation();
+ });
+ $(".zttext").click(function(){
+	getLocation();
+ });
+function getLocation() 
+  {
+  	
+  if (navigator.geolocation)
+    { 
+       navigator.geolocation.getCurrentPosition(showPosition,showError);
+	 
+    }
+   else{$('#showareainfo').text("浏览器不支持定位");
+   }
+  }
+function showPosition(position)
+  {
+  
+  	//调用定位
+    //  x.innerHTML="Latitude: " + position.coords.latitude + 
+    // "<br />Longitude: " + position.coords.longitude;	
+    //$('#showareainfo').text(position.coords.latitude+':'+position.coords.longitude);
+     
+     $.ajax({
+           type: 'GET', 
+           url: '<{ofunc type=url link="/wxsite/getwxuaerlocation/datatype/json"}>',
+           async:false,
+           data: {'lat':position.coords.latitude,'lng':position.coords.longitude},
+           dataType: 'json',success: function(content) { 
+          	//var info = JSON.parse(content);
+             // $(allobj).eq(i).find('.juliid').eq(0).text(content.msg);  
+             if(content.error == false){
+					$("#cityname").val(content.data.cityname);
+					$("#areaname").val(content.data.areaname);
+					$("#streetname").val(content.data.streetname);
+					
+             }else{
+             	 $('#showareainfo').text('定位失败');// Tmsg(content.msg);
+            }
+	    	  },
+          error: function(content) { 
+          	$('#showareainfo').text('定位失败222'+position.coords.latitude);
+        
+	        }
+       }); 
+        
+    
+    
+  }
+  function renderReverse(datas){
+	 if(datas.status == 0){  
+	    $('#showareainfo').text(datas.result.formatted_address);
+	 }else{
+	  
+	   $('#showareainfo').text('定位失败');
+	 }
+  }
+  function showError(error)
+  {
+  	$('#showareainfo').text("定位失败");
+   switch(error.code) 
+    {
+    	
+    case error.PERMISSION_DENIED:
+      //x.innerHTML="User denied the request for Geolocation."
+    //  $('#showareainfo').text("User denied the request for Geolocation.");
+      break;
+    case error.POSITION_UNAVAILABLE:
+     // x.innerHTML="Location information is unavailable."
+      //$('#showareainfo').text("Location information is unavailable.");
+      break;
+    case error.TIMEOUT:
+    //  x.innerHTML="The request to get user location timed out."
+    //$('#showareainfo').text("The request to get user location timed out.");
+      break;
+    case error.UNKNOWN_ERROR:
+     // x.innerHTML="An unknown error occurred."
+     //  $('#showareainfo').text("An unknown error occurred.");
+      break;
+    }
+    
+   
+  }
+ 
+ </script>
+   
+   <script>
+   $(function(){
+   
+	if( !isWeiXin() ){  //  dibuzan pinglun
+		$("#wxshare").hide();
+		$("#dibuzan").css('width','50%');
+		$("#pinglun").css('width','50%');
+	}
+
+   });
+   
+   
+function isWeiXin(){		//js判断是否为微信浏览器
+    var ua = window.navigator.userAgent.toLowerCase();
+    if(ua.match(/MicroMessenger/i) == 'micromessenger'){
+        return true;
+    }else{
+        return false;
+    }
+}
+ 
+   </script>
+ 
+<script>
+	function tijiaoneirong(message,image){
+	showLoading();
+	$.ajax({
+	  	url:'<{ofunc type=url link="/wxsite/savehuifupj/datatype/json"}>',
+	  	data:{message:message,image:image,cityname:$("#cityname").val(),areaname:$("#areaname").val(),streetname:$("#streetname").val(),kejianvalue:$("#kejianvalue").val(),parentid:<{$id}>},
+	  	dataType: 'json',
+	  	success:function (data, status)
+	  	{
+	  		if(typeof(data.error) != 'undefined')
+				{
+					if(data.error == false)
+					{
+					 newhideLoading();
+							Tmsg('提交成功');
+
+
+								 $('.popup').slideToggle('slow',function(){$('#mask').remove();$('.popup').remove();});
+								 window.location.href=  siteurl+'/index.php?ctrl=wxsite&action=commentwxuser&id=<{$id}>' ;
+
+				
+							
+					 }else{
+					 newhideLoading();
+					 		Tmsg(data.msg);
+					}
+					newhideLoading();
+				}else{
+					Tmsg(data.msg);
+				} 
+	  		$("#msgImage").val("");
+	  		$("#microbolg_message").val("") 
+	  	},
+		  error: function (data, status, e)
+		  {
+		  newhideLoading();
+					Tmsg('提交连接失败');
+		  }
+	  }); 
+	}
+	function deleteSixin(dis){
+   	var bakmess = ajaxback('<{ofunc type=url link="/ask/deluserpms/datatype/json"}>',{'id':dis});
+   	if(bakmess.flag == false){
+   		$('#li_s_'+dis).remove();
+   		$('#li_ssss_'+dis).remove();
+   	}else{
+   	   Tmsg(bakmess.content);
+   	}
+	}
+</script>
+   <script>
+   function quxiaobtnpl(){
+		$("#pinglunwxuser").hide();
+		$(".cart_zhe").hide();
+		$(".corfimjubao").hide();
+   }
+     function pingjiaonewxuser(){
+		if( wxmemuid == '' ||  wxmenuid == 0 ){
+			Tmsg("未登录，请先登录~");return false;
+		}
+	 
+		$("#pinglunwxuser").toggle();
+		$(".cart_zhe").toggle();
+   }
+   
+
+   
+   </script>
+<{/block}>
+  <{block name=footer}>
+<!--底部-->
+    <div class="bottom-bar-warp" style="width:100%; background:#595758; color:#ffffff; z-index:99999999999;">
+        <div class="bottom-bar" id="bottom-bar" style="max-width:1920px;border: none;  box-shadow: none;width:100%; background:#595758; color:#ffffff;">
+            <div id="dibuzan" class="bbar-btn tap-click" style="width:33%;" ><i  class=" <{if $zanmuyou == '' }> dibuzanshu <{else}> dibuzanshucur <{/if}> "></i><div class=" zantext  <{if $zanmuyou == '' }> zancolor <{else}>zancolorcur <{/if}> text" style="margin-top:-8px;">赞</div></div>
+          
+			<div id="wxshare" onclick="clickshare();" class="bbar-btn tap-click" style="width:33%;" ><i class="icon icon_user"></i><div class="text" style="margin-top:-8px;color:#ffffff;">分享</div></div>
+     
+            <div id="pinglun" class="bbar-btn tap-click  "  style="width:33%;" onclick="pingjiaonewxuser();"  ><i class=" plunbg  "></i><div class="text" style="margin-top:-8px;color:#ffffff;">评论</div></div>
+          
+        </div>
+    </div>
+<script>
+
+
+	$("#dibuzan").click(function(){
+		var pingjiavalue = $("#zongzanshuliang").attr('pingjiaattr');
+		
+		var zongzanshu = $("#zongzanshuliang").text();
+	
+		if(pingjiavalue == 0){
+			zanyige();
+		}
+		if(pingjiavalue == 1){
+			quxiaozanyige();
+		}
+	});
+	//点击分享
+	function clickshare(){
+		$("#zhezhao2").show();
+		<!-- $("#zhehzuoimg").show(); -->
+		$("#zhehzuoshareimg").show();
+		onMenuShareTimeline();
+	}
+	function zhezhao2(){
+		$("#zhezhao2").hide();
+		$("#zhehzuoimg").hide();
+		$("#zhehzuoshareimg").hide();
+	}
+</script>
+ <div id="zhezhao2" class="zhezhao2"  onclick="zhezhao2();" ></div>
+ <div id="zhehzuoimg">
+	 <img  <{ofunc type=img  link="<{$html5logo}>"}> />
+ </div> 
+ <div id="zhehzuoshareimg">
+	 <img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/clicksharebg.png" />
+ </div>
+<style>
+#zhehzuoshareimg img {width:150px; }
+#zhehzuoshareimg{
+	position: absolute;z-index: 99999999999999999999;top:5px; right:25px; display:none;
+}
+#zhehzuoimg img {width:150px; height:44px;}
+#zhehzuoimg{
+	position: absolute;z-index: 99999999999999999999;top:50%; left:50%; margin-top:-22px; margin-left:-75px;display:none;
+}
+.zhezhao2 {
+   display:none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 99999999999999999999;
+  width:100%;
+  height:100%;
+  background-color: #000;
+  opacity: 0.5;
+  filter: alpha(opacity=50);
+}
+</style>
+<{/block}>
+  

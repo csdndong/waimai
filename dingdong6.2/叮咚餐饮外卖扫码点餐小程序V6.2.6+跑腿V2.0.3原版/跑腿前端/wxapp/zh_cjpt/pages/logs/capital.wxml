@@ -1,0 +1,8 @@
+<view class="container ba_f">
+    <view bindtap="help_info" class="list fon_30 " data-index="{{index}}" data-info="{{item}}" wx:for="{{help}}">
+        <view class="fon_30 title bor_bottom pa">
+            <view class="dis_in">{{index+1}} 、</view>
+            <view class="dis_in">{{item.question}}</view>
+        </view>
+    </view>
+</view>

@@ -1,0 +1,192 @@
+ <{extends file="<{$tempdir}>/public/wxsite.html"}>  
+<{block name=extendcss}>
+ <link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/goshopping.css">
+<link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/order.css">  
+<{/block}>
+ <{block name=extendjs}> 
+
+<{/block}>
+<{block name=sitetitle}><{$sitename}><{/block}>
+ <{block name=hearnav}>
+ <div class="titCon">
+     <div class="titBox">
+         <div class="titL"><i class="fa fa-angle-left"></i></div>
+         <div class="titC">
+             <h2>闪惠订单</h2>
+         </div>
+         <div class="titR"><i></i></div>
+     </div>
+ </div>
+ <{/block}>
+<{block name=myScrolljs}>
+<script>
+    $(function(){
+        $('.fa-angle-left').bind("click", function() {
+            history.go(1);
+        });
+    });
+		var myScroll;
+function loaded(){
+	myScroll = new iScroll('wrapper', {
+		useTransform: false,
+		onBeforeScrollStart: function (e) {
+			var target = e.target;
+			while (target.nodeType != 1) target = target.parentNode;
+
+			if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA')
+				e.preventDefault();
+		}
+	});
+}
+document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false); 
+document.addEventListener('DOMContentLoaded', function () { setTimeout(loaded, 200); }, false);
+</script>
+ <{/block}>
+<{block name=blockcontent}> 
+<{if $order['paystatus'] == 0}>
+
+<link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/mycss.css">
+ <style>
+     .borderbttom{
+         color:#fff!important;
+         font-size:14px;
+     }
+ </style>
+	 <div id="wrapper" style="top:40px;">
+	<div id="scroller">
+		<!---增加的代码-->
+		<div class="shop">
+
+            <div class="shop_cart">
+                <ul>
+                    <li class="borderbttom" >
+                        <label style="font-size:14px;">闪慧买单：</label>
+                        <div class="labelrightdiv" >
+                            <div class="yhjcontent"  style="font-size:14px;">&nbsp;¥<{$order['sjcost']}></div>
+                        </div>
+
+                    </li>
+
+                    <li class="borderbttom" id="jifenposition" >
+                        <label style="font-size:14px;">支付方式：</label>
+                        <div class="labelrightdiv">
+                            <div class="yhjcontent " style="font-size:14px;">&nbsp;<{if  $order['paytype'] == 1}>微信支付<{elseif  $order['paytype'] == 2}>支付宝支付<{elseif  $order['paytype'] == 3}>余额支付<{/if}></div>
+                        </div>
+                    </li>
+
+                </ul>
+            </div>
+
+			
+		</div>
+		<div class="shop_cart" style="background-color:#FF6E6E;">
+	      <div style="color:#fff;text-align:center;font-weight:bold;font-size:16px;" id="dopay">确认支付</div>
+	   </div>
+		
+	</div>
+ 
+ <script type="text/javascript"> 
+ var biaoqianval = false;
+ var paytype="<{$order['paytype']}>";
+function bqzhi(){
+	biaoqianval  = false;
+}
+	
+	
+ 	var nowbid = "";
+ 	 $(function(){
+
+       $('#dopay').bind("click", function() {  
+		showLoading();  
+	   
+	   if(biaoqianval == false){
+				biaoqianval  = true;
+					
+					 setTimeout("bqzhi()", 500 );
+newhideLoading();
+           if(paytype == '1'){
+               var uass = window.navigator.userAgent.toLowerCase();
+               if(uass.match(/MicroMessenger/i) == 'micromessenger'){
+                   callpay();
+               }
+           }else if(paytype == '3'){
+               var orderid="<{$order['id']}>";
+               var url = '<{ofunc type=url link="/wxsite/gotopayhui/orderid/'+orderid+'/paydotype/open_acout"}>';
+               window.location.href= url;
+           }
+			
+		 
+	}     	
+       	
+       	
+       });
+ 	 });
+
+
+function jsApiCall()
+	{
+		WeixinJSBridge.invoke(
+			'getBrandWCPayRequest',
+			<{$wxdata}>,
+			function(res){
+				WeixinJSBridge.log(res.err_msg);
+				//Tmsg(res.err_msg);
+				var dostring = res.err_msg;
+				var temparr = dostring.split(':');
+				if(temparr.length == 2){
+				  // Tmsg(temparr[1]);
+				   if(temparr[1] == 'ok'){
+				      window.location.reload(); 
+				   }
+				}else{
+				   Tmsg(res.err_msg);
+				}
+				//alert(res.err_code+res.err_desc+res.err_msg);
+			}
+		);
+	}
+
+	function callpay()
+	{
+		if (typeof WeixinJSBridge == "undefined"){
+		    if( document.addEventListener ){
+		        document.addEventListener('WeixinJSBridgeReady', jsApiCall, false);
+		    }else if (document.attachEvent){
+		        document.attachEvent('WeixinJSBridgeReady', jsApiCall); 
+		        document.attachEvent('onWeixinJSBridgeReady', jsApiCall);
+		    }
+		}else{
+		    jsApiCall();
+		}
+	}
+</script> 
+
+
+
+</div>
+
+
+<{else}>
+ <div style="height:60px;display:none;"></div>
+
+
+<div class="">
+    <div id="page-orders-warp" style="top: 50px;">
+        <div id="page-orders-warp-scroller">
+            <div class="page-submit-success">
+                <div class="iconRight"></div>
+                <h3 class="ftx-02">订单支付成功</h3>
+                <p>订单号：<{$order['dno']}></p>
+                <p>订单金额：<{$order['sjcost']}>元</p>
+             </div>
+        </div>
+    </div>
+
+
+</div>
+</div>
+
+ 
+ 	<{/if}>
+
+<{/block}>

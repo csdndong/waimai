@@ -1,0 +1,58 @@
+{
+    "pages": [
+        "pages/order/list",
+        "pages/member/mine",
+        "pages/finance/getcashList",
+        "pages/finance/getcashDetail",
+        "pages/errander/list",
+        "pages/errander/detail",
+        "pages/errander/reason",
+        "pages/auth/login",
+        "pages/auth/forget",
+        "pages/auth/register",
+        "pages/member/setting",
+        "pages/member/profilePassword",
+        "pages/finance/current",
+        "pages/member/index",
+        "pages/finance/getcash",
+        "pages/order/detail",
+        "pages/order/reason",
+        "pages/finance/detail",
+        "pages/finance/myAccount",
+        "pages/statcenter/rank",
+        "pages/statcenter/count",
+        "pages/statcenter/erranderRank"
+    ],
+    "window": {
+        "backgroundTextStyle": "dark",
+        "navigationBarBackgroundColor": "#4FAE52",
+        "navigationBarTitleText": "外卖",
+        "navigationBarTextStyle": "white",
+        "enablePullDownRefresh": false,
+        "onReachBottomDistance": "200"
+    },
+    "tabBar": {
+        "selectedColor": "#4FAE52",
+        "list": [
+            {
+                "pagePath": "pages/order/list",
+                "text": "订单",
+                "iconPath": "static/img/tabbar/icon-3.png",
+                "selectedIconPath": "static/img/tabbar/icon-3-active.png"
+            },
+            {
+                "pagePath": "pages/errander/list",
+                "text": "跑腿",
+                "iconPath": "static/img/tabbar/icon-15.png",
+                "selectedIconPath": "static/img/tabbar/icon-15-active.png"
+            },
+            {
+                "pagePath": "pages/member/mine",
+                "text": "我的",
+                "iconPath": "static/img/tabbar/icon-5.png",
+                "selectedIconPath": "static/img/tabbar/icon-5-active.png"
+            }
+        ]
+    },
+    "debug": true
+}

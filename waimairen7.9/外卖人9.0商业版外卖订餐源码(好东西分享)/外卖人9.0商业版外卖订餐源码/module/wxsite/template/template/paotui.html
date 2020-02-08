@@ -1,0 +1,244 @@
+ <{extends file="<{$tempdir}>/public/wxsite.html"}>  
+<{block name=extendcss}>   
+<{/block}>
+ <{block name=myScrolljs}>
+<link rel="stylesheet" href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/paotui/css/index.css" />
+<link rel="stylesheet" href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/paotui/css/font-awesome.min.css" />
+<script type="text/javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/paotui/js/jquery.js" ></script>
+<script type="text/javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/paotui/js/index.js" ></script>
+
+<{/block}>
+<{block name=hearnav}>
+<div class="title_content">
+	<div class="title_left">
+		<i class="fa fa-angle-left"></i>
+	</div>
+	<div class="title_center">
+		<h3>跑腿服务</h3>
+	</div>
+	<div class="title_right">
+		<span onclick="dolink('<{ofunc type=url link="/wxsite/ptorder"}>');">跑腿订单</span>
+	</div>
+</div>
+<{/block}>
+<{block name=sitetitle}><{$sitename}><{/block}>
+<{block name=blockcontent}> 
+<style>
+.redborder{border:1px solid #ff6e6e!important;}
+.greenborder{border:1px solid #00cd85!important;}
+.yellowborder{border:1px solid #ff7600!important;}
+.anvagood{border:<{if $color=='green'}>1px solid #00cd85;<{elseif $color=='yellow'}>1px solid #ff7600;<{else}>1px solid #ff6e6e;<{/if}>}
+</style> 
+<script>
+    $(function(){
+        $('.goodsweight').hide();
+        $('.goodscost').hide();
+        $('#loading').hide();
+        $('.bottom-bar-warp').hide(); 
+        $('.send').hide();         
+        $(".helpbuy_btn").click(function(){
+	var  goods = $("#buygoods").val();
+        window.location.href=  siteurl+'/index.php?ctrl=wxsite&action=pthelpme&pttype=2&goods='+goods ;       
+    });
+
+    $("#movedetail li").click(function() {
+        $(this).addClass('navaA anvagood');                    // 添加当前元素的样式
+        $(this).siblings('li').removeClass('navaA anvagood');  // 删除其他兄弟元素的样式 
+		//增加边框
+		var color = '<{$color}>';
+		if(color == 'green'){
+			$(this).addClass('greenborder');
+			$(this).siblings('li').removeClass('greenborder');
+		}else if(color == 'yellow'){
+			$(this).addClass('yellowborder');
+			$(this).siblings('li').removeClass('yellowborder');
+		}else{
+			$(this).addClass('redborder');
+			$(this).siblings('li').removeClass('redborder');
+		}
+    });
+    $("#goodsweight").click(function() {
+        $('.goodsweight').show();                         
+    });
+    $("#goodscost").click(function() {
+        $('.goodscost').show();                             
+    });
+     $("#weightqx").click(function() {
+        $('.goodsweight').hide();                         
+    });
+    $("#costqx").click(function() {
+        $('.goodscost').hide();                             
+    });
+	
+	$(".fa-angle-left").click(function() {
+               history.back();              
+    });
+  
+//        border: 1px solid darkgray;
+
+    
+    }); 
+    
+</script>
+
+<div class="helpme_banner"></div>
+<div class="helpme_tab">
+	<ul>
+		<li class="navaA"><i class="icon_helpbuy" style="       
+                        <{if $color =='yellow'}>
+                         background-image: url(/templates/m7/public/wxsite/images/icon_helpbuy02_2.png);
+                       <{elseif $color =='green'}>
+                         background-image: url(/templates/m7/public/wxsite/images/icon_helpbuy02_1.png);
+                       <{elseif $color =='red'}>
+                         background-image: url(/templates/m7/public/wxsite/paotui/images/icon_helpbuy01.png);
+                         <{/if}>">
+            
+                </i>帮我买</li>
+		<li><i class="icon_helpgive" style="       
+                        <{if $color =='yellow'}>
+                         background-image: url(/templates/m7/public/wxsite/images/icon_helpgive02_2.png);
+                       <{elseif $color =='green'}>
+                         background-image: url(/templates/m7/public/wxsite/images/icon_helpgive02_1.png);
+                       <{elseif $color =='red'}>
+                         background-image: url(/templates/m7/public/wxsite/paotui/images/icon_helpgive01.png);
+                         <{/if}>"></i>帮我送</li>
+	</ul>
+</div>
+<div class="helpme_content">
+	<div class="helpme_box">
+		<div class="helpme_prompt"><i></i>想买点什么</div>
+		<div class="helpbuy_input">
+			<div class="helpbuy_input_left">
+				<input type="text" id="buygoods" placeholder="输入你想要买的商品" />
+			</div>
+			<input class="helpbuy_btn" type="button" value="帮我买" />
+		</div>
+		<div class="helpbuy_class">
+			<ul>
+                            <{foreach from=$helpbuyinfo key=myid item=items}> 
+                             
+				<li onclick="dolink('<{ofunc type=url link="/wxsite/pthelpme/id/<{$items['id']}>/pttype/2"}>');">
+                                    <img <{ofunc type=img  link="<{$items['imgurl']}>"}> />
+					<div class="helpbuy_right">
+						<span><{$items['name']}></span>
+						<b><{$items['description']}></b>
+					</div>
+				</li>
+                           
+                            <{/foreach}>
+				
+			</ul>
+			<div class="s_line"></div>
+		</div>
+	</div>
+   
+	<div class="helpme_box send">
+		<div class="helpme_prompt"><i></i>需要送什么</div>
+                <{if !empty($helpmoveinfo)}>
+		<div class="helpgive_class" style='height:auto!important'>
+                    
+			<ul id="movedetail">
+                            <{foreach from=$helpmoveinfo key=myid item=items}>  
+                         
+				<li <{if $myid == 0}>class="navaA anvagood"  <{/if}> data="<{$items['name']}>" id="goodsname<{$items['id']}>">
+					<img <{ofunc type=img  link="<{$items['imgurl']}>"}> />
+					<span><{$items['name']}></span>
+					<i></i>
+				</li>
+                           
+                            <{/foreach}>
+				
+			</ul>
+			<{if count($helpmoveinfo) > 4 }>
+			<div class="h_line"></div>
+			<{/if}>
+		</div>  
+		        <{else}>
+		         <input type='hidden' data='' class='anvagood'>
+                <{/if}>
+		<div class="helpgive_choice">
+			<ul>
+				<li id="goodsweight">
+					<span>重量</span>
+					<span><span class="selectweight">1kg</span><i class="fa fa-angle-right"></i></span>
+				</li>
+				<li id="goodscost">
+					<span>物品价值</span>
+					<span><span class="selectcost">100元以下</span><i class="fa fa-angle-right"></i></span>
+				</li>
+			</ul>
+		</div>
+		<div class="base_btn padd">
+			<input type="button" id="dosend" value="帮我送" />
+		</div>
+	</div>
+</div>
+<div class="helpgive_popup_content goodscost">
+	<div class="helpgive_popup_box">
+		<div class="helpgive_popup_a">
+			<div class="helpgive_popup_title">
+				<h3>物品价值</h3>
+				<span id="costqx">取消</span>
+			</div>
+			<div class="helpgive_popup">
+				<ul>
+					<li onclick="sendcost('100元以下')">100元以下</li>                                      
+					<li onclick="sendcost('100-200元')">100-200元</li>
+					<li onclick="sendcost('200-300元')">200-300元</li>
+					<li onclick="sendcost('300-400元')">300-400元</li>
+					<li onclick="sendcost('400-500元')">400-500元</li>
+                    <li onclick="sendcost('500元以上')">500元以上</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="helpgive_popup_content goodsweight">
+	<div class="helpgive_popup_box">
+		<div class="helpgive_popup_a">
+			<div class="helpgive_popup_title">
+				<h3>重量</h3>
+				<span id="weightqx">取消</span>
+			</div>
+			<div class="helpgive_popup">
+				<ul>
+                                <{assign var=i value=0}>
+                                <{section name=total loop=20}>
+                                <{assign var=i value=$i+1}>
+                                <li onclick="sendweight('<{$i}>kg')"><{$i}>kg</li>                                  
+                                <{/section}>      
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+   
+    function sendcost(cost){
+       
+        $('.goodscost').hide();
+        $('.selectcost').text(cost);  
+//        $('#selectcost').attr("value",cost);    
+    } 
+    function sendweight(weight){
+        
+        $('.goodsweight').hide();   
+        $('.selectweight').text(weight); 
+//        $('#selectweight').attr("value",weight);    
+    } 
+    
+     $(".padd").click(function(){
+       
+	var selectname = $(".anvagood").attr('data');
+        var selectcost = $('.selectcost').text();
+        var selectweight = $('.selectweight').text();       
+        window.location.href=  siteurl+'/index.php?ctrl=wxsite&action=pthelpme&pttype=1&movegoods='+selectname+'&cost='+selectcost+'&weight='+selectweight ;       
+    });
+    
+    
+    
+    
+    
+</script>
+
+<{/block}>{/block}>

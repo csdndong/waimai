@@ -1,0 +1,10 @@
+<!--   time:2019-07-18 01:03:21 -->
+<view class="container">
+	<view class="head">
+		<icon size="93" type="info"></icon>
+	</view>
+	<view class="text">是否核销此订单</view>
+	<view class="btn">
+		<button bindtap="hx" class="weui-btn" style="background-color:{{color}}" type="primary">确定</button>
+	</view>
+</view>

@@ -1,0 +1,18 @@
+<{load_data assign="stationinfo" table="stationadmininfo" where="`cityid`=<{$admininfo['cityid']}>"  type="one"}> 
+<div class="managShopClas">
+				<ul>
+					<!--<li <{if $Taction == 'shop' && $tmodule == 'cateset'  }> class="maShClaA" <{/if}>  ><a href="<{ofunc type=url link="/areaadminpage/shop/module/cateset"}>">分类管理</a></li>-->
+					<li <{if $Taction == 'weixin' && $tmodule == 'indexstyle'  }> class="maShClaA" <{/if}>  ><a href="<{ofunc type=url link="/areaadminpage/weixin/module/indexstyle"}>">用户端首页设置</a></li>
+					<li <{if $Taction == 'news' && ( $tmodule == 'information' or  $tmodule == 'addnotice' )  }> class="maShClaA" <{/if}> ><a href="<{ofunc type=url link="/areaadminpage/news/module/information"}>">网站通知管理</a></li>
+ 					<li <{if $Taction == 'adv' && ( $tmodule == 'advlist'  or  $tmodule == 'addadv' )  }> class="maShClaA" <{/if}> ><a href="<{ofunc type=url link="/areaadminpage/adv/module/advlist"}>">广告管理</a></li>
+ 					<li <{if $Taction == 'news' && ( $tmodule == 'lifeassistant' or  $tmodule == 'addlifeass' )  }> class="maShClaA" <{/if}> ><a href="<{ofunc type=url link="/areaadminpage/news/module/lifeassistant"}>">生活服务管理</a></li>
+ 					<li <{if $Taction == 'other' && ( $tmodule == 'specialpage' or  $tmodule == 'addspecialpage' )  }> class="maShClaA" <{/if}> ><a href="<{ofunc type=url link="/areaadminpage/other/module/specialpage"}>">专题页管理</a></li>
+
+                                        <li <{if $Taction == 'weixin' && ( $tmodule == 'wxkefu')  }> class="maShClaA" <{/if}> ><a href="<{ofunc type=url link="/areaadminpage/weixin/module/wxkefu"}>">微信客服</a></li>
+ 				    
+					<{if $stationinfo['is_selfsitecx'] == 1}>
+					<li <{if $Taction == 'shop' && $tmodule == 'cxrulelist'  or  $tmodule == 'addcxrule' }> class="maShClaA" <{/if}>  ><a href="<{ofunc type=url link="/areaadminpage/shop/module/cxrulelist"}>">促销活动管理</a></li>
+					<{/if}>
+				</ul>
+			</div>
+			

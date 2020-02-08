@@ -1,0 +1,235 @@
+{itemplate 'public/header'}
+{if $op == 'index'}
+<form action="./index.php" class="form-horizontal form-filter">
+	{php echo tpl_form_filter_hidden('storebd/bind/index');}
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">筛选</label>
+		<div class="col-sm-9 col-xs-12">
+			<select name="sid" class="form-control select2 js-select2 width-130" id="select-sid">
+				<option value="0" {if !$sid}selected{/if}>全部门店</option>
+				{loop $stores $store}
+				<option value="{$store['id']}" {if $store['id'] == $sid}selected{/if}>{$store['title']}</option>
+				{/loop}
+			</select>
+			<select name="bd_id" class="form-control select2 js-select2 width-130">
+				<option value="0" {if !$bd_id}selected{/if}>店铺推广员</option>
+				{loop $store_spreads $store_spread}
+				<option value="{$store_spread['id']}" {if $store_spread['id'] == $bd_id}selected{/if}>{$store_spread['title']}</option>
+				{/loop}
+			</select>
+		</div>
+	</div>
+</form>
+<form action="" class="form-table form form-validate" method="post">
+	<div class="panel panel-table">
+		<div class="panel-heading">
+			<a href="{php echo iurl('storebd/bind/post');}" class="btn btn-primary btn-sm">添加店铺绑定</a>
+		</div>
+		<div class="panel-body table-responsive js-table">
+			{if empty($data)}
+			<div class="no-result">
+				<p>还没有相关数据</p>
+			</div>
+			{else}
+			<table class="table table-hover">
+				<thead class="navbar-inner">
+				<tr>
+					<th width="40">
+						<div class="checkbox checkbox-inline">
+							<input type="checkbox" name="ids[]" value="{$item['id']}"/>
+							<label></label>
+						</div>
+					</th>
+					<th>店铺推广员</th>
+					<th>所属门店</th>
+					<th>外卖抽佣比例</th>
+					<th>店内抽佣比例</th>
+					<th>添加时间</th>
+					<th style="width:150px; text-align:right;">操作</th>
+				</tr>
+				</thead>
+				<tbody>
+				{loop $data $item}
+				<tr>
+					<td>
+						<div class="checkbox checkbox-inline">
+							<input type="checkbox" name="ids[]" value="{$item['id']}"/>
+							<label></label>
+						</div>
+					</td>
+					<td>
+						<img src="{php echo tomedia($item['member']['avatar']);}" width="48">
+						{$item['member']['realname']}
+					</td>
+					<td>{$stores[$item['sid']]['title']}</td>
+					<td>
+						{if !empty($item['fee_takeout'])}
+							{if $item['fee_takeout']['type'] == 1}
+								抽成比例: {$item['fee_takeout']['fee_rate']}%, 最低抽成金额 {$item['fee_takeout']['fee_min']}元
+							{else}
+								固定抽成: {$item['fee_takeout']['fee']}元
+							{/if}
+						{else}
+							暂未设置
+						{/if}
+					</td>
+					<td>
+						{if !empty($item['fee_instore'])}
+							{if $item['fee_instore']['type'] == 1}
+								抽成比例: {$item['fee_instore']['fee_rate']}%, 最低抽成金额 {$item['fee_instore']['fee_min']}元
+							{else}
+								固定抽成: {$item['fee_instore']['fee']}元
+							{/if}
+						{else}
+							暂未设置
+						{/if}
+					</td>
+					<td>{$item['addtime_cn']}</td>
+					<td style="text-align:right;">
+						<a href="{php echo iurl('storebd/bind/post', array('id' => $item['id']))}" class="btn btn-default btn-sm">编辑</a>
+						<a href="{php echo iurl('storebd/bind/del', array('id' => $item['id']))}" class="btn btn-default btn-sm js-remove" data-confirm="确定解除店铺绑定吗">删除</a>
+					</td>
+				</tr>
+				{/loop}
+				</tbody>
+			</table>
+			<div class="btn-region clearfix">
+				<div class="pull-right">
+					{$pager}
+				</div>
+			</div>
+			{/if}
+		</div>
+	</div>
+</form>
+{/if}
+{if $op == 'post'}
+<div class="page clearfix">
+	<form class="form-horizontal form form-validate" id="form2" action="" method="post" enctype="multipart/form-data">
+		<div class="alert alert-warning">
+			提示：<br>
+			每个门店只能绑定一个推广员，如果一个门店已经绑定过推广员，再次绑定将删除之前已经绑定的推广员。<br>
+			一个推广员可以绑定到多个门店
+		</div>
+		<h3>绑定关系</h3>
+		<div class="form-group form-inline">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">选择门店</label>
+			<div class="col-sm-9 col-xs-12">
+				<select name="sid" id="sid" class="form-control select2" style="width: 200px;">
+					<option value="0">选择门店</option>
+					{loop $stores $li}
+					<option value="{$li['id']}" {if $li['id'] == $data['sid']}selected{/if}>{$li['title']}</option>
+					{/loop}
+				</select>
+			</div>
+		</div>
+		<div class="form-group form-inline">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">选择店铺推广员</label>
+			<div class="col-sm-9 col-xs-12">
+				<select name="bd_id" id="id" class="form-control select2" style="width: 200px;">
+					<option value="0">选择推广员</option>
+					{loop $store_spreads $li}
+					<option value="{$li['id']}" {if $li['id'] == $data['bd_id']}selected{/if}>{$li['title']}</option>
+					{/loop}
+				</select>
+			</div>
+		</div>
+		<h3>佣金计算方式</h3>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">外卖单佣金计算方式</label>
+			<div class="col-sm-9 col-xs-12 toggle-tabs" data-content=".fee-takeout-type">
+				<div class="radio radio-inline">
+					<input type="radio" value="1" name="fee_takeout[type]" id="fee-takeout-type-1" {if $data['fee_takeout']['type'] == 1 || empty($data['fee_takeout']['type'])}checked{/if}>
+					<label for="fee-takeout-type-1" class="toggle-role" data-target="fee-takeout-1">订单百分比抽成（平台抽取佣金）</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" value="2" name="fee_takeout[type]" id="fee-takeout-type-2" {if $data['fee_takeout']['type'] == 2}checked{/if}>
+					<label for="fee-takeout-type-2" class="toggle-role" data-target="fee-takeout-2">固定抽成</label>
+				</div>
+			</div>
+		</div>
+		<div class="toggle-content fee-takeout-type">
+			<div class="toggle-pane {if $data['fee_takeout']['type'] == 1 || empty($data['fee_takeout']['type'])}active{/if}" id="fee-takeout-1">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-9 col-xs-12">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">抽成比例：</label>
+						<div class="col-sm-9 col-xs-12">
+							<div class="input-group">
+								<input type="text" name="fee_takeout[fee_rate]" value="{$data['fee_takeout']['fee_rate']}" class="form-control"/>
+								<span class="input-group-addon">%，最低抽成金额</span>
+								<input type="text" name="fee_takeout[fee_min]" value="{$data['fee_takeout']['fee_min']}" class="form-control"/>
+								<span class="input-group-addon">元</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="toggle-pane {if $data['fee_takeout']['type'] == 2}active{/if}" id="fee-takeout-2">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-9 col-xs-12">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">抽成金额：</label>
+						<div class="col-sm-9 col-xs-12">
+							<div class="input-group">
+								<input type="text" name="fee_takeout[fee]" value="{$data['fee_takeout']['fee']}" class="form-control"/>
+								<span class="input-group-addon">元</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">店内单佣金计算方式</label>
+			<div class="col-sm-9 col-xs-12 toggle-tabs" data-content=".fee-instore-type">
+				<div class="radio radio-inline">
+					<input type="radio" value="1" name="fee_instore[type]" id="fee-instore-type-1" {if $data['fee_instore']['type'] == 1 || empty($data['fee_instore']['type'])}checked{/if}>
+					<label for="fee-instore-type-1" class="toggle-role" data-target="fee-instore-1">订单百分比抽成（平台抽取佣金）</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" value="2" name="fee_instore[type]" id="fee-instore-type-2" {if $data['fee_instore']['type'] == 2}checked{/if}>
+					<label for="fee-instore-type-2" class="toggle-role" data-target="fee-instore-2">固定抽成</label>
+				</div>
+			</div>
+		</div>
+		<div class="toggle-content fee-instore-type">
+			<div class="toggle-pane {if $data['fee_instore']['type'] == 1 || empty($data['fee_instore']['type'])}active{/if}" id="fee-instore-1">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-9 col-xs-12">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">抽成比例：</label>
+						<div class="col-sm-9 col-xs-12">
+							<div class="input-group">
+								<input type="text" name="fee_instore[fee_rate]" value="{$data['fee_instore']['fee_rate']}" class="form-control"/>
+								<span class="input-group-addon">%，最低抽成金额</span>
+								<input type="text" name="fee_instore[fee_min]" value="{$data['fee_instore']['fee_min']}" class="form-control"/>
+								<span class="input-group-addon">元</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="toggle-pane {if $data['fee_instore']['type'] == 2}active{/if}" id="fee-instore-2">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-9 col-xs-12">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">抽成金额：</label>
+						<div class="col-sm-9 col-xs-12">
+							<div class="input-group">
+								<input type="text" name="fee_instore[fee]" value="{$data['fee_instore']['fee']}" class="form-control"/>
+								<span class="input-group-addon">元</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group col-sm-12">
+			<input type="submit" value="提交" class="btn btn-primary">
+			<input type="hidden" name="token" value="{$_W['token']}" />
+		</div>
+	</form>
+</div>
+{/if}
+{itemplate 'public/footer'}

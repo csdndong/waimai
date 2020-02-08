@@ -1,0 +1,186 @@
+<{extends file="<{$tempdir}>/public/admin.html"}> 
+<{block name=extendjs}>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js"></script>
+<style>
+    #showmodule li {
+        height: 800px;
+        width: 300px;
+        margin-right: 100px;
+        float: left;
+        text-align: left;
+        margin-left: 30px;
+        margin-top: 30px;
+    }
+</style>
+<{/block}>
+<{block name=controlname}>帮我买设置<{/block}>
+<{block name=bodylist}> 
+
+<div style="width:auto;overflow-x:hidden;overflow-y:auto"> 
+
+   <script id="adddet" type="text/html"> 
+	<form method="post" name="form1" action="<{ofunc type=url link="/adminpage/order/module/savehelpbuybq/datatype/json"}>" onsubmit="return subform('',this);">
+	<table width=300px id="dovalueid"> 
+	   <tr><th height=25px width=50%>数据值</th>
+               <th width=30%>操作</th>
+           </tr>		   	
+	   <^% if(det.length > 0){%^> 
+	   <^% for(var i=0;i< det.length;i++){%^> 
+	   <tr class="shujudata">
+               <td height=25px width=50%>
+                   <input type="hidden" name="ids[]" value="<^%=det[i].id%^>">
+                   <input type="text" name="name[]" value="<^%=det[i].name%^>">
+               </td>
+               <td width=30%  align="center"><a href="#" onclick="delhang(this);">   删除</a>
+               </td>
+           </tr>  
+	   <^%}%^> 
+	   <^%}%^> 
+	   <tr>
+               <td height=25px width=50% >
+                   <input type="button" value="添加一行" class="button" onclick="addhang(this,'<^%=type%^>');">
+               </td>
+           <!--</tr>-->
+           <!--<tr>-->
+               <!--<td height=25px>&nbsp;</td>           -->
+           <td width=30%  align="center">
+           <input type="hidden" name="parentid" value="<^%=id%^>">
+
+                <input type="submit" value="提交保存" class="button">
+             </td>
+           </tr>
+      
+  </table>		
+	</form>
+</script>
+
+    <div id="tagscontent">
+
+        <div>
+            <table border="0" cellspacing="2" cellpadding="4" class="list" name="table" id="table" width="100%">
+
+                <thead>
+
+                    <tr>
+                        <th align="center">名称</th>  
+                        <th align="center">描述</th>
+                        <th align="center">图标</th>
+                        <th align="center">上传</th>
+                        <th align="center">标签设置</th>
+                        <th align="center">排序</th>
+                        <th align="center">隐藏</th>
+                        <th align="center">操作</th> 
+                    </tr>
+
+                </thead> 
+                <tbody>  
+                    <{foreach from=$info key=myid item=items}>
+                    <form method="post" name="form1" action="<{ofunc type=url link="/adminpage/order/module/savehelpbuy/datatype/json"}>" onsubmit="return subform('',this);">
+                    <tr class="s_out" onmouseover="this.bgColor = '#F5F5F5';" onmouseout="this.bgColor = 'ffffff';" bgcolor="#ffffff"> 
+                        
+                        <!--名称-->
+                        <td align="center">
+                            <input type="hidden" name="id" id="id<{$items['id']}>"  value="<{$items['id']}>">
+                            <input type="text" name="name" id="name<{$items['id']}>" value="<{$items['name']}>" style="width:80px;">
+                        </td> 
+                        <!--描述-->
+                        <td align="center">                    
+                            <input type="text" name="description" id="description<{$items['id']}>" value="<{$items['description']}>" style="width:150px;">
+                        </td> 
+                        <!--图标-->
+                        <td align="center">
+                            <input type="hidden" name="img" id="img<{$items['id']}>"  value="<{$items['imgurl']}>">
+                            <img  <{ofunc type=img link="<{$items['imgurl']}>" }>   id="imgurl<{$items['id']}>"   style="width:100px;height:100px;"></td> 
+                        <!--上传按钮-->
+                        <td align="center"> <span style="cursor:pointer;" onclick="upload_gudings('<{$items['id']}>');">上传图片</span></td> 
+                        <!--标签设置-->
+                        <td align="center">
+                            <{load_data assign="detlist" table="helpbuybq"    where="parent_id='<{$items['id']}>'" limit="10" }> 
+                        	<{foreach from=$detlist['list'] key=mykey item =itv}>
+                        	 <{if $mykey < 5}> 	     
+                        	      <{$itv['name']}>	     
+                        	 <{/if}>
+                          <{/foreach}>
+                          <{$items['det'] =$detlist['list']}>
+                          <a href="#" onclick='setattr(<{$items|@json_encode}>);'>设置</a>
+                        </td> 
+                        <!--排序-->
+                        <td align="center" ><input type="text" name="orderid" id="orderid<{$items['id']}>" value="<{$items['orderid']}>" style="width:60px;"></td>
+                        <!--是否隐藏-->
+                        <td align="center" >
+                            <input type="radio" name="isnotsee"  value="1" <{if $items['isnotsee'] == 1 }> checked <{/if}> >是
+                            <input type="radio" name="isnotsee"  value="0" <{if $items['isnotsee'] == 0 }> checked <{/if}> >否
+                        </td>
+                        <!--操作-->
+                        <td align="center"><input type="submit" value="提交保存" class="button"></td> 
+                               
+                    </tr> 
+                    </form>
+                    <{/foreach}>
+                   
+                    
+                </tbody> 
+
+            </table>
+        </div>  
+    </div> 
+    
+
+
+    <script>
+        function setattr(datas){
+	  var html = template.render('adddet', datas);  
+	  var dialog =  art.dialog({
+	 	   	id:'coslids',
+        title:'设置'+datas.name+'标签值',
+        content: html
+        });
+	}
+        function addhang(obj,types){
+	  if(types == 'input'){ 
+	     if($('#dovalueid').find('.shujudata').length > 0){
+	     	 alert('已存在默认值');
+	     	 return false;
+	    }
+	    
+	  }
+	   var html = '';	 
+		    html= '<tr class="shujudata"><td height=25px width=70%><input type="hidden" name="ids[]" value=""><input type="text" name="name[]" value=""></td><td width=30%  align="center"><a href="#" onclick="delhang(this);">删除</a></td></tr>';
+	  $(obj).parent().parent().before(html);
+	}
+	function delhang(obj){
+	  $(obj).parent().parent().remove();
+	}
+        
+        
+        
+        function upload_gudings(modulename){
+        dialogs = art.dialog.open('<{ofunc type=url link="/adminpage/other/module/uploadapp/obj/' + modulename + '/uploaddir/paotui/func/uploadgsucess"}>');
+        dialogs.title('上传图片');
+        }
+        function uploadgsucess(flag, obj, linkurl){
+        if (flag == true){
+        alert(linkurl);
+        dialogs.close();
+        upload_gudings(obj);
+        } else{           
+        dialogs.close();
+        //提交数据并返回显示         
+        $('#imgurl' + obj).attr('src', linkurl);   
+        $('#img' + obj).val(linkurl);
+        }
+        }
+        
+    </script>
+
+
+
+
+
+
+</div> 
+
+
+
+</div>   
+<{/block}>

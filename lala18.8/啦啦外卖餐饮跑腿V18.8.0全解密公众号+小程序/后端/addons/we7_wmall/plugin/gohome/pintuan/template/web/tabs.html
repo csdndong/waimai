@@ -1,0 +1,73 @@
+<div class="second-sidebar-title">{$_W['_plugin']['title']}</div>
+<div class="nav slimscroll">
+	<div class="menu-header">订单</div>
+	<ul class="menu-item">
+		<li {if $_W['_action'] == 'order'}class="active"{/if}>
+			<a href="{php echo iurl('gohome/order/list');}">订单列表</a>
+		</li>
+	</ul>
+	<div class="menu-header">砍价</div>
+	<ul class="menu-item">
+		<li>
+			<a href="{php echo iurl('kanjia/category/list');}">活动分类</a>
+		</li>
+		<li>
+			<a href="{php echo iurl('kanjia/activity/list');}">活动列表</a>
+		</li>
+	</ul>
+	<div class="menu-header">拼团</div>
+	<ul class="menu-item">
+		<li>
+			<a href="{php echo iurl('pintuan/category/list');}">活动分类</a>
+		</li>
+		<li>
+			<a href="{php echo iurl('pintuan/activity/list');}">活动列表</a>
+		</li>
+		<li {if $_W['_action'] == 'basic'}class="active"{/if}>
+			<a href="{php echo iurl('pintuan/basic/list');}">活动设置</a>
+		</li>
+	</ul>
+	<div class="menu-header">限时抢购</div>
+	{ifp 'seckill.goods_category' || 'seckill.goods' || 'seckill.orders' || 'seckill.slide'}
+		<ul class="menu-item">
+			{ifp 'seckill.goods_category'}
+			<li {if $_W['_action'] == 'goods_category'}class="active"{/if}>
+				<a href="{php echo iurl('seckill/goods_category');}">活动分类</a>
+			</li>
+			{/if}
+			{ifp 'seckill.goods'}
+			<li {if $_W['_action'] == 'goods'}class="active"{/if}>
+				<a href="{php echo iurl('seckill/goods');}">活动列表</a>
+			</li>
+			{/if}
+			{ifp 'seckill.slide'}
+			<li {if $_W['_action'] == 'slide'}class="active"{/if}>
+				<a href="{php echo iurl('seckill/slide');}">幻灯片管理</a>
+			</li>
+			{/if}
+			{ifp 'seckill.cover'}
+			<li {if $_W['_action'] == 'cover'}class="active"{/if}>
+				<a href="{php echo iurl('seckill/cover');}">入口设置</a>
+			</li>
+			{/if}
+		</ul>
+	{/if}
+	<div class="menu-header">售后</div>
+	<ul class="menu-item">
+		<li {if $_W['_action'] == 'comment'}class="active"{/if}>
+			<a href="{php echo iurl('gohome/comment/list');}">订单评论</a>
+		</li>
+		<li {if $_W['_action'] == 'complain'}class="active"{/if}>
+			<a href="{php echo iurl('gohome/complain/list');}">投诉列表</a>
+		</li>
+		<li {if $_W['_action'] == 'memberBlack'}class="active"{/if}>
+			<a href="{php echo iurl('gohome/memberBlack/list');}">黑名单列表</a>
+		</li>
+	</ul>
+	<div class="menu-header">同城</div>
+	<ul class="menu-item">
+		<li>
+			<a href="{php echo iurl('tongcheng/category/list');}">分类列表</a>
+		</li>
+	</ul>
+</div>

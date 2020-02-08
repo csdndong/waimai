@@ -1,0 +1,44 @@
+<include src="/zh_cjdianc/pages/commons/navbar/navbar.wxml"></include>
+<view class="container">
+    <view class="head" wx:if="{{xtxx.gs_img.length>0}}">
+        <swiper autoplay="true" circular="true" duration="500" indicatorDots="true" interval="3000">
+            <swiper-item wx:for="{{xtxx.gs_img}}">
+                <image class="slide-image" mode="aspectFill" src="{{item}}"></image>
+            </swiper-item>
+        </swiper>
+    </view>
+    <view class="weui-cells weui-cells_after-title" style="border-bottom:1rpx solid #efeff4">
+        <view class="weui-cell weui-cell_access" hoverClass="weui-cell_active">
+            <view class="weui-cell__hd">
+                <image src="../../img/gssjjs.png" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;"></image>
+            </view>
+            <view class="weui-cell__bd" style="font-weight:bold">商家介绍</view>
+        </view>
+    </view>
+    <view class="seller_info margin">
+        <rich-text nodes="{{xtxx.gs_details}}"></rich-text>
+    </view>
+    <view class="weui-cells weui-cells_after-title" style="margin-bottom: 30rpx;">
+        <navigator bindtap="maketel" class="weui-cell weui-cell_access" hoverClass="weui-cell_active">
+            <view class="weui-cell__hd">
+                <image src="../../img/gstel.png" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;"></image>
+            </view>
+            <view class="weui-cell__bd">联系电话：{{xtxx.gs_tel}}</view>
+            <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+        </navigator>
+        <navigator class="weui-cell weui-cell_access" hoverClass="weui-cell_active" url="">
+            <view class="weui-cell__hd">
+                <image src="../../img/gssj.png" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;"></image>
+            </view>
+            <view class="weui-cell__bd">营业时间：{{xtxx.gs_time}}</view>
+            <view class="weui-cell__ft"></view>
+        </navigator>
+        <navigator bindtap="location" class="weui-cell weui-cell_access" hoverClass="weui-cell_active">
+            <view class="weui-cell__hd">
+                <image src="../../img/gsdt.png" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;"></image>
+            </view>
+            <view class="weui-cell__bd">地址：{{xtxx.gs_add}}</view>
+            <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+        </navigator>
+    </view>
+</view>

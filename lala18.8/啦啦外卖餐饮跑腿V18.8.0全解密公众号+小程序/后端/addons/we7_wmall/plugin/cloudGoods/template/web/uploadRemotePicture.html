@@ -1,0 +1,56 @@
+{itemplate 'public/header'}
+<div class="page clearfix" ng-controller="processor">
+	<form class="form-horizontal form" id="form1" action="" method="post" enctype="multipart/form-data">
+		<h2>上传远程图片</h2>
+		<div class="progress">
+			<div class="progress-bar progress-bar-danger" ng-style="style">
+				{{pragress}}
+			</div>
+		</div>
+	</form>
+</div>
+<script>
+	require(['angular'], function(angular) {
+		var running = true;
+		window.onbeforeunload = function(e) {
+			if(running) {
+				return (e || window.event).returnValue = '上传图片中,确定离开页面吗?';
+			}
+		}
+		angular.module('app', []).controller('processor', function($scope, $http) {
+			$scope.images = {php echo json_encode($data['process'])};
+			var total = $scope.images.length;
+			var i = 0;
+			running = true;
+			var proc = function() {
+				var percent = (i / total).toFixed(2);
+				if(percent > 1) {
+					percent = 1
+				}
+				$scope.pragress = percent * 100 + "%";
+				$scope.style = {'width': percent * 100 + "%"};
+				if($scope.more == 0) {
+					running = false;
+					Notify.success('图片上传完成', "{php echo iurl('cloudGoods/uploadsPicture/show', array('key' => $key))}");
+					return;
+				}
+				var params = {i: i};
+				$http.post(location.href, params).success(function(data) {
+					i += 10;
+					if(data.message.errno != 0) {
+						Notify.error(data.message.message);
+						return;
+					}
+					$scope.more = data.message.message;
+					proc();
+				}).error(function() {
+					i += 10;
+					proc();
+				});
+			}
+			proc();
+		});
+		angular.bootstrap(document, ['app']);
+	});
+</script>
+{itemplate 'public/footer'}

@@ -1,0 +1,142 @@
+{template 'web/common/common'}
+<link rel="stylesheet" type="text/css" href="../addons/kundian_ordering/resource/css/style.css" />
+<link rel="stylesheet" type="text/css" href="../addons/{php echo $_GPC['m']}/resource/swal/dist/sweetalert2.min.css" />
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            订餐信息>详细信息
+        </h3>
+    </div>
+    <div class="panel-body">
+        <form id="sign-form" class="form-horizontal" role="form" method="post" action="{url 'site/entry/order',array('m'=>'kundian_ordering','op'=>'saveModel','version_id'=>$_GPC['version_id'])}" name="submit" style="padding: 20px 0;">
+            <input type="hidden" name="id" value="{$makeOrderData['id']}">
+            <table class="table-striped table-bordered table-hover dataTables-example table">
+                <thead>
+                    <caption>订餐信息</caption>
+                    <tr>
+                        <th>ID</th>
+                        <th>姓名</th>
+                        <th>联系电话</th>
+                        <th>用餐日期</th>
+                        <th>用餐时间</th>
+                        <th>用餐人数</th>
+                        <th>总价</th>
+                        <th>是否支付</th>
+                        <th>是否用餐</th>
+                        <th>备注</th>
+                        <th>订餐时间</th>
+                    </tr>
+                    <tr>
+                        <td>{$makeOrderData['id']}</td>
+                        <td>{$makeOrderData['name']}</td>
+                        <td>{$makeOrderData['phone']}</td>
+                        <td>{$makeOrderData['use_date']}</td>
+                        <td>{$makeOrderData['use_time']}</td>
+                        <td>{$makeOrderData['person_count']}</td>
+                        <td>{$makeOrderData['total_price']}</td>
+                        <td><div class="type-parent" style="width: 52px;height: 32px;">
+                            {if $makeOrderData['is_pay']==1}
+                            <input type="checkbox" checked class="js-switch is_pay" value="1" name="is_pay" data-id="{$makeOrderData['id']}">
+                            {else}
+                            <input type="checkbox" class="js-switch is_pay" name="is_pay" value="0" data-id="{$makeOrderData['id']}">
+                            {/if}
+                        </div></td>
+                        <td><div class="type-parent" style="width: 52px;height: 32px;">
+                            {if $makeOrderData['is_use']==1}
+                            <input type="checkbox" checked class="js-switch is_use" value="1" name="is_use" data-id="{$makeOrderData['id']}">
+                            {else}
+                            <input type="checkbox" class="js-switch is_use" name="is_use" value="0" data-id="{$makeOrderData['id']}">
+                            {/if}
+                        </div></td>
+                        <td><div class="type-parent">{$makeOrderData['remark']}</div></td>
+                        <td><div class="type-parent"><?php echo date("Y-m-d H:i:s",$makeOrderData['create_time'])?></div></td>
+                    </tr>
+                </thead>
+
+            </table>
+            <?php if($makeOrderData['is_use']==0){?>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="button" id="cancelMake">取消预约</button>
+                </div>
+            </div>
+            <?php } ?>
+        </form>
+    </div>
+</div>
+
+{template 'common/footer'}
+<script>
+    require(["../addons/{php echo $_GPC['m']}/resource/swal/dist/sweetalert2.min.js"],function(){
+        $(function(){
+            //改变状态
+            $(".is_pay").change(function(){
+                var status;
+                var that=$(this);
+                if($(this).is(":checked")){
+                    status=1;
+                }else{
+                    status=0;
+                }
+                var id=$(this).attr("data-id");
+                $.ajax({
+                    type:"post",
+                    url:"{url 'site/entry/'.$_GPC['do'],array('m'=>$_GPC['m'],'op'=>'is_pay_change','version_id'=>$_GPC['version_id'])}",
+                    data:{id:id,status:status},
+                    dataType:'json',
+                    success:function(res){
+                        if(res.status==1){
+                            swal('操作成功!', '操作成功!', 'success');
+                        }else{
+                            that.prop("checked",!that.is(":checked"));
+                            swal('操作失败!', '操作失败!', 'error');
+                        }
+                    }
+                })
+            })
+            $(".is_use").change(function(){
+                var status;
+                var that=$(this);
+                if($(this).is(":checked")){
+                    status=1;
+                }else{
+                    status=0;
+                }
+                var id=$(this).attr("data-id");
+                $.ajax({
+                    type:"post",
+                    url:"{url 'site/entry/'.$_GPC['do'],array('m'=>$_GPC['m'],'op'=>'is_use_change','version_id'=>$_GPC['version_id'])}",
+                    data:{id:id,status:status},
+                    dataType:'json',
+                    success:function(res){
+                        if(res.status==1){
+                            swal('操作成功!', '操作成功!', 'success');
+                        }else{
+                            that.prop("checked",!that.is(":checked"));
+                            swal('操作失败!', '操作失败!', 'error');
+                        }
+                    }
+                })
+            })
+
+            $("#cancelMake").click(function () {
+                var id=$("input[name='id']").val();
+                $.ajax({
+                    type:"post",
+                    url:"{url 'site/entry/'.$_GPC['do'],array('m'=>$_GPC['m'],'op'=>'cancelMake','version_id'=>$_GPC['version_id'])}",
+                    data:{id:id},
+                    dataType:'json',
+                    success:function(res){
+                        if(res.status==1){
+                            swal('操作成功!', '操作成功!', 'success');
+                        }else{
+                            swal('操作失败!', '操作失败!', 'error');
+                        }
+                    }
+                })
+            })
+
+
+        })
+    })
+</script>

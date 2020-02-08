@@ -1,0 +1,41 @@
+<view class="container">
+    <view class="head pa fon_30 t_c mar_t">
+        <text class="mar_l dis_in">{{info.name}}</text>
+    </view>
+    <view class=" fon_60 color_6 t_c pa">
+        <text class="dis_in" wx:if="{{info.state!=5}}">+</text>
+        <text class="dis_in" wx:else>-</text>
+        <text class="dis_in">{{info.ps_money}}</text>
+    </view>
+    <view class=" fon_30 color_9 t_c pa">交易成功</view>
+    <view class="info pa_0 bor_bottom mar_t">
+        <view class="dis_in color_6">转入账号</view>
+        <view class="dis_in t_r color_3">
+            <text>余额</text>
+        </view>
+    </view>
+    <view class="info pa_0 bor_bottom">
+        <view class="dis_in color_6">账单分类</view>
+        <view class="dis_in t_r color_3">
+            <text>配送费</text>
+        </view>
+    </view>
+    <view class="info pa_0 bor_bottom">
+        <view class="dis_in color_6">创建时间</view>
+        <view class="dis_in t_r color_3">
+            <text>{{info.time}}</text>
+        </view>
+    </view>
+    <view class="info pa_0 bor_bottom">
+        <view class="dis_in color_6">订单号</view>
+        <view class="dis_in t_r color_3">
+            <text>{{info.order_id}}</text>
+        </view>
+    </view>
+    <view class="info pa_0">
+        <view class="dis_in color_6">云单号</view>
+        <view class="dis_in t_r color_3">
+            <text>{{info.ps_num}}</text>
+        </view>
+    </view>
+</view>

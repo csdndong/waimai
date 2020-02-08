@@ -1,0 +1,240 @@
+.info {
+    width: 100%;
+    overflow-x: hidden;
+}
+
+.header {
+    width: 100vw;
+    height: 50vw;
+}
+
+.infoimg {
+    width: 100%;
+    height: 100%;
+}
+
+.infoname {
+    background-color: white;
+    padding: 20rpx;
+}
+
+.infotitle {
+    background-color: white;
+    font-size: 36rpx;
+    color: #333;
+}
+
+.infotitle {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sysl {
+    color: #FF6000;
+    font-weight: 100;
+}
+
+.infocontent {
+    color: #666;
+}
+
+.infocost {
+    color: #FF6000;
+    font-size: 28rpx;
+    margin-top: 10rpx;
+}
+
+.money {
+    font-size: 38rpx;
+    margin-right: 10rpx;
+}
+
+.money1 {
+    font-size: 25rpx;
+    margin-left: 20rpx;
+    color: #999;
+    text-decoration: line-through;
+}
+
+.section {
+    margin-top: 15rpx;
+    background-color: white;
+    padding: 0rpx 20rpx 20rpx;
+    margin-bottom: 20rpx;
+}
+
+.secheader {
+    color: #999;
+    font-size: 26rpx;
+    line-height: 70rpx;
+    height: 70rpx;
+    border-bottom: 1rpx solid #eee;
+}
+
+.sectioninfo {
+    font-size: 28rpx;
+    color: #333;
+}
+
+.infotitle {
+    font-size: 30rpx;
+    font-weight: bold;
+    margin: 20rpx 0rpx;
+}
+
+.foot {
+    width: 100%;
+    height: 120rpx;
+}
+
+.footer {
+    background-color: white;
+    padding: 20rpx;
+    position: fixed;
+    bottom: 0rpx;
+    left: 0rpx;
+    width: 100%;
+    z-index: 2;
+}
+
+.footbtn {
+    background-color: #ff6e6e;
+    color: white;
+    font-size: 30rpx;
+    border-radius: 4rpx;
+    width: 100%;
+    line-height: 3em;
+}
+
+.bomb {
+    position: fixed;
+    z-index: 3;
+    background-color: rgba(0,0,0,0.5);
+    top: 0rpx;
+    bottom: 0rpx;
+    left: 0rpx;
+    right: 0rpx;
+    color: #333;
+}
+
+.bomb_box {
+    width: 70%;
+    height: 320rpx;
+    background-color: white;
+    border-radius: 6rpx;
+    position: relative;
+    overflow: hidden;
+}
+
+.bomb_title {
+    text-align: center;
+    font-weight: bold;
+    font-size: 30rpx;
+    margin-top: 40rpx;
+}
+
+.bomb_foot {
+    border-top: 1rpx solid #ccc;
+    position: absolute;
+    bottom: 0rpx;
+    left: 0rpx;
+    width: 100%;
+    height: 90rpx;
+    display: flex;
+}
+
+.bomb_con {
+    font-size: 26rpx;
+    text-align: center;
+    margin-top: 30rpx;
+}
+
+.cancel,.caomfirm {
+    width: 50%;
+    height: 90rpx;
+    text-align: center;
+    line-height: 90rpx;
+    font-size: 30rpx;
+}
+
+.caomfirm {
+    color: #ED414A;
+    border-left: 1rpx solid #ccc;
+}
+
+.zhezhao {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 998;
+}
+
+.kpgg {
+    width: 550rpx;
+    left: 50%;
+    bottom: 35%;
+    position: fixed;
+    transform: translate(-50%,0);
+    background: #fff;
+    border-radius: 10px;
+    z-index: 999;
+}
+
+.txdz {
+    color: #fff;
+    background: #ff6e6e;
+    font-size: 30rpx;
+    height: 80rpx;
+    line-height: 80rpx;
+    text-align: center;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.txdz1 {
+    color: #999;
+    font-size: 25rpx;
+    padding: 20rpx 15px;
+}
+
+.weui-cells {
+    font-size: 30rpx;
+    color: #333;
+}
+
+.weui-cell {
+    padding: 5px 15px;
+}
+
+.drawer_img {
+    width: 80rpx;
+    height: 80rpx;
+    overflow: hidden;
+    position: fixed;
+    bottom: 20%;
+    left: 50%;
+    z-index: 1001;
+    transform: translate(-50%,-50%);
+}
+
+.drawer_img image {
+    width: 100%;
+    height: 100%;
+}
+
+.weui-label {
+    width: 160rpx;
+}
+
+.qddh {
+    width: 200rpx;
+    margin: 20rpx auto;
+    font-size: 30rpx;
+    background: #ff6e6e;
+    color: #fff;
+}

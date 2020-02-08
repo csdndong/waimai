@@ -1,0 +1,4 @@
+<!--   time:2019-07-18 01:07:56 -->
+<view>
+	<rich-text nodes="{{system.rz_details}}"></rich-text>
+</view>

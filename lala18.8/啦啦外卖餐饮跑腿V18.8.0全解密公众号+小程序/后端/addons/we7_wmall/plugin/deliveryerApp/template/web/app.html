@@ -1,0 +1,396 @@
+{itemplate 'public/header'}
+<div class="page clearfix config-notice-phonic">
+	<h2>配送员app设置 <small class="text-danger">(此功能需要购买配送员APP才能使用)</small></h2>
+	<form class="form-horizontal form form-validate" id="form1" action="" method="post" enctype="multipart/form-data">
+		<input type="hidden" name="form_type" value="setting_app">
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">app序列号</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="text" name="deliveryer[serial_sn]" value="{$app['serial_sn']}" class="form-control" required="true"/>
+				{if $_W['isfounder'] == 1}<div class="help-block">请联系模块开发者获取</div>{/if}
+			</div>
+		</div>
+		<div class="form-group hide">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">配送员APP版本号</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="input-group">
+					<div class="input-group-addon">版本号</div>
+					<input type="text" name="deliveryer[version][android]" value="{$app['version']['android']}" class="form-control" required="true"/>
+				</div>
+				<div class="help-block">app版本号， 必须和最新apk的versionCode 一致，否则无法进行app更新。如果您不了解该配置，请勿修改.</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">IOS版本打包方式</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="radio radio-inline">
+					<input type="radio" value="0" name="deliveryer[ios_build_type]" id="deliveryer-ios-build-type-0" {if !$app['ios_build_type']}checked{/if}>
+					<label for="deliveryer-ios-build-type-0">官方统一打包</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" value="1" name="deliveryer[ios_build_type]" id="deliveryer-ios-build-type-1" {if $app['ios_build_type'] == 1}checked{/if}>
+					<label for="deliveryer-ios-build-type-1">自定义打包</label>
+				</div>
+				<div class="help-block">
+					如果您没有苹果开发者账号, 你可以选择"官方统一打包"方式。<br>
+					如果您已经在苹果商店上架了官方给你打包的配送员app,请选择"自定义打包"
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">Android版本</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="radio radio-inline">
+					<input type="radio" value="1" name="deliveryer[android_version]" id="android-version-1" {if !$app['android_version'] || $app['android_version'] <= 1}checked{/if}>
+					<label for="android-version-1">1.0</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" value="2" name="deliveryer[android_version]" id="android-version-2" {if $app['android_version'] == 2}checked{/if}>
+					<label for="android-version-2">2.0</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" value="3" name="deliveryer[android_version]" id="android-version-3" {if $app['android_version'] == 3}checked{/if}>
+					<label for="android-version-3">3.0</label>
+				</div>
+				<div class="help-block">
+					注意:2017年9月20日之前生成的app是1.0版本,2017年9月20日-2019年1月20日生成的app是3.0版本,2019年1月20日生成的app是2.0版本。如果您的app是1.0版本,坚决不能选择2.0版本,否则会造成app推送订单不成功的问题。同理,如果您的版本是2.0,不能选择1.0 <br>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">极光推送key</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="text" name="deliveryer[push_key]" value="{$app['push_key']}" class="form-control" required="true"/>
+				<div class="help-block"></div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">极光推送Secret</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="text" name="deliveryer[push_secret]" value="{$app['push_secret']}" class="form-control" required="true"/>
+				<div class="help-block"></div>
+			</div>
+		</div>
+		<div class="form-group hide">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">讯飞语音合成-安卓端appid</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="text" name="deliveryer[xunfei_Android_appid]" value="{$app['xunfei_Android_appid']}" class="form-control"/>
+				<div class="help-block">可不填。如果不填，将使用官方的公用appid。如果你填写，请保证appid的准确性，否则会造成app有消息推送，但是没有语音提醒的问题</div>
+			</div>
+		</div>
+		<div class="form-group hide">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">讯飞语音合成-苹果appid</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="text" name="deliveryer[xunfei_ios_appid]" value="{$app['xunfei_ios_appid']}" class="form-control"/>
+				<div class="help-block">可不填。如果不填，将使用官方的公用appid。如果你填写，请保证appid的准确性，否则会造成app有消息推送，但是没有语音提醒的问题</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">IOS版配送员App下载地址链接</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="text" name="deliveryer[ios_download_link]" value="{$app['ios_download_link']}" class="form-control"/>
+				<div class="help-block">注意:配送员APP在苹果商城审核通过并且上架后请将下载地址链接复制到此处</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">Android配送员App下载地址</label>
+			<div class="col-sm-9 col-xs-12">
+				<p class="form-control-static">安卓版本：<a href="{$downurls['deliveryer']['android']}" target="_blank">{$downurls['deliveryer']['android']}</a></p>
+				<p class="form-control-static hide">苹果版本：<a href="{$downurls['deliveryer']['ios']}" target="_blank">{$downurls['deliveryer']['ios']}</a></p>
+				{if !file_exists($downurls['deliveryer']['apk'])}
+				<div class="text-danger">apk安装包未上传到服务器</div>
+				{/if}
+				<div class="help-block">下载之前,请确保已经将apk上传到服务器</div>
+				<!-- <div class="panel panel-default panel-app-qrcode">
+					<div class="panel-heading">安卓版本下载</div>
+					<div class="panel-body">
+						<div class="qrcode-block js-qrcode" data-text="{$downurls['deliveryer']['android']}"></div>
+					</div>
+				</div> -->
+				<div class="panel panel-default panel-app-qrcode hide">
+					<div class="panel-heading">IOS版本下载</div>
+					<div class="panel-body">
+						<img width="180" src="{php echo $_W['siteroot'] .  'web/' . url('utility/wxcode/qrcode', array('text' => $downurls['deliveryer']['ios']));}">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">配送员App下载地址</label>
+			<div class="col-sm-9 col-xs-12">
+				<p class="form-control-static"><a href="javascript: ;" class="js-clip" data-href="{php echo ivurl('/pages/public/dowload/appDelivery', array(), true);}">{php echo ivurl('/pages/public/dowload/appDelivery', array(), true);}</a></p>
+				<div class="panel panel-default panel-app-qrcode">
+					<div class="panel-heading">应用下载</div>
+					<div class="panel-body">
+						<div class="qrcode-block js-qrcode" data-text="{php echo ivurl('/pages/public/dowload/appDelivery', array(), true);}"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<h2>语音提醒</h2>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">外卖新订单提醒</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="file" name="takeout[ordernew]" value="{$app['phonic']['takeout']['ordernew']}">
+				{if !empty($app['phonic']['takeout']['ordernew'])}
+				<div class="audio-container">
+					<div class="audio-msg">
+						<div class="icon audio-player-play" data-attach="{WE7_WMALL_URL}{$path}{$app['phonic']['takeout']['ordernew']}?t={php echo time();}"><span><i class="fa fa-play"></i></span></div>
+					</div>
+				</div>
+				{/if}
+				<div class="help-block">
+					{if !empty($app['phonic']['takeout']['ordernew'])}当前语音文件:{$app['phonic']['takeout']['ordernew']}。{/if}
+					<span>注意：仅支持MP3格式的语音文件</span>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">外卖派单提醒</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="file" name="takeout[orderassign]" value="{$app['phonic']['takeout']['orderassign']}">
+				{if !empty($app['phonic']['takeout']['orderassign'])}
+				<div class="audio-container">
+					<div class="audio-msg">
+						<div class="icon audio-player-play" data-attach="{WE7_WMALL_URL}{$path}{$app['phonic']['takeout']['orderassign']}?t={php echo time();}"><span><i class="fa fa-play"></i></span></div>
+					</div>
+				</div>
+				{/if}
+				<div class="help-block">
+					{if !empty($app['phonic']['takeout']['orderassign'])}当前语音文件:{$app['phonic']['takeout']['orderassign']}。{/if}
+					<span>注意：仅支持MP3格式的语音文件</span>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">外卖取消订单提醒</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="file" name="takeout[ordercancel]" value="{$app['phonic']['takeout']['ordercancel']}">
+				{if !empty($app['phonic']['takeout']['ordercancel'])}
+				<div class="audio-container">
+					<div class="audio-msg">
+						<div class="icon audio-player-play" data-attach="{WE7_WMALL_URL}{$path}{$app['phonic']['takeout']['ordercancel']}?t={php echo time();}"><span><i class="fa fa-play"></i></span></div>
+					</div>
+				</div>
+				{/if}
+				<div class="help-block">
+					{if !empty($app['phonic']['takeout']['ordercancel'])}当前语音文件:{$app['phonic']['takeout']['ordercancel']}。{/if}
+					<span>注意：仅支持MP3格式的语音文件</span>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">外卖催单提醒</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="file" name="takeout[orderRemind]" value="{$app['phonic']['takeout']['orderRemind']}">
+				{if !empty($app['phonic']['takeout']['orderRemind'])}
+				<div class="audio-container">
+					<div class="audio-msg">
+						<div class="icon audio-player-play" data-attach="{WE7_WMALL_URL}{$path}{$app['phonic']['takeout']['orderRemind']}?t={php echo time();}"><span><i class="fa fa-play"></i></span></div>
+					</div>
+				</div>
+				{/if}
+				<div class="help-block">
+					{if !empty($app['phonic']['takeout']['orderRemind'])}当前语音文件:{$app['phonic']['takeout']['orderRemind']}。{/if}
+					<span>注意：仅支持MP3格式的语音文件</span>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">外卖转单提醒</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="file" name="takeout[orderDirectTransfer]" value="{$app['phonic']['takeout']['orderDirectTransfer']}">
+				{if !empty($app['phonic']['takeout']['orderDirectTransfer'])}
+				<div class="audio-container">
+					<div class="audio-msg">
+						<div class="icon audio-player-play" data-attach="{WE7_WMALL_URL}{$path}{$app['phonic']['takeout']['orderDirectTransfer']}?t={php echo time();}"><span><i class="fa fa-play"></i></span></div>
+					</div>
+				</div>
+				{/if}
+				<div class="help-block">
+					{if !empty($app['phonic']['takeout']['orderDirectTransfer'])}当前语音文件:{$app['phonic']['takeout']['orderDirectTransfer']}。{/if}
+					<span>注意：仅支持MP3格式的语音文件</span>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">外卖拒绝转单提醒</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="file" name="takeout[orderDirectTransferRefuse]" value="{$app['phonic']['takeout']['orderDirectTransferRefuse']}">
+				{if !empty($app['phonic']['takeout']['orderDirectTransferRefuse'])}
+				<div class="audio-container">
+					<div class="audio-msg">
+						<div class="icon audio-player-play" data-attach="{WE7_WMALL_URL}{$path}{$app['phonic']['takeout']['orderDirectTransferRefuse']}?t={php echo time();}"><span><i class="fa fa-play"></i></span></div>
+					</div>
+				</div>
+				{/if}
+				<div class="help-block">
+					{if !empty($app['phonic']['takeout']['orderDirectTransferRefuse'])}当前语音文件:{$app['phonic']['takeout']['orderDirectTransferRefuse']}。{/if}
+					<span>注意：仅支持MP3格式的语音文件</span>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">跑腿新订单提醒</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="file" name="errander[ordernew]" value="{$app['phonic']['errander']['ordernew']}">
+				{if !empty($app['phonic']['errander']['ordernew'])}
+				<div class="audio-container">
+					<div class="audio-msg">
+						<div class="icon audio-player-play" data-attach="{WE7_WMALL_URL}{$path}{$app['phonic']['errander']['ordernew']}?t={php echo time();}"><span><i class="fa fa-play"></i></span></div>
+					</div>
+				</div>
+				{/if}
+				<div class="help-block">
+					{if !empty($app['phonic']['errander']['ordernew'])}当前语音文件:{$app['phonic']['errander']['ordernew']}。{/if}
+					<span>注意：仅支持MP3格式的语音文件</span>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">跑腿派单提醒</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="file" name="errander[orderassign]" value="{$app['phonic']['errander']['orderassign']}">
+				{if !empty($app['phonic']['errander']['orderassign'])}
+				<div class="audio-container">
+					<div class="audio-msg">
+						<div class="icon audio-player-play" data-attach="{WE7_WMALL_URL}{$path}{$app['phonic']['errander']['orderassign']}?t={php echo time();}"><span><i class="fa fa-play"></i></span></div>
+					</div>
+				</div>
+				{/if}
+				<div class="help-block">
+					{if !empty($app['phonic']['errander']['orderassign'])}当前语音文件:{$app['phonic']['errander']['orderassign']}。{/if}
+					<span>注意：仅支持MP3格式的语音文件</span>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">跑腿取消订单提醒</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="file" name="errander[ordercancel]" value="{$app['phonic']['errander']['ordercancel']}">
+				{if !empty($app['phonic']['errander']['ordercancel'])}
+				<div class="audio-container">
+					<div class="audio-msg">
+						<div class="icon audio-player-play" data-attach="{WE7_WMALL_URL}{$path}{$app['phonic']['errander']['ordercancel']}?t={php echo time();}"><span><i class="fa fa-play"></i></span></div>
+					</div>
+				</div>
+				{/if}
+				<div class="help-block">
+					{if !empty($app['phonic']['errander']['ordercancel'])}当前语音文件:{$app['phonic']['errander']['ordercancel']}。{/if}
+					<span>注意：仅支持MP3格式的语音文件</span>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">跑腿转单提醒</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="file" name="errander[orderDirectTransfer]" value="{$app['phonic']['errander']['orderDirectTransfer']}">
+				{if !empty($app['phonic']['errander']['orderDirectTransfer'])}
+				<div class="audio-container">
+					<div class="audio-msg">
+						<div class="icon audio-player-play" data-attach="{WE7_WMALL_URL}{$path}{$app['phonic']['errander']['orderDirectTransfer']}?t={php echo time();}"><span><i class="fa fa-play"></i></span></div>
+					</div>
+				</div>
+				{/if}
+				<div class="help-block">
+					{if !empty($app['phonic']['errander']['orderDirectTransfer'])}当前语音文件:{$app['phonic']['errander']['orderDirectTransfer']}。{/if}
+					<span>注意：仅支持MP3格式的语音文件</span>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">跑腿拒绝转单提醒</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="file" name="errander[orderDirectTransferRefuse]" value="{$app['phonic']['errander']['orderDirectTransferRefuse']}">
+				{if !empty($app['phonic']['errander']['orderDirectTransferRefuse'])}
+				<div class="audio-container">
+					<div class="audio-msg">
+						<div class="icon audio-player-play" data-attach="{WE7_WMALL_URL}{$path}{$app['phonic']['errander']['orderDirectTransferRefuse']}?t={php echo time();}"><span><i class="fa fa-play"></i></span></div>
+					</div>
+				</div>
+				{/if}
+				<div class="help-block">
+					{if !empty($app['phonic']['errander']['orderDirectTransferRefuse'])}当前语音文件:{$app['phonic']['errander']['orderDirectTransferRefuse']}。{/if}
+					<span>注意：仅支持MP3格式的语音文件</span>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">工作状态变更提醒</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="file" name="work_status_change[work_status_change]" value="{$app['phonic']['work_status_change']['work_status_change']}">
+				{if !empty($app['phonic']['work_status_change']['work_status_change'])}
+				<div class="audio-container">
+					<div class="audio-msg">
+						<div class="icon audio-player-play" data-attach="{WE7_WMALL_URL}{$path}{$app['phonic']['work_status_change']['work_status_change']}?t={php echo time();}"><span><i class="fa fa-play"></i></span></div>
+					</div>
+				</div>
+				{/if}
+				<div class="help-block">
+					{if !empty($app['phonic']['work_status_change']['work_status_change'])}当前语音文件:{$app['phonic']['work_status_change']['work_status_change']}。{/if}
+					<span>注意：仅支持MP3格式的语音文件</span>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<input type="hidden" name="token" value="{$_W['token']}">
+				<input type="submit" value="提交" class="btn btn-primary">
+			</div>
+		</div>
+	</form>
+	<h2>APP安装包上传</h2>
+	<form class="form-horizontal form form-validate" id="form2" action="" method="post" enctype="multipart/form-data">
+		<input type="hidden" name="form_type" value="upload_file">
+		<div class="form-group">
+			<div class="col-sm-9 col-xs-12">
+				<input type="file" name="file" value="" required="true">
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<input type="hidden" name="token" value="{$_W['token']}">
+				<input type="submit" value="提交" class="btn btn-primary">
+			</div>
+		</div>
+	</form>
+</div>
+<script>
+	require(['jquery.jplayer'], function(){
+		$(".audio-player-play").click(function(){
+			var src = $(this).data("attach");
+			if(!src) {
+				return;
+			}
+			if ($("#player")[0]) {
+				var player = $("#player");
+			} else {
+				var player = $('<div id="player"></div>');
+				$(document.body).append(player);
+			}
+			player.data('control', $(this));
+			player.jPlayer({
+				playing: function() {
+					$(this).data('control').find("i").removeClass("fa-play").addClass("fa-stop");
+				},
+				pause: function (event) {
+					$(this).data('control').find("i").removeClass("fa-stop").addClass("fa-play");
+				},
+				swfPath: "resource/components/jplayer",
+				supplied: "mp3,wma,wav,amr",
+				solution: "html, flash"
+			});
+			player.jPlayer("setMedia", {mp3: $(this).data("attach")}).jPlayer("play");
+			if($(this).find("i").hasClass("fa-stop")) {
+				player.jPlayer("stop");
+			} else {
+				$('.audio-msg').find('.fa-stop').removeClass("fa-stop").addClass("fa-play");
+				player.jPlayer("setMedia", {mp3: $(this).data("attach")}).jPlayer("play");
+			}
+		});
+	});
+</script>
+{itemplate 'public/footer'}

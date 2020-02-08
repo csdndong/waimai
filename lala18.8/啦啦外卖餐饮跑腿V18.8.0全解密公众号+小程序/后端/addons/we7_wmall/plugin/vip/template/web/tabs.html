@@ -1,0 +1,24 @@
+<div class="second-sidebar-title">{$_W['_plugin']['title']}</div>
+<div class="nav slimscroll">
+	<div class="menu-header">交易</div>
+	<ul class="menu-item">
+		<li {if $_W['_action'] == 'trade' && $_W['_op'] == 'index'}class="active"{/if}>
+			<a href="{php echo iurl('vip/trade/index');}">购买记录</a>
+		</li>
+		<li {if $_W['_action'] == 'trade' && $_W['_op'] == 'recharge'}class="active"{/if}>
+			<a href="{php echo iurl('vip/trade/recharge');}">充值记录</a>
+		</li>
+	</ul>
+	<div class="menu-header">设置</div>
+	<ul class="menu-item">
+		<li {if $_W['_action'] == 'config'}class="active"{/if}>
+			<a href="{php echo iurl('vip/config');}">基本设置</a>
+		</li>
+		<li {if $_W['_action'] == 'superRedpacket'}class="active"{/if}>
+			<a href="{php echo iurl('vip/superRedpacket');}">充值赠送</a>
+		</li>
+		<li {if $_W['_action'] == 'cover'}class="active"{/if}>
+			<a href="{php echo iurl('vip/cover');}">入口设置</a>
+		</li>
+	</ul>
+</div>

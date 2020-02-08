@@ -1,0 +1,9 @@
+<view class="main">
+    <view class="mainhead">
+        <textarea bindinput="bznr" maxlength="50" placeholder="请填写额外的备注信息"></textarea>
+        <view class="zs">0/50个字</view>
+    </view>
+    <view class="weui-btn-area">
+        <button bindtap="submitbz" class="weui-btn" style="background-color:{{color}}" type="primary">确定</button>
+    </view>
+</view>

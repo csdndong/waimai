@@ -1,0 +1,26 @@
+{itemplate 'public/header'}
+<div class="page clearfix">
+	<div class="alert alert-info form-horizontal">注意：目前此处仅针对新版公众号跑腿首页设置。</div>
+	<form class="form-horizontal form form-validate" id="form1" action="" method="post" enctype="multipart/form-data">
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">跑腿首页使用</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="radio radio-inline">
+					<input type="radio" value="index" name="paotui_home" id="paotui-home-1" {if $home_setting == 'index' || !$home_setting}checked{/if}>
+					<label for="paotui-home-1">默认首页</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" value="diy" name="paotui_home" id="paotui-home-2" {if $home_setting == 'diy'}checked{/if}>
+					<label for="paotui-home-2">自定义页面</label>
+				</div>
+				<div class="help-block">注意：若使用自定义页面，需先设置好自定义跑腿首页。<a href="{php echo iurl('errander/diypage/home')}">现在去设置</a></div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-9 col-xs-12">
+				<input type="submit" value="提交" class="btn btn-primary">
+			</div>
+		</div>
+	</form>
+</div>
+{itemplate 'public/footer'}

@@ -1,0 +1,119 @@
+<{extends file="<{$tempdir}>/public/admin.html"}> 
+<{block name=extendjs}>
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/jquery.PrintArea.js" type="text/javascript" language="javascript"></script>
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/datepicker/WdatePicker.js" type="text/javascript" language="javascript"></script>
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/datepicker/WdatePicker.js" type="text/javascript" language="javascript"></script>
+<{/block}>
+ <{block name=controlname}>退款申请列表<{/block}>
+ <{block name=bodylist}>
+ <style>
+ .content{overflow: hidden;text-overflow: ellipsis;white-space: nowrap;max-width: 69px;}
+ 
+ </style>
+    <div style="width:auto;overflow-x:hidden;overflow-y:auto"> 
+      	 <div class="search">
+      		 
+            
+            <div class="search_content">
+            	 
+            	 <form method="post" name="form1" action="<{ofunc type=url link="/adminpage/order/module/drawbacklog"}>">
+            	  <label>用户名称：</label>
+            	   <input type="text" name="username" value="<{$username}>" style='width:100px'>
+            	    &nbsp;&nbsp;
+					<label>退款状态：</label>	   
+            	   <select name="orderstatus">
+            	   	  <option value="all">全部</option> 
+					  <option value="4" <{if $orderstatus == '4'}>selected<{/if}>>待商家处理</option>
+					  <option value="1" <{if $orderstatus == '1'}>selected<{/if}>>待平台处理</option>
+					  <option value="5" <{if $orderstatus == '5'}>selected<{/if}>>用户取消退款</option> 
+					  <option value="2" <{if $orderstatus == '2'}>selected<{/if}>>退款成功</option> 
+					  <option value="3" <{if $orderstatus == '3'}>selected<{/if}>>退款失败</option> 
+            	   </select>
+            	  &nbsp;&nbsp;
+            	   从 <input class="Wdate datefmt" type="text" name="starttime" id="starttime" value="<{$starttime|date_format:"%Y-%m-%d"}>"  onFocus="WdatePicker({isShowClear:false,readOnly:true});" />  
+			   	   到 <input class="Wdate datefmt" type="text" name="endtime" id="endtime" value="<{$endtime|date_format:"%Y-%m-%d"}>"  onFocus="WdatePicker({isShowClear:false,readOnly:true});" />                  
+            	    <input type="submit" value="提交查询" class="button">  
+            	 
+            	 </form>
+            </div>
+        
+      	</div>
+           <div class="tags"> 
+          <div id="tagscontent">
+
+            <div id="con_one_1">
+
+              <div class="table_td" >
+
+              <form method="post" action="" onsubmit="return remind();"  id="delform">
+
+                  <table border="0" cellspacing="2" cellpadding="4" class="list" name="table" id="table" width="100%">
+
+                    <thead>
+
+                      <tr>  
+                        <th align="center">会员名</th>
+                        <th align="center">退款原因</th> 
+                        <th align="center">金额</th> 
+                        <th align="center">退款详细说明</th>                                                                
+                        <th align="center">退款状态</th>                      
+                        <th align="center">操作</th>
+
+                      </tr>
+
+                    </thead> 
+ 
+                     <tbody>
+
+                      <{foreach from=$list item=items}> 
+                      <tr class="s_out" onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff"> 
+                        
+                        <td align="center"><{$items['username']}></td> 
+                        <td align="center"> <{$items['reason']}> </td> 
+                        <td align="center"><{$items['cost']}></td>  
+                        <td align="center" class='content' ><{$items['content']}></td> 
+                        <td align="center"><{$items['orderstatus']}></td> 
+                       
+                        <td align="center"> 
+                        	 <{if $items['is_reback'] == 1 }>
+                        	    <a href="<{ofunc type=url link="/adminpage/order/module/showdrawbacklog/id/<{$items['id']}>"}>">处理</a>
+                        	 <{else}>
+                        	    <a href="<{ofunc type=url link="/adminpage/order/module/showdrawbacklog/id/<{$items['id']}>"}>">查看详细</a>
+                        	 <{/if}>
+                        	</td> 
+                      </tr> 
+                       <{/foreach}> 
+
+                    </tbody> 
+
+                  </table>
+
+                <div class="blank20"></div> 
+
+                </form>
+
+                <div class="page_newc">
+                 	      <div class="select_page">  </div>
+                       <div class="show_page"><ul><{$pagecontent}></ul></div>
+                 </div>
+
+                <div class="blank20"></div>
+
+              </div>
+
+            </div>
+
+          </div> 
+
+        </div>
+
+        
+  </div>
+  
+  
+  
+  
+ 
+ </div> 
+  
+<{/block}>

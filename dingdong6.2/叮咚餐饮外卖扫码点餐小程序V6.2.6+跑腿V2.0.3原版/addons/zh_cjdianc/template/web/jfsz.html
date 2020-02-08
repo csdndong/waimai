@@ -1,0 +1,87 @@
+{template 'public/header'}
+{template 'public/comhead'}
+<link rel="stylesheet" type="text/css" href="../addons/zh_cjdianc/template/public/ygcss.css">
+<style type="text/css">
+    input[type="radio"] + label::before {
+        content: "\a0"; /*不换行空格*/
+        display: inline-block;
+        vertical-align: middle;
+        font-size: 16px;
+        width: 1em;
+        height: 1em;
+        margin-right: .4em;
+        border-radius: 50%;
+        border: 2px solid #ddd;
+        text-indent: .15em;
+        line-height: 1; 
+    }
+    input[type="radio"]:checked + label::before {
+        background-color: #44ABF7;
+        background-clip: content-box;
+        padding: .1em;
+        border: 2px solid #44ABF7;
+    }
+    input[type="radio"] {
+        position: absolute;
+        clip: rect(0, 0, 0, 0);
+    }
+    .ygmargin{margin-top: 10px;color: #999;}
+</style>
+<ul class="nav nav-tabs">
+    <span class="ygxian"></span>
+    <div class="ygdangq">当前位置:</div>    
+    <li class="active"><a href="javascript:void(0);">积分设置</a></li>
+</ul>
+<div class="main">
+    <form action="" method="post" class="form-horizontal form" enctype="multipart/form-data" id="invitative">
+        <div class="panel panel-default ygdefault">
+            <div class="panel-heading wyheader">
+                系统设置&nbsp;>&nbsp;积分设置
+            </div>
+            <div class="panel-body">
+            <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">是否开启积分功能</label>
+                    <div class="col-sm-9">
+                        <label class="radio-inline">
+                            <input type="radio" id="emailwy1" name="is_jf" value="1" {if $item['is_jf']==1 || empty($item['is_jf'])} checked {/if} />
+                            <label for="emailwy1">开启</label>
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" id="emailwy2" name="is_jf" value="2" {if $item['is_jf']==2} checked {/if} />
+                            <label for="emailwy2">关闭</label>
+                        </label>    
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">消费得积分(%)：</label>
+                    <div class="col-sm-9">
+                        <input type="number" name="integral2" value="{$item['integral2']}" id="web_name" class="form-control" />
+                        <div class="ygmargin">*例如:填10就表示消费20元得2积分(20*10%)  不填或填0就不得积分</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">评论得积分：</label>
+                    <div class="col-sm-9">
+                        <input type="number" name="integral" value="{$item['integral']}" id="web_name" class="form-control" />
+                        <div class="ygmargin">* 不填或填0就不得积分</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <input type="submit" name="submit" value="保存设置" class="btn col-lg-3" style="color: white;background-color: #44ABF7;" />
+            <input type="hidden" name="token" value="{$_W['token']}" />
+            <input type="hidden" name="id" value="{$item['id']}" />
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+    $(function(){
+        // $("#frame-8").addClass("in");
+        $("#frame-8").show();
+        $("#yframe-8").addClass("wyactive");
+    })
+</script>
+{template 'common/footer'}

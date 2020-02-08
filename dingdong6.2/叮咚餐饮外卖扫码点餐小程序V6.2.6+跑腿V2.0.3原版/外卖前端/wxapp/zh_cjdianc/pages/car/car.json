@@ -1,0 +1,6 @@
+{
+    "navigationBarTitleText": "外部链接",
+    "usingComponents": {
+        "cardlist": "/zh_cjdianc/dist/cardlist/index"
+    }
+}

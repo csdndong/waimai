@@ -1,0 +1,26 @@
+page {
+    font-size: 14px;
+    box-sizing: border-box;
+    width: 100%;
+    background-color: #F0EFF5;
+}
+
+::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    color: transparent;
+}
+
+.page-getcashDetail .content {
+    background-color: #fff;
+}
+
+.page-getcashDetail .content .weui-form-preview__hd .weui-form-preview__item .color-red {
+    font-size: 26px;
+    color: #f44;
+}
+
+.page-getcashDetail .content .weui-form-preview__hd .weui-form-preview__item .color-green {
+    font-size: 26px;
+    color: #06bf04;
+}

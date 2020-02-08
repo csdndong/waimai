@@ -1,0 +1,20 @@
+<view class="page-getcash">
+    <form bindsubmit="onGetCash" reportSubmit="true">
+        <view class="useful-account">
+			账户可用余额：<text>¥{{deliveryer.credit2}}</text>
+        </view>
+        <view class="getcash-operation">
+            <view class="title">提现金额</view>
+            <input name="get_fee" type="digit"></input>
+            <view class="tips">
+                <view class="tip">最低提现金额为{{deliveryer.fee_getcash.get_cash_fee_limit}}元</view>
+                <view class="tip">提现费率为{{deliveryer.fee_getcash.get_cash_fee_rate}}%,最低收取{{deliveryer.fee_getcash.get_cash_fee_min}}元{{deliveryer.fee_getcash.get_cash_fee_max>0?',最高收取'+deliveryer.fee_getcash.get_cash_fee_max:''}}</view>
+            </view>
+        </view>
+        <view class="save-btn">
+            <button formType="submit" wx:if="{{deliveryer.credit2-deliveryer.fee_getcash.get_cash_fee_limit>0}}">提现</button>
+            <view class="disabled" wx:else>余额不足</view>
+        </view>
+    </form>
+</view>
+<include src="../public/footer.wxml"></include>

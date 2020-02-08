@@ -1,0 +1,6 @@
+<view class=" tabbar">
+    <view bindtap="route_page" data-url="{{item.url}}" wx:for="{{menu}}" wx:key="*this">
+        <image mode="aspectFill" src="{{item.active?item.sele_img:item.img}}"></image>
+        <text style="color:{{item.active?color:item.color}}">{{item.name}}</text>
+    </view>
+</view>

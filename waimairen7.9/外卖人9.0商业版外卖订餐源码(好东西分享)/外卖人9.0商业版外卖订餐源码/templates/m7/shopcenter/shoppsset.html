@@ -1,0 +1,64 @@
+ <{extends file="<{$tempdir}>/public/shopcenter.html"}>   
+<{block name=extendjs}>
+  <script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js"></script>
+  <script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/template.min.js"></script>
+  <script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/ajaxfileupload.js"> </script>
+  <script>
+  	var mynomenu='baseps';
+  	</script>
+<{/block}>
+ <{block name=bodylist}>
+  <!---content right start---> 
+ <style>
+.jutiSet {
+    padding: 28px 0 25px 306px!important;
+    width: 704px!important;
+	}
+.dianpu_right input{display:inline-block!important;}
+ </style> 
+  
+  <div class="conWaiSet fr">
+        	
+            <div class="shopSetTop">
+            	<span>配送设置</span>
+            </div> 
+            	   
+             <div class="cl"></div>  
+                <form id="loginForm" method="post" action="<{ofunc type=url link="/shopcenter/saveshoppsset"}>">
+                 <div class="jutiSet">
+        		     	 
+                <{assign var=i value=0}>
+                <{section name=total loop=$pradiusa}>
+				 <{assign var=i value=$i+1}>
+				<div class="serxuanze" style="text-align:center; height:40px;">
+                    <div class="xuanze_left" style="height: 30px;text-align:center;line-height:30px">
+                        <span style="height: 30px;text-align:center;line-height:30px;margin-right: 20px;"><{$i-1}>-<{$i}>千米配送费:</span>
+                    </div>
+                    <div class="dianpu_right" style="width:100px;height: 30px;text-align:center;line-height:30px">
+                        <input type="text" style="width:50px;height: 30px;text-align:center;line-height:30px;padding:0"  id="phone" name="pradiusvalue[]" value="<{$pradiusvalue[<{$i-1}>]+0}>"/>&nbsp;&nbsp;元
+                    </div>
+                    <div class="cl"></div>
+                </div>
+                 
+                 <{/section}>
+               
+
+			    
+				                
+                  
+					
+					
+					
+                  	 <div class="settijiao">                   	
+                          <div class="xuanze_right hc_login_btn_div" type="submit" style="margin-left: 85px!important;background:none">
+						  <input type="submit" value="提交保存" style="height: 38px;width: 124px;background: #26b594;color:#fff;border-radius: 5px;"/>
+						  </div>
+                        <div class="cl"></div>
+                    </div>                                      
+       			 </div>
+              </form>                               
+        </div>
+        <div class="cl"></div>
+ 
+ 
+ <{/block}>

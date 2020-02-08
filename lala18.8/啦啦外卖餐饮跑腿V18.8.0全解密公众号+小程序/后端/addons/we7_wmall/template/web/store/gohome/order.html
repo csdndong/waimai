@@ -1,0 +1,288 @@
+{itemplate 'public/header'}
+{if $ta == 'list'}
+<style>
+	.panel .table-header{display: flex;justify-content: center;background: #f8f8f8;height: 40px;line-height: 40px;padding: 0 20px;font-weight: 600;}
+	.table-header .others{flex: 1;text-align: center;}
+	.panel .table-header div:first-child{width: 400px;text-align: left;}
+	.panel .tables{border: 1px solid #e5e5e5;font-size: 14px;line-height: 18px;margin-top: 20px;}
+	.tables:hover{border:1px solid #1ab394;}
+	.tables .table-top{display: flex;justify-content: center;align-content: space-around;padding: 0 20px;background: #f7f7f7;border-bottom: 1px solid #e5e5e5;}
+	.tables .table-body{display: flex;justify-content: center;align-content: space-around;margin-left: 20px;}
+	.tables .table-top .top-left{text-align: left;color: #8f8e8e;padding: 10.5px 0;flex: 1;height: 100%;}
+	.table-top .top-left .order-title{font-weight: bold;margin-right: 10px;color: #2d2d31;}
+	.top-left .order-title .ordertype{display: inline-block;height: 18px;margin-right: 10px;border-radius: 0;font-weight: 500;}
+	.tables .table-body .goods-des{border-right: 1px solid #efefef;vertical-align: middle;width: 400px;text-align: left;padding: 14px 0;}
+	.table-body .goods-des .goods-info{display: flex;margin: 10px 0;}
+	.goods-des .goods-info .goods-img{width: 70px;height: 70px;border: 1px solid #efefef;padding: 1px;}
+	.goods-des .goods-info .goods-name{flex: 1;margin-left: 10px;text-align: left;display: flex;align-items: center;}
+	.goods-info .goods-name .title{width: 180px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
+	.goods-info .goods-name .price-number{float: right;text-align: right;display: inline-block;width: 130px;}
+	.tables .table-body .saler{flex: 1;display: flex; flex-flow: row wrap; justify-content: center;align-items: center;border-right: 1px solid #efefef;vertical-align: center;}
+	.table-body .saler div{overflow: hidden;text-overflow: ellipsis;white-space: nowrap;text-align: center;}
+	.table-body .saler:last-child{border-right: none;}
+	.table-body .saler .name{display: inline-block;padding-bottom: 10px;}
+	.table-body .order-btn{text-align:right; padding: 10px;width: 270px;}
+	.table-body .order-btn .header-btn{margin-top: 15px;}
+	.table-body .order-btn .body-btn{margin-top: 10px;}
+</style>
+<form action="./index.php?" class="form-horizontal form-filter" id="form-gohome">
+	{php echo tpl_form_filter_hidden('store/gohome/order');}
+	<input type="hidden" name="ta" value="list"/>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">订单状态</label>
+		<div class="col-sm-9 col-xs-12">
+			<div class="btn-group">
+				<div class="btn-group">
+					<a href="{php echo ifilter_url('status: 0');}" class="btn {if $_GPC['status'] == 0}btn-primary{else}btn-default{/if}">不限</a>
+					{loop $order_status $stat $status_text}
+						{if $stat != 4}
+							<a href="{php echo ifilter_url('status:' . $stat);}" class="btn {if $_GPC['status'] == $stat}btn-primary{else}btn-default{/if}">{$status_text['text']}</a>
+						{/if}
+					{/loop}
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">退款状态</label>
+		<div class="col-sm-9 col-xs-12">
+			<div class="btn-group">
+				<div class="btn-group">
+					<a href="{php echo ifilter_url('refund_status:0');}" class="btn {if !$refund_status}btn-primary{else}btn-default{/if}">不限</a>
+					<a href="{php echo ifilter_url('refund_status:1');}" class="btn {if $refund_status == 1}btn-primary{else}btn-default{/if}">未处理</a>
+					<a href="{php echo ifilter_url('refund_status:2');}" class="btn {if $refund_status == 2}btn-primary{else}btn-default{/if}">退款中</a>
+					<a href="{php echo ifilter_url('refund_status:3');}" class="btn {if $refund_status == 3}btn-primary{else}btn-default{/if}">退款成功</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">订单类型</label>
+		<div class="col-sm-9 col-xs-12">
+			<div class="btn-group">
+				<div class="btn-group">
+					<a href="{php echo ifilter_url('order_type:');}" class="btn {if !$_GPC['order_type']}btn-primary{else}btn-default{/if}">全部</a>
+					<a href="{php echo ifilter_url('order_type:kanjia');}" class="btn {if $_GPC['order_type'] == 'kanjia'}btn-primary{else}btn-default{/if}">砍价</a>
+					<a href="{php echo ifilter_url('order_type:pintuan');}" class="btn {if $_GPC['order_type'] == 'pintuan'}btn-primary{else}btn-default{/if}">拼团</a>
+					<a href="{php echo ifilter_url('order_type:seckill');}" class="btn {if $_GPC['order_type'] == 'seckill'}btn-primary{else}btn-default{/if}">抢购</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">支付方式</label>
+		<div class="col-sm-9 col-xs-12">
+			<div class="btn-group">
+				<div class="btn-group">
+					<a href="{php echo ifilter_url('pay_type:');}" class="btn {if !$_GPC['pay_type']}btn-primary{else}btn-default{/if}">不限</a>
+					<a href="{php echo ifilter_url('pay_type:wechat');}" class="btn {if $_GPC['pay_type'] == 'wechat'}btn-primary{else}btn-default{/if}">微信支付</a>
+					<a href="{php echo ifilter_url('pay_type:alipay');}" class="btn {if $_GPC['pay_type'] == 'alipay'}btn-primary{else}btn-default{/if}">支付宝</a>
+					<a href="{php echo ifilter_url('pay_type:credit');}" class="btn {if $_GPC['pay_type'] == 'credit'}btn-primary{else}btn-default{/if}">余额支付</a>
+					<a href="{php echo ifilter_url('pay_type:delivery');}" class="btn {if $_GPC['pay_type'] == 'delivery'}btn-primary{else}btn-default{/if}">货到付款</a>
+					<a href="{php echo ifilter_url('pay_type:peerpay');}" class="btn {if $_GPC['pay_type'] == 'peerpay'}btn-primary{else}btn-default{/if}">找人代付</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="form-group form-inline">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">其他</label>
+		<div class="col-sm-9 col-xs-12">
+			<div style="display: inline-block">
+				{php echo itpl_form_field_daterange('addtime', array('placeholder' => '订单时间'));}
+			</div>
+			<input type="text" name="keyword" value="{$_GPC['keyword']}" class="form-control" placeholder="姓名/电话/核销码/订单编号">
+			<input type="text" name="uid" value="{if !empty($_GPC['uid'])}{$_GPC['uid']}{/if}" class="form-control" placeholder="用户UID">
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+		<div class="col-sm-9 col-xs-12">
+			<button class="btn btn-primary">筛选</button>
+		</div>
+	</div>
+</form>
+<form action="" class="form-table form" method="post">
+	<div class="panel panel-table">
+		<div class="panel-heading clearfix">
+			<a href="{php echo iurl('store/gohome/order/confirm')}" class="btn btn-primary js-modal">订单核销</a>
+		</div>
+		<div class="panel-body table-responsive js-table">
+			{if empty($orders)}
+				<div class="no-result">
+					<p>还没有相关数据</p>
+				</div>
+			{else}
+				<div class="table-header">
+					<div>商品</div>
+					<div class="others">买家</div>
+					<div class="others">支付/配送</div>
+					<div class="others">价格</div>
+					<div class="others">状态</div>
+					<div class="others">操作</div>
+				</div>
+				{loop $orders $order}
+				<div class="tables">
+					<div class="table-top">
+						<div class="top-left">
+							<span class="order-title">
+								<span class="{$order['order_type_all']['css']} ordertype">{$order['order_type_all']['text']}</span>
+								{$order['addtime_cn']}
+							</span>
+							订单编号：{$order['ordersn']}
+						</div>
+					</div>
+					<div class="table-body">
+						<div class="goods-des">
+							<div class="goods-info">
+								<img class="goods-img" src="{$order['goods']['thumb']}">
+								<div class="goods-name">
+									<div>
+										<div class="title">
+											{$order['goods']['name']}
+										</div>
+									</div>
+									<span class="price-number">
+										¥{$order['goods']['price']}<br>
+										x{$order['num']}
+									</span>
+								</div>
+							</div>
+						</div>
+						<div class="saler">
+							<div>
+								<a class="name" href="javascript:;">{$order['username']}</a>
+								<a class="name" href="javascript:;">{$order['mobile']}</a>
+								<br>
+								UID:{$order['uid']}
+							</div>
+						</div>
+						<div class="saler">
+							<label class="{$order['pay_type_all']['css']}">{$order['pay_type_all']['text']}</label>
+						</div>
+						<div class="saler">
+							<a href="javascript:;">¥{$order['final_fee']}</a>
+						</div>
+						<div class="saler">
+							<label class="{$order['status_all']['css']}">{$order['status_all']['text']}</label>
+						</div>
+						<div class="order-btn">
+							<div class="header-btn">
+								{if $order['status'] < 5}
+									<a href="{php echo iurl('store/gohome/order/cancel', array('id' => $order['id']))}" class="btn btn-danger btn-sm js-post" data-confirm="确定取消订单吗?">取消订单</a>
+								{/if}
+								{if $order['order_type'] == 'pintuan' && $order['is_team'] == 1}
+									{if $order['status'] == 2 || $order['status'] == 3}
+										{if $order['status'] == '2'}
+											<a href="{php echo iurl('store/gohome/order/status', array('id' => $order['id'], 'type' => 'team_success'))}" class="btn btn-primary btn-sm js-post" data-confirm="确定立即成团吗?">立即成团</a>
+										{/if}
+										<a href="{php echo iurl('store/gohome/order/cancel', array('id' => $order['id'], 'team_cancel' => 1))}" class="btn btn-danger btn-sm js-post" data-confirm="确定取消成团吗?">取消成团</a>
+									{/if}
+
+								{/if}
+							</div>
+							<div class="body-btn">
+								<a href="{php echo iurl('store/gohome/order/remark', array('id' => $order['id']))}" class="btn btn-primary btn-sm js-modal">备注</a>
+								<a href="{php echo iurl('store/gohome/order/detail', array('id' => $order['id']))}" class="btn btn-primary btn-sm">详情</a>
+								<a href="{php echo iurl('store/gohome/order/print', array('id' => $order['id']));}" class="btn btn-primary btn-sm js-post" data-confirm="确定打印该订单吗?"><i class="fa fa-print"></i> ( {$order['print_nums']} )</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				{/loop}
+				<div class="btn-region clearfix">
+					<div class="pull-right">
+						{$pager}
+					</div>
+				</div>
+			{/if}
+		</div>
+	</div>
+</form>
+{/if}
+{if $ta == 'detail'}
+<div class="clearfix order-detail">
+	<div class="col-md-4 padding-0">
+		<div class="panel panel-display">
+			<div class="panel-heading"><h3>订单信息</h3></div>
+			<div class="panel-body">
+				<table class="table">
+					<tr>
+						<td width="130">下单人昵称：</td>
+						<td>{$order['username']}</td>
+					</tr>
+					<tr>
+						<td width="130">下单人手机：</td>
+						<td>{$order['mobile']}</td>
+					</tr>
+					<tr>
+						<td width="130">订单编号：</td>
+						<td>{$order['ordersn']}</td>
+					</tr>
+					<tr>
+						<td>下单时间：</td>
+						<td>{$order['addtime_cn']}</td>
+					</tr>
+					<tr>
+						<td>订单状态：</td>
+						<td><span class="{$order_status[$order['status']]['css']}">{$order['status_cn']}</span></td>
+					</tr>
+					<tr>
+						<td>付款方式：</td>
+						<td><span class="{$order['order_type_all']['css']}">{$order['pay_type_cn']}</span></td>
+					</tr>
+					<tr>
+						<td>备注：</td>
+						<td>{if !empty($order['buyremark'])} {$order['buyremark']} {else} 无 {/if}</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-8 padding-r-0">
+		<div class="panel panel-display">
+			<div class="panel-heading"><h3>订单费用</h3></div>
+			<div class="panel-body">
+				<table class="table">
+					<tr>
+						<td width="130">商品价格：</td>
+						<td>+￥{$order['price']}</td>
+					</tr>
+					<tr>
+						<td width="130">商户实际收入：</td>
+						<td>
+							￥ {$order['store_final_fee']} (本单顾客实际支付:￥ {$order['final_fee']})
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<div class="panel panel-display">
+			<div class="panel-heading"><h3>商品信息</h3></div>
+			<div class="panel-body">
+				<table class="table table-hover">
+					<thead>
+					<tr>
+						<th>商品</th>
+						<th>份数</th>
+						<th>小计(元)</th>
+						<th></th>
+					</tr>
+					</thead>
+					<tr>
+						<td>
+							<img src="{$order['goods']['thumb']}" alt="" style="width: 80px;">
+							{$order['goods']['name']}
+						</td>
+						<td>{$order['num']} 份</td>
+						<td>{$order['final_fee']} 元</td>
+						<td class="text-right">
+							<a class="btn btn-primary btn-sm" target="_blank" href="{php echo iurl('store/'.$order['order_type'].'/activity/post', array('id' => $order['goods_id']));}">商品信息</a>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+{/if}
+{itemplate 'public/footer'}

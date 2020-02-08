@@ -1,0 +1,184 @@
+ <{extends file="<{$tempdir}>/public/shopcenter.html"}>   
+<{block name=extendjs}>
+ <script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js"></script>
+ <script>
+  	  var mynomenu='basecx';
+  </script> 
+<{/block}>
+ <{block name=bodylist}>
+<{if $shoptype == 0}>
+<style>
+.nava{
+    background-color: #fff!important;
+    padding: 5px 40px!important;
+    color: #000!important;
+    border-radius: 14px!important;
+	cursor: pointer!important;
+}
+.shopSetTop span{
+    padding: 5px 40px!important;
+	cursor: pointer!important;
+}
+.shopSetTop{
+    padding-left: 10px;
+}
+</style> 
+<{/if}>
+  <!---content right start---> 
+        <div class="conWaiSet fr">
+            <div class="shopSetTop">
+            	<span class='nava'  onclick="openlink('<{ofunc type=url link="/shopcenter/cxrule"}>');">促销规则列表</span>
+				<{if $shoptype == 0}><span  onclick="openlink('<{ofunc type=url link="/shopcenter/sptpclist"}>');">店内海报列表</span><{/if}>
+            </div>
+            
+            <div class="cxruleset" style="height: 120px;font-size:12px;color:#333333">
+            	<div class="cxrule_btn">
+                 
+                    <div class="cxruleButton" onclick="openlink('<{ofunc type=url link="/shopcenter/addcxrule"}>');">添加促销规则</div>					
+					<div style='margin-top:12px'>提示：每种类型活动只能添加一条，促销规则按满赠、满减、折扣、免配送费类型顺序从大到小依次使用每个规则的金额满足条件<br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;都以最初商品总价为基准，计算下个规则产生的优惠金额时以上个规则优惠后的金额为基准，同类型的规则取优惠金额最大的使用。</div>
+                </div>
+                
+                  <div class="cl"></div>
+            </div>
+             <div class="cl"></div>
+                       
+                <form action="" method="post">
+                 <div class="caidanSet">
+        			
+                    
+                
+                	<div class="div_orderList">
+                    	
+                        <div class="cxrule_show">
+                    
+                        <div class="cxrule_show_goodli">
+						   
+                            <div class="cxrule_goodname" style='width:110px'>
+                                <span>活动类型</span>
+                            </div>
+                            <div class="cxrule_shuoming" style='width:290px'>
+                                 <span>规则说明</span>
+                            </div>
+                            <div class="cxrule_pri" style='width:350px'>
+                                 <span>活动时间</span>
+                            </div>                            
+                            <div class="cxrule_day_num" style='width:100px'>
+                                 <span>状态</span>
+                            </div>
+                             <div class="cxrule_cz" style='width:150px'>
+                                 <span>操作</span>
+                            </div>
+                        </div>
+                        
+                        <div class="cl"></div>
+                        
+                        
+                    	<div class="cxrule_list	">
+                       		 
+                          	 
+                <{foreach from=$rulelist key=myid item=items}>  
+                          
+                          <div class="cxrule_goodlist">
+						     
+                            <div class="cxrule_name" style="overflow: hidden;width:109px">
+                                <span>
+								<{if $items['controltype'] == 1}>满赠活动<{/if}>
+								<{if $items['controltype'] == 2}>满减活动<{/if}>
+								<{if $items['controltype'] == 3}>折扣活动<{/if}>
+								<{if $items['controltype'] == 4}>免配送费<{/if}>
+                                <{if $items['controltype'] == 5}>首单立减<{/if}>								
+								</span>
+                            </div>
+                            <div class="cxrule_sm" style='width:289px'>
+                                 <span id="showrule_<{$items['id']}>" data=""></span>
+                            </div>
+                            <div class="cxrule_price" style='width:350px'>
+                                 <span>
+								 <{if $items['limittype'] == 1}>不限制<{/if}>
+						<{if $items['limittype'] == 2}>每周(星期<{$items['limittime']}>)<{/if}>
+						<{if $items['limittype'] == 3}>从 <{$items['starttime']|date_format:"Y-m-d H:i:s"}> 至 <{$items['endtime']|date_format:"Y-m-d H:i:s"}><{/if}>
+								 
+								 </span>
+                            </div>                           
+                            <div class="cxrule_dayNum" style='width:100px'>
+                                 <span> 								  
+									<{if $items['status'] == 1 && $items['limittype']==3 && $items['starttime']>time()}>待生效<{/if}>	
+									<{if $items['status'] == 1 &&($items['limittype'] < 3 ||($items['limittype']==3 && $items['endtime']>time() && $items['starttime'] < time() )) }>进行中<{/if}>	
+									<{if $items['status'] == 0 || ($items['limittype']==3 && $items['endtime']< time())}>已结束<{/if}>
+						       </span>
+                            </div>
+							<!--已结束的不能编辑  只能删除-->
+                             <div class="cxrule_caozuo"  style='width:150px'>
+							 <{if $items['parentid'] ==1}>
+							     <span style=" background:#aaaaaa; padding:8px; color:#333333; ">
+								 <a href="#">平台活动</a>
+								 </span>
+							 <{else}>
+                                 <span style=" background:#27a9e3; padding:8px; color:#333333;<{if $items['status'] == 0 || ($items['limittype']==3 && $items['endtime']<time())}>display:none<{/if}>">
+								 <a href="<{ofunc type=url link="/shopcenter/addcxrule/id/<{$items['id']}>"}>">编辑</a>
+								 </span>
+                                  <span style=" background:#ec7501; padding:8px; color:#333333;margin-left: 10px;">
+								  <a onclick="return remind(this);"href="<{ofunc type=url link="/shopcenter/delcxrule/cxid/<{$items['id']}>/datatype/json"}>"> 删除</a></span>
+								  <{/if}>
+                            </div>
+                          </div>
+                    
+                        
+                        
+                     <{/foreach}> 
+                      
+                      
+                    </div>
+                        <div class="cl"></div>
+                        
+                        
+                    </div>
+         
+                    </div>
+                    
+       			 </div>
+                 
+                 
+              </form>  
+                
+                
+        </div>
+        <div class="cl"></div>
+
+<script>
+	var alllist = <{$rulelist|@json_encode}>;
+$(function(){  
+	$.each(alllist,function(i,field){
+         
+		var showcontent = '';	
+		if(field.supporttype == 2){
+			showcontent1 ='在线支付满';
+		}else{
+			showcontent1 ='订单满';
+		} 		 
+		if(field.controltype ==  1){
+			showcontent +=showcontent1+''+field.limitcontent+'赠送'+field.presenttitle;
+		}
+		if(field.controltype ==  2){
+			showcontent +=field.name;
+		}
+		if(field.controltype ==  3){
+			var times = field.controlcontent;
+			showcontent +=showcontent1+''+field.limitcontent+'享受'+times+'折优惠';
+		}
+		if(field.controltype ==  4){
+			showcontent +=showcontent1+''+field.limitcontent+'免基础配送费';
+		}
+		if(field.controltype ==  5){
+			showcontent +='新用户下单立减'+field.controlcontent+'元';
+		}
+		 
+		
+		 $('#showrule_'+field.id).text(showcontent);
+	});
+	
+});
+	
+</script>
+<{/block}>

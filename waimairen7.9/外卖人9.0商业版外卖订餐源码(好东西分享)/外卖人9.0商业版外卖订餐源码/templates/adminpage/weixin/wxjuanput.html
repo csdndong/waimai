@@ -1,0 +1,234 @@
+<{extends file="<{$tempdir}>/public/admin.html"}> 
+<{block name=extendjs}>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js"></script>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/adminpage/public/js/allj.js"></script>
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/datepicker/WdatePicker.js" type="text/javascript" language="javascript"></script>
+<{/block}>
+ <{block name=controlname}>微信优惠卷设置<{/block}>
+ <{block name=bodylist}>
+   <div style="width:auto;overflow-x:hidden;overflow-y:hidden"> 
+      	
+      	 
+      	
+      	
+           <div class="tags">
+
+      	  
+
+          <div id="tagscontent">
+
+            <div id="con_one_1">
+
+              <div class="table_td" style="margin-top:10px;">
+
+              <form method="post" action="" onsubmit="return remind();" id="delform">
+
+                  <table border="0" cellspacing="2" cellpadding="4" class="list" name="table" id="table" width="100%">
+
+                    <thead>
+
+                      <tr>
+
+                       <th width="60px"><input type="checkbox" id="chkall" name="chkall" onclick="checkall()"></th>
+                        <th align="center">发放时间</th>
+                         <th align="center">顾客ID</th>
+                        <th align="center">顾客姓名</th> 
+                        <th align="center">优惠卷名称</th> 
+                        <th align="center">面值</th> 
+                        <th align="center">限制最低消费</th> 
+                        <th align="center">过期时间</th> 
+                        <th align="center">所属店铺</th> 
+                        <th align="center">领取状态</th> 
+                        <th align="center">状态</th> 
+                        <th align="center">操作</th> 
+                        
+                      
+
+                      </tr>
+
+                    </thead> 
+
+                     <tbody>
+
+                     <{load_data assign="list" table="wxuserjuan" showpage="true"  fileds="*" orderby="fafangtime asc"  }>
+                      <{foreach from=$list['list'] item=items}>
+					  
+				
+                      <tr class="s_out" onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff"> 
+						 <td align="center" ><input type="checkbox" name="id[]" value="<{$items['id']}>"></td>
+                        <td align="center"><{$items['fafangtime']|date_format:"%Y-%m-%d %H:%M:%S"}></td> 
+                        <td align="center"><{$items['uid']}></td> 
+                        <td align="center"><{$items['username']}></td> 
+                        <td align="center"><{$items['juanname']}></td> 
+                        <td align="center"><{$items['juancost']}></td> 
+                        <td align="center"><{$items['juanlimitcost']}></td> 
+                        <td align="center"><{$items['endtime']|date_format:"%Y-%m-%d %H:%M:%S"}></td> 
+						 <td align="center">所有店铺</td> 
+						<td align="center"><{if $items['lqstatus'] == 1}> <span style="color:red;">已领取</span> <{else}> 未领取 <{/if}>  </td> 
+						<td align="center"><{if $items['status'] == 0}>未使用<{elseif $items['status'] == 1}>已使用<{else}>无效<{/if}></td> 
+                      
+                        <td align="center">
+					
+						<a onclick="return remind(this);"  href="<{ofunc type=url link="/adminpage/weixin/module/delputjuan/id/<{$items['id']}>/datatype/json"}>">删除</a>  
+					
+                       </td> 
+                      </tr> 
+					  
+					  
+                       <{/foreach}> 
+
+                    </tbody> 
+
+                  </table>
+
+                <div class="blank20"></div>
+
+             
+
+                </form>
+
+                     <div class="page_newc">
+                 	      <div class="select_page" style="width:800px;"><a href="#" onclick="checkword(true);">全选</a>/<a href="#" onclick="checkword(false);">取消</a>
+                 	     <a onclick="return remindall(this);" href="<{ofunc type=url link="/adminpage/weixin/module/delputjuan/datatype/json"}>" class="delurl">删除</a>
+             
+                       <div class="show_page" style="margin-top:10px;"><ul><{$list['pagecontent']}></ul></div>
+                 </div>
+
+
+               <div class="blank20"></div>
+
+              </div>
+
+            </div>
+
+	
+			
+			
+			
+			
+          </div>
+
+        </div>
+
+        
+  </div>
+
+</div> 
+
+ <style>
+		.newjianjuan{margin-left:50px; float:left;border-radius:15px; cursor:pointer;  padding:5px 20px; background:#eb9316; font-size:14px; color:#fff;}
+	</style>		
+			
+		<div style="width:100%; text-align:left; padding-top:20px; padding-bottom:40px; background:#fff;">
+
+			<a onclick="fafangjuan();" href="javascript:void(0);"><span  class="newjianjuan">发放优惠卷</span></a>
+			<a onclick="qunfajuan();" href="javascript:void(0);"><span  class="newjianjuan">群发优惠卷</span></a>
+		
+		</div>
+
+<script>
+function fafangjuan(){		
+    var url = siteurl+"/index.php?ctrl=adminpage&action=weixin&module=fafangjuan&random=@random@";  
+  	 url = url.replace('@random@', 1+Math.round(Math.random()*1000));
+	   $.post(url, {},function (data, textStatus){  
+	   	 art.dialog({
+       id: 'testID1233332',
+       lock: true,
+       background: '#666', // 鑳屾櫙鑹�
+       opacity: 0.6,	// 閫忔槑搴�
+       title:'发放优惠卷',
+       content: data
+       }); 	 
+	  }, 'html');  
+ 
+}
+
+
+function putjuan(){			//发放优惠卷
+		 var url= siteurl+"/index.php?ctrl=adminpage&action=weixin&module=putuserjuan&datatype=json&random=@random@";
+		
+      url = url.replace('@random@', 1+Math.round(Math.random()*1000)); 
+    	var bk = ajaxback(url,$('#putjuanform').serialize());
+    	if(bk.flag == false){ 
+		
+    		window.location.reload();
+    	}else{
+    		diaerror(bk.content);
+    	}
+    	
+	
+}
+
+
+
+function qunfajuan(){		
+    var url = siteurl+"/index.php?ctrl=adminpage&action=weixin&module=qunfajuan&random=@random@";  
+  	 url = url.replace('@random@', 1+Math.round(Math.random()*1000));
+	   $.post(url, {},function (data, textStatus){  
+	   	 art.dialog({
+       id: 'testID1233332',
+       lock: true,
+       background: '#666', // 鑳屾櫙鑹�
+       opacity: 0.6,	// 閫忔槑搴�
+       title:'群发优惠卷',
+       content: data
+       }); 	 
+	  }, 'html');  
+ 
+}
+
+function qunputjuan(){			//群发优惠卷
+		 var url= siteurl+"/index.php?ctrl=adminpage&action=weixin&module=qunputjuan&datatype=json&random=@random@";
+		
+      url = url.replace('@random@', 1+Math.round(Math.random()*1000)); 
+    	var bk = ajaxback(url,$('#quanputjuanform').serialize());
+    	if(bk.flag == false){ 
+		
+    		window.location.reload();
+    	}else{
+    		diaerror(bk.content);
+    	}
+    	
+	
+}
+
+	</script>
+	
+	<script>
+	 function addimg()
+	 {
+	 	 var panduan = $("#parent_id  option:selected").val(); 
+	 	 if(panduan == 0)
+	 	 {
+	 	 	showupload();
+	 	 }else{
+	 	 	hideupload();
+	  	} 
+	 }
+	 function showupload()
+	 {
+	 	  $('#imgdo').show();
+	 }
+	 function hideupload()
+	 {
+	 	  $('#imgdo').hide();
+	 }
+	 var dialogs ;
+ function uploads(){  
+ 	  dialogs = art.dialog.open('<{ofunc type=url link="/adminpage/other/module/adminupload/func/uploadsucess"}>');
+ 	  dialogs.title('上传图片'); 
+ } 
+ function uploadsucess(flag,obj,linkurl){
+ 	 if(flag == true){
+ 		alert(linkurl);
+		dialogs.close();
+		uploads();
+ 	 }else{ 
+ 		dialogs.close();
+ 	  $('#imgurl').val(linkurl);
+ 	  $('#imgshow').attr('src',linkurl);
+ 	  $('#imgshow').show(); 
+   }
+ } 
+</script>
+<{/block}>

@@ -1,0 +1,307 @@
+@charset "utf-8";
+
+/* CSS Document */
+
+
+/*------------------------------------------------------------重置属性------------------------------------------------------------*/
+
+::-webkit-scrollbar {
+	width: 8px;
+	background: #ccc;
+}
+
+::-webkit-scrollbar-thumb {
+	background: rgba(0, 0, 0, 0.2) scroll repeat 0% 0% !important;
+	border-radius: 5px;
+}
+
+::scrollbar {
+	width: 0px;
+}
+
+::selection {
+	background: rgba(255, 0, 0, 0.7) none repeat scroll 0 0 !important;
+	color: #fff;
+}
+
+html,
+body {
+	width: 100%;
+	height: 100%;
+	scrollbar-face-color: #a3a3a3;
+	/*滚动条3D表面（ThreedFace）的颜色*/
+	scrollbar-highlight-color: #ccc;
+	/*滚动条3D界面的亮边（ThreedHighlight）颜色*/
+	scrollbar-shadow-color: #ccc;
+	/*滚动条3D界面的暗边（ThreedShadow）颜色*/
+	scrollbar-3dlight-color: #ccc;
+	/*滚动条亮边框颜色*/
+	scrollbar-arrow-color: #ccc;
+	/*滚动条方向箭头的颜色 */
+	scrollbar-track-color: #ccc;
+	/*滚动条的拖动区域(TrackBar)颜色*/
+	scrollbar-darkshadow-color: #ccc;
+	/*滚动条暗边框（ThreedDarkShadow）颜色*/
+}
+
+.hide{
+	display: none;
+}
+
+.fl{
+	float: left;
+}
+
+.fr{
+	float: right;
+}
+
+body,
+ul,
+li,
+a,
+img,
+table,
+thead,
+tbody,
+tfoot,
+th,
+td,
+tr,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+span,
+b,
+input {
+	margin: 0px;
+	padding: 0px;
+	border-collapse: collapse;
+	text-decoration: none;
+	list-style: none;
+	font-family: '微软雅黑';
+	border: 0;
+	outline: none;
+}
+
+
+/*-----------------------------------------------------------顶部开始-----------------------------------------------------------*/
+.homeRightCon{
+	width:100%;
+	/*margin: 20px 0 0 10px;*/
+	float: left;
+}
+
+.homeRightCon .homeRightTop{
+	padding: 14px 0 14px 14px;
+	background:rgba(255, 255, 255, 0.5) none repeat scroll 0 0 !important;
+	filter:Alpha(opacity=50);
+    background:#fff;
+	border-radius: 5px;
+	overflow: hidden;
+}
+
+.homeRightCon .homeRightTop ul li{
+	width: 19%;
+	height: 150px;
+	margin-right: 1%;
+	text-align: center;
+	float: left;
+	border-radius: 5px;
+	position: relative;
+}
+
+.homeRightCon .homeRightTop ul li a{
+	width: 100%;
+	height: 100%;
+	display: block;
+}
+
+.homeRightCon .homeRightTop ul .hoTopbg01{
+	border: 1px solid #a07dc8;
+	background: url(../images/bg_purple.png);
+}
+
+.homeRightCon .homeRightTop ul .hoTopbg02{
+	border: 1px solid #ff686a;
+	background: url(../images/bg_red.png);
+}
+
+.homeRightCon .homeRightTop ul .hoTopbg03{
+	border: 1px solid #eb972e;
+	background: url(../images/bg_orange.png);
+}
+
+.homeRightCon .homeRightTop ul .hoTopbg04{
+	border: 1px solid #19ba18;
+	background: url(../images/bg_green.png);
+}
+
+.homeRightCon .homeRightTop ul .hoTopbg05{
+	border: 1px solid #1997d3;
+	background: url(../images/bg_blue.png);
+}
+
+.homeRightCon .homeRightTop ul li i{
+	width: 58px;
+	height: 58px;
+	margin: 15px auto 10px auto;
+	display: block;
+	background-image: url(../images/base.png);
+}
+
+.homeRightCon .homeRightTop ul li .icon_ddks{
+	background-position: -16px -10px;
+}
+
+.homeRightCon .homeRightTop ul li .icon_dkxd{
+	background-position: -118px -11px;
+}
+
+.homeRightCon .homeRightTop ul li .icon_sjjs{
+	background-position: -219px -10px;
+}
+
+.homeRightCon .homeRightTop ul li .icon_psydd{
+	background-position: -321px -11px;
+}
+
+.homeRightCon .homeRightTop ul li .icon_spkgl{
+	background-position: -422px -10px;
+}
+
+.homeRightCon .homeRightTop ul li span{
+	font-size: 14px;
+	color: #ffffff;
+}
+
+.homeRightCon .homeRightBot{
+	width: 100%;
+	margin-top: 20px;
+	overflow: hidden;
+}
+
+.homeRightCon .homeRightBot .homeRightBox{
+	width: 48%;
+	margin: 0 1%;
+	background: #fff;
+	float: left;
+}
+
+.homeRightCon .homeRightBot .homeRightBox .homeRightTit{
+	width: 100%;
+	height: 132px;
+	line-height: 132px;
+	background-image: url(../images/home_tit_bg.png);
+	overflow: hidden;
+}
+
+.homeRightCon .homeRightBot .homeRightBox .hoRiTit_bg01{
+	background-position: -0px -132px;
+}
+
+.homeRightCon .homeRightBot .homeRightBox .hoRiTit_bg02{
+	background-position: -0px -0px;
+}
+
+.homeRightCon .homeRightBot .homeRightBox .homeRightTit i{
+	width: 60px;
+	height: 60px;
+	margin: 36px 14px 0 40px;
+	float: left;
+	background-image: url(../images/base.png);
+}
+
+.homeRightCon .homeRightBot .homeRightBox .homeRightTit .icon_edit{
+	background-position: -20px -88px;
+}
+
+.homeRightCon .homeRightBot .homeRightBox .homeRightTit .icon_data{
+	background-position: -100px -88px;
+}
+
+.homeRightCon .homeRightBot .homeRightBox .homeRightTit h2{
+	font-size: 30px;
+	color: #ffffff;
+	font-weight: normal;
+    text-align:left;
+}
+
+.homeRightCon .homeRightBot .homeRightBox .homeRightEdit,.homeRightCon .homeRightBot .homeRightBox .homeRightData{
+	width: 100%;
+	overflow: hidden;
+}
+.homeRightEdit tbody{line-height:50px;}
+.homeRightCon .homeRightBot .homeRightBox .homeRightEdit table{
+	width: 100%;
+	line-height: 52px;
+}
+
+.homeRightCon .homeRightBot .homeRightBox .homeRightEdit table tbody tr{
+	border-bottom: 1px solid #f0f0f0;
+}
+
+.homeRightCon .homeRightBot .homeRightBox .homeRightEdit table tbody .trbg{
+	background: #f8fcfd;
+}
+
+.homeRightCon .homeRightBot .homeRightBox .homeRightEdit table tbody tr th{
+	width: 30%;
+	padding-left: 57px;
+	text-align: left;
+	font-size: 16px;
+	color: #999999;
+	border-right: 1px solid #e6e6e6;
+	font-weight: normal;
+}
+
+.homeRightCon .homeRightBot .homeRightBox .homeRightEdit table tbody tr td{
+	padding-left: 34px;
+	font-size: 16px;
+	color: #805ea4;
+}
+
+.homeRightCon .homeRightBot .homeRightBox .homeRightData ul li{
+	width: 20%;
+	height: 127px;
+	text-align: center;
+	float: left;
+	border-right: 1px solid #e6e6e6;
+	border-bottom: 1px solid #e6e6e6;
+}
+
+.homeRightCon .homeRightBot .homeRightBox .homeRightData ul li h3{
+	margin: 30px 0 4px 0;
+	font-size: 35px;
+	color: #0494dd;
+	font-weight:bold;
+}
+
+.homeRightCon .homeRightBot .homeRightBox .homeRightData ul li span{
+	line-height:60px;
+	font-size: 16px;
+	color: #999999;
+    display: block;
+    margin-top: 15px;
+}
+
+.homeRightCon .homeRightBot .homeRightBox .homeRightData ul .font_red h3{
+	color: #fb5759;
+}
+
+.homeRightCon .homeRightBot .homeRightBox .homeRightData ul .font_org h3{
+	color: #f3a646;
+}
+
+.homeRightCon .homeRightBot .homeRightBox .homeRightData ul .font_green h3{
+	color: #2fc92e;
+}
+.show_content_m_ti{display:none;}
+.show_content_m_t3{display:none;}
+
+/*-----------------------------------------------------------顶部结束-----------------------------------------------------------*/
+

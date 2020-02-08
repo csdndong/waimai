@@ -1,0 +1,290 @@
+ <{extends file="<{$tempdir}>/public/admin.html"}>
+  <{block name=extendjs}>
+   <script src="<{$siteurl}>/js/kindeditor/kindeditor.js" type="text/javascript" language="javascript"></script>
+ <script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/datepicker/WdatePicker.js" type="text/javascript" language="javascript"></script>
+   <script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/ajaxfileupload.js"> </script>
+
+  <{/block}>
+ <{block name=controlname}>添加优惠活动<{/block}>
+ <{block name=bodylist}>
+ <script>
+	var type = <{$cxinfo['controltype']|default:0}>; 			
+	if(type>0){
+		$('.action').hide();
+		$('.action_'+type).show();
+	}else{
+		$('.action').hide();
+		$('.action_1').show();
+	}
+	$('.addmj').live('click',function(){
+	    var mjcount = $(".delmj").length;
+		if(mjcount < 3){
+		    var mjhtml='<span id="count_'+mjcount+'"><br>订单满 <input type="text" id="limitcontent_2[]" name="limitcontent_2[]" value="" class="skey" style="width:50px;" > 减 <input  name="controlcontent_2[]" value="" class="skey" type="text" class="skey" style="width:50px;"><span data="'+mjcount+'" class="delmj" style="color:red; margin-left: 20px;">删除</span></span>';   
+		$('.action_2').append(mjhtml);
+		}else{
+		    alert('最多只能添加4条满减规则');
+		    return false;
+		}		
+	})
+	$('.delmj').live('click',function(){
+	    var data = $(this).attr('data');		
+		$('#count_'+data).remove();
+	})
+
+ </script>
+ <div class="managShopCon">
+	<div class="managShopBox">
+		<div class="managShopMain">
+		<{include file="<{$tempdir}>/public/commentcate.html"}>  
+			
+			<div class="addShopSingCon">
+
+       <div style="width:98%;overflow-y:auto;white-space:nowrap;height:660px;">
+
+          <div class="tags">
+          <div id="tagscontent">
+            <form method="post" name="form1" action="<{ofunc type=url link="/areaadminpage/shop/module/savecxrule/datatype/json"}>" onsubmit="return subform('<{ofunc type=url link="/areaadminpage/shop/module/cxrulelist"}>',this);">
+              <div>
+                <table border="0" cellspacing="2" cellpadding="4" class="list" name="table" id="table" width="100%">
+                  <tbody>
+                  	<tr class="show_1" onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <td class="left">促销类型:</td>
+                      <td>
+                          <select name="controltype" id="controltype" onchange="changetxt(this)" >
+                                <option value="1"   selected >满赠活动</option>
+                                <option value="2"   <{if $cxinfo['controltype'] == 2}>selected<{/if}>>满减活动</option>
+                                <option value="3"   <{if $cxinfo['controltype'] == 3}>selected<{/if}>>折扣活动</option>
+                                <option value="4"   <{if $cxinfo['controltype'] == 4}>selected<{/if}>>免配送费</option>
+								<option value="5"   <{if $cxinfo['controltype'] == 5}>selected<{/if}>>首单立减</option>
+                          </select>
+                      </td>
+                    </tr>
+                    
+					<tr id='shuju' onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <td class="left">活动规则:</td>
+                <!--1满赠活动-->
+					  <td class='action action_1' style='display:none'>
+					     订单满 <input type="text" id="limitcontent_1" name="limitcontent_1" value="<{$cxinfo['limitcontent']}>" class="skey" style="width:50px;" >
+					     元，赠送 <input type="text" placeholder="请输入赠品名称及赠送数量"  id="presenttitle" name="presenttitle" value="<{$cxinfo['presenttitle']}>" class="skey" style="width:167px;" >
+				      </td>
+				
+				<!--2满减活动-->
+				      <{assign var=limitcontent value=","|explode:$cxinfo['limitcontent']}>
+					  <{assign var=controlcontent value=","|explode:$cxinfo['controlcontent']}>
+					  
+					  <td class='action action_2' style='display:none'>
+					  <{foreach from=$limitcontent key=keys item=items}>
+					      <{if $keys==0}>
+						      订单满 <input type="text" id="limitcontent_2" name="limitcontent_2[]" value="<{$items}>" class="skey" style="width:50px;" >
+							  减 <input name="controlcontent_2[]" value="<{$controlcontent[$keys]}>" class="skey" type="text"  style="width:50px;" ><span class='addmj' style="color: #0076cf;margin-left: 20px;">+添加规则</span>
+						  <{/if}>
+					  <{/foreach}>
+					  <{foreach from=$limitcontent key=keys item=items}>
+					      <{if $keys > 0}>
+					         <span id="count_<{$keys}>"><br>订单满 <input type="text" id="limitcontent_2[]" name="limitcontent_2[]" value="<{$items}>" class="skey" style="width:50px;" > 减 <input  name="controlcontent_2[]" value="<{$controlcontent[$keys]}>" class="skey" type="text" class="skey" style="width:50px;"><span data="<{$keys}>" class="delmj" style="color:red; margin-left: 20px;">删除</span></span>
+				           <{/if}>
+					  <{/foreach}>
+						 
+						 
+						 </td>
+						 
+					  
+				<!--3折扣活动-->
+				      <td class='action action_3' style='display:none'>
+					      订单满 <input type="text" id="limitcontent_3" name="limitcontent_3" value="<{$cxinfo['limitcontent']}>" class="skey" style="width:50px;" >
+					      元，享受 <input name="controlcontent_3" value="<{$cxinfo['controlcontent']}>" class="skey" type="text" class="skey" style="width:50px;" >折优惠 
+					  </td>					 
+				
+				<!--4免配送费-->
+					  <td class='action action_4' style='display:none'>
+					      订单满 <input type="text" id="limitcontent_4" name="limitcontent_4" value="<{$cxinfo['limitcontent']}>" class="skey" style="width:50px;" >
+					      元，免基础配送费  （不包含附加配送费，仅对平台配送商家有效，减免的配送费全部由平台承担）
+					  </td>
+				
+				<!--5首单立减-->	  
+					  <td class='action action_5' style='display:none'>
+					      新用户下单，满<input type="text" id="limitcontent_5" name="limitcontent_5" value="<{$cxinfo['limitcontent']}>" class="skey" style="width:50px;" >
+						  立减  <input name="controlcontent_5" value="<{$cxinfo['controlcontent']}>" class="skey" type="text" class="skey" style="width:50px;" >元
+					  </td>
+					</tr>
+                    
+                    <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <td class="left" valign="top">活动时间:</td>
+                      <td>
+                      	 <input type="radio" name="limittype" value="1" checked> 不限制&nbsp;&nbsp;&nbsp;
+                         <input type="radio" name="limittype" value="2" <{if $cxinfo['limittype']==2}>checked<{/if}>> 每周&nbsp;&nbsp;&nbsp;
+                         <input type="radio" name="limittype" value="3" <{if $cxinfo['limittype']==3}>checked<{/if}>> 自定义
+                      	</td>
+                    </tr>
+                    
+                    <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff" id="limittime1" style="display:none;">
+                      <td class="left" valign="top">选择星期:</td>
+                      <td>
+                      	 <{assign var=mysign value=","|explode:$cxinfo['limittime']}>
+                        	<{assign var=signshu value="1"}>
+                          <{section name=loop  loop=7}>
+                  	          <input type="checkbox" name="limittime1[]" value="<{$signshu}>" <{if in_array($signshu,$mysign)}>checked<{/if}>> 星期<{if $signshu == 7}>天<{else}><{$signshu}><{/if}>
+                  	          <{$signshu=$signshu+1}>
+                         <{/section}>
+                      	</td>
+                    </tr>
+                    
+                    <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff" class="limittime2">
+                        
+                      <td class="left" valign="top">选择日期</td>
+                      <td>从 <input class="Wdate datefmt" type="text" class="skey" name="starttime" id="starttime" value="<{$cxinfo['starttime']|date_format:"%Y-%m-%d"}>"  onFocus="WdatePicker({isShowClear:false,readOnly:true});" />
+                          至 <input class="Wdate datefmt" type="text" class="skey" name="endtime" id="endtime" value="<{$cxinfo['endtime']|date_format:"%Y-%m-%d"}>"  onFocus="WdatePicker({isShowClear:false,readOnly:true});" />
+                      </td>
+                     
+                    </tr>                   
+                    <tr class="show_1 platbili" onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <td class="left">网站承担优惠金额比例:</td>
+                      <td><input type="text" id="shopbili" name="shopbili" value="<{$cxinfo['shopbili']}>" class="skey" style="width:50px;" > %  ，剩余百分比由商家承担（请与参与活动商家协商后填写，保存后不可更改）
+                      </td>
+                    </tr>       
+		            <tr class="show_1" onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <td class="left">是否启用:</td>
+                      <td>
+                          <input type="radio" name="status" value="1" checked> 启用
+						  &nbsp;&nbsp;&nbsp;<input type="radio" name="status" value="0" <{if $cxinfo['status']==0}>checked<{/if}>> 关闭
+                      </td>
+                    </tr>
+ 
+                    <tr class="show_1" onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <td class="left">选择参与活动商家:</td>
+                      <td style='display:table;width:100%'>
+                       <div style='border: 1px solid #ccc;'>
+						   <div style='height: 35px;background-color: #EBE7DC;border-bottom:1px solid #ccc;'>
+						     <span style='margin:0 15px;'>选择店铺：</span>
+							 <input type='radio' name='shop' onclick="checkword(true);">店铺全选&nbsp;&nbsp;&nbsp;
+							 <input type='radio' name='shop' onclick="checkword(false);">取消全选 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							 注：同一类型的平台活动，每个店铺只能被勾选一次。
+						   </div>
+						   <div style='height:350px;overflow:auto;line-height: 20px;margin-left: 20px;'>
+							   <div class='platps'>
+								   <p style='margin: 5px 0;font-size: 14px;font-weight: bold;margin-top: 10px;'>平台配送商家：</p>
+								   <{foreach from=$platps item=items}>
+								   <div style="display: inline-block;width: 98px;white-space:nowrap; overflow:hidden; ">
+									   <input type="checkbox" name="shopid[]" value="<{$items['id']}>" class="<{$items['cxclass']}>" <{if in_array("<{$items['id']}>",explode(',',$cxinfo['shopid']))}>checked<{/if}>><{$items['shopname']}>
+								   </div>							 
+								   <{/foreach}>
+							   </div>
+							   <div class='shopps'>
+								   <p style='margin: 10px 0;font-size: 14px;font-weight: bold;'>店铺配送商家：</p>
+								   <{foreach from=$shopps item=items}>
+								   <div style="display: inline-block;width: 98px;white-space:nowrap; overflow:hidden; ">
+									   <input type="checkbox" name="shopid[]"  value="<{$items['id']}>" class="<{$items['cxclass']}>"  <{if in_array("<{$items['id']}>",explode(',',$cxinfo['shopid']))}>checked<{/if}>><{$items['shopname']}>
+								   </div>
+								   <{/foreach}>
+							   </div> 
+						   </div>
+                       </div>
+                      </td>
+                      
+                    </tr>
+
+                  <input type="hidden" name="cxid" value="<{$cxinfo['id']}>">
+                  <input type="hidden" name="parentid" value="1">
+
+                  </tbody>
+                </table>
+              </div>
+               
+               <input style='margin-left: 215px;background:none;height: 32px;width: 68px;color: #fff;background-color: #169bd5;border: none;border-radius: 5px;margin-top: 10px;' type="submit" value="保存" class="button">			   
+			   <input id='fanhui' type='button' style='margin-left: 30px;text-align: center;background:none;height: 32px;width: 68px;color: #000;background-color: #fff;border: 1px solid #ccc;border-radius: 5px;margin-top: 10px;'  value="取消" > 
+            </form>
+          </div>
+        </div>
+        <div class="blank20"></div>
+
+      </div>
+      <div class="clear"></div>
+    </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+ <!--newmain 结束-->
+<script type="text/javascript">     
+	$('#fanhui').live('click',function(){
+	    if(confirm("是否放弃编辑活动")){
+		   var url='<{ofunc type=url link="/adminpage/card/module/cxrulelist"}>';
+		   window.location.href = url;
+		}else{
+		   return false;
+		}
+	})	
+	
+ 
+     function changetxt(obj){
+		var controltype = $(obj).find("option:selected").val();
+		//先将所有店初始化为可点击可选中状态
+		$('input[name="shopid[]"]').attr("disabled",false);
+		$('input[name="shopid[]"]').parent().css("color",'#1B4670'); 
+		$('input[name="shopid[]"]').addClass('cancheck');
+		$('input[name="shopid[]"]').removeClass('cannotcheck');
+		//然后筛选出已经参加过该类型的店铺   将这些店铺变成不可点击 不能选中状态
+		$('.act'+controltype).attr("disabled",true);
+	    $('.act'+controltype).attr("checked",false);
+       	$('.act'+controltype).addClass('cannotcheck');	
+		$('.act'+controltype).removeClass('cancheck');
+	    $('.act'+controltype).parent().css("color",'#cac6c6');
+		//再筛选出该条活动下   原本有的店铺   让其变为勾选状态
+		$('.oldshop').attr("disabled",false);
+		$('.oldshop').parent().css("color",'#1B4670'); 
+		$('.oldshop').addClass('cancheck');
+		$('.oldshop').attr("checked",true);
+		$('.oldshop').removeClass('cannotcheck');
+		
+		
+		var obj = $('input[name="shopid[]"]');
+		  
+		 
+
+		if(controltype == 4){
+		    $('.shopps').hide()
+			$('.platbili').hide()
+		}else{
+		    $('.shopps').show()
+			$('.platbili').show()
+		}
+		$('.action').hide();
+        $('.action_'+controltype).show();
+         	
+	}
+    function checkword(flag)
+{ 
+	var flag = flag;
+       
+	$("input[name='shopid[]']").attr("checked",flag); 
+	
+}
+	$(function(){
+		$("input[name='limittype']:checked").trigger("click");
+		$('#controltype').trigger('change');
+               
+	});
+	
+	function removetime2(obj){
+		$(obj).parent().parent().remove();
+	}
+	$("input[name='limittype']").click(function(){
+		var dovalue = $(this).val();
+		if(dovalue ==  2){
+			 $('#limittime1').show();
+			 $('.limittime2').hide();
+		}else{
+			 if(dovalue == 3){
+			 $('#limittime1').hide();
+			  $('.limittime2').show();
+		}else{
+			 $('#limittime1').hide();
+			  $('.limittime2').hide();
+		  }
+		}
+	});
+	
+
+</script>
+<{/block}>

@@ -1,0 +1,188 @@
+.cash_font {
+    font-size: 26rpx;
+}
+
+.butt {
+    background: #41B0FF;
+}
+
+.cash {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 70rpx;
+    padding: 0rpx 30rpx;
+}
+
+.cash_left {
+    color: #606060;
+}
+
+.cash_right {
+    color: #ff6161;
+    text-decoration: underline;
+}
+
+.cash_box {
+    background-color: white;
+    padding: 20rpx 30rpx;
+}
+
+.cash_box_text {
+    margin-left: 15rpx;
+}
+
+.cash_money {
+    font-size: 42rpx;
+    color: #333;
+    margin-top: 7rpx;
+    display: flex;
+    align-items: center;
+}
+
+.cash_money input {
+    width: 500rpx;
+    height: 70rpx;
+}
+
+.cash_style {
+    background-color: white;
+    border-bottom: 1rpx solid #eeeeee;
+    padding: 0rpx 30rpx;
+    margin-top: 20rpx;
+}
+
+.cash_style3 {
+    height: 0rpx;
+    overflow: hidden;
+    transition: .3s;
+}
+
+.cash_style2 {
+    height: 0;
+    overflow: hidden;
+    margin-top: -300rpx;
+    transition: .3s;
+}
+
+.cash_style_title {
+    color: #606060;
+    height: 70rpx;
+    border-bottom: 1rpx solid #eeeeee;
+    line-height: 70rpx;
+}
+
+.stylewei {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 90rpx;
+    border-bottom: 1rpx solid #eeeeee;
+}
+
+.stylewei_img {
+    width: 50rpx;
+    height: 50rpx;
+    margin-right: 15rpx;
+}
+
+.stylewei_img2 {
+    width: 50rpx;
+    height: 43rpx;
+    margin-right: 15rpx;
+}
+
+.stylewei_right {
+    border: 1rpx solid #666;
+    border-radius: 50%;
+    height: 30rpx;
+    width: 30rpx;
+}
+
+.stylewei_text {
+    color: #333;
+}
+
+.stylewei_left {
+    display: flex;
+    align-items: center;
+}
+
+.cash_write {
+    display: flex;
+    align-items: center;
+    height: 90rpx;
+    border-bottom: 1rpx solid #eeeeee;
+}
+
+.write_left {
+    width: 30%;
+    color: #606060;
+}
+
+.write_inp {
+    width: 70%;
+    color: #333;
+}
+
+.cash_zhi2 {
+    height: auto;
+    background-color: white;
+    border-top: 1rpx solid #eeeeee;
+    border-bottom: 1rpx solid #eeeeee;
+    padding: 0rpx 30rpx;
+    margin-top: 0rpx;
+    transition: .3s;
+}
+
+.cash_zhi {
+    height: auto;
+    opacity: 1;
+    margin-top: 0rpx;
+}
+
+.cash_ka2 {
+    height: auto;
+    background-color: white;
+    border-top: 1rpx solid #eeeeee;
+    border-bottom: 1rpx solid #eeeeee;
+    padding: 0rpx 30rpx;
+    margin-top: 0rpx;
+    transition: .3s;
+}
+
+.cash_ka {
+    height: auto;
+    opacity: 1;
+    margin-top: 0rpx;
+}
+
+.cash_btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30rpx;
+    margin-bottom: 30rpx;
+    padding: 0rpx 30rpx;
+}
+
+.cash_btnin {
+    width: 100%;
+    color: white;
+    background-color: #CCCCCC;
+    border: none;
+}
+
+.cash_btnin1 {
+    width: 100%;
+    color: white;
+    background-color: #F66926;
+    border: none;
+}
+
+.cash_info {
+    font-size: 24rpx;
+    color: #999;
+    line-height: 46rpx;
+    padding: 0rpx 30rpx;
+}

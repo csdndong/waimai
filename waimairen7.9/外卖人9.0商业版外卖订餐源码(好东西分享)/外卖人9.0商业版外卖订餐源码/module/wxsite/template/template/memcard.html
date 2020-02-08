@@ -1,0 +1,209 @@
+ <{extends file="<{$tempdir}>/public/wxsite.html"}>  
+<{block name=extendcss}> 
+    <link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/recharge.css">
+
+<{/block}>
+ <{block name=extendjs}>  
+   <script src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/js/template.min.js"></script>    
+<{/block}>
+<{block name=myScrolljs}>
+<script> 
+		var myScroll;
+function loaded() {
+	myScroll = new iScroll('wrapper', {
+		useTransform: false,
+		onBeforeScrollStart: function (e) {
+			var target = e.target;
+			while (target.nodeType != 1) target = target.parentNode;
+
+			if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA')
+				e.preventDefault();
+		}
+		myScroll.refresh();	
+	});
+}
+document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false); 
+document.addEventListener('DOMContentLoaded', function () { setTimeout(loaded, 200); }, false);
+</script>
+<{/block}>
+<{block name=sitetitle}><{$sitename}><{/block}>
+<{block name=hearnav}>
+<div class="toptitCon"> 
+ <div class="toptitBox">
+  <div class="toptitL"><i></i></div>
+  <div class="toptitC"><h3>余额</h3></div>
+  <div class="toptitR" style='position: absolute;top: 9px;right: 9px;' onclick="dolink('<{ofunc type=url link="/wxsite/costlog"}>');" ><h3 style='font-size:14px'>余额明细</h3></div>
+ </div>
+</div>
+<div class="balRechTopCon">
+			<i></i>
+			<span class="balRechTopFon1">余额</span>
+			<span class="balRechTopFon2">￥<b><{$member['cost']}></b></span>
+		</div>
+<div class="balRechTab">
+			<ul>
+				<li class="bareTaA">充值</li>
+				<li  onclick="dolink('<{ofunc type=url link="/wxsite/paybangcard"}>');" >充值卡充值</li>
+			</ul>
+		</div>
+<{/block}>
+<{block name=blockcontent}>  
+ <div id="wrapper" style="top:178px; bottom:58px;">
+	<div id="scroller">
+	
+	<div class="balRechInp">
+			<input  style="width:90%;" type="number" id="Sum" name="Sum"   placeholder="充值金额不能少于1元" />
+		</div>
+<{if !empty($rechargelist) }>		
+
+		
+ <div class="balRechCho">
+			<ul>
+			<{foreach from=$rechargelist item=items }>
+				<li class="recharge_<{$items['cost']}>" dataid="<{$items['id']}>" cost="<{$items['cost']}>" is_sendcost="<{$items['is_sendcost']}>" sendcost="<{$items['sendcost']}>" is_sendjuan="<{$items['is_sendjuan']}>" sendjuancost="<{$items['sendjuancost']}>" >
+					<span class="baRspFon1"><b>￥</b><{$items['cost']}></span>
+				<span class="baRspFon2">	送<{$items['totalsendcost']|default :'0.00'}>元</span>
+				</li>
+			<{/foreach}>	 
+			</ul>
+		</div>
+	
+		<div  style="display:none;" class="balRechProm"></div>	
+
+<{/if}>		 
+ 
+  <div style="height:10px;"></div>
+</div>		 
+</div>	 
+<script>
+		
+document.getElementById("Sum").oninput = function () {               
+				 check();
+     } 
+function check(){
+	
+	if($('.balRechCho li').hasClass('baRliaA')){
+		Tmsg("您已选择快捷充值，请取消后再输入");
+		$("#Sum").val('');
+	}
+	var costval = Number($("#Sum").val()).toFixed(2);
+	if( costval > 0){
+		var rbj = ".balRechCho li";
+		var rechargelength = $(rbj).length;
+		for( i=0;i<rechargelength;i++ ){
+			var cost =  Number($(rbj).eq(i).attr('cost'));
+			var cost3 = Number($(rbj).last().attr('cost'));
+			if(i<=(rechargelength-2)){
+				var cost2 = Number($(rbj).eq(i).next().attr('cost'));
+				if( costval >= cost && costval< cost2){ 				
+					var is_sendcost = $(rbj).eq(i).attr('is_sendcost');
+					var sendcost = $(rbj).eq(i).attr('sendcost');
+					var is_sendjuan = $(rbj).eq(i).attr('is_sendjuan');
+					var sendjuancost = $(rbj).eq(i).attr('sendjuancost');
+					$('.balRechProm').show();
+					$('.balRechProm').html('');
+					$('.balRechProm').html('充值'+costval+'元赠送');
+					if( is_sendcost == 1 ){
+						$('.balRechProm').append(''+sendcost+'元');
+					}
+					if( is_sendcost == 1 && is_sendjuan == 1 ){
+						$('.balRechProm').append('+');
+					}
+					if( is_sendjuan == 1 ){
+						$('.balRechProm').append(''+sendjuancost+'优惠券');
+					}				
+					break;
+				}else{				 
+					 $('.balRechProm').show();
+					 $('.balRechProm').html('');
+					 $('.balRechProm').html('无优惠');				 
+				}
+			}else{
+				if(costval>=cost3){
+					var is_sendcost = $(rbj).last().attr('is_sendcost');
+					var sendcost = $(rbj).last().attr('sendcost');
+					var is_sendjuan = $(rbj).last().attr('is_sendjuan');
+					var sendjuancost = $(rbj).last().attr('sendjuancost');
+					$('.balRechProm').show();
+					$('.balRechProm').html('');
+					$('.balRechProm').html('充值'+costval+'元赠送');
+					if( is_sendcost == 1 ){
+						$('.balRechProm').append(''+sendcost+'元');
+					}
+					if( is_sendcost == 1 && is_sendjuan == 1 ){
+						$('.balRechProm').append('+');
+					}
+					if( is_sendjuan == 1 ){
+						$('.balRechProm').append(''+sendjuancost+'优惠券');
+					}
+					break;									
+				}else{				 
+					 $('.balRechProm').show();
+					 $('.balRechProm').html('');
+					 $('.balRechProm').html('无优惠');				 
+				}			
+			}
+		}
+	}	
+} 
+$(".balRechCho li").bind('click',function(){
+	
+	var costval = Number($(this).attr('cost')).toFixed(2);
+	if(lockclick()){
+		if( $("#Sum").val() > 0 ){
+			Tmsg("您已手动输入充值金额，请清空后再选择！");
+		}else{	
+			if($(this).hasClass('baRliaA')){
+				$(this).removeClass('baRliaA');
+				$(".balRechProm").hide();
+			}else{
+				$('.balRechCho li').removeClass('baRliaA');
+				$(this).addClass('baRliaA');
+				$(".balRechProm").show();
+				var cost = $(this).attr('cost');
+				var is_sendcost = $(this).attr('is_sendcost');
+				var sendcost = $(this).attr('sendcost');
+				var is_sendjuan = $(this).attr('is_sendjuan');
+				var sendjuancost = $(this).attr('sendjuancost');
+				$('.balRechProm').html('');
+				$('.balRechProm').html('充值'+costval+'元赠送');
+				if( is_sendcost == 1 ){
+					$('.balRechProm').append(''+sendcost+'元');
+				}
+				if( is_sendcost == 1 && is_sendjuan == 1 ){
+					$('.balRechProm').append('+');
+				}
+				if( is_sendjuan == 1 ){
+					$('.balRechProm').append(''+sendjuancost+'优惠券');
+				}
+			}
+		}	
+	} 
+});
+
+function nextpay(){		
+	var sj = $('.balRechCho li.baRliaA').attr('dataid');
+	if( sj == undefined ){
+		var cost = $('#Sum').val();
+		if( cost <  1){
+			Tmsg('充值金额不能少于1元');
+			return false;
+		}
+		if( cost > 500000){
+			Tmsg('充值金额不能大于50万');
+			return false;
+		}	
+	}else{
+		var cost = $('.balRechCho li.baRliaA').attr('cost');			 
+	}
+	var newlink = '<{ofunc type=url link="/wxsite/subbalancepay/cost/@cost@"}>';
+	var showlink = newlink.replace('@cost@',cost);
+	location.href = showlink ;  	
+} 
+ </script>
+<{/block}>
+<{block name=footer}>
+<div style=" position:fixed; z-index:999999; bottom:10px; width:100%; ">
+<div style="margin-top:10px;" class="intexchabutt"><input type="button" value="立即充值" id="nextpay" onclick="nextpay();"  class="intexbg1"></div>
+</div>
+<{/block}>

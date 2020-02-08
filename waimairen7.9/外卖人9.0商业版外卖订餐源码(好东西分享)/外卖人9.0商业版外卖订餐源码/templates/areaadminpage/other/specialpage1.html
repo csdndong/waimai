@@ -1,0 +1,154 @@
+ <{extends file="<{$tempdir}>/public/admin.html"}>
+ <{block name=controlname}>专题页列表 <{/block}>
+ <{block name=bodylist}>
+ 
+  <div class="managShopCon">
+	<div class="managShopBox">
+		<div class="managShopMain">
+		<{include file="<{$tempdir}>/public/commentcate.html"}>  
+			
+			<div class="addShopSingCon">
+          <div style="width:auto;overflow-x:hidden;overflow-y:auto">
+
+           <div class="tags">
+
+
+
+          <div id="tagscontent">
+
+            <div id="con_one_1">
+
+              <div class="table_td" style="margin-top:10px;">
+
+              <form method="post" action="" onsubmit="return remind();" id="delform">
+
+                  <table border="0" cellspacing="2" cellpadding="4" class="list" name="table" id="table" width="100%">
+
+                    <thead>
+
+                      <tr>
+
+                        <th width="60px"><input type="checkbox" id="chkall" name="chkall" onclick="checkall()"></th>
+
+                          <th align="center">名称</th>
+                        <th align="center">首页显示图片</th>
+                        <th align="center">专题页头部显示图片</th>
+                        <th align="center">专题页背景主色调</th>
+                        <th align="center">活动格式</th>
+                        <th align="center">针对对象</th>
+                        <th align="center">显示对象</th>
+                        <th align="center">开启状态</th>
+                        <th align="center">排序</th>
+                        <th align="center">添加时间</th>
+                        <th align="center">操作</th>
+
+                      </tr>
+
+                    </thead>
+
+                     <tbody>
+
+                       <{load_data assign="list" table="specialpage" showpage="true" where=" id > 0 and cityid = '<{$admininfo['cityid']}>'"   orderby = "orderid  asc"}>
+		                 	<{foreach from=$list['list'] item=items}>
+                      <tr class="s_out" onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                        <td align="center" ><input type="checkbox" name="id[]" value="<{$items['id']}>"></td>
+                         <td align="center"> <{$items['name']}> </td>
+                         <td align="center"><img class="showimg" style="width:25px;" dtsrc="<{$items['indeximg']}>" src="<{$siteurl}>/templates/<{$tempdir}>/public/images/admin/iconfont-tupian.png" /></td>
+                         <td align="center"><{if !empty($items['specialimg'])}>
+						 <img class="showimg"  style="width:25px;" dtsrc="<{$items['specialimg']}>" src="<{$siteurl}>/templates/<{$tempdir}>/public/images/admin/iconfont-tupian.png" />
+						 <{else}>无 <{/if}>
+						 </td>
+                          <td align="center"> <{$items['color']}> </td>
+                         <td align="center"> <{if $items['is_custom'] == 1}>系统默认<{/if}><{if $items['is_custom'] == 0}>自定义<{/if}> </td>
+                         <td align="center"> <{if $items['showtype'] == 1}>商品<{/if}><{if $items['showtype'] == 0}>店铺<{/if}><br />
+							<{if $items['showtype'] == 1  && $items['is_custom'] == 1 }><{if $items['cx_type'] == 1}>【折扣】<{/if}><{/if}>
+							<{if $items['showtype'] == 0 && $items['is_custom'] == 1 }>
+								<{if $items['cx_type'] == 1}>【推荐商家】<{/if}><{if $items['cx_type'] == 2}>【满减商家】<{/if}>
+								<{if $items['cx_type'] == 3}>【打折商家】<{/if}><{if $items['cx_type'] == 4}>【免配送费商家】<{/if}><{if $items['cx_type'] == 5}>【赠送商家】<{/if}>
+								<{if $items['cx_type'] == 6}>【外卖订餐】<{/if}>
+								<{if $items['cx_type'] == 7}>【在线超市】<{/if}>
+								<{if $items['cx_type'] == 8}>【预定点菜】<{/if}>
+								<{if $items['cx_type'] == 9}>【跑腿服务】<{/if}>
+								
+								<{/if}>
+								<{if $items['showtype'] == 2}><a target="_bank" href="<{$items['zdylink']}>" ><{$items['zdylink']}></a><{/if}><br />
+								<{if $items['showtype'] == 2}>自定义跳转链接<{/if}>
+						 </td>
+                        <td align="center" style="cursor:pointer;">
+						<{if $items['is_custom'] == 0}>
+						<font color=red>
+						<{if $items['showtype'] == 1}><a href="<{ofunc type=url link="/areaadminpage/other/module/selectztyobj/id/<{$items['id']}>"}>">选择商品</a><{/if}><{if $items['showtype'] == 0}><a href="<{ofunc type=url link="/areaadminpage/other/module/selectztyobj/id/<{$items['id']}>"}>">选择店铺</a><{/if}>
+						<{else}>系统默认
+						<{/if}>
+						</font>
+						<font color=#47bd19>
+						<{if $items['showtype'] == 2}>自定义跳转链接<{/if}>
+						</font>
+						</td>
+						</font></td>
+                        <td align="center"><{if $items['is_show'] == 1}><font color=red>已开启</font><{else}>已关闭<{/if}></td>
+                        <td align="center"><{$items['orderid']}></td>
+                        <td align="center"><{$items['addtime']|date_format:"%Y-%m-%d %H:%M:%S"}></td> 
+                         <td align="center">
+                        	<a href="<{ofunc type=url link="/areaadminpage/other/module/addspecialpage/id/<{$items['id']}>"}>" ><img src="<{$siteurl}>/templates/<{$tempdir}>/public/images/admin/edit.jpg"></a>
+                        	<a onclick="return remind(this);" href="<{ofunc type=url link="/areaadminpage/other/module/delspecialpage/id/<{$items['id']}>/datatype/json"}>"><img src="<{$siteurl}>/templates/<{$tempdir}>/public/images/admin/del.jpg"></a></td>
+                      </tr>
+                       <{/foreach}>
+
+                    </tbody>
+
+                  </table>
+
+                <div class="blank20"></div>
+
+                </form>
+
+                <div class="page_newc">
+                 	      <div class="select_page"><a href="#" onclick="checkword(true);">全选</a>/<a href="#" onclick="checkword(false);">取消</a> 
+						  <a onclick="return remindall(this);" href="<{ofunc type=url link="/areaadminpage/other/module/delspecialpage/datatype/json"}>" class="delurl">删除</a> 
+						  <a href="<{ofunc type=url link="/areaadminpage/other/module/addspecialpage"}>" class="delurl">添加专题页</a></div>
+                       <div class="show_page"><ul><{$list['pagecontent']}></ul></div>
+                 </div>
+
+               <div class="blank20"></div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+  </div>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="xianshiimg" style="display:none;">
+<img  src="<{$siteurl}>/templates/m7/public/images/goodmodule1.png" />
+</div>
+<style>
+.showimg{ cursor:pointer;}
+#xianshiimg{ position:absolute; top:50%; left:50%;  z-index:9999999;}
+</style>
+<script>
+		$(".showimg").hover(function(){
+					 var showimg = $(this).attr('dtsrc');
+					 $("#xianshiimg").show();
+					 $("#xianshiimg img").attr('src',showimg);
+					 var imgwidth = $('#xianshiimg img').width();
+					 var imgheight = $('#xianshiimg img').height();
+					 $("#xianshiimg img").css('margin-left',-imgwidth/2);
+					 $("#xianshiimg img").css('margin-top',-imgheight/2); 
+ 				},function(){
+					$("#xianshiimg img").attr('src','');
+					 $("#xianshiimg").hide();
+					 
+				});
+</script>
+<{/block}>

@@ -1,0 +1,79 @@
+<view class="page-home">
+    <view class="content">
+        <view class="store-data">
+            <view class="data">
+                <view class="data-url">
+                    <view class="data-sum">{{stat.total_order}}</view>
+                    <view class="data-info">今日有效订单</view>
+                </view>
+            </view>
+            <view class="data">
+                <view class="data-url">
+                    <view class="data-sum">{{stat.total_fee}}</view>
+                    <view class="data-info">今日总营业额</view>
+                </view>
+            </view>
+            <view class="data">
+                <view class="data-url">
+                    <view class="data-sum">{{stat.final_fee}}</view>
+                    <view class="data-info">今日总收入</view>
+                </view>
+            </view>
+        </view>
+        <view class="store-cate">
+            <view bind:tap="onJsEvent" class="store-item" data-event-type="jsUrl" data-url="pages/shop/setting">
+                <view class="icon icon-shop"></view>
+                <view class="store-title">店铺管理</view>
+            </view>
+            <view bind:tap="onJsEvent" class="store-item" data-event-type="jsUrl" data-url="pages/order/index">
+                <view class="icon icon-order"></view>
+                <view class="store-title">外卖订单</view>
+            </view>
+            <view bind:tap="onJsEvent" class="store-item" data-event-type="jsUrl" data-url="pages/order/tangshi/index">
+                <view class="icon icon-meal"></view>
+                <view class="store-title">店内订单</view>
+            </view>
+            <view bind:tap="onJsEvent" class="store-item" data-event-type="jsUrl" data-url="pages/goods/index">
+                <view class="icon icon-goods"></view>
+                <view class="store-title">商品管理</view>
+            </view>
+            <view bind:tap="onJsEvent" class="store-item" data-event-type="jsUrl" data-url="pages/service/comment">
+                <view class="icon icon-survey"></view>
+                <view class="store-title">评论管理</view>
+            </view>
+            <view bind:tap="onJsEvent" class="store-item" data-event-type="jsUrl" data-url="pages/finance/index">
+                <view class="icon icon-recharge"></view>
+                <view class="store-title">资产</view>
+            </view>
+            <view bind:tap="onJsEvent" class="store-item" data-event-type="jsUrl" data-url="pages/activity/index">
+                <view class="icon icon-activity"></view>
+                <view class="store-title">店铺活动</view>
+            </view>
+            <view bind:tap="onJsEvent" class="store-item" data-event-type="jsUrl" data-url="pages/advertise/index" wx:if="{{store.advertise_status}}">
+                <view class="icon icon-medal"></view>
+                <view class="store-title">店铺推广</view>
+            </view>
+            <view bind:tap="onJsEvent" class="store-item" data-event-type="jsUrl" data-url="pages/news/notice">
+                <view class="icon icon-newshot"></view>
+                <view class="store-title">公告</view>
+                <view class="weui-badge" wx:if="{{notice}}">{{notice}}</view>
+            </view>
+            <view bind:tap="onJsEvent" class="store-item" data-event-type="jsUrl" data-url="pages/paybill/index">
+                <view class="icon icon-signboard"></view>
+                <view class="store-title">买单</view>
+            </view>
+            <view bind:tap="onJsEvent" class="store-item" data-event-type="jsUrl" data-url="pages/order/table">
+                <view class="icon icon-similar"></view>
+                <view class="store-title">桌台管理</view>
+            </view>
+            <view bind:tap="onJsEvent" class="store-item" data-event-type="jsUrl" data-url="pages/order/assign">
+                <view class="icon icon-friend_light"></view>
+                <view class="store-title">排队</view>
+            </view>
+            <view bind:tap="onJsEvent" class="store-item" data-event-type="jsUrl" data-url="pages/statcenter/index">
+                <view class="icon icon-rank"></view>
+                <view class="store-title">商户统计</view>
+            </view>
+        </view>
+    </view>
+</view>

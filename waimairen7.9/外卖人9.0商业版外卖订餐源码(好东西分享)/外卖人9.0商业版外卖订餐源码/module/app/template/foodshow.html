@@ -1,0 +1,187 @@
+ <{extends file="<{$tempdir}>/public/wxsite.html"}>  
+<{block name=extendcss}>  
+<link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/shopshow.css">   
+<link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/goodslist.css">   
+<{/block}>
+ <{block name=extendjs}>  
+  <script src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/js/wxshop.js"></script>  
+   <script src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/js/cart.js"></script> 
+    
+   <script>
+   	 var shopid = <{$foodshow['shopid']}>;
+   	 var checknext = false;
+   	 var shoplimitcost = <{$shopdet['limitcost']}>;
+	 var goodsstock = <{$foodshow['count']|default:0}>;
+   	 var zuocart = '<{$siteurl}>/index.php?ctrl=wxsite&action=gowei&id=<{$foodshow['shopid']}>';
+	 var  nowsell = <{$sellcount|default:0}>;
+   	 
+   	  $(function(){ 
+  		/*初始化样式*/
+		if( shoplimitcost == 0 ){
+			$("#addShopping").show();
+		}else{
+			$("#showlimit").show();
+		}
+  		  
+		
+      	 $('.righ_l_b_btn_moren').bind("click", function() {   
+      	    	if(checknext ==  false){ 
+      	    	   	checknext = true;
+      	     	   addonedish($(this).attr('data-id'),$(this).attr('data-shopid'),1,this);
+				   
+				    //添加  商品  nowsell 
+				   //添加  商品  nowsell 
+      	     	    setTimeout("myyanchi()", 500 );
+           	  }
+      	 	
+          }); 
+           $('.right_l_btn_left').bind("click", function() {   
+           	  if(checknext ==  false){ 
+           	  	 	checknext = true; 
+					setTimeout("myyanchi()", 500 );
+					checksell = Number(nowsell)-1;
+					if(		checksell > 0)	{
+						nowsell = checksell;
+						window.waimai.delCart(<{$foodshow['cost']}>);
+						$('#gshu_<{$foodshow['id']}>').text(checksell);
+					}else{ 
+					    if(checksell == 0){
+						nowsell=0;
+							window.waimai.delCart(<{$foodshow['cost']}>);
+							$('#gshu_<{$foodshow['id']}>').text(nowsell);
+						}else{
+							Tmsg('商品购买数量已未0');
+						}
+					}
+           	  }
+      	 	
+          }); 
+           $('.right_l_btn_right').bind("click", function() {   
+				if(checknext ==  false){ 
+					setTimeout("myyanchi()", 500 );
+           		    checknext = true;
+					  //添加  商品  nowsell 
+					checksell = Number(nowsell)+1;
+					if(		checksell < 		goodsstock)	{
+						 nowsell = checksell;
+					      window.waimai.addCart(<{$foodshow['cost']}>);
+						  $('#gshu_<{$foodshow['id']}>').text(checksell);
+					}else{
+					     Tmsg('商品库存不足');
+					}
+					  
+					  
+      	     	    
+				}
+      	 	
+			}); 
+          
+         
+  	});
+  	function myyanchi(){
+  		
+  		  checknext = false;
+  	}
+  	function sortitemclick(doid,obj){   
+  	   
+  	  var defaultheight = 0;
+  	  var listobj = $('.right_list_box');
+  	  for(var i=0;i<$(listobj).length;i++){
+  	   
+  	    if($(listobj).eq(i).attr('data') == doid){
+  	     
+  	       break;
+  	    }else{ 
+  	       defaultheight = Number(defaultheight)+Number($(listobj).eq(i).height());
+  	     }
+  	  }
+  	  $(obj).addClass('on').siblings().removeClass('on'); 
+  	  scroll2.scrollTo(0,Number(defaultheight)*-1,200,false);  
+    }
+   
+	
+	 
+ 
+	
+	 
+   	  </script>
+<{/block}>
+<{block name=myScrolljs}>
+<script> 
+		var myScroll;
+function loaded() {
+	myScroll = new iScroll('wrapper', {
+		useTransform: false,
+		onBeforeScrollStart: function (e) {
+			var target = e.target;
+			while (target.nodeType != 1) target = target.parentNode;
+
+			if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA')
+				e.preventDefault();
+		}
+	});
+}
+document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false); 
+document.addEventListener('DOMContentLoaded', function () { setTimeout(loaded, 200); }, false);
+</script>
+
+<{/block}>
+
+
+<{block name=sitetitle}><{$sitename}><{/block}>
+<{block name=hearnav}><{/block}>
+<{block name=blockcontent}> 
+ <style>
+	.scroller {
+	position:absolute; z-index:1;
+/*	-webkit-touch-callout:none;*/
+	-webkit-tap-highlight-color:rgba(0,0,0,0);
+	width:100%;
+	padding:0;
+}
+#transition {
+	position:absolute; 
+	z-index:1;
+	display:block;  
+	top:42px;
+	overflow:auto; 
+	width:100%;bottom:72px; margin-left:0px;
+}
+.shoplogo{width:100%; height:auto;}
+.fooddet{width:90%; background:#ffffff; margin:0 auto;}
+.fooddet li{ height:35px; line-height:35px; color:#6c6c6c; font-size:16px; font-weight:bold;}
+.fooddet li span{ height:35px; line-height:35px; color:#6c6c6c; font-size:16px; font-weight:normal;}
+.jiancart img,.addcart img{width: 30px;
+  height: 30px;
+  display: block;
+  background-size: 30px 30px;
+  -webkit-border-radius: 38px;
+  border-radius: 38px;float:left;
+  border: 1px solid #eeeeee;}
+  .cartnub{float:left; padding:0px 6px;}
+  .fooddet img{width:100%; height:100;}
+	</style>
+ 
+ 
+
+
+ 
+<div id="wrapper" style="top: 0px;bottom: 0px;" >
+	<div  class="page-app">  
+	<div style="background:#ffffff; margin-top:10px; padding:10px 0px; margin-bottom:20px; border-bottom:1px solid #eaeaea; border-top:1px solid #eaeaea;"> 
+	 <div class="fooddet">
+		<ul>
+			<li>菜品描述</li>
+			<li style="padding:0px 10px 0px; height:auto; font-weight:normal;"><{$foodshow['instro']|htmlspecialchars_decode|default:'暂无描述'}></li>
+		</ul>
+	 </div>
+	 </div>
+	   
+</div>
+</div>
+
+
+<{/block}>
+<{block name=footer}> 
+<{/block}>
+  

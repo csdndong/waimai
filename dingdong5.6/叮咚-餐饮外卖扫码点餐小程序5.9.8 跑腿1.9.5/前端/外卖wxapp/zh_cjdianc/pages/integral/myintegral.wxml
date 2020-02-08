@@ -1,0 +1,34 @@
+<view class="no_coupons" wx:if="{{score==null||score==''}}">
+    <view class="noe_coupons_img">
+        <image mode="aspectFit" src="../../img/list.png"></image>
+    暂无积分明细
+  </view>
+</view>
+<view wx:else>
+    <view bindtap="tzjfsc" class="head">
+        <view class="head1">我的积分</view>
+        <view class="head2">
+            <view class="head3">
+                <image src="../../img/cost.png"></image>
+                <view>{{integral}}</view>
+            </view>
+            <view class="head4">
+                <view class="head5">兑换物品</view>
+                <image mode="aspectFit" src="../../img/blackjt.png"></image>
+            </view>
+        </view>
+    </view>
+    <view class="integral" wx:for="{{score}}">
+        <view class="integral-left">
+            <view>{{item.note}}</view>
+            <view>{{item.cerated_time}}</view>
+        </view>
+        <view class="integral-right">
+            <text style="color:#6AC20B" wx:if="{{item.type==1}}">+{{item.score}}<text class="integral-right1">分</text>
+            </text>
+            <text style="color:#f44444" wx:if="{{item.type==2}}">-{{item.score}}<text class="integral-right1">分</text>
+            </text>
+        </view>
+    </view>
+    <view class="mygd">没有更多了哦~</view>
+</view>

@@ -1,0 +1,44 @@
+{itemplate 'public/header'}
+<div class="page clearfix">
+	<h2>商户活动设置</h2>
+	<form class="form-horizontal form form-validate" id="form1" action="" method="post" enctype="multipart/form-data">
+		<h3>活动权限</h3>
+		<div class="alert alert-warning">提示：只有开启活动后商户才可以在后台设置相应活动；如果设置商户不可以取消，则活动开启后商家不能取消，只能由管理员取消活动。</div>
+		{loop $activitys $type $item}
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">{$item['title']}</label>
+			</div>
+			<div class="form-group" style="margin-left: 10px;">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">是否开启</label>
+				<div class="col-sm-9 col-xs-12">
+					<div class="radio radio-inline">
+						<input type="radio" name="activity[status][{$type}]" id="activity_status_{$type}-1" value="1" {if $config_activity[$type]['status'] == 1}checked{/if}>
+						<label for="activity_status_{$type}-1">是</label>
+					</div>
+					<div class="radio radio-inline">
+						<input type="radio" name="activity[status][{$type}]" id="activity_status_{$type}-0" value="0" {if $config_activity[$type]['status'] == 0} checked{/if}>
+						<label for="activity_status_{$type}-0">否</label>
+					</div>
+				</div>
+			</div>
+			<div class="form-group" style="margin-left: 10px;">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">商户是否可以取消</label>
+				<div class="col-sm-9 col-xs-12">
+					<div class="radio radio-inline">
+						<input type="radio" name="activity[cancel_status][{$type}]" id="activity_cancel_status_{$type}-1" value="1" {if $config_activity[$type]['cancel_status'] == 1}checked{/if}>
+						<label for="activity_cancel_status_{$type}-1">是</label>
+					</div>
+					<div class="radio radio-inline">
+						<input type="radio" name="activity[cancel_status][{$type}]" id="activity_cancel_status_{$type}-0" value="0" {if $config_activity[$type]['cancel_status'] == 0} checked{/if}>
+						<label for="activity_cancel_status_{$type}-0">否</label>
+					</div>
+				</div>
+			</div>
+		{/loop}
+		<div class="form-group col-sm-12">
+			<input type="submit" value="提交" class="btn btn-primary">
+			<input type="hidden" name="token" value="{$_W['token']}" />
+		</div>
+	</form>
+</div>
+{itemplate 'public/footer'}

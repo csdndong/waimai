@@ -1,0 +1,34 @@
+{itemplate 'public/header'}
+<div class="page clearfix">
+	<form class="form-horizontal form form-validate" id="form1" action="" method="post" enctype="multipart/form-data">
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">选择图片命名方式:</label>
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<div class="radio radio-inline">
+					<input type="radio" name="status" id="status-1" value="0" checked="true">
+					<label for="status-1">使用商品id命名</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" name="status" id="status-2" value="1">
+					<label for="status-2">使用商品编号命名</label>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-9 col-xs-12">
+				<input type="file" name="file" value="">
+			</div>
+		</div>
+		<span class="help-block">在门店首页下载本店商品，筛选出店铺内无图片、需要传图的商品</span>
+		<span class="help-block">准备商品图片，使用商品id或商品编号为图片命名，同一批上传图片只能使用其中一种命名方式</span>
+		<span class="help-block">将需要上传的图片放入1个文件夹（请勿创建子文件夹），将文件夹压缩为Zip格式的压缩包</span>
+		<span class="help-block">在本页选择图片命名方式，选中准备好的压缩包，点击上传，完成后到商品库查看结果</span>
+		<div class="form-group">
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<input type="hidden" name="token" value="{$_W['token']}">
+				<input type="submit" value="导入" class="btn btn-primary">
+			</div>
+		</div>
+	</form>
+</div>
+{itemplate 'public/footer'}

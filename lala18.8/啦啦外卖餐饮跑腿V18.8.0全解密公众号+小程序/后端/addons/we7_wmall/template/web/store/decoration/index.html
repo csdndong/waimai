@@ -1,0 +1,173 @@
+{itemplate 'public/header'}
+{if $ta == 'index'}
+<form action="" class="form-table">
+	<div class="panel panel-table">
+		<div class="panel-heading">
+			<a href="{php echo iurl('store/decoration/shopPage/post');}" class="btn btn-primary btn-sm">添加海报</a>
+		</div>
+		<div class="panel-body table-responsive js-table">
+			{if empty($poster)}
+				<div class="no-result">
+					<p>还没有相关数据</p>
+				</div>
+			{else}
+				<table class="table table-hover">
+					<thead>
+					<tr>
+						<th>名称</th>
+						<th>图片</th>
+						<th>小程序/新版公众号跳转链接</th>
+						<th class="text-right">操作</th>
+					</tr>
+					</thead>
+					{loop $poster $index $item}
+						<tr>
+							<td>
+								{$item['title']}
+							</td>
+							<td><img src="{php echo tomedia($item['thumb']);}" width="50"></td>
+							<td>{$item['wxapp_link']}</td>
+							<td class="text-right">
+								<a href="{php echo iurl('store/decoration/shopPage/post', array('key' => $index))}" class="btn btn-default btn-sm" title="编辑" data-toggle="tooltip" data-placement="top" ><i class="fa fa-edit"> </i> 编辑</a>
+								<a href="{php echo iurl('store/decoration/shopPage/del', array('key' => $index))}" class="btn btn-default btn-sm js-remove" data-confirm="确定删除该海报?"><i class="fa fa-times"> </i> 删除</a>
+							</td>
+						</tr>
+					{/loop}
+				</table>
+			{/if}
+		</div>
+	</div>
+</form>
+{/if}
+
+{if $ta == 'post'}
+<div class="page clearfix">
+	<h2>编辑海报</h2>
+	<form class="form-horizontal form form-validate" id="form-bargain-post" style="max-width: 100%" id="form1" action="" method="post" enctype="multipart/form-data">
+		<input type="hidden" name="key" value="{$key}">
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">名称</label>
+			<div class="col-sm-6 col-xs-6">
+				<input type="text" class="form-control" name="title" value="{$poster['title']}" required="true">
+				<span class="help-block">仅用于区分,不在前台显示</span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">图片</label>
+			<div class="col-sm-6 col-xs-6">
+				{php echo tpl_form_field_image('thumb', $poster['thumb']);}
+				<div class="help-block">建议图片尺寸:640*240</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">小程序/新版公众号跳转链接(选填)</label>
+			<div class="col-sm-6 col-xs-6">
+				{php echo tpl_form_field_tiny_wxapp_link('wxapp_link', $poster['wxapp_link']);}
+				<div class="help-block">如果设置自定义链接,关联商品将不可用</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span class="require">* </span>关联的商品</label>
+			<div class="col-sm-9 col-xs-12 table-responsive">
+				<table class="table table-hover table-bordered text-center">
+					<thead>
+					<tr>
+						<th>缩略图</th>
+						<th>菜品名称</th>
+						<th>价格</th>
+						<th>库存</th>
+						<th>操作</th>
+					</tr>
+					</thead>
+					<tbody id="goods-container">
+					{if !empty($poster['goods'])}
+					{loop $poster['goods'] $item}
+						<tr id="goods-{$item['goods_id']}">
+							<td>
+								<input type="hidden" name="goods_id[]" value="{$item['id']}"/>
+								<img src="{php echo tomedia($item['thumb']);}" width="50" alt=""/>
+							</td>
+							<td>{$item['title']}</td>
+							<td>￥{$item['price']}</td>
+							<td>
+								{if $item['total'] == '-1'}
+								无限
+								{else}
+								{$item['total']}
+								{/if}
+							</td>
+							<td>
+								<a href="javascript:;" class="btn btn-default btn-goods-item" data-id="{$item['id']}">删除</a>
+							</td>
+						</tr>
+					{/loop}
+					{/if}
+					</tbody>
+					<tfooter>
+						<tr>
+							<td colspan="10" style="text-align: left">
+								<a href="javascript:;" id="btn-select-goods"><i class="fa fa-plus-circle"></i> 选择商品</a>
+							</td>
+						</tr>
+					</tfooter>
+				</table>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<input type="hidden" name="token" value="{$_W['token']}">
+				<input type="submit" value="提交" class="btn btn-primary">
+			</div>
+		</div>
+	</form>
+</div>
+<script type="text/html" id="tpl-goods-item">
+	<{# for(var i = 0, len = d.length; i < len; i++){ }>
+	<tr id="goods-<{d[i].id}>">
+		<td>
+			<input type="hidden" name="goods_id[]" value="<{d[i].id}>"/>
+			<img src="<{d[i].thumb}>" width="50" alt=""/>
+		</td>
+		<td><{d[i].title}></td>
+		<td>￥<{d[i].price}></td>
+		<td><{d[i].total}></td>
+		<td>
+			<a href="javascript:;" class="btn btn-default btn-goods-item" data-id="<{d[i].id}>">删除</a>
+		</td>
+	</tr>
+	<{# } }>
+</script>
+<script>
+	irequire(['tiny','laytpl'], function(tiny,laytpl){
+		$('#btn-select-goods').click(function(){
+			tiny.selectgoods(function(goods){
+				for(var n in goods) {
+					if(goods[n]['id']) {
+						$('#goods-' + goods[n]['id']).remove();
+					}
+				}
+				var gettpl = $('#tpl-goods-item').html();
+				laytpl(gettpl).render(goods, function(html){
+					$('#goods-container').append(html);
+				});
+			}, {mutil: 1, is_options: 0, store_id: "{$store['id']}"});
+		});
+
+		$(document).on('click', '.btn-goods-item', function(){
+			$(this).parents('tr').remove();
+		});
+
+		$('#form-bargain-post').submit(function(){
+			var goods = $('#goods-container tr').size();
+			$(this).attr('stop', 0);
+			if(!goods) {
+				$(this).attr('stop', 1);
+				Notify.error('请选择参与活动的商品');
+				return false;
+			}
+			return true;
+		});
+	});
+</script>
+{/if}
+{itemplate 'public/footer'}

@@ -1,0 +1,80 @@
+{template 'public/header'}
+{template 'public/comhead'}
+
+<style type="text/css">
+    .nav-tabs>li>a:hover{
+        color: #333;
+        border-color: #31C2A5;
+        background-color: white;
+    }
+    .nav-tabs > li.active > a,.nav-tabs > li.active > a:hover{
+        background-color: #31C2A5;
+        color: white;
+        border-color: #31C2A5;
+    }
+    .nav.nav-tabs{border-color: #31C2A5;margin-top: 30px;}
+</style>
+<div class="main">
+    <form action="" method="post" class="form-horizontal form" enctype="multipart/form-data" id="invitative">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                预约付款设置
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">是否开启预约付款</label>
+                    <div class="col-sm-9">
+                        <label class="radio-inline">
+                            <input type="radio" name="is_yypay" value="1" {if $item['is_yypay']==1 || empty($item['is_yypay'])}checked{/if} />开启
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="is_yypay" value="2" {if $item['is_yypay']==2}checked{/if} />关闭
+                        </label>
+                    </div>
+                </div>             
+            </div>
+        </div>
+        
+        <div class="form-group col-sm-12">
+            <input type="submit" name="submit" value="保存设置" class="btn col-lg-3" style="color: white;background-color: #31C2A5;" />
+            <input type="hidden" name="token" value="{$_W['token']}" />
+            <input type="hidden" name="id" value="{$item['id']}" />
+        </div>
+    </form>
+</div>
+<!-- {template 'common/footer'} -->
+<script type="text/javascript">
+  $(function(){
+    //$("select#ygadd").change(function(){
+        // console.log($(this).val())
+        // var ygtype = $(this).val()
+        // if(ygtype==1){
+        //     $(".ygyi").css({"display":"none"})
+        // }else if(ygtype==2){
+        //     $(".ygyi").css({"display":"block"})
+        // }
+    //})
+    "{if $item}"
+        "{if $item['type']=='1'}"
+            $('.ygyi').hide();
+        "{/if}"
+        "{if $item['type']=='2'}"
+            $('.ygyi2').hide();
+        "{/if}"            
+    "{else}"
+        $('.ygyi').hide();
+    "{/if}"
+    $('#type').change(function(){
+        $('.ygyi').show();
+        $('.ygyi2').show();
+        if($(this).val() == '1') {
+            $('.ygyi').hide();
+        }
+        if($(this).val() == '2') {
+            $('.ygyi2').hide();
+        }
+    });
+    
+  })
+</script>
+{template 'common/footer'}

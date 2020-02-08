@@ -1,0 +1,108 @@
+<view class="page-order">
+    <view class="tabs">
+        <view bind:tap="onChangeStatus" class="tabs-item {{status==1?'active':''}}" data-status="1">
+            <view class="item-logo">
+                <view class="order-status {{status==1?'active':''}}">
+                    <text>新</text>
+                </view>
+            </view>
+            <view class="item-title {{status==1?'active':''}}">待确认</view>
+        </view>
+        <view bind:tap="onChangeStatus" class="tabs-item {{status==2?'active':''}}" data-status="2">
+            <view class="item-logo">
+                <view class="order-status {{status==2?'active':''}}">
+                    <text>接</text>
+                </view>
+            </view>
+            <view class="item-title {{status==2?'active':''}}">已确认</view>
+        </view>
+        <view bind:tap="onChangeStatus" class="tabs-item {{status==5?'active':''}}" data-status="5">
+            <view class="item-logo">
+                <view class="order-status {{status==5?'active':''}}">
+                    <text>完</text>
+                </view>
+            </view>
+            <view class="item-title {{status==5?'active':''}}">已完成</view>
+        </view>
+    </view>
+    <view class="order-list" wx:if="{{orders.data.length>0}}">
+        <view class="list-item" wx:for="{{orders.data}}">
+            <view class="order-nt">
+                <view class="order-number">{{item.serial_sn}}</view>
+                <view class="time-status">
+                    <view class="delivery-time">{{item.addtime_cn}}</view>
+                    <view class="order-status">{{item.order_status_cn}}</view>
+                </view>
+            </view>
+            <view class="recieve-info">
+                <view class="info-name">
+                    <view class="left">
+                        <view class="name">下单人：{{item.username}}</view>
+                    </view>
+                </view>
+            </view>
+            <view class="divide">
+                <view class="divide-line"></view>
+            </view>
+            <view class="goods-info">
+                <view class="info-title">
+                    <view class="left">商品</view>
+                    <view catch:tap="onShowGoods" class="right" data-index="{{index}}">
+                        <view class="unfold">{{item.showGoods?'收起':'展开'}}</view>
+                        <view class="icon {{item.showGoods?'icon-fold':'icon-unfold'}}"></view>
+                    </view>
+                </view>
+            </view>
+            <view class="goods-list" wx:if="{{item.showGoods}}">
+                <view class="note">
+                    <view class="color-danger">备注：</view>
+                    <view>{{item.note}}</view>
+                </view>
+                <view class="goods-item" wx:for="{{item.goods}}" wx:for-item="goodsItem">
+                    <view class="goods-tn">
+                        <view class="title">{{goodsItem.goods_title}}</view>
+                        <view class="num {{goodsItem.goods_num>1?'many':''}}">x{{goodsItem.goods_num}}</view>
+                    </view>
+                    <view class="price">¥{{goodsItem.goods_price}}</view>
+                </view>
+            </view>
+            <view class="order-info">
+                <view class="predict-fee" wx:if="{{item.order_type==3}}">
+                    <view class="left">本单预计收入</view>
+                    <view class="right">
+						¥{{item.store_final_fee}}
+					</view>
+                </view>
+                <view class="practical-fee">
+                    <view class="title" wx:if="{{item.order_type==3}}">{{item.table_sn}}号桌,{{item.person_num}}人就餐</view>
+                    <view class="left">本单顾客实际支付：<text>¥{{item.final_fee}}</text>
+                    </view>
+                </view>
+            </view>
+            <view class="divide">
+                <view class="divide-line"></view>
+            </view>
+            <view class="action" wx:if="{{item.status<5}}">
+                <view catch:tap="onJsEvent" class="confirm" data-confirm="确定接单吗" data-event-type="jsPost" data-href="manage/order/tangshi/status?id={{item.id}}&type=handle" wx:if="{{item.status==1}}">确认接单</view>
+                <view catch:tap="onJsEvent" class="confirm" data-confirm="确定完成订单吗?" data-event-type="jsPost" data-href="manage/order/tangshi/status?id={{item.id}}&type=end" wx:elif="{{item.status==2}}">完成订单</view>
+                <view catch:tap="onJsEvent" class="confirm" data-confirm="确定取消订单吗?" data-event-type="jsPost" data-href="manage/order/tangshi/cancel?id={{item.id}}" wx:if="{{item.is_pay==1&&item.pay_type!='delivery'}}">取消订单并退款</view>
+                <view catch:tap="onJsEvent" class="confirm" data-confirm="确定取消订单吗?" data-event-type="jsPost" data-href="manage/order/tangshi/cancel?id={{item.id}}" wx:else>取消订单</view>
+                <view catch:tap="onJsEvent" class="confirm" data-confirm="确定订单已支付?" data-event-type="jsPost" data-href="manage/order/tangshi/pay_status?id={{item.id}}" wx:if="{{!item.is_pay}}">设为已支付</view>
+                <view catch:tap="onJsEvent" class="cancel" data-event-type="jsUrl" data-url="pages/order/detail?id={{item.id}}">详情</view>
+            </view>
+        </view>
+    </view>
+    <view class="wui-loadmore" wx:if="{{showLoading}}">
+        <view class="wui-loading"></view>
+        <view class="wui-loadmore-tips">正在加载中</view>
+    </view>
+    <view class="no-data" wx:elif="{{!orders.data.length}}">
+        <image class="no-coupon" src="/static/img/coupon_no_con.png"></image>
+        <text class="no-record">暂无数据</text>
+    </view>
+    <view class="wui-loadmore wui-loadmore-nomore" wx:elif="{{orders.data.loaded}}">
+        <view class="wui-loadmore-tips">我是有底线的</view>
+        <view class="wui-loadmore-line"></view>
+    </view>
+</view>
+<include src="../public/footer.wxml"></include>

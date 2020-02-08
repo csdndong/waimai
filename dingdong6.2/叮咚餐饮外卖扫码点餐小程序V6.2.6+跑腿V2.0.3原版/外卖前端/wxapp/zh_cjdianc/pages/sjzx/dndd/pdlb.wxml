@@ -1,0 +1,50 @@
+<!--   time:2019-07-18 01:03:20 -->
+<view class="paddbottom">
+	<view class="blbanner">
+		<view class="b-head" style="border-color:{{color}}">排队列表</view>
+	</view>
+	<block wx:for="{{NumberList}}" wx:for-item="item" wx:for-index="index" >
+		<view class="ddlb">
+			<view style="border-right:1px solid #F0F0F0">
+				<text class="text">当前叫号</text>
+				<text class="num" style="color:{{color}}">{{item.dq}}</text>
+			</view>
+			<view style="border-right:1px solid #F0F0F0">
+				<text class="text">桌号分类</text>
+				<text class="num">{{item.num}}</text>
+			</view>
+			<view style="justify-content:center;">
+				<view class="qhsx" style="background:{{color}}">
+					<view>取号</view>
+					<view>（{{item.rs}}/{{item.count}}）</view>
+				</view>
+			</view>
+		</view>
+		<view class="tjlb">
+			<view bindtap="ckyl" data-id="{{item.num}}">
+				<image class="image" mode="aspectFit" src="../../../img/sjd/qhfl.png"></image>
+				<view>查看已领</view>
+			</view>
+			<view bindtap="call" data-id="{{item.id}}" style="border-color:{{color}};color:{{color}}">
+				<image class="image" mode="aspectFit" src="../../../img/sjd/jh.png"></image>
+				<view>叫号</view>
+			</view>
+			<view bindtap="sitdown" data-id="{{item.pid}}" style="border-color:{{color}};color:{{color}}">
+				<image class="image" mode="aspectFit" src="../../../img/sjd/rz.png"></image>
+				<view>入座</view>
+			</view>
+			<view bindtap="pass" data-id="{{item.pid}}" style="border-color:{{color}};color:{{color}}">
+				<image class="image" mode="aspectFit" src="../../../img/sjd/qhtg.png"></image>
+				<view>跳过</view>
+			</view>
+		</view>
+	</block>
+</view>
+<form bindreset="formReset" bindsubmit="formSubmit" reportSubmit="true">
+	<view class="dbbtn">
+		<button formType="submit" style="background:{{color}};color: #fff;">添加分类</button>
+	</view>
+</form>
+<button bindtap="refresh" class="hddb">
+	<image src="../../../img/shuaxin.png"></image>
+</button>

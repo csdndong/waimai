@@ -1,0 +1,253 @@
+  <{extends file="<{$tempdir}>/public/admin1.html"}> 
+ <{block name=extendjs}>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js"></script>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/datepicker/WdatePicker.js"></script>
+ <{/block}>
+ <{block name=controlname}>优惠券设置<{/block}>
+ <{block name=bodylist}> 
+ <style>
+.set{border:1px solid #999d9c;width:80%}
+.settop div {text-align:center;	display:inline-block!important;}
+.setconc div{text-align:center;	display:inline-block!important;background-color:#F5F5F5;}
+.setconrs{border-bottom:1px solid #999d9c;}
+.setconrs div{text-align:center;display:inline-block!important;}
+.setcon div{text-align:center;}
+.setcon{display:table;}
+.setconl{width:15.6%;height:100%;display: table-cell;vertical-align: middle;border-bottom:1px solid #999d9c;} 
+.fsetconr{width:84.3%; display: table-cell; border-left:1px solid #999d9c;margin-left:-5px;}
+.rsetconr{width:84.3%;display:table-cell;border-left:1px solid #999d9c;margin-left:-5px;}
+.lqjm {margin-top: 7px;margin-right: 20px;width: 70px;text-align: center;float: right;height: 25px;border-radius: 5px;line-height: 25px;border: 1px solid #dddbdc;background-color: #fff;color: #0099CC;}
+.sytc {margin-top: 7px;margin-right: 20px;width: 70px;text-align: center;float: right;height: 25px;border-radius: 5px;line-height: 25px; background-color: #0099CC;}
+ </style>
+<script>
+$('.userradio input').live('click',function(){
+    var  type = $(this).val();
+    if(type == 1){
+	    $('.zdtj').hide();
+		$('.zdhy').hide();
+	}
+    if(type == 2){
+	    $('.zdtj').show();
+		$('.zdhy').hide();
+	}
+	if(type == 3){
+	    $('.zdtj').hide();
+		$('.zdhy').show();
+	}
+})
+
+
+</script> 
+	 <div style="width:auto;overflow-x:hidden;overflow-y:auto"> 
+         <div class="search">
+            <div class="search_content" style='font-size:12px'>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			请合理发放优惠券，最大化提高优惠券营销效果，你可在发放记录中查看发放使用情况。
+			<div class='lqjm'><a href='<{ofunc type=url link="/adminpage/card/module/handsendjuanlog"}>'>发放记录</a></div>	
+            <div class='sytc'><a style='color:#fff ;' href='<{ofunc type=url link="/adminpage/card/module/juannotice"}>'>首页弹窗</a></div>	 			
+			</div>
+        </div>
+		  
+          <div id="tagscontent">
+            <form method="post" name="form1" action="<{ofunc type=url link="/adminpage/card/module/savehandjuanset/datatype/json"}>" onsubmit="return subform('<{ofunc type=url link="/adminpage/card/module/handsendjuanlog"}>',this);">
+              <div>
+                <table border="0" cellspacing="2" cellpadding="4" class="list" name="table" id="table" width="100%">
+                  <tbody>                  	 
+					 <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                        <td class="left">发放范围</td>
+                        <td class='userradio'>
+						    <input type="radio" name="sendusertype"   value="1" checked>&nbsp;全部会员&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <input type="radio" name="sendusertype"   value="2" >&nbsp;指定条件&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<input type="radio" name="sendusertype"   value="3" >&nbsp;指定会员
+						</td>
+                     </tr>
+					 <tr style='display:none' class='zdtj' onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                        <td class="left"></td>
+                        <td><div style='width:40%;border:1px solid #999d9c;height:70px;'>
+						    <div style='margin-left: 10px;'>会员分组：
+							  <input type="checkbox" name="usertype[]"   value="1" >&nbsp;新会员&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							  <input type="checkbox" name="usertype[]"   value="2" >&nbsp;老会员
+							</div>	
+                            <div style='margin-left: 10px;'>提示：新老会员区分条件为：是否在平台完成过订单</div>							
+						    <div></div>
+						</div></td>
+                     </tr>
+					 <tr style='display:none' class='zdhy' onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                        <td class="left"></td>
+                        <td>
+						    <textarea name="userstr" style='width: 40%;height:100px;'></textarea><br>
+						    <span>请输入指定会员的用户名，多个用户名之间用'#'隔开。示例：张三#李四#王五#赵六</span>
+						</td>
+                     </tr>
+					 <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                        <td class="left">活动名称</td>
+                        <td><input type="text" name="title" id='title' maxlength="15" placeholder="最多15个字符" value=""></td>
+                     </tr>
+					 <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                        <td class="left">优惠券面值</td>
+                        <td><input type="radio" name="costtype" id='fixedcost'  value="1" checked >&nbsp;固定&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <input type="radio" name="costtype" id='randomcost'  value="2" >&nbsp;随机</td>
+                     </tr>
+					 <tr  onmouseout="this.bgColor='ffffff';">
+                        <td class="left">优惠券设置</td>
+                        <td>
+						 	<div class='set' >	
+                                <div class='settop' style='width:100%;border-bottom:1px solid #999d9c;background-color:#F5F5F5'>
+								    <div style='width:16%'>每人发放</div>
+									<div style='width:20%'>优惠券名称</div>
+									<div style='width:20%'>面值</div>
+									<div style='width:28%'>使用条件</div>
+									<div style='width:13%'>操作</div>
+								</div>								
+								<!--固定面值-->
+								<div class='setcon fixedcost' style='width:100%;'>
+									<div class='setconl'>
+									<span class='fjuannum'>1</span>张								
+								    </div>
+                                    <div class='fsetconr' >									   
+									   <div class='setconrs'>
+									       <div style='width:25%'><input type="text" name="ajuanname[]" value="" style='width:100px' ></div>
+										   <div style='width:20%'><input type="text" name="ajuancost[]" value="" style='width:45px' >元</div>
+										   <div style='width:34%'>满 <input type="text" name="ajuanlimitcost[]" value="" style='width:45px' >元可使用</div>
+										   <div style='width:16%;color:#2585a6'><span class="faddjuan">+添加优惠券</span></div>
+									   </div>   
+								    </div>	
+								</div>
+                                <!--随机面值-->
+								<div class='setcon randomcost' style='width:100%; display:none'>
+									<div class='setconl' style='width:15.6%; '>
+									<span class='rjuannum'>1</span>张							
+								    </div>
+                                    <div class='rsetconr' >
+									   
+									   <div class='setconrs'>
+									       <div style='width:25%'><input type="text" name="bjuanname[]" value="" style='width:100px' ></div>
+										   <div style='width:25%'><input type="text" name="bjuancostmin[]" value="" style='width:45px' >
+										   至 <input type="text" name="bjuancostmax[]" value="" style='width:45px' >元</div>
+										   <div style='width:28%'>满 <input type="text" name="bjuanlimitcost[]" value="" style='width:45px' >元可使用</div>
+										   <div style='width:20%;color:#2585a6'><span class="raddjuan">+添加优惠券</span></div>
+									   </div>
+									  
+									  
+								    </div>	
+								</div>
+							   
+							    <div class='setfoot' style='width:100%;' >
+				                    &nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="spotordtype[]"   value="1" >&nbsp;限外卖频道使用
+									&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="spotordtype[]"   value="2" >&nbsp;限超市频道使用
+									<!--&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="spotordtype[]"   value="3" >&nbsp;限跑腿频道使用-->
+									&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="paytype"   value="1" >&nbsp;仅限在线支付使用									
+								</div>							
+							</div>		
+							
+							
+							
+							</div>		
+						</td>
+                     </tr>
+					 <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                        <td class="left">使用有效期</td>
+                        <td>
+						<input type="radio" name="timetype"  class='days' value="1" checked >
+						领劵当日起&nbsp;<input type="text" name="juanday"   value="" style='width:40px' > 天内有效
+                        </td>   
+                     </tr>
+					 <tr bgcolor="#ffffff">
+                        <td class="left"></td>
+                        <td>
+						<input type="radio" name="timetype" class='gdsj'  value="2" >&nbsp;固定时间
+                        </td>   
+                     </tr>
+					 <tr bgcolor="#ffffff" class="gdtime" style="display:none">
+                        <td class="left"></td>
+                        <td>
+						&nbsp;&nbsp;&nbsp;&nbsp;生效时间：<input class="Wdate datefmt" type="text" name="starttime" id="starttime" value="" onfocus="WdatePicker({isShowClear:false,readOnly:true});" readonly="" />
+                        </td>   
+                     </tr>
+					 <tr bgcolor="#ffffff" class="gdtime" style="display:none">
+                        <td class="left"></td>
+                        <td>
+						&nbsp;&nbsp;&nbsp;&nbsp;过期时间：<input class="Wdate datefmt" type="text" name="endtime" id="endtime" value="" onfocus="WdatePicker({isShowClear:false,readOnly:true});" readonly="" />
+                        </td>   
+                     </tr>
+                     
+					 <tr bgcolor="#ffffff">
+                        <td class="left">温馨提示：</td>
+                        <td>当发放用户数和优惠券数量较大时，会造成程序执行缓慢，点击确认发放，系统提示发送成功后会自动跳转至发放记录页面，在此之前请勿离开或关闭该页面。</td>   
+                     </tr>
+                    
+                  </tbody>
+                </table>
+              </div>
+              <div class="blank20"></div>
+              <input type="hidden" name="tijiao" id="tijiao" value="do" class="skey" style="width:250px;">
+              <input type="hidden" name="saction" id="saction" value="savefollowjuanset" class="skey" style="width:250px;">
+               <input style='margin-left: 210px;margin-bottom: 20px;background:none;background-color:#169bd5;color:#fff;border-radius:5px;border:none;height:30px;padding:5px 20px' type="submit" value="确认发放" class="button">  
+            </form>
+          </div>
+        </div> 
+    </div> 
+	<script>
+	   $('.days').live('click',function(){ 
+		$('.gdtime').hide();        
+	  }); 
+	  $('.gdsj').live('click',function(){ 
+		$('.gdtime').show();        
+	  });
+      $('#fixedcost').live('click',function(){ 
+		$('.fixedcost').show();  
+        $('.randomcost').hide();		
+	  });
+	  $('#randomcost').live('click',function(){ 
+		$('.randomcost').show();  
+        $('.fixedcost').hide();  		
+	  });			
+
+	  $('.raddjuan').live('click',function(){ 
+	    var num = $('.rjuannum').text();
+		if(num < 3){
+		   $('.rjuannum').text(Number(num)+1);
+		   var html  = '<div class="setconrs">';
+            html += '<div style="width:25%"><input type="text" name="bjuanname[]" value="" style="width:100px" ></div>';
+			html += '<div style="width:26%"><input type="text" name="bjuancostmin[]" value="" style="width:45px" >';
+			html += ' 至 <input type="text" name="bjuancostmax[]" value="" style="width:45px" >元</div>';
+			html += '<div style="width:29%">满 <input type="text" name="bjuanlimitcost[]" value="" style="width:45px" >元可使用</div>';
+			html += '<div style="width:20%;color:red"><span class="rdeljuan">删除</span></div></div>';
+		    $('.rsetconr').append(html); 
+		}else{
+		   alert('最多只能添加3张优惠券噢~');
+		}
+		
+	  });
+	  $('.rdeljuan').live('click',function(){ 
+	     var num = $('.rjuannum').text();
+		 $('.rjuannum').text(Number(num)-1);
+	     $(this).parent().parent().remove();
+	  });
+	 
+	 $('.faddjuan').live('click',function(){ 
+	    var num = $('.fjuannum').text();
+		if(num < 3){
+		   $('.fjuannum').text(Number(num)+1);
+		   var html  = '<div class="setconrs">';
+            html += '<div style="width:25%"><input type="text" name="ajuanname[]" value="" style="width:100px" ></div>';			
+			html += '<div style="width:21%"><input type="text" name="ajuancost[]" value="" style="width:45px" >元</div>';
+			html += '<div style="width:35%">满 <input type="text" name="ajuanlimitcost[]" value="" style="width:45px" >元可使用</div>';
+			html += '<div style="width:16%;color:red"><span class="fdeljuan">删除</span></div>';	
+			html += '</div>';
+		    $('.fsetconr').append(html); 
+		}else{
+		   alert('最多只能添加3张优惠券噢~');
+		}
+		
+	  });
+	  $('.fdeljuan').live('click',function(){ 
+	     var num = $('.fjuannum').text();
+		 $('.fjuannum').text(Number(num)-1);
+	     $(this).parent().parent().remove();
+	  });
+	  
+	   
+	  
+	</script>
+ <{/block}>

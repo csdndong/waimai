@@ -1,0 +1,26 @@
+{itemplate 'public/header'}
+{if $op == 'index'}
+<div class="page clearfix">
+	<form class="form-horizontal form form-validate" id="form1" action="" method="post" enctype="multipart/form-data">
+		{loop $pages $key $page}
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">{$page['name']}</label>
+				<div class="col-sm-9 col-xs-12">
+					<select name="scenes[{$key}]" class="form-control select2">
+						<option value="0">请选择</option>
+						{loop $wheels $wheel}
+							<option value="{$wheel['id']}" {if $wheel['id'] == $scenes[$key]['wheel_id']}selected{/if}>{$wheel['title']}</option>
+						{/loop}
+					</select>
+				</div>
+			</div>
+		{/loop}
+		<div class="form-group">
+			<div class="col-sm-9 col-xs-12">
+				<input type="submit" value="提交" class="btn btn-primary">
+			</div>
+		</div>
+	</form>
+</div>
+{/if}
+{itemplate 'public/footer'}

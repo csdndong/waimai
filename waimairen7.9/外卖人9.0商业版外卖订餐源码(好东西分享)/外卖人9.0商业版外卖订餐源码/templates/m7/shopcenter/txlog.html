@@ -1,0 +1,107 @@
+ <{extends file="<{$tempdir}>/public/shopcenter.html"}>  
+ <{block name=extendjs}>
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/jquery.PrintArea.js" type="text/javascript" language="javascript"></script>
+ <script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/datepicker/WdatePicker.js" type="text/javascript" language="javascript"></script>
+    <script>
+  	var mynomenu='baseordertj';
+  	</script>
+ <{/block}> 
+ <{block name=bodylist}>
+ <style>
+.show_page a{
+  margin-right:10px;
+}
+
+ </style>
+ <!---content right start--->
+  <div class="conWaiSet fr">
+    <div class="shopSetTop"> <span>商家金额记录</span>  
+	
+	<span style=" float:right; margin-right:5px;"><a style="color:lime; font-weight:bold;" href="<{ofunc type=url link="/shopcenter/shoptotal"}>">订单统计</a></span>
+
+<span style=" float:right; margin-right:5px;"><a style="color:lime; font-weight:bold;" href="<{ofunc type=url link="/shopcenter/shopjs"}>">商家结算</a></span>   
+
+	</div>
+    <div class="orderTongji">
+      <div class="sjser" style="font-weight:none;">商家订单统计查询
+	  
+	  
+	
+	  </div>
+      <form action="<{ofunc type=url link="/shopcenter/txlog"}>" method="post" id="chafrom">  
+      <div  class="newtitilexx" >
+      <span>从
+	   <input class="xzrq Wdate datefmt" type="text" name="stime" id="stime" value="<{$stime|date_format:"%Y-%m-%d"}>"  onFocus="WdatePicker({isShowClear:false,readOnly:true});"  />
+	   至
+	    <input class="xzrq Wdate datefmt" type="text" name="etime" id="etime" value="<{$etime|date_format:"%Y-%m-%d"}>"  onFocus="WdatePicker({isShowClear:false,readOnly:true});"  />
+      </span>
+      <span id="showmonth"> 
+      	
+      	 
+      </span>
+      <span id="showday">
+       
+      </span>  
+        <span class="tingjiSer curbtn" id="dosubmit"></span>
+       
+       </div>
+       </form>  
+      <div class="cl"></div>
+    </div>
+    <div class="cl"></div>
+    <div class="caidanSet"> 
+      	
+      <!---留言管理----->
+    
+        <div class="mes_box" style="display:block;" id="liuyan">        
+            <table cellpadding="0" cellspacing="0" width="100%">
+              <tbody>
+                <tr>
+				 <th width="40%">描述</th> 
+                 <th width="10%">金额</th>
+                 <th width="20%">时间</th>
+                  <th width="10%">状态</th>
+                   <th width="10%">余额</th> 
+                         
+                </tr> 
+                <{foreach from=$jslist item=items}> 
+				
+				  <tr>
+				  <td align="center" > <{$items['name']}> </td> 
+						<td align="center" > <{$items['cost']}> </td>
+						<td align="center" > <{$items['adddate']}> </td> 
+							<td align="center" > <{$items['statusname']}> </td> 
+						   <td align="center" ><{$items['yue']}></td>
+                        </tr>
+						 
+                <{/foreach}>
+             <tr>
+                	<td align="right" style=" padding-right:50px;" colspan="5"><div class="show_page"><{$pagecontent}></div></td>
+                </tr>
+              </tbody>
+            </table>
+         
+        </div>
+        
+        
+       
+   
+    </div>
+  </div>
+  <div class="cl"></div>
+  
+  <!---content right end---> 
+ 
+ <script> 
+$(function(){
+ 	 	$('#dosubmit').click(function(){
+ 	 		$('#chafrom').submit();
+    }); 
+}); 
+
+  
+ 	</script>
+ 
+ 
+ 
+ <{/block}>

@@ -1,0 +1,67 @@
+{itemplate 'public/header'}
+{if $ta == 'index'}
+{if !check_plugin_exist('wxapp')}
+	<div class="alert alert-danger">
+		注意：此功能仅对购买过小程序插件的客户开放
+	</div>
+{else}
+<div class="clearfix">
+	<div class="alert alert-danger form-horizontal" style="font-size: 18px;">
+		注意：自定义门店首页的默认页面只有 <span style="color: #f00;">保存</span> 后才会生效！
+	</div>
+	<div class="app-preview">
+		<div class="app-header"></div>
+		<div class="app-body">
+			<div class="title" id="page">门店首页</div>
+			<div class="main" id="app-preview"></div>
+		</div>
+		<div class="app-footer"></div>
+	</div>
+	<div class="app-editor form-horizontal" id="app-editor">
+		<div class="editor-arrow"></div>
+		<div class="inner">
+		</div>
+	</div>
+</div>
+<div class="app-action">
+	<div class="parts" id="parts"></div>
+	<div class="action">
+		<nav class="btn btn-default btn-sm pull-left" id="gotop">返回顶部</nav>
+		<nav class="btn btn-primary btn-sm btn-save">保存门店首页</nav>
+	</div>
+</div>
+{itemplate 'store/decoration/diyTpl'}
+<script language="javascript">
+	var path = '../../plugin/wxapp/static/js/diy.vue';
+	irequire([path, 'tmodtpl'],function(diy, tmodtpl){
+		diy.init({
+			tmodtpl: tmodtpl,
+			attachurl: "{$_W['attachurl']}",
+			store_id: {$store_id},
+			type: 3,
+			plugins: {php echo json_encode($plugins)},
+			data: {if !empty($homepage['data'])}{php echo json_encode($homepage['data'])}{else}null{/if},
+		});
+	});
+	function callbackGoods(data) {
+		irequire([path],function(diy) {
+			diy.callbackGoods(data);
+		});
+	}
+	function callbackStore(data) {
+		irequire([path],function(diy) {
+			console.dir(data)
+			diy.callbackStore(data);
+		});
+	}
+	function callbackGohomeGoods(data) {
+		irequire([path],function(diy) {
+			console.dir(data)
+			diy.callbackGohomeGoods(data);
+		});
+	}
+</script>
+{/if}
+{/if}
+
+{itemplate 'public/footer'}

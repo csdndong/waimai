@@ -1,0 +1,131 @@
+ 
+  
+		<style>
+		.newgwcUl{ font-size:14px;padding:0px 12px; width:268px;}
+		.newgwcUl li{height:45px; line-height:45px; color:#333333;border-bottom:1px dashed #c7c7c7; width:268px;}
+		.foodname{ float:left; width:106px;height:45px; overflow:hidden;}
+		.foodshuliang{ margin-left:5px;float:left;width:76px;}
+		.foodcost{margin-left:3px;color:#f17530;width:57px;float:left;}
+		.foodshanchu{width:13px;float:left;margin-left: 5px;}
+		.foodshanchu img{margin-top:18px; width:8px;}
+		</style>
+
+		
+		<{assign var=goodscount value="0"}> 
+		<{assign var=surecost value="0"}> 
+		  <div id="mycars_box" style="     margin-left: -25px; margin-bottom: 40px;">
+		  
+		  		
+		<div style="background:#fafafa; height:40px; line-height:40px; font-size:14px; <{if $carinfo['count'] == 0}>  display:none;  <{/if}> ">
+		<span >&nbsp;&nbsp;&nbsp;购物车</span>
+		<span  class="delwaimai" onclick="delshopcart()">清空全部</span>
+		</div>
+		
+		  
+		  <div id="mycar_main"  <{if $carinfo['count'] == 0}> style="    padding: 0px 10px 10px 10px;" <{/if}> >
+
+		
+		<ul  <{if $carinfo['count'] == 0}> style="display:none;" <{/if}> >
+		
+		<{foreach from=$carinfo['goodslist']  item=itv}>
+<li id="car_box_<{$itv['id']}>">
+	<div class="pro_name"><{$itv['name']}><{if $itv['have_det'] == 1}><font style="font-size:10px; color:#ccc;">【<{$itv['gg']['attrname']}>】</font><{/if}></div>
+	<div class="pro_num">
+		<span onclick="<{if $itv['have_det']==1}>removeoneproduct(<{$itv['gg']['id']}>,<{$itv['shopid']}>,1);<{else}>removeonedish(<{$itv['id']}>,<{$itv['shopid']}>,1);<{/if}>" >
+			<img src="<{$siteurl}>/templates/<{$tempdir}>/public/images/wmr_pccart_jian.png" />
+		</span>
+		<span class="nunloading" id="pronum_box<{$itv['id']}>">
+			<input type="text" class="pro_num_input"   name="Nums_<{$itv['id']}>"  readonly id="Nums_<{$itv['id']}>"  value="<{$itv['count']}>"value="1"  >
+		</span>
+		<span class="pro_num_add" style="margin-left:6px;" onclick="<{if $itv['have_det']==1}>uponeproduct(<{$itv['gg']['id']}>,<{$itv['shopid']}>,1,this);<{else}>addonedish(<{$itv['id']}>,<{$itv['shopid']}>,1,this);<{/if}>"  >
+		<img src="<{$siteurl}>/templates/<{$tempdir}>/public/images/wmr_pccart_jia.png" />
+		</span>
+	</div>
+		
+			 <{$goodscount =$goodscount+$itv['count']}> 	 
+	<div class="pro_mony" style="width:auto;">￥<{$itv['cost']}></div>
+</li>
+<{/foreach}>
+<{if $carinfo['pscost'] > 0}>
+<li>
+	<div style="width:200px;" class="pro_name">配送费(不计入起送价)</div>
+  	 
+	<div class="pro_mony" style="width:auto;">￥<{$carinfo['pscost']}></div>
+</li>
+<{/if}>
+</ul>
+		
+ 
+ 
+<div style="clear:both;"></div>
+<div id="mycars"  data-btn="false"  <{if $carinfo['count'] == 0}> style="margin-left:-10px;" <{/if}> >
+	<div class="mycars_num">
+		<span id="total_count" data-num="0"><{$goodscount}></span>份&nbsp;
+		￥<span id="rellycost" data-num="0"><{$surecost}></span>
+		 </div>
+			<{if $shopopeninfo['opentype'] ==2 || $shopopeninfo['opentype'] ==3}>
+			
+				<{if $carinfo['limitcost'] <= $shopinfo['limitcost']}>
+				<div class="mycaars_btn">
+					<{if $allowedguestbuy == 1 || !empty($member['uid']) }>
+					<a href="<{ofunc type=url link="/site/showcart/shopid/<{$shopinfo['id']}>"}>">去结账</a>
+					<{else}>
+					<a  style="background:#e9e8e8;color:#333;" href="javascript:void(0);">请先登录</a>
+					<{/if}>
+					</div>
+				<{else}>	
+				<div class="mycaars_btn">
+					<a  style="background:#e9e8e8;color:#333;" href="javascript:void(0);">差<{$carinfo['limitcost']-$shopinfo['limitcost']}>元送</a>
+					</div>
+				
+				<{/if}>
+			<{else}>
+
+				<div class="mycaars_btn">
+					<a  style="background:#e9e8e8;color:#333;" href="javascript:void(0);">休息中</a>
+					</div>
+	
+		
+			<{/if}>
+</div>
+		
+<div style="clear:both;"></div>
+
+</div>
+<div style="clear:both;"></div>
+<{if $carinfo['count'] == 0}>
+   <div id="mycars_box11" style=" "><div id="mycar_main"  <{if $carinfo['count'] == 0}> style="    padding: 0px 10px 10px 10px;" <{/if}>>
+购物车为空</div>
+  <{/if}>
+ <style>
+ .i-empty {
+ 
+ background: url(<{$siteurl}>/templates/<{$tempdir}>/public/images/icon.png) no-repeat scroll 0 0 transparent;
+background-position: -190px -820px;
+margin: 15px auto;
+}
+.i-empty, .i-comment {
+width: 210px;
+height: 120px;
+text-indent: -9999em;
+margin: 0 auto;
+}
+
+ 
+ </style>
+
+<input type="hidden" name="bagcost" value="<{$carinfo['bagcost']}>">
+<input type="hidden" name="pscost" value="<{$carinfo['pscost']}>">
+<input type="hidden" name="surecost" value="<{$carinfo['cx']['surecost']}>">
+  <input type="hidden" name="allcost" value="<{$carinfo['cx']['surecost']+$carinfo['bagcost']}>">                  	
+    		<script>
+				
+	$(function(){
+	 <{if $carinfo['count'] == 0  }>
+		$("#rellycost").html( Number($('input[name="surecost"]').val()) );
+	 <{else}>
+ 		$("#rellycost").html( Number($('input[name="surecost"]').val())+Number($('input[name="pscost"]').val()) );
+	<{/if}>	
+	});
+			</script>
+ </div>

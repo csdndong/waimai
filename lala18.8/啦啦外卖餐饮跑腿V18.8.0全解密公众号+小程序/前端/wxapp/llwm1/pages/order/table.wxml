@@ -1,0 +1,19 @@
+<view class="page-table">
+    <view class="content">
+        <view class="tabs-list border-1px-b">
+            <view bind:tap="onChangeStatus" class="tabs-item {{cid==0?'active':''}}" data-cid="0">全部</view>
+            <view bind:tap="onChangeStatus" class="tabs-item {{item.id==cid?'active':''}}" data-cid="{{item.id}}" wx:for="{{table_category}}">{{item.title}}</view>
+        </view>
+        <view class="content-padded">
+            <view catch:tap="onJsEvent" class="table-item {{item.status==1?'blue':'active'}}" data-confirm="{{item.status==1?'确定将该桌台设为已开台吗？':'确定将该桌台设为空闲中吗？'}}" data-event-type="jsPost" data-href="manage/order/table/status?id={{item.id}}&status={{item.status}}" data-success-url="./table?cid={{cid}}" wx:for="{{tables}}">
+                <view class="type">{{item.title}}</view>
+                <view class="status">{{item.status_cn}}</view>
+            </view>
+        </view>
+        <view class="no-data" wx:if="{{!tables.length}}">
+            <view class="bg"></view>
+            <view>暂无桌台～</view>
+        </view>
+    </view>
+</view>
+<include src="../public/footer.wxml"></include>

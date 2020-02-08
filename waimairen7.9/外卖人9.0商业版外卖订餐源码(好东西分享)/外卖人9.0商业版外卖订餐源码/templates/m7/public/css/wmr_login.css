@@ -1,0 +1,637 @@
+@charset "utf-8";
+/* CSS Document */
+
+/*------------------------------------------------------------重置属性------------------------------------------------------------*/
+::-webkit-scrollbar{ width:8px; background:#ccc;}
+::-webkit-scrollbar-thumb{ background:rgba(0,0,0,0.2) scroll repeat 0% 0% !important; border-radius:5px;}
+::scrollbar{ width:0px;}
+html,body{
+    scrollbar-face-color:#a3a3a3; /*滚动条3D表面（ThreedFace）的颜色*/
+    scrollbar-highlight-color:#ccc; /*滚动条3D界面的亮边（ThreedHighlight）颜色*/
+    scrollbar-shadow-color:#ccc; /*滚动条3D界面的暗边（ThreedShadow）颜色*/
+    scrollbar-3dlight-color:#ccc; /*滚动条亮边框颜色*/
+    scrollbar-arrow-color:#ccc; /*滚动条方向箭头的颜色 */
+    scrollbar-track-color:#ccc; /*滚动条的拖动区域(TrackBar)颜色*/
+    scrollbar-darkshadow-color:#ccc; /*滚动条暗边框（ThreedDarkShadow）颜色*/ }
+body,ul,li,a,img,table,thead,tbody,tfoot,th,td,tr,p,h1,h2,h3,h4,h5,h6,span,b,input{
+    margin: 0px;
+    padding: 0px;
+    border-collapse:collapse;
+    text-decoration: none;
+    list-style: none;
+    font-family: '微软雅黑';
+    border: 0;
+    outline:none;
+}
+
+::selection{ background:rgba(255, 0, 0, 0.7) none repeat scroll 0 0 !important; color:#fff;}
+
+/*------------------------------------------------------------顶部开始------------------------------------------------------------*/
+.topCon{
+    width:100%;
+    height:29px;
+    background-color:#f38383;
+    border-bottom:1px solid #d97676;
+}
+.topCon .topBox{
+    width:1200px;
+    margin:0 auto;
+}
+.topCon .topBox .topL{
+    float:left;
+}
+.topCon .topBox .topL .topLbox{
+    line-height:29px;
+    float:left;
+}
+.topCon .topBox .topL .topLbox i{
+    width:11px;
+    height:15px;
+    display:inline-block;
+    vertical-align:-1px;
+    margin-right:4px;
+    background-image:url(../img/icon_dw01.png);
+}
+.topCon .topBox .topL .topLbox span,.topCon .topBox .topL .topLbox b{
+    font-size:14px;
+    color:#fbfbfb;
+}
+.topCon .topBox .topL .topLbox a{
+    font-size:14px;
+    color:#e3e261;
+    margin-left:9px;
+    cursor:pointer;
+}
+.topCon .topBox .topR{
+    line-height:29px;
+    float:right;
+}
+.topCon .topBox .topR .topRsignin{
+    float:left;
+}
+.topCon .topBox .topR .topRsignin ul li{
+    margin-left:8px;
+    float:left;
+}
+.topCon .topBox .topR .topRsignin ul li span{
+    font-size:14px;
+    color:#fbfbfb;
+}
+.topCon .topBox .topR .topRsignin ul li a{
+    font-size:14px;
+    color:#fbfbfb;
+    cursor:pointer;
+}
+.topCon .topBox .topR .topRmoed{
+    margin-left:19px;
+    float:left;
+}
+.topCon .topBox .topR .topRmoed a{
+    font-size:14px;
+    color:#ffffff;
+}
+.topCon .topBox .topR .topRmoed a i{
+    width:8px;
+    height:14px;
+    margin-right:3px;
+    display:inline-block;
+    vertical-align:-2px;
+    background-image:url(../img/icon_sj.png);
+}
+/*------------------------------------------------------------顶部结束------------------------------------------------------------*/
+
+/*------------------------------------------------------------头部开始------------------------------------------------------------*/
+.headCon{
+    width:100%;
+    background-color:#f38383;
+    overflow:hidden;
+}
+.headCon .headBox{
+    width:1200px;
+    margin:0 auto;
+}
+.headCon .headBox .headLogo{
+    width:184px;
+    padding-top:13px;
+    margin-right:63px;
+    float:left;
+}
+.headCon .headBox .headNav{
+    line-height:80px;
+    /*float:left;*/
+}
+.headCon .headBox .headNav ul li{
+    padding:0 20px;
+    float:left;
+}
+.headCon .headBox .headNav ul li a{
+    font-size:16px;
+    color:#ffffff;
+    font-weight:normal;
+}
+.headCon .headBox .headNav ul .headNavaA a{
+    color:#efef2d;
+}
+.headCon .headBox .headNav ul li a:hover{
+    color:#efef2d;
+}
+.headCon .headBox .headSearch{
+    padding:24px 0;
+    float:right;
+}
+.headCon .headBox .headSearch input{
+    float:left;
+    background-color:#fff;
+}
+.headCon .headBox .headSearch .headSeaText{
+    width:178px;
+    height:35px;
+    line-height:35px;
+    padding:0 14px;
+    font-size:14px;
+    color:#333;
+    border-radius:4px 0 0 4px;
+}
+.headCon .headBox .headSearch .headSeaBut{
+    width:35px;
+    height:35px;
+    background-image:url(../img/icon_ss.png);
+    background-position:left center;
+    background-repeat:no-repeat;
+    border-radius:0 4px 4px 0;
+    cursor:pointer;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*------------------------------------------------------------登录开始------------------------------------------------------------*/
+.SigninCon{
+    width:100%;
+    background-color:#ffffff;
+    overflow:hidden;
+}
+.SigninCon .SigninBox{
+    width:1170px;
+    margin:0 auto;
+}
+.SigninCon .SigninBox .Signin{
+    padding:86px 52px 74px 52px;
+}
+.SigninCon .SigninBox .Signin .SigninLeft{
+    width:710px;
+    float:left;
+}
+.SigninCon .SigninBox .Signin .SigninRight{
+    width:340px;
+    float:right;
+    overflow:hidden;
+}
+.SigninCon .SigninBox .Signin .SigninRight .SigninRtop{
+    width:340px;
+    height:40px;
+    background-image:url(../img/Signin_001.png);
+    background-repeat:repeat-x;
+}
+.SigninCon .SigninBox .Signin .SigninRight .SigninRmain{
+    padding:45px 29px 0 29px;
+    background-image:url(../img/Signin_002.png);
+    background-position:-1px top;
+    background-repeat:repeat-x;
+    border-left:1px solid #e6e6e6;
+    border-right:1px solid #e6e6e6;
+    border-bottom:1px solid #e6e6e6;
+    overflow:hidden;
+}
+.SigninCon .SigninBox .Signin .SigninRight .SigninRmain .SigninRtit{
+    width:100%;
+    position:relative;
+    overflow:hidden;
+}
+.SigninCon .SigninBox .Signin .SigninRight .SigninRmain .SigninRtit h3{
+    font-size:20px;
+    color:#333333;
+    float:left;
+}
+.SigninCon .SigninBox .Signin .SigninRight .SigninRmain .SigninRtit span{
+    font-size:13px;
+    color:#999999;
+    position:absolute;
+    bottom:0px;
+    right:0px;
+}
+.SigninCon .SigninBox .Signin .SigninRight .SigninRmain .SigninRtit span a{
+    color:#ff6012;
+    cursor:pointer;
+}
+.SigninCon .SigninBox .Signin .SigninRight .SigninRmain .SigninRinpBox{
+    width:100%;
+    overflow:hidden;
+}
+.SigninCon .SigninBox .Signin .SigninRight .SigninRmain .SigninRinpBox .SigninRinp{
+    width:100%;
+    padding-top:16px;
+    margin-bottom:12px;
+    overflow:hidden;
+}
+.SigninCon .SigninBox .Signin .SigninRight .SigninRmain .SigninRinpBox .SigninRinp span{
+    width:46px;
+    height:42px;
+    float:left;
+    background-color:#dbdbdb;
+    background-position:center;
+    background-repeat:no-repeat;
+}
+.SigninCon .SigninBox .Signin .SigninRight .SigninRmain .SigninRinpBox .SigninRinp .icon_user{
+    background-image:url(../img/icon_user.png);
+}
+.SigninCon .SigninBox .Signin .SigninRight .SigninRmain .SigninRinpBox .SigninRinp .icon_pass{
+    background-image:url(../img/icon_pass.png);
+}
+.SigninCon .SigninBox .Signin .SigninRight .SigninRmain .SigninRinpBox .SigninRinp input{
+    width:212px;
+    height:40px;
+    line-height:40px;
+    padding:0 10px;
+    float:left;
+    border:1px solid #d6d6d6;
+}
+.SigninCon .SigninBox .Signin .SigninRight .SigninRmain .SigninRchebox{
+    width:100%;
+    padding-top:7px;
+    overflow:hidden;
+}
+.SigninCon .SigninBox .Signin .SigninRight .SigninRmain .SigninRchebox .SigninRche{
+    width:12px;
+    height:12px;
+    margin:2px 7px 0 0;
+    float:left;
+    position:relative;
+    overflow:hidden;
+}
+.SigninCon .SigninBox .Signin .SigninRight .SigninRmain .SigninRchebox .SigninRche input{
+    width:12px;
+    height:12px;
+    position:absolute;
+    left:0px;
+    top:0px;
+    z-index:2;
+    filter:Alpha(opacity=0);
+    opacity:0;
+    cursor:pointer;
+}
+.SigninCon .SigninBox .Signin .SigninRight .SigninRmain .SigninRchebox .SigninRche i{
+    width:12px;
+    height:12px;
+    background-image:url(../img/icon_check.png);
+    background-position:-10px -10px;
+    position:absolute;
+    left:0px;
+    top:0px;
+    z-index:1;
+}
+.SigninCon .SigninBox .Signin .SigninRight .SigninRmain .SigninRchebox .SigninRche .iaA{
+    background-position:-32px -10px;
+}
+.SigninCon .SigninBox .Signin .SigninRight .SigninRmain .SigninRchebox span{
+    font-size:12px;
+    color:#999999;
+    float:left;
+}
+.SigninCon .SigninBox .Signin .SigninRight .SigninRmain .SigninRchebox a{
+    font-size:12px;
+    color:#999999;
+    float:right;
+}
+.SigninCon .SigninBox .Signin .SigninRight .SigninRmain .SigninRbut{
+    width:100%;
+    padding:24px 0;
+    overflow:hidden;
+}
+.SigninCon .SigninBox .Signin .SigninRight .SigninRmain .SigninRbut input{
+    width:100%;
+    height:46px;
+    font-size:20px;
+    color:#fff;
+    background-color:#ff7171;
+    cursor:pointer;
+}
+.SigninCon .SigninBox .Signin .SigninRight .SigninRmain .SigninRthpalo{
+    width:100%;
+    overflow:hidden;
+}
+.SigninCon .SigninBox .Signin .SigninRight .SigninRmain .SigninRthpalo .SigninRthpaloTit{
+    width:100%;
+    margin-top:10px;
+    font-size:13px;
+    color:#b2b2b2;
+    text-align:center;
+    background-image:url(../img/Signin_line.png);
+    background-position:center;
+    background-repeat:no-repeat;
+}
+.SigninCon .SigninBox .Signin .SigninRight .SigninRmain .SigninRthpalo .SigninRthpaloIco{
+    width:100%;
+    padding:24px 0;
+    text-align:center;
+    overflow:hidden;
+}
+.SigninCon .SigninBox .Signin .SigninRight .SigninRmain .SigninRthpalo .SigninRthpaloIco ul li{
+    width:44px;
+    height:44px;
+    margin:0 16px;
+    display:inline-block;
+}
+.SigninCon .SigninBox .Signin .SigninRight .SigninRmain .SigninRthpalo .SigninRthpaloIco ul li i{
+    width:44px;
+    height:44px;
+    display:block;
+    background-image:url(../img/icon_xw.png);
+    cursor:pointer;
+}
+.SigninCon .SigninBox .Signin .SigninRight .SigninRmain .SigninRthpalo .SigninRthpaloIco ul li .icon_qq{
+    background-position:-0px -0px;
+}
+.SigninCon .SigninBox .Signin .SigninRight .SigninRmain .SigninRthpalo .SigninRthpaloIco ul li .icon_qq:hover{
+    background-position:-0px -56px;
+}
+.SigninCon .SigninBox .Signin .SigninRight .SigninRmain .SigninRthpalo .SigninRthpaloIco ul li .icon_xl{
+    background-position:-56px -0px;
+}
+.SigninCon .SigninBox .Signin .SigninRight .SigninRmain .SigninRthpalo .SigninRthpaloIco ul li .icon_xl:hover{
+    background-position:-56px -56px;
+}
+.SigninCon .SigninBox .Signin .SigninRight .SigninRmain .SigninRthpalo .SigninRthpaloIco ul li .icon_wx{
+    background-position:-112px -0px;
+}
+.SigninCon .SigninBox .Signin .SigninRight .SigninRmain .SigninRthpalo .SigninRthpaloIco ul li .icon_wx:hover{
+    background-position:-112px 44px;
+}
+/*------------------------------------------------------------登录结束------------------------------------------------------------*/
+
+/*------------------------------------------------------------注册开始------------------------------------------------------------*/
+.registerCon{
+    width:100%;
+    background-color:#f5f5f5;
+    overflow:hidden;
+}
+.registerCon .registerBox{
+    width:1170px;
+    margin:0 auto;
+    padding:28px 0 48px 0;
+}
+.registerCon .registerBox .registerMain{
+    width:988px;
+    margin:0 auto;
+    background-color:#fff;
+    overflow:hidden;
+}
+.registerCon .registerBox .registerMain .registerTit{
+    width:100%;
+    height:66px;
+    line-height:66px;
+    border-bottom:1px solid #e6e6e6;
+}
+.registerCon .registerBox .registerMain .registerTit h2{
+    font-size:24px;
+    color:#333333;
+    padding-left:24px;
+}
+.registerCon .registerBox .registerMain .register{
+    width:100%;
+    padding:22px 0 50px 0;
+    overflow:hidden;
+}
+.registerCon .registerBox .registerMain .registerL{
+    width:428px;
+    padding-left:66px;
+    float:left;
+    overflow:hidden;
+}
+.registerCon .registerBox .registerMain .registerL .registerLinp{
+    width:100%;
+    overflow:hidden;
+}
+.registerCon .registerBox .registerMain .registerL .registerLinp ul li{
+    width:100%;
+    padding:7px 0;
+    overflow:hidden;
+}
+.registerCon .registerBox .registerMain .registerL .registerLinp ul li span{
+    width:62px;
+    line-height:40px;
+    text-align:right;
+    font-size:15px;
+    color:#666666;
+    margin-right:16px;
+    display:block;
+    float:left;
+}
+.registerCon .registerBox .registerMain .registerL .registerLinp ul li input{
+    width:244px;
+    height:38px;
+    line-height:38px;
+    padding:0 10px;
+    border:1px solid #cccccc;
+    float:left;
+}
+.registerCon .registerBox .registerMain .registerL .registerLinp ul li i{
+    line-height:40px;
+    font-size:18px;
+    color:#ff1414;
+    margin-left:10px;
+    float:left;
+    font-style:normal;
+}
+.registerCon .registerBox .registerMain .registerL .registerLinp ul li .veco{
+    width:124px;
+    margin-right:8px;
+}
+.registerCon .registerBox .registerMain .registerL .registerLinp ul li .vecobut{
+    width:111px;
+    height:40px;
+    font-size:13px;
+    color:#333333;
+    border:none;
+    background-color:transparent;
+    background-image:url(../img/vecobut.png);
+    cursor:pointer;
+}
+.registerCon .registerBox .registerMain .registerL .registerLbutBox{
+    padding-left:77px;
+    overflow:hidden;
+}
+.registerCon .registerBox .registerMain .registerL .registerLbutBox .registerLbut{
+    width:264px;
+    padding:17px 0;
+    overflow:hidden;
+}
+.registerCon .registerBox .registerMain .registerL .registerLbutBox .registerLbut input{
+    width:100%;
+    height:42px;
+    font-size:16px;
+    color:#fff;
+    background-color:#ff7d7d;
+    cursor:pointer;
+}
+.registerCon .registerBox .registerMain .registerL .registerLbutBox .registerLbutChebox{
+    width:100%;
+    overflow:hidden;
+}
+.registerCon .registerBox .registerMain .registerL .registerLbutBox .registerLbutChebox .registerLbutChe{
+}
+
+
+.registerCon .registerBox .registerMain .registerL .registerLbutBox .registerLbutChebox .registerLbutChe{
+    width:12px;
+    height:12px;
+    margin:2px 7px 0 0;
+    float:left;
+    position:relative;
+    overflow:hidden;
+}
+.registerCon .registerBox .registerMain .registerL .registerLbutBox .registerLbutChebox .registerLbutChe input{
+    width:12px;
+    height:12px;
+    position:absolute;
+    left:0px;
+    top:0px;
+    z-index:2;
+    filter:Alpha(opacity=0);
+    opacity:0;
+    cursor:pointer;
+}
+.registerCon .registerBox .registerMain .registerL .registerLbutBox .registerLbutChebox .registerLbutChe i{
+    width:12px;
+    height:12px;
+    background-image:url(../img/icon_check.png);
+    background-position:-10px -10px;
+    position:absolute;
+    left:0px;
+    top:0px;
+    z-index:1;
+}
+.registerCon .registerBox .registerMain .registerL .registerLbutBox .registerLbutChebox .registerLbutChe .reiaA{
+    background-position:-32px -10px;
+}
+.registerCon .registerBox .registerMain .registerL .registerLbutBox .registerLbutChebox span{
+    font-size:12px;
+    color:#666666;
+    float:left;
+}
+.registerCon .registerBox .registerMain .registerL .registerLbutBox .registerLbutChebox span a{
+    font-size:12px;
+    color:#3a8fec;
+}
+.registerCon .registerBox .registerMain .registerR{
+    width:411px;
+    height:420px;
+    padding-left:82px;
+    float:left;
+    border-left:1px solid #f1f1f1;
+}
+.registerCon .registerBox .registerMain .registerR .registerRprom{
+    width:100%;
+    padding-top:100px;
+    overflow:hidden;
+}
+.registerCon .registerBox .registerMain .registerR .registerRprom span{
+    font-size:18px;
+    color:#666666;
+    margin-right:6px;
+}
+.registerCon .registerBox .registerMain .registerR .registerRprom b{
+    font-size:16px;
+    color:#cccccc;
+    font-weight:normal;
+}
+.registerCon .registerBox .registerMain .registerR .registerRprom a{
+    font-size:16px;
+    color:#3a8fec;
+}
+.registerCon .registerBox .registerMain .registerR .registerRthpalo{
+    width:100%;
+    padding-top:36px;
+    overflow:hidden;
+}
+.registerCon .registerBox .registerMain .registerR .registerRthpalo span{
+    font-size:14px;
+    color:#666666;
+}
+.registerCon .registerBox .registerMain .registerR .registerRthpalo ul{
+    width:100%;
+    padding-top:24px;
+    overflow:hidden;
+}
+.registerCon .registerBox .registerMain .registerR .registerRthpalo ul li{
+    float:left;
+    margin-right:30px;
+}
+.registerCon .registerBox .registerMain .registerR .registerRthpalo ul li i{
+    width:44px;
+    height:44px;
+    display:block;
+    background-image:url(../img/icon_xw.png);
+    cursor:pointer;
+}
+.registerCon .registerBox .registerMain .registerR .registerRthpalo ul li .icon_qq{
+    background-position:-0px -0px;
+}
+.registerCon .registerBox .registerMain .registerR .registerRthpalo ul li .icon_qq:hover{
+    background-position:-0px -56px;
+}
+.registerCon .registerBox .registerMain .registerR .registerRthpalo ul li .icon_xl{
+    background-position:-56px -0px;
+}
+.registerCon .registerBox .registerMain .registerR .registerRthpalo  ul li .icon_xl:hover{
+    background-position:-56px -56px;
+}
+/*------------------------------------------------------------注册结束------------------------------------------------------------*/

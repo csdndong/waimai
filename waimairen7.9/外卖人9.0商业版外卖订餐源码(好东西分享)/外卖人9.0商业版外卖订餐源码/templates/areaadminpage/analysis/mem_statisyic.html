@@ -1,0 +1,287 @@
+ <{extends file="<{$tempdir}>/public/admin.html"}>
+   <{block name=extendjs}>
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/jquery.PrintArea.js" type="text/javascript" language="javascript"></script>
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/datepicker/WdatePicker.js" type="text/javascript" language="javascript"></script>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js"></script>
+  <script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/chart/highcharts.js"></script>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/chart/modules/exporting.js"></script>
+ <{/block}>
+ <{block name=controlname}>会员统计<{/block}>
+ <{block name=bodylist}>
+ <div class="managShopCon">
+	<div class="managShopBox">
+		<div class="managShopMain">
+		<{include file="<{$tempdir}>/public/commentcate1.html"}>  
+			
+			<div class="addShopSingCon" style="padding:0;">
+      <div style="width:100%;margin-top:-10px;"> 
+      	
+      	<div class="search" style="height:60px;line-height: 60px;"> 
+            <div class="search_content">
+            	 
+            	 <form method="post" name="form1" action="<{ofunc type=url link="/areaadminpage/analysis/module/mem_statisyic"}>">
+				  时间：
+            	   <input class="Wdate datefmt" type="text" name="starttime" id="starttime" value="<{$starttime|date_format:"%Y-%m-%d"}>"  onFocus="WdatePicker({isShowClear:false,readOnly:true});" style="width:100;"  />  
+			   		 	  至<input class="Wdate datefmt" type="text" name="endtime" id="endtime" value="<{$endtime|date_format:"%Y-%m-%d"}>"  onFocus="WdatePicker({isShowClear:false,readOnly:true});" style="width:100;" />                  
+
+            	    <input type="submit" value="查询" class="button">  
+            	   <span class="<{if $datetype==1}>selectcolor<{else}>noselectcolor<{/if}>"><a href="<{ofunc type=url link="/areaadminpage/analysis/module/mem_statisyic/datetype/1"}>">近7天</a></span><span data="2" class="<{if $datetype==2}>selectcolor<{else}>noselectcolor<{/if}>"><a href="<{ofunc type=url link="/areaadminpage/analysis/module/mem_statisyic/datetype/2"}>">近30天</a></span>
+            	 </form>
+            </div>
+        
+      	</div>
+      	<style>
+      		 body{color:#666;}
+      		.trade_des{text-align: left;}
+      		.trade_title{height: 40px;line-height: 40px;padding:0 20px;text-align: left;}
+      		.trade_title i{width: 4px;display: inherit;float: left; height: 16px; margin-top: 11px;background-color: rgba(22, 155, 213, 1);}
+      		.trade_title .title{color: #333;font-weight: 700; margin-left: 10px;}
+			
+			.trade_title .delurl{line-height:24px;float:right;margin-top: 8px;padding: 0px 5px;font-size:12px;color:#0076cf;}
+      		.firstul{padding: 0 20px 20px;}
+      		.firstli{padding: 20px 10px;background-color: rgba(250, 250, 250, 1);height: 90px;}
+      		.secondul{padding: 0 20px 0 10px;}
+      		.secondli{width: 25%;float: left;}
+      		.thirdul{border-right: 1px solid #ddd;width: 90%;}
+      		.thirdul .third_first{color:#666;}
+      		.third_first i{background-image: url(<{$siteurl}>/templates/<{$tempdir}>/public/images/admin/askicon.png);width: 11px;height: 11px;display: inline-block;border-radius: 50%;background-size: 12px 12px;margin-left: 4px;cursor: pointer;position:relative;}
+			.third_first i p{display: none;position: absolute;top: -20px;left: 20px;color: #000;width: 99px;background-color: #fff;padding: 5px;border-radius: 7px;border: 1px solid #ccc;font-size: 12px;font-style: normal;}
+      		.third_second span{color: #000;font-weight: bold;font-size: 18px; height: 40px;line-height: 40px;}
+      		.third_third div span{color:#999;}
+			.third_third div .uparrow{background-image: url(<{$siteurl}>/templates/<{$tempdir}>/public/images/admin/uparrow.png);width: 12px;height: 12px;display: inline-block;border-radius: 50%;background-size: 12px 12px;transform: rotateZ(180deg);}
+			.third_third div .downarrow{background-image: url(<{$siteurl}>/templates/<{$tempdir}>/public/images/admin/downarrow.png);width: 12px;height: 12px;display: inline-block;border-radius: 50%;background-size: 12px 12px;}
+			.third_third div .upcolor{color:#01CD88;}
+			.third_third div .downcolor{color:#FF7600;}
+			.selectcolor{color: #0076cf;font-size: 12px;padding: 2px;border: 1px solid #1783b2;margin: 0 0 0 10px;cursor:pointer;}
+ 			.noselectcolor{color: #666;font-size: 12px;padding: 2px;border: 1px solid #ccc;margin: 0 0 0 10px;cursor:pointer;}
+			.selectcolor a{color:#0076cf;}
+			.noselectcolor a{color:#666;}
+			.selectcolor a:link{color:#0076cf;}
+			.noselectcolor a:link{color:#666;}
+      	</style>
+      	<div class="trade_des">
+      		<div class="trade_title">
+      			<i></i>
+      			<span class="title">会员数量统计</span>
+				<a  href="<{$outlink1}>" target="_blank" class="delurl">导出数据</a>
+      		</div>
+      		<ul class="firstul">
+      			<li class="firstli">
+      				<ul class="secondul">
+      					<li class="secondli">
+      						<ul class="thirdul">
+      							<li class="third_first"><span>会员总数量</span></li>
+      							<li class="third_second"><span><{$allmem}></span></li>
+								<li class="third_third">
+      								<div>
+      									<span>比前<{$beforeday}>日</span>
+      									<i class="<{if $membilitype ==1}>uparrow<{else}>downarrow<{/if}>"></i>
+      									<span class="<{if $membilitype ==1}>upcolor<{else}>downcolor<{/if}>"><{$membili}>%</span>
+      								</div>
+      							</li>
+      						</ul>
+      				    </li>
+      					<li class="secondli">
+      						<ul class="thirdul">
+      							<li class="third_first"><span>新增会员数</span><i onmouseover="mouseover(this)" onmouseout="mouseout(this)"><p>统计时间内，成功注册的会员数量</p></i></li>
+      							<li class="third_second"><span><{$addmem}></span></li>
+								<li class="third_third">
+      								<div>
+      									<span>比前<{$beforeday}>日</span>
+      									<i class="<{if $addmembilitype ==1}>uparrow<{else}>downarrow<{/if}>"></i>
+      									<span class="<{if $addmembilitype ==1}>upcolor<{else}>downcolor<{/if}>"><{$addmembili}>%</span>
+      								</div>
+      							</li>
+      						</ul>
+      					</li>
+      					<li class="secondli">
+      						<ul class="thirdul">
+      							<li class="third_first"><span>下单会员数</span><i onmouseover="mouseover(this)" onmouseout="mouseout(this)"><p>提交订单的会员总数，一人多次提交订单标记为一人</p></i></li>
+      							<li class="third_second"><span><{$makemem}></span></li>
+								<li class="third_third">
+      								<div>
+      									<span>比前<{$beforeday}>日</span>
+      									<i class="<{if $makemembilitype ==1}>uparrow<{else}>downarrow<{/if}>"></i>
+      									<span class="<{if $makemembilitype ==1}>upcolor<{else}>downcolor<{/if}>"><{$makemembili}>%</span>
+      								</div>
+      							</li>
+      						</ul>
+      					</li>
+      					<li class="secondli">
+      						<ul class="thirdul" style="border:none;">
+      							<li class="third_first"><span>会员下单率</span><i onmouseover="mouseover(this)" onmouseout="mouseout(this)"><p>会员下单率 =下单会员数 ÷ 会员总数</p></i></li>
+      							<li class="third_second"><span><{$ordmem}></span></li>
+								<li class="third_third">
+      								<div>
+      									<span>比前<{$beforeday}>日</span>
+      									<i class="<{if $ordmembilitype ==1}>uparrow<{else}>downarrow<{/if}>"></i>
+      									<span class="<{if $ordmembilitype ==1}>upcolor<{else}>downcolor<{/if}>"><{$ordmembili}>%</span>
+      								</div>
+      							</li>
+      						</ul>
+      					</li>
+      				</ul>
+      			</li>
+      		</ul>
+      	</div>
+  		<div class="trade_showimg">
+  			<div class="trade_title">
+      			<i></i>
+      			<span class="title">新增会员趋势图</span>
+				 <span class="<{if $daytype==7}>selectcolor<{else}>noselectcolor<{/if}>" style="cursor:not-allowed;">近7天</span><span class="<{if $daytype==30}>selectcolor<{else}>noselectcolor<{/if}>" style="cursor:not-allowed;">近30天</span>
+      		</div>
+      		 <div id="container" style="min-width:400px;height:400px"></div>
+  		</div>
+		<div class="tags">
+			<div id="tagscontent">
+				<div id="con_one_1">
+					<div class="table_td" style="margin-top:10px;">
+						<div class="trade_title" style="font-size:14px;">
+							<i></i>
+							<span class="title">会员消费额排行</span>
+							<select name="memnumtype" id="memnumtype">
+								<option value="10" <{if $memnumtype == 10}>selected<{/if}>>前10名</option>
+								<option value="30" <{if $memnumtype == 30}>selected<{/if}>>前30名</option>
+								<option value="50" <{if $memnumtype == 50}>selected<{/if}>>前50名</option>
+							</select>
+							<a  href="<{$outlink2}>" target="_blank" class="delurl">导出数据</a>
+						</div>
+						<form method="post" action="" onsubmit="return remind();">
+						<table border="0" cellspacing="2" cellpadding="4" class="list" name="table" id="table" width="100%">
+							<thead>
+								<tr>
+									<th align="center">排序</th>
+									<th align="center">会员名称</th>
+									<th align="center">订单总数</th>
+									<th align="center">消费总金额</th>
+									<th align="center">有效订单数</th>
+									<th align="center">有效订单金额</th>
+									<th align="center">退款金额</th>
+									<th align="center">单均价</th>
+								</tr>
+							</thead>
+							<tbody>
+								<{if empty($memlist)}>
+									<tr><td align="center" colspan="8">暂无数据</td></tr>
+								<{/if}>
+								<{foreach from=$memlist key=myid item=items}>
+								<tr>
+									<td align="center"><{$myid+1}></td>
+									<td align="center"><{$items['name']}></td>
+									<td align="center"><{$items['ordernum']}></td>
+									<td align="center"><{$items['tradecost']}></td>
+									<td align="center"><{$items['useordnum']}></td>
+									<td align="center"><{$items['useordcost']}></td>
+									<td align="center"><{$items['drawcost']}></td>
+									<td align="center"><{$items['singlecost']}></td>
+								</tr>
+								<{/foreach}>
+							</tbody>
+						</table>
+						</form>
+						<div class="blank20"></div>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+
+          </div>
+
+        </div>
+
+        
+  </div>
+  <div id="print_area" style="display:none;"></div>
+ </div>
+ 
+<script type="text/javascript">
+   function colorred(obj){
+   	$(obj).css('background','#eee'); 
+   }
+   function tcolorred(obj){
+   	$(obj).css('background','');
+   }
+   function mouseover(obj){
+		//console.log(1111);
+		$(obj).parent().find('p').css('display','block');
+   }
+   function mouseout(obj){
+		//console.log(2222);
+		$(obj).parent().find('p').css('display','none');
+   }
+   $(function(){
+		 $("#memnumtype").change(function(){
+			 var memnumtype = $("#memnumtype option:selected").val();
+			 var starttime = '<{$starttime}>';
+			 var endtime = '<{$endtime}>';
+			window.location.href='<{ofunc type=url link="areaadminpage/analysis/module/mem_statisyic/memnumtype/'+memnumtype+'/starttime/'+starttime+'/endtime/'+endtime+'"}>'; 
+		 });		
+   });
+ </script>
+ <script type="text/javascript">
+ 
+$(function () {
+//console.log(1111);
+    var chart;
+    $(document).ready(function() {
+        chart = new Highcharts.Chart({
+            chart: {
+                renderTo: 'container',
+                type: 'spline',
+                marginRight: 130,
+                marginBottom: 25
+            },
+            title: {
+                text: '新增会员统计',
+                x: 0 //center
+            },
+            subtitle: {
+                text: '<{$siteurl}>',
+                x:0
+            },
+            xAxis: {
+                categories: [<{$trenddata[0]}>],
+				offset:-30
+            },
+            yAxis: {
+                title: {
+                    text: ''
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }],
+				floor:0,
+				allowDecimals: false
+            },
+            tooltip: {
+                formatter: function() {
+                        return '<b>'+ this.series.name +'</b><br/>'+
+                        this.x +'号: '+ this.y +'(个)';
+                }
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'top',
+                x: -10,
+                y: 100,
+                borderWidth: 0
+            },
+             series: [{
+		        name: '新增会员',
+		        data: [<{$trenddata[1]}>]
+		    }]
+        });
+    });
+
+});
+		</script>
+		</div>
+		</div>
+		</div>
+		</div>
+		</div>
+<{/block}>

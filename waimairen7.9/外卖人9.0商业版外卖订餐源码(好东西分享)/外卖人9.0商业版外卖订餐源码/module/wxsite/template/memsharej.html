@@ -1,0 +1,128 @@
+ <{extends file="<{$tempdir}>/public/wxsite.html"}>  
+<{block name=extendcss}> 
+ <link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/member_share_quan.css">  
+ <style>
+ body{   background:<{$shareinfo['color']}>!important;}
+ </style>
+<{/block}>
+ <{block name=extendjs}>  
+  <script> 
+		var myScroll;
+
+	myScroll = new iScroll('wrapper', {
+		useTransform: false,
+		onBeforeScrollStart: function (e) {
+			var target = e.target;
+			while (target.nodeType != 1) target = target.parentNode;
+
+			if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA')
+				e.preventDefault();
+		}
+	});
+
+
+document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false); 
+document.addEventListener('DOMContentLoaded', function () { setTimeout(loaded, 200); }, false);
+</script>
+<{/block}>
+<{block name=sitetitle}><{$sitename}><{/block}>
+<{block name=hearnav}>
+<div class="toptitCon">
+ <div class="toptitBox">
+  <div class="toptitL"><i></i></div>
+  <div class="toptitC"><h3>分享有礼</h3></div>
+ </div>
+</div>
+<{/block}>
+<{block name=footer}><{/block}>
+<{block name=myScrolljs}> 
+<{/block}>
+<{block name=blockcontent}> 
+ <div id="wrapper" style="top:40px;bottom:0px;">
+	<div id="scroller">
+	
+
+	<div class="shareBanCon" style="height:auto;">
+			<img <{ofunc type=img  link="<{$shareinfo['bigimg']}>"}>  />
+	</div>
+	
+ <{if $checkinfosendjuan  == 1 }>
+	<div class="shareBtnCon">
+			<input type="button" onclick="clickshare();" value="马上分享  拿优惠券" class="shareBtn" />
+	</div>
+<{else}>
+	<div class="shareBtnCon">
+			<input type="button"  style="background:#ccc;" value="暂未开放  敬请期待" class="shareBtn" />
+	</div> 
+<{/if}>	
+	
+	<div class="shareRuleCon">
+			<div class="shareRule"  style="background:<{$shareinfo['actcolor']}>!important;" >
+				<h3><img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/share_tit.png" alt="活动规则" /></h3>
+				<div id="activerule" style="">
+						<{$shareinfo['avtrule']|htmlspecialchars_decode|default:'暂无说明'}>
+						 
+				</div>
+			</div>
+			<div class="shareRuleImg">
+				<img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/share_lh.png">
+			</div>
+		</div>
+
+   
+ 
+ <div style="height:20px;"></div>
+ 
+ </div> 
+ </div> 
+ <script>
+ function clickshare(){
+	$("#zhezhao2").show();
+	$("#zhehzuoshareimg").show();
+}
+function zhezhao2(){
+		$("#zhezhao2").hide();
+ 		$("#zhehzuoshareimg").hide();
+	}
+ </script>
+ <style>
+#activerule {
+padding: 15px 2.8571% 25px 2.8571%;
+}   
+ #activerule ul{    width: 100%!important;
+					margin: 0px!important; 
+					padding: 0px!important;}
+ #activerule img{ width:100%!important;}
+ </style>
+ 
+ 
+
+ <div id="zhezhao2" class="zhezhao2"  onclick="zhezhao2();" ></div>
+ <div id="zhehzuoshareimg">
+	 <img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/clicksharebg.png" />
+ </div>
+<style>
+#zhehzuoshareimg img {width:150px; }
+#zhehzuoshareimg{
+	position: absolute;z-index: 99999999999999999999;top:5px; right:25px; display:none;
+} 
+.zhezhao2 {
+   display:none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 99999999999999999999;
+  width:100%;
+  height:100%;
+  background-color: #000;
+  opacity: 0.5;
+  filter: alpha(opacity=50);
+}
+</style>
+<{/block}>
+<{block name=sharetitle}><{$shareinfo['title']}><{/block}> 
+<{block name=sharedesc}><{$shareinfo['describe']|default:''}><{/block}>
+<{block name=shareimg}><{$shareinfo['img']}><{/block}>
+<{block name=sharelink}><{ofunc type=url link="/wxsite/memsharehb/key/<{$jiamiuidkey}>"}><{/block}>

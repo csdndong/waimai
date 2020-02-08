@@ -1,0 +1,222 @@
+ <{extends file="<{$tempdir}>/public/wxsite.html"}>  
+ <{block name=extendcss}> 
+<link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/public1.css">   
+ <{/block}>
+<{block name=myScrolljs}> <!-- 
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/js/newweixin.js"></script> --> 
+<script> 
+		var myScroll;
+function loaded() {
+	myScroll = new iScroll('wrapper', {
+		useTransform: false,
+		onBeforeScrollStart: function (e) {
+			var target = e.target;
+			while (target.nodeType != 1) target = target.parentNode;
+
+			if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA')
+				e.preventDefault();
+		}
+	});
+}
+document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false); 
+document.addEventListener('DOMContentLoaded', function () { setTimeout(loaded, 200); }, false);
+</script>
+ 
+
+<{/block}>
+<{block name=hearnav}>
+<div class="toptitCon">
+ <div class="toptitBox">
+  <div class="toptitL"><i></i></div>
+  <div class="toptitC" style='width:80%'><h3>退款详情</h3></div>
+ </div>
+</div><{/block}>
+<{block name=sitetitle}><{$sitename}><{/block}>
+<{block name=blockcontent}>  
+<style>
+.page-app{ background:#f0f0f0;}
+ body{background:#f0f0f0;}
+.liwd30{ width:10%; background:#fff; text-align:center; font-size:15px; line-height:45px;height:45px;color:#333333;font-weight:bold;  }
+.box_set{ padding:0px 12px; background:#fff; }
+.drawbackliyou{padding:0px 12px; background:#fff;}
+.drawbackliyou .liwd90{width:100%;text-align:left; font-size:14px; line-height:35px;height:30px;color:#999;}
+.liwd90 input{ width:25px; height:25px; margin-top:14px; }
+.drawcontent{ padding:0px 12px; background:#fff; height:100px; margin-top:20px; margin-bottom:10px;}
+.drawcontent liwd90{  border:none;}
+.drawcontent textarea{ background:#fff; height:76px; padding:12px 0px ;  width:100%; border:none;  }
+.sqdraw{width: 100%;margin-top:15px;}
+.sqdraw .liwd90{ width:94%;font-size:14px; background:#ff6e6e; color:#fff; margin: 8px auto; text-align:center; height:37px; line-height:37px;border-radius: 3px;}
+.refundmon ul li{display:block;color:#999;font-size:12px!important;}
+.refundmon ul li span{margin-left:15px}
+.refundmon{line-height:25px;padding:5px 0;margin:0}
+.refund_schedule_content{background-color: #fff;}
+.refund_schedule_content ul li{display: -webkit-box;display: -moz-box;}
+.refund_schedule_left {width: 6px;position: relative;}
+.refund_schedule_left:after{content: '';width: 1px;height: 100%;background-color: #ccc;position: absolute;left: 50%;top: 10px;z-index: 1;}
+.refund_schedule_content ul li:last-child .refund_schedule_left:after{background-color: transparent;}
+.refund_schedule_left i{width: 5px;height: 5px;margin: 10px auto 0;display: block;position: relative;z-index: 2;border-radius: 50%;background-color: #ccc;}
+.refund_schedule_right{padding: 1px 0 4px 10px;-webkit-box-flex: 1;-moz-box-flex: 1;}
+.refund_schedule_head{display: -webkit-box;display: -moz-box;-webkit-box-pack: justify;}
+.refund_schedule_head span{font-size: 12px;color: #333;display: block;}
+.refund_schedule_head b{font-size: 12px;color: #999;font-weight: normal;display: block;}
+.refund_schedule_txt{padding-top: 2px;}
+.refund_schedule_txt p{line-height: 15px;margin-bottom: 4px;font-size: 12px;color: #999;word-break: break-all;}
+.backlognavaA .refund_schedule_left i{background-color: #ff6e6e;}
+.backlognavaA .refund_schedule_right .refund_schedule_head span{color: #ff6e6e;}
+.backwindow{width:65%;height:135px;margin: 50% auto;background-color:#fff;z-index:999;border-radius:5px;display:none}
+.zhezhao{position:absolute;width:100%;height:100%;background-color:#222;opacity: 0.6;z-index:100;display:none}
+.backtopc1{text-align: center;   padding-top: 12px;font-size: 14px;color: #000;}
+.backtopc2{margin: 2px 15px;}
+.backbot{width: 100%;height: auto;border-top: 1px solid #e6e6e6;}
+.backbot div{display: inline-block;width: 48.5%;text-align:center;height:45px;font-size:14px;line-height: 45px;}
+.backbotsub{color:#ff6e6e} 
+</style>
+<div class='zhezhao'>
+  
+</div>
+<div style='width:100%;position: absolute; z-index: 999;'>
+   <div class='backwindow'>
+     <div class='backtop'>
+	     <p class='backtopc1'>确认取消退款申请？</p>
+	     <p class='backtopc2'>如你主动取消退款申请，将无法再次申请退款</p>
+	 </div>
+     <div class='backbot'>
+	      <div class='quxiao' onclick='qxtk1()' style='border-right:1px solid #e6e6e6;color:#000'>取消</div>
+		  <div class='backbotsub' onclick="quxiaotk(<{$order['id']}>)">确认</div>
+	 </div>
+  </div>
+</div>
+<script>
+function qxtk(){
+    $('.zhezhao').show();
+	$('.backwindow').show();
+}
+function qxtk1(){
+    $('.zhezhao').hide();
+	$('.backwindow').hide();
+} 
+ 
+</script>
+<div id="wrapper" style="top:42px; bottom:0px;">
+ <div id="scroller">
+	<!--退款金额-->
+		<div class="refundmon">
+			 <ul>
+				  <li>退款金额<span style='color:red'>￥<{$cost}></span></li>
+				  <li>退回账户<span style='color:#000'><{$backacount}></span></li> 
+				  <li>退款状态<span style='color:#000'><{$status}></span></li>
+			 </ul>
+		</div>		
+	<div class="drawbackliyou" style='margin-top:10px;'>
+		<div class="box_inline drawbox" >
+			<div class="liwd90">
+			退款进度
+			</div>			 
+		</div>
+		<div class="refund_schedule_content">
+			<ul>
+			 <{foreach from=$drawbacklog  key=keys item=items}>
+				<li <{if $keys == 0 }> class="backlognavaA"<{/if}>>
+					<div class="refund_schedule_left">
+						<i></i>
+					</div>
+					<div class="refund_schedule_right">
+						<div class="refund_schedule_head">
+							<span><{$items['title']}></span>
+							<b><{$items['addtime']}></b>
+						</div>
+						<div class="refund_schedule_txt">						    
+							<p><{$items['content1']}></p>
+							<{if !empty($items['content2'])}><p><{$items['content2']}></p><{/if}>
+						</div>
+					</div>
+				</li>
+			<{/foreach}>			
+			</ul>
+		</div>
+	</div>
+	 
+		 
+	<div class="sqdraw" style='z-index:99999'>
+		<{if $showbtn == 1}> 
+		   <{if $nowstatus == 0}>
+			   <div class="liwd90" id='qxtk' onclick='qxtk();' style='background-color:#fff!important;color:#000!important;'>
+				取消退款申请
+			   </div> 
+		   <{/if}>
+		   <{if $nowstatus == 3}>
+		       <div class="liwd90" onclick="dolink('<{ofunc type=url link="/wxsite/drawback/orderid/<{$order['id']}>"}>')"   >
+				继续申请退款 
+			   </div> 
+			   <div class="liwd90" id='qxtk'  onclick='qxtk();' style='background-color:#fff!important;color:#000!important;'>
+				取消退款申请
+			   </div> 
+		   <{/if}>		   
+		<{/if}>  
+	</div>
+ 
+		
+	</div>
+</div>
+ <script>
+ 
+ $(".refundrea li").click(function(){
+	$(".refundrea li i").removeClass('refunaA');
+	$(this).find('i').addClass('refunaA');
+ 
+ });
+ 
+ 
+$('#feedbackSubmit').click(function(){   
+	showLoading();
+	var allcost = $("#allcost").text();
+	var reason = $(".refundrea li i.refunaA").parent().find('span').text(); 
+	var info = {'allcost':allcost,'reason':reason,'orderid': $("input[name='orderid']").val(),'typeid':0,'content':$('#drawcontent').val()};  
+	var url =  siteurl+'/index.php?ctrl=wxsite&action=savedrawbacklog&datatype=json&random=@random@';  
+	$.ajax({ 
+	url: url.replace('@random@', 1+Math.round(Math.random()*1000)), 
+	dataType: "json", 
+	data:info, 
+	success:function(content) { 
+	   if(content.error ==  false){
+		newhideLoading();
+		Tmsg('申请成功!');
+			window.location.href=  siteurl+'/index.php?ctrl=wxsite&action=ordershow&orderid=<{$order['id']}>' ;
+			 
+	   }else{
+			newhideLoading();
+		    Tmsg(content.msg);
+	   }
+	},
+	error:function(){
+	   newhideLoading();
+	}
+	});  
+ });
+ function quxiaotk(orderid){
+		showLoading();
+	     var info = {'orderid':orderid};  
+	     var url =  siteurl+'/index.php?ctrl=wxsite&action=quxiaotk&datatype=json&random=@random@';
+		 $.ajax({ 
+			url: url.replace('@random@', 1+Math.round(Math.random()*1000)), 
+			dataType: "json", 
+			data:info, 
+			success:function(content) { 
+			   if(content.error ==  false){
+				newhideLoading();
+				Tmsg('取消退款申请成功!');
+					window.location.href=  siteurl+'/index.php?ctrl=wxsite&action=ordershow&orderid=<{$order['id']}>' ;	 
+			   }else{
+					newhideLoading();
+					Tmsg(content.msg);
+			   }
+			},
+			 
+		});  	  
+ }
+ 
+ 
+ 
+ </script>
+<{/block}>
+<{block name=footer}> <{/block}>

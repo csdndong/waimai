@@ -1,0 +1,22 @@
+{itemplate 'public/header'}
+<div class="page clearfix">
+	<form class="form-horizontal form form-validate" id="form1" action="" method="post" enctype="multipart/form-data">
+		<div class="form-group">
+			<div class="col-sm-9 col-xs-12">
+				<a class="btn btn-default" href="{WE7_WMALL_URL}/resource/excel/goods.xlsx">下载导入模板</a>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-9 col-xs-12">
+				<input type="file" name="file" value="" required="true">
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<input type="hidden" name="token" value="{$_W['token']}">
+				<input type="submit" value="导入" class="btn btn-primary">
+			</div>
+		</div>
+	</form>
+</div>
+{itemplate 'public/footer'}

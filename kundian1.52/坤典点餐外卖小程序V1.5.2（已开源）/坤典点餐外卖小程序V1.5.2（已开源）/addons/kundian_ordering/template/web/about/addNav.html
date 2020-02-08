@@ -1,0 +1,75 @@
+{template 'web/common/common'}
+{template 'web/about/navbar'}
+<link rel="stylesheet" type="text/css" href="../addons/kundian_ordering/resource/css/layui.css" />
+<link rel="stylesheet" type="text/css" href="../addons/kundian_ordering/resource/css/style.css" />
+<style>
+    .layui-form-label{width: 140px;}
+    .layui-input-block{margin-left: 140px;}
+    .col-xs-8{padding: 0}
+</style>
+<div class="layui-content">
+    <form class="layui-form" method="post" action="{url 'site/entry/about',array('m'=>'kundian_ordering','op'=>'saveNav','version_id'=>$_GPC['version_id'])}">
+        <div class="layui-form-item" style="margin-top: 20px;">
+            <label class="layui-form-label">导航标题</label>
+            <div class="layui-input-block" style="width: 70%">
+                <input type="text" name="title" class="layui-input" value="{$list['title']}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">导航英文标题</label>
+            <div class="layui-input-block" style="width: 70%">
+                <input type="text" name="eng_title"  class="layui-input" value="{$list['eng_title']}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">图标</label>
+            <div class="layui-input-block" style="width: 70%">
+                {php echo tpl_form_field_image('icon', $list['icon'], $default = '', $options = array())}
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">背景颜色</label>
+            <div class="layui-input-block" style="width: 70%">
+                {php echo tpl_form_field_color('color', $list['color'])}
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">链接</label>
+            <div class="layui-input-block" style="width: 70%">
+                <select name="path">
+                    <option value="0">请选择</option>
+                    <option value="kundian_ordering/pages/fastFood/index/index" <?php if($list['path']=='kundian_ordering/pages/fastFood/index/index'){echo 'selected';}?> >快餐</option>
+                    <option value="kundian_ordering/pages/out/take_out/index" <?php if($list['path']=='kundian_ordering/pages/out/take_out/index'){echo 'selected';}?>>外卖</option>
+                    <option value="kundian_ordering/pages/pay/index/index" <?php if($list['path']=='kundian_ordering/pages/pay/index/index'){echo 'selected';}?>>买单</option>
+                    <option value="kundian_ordering/pages/make/index/index" <?php if($list['path']=='kundian_ordering/pages/make/index/index'){echo 'selected';}?>>预约</option>
+                    <option value="1" <?php if($list['path']==1){echo 'selected';}?> >点餐</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">排序</label>
+            <div class="layui-input-block" style="width: 70%">
+                <input type="number" name="rank" class="layui-input" value="{$list['rank']}">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">排序</label>
+            <div class="layui-input-block" style="width: 70%">
+                <input type="hidden" value="{$list['id']}" name="id">
+                <button class="layui-btn layui-btn-sm" type="submit">保存</button>
+                <a href="{url 'site/entry/about',array('m'=>$_GPC['m'],'op'=>'navSet','version_id'=>$_GPC['version_id'])}">
+                    <button class="layui-btn layui-btn-sm layui-btn-primary" type="button">返回</button>
+                </a>
+            </div>
+        </div>
+
+    </form>
+</div>
+{template 'common/footer'}
+<!--<script src="../addons/kundian_ordering/resource/js/jquery-1.11.1.min.js" charset="utf-8"></script>-->
+<script src="../addons/kundian_ordering/resource/layui.js" charset="utf-8"></script>
+<script>
+    layui.use(['form','laypage', 'layer'], function() {
+    })
+</script>

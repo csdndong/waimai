@@ -1,0 +1,44 @@
+<div class="second-sidebar-title">
+	店员
+</div>
+<div class="nav">
+	{ifp 'storebd.account' || 'storebd.current' || 'storebd.getcash'}
+	<div class="menu-header">账户</div>
+	<ul class="menu-item">
+		{ifp 'storebd.account'}
+		<li {if $_W['_action'] == 'account'}class="active"{/if}>
+			<a href="{php echo iurl('storebd/account/list');}">店铺推广员</a>
+		</li>
+		{/if}
+		{ifp 'storebd.current'}
+		<li {if $_W['_action'] == 'current'}class="active"{/if}>
+			<a href="{php echo iurl('storebd/current/list');}">账户明细</a>
+		</li>
+		{/if}
+		{ifp 'storebd.getcash'}
+		<li {if $_W['_action'] == 'getcash'}class="active"{/if}>
+			<a href="{php echo iurl('storebd/getcash/list');}">提现申请</a>
+		</li>
+		{/if}
+	</ul>
+	{/if}
+	{ifp 'storebd.bind'}
+		<div class="menu-header">绑定关系</div>
+		<ul class="menu-item">
+			<li {if $_W['_action'] == 'bind'}class="active"{/if}>
+				<a href="{php echo iurl('storebd/bind/index');}">店铺绑定</a>
+			</li>
+		</ul>
+	{/if}
+	{ifp 'storebd.config'}
+	<div class="menu-header">设置</div>
+	<ul class="menu-item">
+		<li {if $_W['_router'] == 'storebd/config/index'}class="active"{/if}>
+			<a href="{php echo iurl('storebd/config/index');}">基本设置</a>
+		</li>
+		<li {if $_W['_op'] == 'cover'}class="active"{/if}>
+			<a href="{php echo iurl('storebd/config/cover');}">入口设置</a>
+		</li>
+	</ul>
+	{/if}
+</div>

@@ -1,0 +1,4 @@
+<!--   time:2019-07-18 01:07:55 -->
+<view class="main">
+	<rich-text nodes="{{answer}}"></rich-text>
+</view>

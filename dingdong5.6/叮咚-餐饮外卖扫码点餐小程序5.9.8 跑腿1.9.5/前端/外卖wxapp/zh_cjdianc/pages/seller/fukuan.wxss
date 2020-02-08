@@ -1,0 +1,106 @@
+page {
+    background-color: #EFEFF4;
+}
+
+.fukuan_img {
+    width: 100rpx;
+    height: 100rpx;
+    border-radius: 50%;
+}
+
+.fukuan_header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 250rpx;
+    justify-content: center;
+}
+
+.fukuan_seller {
+    font-size: 32rpx;
+    color: #333;
+    margin-top: 30rpx;
+}
+
+.fukuan_pay {
+    background-color: white;
+    padding: 20rpx;
+    margin: 20rpx;
+    border-radius: 10rpx;
+}
+
+.fukuan_money {
+    height: 130rpx;
+    background-color: #F7F5F6;
+    border-radius: 10rpx;
+    display: flex;
+    align-items: center;
+}
+
+.fukuan_input {
+    height: 80rpx;
+    font-size: 40rpx;
+    width: 350rpx;
+    padding-left: 50rpx;
+    color: #FE5761;
+}
+
+.money_text {
+    font-size: 26rpx;
+    color: #666;
+    margin-left: 30rpx;
+}
+
+.fukuan_add {
+    border: 1rpx solid #999;
+    border-radius: 50%;
+    width: 50rpx;
+    height: 50rpx;
+    text-align: center;
+    color: #666;
+    line-height: 40rpx;
+    margin-left: 40rpx;
+}
+
+.fukuan_flex {
+    display: flex;
+    align-items: center;
+    height: 80rpx;
+    margin-top: 20rpx;
+}
+
+.youhui {
+    font-size: 26rpx;
+    color: #999;
+    margin-left: 20rpx;
+}
+
+.footer {
+    padding: 0;
+    height: 130rpx;
+    display: flex;
+    width: 100%;
+    position: fixed;
+    left: 0rpx;
+    bottom: 0rpx;
+}
+
+.footer_left {
+    background-color: white;
+    width: 65%;
+    height: 130rpx;
+    color: #34AAFF;
+    line-height: 130rpx;
+    text-indent: 1em;
+    font-size: 40rpx;
+}
+
+.footer_right {
+    background-color: #34AAFF;
+    height: 130rpx;
+    width: 35%;
+    text-align: center;
+    line-height: 130rpx;
+    border-radius: 0rpx;
+    color: white;
+}

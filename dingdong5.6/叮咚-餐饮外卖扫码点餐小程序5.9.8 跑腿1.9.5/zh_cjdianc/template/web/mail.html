@@ -1,0 +1,205 @@
+{template 'public/header'}
+{template 'public/comhead'}
+<style type="text/css">
+    .panel-default>.panel-heading{font-weight: bold;}
+    .info{padding: 30px 30px 30px 100px;}
+    .progress{height: 5px;}
+    .infoul>li{padding: 0px;position: relative;float: left;}
+    .infoul>li>div:nth-child(1){margin-bottom: 20px;margin-left: -9px;}
+    .info_gou{width: 38px;height: 38px;color: white;border-radius: 50%;text-align: center;line-height: 38px;position: absolute;top: 23px;left: 0px;font-size: 24px;}
+    .info_grey{background-color: #e6e6e6;}
+    .info_green{background-color: #31C2A5;}
+    .progress-bar-yg{background-color: #31C2A5;}
+    .info_left{border-right: 1px solid #ccc;font-size: 12px;}
+    .info_right{padding: 15px;font-size: 12px;}
+    .info_left_content>p>span:nth-child(1),.info_left_content2>p>span:nth-child(1){color: #999999;margin-right: 10px;}
+    .info_left_content{padding-left: 100px;padding-top: 15px;}
+    .info_left_content2{padding-left: 100px;padding-top: 15px;padding-bottom: 5px;}
+    .info_right_top{height: 200px;}
+    .info_right_type{font-size: 14px;font-weight: bold;}
+    .info_right_type>span{font-size: 18px;color: #31C2A5;}
+    .info1{height: 32px;}
+    .info1>div{float: left;}
+    .font1{color: #FF6600;font-size: 16px;font-weight: bold;}
+    .beizhu{margin: 10px 0px;}
+    .content1>div{float: left;}
+    .content1>div:nth-child(1){width: 90px;text-align: right;color: #999;margin-right: 10px;}
+    .content_inp{width: 122px;height: 32px;border:1px solid #ccc;padding: 0px 10px;}
+    .info_right_bot{padding: 10px 0px;}
+    .content_font{text-align: right;color: #999;}
+    .mail_bot{margin-bottom: 10px;}
+    .mail_dash{border:1px solid #ccc;margin: 0px;}
+    .mail_shu{font-weight: bolder;font-size: 16px;color: #31C2A5;margin-right: 5px;}
+    .mail_info{color: #31C2A5;}
+    .mail_wei{font-weight: normal;font-size: 12px;}
+    .store_td1{height: 45px;}
+    .store_list_img{width: 60px;height: 60px;}
+    .yg5_tabel{border-color: #e5e5e5;}
+    .yg5_tr2>td{padding: 10px 15px;border: 1px solid #e5e5e5;text-align:center;}
+    .yg5_tr1>th{
+        border: 1px solid #e5e5e5;
+        padding-left: 15px;
+        background-color: #FAFAFA;
+        font-weight: bold;
+        text-align: center;
+    }
+</style>
+<div class="main">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <a class="btn btn-warning" href="{php echo $this->createWebUrl('inorder');}"><i class="fa fa-refresh"></i>返回订单管理</a>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading"><span class="mail_shu">|</span> <span class="mail_wei">当前位置：</span> <span class="mail_info mail_wei">订单详情</span></div>
+        <div class="panel-body" style="padding: 0px 15px 20px;">
+            <div class="row info">
+                <!-- 一种状态开始 -->
+                <ul class="col-md-12 infoul">
+                    <li style="width: 20%;">
+                        <div style="color: #31C2A5;">买家下单</div>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-yg" role="progressbar" aria-valuenow="60" 
+                                aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
+                            </div>
+                        </div>
+                        <div class="info_gou info_green">
+                            <span class="fa fa-check"></span>
+                        </div>
+                    </li>
+                    <li style="width: 20%;">
+                        <div style="color: #31C2A5;">买家付款</div>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-yg" role="progressbar" aria-valuenow="60" 
+                                aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
+                            </div>
+                        </div>
+                        <div class="info_gou info_green">
+                            <span class="fa fa-check"></span>
+                        </div>
+                    </li>
+                    <li style="width: 20%;">
+                        <div style="color: #31C2A5;">商家备货</div>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-yg" role="progressbar" aria-valuenow="60" 
+                                aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
+                            </div>
+                        </div>
+                        <div class="info_gou info_green">
+                            <span class="fa fa-check"></span>
+                        </div>
+                    </li>
+                    <li style="width: 20%;">
+                        <div style="color: #31C2A5;">配送中</div>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-yg" role="progressbar" aria-valuenow="60" 
+                                aria-valuemin="0" aria-valuemax="100" style="width: 50%;">
+                            </div>
+                        </div>
+                        <div class="info_gou info_green">
+                            <span class="fa fa-check"></span>
+                        </div>
+                    </li>
+                    <li class="col-md-1">
+                        <div style="color: #999;">订单完成</div>                        
+                        <div class="info_gou info_grey">
+                            <span class="fa fa-check"></span>
+                        </div>
+                    </li>
+                </ul>
+                <!-- 一种状态结束 -->
+                
+            </div>
+            <div class="row mail_dash">
+                <div class="col-md-6 info_left">
+                    <div class="info_left_content">
+                        <p><span>订单编号：</span>201710134564434</p>
+                        <p><span>付款方式：</span>微信</p>                        
+                        <p><span>配送方式：</span>商家配送</p>
+                        <p><span>收货地址：</span>湖北省武汉市洪山区珞喻路阜华大厦2802</p>
+                        <!-- <p><span>收货详情：</span>到店付款（<span style="color: #B22222;">未付款</span>）</p> -->
+                        <!-- <div class="mail_bot"><span class="btn btn-sm btn-info">修改订单收货信息</span></div> -->
+                    </div>
+                    <div class="info_left_content">
+                        <p><span>下单时间：</span>2017-10-13 15:31:33</p>
+                        <p><span>用户姓名：</span><span class="font1">张三三</span></p>
+                        <p><span>用户电话：</span>15107187042</p>
+                        <p><span>订单类型：</span>外卖订单</p>
+                    </div>                    
+                    <div class="info_left_content2">
+                        <p><span>买家留言：</span>饭菜还不错还不错的哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦</p>
+                    </div>
+                </div>
+                <div class="col-md-6 info_right">
+                    <div class="info_right_top">
+                        <div class="col-md-12 info1">
+                            <div class="info_right_type">订房状态：<span>买家已付款</span></div>
+                        </div>
+                        <div class="col-md-12 beizhu">【备注】</div>
+                        <div class="content1 col-md-12">
+                            <div>总金额：</div>
+                            <div class="font1">¥220.00</div>
+                        </div>
+                        <!-- <div class="content1 col-md-12">
+                            <div>&nbsp;</div>
+                            <div>（货价0.00+配送费4.00+打包费2.00）</div>
+                        </div> -->
+                        
+                        <div class="content1 col-md-12" style="margin: 8px 0px;">
+                            <div style="line-height: 30px;">改价：</div>
+                            <div>
+                                <input class="content_inp" type="text" name="">
+                                <a href="javascript:void(0);" class="btn btn-sm btn-danger">修改</a>
+                            </div>
+                        </div>
+                        <div class="content1 col-md-12">
+                            <div>预订时间：</div>
+                            <div>2017-11-11</div>
+                        </div>
+                        <!-- 如果已完成的状态，显示赠送积分 -->
+                        <div class="content1 col-md-12">
+                            <div>赠送积分：</div>
+                            <div>2</div>
+                        </div>
+                    </div>
+                    <div class="info_right_bot">
+                        <div class="col-md-12">
+                            <div class="col-md-2 content_font">买家备注：</div>
+                            <div class="col-md-9" style="padding: 0px;">饭菜很不错啊哦哦哦哦哦哦哦哦哦哦</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- row结束标签 -->
+            <div class="row" style="margin: 20px 0px 0px;">
+                <table class="yg5_tabel col-md-12">
+                    <tr class="yg5_tr1">
+                        <th class="store_td1 col-md-2">商品名称</th>
+                        <th class="col-md-2">图片</th>
+                        <th class="col-md-2">单价(元)</th>
+                        <th class="col-md-2">奖励积分</th>
+                        <th class="col-md-2">数量</th>
+                        <th class="col-md-2">小计(元)</th>
+                    </tr>
+                    <tr class="yg5_tr2">
+                        <td>热干面</td>
+                        <td>图片</td>
+                        <td>22.00</td>
+                        <td>66</td>
+                        <td>5</td>
+                        <td>110</td>
+                    </tr>
+                </table>
+            </div>
+            <!-- row结束标签 -->
+        </div>
+    </div>
+   
+    <div class="col-md-12">
+        <input type="submit" class="btn btn-xm btn-danger" name="" value="确认付款">
+        <input type="submit" class="btn btn-xm btn-success" name="" value="完成订单">
+        <input type="submit" class="btn btn-xm btn-default" name="" value="关闭订单">
+    </div>
+    {$pager}
+</div>
+{template 'common/footer'}

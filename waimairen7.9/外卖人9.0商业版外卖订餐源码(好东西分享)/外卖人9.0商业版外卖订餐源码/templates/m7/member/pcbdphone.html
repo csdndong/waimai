@@ -1,0 +1,128 @@
+ <{extends file="<{$tempdir}>/public/site.html"}>   
+ <{block name=navhide}><{/block}>
+ <{block name=sitetitle}>用户绑定手机号<{/block}>
+ <{block name=extendcss}><link rel="stylesheet" type="text/css" href="<{$siteurl}>/templates/<{$tempdir}>/public/css/login.css"><{/block}>
+ <script src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/js/wxshop.js"></script>
+<{block name=shophide}><{/block}>
+<{block name=bgshow}><{/block}>
+<{block name=top2}><{/block}>
+ <{block name=bodylist}>
+
+ <div class="SigninCon">
+     <div class="SigninBox">
+         <div class="Signin">
+             <div class="SigninLeft"><img src="<{$siteurl}>/templates/<{$tempdir}>/public/img/Signin_left.png"></div>
+             <div class="SigninRight">
+                 <div class="SigninRtop"></div>
+                 <div class="SigninRmain">
+                     <form id="bdForm" method="post" action="<{ofunc type=url link="/member/savepcbd"}>">
+                     <div class="SigninRtit"><h3>请绑定手机号</h3>
+                     <div class="SigninRinpBox">
+                         <div class="SigninRinp">
+                             <input type="text"  name="phone" class="input1" id="phone" placeholder="输入手机号">
+                         </div>
+                         
+						  
+						  
+						  <div class="SigninRinp">
+								<div style="float:left;"  id="showgetcode"  >
+                                    <input style="width:80px;" name="code" type="text" id="phoneyan" class="veco input1"  placeholder="验证码" />
+                                </div>
+                                <div style="float:left; width:90px; height:42px;" >
+                                    <input type="button" style="margin-left:10px; width:111px;background-image: url(<{$siteurl}>/templates/<{$tempdir}>/public/img/vecobut.png);border:none;" class="vecobut" value="获取验证码" width="90" height="42" time="0"  onclick="clickyanzheng()" id="btnSendCode">
+                                </div>
+                         </div>
+						  
+					 
+						<div class="SigninRbut"><input type="button" onclick="savebd();" value="完成绑定"></div>
+						 
+						 
+                     </div>
+                     
+
+                     </form>
+                 </div>
+             </div>
+         </div>
+     </div>
+ </div>
+   
+<script>
+	var sim=1;
+    function noshow(msg){
+        sim = 1;
+        Tmsg(msg);
+    }
+    //获取手机验证码
+    function clickyanzheng(){
+        if(sim==1){
+            sim = 2;
+            var tempurl = '<{$siteurl}>/index.php?ctrl=member&action=bindingwxlogin&random=@random@&phone=@phone@';
+            tempurl = tempurl.replace('@random@', 1+Math.round(Math.random()*1000)).replace('@phone@',$('#phone').val());
+            $.getScript(tempurl);
+        }
+    }
+
+    function showsend(phone,time,uid){
+        $('input[name="phone"]').val(phone);
+        $('#btnSendCode').attr('time',time);
+        $('#btnSendCode').attr('value','剩余90秒');
+        setTimeout("btntime();",1000);
+    }
+    function  btntime(){
+        var nowtime = Number($('#btnSendCode').attr('time'));
+        if(nowtime > 0){
+            $('#btnSendCode').attr('disabled',true);
+            $('#btnSendCode').addClass('seinpbg1');
+            var c = Number(nowtime)-1;
+            $('#btnSendCode').attr('time',c);
+            var  mx = 120-(120 - Number(c));
+            $('#btnSendCode').attr('value','剩余'+mx+'秒');
+            setTimeout("btntime();",1000);
+        }else{
+            $('#btnSendCode').attr('disabled',false);
+            $('#btnSendCode').removeClass('seinpbg1');
+            $('#btnSendCode').attr('value','重新获取');
+            sim = 1;
+        }
+    }
+    function savebd(){
+        var phone = $('input[name="phone"]').val();
+        var code = $('input[name="code"]').val();
+        if(phone==''){
+            alert("请输入手机号");
+            return false;
+        }
+        if(code==''){
+            alert("请输入验证码");
+            return false;
+        }
+        var  url = '<{$siteurl}>/index.php?ctrl=member&action=savepcbd&datatype=json&random=@random@';
+        $.post(url.replace('@random@', 1+Math.round(Math.random()*1000)),{"phone":phone,"code":code},function(e){
+            if(e.error==false){
+      
+                if(e.msg==1){
+                    alert("绑定成功，登录获取手机绑定的账户信息");
+                    link();
+                }else if(e.msg==2){
+                    alert("绑定成功，我们已将第三方账户余额、积分等账户相关信息移至绑定的账户中，请注意查看。");
+                    link();
+                }else{
+                  alert("绑定成功");
+                  setTimeout("link()",800);
+                }
+            }else{
+                if(e.msg=='wxempty'){
+                    alert("数据获取失败，请退出重试");
+                }else{
+                    alert(e.msg);
+                }
+            }
+        },'json')
+    }
+    function link(){
+       window.location.href = '<{$siteurl}>/index.php?ctrl=member&action=base';
+    }
+</script>     
+ 
+<{/block}>

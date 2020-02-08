@@ -1,0 +1,31 @@
+<view class="container">
+    <view class="head pa fon_30 t_c mar_t">
+        <text class="mar_l dis_in">{{info.name}}</text>
+    </view>
+    <view class=" fon_60 color_6 t_c pa">-{{info.tx_cost}}</view>
+    <view class=" fon_30 color_9 t_c pa">交易成功</view>
+    <view class="info pa_0 bor_bottom mar_t">
+        <view class="dis_in color_6">打款方式</view>
+        <view class="dis_in t_r color_3">
+            <text>微信打款</text>
+        </view>
+    </view>
+    <view class="info pa_0 bor_bottom">
+        <view class="dis_in color_6">账单分类</view>
+        <view class="dis_in t_r color_3">
+            <text>提现</text>
+        </view>
+    </view>
+    <view class="info pa_0 bor_bottom">
+        <view class="dis_in color_6">创建时间</view>
+        <view class="dis_in t_r color_3">
+            <text>{{info.time}}</text>
+        </view>
+    </view>
+    <view class="info pa_0">
+        <view class="dis_in color_6">提现编号</view>
+        <view class="dis_in t_r color_3">
+            <text>{{item.tx_num}}</text>
+        </view>
+    </view>
+</view>

@@ -1,0 +1,146 @@
+ <{extends file="<{$tempdir}>/public/wxsite.html"}>  
+<{block name=extendcss}> 
+ <link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/editaddress.css">   
+
+<{/block}>
+ <{block name=extendjs}>  
+<{/block}>
+<{block name=myScrolljs}>
+<script> 
+		var myScroll;
+function loaded() {
+	myScroll = new iScroll('wrapper', {
+		useTransform: false,
+		onBeforeScrollStart: function (e) {
+			var target = e.target;
+			while (target.nodeType != 1) target = target.parentNode;
+
+			if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA')
+				e.preventDefault();
+		}
+	});
+}
+document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false); 
+document.addEventListener('DOMContentLoaded', function () { setTimeout(loaded, 200); }, false);
+</script>
+<{/block}>
+<{block name=sitetitle}><{$sitename}><{/block}>
+<{block name=hearnav}>
+<div class="toptitCon">
+ <div class="toptitBox">
+  <div class="toptitL"><i></i></div>
+  <div class="toptitC"><h3>修改密码</h3></div>
+ </div>
+</div>
+<{/block}>
+<{block name=blockcontent}>  
+ <div id="wrapper" style="top:40px;">
+	<div id="scroller">
+		
+<!--修改密码-->
+<div class="chapassCon">
+ <ul>
+	<{if $member['temp_password'] != 'ghwmr123456789'}>
+ 		 <li><i class="chpassdq"></i><input type="password" id="oldpwd"  name="oldpwd"   placeholder="当前密码" maxlength="32"></li>
+	 <{/if}>
+  <li><i class="chpassxd"></i><input type="password" id="newpwd" name="newpwd"   placeholder="新密码" maxlength="32"></li>
+  <li><i class="chpassqr"></i><input type="password"  id="newrepwd"  name="newrepwd" placeholder="确认新密码" maxlength="32"></li>
+ </ul>
+ <p>密码长度至少6个字符最多32个字符</p>
+</div>
+<div class="intexchabutt"  onclick="xiugaipwd();" ><input type="button" value="确定" class="intexbg1" style='background-color:#cccccc!important' disabled="disabled"></div>
+
+  
+</div>		
+</div>
+<script>
+
+    document.getElementById("newpwd").oninput = function () {
+                 check();
+     }
+	<{if $member['temp_password'] != 'ghwmr123456789'}>
+    document.getElementById("oldpwd").oninput = function () {
+                 check();
+     }
+	 <{/if}>
+    document.getElementById("newrepwd").oninput = function () {
+                 check();
+     }
+
+	function  check(){
+		var newpwd = $("#newpwd").val();
+		var oldpwd = $("#oldpwd").val();
+                var newrepwd = $("#newrepwd").val();
+
+		var colorset = '<{$color}>';
+                var color ='';
+		if(colorset == 'yellow'){
+		    color = '#ff7600';
+		}else if(colorset == 'green'){
+		    color = '#00cd85';
+		}else{
+		    color = '#ff6e6e';
+		}
+		if( (newpwd =='') || (oldpwd =='') || (newrepwd =='') ){     
+			$(".intexbg1").css("background-color","#cccccc!important"); 
+			$('.intexbg1').attr('disabled',"true");
+		}else{
+			$('.intexbg1').removeAttr("disabled"); 
+			$(".intexbg1").css("background-color",color); 
+		}
+	}	 
+		 
+		 
+</script>
+<script>
+
+	function xiugaipwd(){ 
+        var newpwd = $("#newpwd").val();
+        var oldpwd = $("#oldpwd").val();
+        var newrepwd = $("#newrepwd").val();
+
+        if((oldpwd==newpwd)){
+           $('#loading').hide();
+           Tmsg('新密码与原密码重复！');
+           return false;
+        }
+        if((oldpwd==newrepwd)){
+           $('#loading').hide();
+           Tmsg('确认新密码与原密码重复！');
+           return false;
+        }
+       if((newpwd!=newrepwd)){
+           $('#loading').hide();
+           Tmsg('确认新密码与新密码不一致！');
+           return false;
+        }
+        
+	showLoading();
+       var info = {'oldpaypwd':oldpwd,'newpaypwd':newpwd,'verifynewpaypwd':newrepwd}; 
+	  	var url = '<{ofunc type=url link="/member/xiugaimempwd/datatype/json"}>';
+		  var newpwdlength = $('#newpwd').val().length;
+		 if(newpwdlength>= 6 & newpwdlength <= 32){
+			  var backdata = ajaxback(url,info); 
+			  if(backdata.flag == false){  
+					showLoading();
+//					Tmsg('修改成功,请重新登录！');
+								 
+				window.location.href = siteurl+'/index.php?ctrl=wxsite&action=member'; 
+								 
+			  }else{
+                               newhideLoading();
+                                Tmsg('原密码输入错误！');
+                                return false;
+                          }
+		 }else{
+			newhideLoading();
+			Tmsg('密码长度不符合要求！');
+			return false;
+		 
+		 } 
+		  
+		  
+	}
+	</script>
+
+<{/block}>

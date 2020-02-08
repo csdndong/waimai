@@ -1,0 +1,322 @@
+{itemplate 'public/header'}
+{if $ta == 'list'}
+<form action="" class="form-horizontal form-filter">
+	{php echo tpl_form_filter_hidden('store/seckill/goods/list');}
+	<input type="hidden" name="status" value="{$status}"/>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">活动状态</label>
+		<div class="col-sm-9 col-xs-12">
+			<div class="btn-group">
+				<div class="btn-group">
+					<a href="{php echo ifilter_url('status:-1');}" class="btn {if $status == -1}btn-primary{else}btn-default{/if}">不限</a>
+					{loop $goods_status $val $item}
+						<a href="{php echo ifilter_url('status:'. $val);}" class="btn {if $status == $val}btn-primary{else}btn-default{/if}">{$item['text']}</a>
+					{/loop}
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">搜索</label>
+		<div class="col-sm-4 col-xs-4">
+			<input type="text" name="keyword" value="" class="form-control" placeholder="请输入商品名称">
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+		<div class="col-sm-9 col-xs-12">
+			<button class="btn btn-primary">筛选</button>
+		</div>
+	</div>
+</form>
+
+<form action="" class="form-table form form-validate" method="post">
+	<div class="panel panel-table">
+		<div class="panel-heading">
+			<a href="{php echo iurl('store/seckill/goods/post');}" class="btn btn-primary btn-sm">添加商品</a>
+		</div>
+		<div class="panel-body table-responsive js-table">
+			{if empty($goods)}
+			<div class="no-result">
+				<p>还没有相关数据</p>
+			</div>
+			{else}
+			<table class="table table-hover">
+				<thead class="navbar-inner">
+					<tr>
+						<th width="30">
+							<div class="checkbox checkbox-inline">
+								<input type="checkbox">
+								<label></label>
+							</div>
+						</th>
+						<!--<th>所属分类</th>-->
+						<th>id</th>
+						<th>缩略图</th>
+						<th>商品名称</th>
+						<th>现价</th>
+						<th>原价</th>
+						<th>库存</th>
+						<th>消费截止时间</th>
+						<th>已售出</th>
+						<th>活动时间</th>
+						<th style="width:150px; text-align:right;">操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					{loop $goods $item}
+						<tr>
+							<td>
+								<input type="hidden" name="ids[]" value="{$item['id']}">
+								<div class="checkbox checkbox-inline">
+									<input type="checkbox" name="id[]" value="{$item['id']}">
+									<label></label>
+								</div>
+							</td>
+							<!--<td>
+								{$categorys[$item['cid']]['title']}
+							</td>-->
+							<td><strong>{$item['id']}</strong></td>
+							<td>
+								<img src="{php echo tomedia($item['thumb']);}" alt=""  width="48" style="border-radius: 3px;">
+							</td>
+							<td>
+								<input type="text" name="name[]" class="form-control width-100" value="{$item['name']}">
+							</td>
+							<td>
+								<input type="text" name="price[]" class="form-control width-100" value="{$item['price']}">
+							</td>
+							<td>
+								<input type="text" name="oldprice[]" class="form-control width-100" value="{$item['oldprice']}">
+							</td>
+							<td>
+								<input type="text" name="total[]" class="form-control width-100" value="{$item['total']}">
+							</td>
+							<td>
+								<input type="text" name="use_limit_day[]" class="form-control width-100" value="{$item['use_limit_day']}">
+							</td>
+							<td>
+								{$item['sailed']}
+							</td>
+							<td>
+								{php echo date('Y-m-d H:i:s',$item['starttime']);}<br>
+								{php echo date('Y-m-d H:i:s',$item['endtime']);}
+							</td>
+							<td style="text-align:right;">
+								<a href="{php echo iurl('store/seckill/goods/post', array('id' => $item['id']))}" class="btn btn-default btn-sm">编辑</a>
+								<a href="{php echo iurl('store/seckill/goods/del', array('id' => $item['id']))}" class="btn btn-default btn-sm js-remove" data-confirm="删除后将不可恢复，确定删除吗?">删除</a>
+							</td>
+						</tr>
+					{/loop}
+				</tbody>
+			</table>
+			<div class="btn-region clearfix">
+				<div class="pull-left">
+					<input type="submit" class="btn btn-primary btn-sm" value="提交修改">
+					<a href="{php echo iurl('store/seckill/goods/del')}" class="btn btn-danger btn-sm js-batch" data-batch="remove" data-confirm="确定删除选中的商品吗?">批量删除</a>
+				</div>
+				<div class="pull-right">
+					{$pager}
+				</div>
+			</div>
+			{/if}
+		</div>
+	</div>
+</form>
+{/if}
+{if $ta == 'post'}
+<div class="page clearfix">
+	<form class="form-horizontal form form-validate" id="form1" action="" method="post" enctype="multipart/form-data">
+		<ul class="nav nav-tabs" role="tablist">
+			<li role="presentation" {if $_GPC['type'] == 'activityinfo' || !$_GPC['type']}class="active"{/if}><a href="#activityinfo" aria-controls="activityinfo" role="tab" data-toggle="pill">活动信息</a></li>
+			<li role="presentation" {if $_GPC['type'] == 'shareset'}class="active"{/if}><a href="#shareset" aria-controls="shareset" role="tab" data-toggle="pill">分享设置</a></li>
+		</ul>
+		<div class="tab-content">
+			<div class="tab-pane {if $_GPC['type'] == 'activityinfo' || !$_GPC['type']}active{/if}" role="tabpanel" id="activityinfo">
+				<h3>商品信息</h3>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">商品名称</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" class="form-control" name="name" value="{$item['name']}" required="true">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">商品分类</label>
+					<div class="col-sm-9 col-xs-9 col-md-9">
+						<select name="cid"  class="form-control">
+							<option value="">商品分类</option>
+								{loop $categorys $category}
+								<option value="{$category['id']}" {if $category['id'] == $item['cid']}selected{/if}>{$category['title']}</option>
+								{/loop}
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">商品缩略图</label>
+					<div class="col-sm-9 col-xs-12">
+						{php echo tpl_form_field_image('thumb', $item['thumb']);}
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">商品幻灯片</label>
+					<div class="col-sm-9 col-xs-12">
+						{php echo tpl_form_field_multi_image('thumbs', $item['thumbs']);}
+						<div class="help-block">推荐大小: 640*230, 最多不能超过4张图片</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">商品价格</label>
+					<div class="col-sm-9 col-xs-12">
+						<div class="input-group">
+							<div class="input-group-addon">商品现价</div>
+							<input type="text" class="form-control" name="price" value="{$item['price']}">
+							<div class="input-group-addon">商品原价</div>
+							<input type="text" class="form-control" name="oldprice" value="{$item['oldprice']}">
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">总库存</label>
+					<div class="col-sm-9 col-xs-9 col-md-9">
+						<input type="text" class="form-control" name="total" value="{$item['total']}" required="true" number="true">
+						<div class="help-block">设置 -1 表示不限库存</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">减库存方式</label>
+					<div class="col-sm-9 col-xs-12">
+						<div class="radio radio-inline">
+							<input type="radio" value="0" name="total_update_type" id="total_update_type-0" {if $item['total_update_type'] == 0 || !$item['total_update_type']}checked{/if}>
+							<label for="total_update_type-0">拍下减库存</label>
+						</div>
+						<div class="radio radio-inline">
+							<input type="radio" value="1" name="total_update_type" id="total_update_type-1" {if $item['total_update_type'] == 1}checked{/if}>
+							<label for="total_update_type-1">付款减库存</label>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">活动开始时间</label>
+					<div class="col-sm-6 col-xs-6 col-md-4">
+						{php echo tpl_form_field_date('starttime', $item['starttime'], true);}
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">活动结束时间</label>
+					<div class="col-sm-6 col-xs-6 col-md-4">
+						{php echo tpl_form_field_date('endtime', $item['endtime'], true);}
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">消费截至时间</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="number" class="form-control" name="use_limit_day" value="{$item['use_limit_day']}">
+						<div class="help-block">用户购买成功后几天后失效</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">商品关注度</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="number" class="form-control" name="click" value="{$item['click']}">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">简单描述</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" class="form-control" name="content" value="{$item['content']}">
+						<div class="help-block">该信息显示在商品列表页面, 字数控制在30个以内</div>
+					</div>
+				</div>
+				<!--<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">排序</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" class="form-control" name="displayorder" value="{$item['displayorder']}">
+					</div>
+				</div>-->
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">虚拟参与人数</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="number" class="form-control" name="falsejoinnum" value="{$item['falsejoinnum']}">
+						<div class="help-block">
+							前端页面实际显示人数等于实际参与人数和虚拟参与人数之和
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">虚拟浏览量</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="number" class="form-control" name="falselooknum" value="{$item['falselooknum']}">
+						<div class="help-block">
+							前端页面实际显示浏览量等于实际浏览量和虚拟浏览量之和
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">虚拟分享次数</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="number" class="form-control" name="falsesharenum" value="{$item['falsesharenum']}">
+						<div class="help-block">
+							前端页面实际显示次数等于实际分享次数和虚拟分享次数之和
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">是否启用</label>
+					<div class="col-sm-9 col-xs-12">
+						<div class="radio radio-inline">
+							<input type="radio" name="status" id="forward-status-1" value="1" {if $item['status'] == 1}checked{/if}>
+							<label for="forward-status-1">上架</label>
+						</div>
+						<div class="radio radio-inline">
+							<input type="radio" name="status" id="forward-status-0" value="0" {if $item['status'] == 0}checked{/if}>
+							<label for="forward-status-0">禁用</label>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">商品详情</label>
+					<div class="col-sm-9 col-xs-12">
+						{php echo tpl_ueditor('description', $item['description']);}
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">购买须知</label>
+					<div class="col-sm-9 col-xs-12">
+						{php echo tpl_ueditor('buy_note', $item['buy_note']);}
+					</div>
+				</div>
+			</div>
+			<div class="tab-pane {if $_GPC['type'] == 'shareset'}active{/if}" role="shareset" id="shareset">
+				<h3>分享设置</h3>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">分享图片</label>
+					<div class="col-sm-9 col-xs-12">
+						{php echo tpl_form_field_image('share_thumb', $item['share']['share_thumb']);}
+						<div class="help-block">图片建议为正方形，如果不选择，默认为商品缩略图片</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">标题</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" class="form-control" name="share_title" value="{$item['share']['share_title']}">
+						<div class="help-block">如果不填写，默认为商品名称</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">描述</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" class="form-control" name="share_detail" value="{$item['share']['share_detail']}">
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-9 col-xs-9 col-md-9">
+					<input type="hidden" name="token" value="{$_W['token']}">
+					<input type="submit" value="提交" class="btn btn-primary">
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+{/if}
+{itemplate 'public/footer'}

@@ -1,0 +1,148 @@
+<!--   time:2019-07-18 01:03:21 -->
+<form bindreset="formReset" bindsubmit="formSubmit">
+	<view class="container">
+		<view class="head">
+			<view bindtap="chooseLogo" class="left">
+				<image class="img" mode="aspectFill" src="{{logo}}"></image>
+			</view>
+			<view class="right">
+				<view class="weui-cell weui-cell_input">
+					<view class="weui-cell__hd">
+						<view class="weui-label">商家名称</view>
+					</view>
+					<view class="weui-cell__bd">
+						<input class="weui-input" disabled="true" name="sjmc" placeholder="请输入商家名称" value="{{sjmc}}"></input>
+					</view>
+				</view>
+				<view class="weui-cell weui-cell_input">
+					<view class="weui-cell__hd">
+						<view class="weui-label">商家电话</view>
+					</view>
+					<view class="weui-cell__bd">
+						<input class="weui-input" name="sjdh" placeholder="请输入商家电话" value="{{sjdh}}"></input>
+					</view>
+				</view>
+			</view>
+		</view>
+		<view class="bottom">
+			<text>门店位置</text>
+			<textarea name="mdwz" placeholder="请定位商家位置信息，定位后可再进行编辑" value="{{weizhi}}"></textarea>
+			<view bindtap="dw" class="dw">
+				<image src="../../../img/location1.png"></image>
+				<view>定位</view>
+			</view>
+		</view>
+		<view class="main">
+			<view class="bd">
+				<view class="left">地址坐标：</view>
+				<view class="right">
+					<view class="weui-cell weui-cell_input">
+						<view class="weui-cell__bd">
+							<input class="weui-input" disabled="true" name="jwd" value="{{jwd}}"></input>
+						</view>
+					</view>
+				</view>
+			</view>
+			<view class="bd">
+				<view class="left">人均价：</view>
+				<view class="right">
+					<view class="weui-cell weui-cell_input">
+						<view class="weui-cell__bd">
+							<input class="weui-input" name="rjj" placeholder="请输入人均价" type="number" value="{{rjj}}"></input>
+						</view>
+					</view>
+				</view>
+			</view>
+			<view class="bd">
+				<view class="left">起送价：</view>
+				<view class="right">
+					<view class="weui-cell weui-cell_input">
+						<view class="weui-cell__bd">
+							<input class="weui-input" name="qsj" placeholder="请输入起送价" type="number" value="{{qsj}}"></input>
+						</view>
+					</view>
+				</view>
+			</view>
+			<view class="bd">
+				<view class="left">新用户优惠：</view>
+				<view class="right">
+					<view class="weui-cell weui-cell_input">
+						<view class="weui-cell__bd">
+							<text style="color:#999;font-size:22rpx;margin-left:20rpx;"></text>
+						</view>
+						<view class="weui-cell__ft">
+							<switch checked="{{xyh_open}}" name="xyh"></switch>
+						</view>
+					</view>
+				</view>
+			</view>
+			<view class="bd">
+				<view class="left">新用户立减金额：</view>
+				<view class="right">
+					<view class="weui-cell weui-cell_input" style="border:none">
+						<view class="weui-cell__bd">
+							<input class="weui-input" name="xyhje" placeholder="请输入新用户立减金额" type="number" value="{{xyhje}}"></input>
+						</view>
+					</view>
+				</view>
+			</view>
+		</view>
+		<view class="gg">
+			<view class="left">门店公告：</view>
+			<view class="right">
+				<view class="weui-cell">
+					<view class="weui-cell__bd">
+						<textarea bindinput="gongg" class="weui-textarea" maxlength="100" name="mdgg" placeholder="请输入文本" style="height: 4.5em" value="{{mdgg}}"></textarea>
+						<view class="weui-textarea-counter">
+							<text style="color:#f44444">{{zsnum}}</text>/100个字						</view>
+					</view>
+				</view>
+			</view>
+		</view>
+		<view class="mdtp">
+			<view class="left">商家环境：</view>
+			<view class="right">
+				<view class="tpjy"></view>
+			</view>
+		</view>
+		<view class="mdtp1">
+			<view class="weui-uploader__bd">
+				<view class="weui-uploader__files" id="uploaderFiles">
+					<block wx:for="{{images}}" wx:key="*this" wx:for-item="item" wx:for-index="index" >
+						<view class="weui-uploader__file">
+							<view bindtap="delete" class="x" data-index="{{index}}">
+								<image src="../../../img/seller/x.png"></image>
+							</view>
+							<image bindtap="previewImage" class="weui-uploader__img" mode="aspectFill" src="{{url}}{{item}}"></image>
+						</view>
+					</block>
+					<block wx:for="{{images1}}" wx:key="*this" wx:for-item="item" wx:for-index="index" >
+						<view class="weui-uploader__file">
+							<view bindtap="delete1" class="x" data-index="{{index}}">
+								<image src="../../../img/seller/x.png"></image>
+							</view>
+							<image bindtap="previewImage" class="weui-uploader__img" mode="aspectFill" src="{{item}}"></image>
+						</view>
+					</block>
+				</view>
+				<block wx:if="{{images.length+images1.length<9}}">
+					<view class="weui-uploader__input-box">
+						<view bindtap="chooseImage1" class="weui-uploader__input"></view>
+					</view>
+				</block>
+			</view>
+			<view class="tpsl">{{images.length+images1.length}}/9</view>
+		</view>
+		<view class="button">
+			<button class="weui-btn" formType="submit" style="background-color:{{color}}" type="primary">保存提交</button>
+		</view>
+	</view>
+</form>
+<view class="zhezhao" hidden="{{fwxy}}"></view>
+<view class="kcrzxy" hidden="{{fwxy}}">
+	<view class="kcrzxyhd">平台入驻协议</view>
+	<scroll-view scrollY class="kcrzxybd" style="height: 600rpx;">
+		<rich-text nodes="{{ptxx.rz_agreement}}"></rich-text>
+	</scroll-view>
+	<view bindtap="queren" class="queren">确定</view>
+</view>

@@ -1,0 +1,56 @@
+.head {
+    padding: 50rpx 20rpx;
+    background: #fff;
+}
+
+.head view:nth-child(2) {
+    font-size: 45rpx;
+    font-weight: bold;
+    margin-top: 10rpx;
+    color: #EA6C46;
+}
+
+.yecz {
+    background: #fff;
+    border-top: 1rpx solid #f4f4f4;
+    padding: 0 20rpx;
+}
+
+.yecz>view:nth-child(1) {
+    padding: 30rpx 0;
+    text-align: center;
+    color: #888;
+}
+
+.hbcells {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.hbcell {
+    width: 340rpx;
+    height: 125rpx;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20rpx;
+    border-radius: 10rpx;
+}
+
+.hbcell view:nth-child(1) {
+    font-weight: bolder;
+    font-size: 32rpx;
+}
+
+.hbcell view:nth-child(2) {
+    color: #B4B4B4;
+    font-size: 22rpx;
+}
+
+.hbcell input {
+    height: 2em;
+    font-size: 40rpx;
+}

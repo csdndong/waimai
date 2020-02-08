@@ -1,0 +1,91 @@
+<form bindsubmit="onSubmit" reportSubmit="true">
+    <view class="category-post">
+        <view class="tip">基本信息</view>
+        <view class="zan-panel basic-info">
+            <view class="zan-cell zan-field">
+                <view class="zan-cell__hd zan-field__title">分类名称</view>
+                <input class="zan-field__input zan-cell__bd" name="title" placeholder="请输入分类名称" placeholderClass="zan-field__placeholder" value="{{now_category.title}}"></input>
+            </view>
+            <view class="zan-cell zan-field">
+                <view class="zan-cell__hd zan-field__title">分类排序</view>
+                <input class="zan-field__input zan-cell__bd" name="displayorder" placeholder="请输入分类排序" placeholderClass="zan-field__placeholder" value="{{now_category.displayorder}}"></input>
+            </view>
+            <view class="zan-cell zan-field">
+                <view class="zan-cell__hd zan-field__title">最低消费金额</view>
+                <input class="zan-field__input zan-cell__bd" name="min_fee" placeholder="请输入最低消费金额" placeholderClass="zan-field__placeholder" value="{{now_category.min_fee}}"></input>
+            </view>
+        </view>
+        <block wx:if="{{!now_category.id}}">
+            <view class="tip">所属一级分类</view>
+            <view class="zan-panel category-setting">
+                <view class="zan-cell zan-cell--access">
+                    <view class="zan-cell__bd">已有一级分类</view>
+                    <view class="zan-cell__ft">
+                        <picker bindchange="onSelectParentCategory" name="parentCategoryIndex" range="{{categorys}}" rangeKey="title" value="{{index}}">
+							{{parentCategory.title?parentCategory.title:'请选择'}}
+						</picker>
+                    </view>
+                </view>
+            </view>
+        </block>
+        <view class="tip">分类描述</view>
+        <view class="zan-panel category-desc">
+            <textarea name="description" placeholder="请输入商品描述" value="{{now_category.description}}"></textarea>
+        </view>
+        <block wx:if="{{now_category.parentid==0||!now_category.parentid}}">
+            <view class="tip">售卖时间</view>
+            <view class="zan-panel">
+                <radio-group bindchange="onSetShowtime" class="zan-select__list" name="is_showtime">
+                    <label>
+                        <view class="zan-cell">
+                            <radio checked="{{now_category.is_showtime!=1?true:false}}" class="zan-select__radio" value="0"></radio>
+                            <view class="zan-cell__bd " style="color: {{now_category.is_showtime!=1?'#33aafc':''}}">全时段售卖</view>
+                            <view class="zan-cell__ft" wx:if="{{now_category.is_showtime!=1}}">
+                                <icon color="#33aafc" size="14" type="success_no_circle"></icon>
+                            </view>
+                        </view>
+                    </label>
+                    <label>
+                        <view class="zan-cell">
+                            <radio checked="{{now_category.is_showtime==1?true:false}}" class="zan-select__radio" value="1"></radio>
+                            <view class="zan-cell__bd" style="color: {{now_category.is_showtime==1?'#33aafc':''}}">限时售卖</view>
+                            <view class="zan-cell__ft" wx:if="{{now_category.is_showtime==1}}">
+                                <icon color="#33aafc" size="14" type="success_no_circle"></icon>
+                            </view>
+                        </view>
+                    </label>
+                </radio-group>
+            </view>
+            <block wx:if="{{now_category.is_showtime==1}}">
+                <view class="tip">售卖日</view>
+                <view class="zan-panel sail-day">
+                    <view bind:tap="onSelectWeek" class="weekday-item {{now_category.limit_week[index+1]==index+1?'active':''}} " data-value="{{index+1}}" wx:for="{{weeks}}">
+                        <view class="inner">
+								{{item}}
+								<view class="select-img" wx:if="{{now_category.limit_week[index+1]==index+1}}">
+                                <image mode="widthFix" src="/static/img/selected-success.png"></image>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+                <view class="tip">售卖时段</view>
+                <view class="zan-panel time-picker flex-lr">
+                    <view class="flex">
+                        <picker bindchange="onSelectTime" data-type="start_time" end="23:59" mode="time" name="start_time" start="00:00" value="{{now_category.start_time}}">
+							{{now_category.start_time?now_category.start_time:'00:00'}}
+						</picker>
+                        <text>至</text>
+                        <picker bindchange="onSelectTime" data-type="end_time" end="23:59" mode="time" name="end_time" start="00:00" value="{{now_category.end_time}}">
+							{{now_category.end_time?now_category.end_time:'00:00'}}
+						</picker>
+                    </view>
+                </view>
+            </block>
+        </block>
+        <view class="btn-group">
+            <button class="weui-btn" formType="submit" type="primary">保存</button>
+            <button bind:tap="onJsEvent" class="weui-btn" data-confirm="确定删除分类及分类下的商品吗?" data-event-type="jsPost" data-href="manage/goods/category/del?id={{now_category.id}}" data-success-url="/pages/category/index" type="warn" wx:if="{{now_category.id>0}}">删除</button>
+        </view>
+    </view>
+</form>
+<include src="../public/footer.wxml"></include>

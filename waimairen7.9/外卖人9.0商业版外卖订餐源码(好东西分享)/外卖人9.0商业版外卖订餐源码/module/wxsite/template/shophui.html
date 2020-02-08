@@ -1,0 +1,280 @@
+ <{extends file="<{$tempdir}>/public/wxsite.html"}>  
+<{block name=extendcss}> 
+<link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/public.css">   
+ <link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/shoplist.css">   
+ 
+<{/block}>
+ <{block name=extendjs}> 
+ <script src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/js/template.min.js"></script>     
+ <script>
+var can_show = true;
+var page = 1;
+var catid = <{$typeid|default:0}>;
+var order = 0;
+var qsjid = 0;
+var typeid = <{$typeid|default:0}>;
+var myaddress = '<{$myaddress}>';
+var search_input = '<{$search_input}>';
+var shopshowtype  = '<{$shopshowtype}>';
+
+
+ var defaultSwiper; //默认的滚动控件名 
+var holdPosition = 0; 
+var maxposition = 0;
+var page =1;
+var pageend = false;
+var html5_config = {'showheader':true,'showfooter':true,'bodyscller':true,'Canfresh':true,'CanloadMore':true,'titilename':'外卖频道'}; 
+$(function(){
+	loading();
+});
+function freshpage(){//刷新函数
+showLoading();
+  page =1;
+  pageend = false;
+    $('#supplierlist').html(''); 
+	 
+	var content = htmlback(siteurl+'/index.php?ctrl=wxsite&action=shophuilistdata',{'areaid':'<{$areaid|default:0}>','search_input':search_input,'page':page});
+  	if(content.flag == false){
+		newhideLoading();
+ 	     $('#supplierlist').append(content.content);    
+				if(  $.trim(content.content) != '' && $("#supplierlist .editordercon").length >= 5  ){
+ 					$("#lodingmore").show();
+				} 
+				if(  $.trim(content.content) == ''  ){
+					$('#emptyIng').show();
+				}else{
+					$('#emptyIng').hide();
+				}
+        var windowW=$(window).width();
+        var divW=$("#supplierlist .homscrbusinimg").width();
+        var endingW=windowW-25-divW;
+        $("#supplierlist .homscrbusinadd").width(endingW);
+				defaultSwiper.refresh();
+	}else{
+		newhideLoading();
+	    Tmsg('xxxx');
+	}  
+	hidefresh();
+    //setTimeout("hidefresh()",50);  
+}
+function loadmore(){ 
+	showLoading();
+	page = page+1;
+	   var content = htmlback(siteurl+'/index.php?ctrl=wxsite&action=shophuilistdata',{'areaid':'<{$areaid|default:0}>','search_input':search_input,'page':page});
+		if(content.flag == false){
+		$('#lodingmore .moreLoading i').addClass('iconstartloading');
+	    $('#lodingmore .moreLoading i').removeClass('iconloading');
+	    $('#lodingmore .moreLoading i').removeClass('iconOverload');
+		newhideLoading();
+		$("#lodingmore span").text("上拉更多...");
+		   var getmoreContent =  $.trim(content.content); 
+  		   if( getmoreContent == ''  ){
+ 				pageend = true;
+				$('#lodingmore .moreLoading i').removeClass('iconstartloading');
+				$('#lodingmore .moreLoading i').removeClass('iconloading');
+				$('#lodingmore .moreLoading i').addClass('iconOverload');
+				$("#lodingmore span").text("加载完毕...");
+		   }else{
+				 $('#supplierlist').append(content.content);
+		   }
+		  
+		}else{
+			pageend = true;
+			$('#lodingmore .moreLoading i').removeClass('iconstartloading');
+			$('#lodingmore .moreLoading i').removeClass('iconloading');
+	     	$('#lodingmore .moreLoading i').addClass('iconOverload');
+			newhideLoading();
+			$("#lodingmore span").text("加载完毕...");
+		}
+		//  setTimeout("hideloadmore()",500);  
+		hideloadmore();
+	
+} 
+  
+//加载页面函数
+function loading(){
+ 	if(typeof html5_config == 'undefined'){
+		alert('获取失败');
+	}else{ 
+	    
+		if(html5_config.bodyscller == true){
+ 			 setTimeout(function(){  
+				$('#wrapper').show();    
+				 addfresh();
+				 
+			 },500);
+		}
+	 //	$('#loading').hide();
+		//loaddata();
+		
+	}
+}  
+ 
+   
+</script> 
+<{/block}>
+<{block name=myScrolljs}> 
+<{/block}>
+<{block name=sitetitle}><{$sitename}><{/block}>
+<{block name=hearnav}>
+<div class="toptitCon">
+ <div class="toptitBox">
+     <div class="toptitL"><i></i></div>
+     <div class="toptitC"><h3 style="font-size:18px;">到店消费商家列表</h3></div>
+     <div class="toptitR" style="color:#fff;font-size:15px;" onclick="dolink('<{ofunc type=url link="/wxsite/shophuiorder"}>');" >到店订单</div>
+ </div>
+</div>
+<{/block}>
+<{block name=blockcontent}>  
+ <div class="caipinglist float_top" id="ucsss" style="position:fixed;z-index:1000; height:52px;">  
+    <form id="fabupaotui" method="post" action="<{ofunc type=url link="/wxsite/shophui"}>">
+  <div class="header-bar" style="height:52px; background:none; border-bottom:1px solid #CACACA;">
+		
+		<div style="width:95%; margin:0 auto;">
+			<input type="text" value="<{$search_input}>" id="search_input" name="search_input" placeholder="输入闪惠商家名称"/>
+	<input type="submit" value="搜索" id="searchbutton" style="" />
+		</div>
+		
+        </div>
+</form>
+    </div>
+
+ <div id="wrapper" style="margin-top:52px;bottom:0px;">
+	<div id="scroller">
+		
+	 <div class="container " id="relist">
+
+  	<section>
+
+  		<ul id="supplierlist">
+
+  			 
+
+     </ul>
+
+ 
+    </section>
+  </div>
+ 
+	<div  id="lodingmore"   style="display:;"   class="downLoading "><div class="moreLoading"><i class="iconstartloading"></i><span>上拉更多...</span></div></div>
+   
+   <div style="height:50px;"></div>
+   
+   
+</div>
+</div>
+<style>
+     #supplierlist {
+         width: 100%;
+         background-color: #fff;
+     }
+     #supplierlist li {
+         padding: 10px 1.7777%;
+         border-bottom: 1px solid #e6e6e6;
+         display: -webkit-box;
+         display: -moz-box;
+     }
+
+     #supplierlist li .homscrbusinimg {
+         width: 100px;
+         height: 85px;
+         overflow: hidden;
+         display: inline-block;
+     }
+
+     #supplierlist li .homscrbusinimg img {
+         width: 100px;
+         height: 85px;
+     }
+
+     #supplierlist li .homscrbusinR {
+         width:55%;
+         overflow:hidden;
+         padding-left: 5px;
+        display: inline-block;
+     }
+
+     #supplierlist li .homscrbusinR div{
+         line-height:21px;
+     }
+     #supplierlist li .homscrbusinR .homscrbusint {
+         width: 100%;
+         overflow: hidden;
+     }
+
+     #supplierlist li .homscrbusinR .homscrbusint h3{
+         font-size: 16px;
+         color: #333333;
+         float: left;
+         font-weight: normal;
+     }
+
+     #supplierlist li .homscrbusinR .homscrbusint i{
+         width: 57px;
+         height: 15px;
+         background-image: url(<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/lab_wzps.png);
+         background-size: 100%;
+         margin: 4px 0 0 8px;
+         float: left;
+     }
+
+     #supplierlist li .homscrbusinR .homscrbusinsale {
+         font-size: 1.2rem;
+     }
+
+     #supplierlist li .homscrbusinR .homscrbusinsale i {
+         color: #fac82f;
+         margin-right: 2px;
+     }
+
+     #supplierlist li .homscrbusinR .homscrbusinsale span {
+         color: #666666;
+         margin-left: 4px;
+     }
+
+     #supplierlist li .homscrbusinR .homscrbusinpric {
+         color: #666666;
+         font-size: 12px;
+     }
+
+     #supplierlist li .homscrbusinR .homscrbusinpric span{
+         color: #ff6e6e;
+         font-size: 12px;
+     }
+
+     #supplierlist li .homscrbusinR .homscrbusinadd {
+         color: #a3a3a3;
+         font-size: 12px;
+     }
+     .container{
+         padding-bottom: 0px;
+     }
+     #search_input{
+         width:80%;
+         float:left;
+         background:#EFEFEF;
+         height:42px;
+         line-height:42px;
+         border-radius:5px;
+         margin: 0px;
+         padding: 0px 0px;
+         border: 0px;
+         margin-top:5px;
+         padding-left:4px;
+         font-size:16px;
+     }
+    #searchbutton{
+        width:18%;
+        color:#fff;
+        background:#fe5052;
+        border-radius:5px;
+        float:right;
+        height:42px;
+        padding: 0px;
+        border: 0px;
+        line-height:42px;
+        margin-top:5px;
+        font-size:16px;
+    }
+ </style>
+<{/block}>

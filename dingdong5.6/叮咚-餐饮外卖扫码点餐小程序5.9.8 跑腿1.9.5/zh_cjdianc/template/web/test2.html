@@ -1,0 +1,89 @@
+{template 'public/header'}
+{template 'public/comhead'}
+<style type="text/css">
+    .nav-tabs>li>a:hover{
+        color: #333;
+        border-color: #31C2A5;
+        background-color: white;
+    }
+    .nav-tabs > li.active > a,.nav-tabs > li.active > a:hover{
+        background-color: #31C2A5;
+        color: white;
+        border-color: #31C2A5;
+    }
+    .nav.nav-tabs{border-color: #31C2A5;margin-top: 30px;}
+    .yg5_key>div{float: left;line-height: 34px;}
+    .store_td1{height: 45px;}
+    .store_list_img{width: 60px;height: 60px;}
+    .yg5_tabel{border-color: #e5e5e5;outline: 1px solid #e5e5e5;}
+    .yg5_tr2>td{padding: 10px 15px;border: 1px solid #e5e5e5;}
+    .yg5_tr1>th{
+        border: 1px solid #e5e5e5;
+        padding-left: 15px;
+        background-color: #FAFAFA;
+        font-weight: bold;
+    }
+    .yg5_btn{background-color: #EEEEEE;color: #333;border: 1px solid #E4E4E4;border-radius: 6px;width: 100px;height: 34px;}
+</style>
+<ul class="nav nav-tabs">    
+    <li class="active"><a href="javascript:void(0);">员工管理</a></li>
+    <li><a href="{php echo $this->createWebUrl('yg17')}">添加员工</a></li>
+</ul>
+<div class="row" style="margin-top: 20px;">
+    <div class="col-lg-12">
+        <form action="" method="POST" class="col-md-12">
+            <select class="col-md-2">
+                <option>服务员</option>
+                <option>收银员</option>
+                <option>配送员</option>
+                <option>老板</option>
+            </select>
+            <div class="col-md-4">
+                <div class="input-group" style="width: 300px">
+                    <input type="text" name="keywords" class="form-control" placeholder="请输入姓名/手机号">
+                    <span class="input-group-btn">
+                        <input type="submit" class="btn btn-default" name="submit" value="查找"/>
+                    </span>
+                </div>
+            </div>
+        </form>
+    </div><!-- /.col-lg-6 -->
+</div> 
+<div class="main">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            员工列表管理
+        </div>
+        <div class="panel-body" style="padding: 0px 15px;">
+            <div class="row">
+                <table class="yg5_tabel col-md-12">
+                    <tr class="yg5_tr1">
+                        <th class="store_td1 col-md-1">顺序</th>
+                        <th class="col-md-3">(ID员工名称)</th>
+                        <th class="col-md-3">员工岗位</th>
+                        <th class="col-md-2">手机号码</th>
+                        <th class="col-md-1">状态</th>
+                        <th class="col-md-2">操作</th>
+                    </tr>
+                    {loop $list $row}
+                    <tr class="yg5_tr2">
+                        <td><div class="type-parent">{$row['orderby']}&nbsp;&nbsp;</div></td>
+                        <td><div class="type-parent"><img height="40" src="{media $row['logo']}">&nbsp;&nbsp;</div></td>
+                        <td><div class="type-parent">{$row['src']}&nbsp;&nbsp;</div></td>
+                        <td>{$row['created_time']}</td>
+                        {if $row['status']==1}
+                        <td>启用</td>
+                        {elseif $row['status']==2}
+                        <td>禁用</td>
+                        {/if}
+                        <td><a class="btn btn-warning btn-sm" href="{php echo $this->createWebUrl('addad', array('id' => $row['id']))}" title="编辑">改</a>&nbsp;&nbsp;<a class="btn btn-danger btn-sm" href="{php echo $this->createWebUrl('ad', array('op' => 'delete', 'id' => $row['id']))}" onclick="return confirm('确认删除吗？');return false;" title="删除">删</a></td>
+                    </tr>
+                    {/loop}
+                    
+                </table>
+            </div>
+        </form>
+    </div>
+    {$pager}
+</div>
+{template 'common/footer'}

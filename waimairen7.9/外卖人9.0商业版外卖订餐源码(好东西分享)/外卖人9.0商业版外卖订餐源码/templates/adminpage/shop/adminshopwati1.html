@@ -1,0 +1,256 @@
+ <{extends file="<{$tempdir}>/public/admin.html"}> 
+   <{block name=extendjs}>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js"></script>
+ <{/block}>
+ <{block name=controlname}>待审核店铺列表<{/block}>
+ <{block name=bodylist}>
+
+      <div style="width:auto;overflow-x:hidden;overflow-y:auto">  
+      	 
+      	
+      	
+           <div class="tags">
+
+      	  
+          <div id="tagscontent">
+
+            <div id="con_one_1">
+
+              <div class="table_td" style="margin-top:10px;">
+
+              <form method="post" action="" onsubmit="return remind();"  id="delform">
+
+                  <table border="0" cellspacing="2" cellpadding="4" class="list" name="table" id="table" width="100%">
+
+                    <thead>
+
+                      <tr>
+
+                        <th width="60px"><input type="checkbox" id="chkall" name="chkall" onclick="checkall()"></th>
+
+                        <th align="center">申请单位</th>
+                        <th align="center">营业执照</th>
+
+                        <th align="center">店铺名称</th>
+
+                        <th align="center">会员名称</th> 
+
+                       
+                        <th align="center">是否审核</th>
+                        <th align="center">所属城市</th>
+                   
+                        <th align="center">操作</th>
+
+                      </tr>
+
+                    </thead> 
+					<script>
+						$(function(){
+							$("#shenhaitd .zzimg img").click(function(){
+								//alert( $(this).attr('src') );
+								var srcimg =  $(this).attr('src');
+								$("#mask").show();		
+								$("#showbigimg").show();	
+								$("#showbigimg img").attr('src',srcimg);
+						
+								var imgwidth  =	$("#showbigimg img").width()	;
+								var imgheight  =$("#showbigimg img").height()	;
+								var marginleft = Number(imgwidth)/2;
+								var margintop = Number(imgheight)/2;
+								$("#showbigimg").css('margin-top',-margintop+'px');
+								$("#showbigimg").css('margin-left',-marginleft+'px');
+								
+							});
+						
+																
+							$("#mask").click(function(){
+								$("#mask").hide();
+								$("#showbigimg").hide();
+							});
+							
+						});
+					</script>
+<style>
+#showbigimg{position:fixed; z-index:9999; top:50%; left:50%;display:none;}
+.show_content_m_t3{display:none;}
+#shenhaitd img{ cursor:pointer; width:50px; height:50px;}
+#mask {
+  background: none repeat scroll 0 0 #000000;
+  height: 100%;
+  opacity: 0.2;
+  filter: alpha(opacity=20);
+  position: fixed;
+  width: 100%;
+  z-index: 666;
+  left: 0px;
+  top: 0px;
+  display: none;
+}
+</style>
+                     <tbody id="shenhaitd">
+
+                     <{load_data assign="list" table="shop" showpage="true"  where="is_pass='0' <{$where}>" }>
+                      <{foreach from=$list['list'] item=items}> 
+                      <tr class="s_out" onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff"> 
+                        <td align="center" ><input type="checkbox" name="id[]" value="<{$items['id']}>"></td> 
+						  <td align="center"><{if $items['ruzhutype'] == 0}>个人入驻<{else}>企业入驻<{/if}></td> 
+						 <td align="center" class="zzimg"><{if !empty($items['shoplicense'])}><img src="<{$items['shoplicense']}>" /><{else}>无<{/if}></td>
+						 
+                        <td align="center"><{$items['shopname']}>[<font color=red><{$shoptype[$items['shoptype']]}></font>]</td> 
+                        <td align="center"> 
+                        	<{load_data assign="userinfo" table="member" type="one" where="uid='<{$items['uid']}>'" fileds="username" }> 
+                          	<{$userinfo['username']}>  
+                        	</td> 
+
+                         <td align="center"><{if $items['is_pass']==1}>是<{else}><a onclick="return remind(this);" href="<{ofunc type=url link="/adminpage/shop/module/passhop/id/<{$items['id']}>/datatype/json"}>">通过审核</a><{/if}></td>
+						  <{load_data assign="arealist" table="area"  type="one"  where="adcode=<{$items['admin_id']}>" orderby=" orderid asc " limit="1000" }>
+                        <td align="center">
+							<{if $items['admin_id'] != 0}>
+								<{$arealist['name']}>
+							<{else if}>
+								未定义|<a href="javascript:void(0);" onclick="dis(<{$items['id']}>);">点击分配</a>
+							<{/if}>
+
+						</td>
+                        <td align="center"> 
+                        	<a onclick="return remind(this);" href="<{ofunc type=url link="/adminpage/shop/module/delshop/id/<{$items['id']}>"}>"><img style="width:auto;height:auto;" src="<{$siteurl}>/templates/<{$tempdir}>/public/images/admin/del.jpg"></a></td> 
+                      </tr> 
+                       <{/foreach}> 
+
+                    </tbody> 
+
+                  </table>
+
+                <div class="blank20"></div>
+
+                 
+                </form>
+
+                <div class="page_newc">
+                 	     <div class="select_page">
+                 	      
+                 	     	
+                 	     	
+                 	     	</div>
+                       <div class="show_page"><ul><{$list['pagecontent']}></ul></div>
+                 </div>
+
+                <div class="blank20"></div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        
+  </div>
+  
+  
+  
+  
+  
+ 
+</div>  
+
+<div  id="showbigimg">
+<img src="" />
+</div>
+<div id="mask" style=""></div>
+
+<script>
+	 	var dialogs ;
+	 function starttask(shopid,shopname)
+	 {
+	 	 dialogs = art.dialog.open(siteurl+'/index.php?ctrl=adminpage&action=shop&module=shopbiaoqian&id='+shopid);
+	 	 dialogs.title('编辑店铺'+shopname+'展示标签'); 
+	 }
+function dis(shopid){
+	dialogs = art.dialog.open(siteurl+'/index.php?ctrl=adminpage&action=area&module=shoparea&shopid='+shopid,{height:'80px',width:'250px'});
+	dialogs.title('分配城市');
+}
+function uploadsucess(linkurl){
+ 	dialogs.close(); 
+ 	window.location.reload(); 
+}
+function uploaderror(msg){
+	 alert(msg); 
+}
+function setyjin(shopid,shopname,myongjin,defaultyj)
+{
+	var mytj = myongjin==0?defaultyj:myongjin;
+  var	htmls = '<form method="post" id="subyj" action="#" style="text-align:center;"><table>';
+	htmls += '<tbody><tr>';
+	htmls += '<td height="50px">佣金比例:</td>';
+	htmls += '<td> <input type="text" name="yjin" value="'+mytj+'" style="width:100px;"></td></tr>';
+	htmls += '</tbody></table> ';
+  htmls += '<input type="hidden" value="'+shopid+'" name="shopid"> ';
+	htmls += '<input type="button" value="确认提交" class="button" id="buttonsubyj" ></form>';
+  art.dialog({
+    id: 'testID4',
+    title:'设置'+shopname+'佣金',
+    content: htmls
+  });
+} 
+$('#buttonsubyj').live('click',function(){ 
+	$.post('<{ofunc type=url link="/adminpage/shop/module/savesetshopyjin/datatype/json"}>', $('#subyj').serialize() ,function (data, textStatus){  
+			if(data.error == false){
+     	  	diasucces('操作成功','');
+     	}else{
+     		if(data.error == true)
+     		{
+     			diaerror(data.msg); 
+     		}else{
+     			diaerror(data); 
+     		}
+     	} 
+	 }, 'json'); 
+});
+$("input[name='pxinput']").live("change", function() {   
+	$.post('<{ofunc type=url link="/adminpage/shop/module/adminshoppx/datatype/json"}>', {'id':$(this).attr('data'),'pxid':$(this).val()},function (data, textStatus){  
+			if(data.error == false){
+     		diasucces('操作成功',newurl);
+     	}else{
+     		if(data.error == true)
+     		{
+     			diaerror(data.msg); 
+     		}else{
+     			diaerror(data); 
+     		}
+     	} 
+	 }, 'json'); 
+});
+function doshow(shopid,shoptian){
+var	htmls = '<form method="post" id="doshwoform" action="#" style="text-align:center;"><table>';
+	htmls += '<tbody><tr>';
+	htmls += '<td height="50px">有效天数:</td>';
+	htmls += '<td> <input type="text" name="mysetclosetime" value="'+shoptian+'" style="width:100px;"></td></tr>';
+	htmls += '</tbody></table> ';
+  htmls += '<input type="hidden" value="'+shopid+'" name="shopid"> ';
+	htmls += '<input type="button" value="确认提交" class="button" id="dosetclosetime" ></form>';
+  art.dialog({
+    id: 'testID3',
+    title:'设置开店有效时间',
+    content: htmls
+  });
+}
+$('#dosetclosetime').live('click',function(){ 
+	$.post('<{ofunc type=url link="/adminpage/shop/module/shopactivetime/datatype/json"}>', $('#doshwoform').serialize() ,function (data, textStatus){  
+			if(data.error == false){
+     		diasucces('操作成功','');
+     	}else{
+     		if(data.error == true)
+     		{
+     			diaerror(data.msg); 
+     		}else{
+     			diaerror(data); 
+     		}
+     	} 
+	 }, 'json'); 
+});
+
+</script>
+<!--newmain 结束-->
+<{/block}>

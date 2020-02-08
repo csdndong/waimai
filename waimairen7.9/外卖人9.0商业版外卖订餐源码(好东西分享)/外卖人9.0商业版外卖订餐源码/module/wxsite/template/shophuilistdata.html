@@ -1,0 +1,21 @@
+<{if !empty($shoplist) }>
+ <{foreach from=$shoplist item=items }>
+    <li> 
+		<a href="<{ofunc type=url link="/wxsite/shophuishow/id/<{$items['id']}>"}>">
+     <div class="homscrbusinimg"><img src="<{$items['shoplogo']}>"></div>
+    <div class="homscrbusinR">
+    <div class="homscrbusint"><h3><{$items['shopname']}></h3></div>
+    <div class="homscrbusinsale">
+	<{section name=total loop=$items['point']}><i class="fa fa-star"></i><{/section}><{section name=total loop=5-$items['point']}><i class="fa fa-star" style="color:#f1f1f1;"></i><{/section}>
+    <span>销售<{$items['ordercount']}>单</span>
+    </div>
+	<{if $items['shopshui'] != '' }>
+         <div class="homscrbusinpric"><span><{$items['shopshui']['name']}></span></div>
+    <{/if}>
+    <div class="homscrbusinadd">距离<{$items['juli']}>&nbsp;&nbsp;<{$items['address']}></div>
+    </div>
+    </a> 
+    </li>
+  
+	<{/foreach}>
+ <{/if}>

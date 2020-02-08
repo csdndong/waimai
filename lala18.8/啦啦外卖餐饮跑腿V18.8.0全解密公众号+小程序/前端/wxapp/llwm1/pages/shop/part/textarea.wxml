@@ -1,0 +1,62 @@
+<view class="page-textarea">
+    <form bindsubmit="onSubmit" reportSubmit="true">
+        <view class="zan-panel" wx:if="{{type=='title'||type=='address'||type=='telephone'}}">
+            <view class="zan-cell zan-field">
+                <view class="zan-cell__hd zan-field__title">
+                    <block wx:if="{{type=='title'}}">门店名称</block>
+                    <block wx:elif="{{type=='address'}}">门店地址</block>
+                    <block wx:elif="{{type=='telephone'}}">门店电话</block>
+                </view>
+                <input class="zan-field__input zan-cell__bd" name="input" placeholder="请输入门店名称" placeholderClass="zan-field__placeholder" value="{{store.title}}" wx:if="{{type=='title'}}"></input>
+                <input class="zan-field__input zan-cell__bd" name="input" placeholder="请输入门店地址" placeholderClass="zan-field__placeholder" value="{{store.address}}" wx:elif="{{type=='address'}}"></input>
+                <input class="zan-field__input zan-cell__bd" name="input" placeholder="请输入门店电话" placeholderClass="zan-field__placeholder" value="{{store.telephone}}" wx:elif="{{type=='telephone'}}"></input>
+            </view>
+        </view>
+        <block wx:if="{{type=='notice'||type=='content'}}">
+            <view class="tip">
+                <block wx:if="{{type=='notice'}}">门店公告设置</block>
+                <block wx:elif="{{type=='content'}}">门店描述设置</block>
+            </view>
+            <view class="zan-panel desc">
+                <textarea bindinput="onGetTextarea" placeholder="请输入门店{{type=='notice'?'公告':'描述'}}" value="{{store.notice}}" wx:if="{{type=='notice'}}"></textarea>
+                <textarea bindinput="onGetTextarea" placeholder="请输入门店{{type=='notice'?'公告':'描述'}}" value="{{store.content}}" wx:elif="{{type=='content'}}"></textarea>
+            </view>
+        </block>
+        <block wx:if="{{type=='business_hours'}}">
+            <block wx:if="{{store.business_hours.length>0}}">
+                <view class="zan-panel time-picker flex-lr" wx:for="{{store.business_hours}}">
+                    <view class="flex">
+                        <picker bindchange="onTimeChange" data-index="{{index}}" data-type="s" end="23:59" mode="time" start="00:00" value="{{item.s}}">
+							{{item.s}}
+						</picker>
+                        <text>至</text>
+                        <picker bindchange="onTimeChange" data-index="{{index}}" data-type="e" end="23:59" mode="time" start="00:00" value="{{item.e}}">
+							{{item.e}}
+						</picker>
+                    </view>
+                    <view bind:tap="onRemoveTime" class="remove" data-index="{{index}}">移除</view>
+                </view>
+            </block>
+            <view class="zan-panel sail-time">
+                <view bind:tap="onAddTime" class="zan-cell">
+                    <text class="icon icon-roundadd"></text>添加时间段
+				</view>
+            </view>
+        </block>
+        <block wx:if="{{type=='thumbs'}}">
+            <view class="tip">上传门店实景图</view>
+            <view class="zan-panel shop-thumbs">
+                <view class="thumb" wx:if="{{thumbs.length>0}}" wx:for="{{thumbs}}">
+                    <image src="{{item.image}}" wx:if="{{item.image}}"></image>
+                    <image src="{{item.url}}" wx:else></image>
+                    <view bind:tap="onJsEvent" class="img-remove" data-event-type="jsDelImg" data-index="{{index}}" data-key="thumbs">-</view>
+                </view>
+                <view bind:tap="onJsEvent" class="thumb" data-count="4" data-event-type="jsUploadImg" data-key="thumbs">
+                    <image src="/static/img/add_pic.png"></image>
+                </view>
+            </view>
+        </block>
+        <button class="weui-btn btn-footer" formType="submit">保存修改</button>
+    </form>
+</view>
+<include src="../../public/footer.wxml"></include>

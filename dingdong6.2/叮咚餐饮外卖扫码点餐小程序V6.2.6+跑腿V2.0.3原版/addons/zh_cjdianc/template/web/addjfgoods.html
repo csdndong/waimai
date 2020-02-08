@@ -1,0 +1,133 @@
+{template 'public/header'}
+{template 'public/comhead'}
+<link rel="stylesheet" type="text/css" href="../addons/zh_cjdianc/template/public/ygcss.css">
+<ul class="nav nav-tabs">
+    <span class="ygxian"></span>
+    <div class="ygdangq">当前位置:</div>   
+    <li><a href="{php echo $this->createWebUrl('jfgoods')}">商品管理</a></li>
+    <li class="active"><a href="{php echo $this->createWebUrl('addjfgoods')}">添加商品</a></li>
+</ul>
+<div class="main">
+    <form action="" method="post" class="form-horizontal form" enctype="multipart/form-data">
+        <div class="panel panel-default ygdefault">
+            <div class="panel-heading wyheader">
+                内容编辑
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">商品名称</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="name" class="form-control" value="{$info['name']}" />
+                    </div>
+                </div>
+                 <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label">商品分类</label>
+                    <div class="col-sm-10">
+                       <select class="form-control" name="type_id"> 
+                    {loop $type $key $item}
+                       {if $item['id']==$info['type_id']}
+                      <option value="{$item['id']}" selected="selected">{$item['name']}</option>
+                      {else}
+                      <option value="{$item['id']}" >{$item['name']}</option>
+                      {/if}
+                     {/loop}
+                    </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label">商品类型</label>
+                    <div class="col-sm-10">
+                       <select class="form-control" name="type"> 
+                       {if $info['type']==1}
+                     <!--  <option value="1" selected="selected">余额红包</option> -->
+                      <option value="2" >实物</option>
+                        {elseif $info['type']==2}
+                    <!--   <option value="1" >余额红包</option> -->
+                      <option value="2" selected="selected">实物</option>
+                      {else}
+                      <!--  <option value="1" >余额红包</option> -->
+                      <option value="2" >实物</option>
+                      {/if}
+                    </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">商品图片</label>
+                    <div class="col-sm-9">
+                        {php echo tpl_form_field_image('img', $info['img'])}
+                    </div>
+                </div>
+              <!--   <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">红包金额</label>
+                    <div class="col-sm-9">
+                        <input type="text" onkeyup="value=value.replace(/[^\d.]/g,'')" name="hb_moeny" class="form-control" value="{$info['hb_moeny']}" />
+                        <span class="help-block">*选择类型为余额红包时填写</span>
+                    </div>
+                </div> -->
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">所需积分</label>
+                    <div class="col-sm-9">
+                        <input type="number" name="money" class="form-control" value="{$info['money']}" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">商品数量</label>
+                    <div class="col-sm-9">
+                        <input type="number" name="number" class="form-control" value="{$info['number']}" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">排序</label>
+                    <div class="col-sm-9">
+                        <input type="number" name="num" class="form-control" value="{$info['num']}" />
+                        <span class="help-block">*从小到大排序</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                  <label for="inputEmail3" class="col-sm-2 control-label">商品简介</label>
+                  <div class="col-sm-10">
+                      {php echo tpl_ueditor('goods_details',$info['goods_details']);}
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="inputEmail3" class="col-sm-2 control-label">兑换流程</label>
+                  <div class="col-sm-10">
+                      {php echo tpl_ueditor('process_details',$info['process_details']);}
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="inputEmail3" class="col-sm-2 control-label">注意事项</label>
+                  <div class="col-sm-10">
+                      {php echo tpl_ueditor('attention_details',$info['attention_details']);}
+                  </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">状态{$info['is_open']}</label>
+                    <div class="col-sm-9">
+                        <label class="radio-inline">
+                            <input type="radio" id="emailwy1" name="is_open" value="1" {if $info['is_open']==1 || empty($info['is_open'])}checked{/if} />
+                            <label for="emailwy1">上架</label>
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" id="emailwy2" name="is_open" value="2" {if $info['is_open']==2}checked{/if} />
+                            <label for="emailwy2">下架</label>
+                        </label>    
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <input type="submit" name="submit" value="提交" class="btn col-lg-3" style="color: white;background-color: #44ABF7;"/>
+            <input type="hidden" name="token" value="{$_W['token']}" />
+            <input type="hidden" name="id" value="{$info['id']}" />
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+    $(function(){
+        // $("#frame-8").addClass("in");
+        $("#frame-8").show();
+        $("#yframe-8").addClass("wyactive");
+    })
+</script>
+{template 'common/footer'}

@@ -1,0 +1,1455 @@
+@charset "utf-8";
+/* CSS Document */
+
+/*------------------------------------------------------------重置属性------------------------------------------------------------*/
+::-webkit-scrollbar{
+	width:8px;
+	background:#ccc;
+	}
+::-webkit-scrollbar-thumb{
+	background:rgba(0,0,0,0.2) scroll repeat 0% 0% !important;
+	border-radius:5px;
+	}
+::scrollbar{
+	width:0px;
+	}
+::selection{
+	background:rgba(255, 0, 0, 0.7) none repeat scroll 0 0 !important;
+	color:#fff;
+	}
+html,body{
+scrollbar-face-color:#a3a3a3; /*滚动条3D表面（ThreedFace）的颜色*/ 
+scrollbar-highlight-color:#ccc; /*滚动条3D界面的亮边（ThreedHighlight）颜色*/ 
+scrollbar-shadow-color:#ccc; /*滚动条3D界面的暗边（ThreedShadow）颜色*/ 
+scrollbar-3dlight-color:#ccc; /*滚动条亮边框颜色*/ 
+scrollbar-arrow-color:#ccc; /*滚动条方向箭头的颜色 */ 
+scrollbar-track-color:#ccc; /*滚动条的拖动区域(TrackBar)颜色*/
+scrollbar-darkshadow-color:#ccc; /*滚动条暗边框（ThreedDarkShadow）颜色*/ }
+body{
+	background-color:#FAFAFA;
+	position:relative;
+	}
+body,ul,li,a,img,table,thead,tbody,tfoot,th,td,tr,p,h1,h2,h3,h4,h5,h6,span,b,input{
+	margin: 0px;
+	padding: 0px;
+	border-collapse:collapse;
+	text-decoration: none;
+	list-style: none;
+	font-family: '微软雅黑';
+	border: 0;
+	outline:none;
+}
+
+.hide{
+	display:none;
+	}
+/*------------------------------------------------------------图标应用------------------------------------------------------------*/
+.icon_daike{
+	background-image:url(../images/icon_daike.png);
+	background-size:26px;
+	}.icon_yhm{
+	background-image:url(../images/icon_user.png);
+	}.icon_user{
+	background-image:url(../images/icon_pwd.png);background-size:26px;
+	}
+.icon_signout{
+	background-image:url(../images/icon_signout.png);
+	}
+.icon_tjdp{
+	background-image:url(../images/icon_tjdp.png);
+	}
+.icon_dpgl{
+	background-image:url(../images/icon_dpgl.png);
+	}
+.icon_ddgl{
+	background-image:url(../images/icon_ddgl.png);
+	}
+.icon_psgl{
+	background-image:url(../images/icon_psgl.png);
+	}
+.icon_yhgl{
+	background-image:url(../images/icon_yhgl.png);
+	}
+.icon_sjtj{
+	background-image:url(../images/icon_sjtj.png);
+	}
+/*-------------------------------------------------------------遮罩层-------------------------------------------------------------*/
+.maskLayer{
+	width:100%;
+	height:100%;
+	position:fixed;
+	top:0px;
+	left:0px;
+	background-image:url(../images/maskLayer.png);
+	z-index:998;
+	}
+/*------------------------------------------------------------分页开始------------------------------------------------------------*/
+.pagingCon{
+	width:100%;
+	padding-top:47px;
+	text-align:center;
+	overflow:hidden;
+	}
+.pagingCon span{
+	line-height:26px;
+	padding:0 10px;
+	border:1px solid #dddddd;
+	display:inline-block;
+	cursor:pointer;
+	}
+.pagingCon span a{
+	font-size:14px;
+	color:#999999;
+	display:block;
+	}
+.pagingCon span:hover{
+	border:1px solid #2492c1;
+	background-color:#2492c1;
+	}
+.pagingCon span:hover a{
+	color:#fff;
+	}
+.pagingCon ul{
+	line-height:26px;
+	display:inline-block;
+	}
+.pagingCon ul a{
+	width:56px;
+	height:26px;
+	line-height:26px;
+	display:inline-block;
+	cursor:pointer;
+	float:left;
+	}
+.pagingCon ul  a{
+	font-size:14px;
+	color:#999999;
+	display:block;
+	border:1px solid #dddddd;
+	    border-right: none;
+	}
+.pagingCon ul a:last-child{
+	width:56px;
+	height:26px;
+	line-height:26px;
+	display:inline-block;
+	cursor:pointer;
+	float:left;
+	border:1px solid #dddddd;
+	}
+/* .pagingCon ul  a:hover{
+	border:1px solid #2492c1;
+	background-color:#2492c1;
+	color:#fff;
+	} */
+.pagingCon ul  a.current{
+	border:1px solid #2492c1;
+	background-color:#2492c1;
+	color:#fff;
+	}
+/*------------------------------------------------------------分页结束------------------------------------------------------------*/
+
+/*-----------------------------------------------------------弹出框开始-----------------------------------------------------------*/
+/*-------------------------通用标题-------------------------*/
+ 
+.w320{
+	width:320px;
+	margin-left:-160px;
+	}
+.w500{
+	width:500px;
+	margin-left:-250px;
+	}
+.w520{
+	width:520px;
+	margin-left:-260px;
+	}
+.popLayCon .popLayTit{
+	width:100%;
+	line-height:40px;
+	background-color:#1783b2;
+	overflow:hidden;
+	}
+.popLayCon .popLayTit h3{
+	font-size:16px;
+	color:#fafafa;
+	font-weight:normal;
+	margin-left:20px;
+	float:left;
+	}
+.popLayCon .popLayTit i{
+	width:13px;
+	height:14px;
+	margin:13px 11px 0 0;
+	float:right;
+	background-image:url(../images/icon_close.png);
+	cursor:pointer;
+	}
+.popLayCon .popLayBox{
+	width:100%;
+	background-color:#fafafa;
+	overflow:hidden;
+	}
+/*-------------------------查看详情-------------------------*/
+ 
+.popLayCon .popLayBox .popLay ul .bor_no{
+	border:none;
+	}
+.popLayCon .popLayBox .popLay ul li{
+	width:100%;
+	line-height:42px;
+	border-bottom:1px dashed #c9c9c9;
+	overflow:hidden;
+	}
+.popLayCon .popLayBox .popLay ul li span{
+	font-size:14px;
+	color:#808080;
+	float:left;
+	}
+.popLayCon .popLayBox .popLay ul li b{
+	font-size:14px;
+	color:#333333;
+	font-weight:normal;
+	float:left;
+	}
+.popLayCon .popLayBox .popLay ul li .popLayImg{
+	width:98px;
+	height:98px;
+	margin-top:12px;
+	border:1px solid #dbdbdb;
+	display:block;
+	overflow:hidden;
+	}
+.popLayCon .popLayBox .popLay ul li .popLayImg img{
+	width:100%;
+	height:100%;
+	}
+/*---------------------------设置---------------------------*/
+
+/*-------------------------订单通知-------------------------*/
+ 
+.popLayCon .popLayBox .popLayOrdCon .popLayOrdNot{
+	width:100%;
+	border-bottom:1px dashed #c9c9c9;
+	overflow:hidden;
+	}
+.popLayCon .popLayBox .popLayOrdCon .popLayOrdNot h4{
+	padding-top:20px;
+	font-size:14px;
+	color:#333333;
+	font-weight:normal;
+	}
+.popLayCon .popLayBox .popLayOrdCon .popLayOrdNot ul{
+	padding:15px 0;
+	overflow:hidden;
+	}
+.popLayCon .popLayBox .popLayOrdCon .popLayOrdNot ul li{
+	margin-right:27px;
+	float:left;
+	position:relative;
+	}
+.popLayCon .popLayBox .popLayOrdCon .popLayOrdNot ul li input{
+	width:13px;
+	height:13px;
+	margin-top:-5px;
+	position:absolute;
+	top:50%;
+	left:0px;
+	z-index:2; 
+	cursor:pointer;
+	filter: Alpha(opacity=0);
+    opacity: 0;
+	}
+.popLayCon .popLayBox .popLayOrdCon .popLayOrdNot ul li i{
+	width:12px;
+	height:12px;
+	margin-top:-5px;
+	background-image:url(../images/icon_checkbox.png);
+	background-position:0px -26px;
+	position:absolute;
+	top:50%;
+	left:0px;
+	z-index:1;
+	}
+.popLayCon .popLayBox .popLayOrdCon .popLayOrdNot ul li .popLayRadi{
+	background-position:-12px -26px;
+	}
+.popLayCon .popLayBox .popLayOrdCon .popLayOrdNot ul li span{
+	margin-left:17px;
+	font-size:14px;
+	color:#666666;
+	}
+.popLayCon .popLayBox .popLayOrdCon .popLayOrdPri{
+	width:100%;
+	padding:10px 0 4px 0;
+	border-bottom:1px dashed #c9c9c9;
+	overflow:hidden;
+	}
+.popLayCon .popLayBox .popLayOrdCon .popLayOrdPri ul li{
+	line-height:36px;
+	padding-bottom:6px;
+	overflow:hidden;
+	}
+.popLayCon .popLayBox .popLayOrdCon .popLayOrdPri ul li span{
+	margin-right:10px;
+	font-size:14px;
+	color:#333333;
+	float:left;
+	}
+.popLayCon .popLayBox .popLayOrdCon .popLayOrdPri ul li input{
+	width:228px;
+	height:34px;
+	line-height:34px;
+	padding:0 10px;
+	font-size:14px;
+	color:#333;
+	background-color:#f5f5f5;
+	border:1px solid #dbdbdb;
+	border-radius:4px;
+	float:left;
+	}
+.popLayCon .popLayBox .popLayOrdCon .popLayOrdExp{
+	width:100%;
+	overflow:hidden;
+	}
+.popLayCon .popLayBox .popLayOrdCon .popLayOrdExp p{
+	width:100%;
+	line-height:32px;
+	text-align:justify;
+	font-size:14px;
+	color:#1783b2;
+	}
+.popLayCon .popLayBox .popLayOrdCon .popLayOrdBut{
+	width:100%;
+	padding-top:14px;
+	text-align:center;
+	overflow:hidden;
+	}
+.popLayCon .popLayBox .popLayOrdCon .popLayOrdBut input{
+	width:120px;
+	height:40px;
+	font-size:14px;
+	color:#fafafa;
+	background-color:#f8644b;
+	border-radius:4px;
+	cursor:pointer;
+	}
+/*----------------------------增----------------------------*/
+.popLayCon .popLayBox .popLayOrdCon .popLayIncr{
+	width:100%;
+	padding:17px 0 5px 0;
+	border-bottom:1px dashed #c0c0c0;
+	overflow:hidden;
+	}
+.popLayCon .popLayBox .popLayOrdCon .popLayIncr ul li{
+	width:100%;
+	line-height:34px;
+	padding-bottom:12px;
+	overflow:hidden;
+	}
+.popLayCon .popLayBox .popLayOrdCon .popLayIncr ul li span{
+	font-size:16px;
+	color:#333333;
+	float:left;
+	}
+.popLayCon .popLayBox .popLayOrdCon .popLayIncr ul li input{
+	width:98px;
+	height:32px;
+	padding:0 10px;
+	line-height:32px;
+	text-align:center;
+	font-size:14px;
+	color:#333;
+	border:1px solid #cccccc;
+	background-color:#f5f5f5;
+	border-radius:4px;
+	float:left;
+	}
+.popLayCon .popLayBox .popLayOrdCon .popLayIncr ul li b{
+	margin-left:5px;
+	font-size:14px;
+	color:#666666;
+	float:left;
+	font-weight:normal;
+	}
+.popLayCon .popLayBox .popLayOrdCon .popLayIncr ul li .w78{
+	width:78px;
+	}
+/*-------------------------设置佣金-------------------------*/
+.popLayCon .popLayBox .popLayOrdCon .popLayIncr ul li .w98{
+	width:98px;
+	}
+.popLayCon .popLayBox .popLayOrdCon .popLayIncr ul li .w178{
+	width:178px;
+	}
+/*-------------------------有效时间-------------------------*/
+
+/*-------------------------配送设置-------------------------*/
+.popLayCon .popLayBox .popLayOrdCon .popLayDise{
+	width:100%;
+	padding-bottom:12px;
+	border-bottom:1px dashed #c0c0c0;
+	overflow:hidden;
+	}
+.popLayCon .popLayBox .popLayOrdCon .popLayDise .popLayDiseL{
+	width:250px;
+	float:left;
+	}
+.popLayCon .popLayBox .popLayOrdCon .popLayDise .popLayDiseL h4{
+	padding:19px 0 6px 0;
+	font-size:14px;
+	color:#333333;
+	font-weight:normal;
+	}
+.popLayCon .popLayBox .popLayOrdCon .popLayDise .popLayDiseL .popLayDiseLrad{
+	width:100%;
+	padding:7px 0;
+	overflow:hidden;
+	}
+.popLayCon .popLayBox .popLayOrdCon .popLayDise .popLayDiseL .popLayDiseLrad ul li{
+	margin-right:27px;
+	float:left;
+	position:relative;
+	}
+.popLayCon .popLayBox .popLayOrdCon .popLayDise .popLayDiseL .popLayDiseLrad ul li span{
+	margin-left:17px;
+	font-size:14px;
+	color:#666666;
+	}
+.popLayCon .popLayBox .popLayOrdCon .popLayDise .popLayDiseL .popLayDiseLrad ul li input{
+	width:12px;
+	height:12px;
+	margin-top:-5px;
+	position:absolute;
+	top:50%;
+	left:0px;
+	z-index:2;
+	filter:Alpha(opacity=0);
+	opacity:0;
+	cursor:pointer;
+	}
+.popLayCon .popLayBox .popLayOrdCon .popLayDise .popLayDiseL .popLayDiseLrad ul li i{
+	width:12px;
+	height:12px;
+	margin-top:-5px;
+	background-image:url(../images/icon_checkbox.png);
+	background-position:0px -26px;
+	position:absolute;
+	top:50%;
+	left:0px;
+	z-index:1;
+	}
+.popLayCon .popLayBox .popLayOrdCon .popLayDise .popLayDiseL .popLayDiseLrad ul li .popDisRad01{
+	background-position:-12px -26px;
+	}
+.popLayCon .popLayBox .popLayOrdCon .popLayDise .popLayDiseL .popLayDiseLfee{
+	width:100%;
+	overflow:hidden;
+	}
+.popLayCon .popLayBox .popLayOrdCon .popLayDise .popLayDiseL .popLayDiseLfee ul li{
+	line-height:20px;
+	padding:7px 0;
+	overflow:hidden;
+	}
+.popLayCon .popLayBox .popLayOrdCon .popLayDise .popLayDiseL .popLayDiseLfee ul li span{
+	font-size:14px;
+	color:#666666;
+	float:left;
+	}
+.popLayCon .popLayBox .popLayOrdCon .popLayDise .popLayDiseL .popLayDiseLfee ul li input{
+	width:40px;
+	height:18px;
+	line-height:18px;
+	margin-right:4px;
+	text-align:center;
+	font-size:14px;
+	color:#333;
+	border:1px solid #cccccc;
+	background-color:transparent;
+	float:left;
+	}
+.popLayCon .popLayBox .popLayOrdCon .popLayDise .popLayDiseR{
+	width:210px;
+	float:right;
+	}
+.popLayCon .popLayBox .popLayOrdCon .popLayDise .popLayDiseR h4{
+	padding-top:19px;
+	font-size:14px;
+	color:#333333;
+	font-weight:normal;
+	}
+.popLayCon .popLayBox .popLayOrdCon .popLayDise .popLayDiseR .popLayDiseRreg{
+	width:100%;
+	padding-top:10px;
+	overflow:hidden;
+	}
+.popLayCon .popLayBox .popLayOrdCon .popLayDise .popLayDiseR .popLayDiseRreg p{
+	line-height:30px;
+	padding:0 15px;
+	font-size:14px;
+	color:#fafafa;
+	background-color:#1783b2;
+	}
+.popLayCon .popLayBox .popLayOrdCon .popLayDise .popLayDiseR .popLayDiseRreg .popLayDiseRspe{
+	width:100%;
+	overflow:hidden;
+	}
+.popLayCon .popLayBox .popLayOrdCon .popLayDise .popLayDiseR .popLayDiseRreg .popLayDiseRspe h5{
+	line-height:30px;
+	padding:0 15px;
+	font-size:14px;
+	color:#333333;
+	font-weight:normal;
+	background-color:#eaeaea;
+	}
+.popLayCon .popLayBox .popLayOrdCon .popLayDise .popLayDiseR .popLayDiseRreg .popLayDiseRspe ul{
+	width:100%;
+	padding:5px 0;
+	overflow:hidden;
+	}
+.popLayCon .popLayBox .popLayOrdCon .popLayDise .popLayDiseR .popLayDiseRreg .popLayDiseRspe ul li{
+	padding:4px 0;
+	margin-right:22px;
+	float:left;
+	position:relative;
+	}
+.popLayCon .popLayBox .popLayOrdCon .popLayDise .popLayDiseR .popLayDiseRreg .popLayDiseRspe ul li span{
+	margin-left:19px;
+	font-size:14px;
+	color:#666666;
+	}
+.popLayCon .popLayBox .popLayOrdCon .popLayDise .popLayDiseR .popLayDiseRreg .popLayDiseRspe ul li input{
+	width:12px;
+	height:12px;
+	margin-top:-5px;
+	position:absolute;
+	top:50%;
+	left:0px;
+	z-index:2;
+	filter:Alpha(opacity=0);
+	opacity:0;
+	cursor:pointer;
+	}
+.popLayCon .popLayBox .popLayOrdCon .popLayDise .popLayDiseR .popLayDiseRreg .popLayDiseRspe ul li i{
+	width:12px;
+	height:12px;
+	margin-top:-5px;
+	background-image:url(../images/icon_checkbox.png);
+	background-position:0px -26px;
+	position:absolute;
+	top:50%;
+	left:0px;
+	z-index:1;
+	}
+.popLayCon .popLayBox .popLayOrdCon .popLayDise .popLayDiseR .popLayDiseRreg .popLayDiseRspe ul li .popDisChe{
+	background-position:-12px -26px;
+	}
+/*-----------------------------------------------------------弹出框结束-----------------------------------------------------------*/
+
+/*-----------------------------------------------------------引导页开始-----------------------------------------------------------*/
+.sereCon{
+	width:100%;
+	height:100%;
+	background-image:url(../images/sere_bg.png);
+	}
+.sereCon .sereBox{
+	width:320px;
+	margin:0 auto;
+	}
+.sereCon .sereBox .sereTop{
+	width:100%;
+	padding:176px 0 33px 0;
+	text-align:center;
+	}
+.sereCon .sereBox .sereTop .sereImg{
+	width:100%;
+	}
+.sereCon .sereBox .sereTop .sereImg img{
+	width:110px;
+	height:110px;
+	}
+.sereCon .sereBox .sereTop .sereTit{
+	width:100%;
+	padding:24px 0 17px 0;
+	background:url(../images/sereTit_bg.png) no-repeat bottom left;
+	}
+.sereCon .sereBox .sereTop .sereTit h2{
+	font-size:30px;
+	color:#fff;
+	letter-spacing:2px;
+	text-shadow:3px 3px 3px #106ba7;
+	}
+.sereCon .sereBox .sereBot{
+	width:300px;
+	margin:0 auto;
+	}
+.sereCon .sereBox .sereBot .sereInp{
+	width:300px;
+	padding:9px 0;
+	margin-bottom:14px;
+	border:1px solid #1182c8;
+	border-radius:5px;
+	background-color:#fff;
+	overflow:hidden;
+	}
+.sereCon .sereBox .sereBot .sereInp i{
+	width:46px;
+	height:21px;
+	float:left;
+	background-position:center;
+	background-repeat:no-repeat;
+	}
+.sereCon .sereBox .sereBot .sereInp .icon_user{
+	background-position:0px -10px;
+	}
+.sereCon .sereBox .sereBot .sereInp .icon_pass{
+	background-position:-36px -10px;
+	}
+.sereCon .sereBox .sereBot .sereInp input{
+	width:230px;
+	height:21px;
+	line-height:20px;
+	padding:0 10px;
+	font-size:14px;
+	color:#333;
+	float:left;
+	background-color:transparent;
+	border-left:1px solid #cccccc;
+	}
+/*.sereCon .sereBox .sereBot .sereInp input::-webkit-input-placeholder, .sereCon .sereBox .sereBot .sereInp textarea::-webkit-input-placeholder { 
+	color:#dbdbdb; 
+	} */
+.sereCon .sereBox .sereBot .sereFopa{
+	width:100%;
+	text-align:right;
+	}
+	.icon {
+    background-image: url(../images/icon_base.png);
+}
+.sereCon .sereBox .sereBot .sereFopa a{
+	font-size:13px;
+	color:#e5e5e5;
+	}
+.sereCon .sereBox .sereBot .sereBut{
+	width:100%;
+	padding-top:22px;
+	}
+.sereCon .sereBox .sereBot .sereBut input{
+	width:300px;
+	height:47px;
+	font-size:16px;
+	color:#fff;
+	border:1px solid #007ab6;
+	border-radius:5px;
+	letter-spacing:10px;
+	background:transparent url(../images/sere_but.png);
+	cursor:pointer;
+	}
+/*-----------------------------------------------------------引导页结束-----------------------------------------------------------*/
+
+/*------------------------------------------------------------头部开始------------------------------------------------------------*/
+.topCon{
+	width:100%;
+	height:78px;
+	background-color:#1783b2;
+	}
+.topCon .topBox{
+	width:1200px;
+	margin:0 auto;
+	padding-top:18px;
+	}
+.topCon .topBox .topLeft{
+	float:left;
+	}
+.topCon .topBox .topLeft .topLogo{
+	width:144px;
+	height:42px;
+	float:left;
+	overflow:hidden;
+	}
+.topCon .topBox .topLeft .topLogo img{
+	width:100%;
+	height:100%;
+	}
+.topCon .topBox .topLeft .topName{
+	float:left;
+	}
+.topCon .topBox .topLeft .topName h2{
+	line-height:40px;
+	font-size:24px;
+	color:#f5f5f5;
+	margin-left:18px;
+	padding-left:15px;
+	font-weight:normal;
+	border-left:1px solid #09719e;
+	}
+.topCon .topBox .topRight{
+	float:right;
+	}
+.topCon .topBox .topRight .topBut{
+	float:right;
+	}
+.topCon .topBox .topRight .topBut ul li{
+	margin-left:33px;
+	text-align:center;
+	float:left;
+	}
+.topCon .topBox .topRight .topBut ul li i{
+	width:26px;
+	height:26px;
+	display:inline-block;
+	}
+.topCon .topBox .topRight .topBut ul li span{
+	line-height:25px;
+	font-size:12px;
+	color:#a2e1fc;
+	display:block;
+	}
+/*------------------------------------------------------------头部结束------------------------------------------------------------*/
+
+/*------------------------------------------------------------首页开始------------------------------------------------------------*/
+/*-------------------------功能分类-------------------------*/
+.homePageCon{
+	width:100%;
+	padding-top:18px;
+	background-color:#fff;
+	overflow:hidden;
+	}
+.homePageCon .homePageBox{
+	width:1200px;
+	margin:0 auto;
+	}
+.homePageCon .homePageBox .homePageNav{
+	padding-left:20px;
+	}
+.homePageCon .homePageBox .homePageNav ul li{
+	width:152px;
+	height:64px;
+	line-height:64px;
+	margin:0 16px 16px 0;
+	text-align:center;
+	float:left;
+	border-radius:2px;
+	}
+.homePageCon .homePageBox .homePageNav ul .home_bg00{
+	background-color:#5ba928;
+	}.homePageCon .homePageBox .homePageNav ul .home_bg01{
+	background-color:#f8644b;
+	}
+.homePageCon .homePageBox .homePageNav ul .home_bg02{
+	background-color:#f6bb43;
+	}
+.homePageCon .homePageBox .homePageNav ul .home_bg03{
+	background-color:#37bd9c;
+	}
+.homePageCon .homePageBox .homePageNav ul .home_bg04{
+	background-color:#ef6e71;
+	}
+.homePageCon .homePageBox .homePageNav ul .home_bg05{
+	background-color:#8cc253;
+	}
+.homePageCon .homePageBox .homePageNav ul .home_bg06{
+	background-color:#2694c4;
+	}
+.homePageCon .homePageBox .homePageNav ul li a{
+	width:100%;
+	height:100%;
+	display:block;
+	}
+.homePageCon .homePageBox .homePageNav ul li a i{
+	width:42px;
+	height:34px;
+	display:inline-block;
+	vertical-align:-10px;
+	margin:0 12px 0 0;
+	}
+.homePageCon .homePageBox .homePageNav ul li a span{
+	font-size:18px;
+	color:#ffffff;
+	}
+/*-------------------------首页主体-------------------------*/
+.homePageMainCon{
+	width:100%;
+	overflow:hidden;
+	}
+.homePageMainCon .homePageMainBox{
+	width:1200px;
+	margin:0 auto;
+	}
+.homePageMainCon .homePageMainBox .homePageMain{
+	width:570px;
+	float:left;
+	margin:20px 0 0 20px;
+	}
+.homePageMainCon .homePageMainBox .homePageMain .homePageMainTop{
+	width:540px;
+	height:130px;
+	padding:30px 0 0 30px;
+	background-size:100%;
+	}
+.homePageMainCon .homePageMainBox .homePageMain .dlsxx_head_bg{
+	background-image:url(../images/dlsxx_head_bg.png);
+	}
+.homePageMainCon .homePageMainBox .homePageMain .sjtj_head_bg{
+	background-image:url(../images/sjtj_head_bg.png);
+	}
+.homePageMainCon .homePageMainBox .homePageMain .homePageMainTop h2{
+	font-size:36px;
+	color:#ffffff;
+	font-weight:normal;
+	}
+.homePageMainCon .homePageMainBox .homePageMain .homePageMainTop span{
+	line-height:42px;
+	font-size:14px;
+	color:#ffffff;
+	letter-spacing:1px;
+	}
+.homePageMainCon .homePageMainBox .homePageMain .homePageMainBot{
+	width:570px;
+	height:260px;
+	background-color:#fff;
+	position:relative;
+	}
+.homePageMainCon .homePageMainBox .homePageMain .homePageMainBot .homePageMainHepo{
+	width:146px;
+	height:146px;
+	margin:73px 0 0 -73px;
+	border-radius:100%;
+	border:4px solid #fff;
+	position:absolute;
+	top:-50%;
+	left:50%;
+	overflow:hidden;
+	}
+.homePageMainCon .homePageMainBox .homePageMain .homePageMainBot .homePageMainHepo img{
+	width:100%;
+	height:100%;
+	}
+.homePageMainCon .homePageMainBox .homePageMain .homePageMainBot .homePageMainInfo{
+	width:568px;
+	height:155px;
+	padding-top:104px;
+	text-align:center;
+	border-left:1px solid #e6e6e6;
+	border-right:1px solid #e6e6e6;
+	border-bottom:1px solid #e6e6e6;
+	}
+.homePageMainCon .homePageMainBox .homePageMain .homePageMainBot .homePageMainInfo h3{
+	font-size:18px;
+	color:#333333;
+	margin-bottom:24px;
+	}
+.homePageMainCon .homePageMainBox .homePageMain .homePageMainBot .homePageMainInfo ul li{
+	line-height:26px;
+	font-size:14px;
+	color:#808080;
+	}
+.homePageMainCon .homePageMainBox .homePageMain .homePageMainBot .homePageMainOrd{
+	width:570px;
+	height:260px;
+	border-left:1px solid #e6e6e6;
+	}
+.homePageMainCon .homePageMainBox .homePageMain .homePageMainBot .homePageMainOrd ul li{
+	width:189px;
+	height:129px;
+	text-align:center;
+	float:left;
+	border-right:1px solid #e6e6e6;
+	border-bottom:1px solid #e6e6e6;
+	overflow:hidden;
+	}
+.homePageMainCon .homePageMainBox .homePageMain .homePageMainBot .homePageMainOrd ul li b{
+	font-size:36px;
+	color:#4c4c4c;
+	margin-top:24px;
+	display:block;
+	width: 189px;
+    height: 47px;
+	}
+.homePageMainCon .homePageMainBox .homePageMain .homePageMainBot .homePageMainOrd ul li span{
+	font-size:14px;
+	color:#4c4c4c;
+	}
+.homePageMainCon .homePageMainBox .homePageMain .homePageMainBot .homePageMainOrd ul li .fonCol_hoOr{
+	color:#f8644b;
+	}
+/*------------------------------------------------------------首页结束------------------------------------------------------------*/
+
+/*----------------------------------------------------------店铺管理开始----------------------------------------------------------*/
+.managShopCon{
+	width:100%;
+	padding-top:10px;
+	overflow:hidden;
+	}
+.managShopCon .managShopBox{
+	width:1160px;
+	margin:0 auto;
+	padding:0 20px;
+	}
+.managShopCon .managShopBox .managShopMain{
+	width:1158px;
+	padding-bottom:56px;
+	border:1px solid #e6e6e6;
+	background-color:#fff;
+	overflow:hidden;
+	}
+.managShopCon .managShopBox .managShopMain .managShopClas{
+	border-top:4px solid #2492c1;
+	border-left:4px solid #2492c1;
+	border-right:4px solid #2492c1;
+	background-color:#2492c1;
+	overflow:hidden;
+	}
+.managShopCon .managShopBox .managShopMain .managShopClas ul li{
+	width:130px;
+	height:42px;
+	line-height:42px;
+	text-align:center;
+	float:left;
+	}
+.managShopCon .managShopBox .managShopMain .managShopClas ul li a{
+	font-size:16px;
+	color:#ffffff;
+	display:block;
+	font-weight:bold;
+	}
+.managShopCon .managShopBox .managShopMain .managShopClas ul .maShClaA a{
+	background-color:#fff;
+	color:#2492c1;
+	}
+.managShopCon .managShopBox .managShopMain .managShopSeaBox{
+	width:100%;
+	padding:20px 0;
+	overflow:hidden;
+	}
+.managShopCon .managShopBox .managShopMain .managShopSeaBox .managShopSeaL{
+	float:left;
+	overflow:hidden;
+	}
+.managShopCon .managShopBox .managShopMain .managShopSeaBox .managShopSeaL ul li{
+	line-height:36px;
+	margin-left:20px;
+	float:left;
+	}
+.managShopCon .managShopBox .managShopMain .managShopSeaBox .managShopSeaL ul li span{
+	font-size:14px;
+	color:#666666;
+	float:left;
+	}
+.managShopCon .managShopBox .managShopMain .managShopSeaBox .managShopSeaL ul li input{
+	width:144px;
+	height:34px;
+	line-height:34px;
+	padding:0 10px;
+	font-size:14px;
+	color:#333;
+	background-color:#fafafa;
+	border:1px solid #e6e6e6;
+	border-radius:4px;
+	float:left;
+	}
+.managShopCon .managShopBox .managShopMain .managShopSeaBox .managShopSeaL ul li .managBut{
+	width:120px;
+	height:36px;
+	margin-left:22px;
+	font-size:14px;
+	color:#fff;
+	background-color:#f8644b;
+	border:none;
+	cursor:pointer;
+	}
+.managShopCon .managShopBox .managShopMain .managShopList{
+	width:100%;
+	overflow:hidden;
+	}
+.managShopCon .managShopBox .managShopMain .managShopList table{
+	width:100%;
+	text-align:center;
+	}
+.managShopCon .managShopBox .managShopMain .managShopList table .managShopChek{
+	width:100%;
+	position:relative;
+	}
+.managShopCon .managShopBox .managShopMain .managShopList table .managShopChek input{
+	width:16px;
+	height:16px;
+	margin-top:-6px;
+	position:absolute;
+	top:50%;
+	right:0px;
+	z-index:2;
+	 
+	cursor:pointer;
+	}
+.managShopCon .managShopBox .managShopMain .managShopList table .managShopChek i{
+	width:16px;
+	height:16px;
+	margin-top:-6px;
+	display:block;
+	background-image:url(../images/icon_checkbox.png);
+	background-position:0 0;
+	position:absolute;
+	top:50%;
+	right:0px;
+	z-index:1;
+	}
+.managShopCon .managShopBox .managShopMain .managShopList table .managShopChek .icon_checkbox02{
+	background-position:-16px 0;
+	}
+.managShopCon .managShopBox .managShopMain .managShopList table thead{
+	width:100%;
+	height:46px;
+	line-height:46px;
+	background-color:#b3b3b3;
+	}
+.managShopCon .managShopBox .managShopMain .managShopList table thead tr td{
+	font-size:16px;
+	color:#ffffff;
+	}
+.managShopCon .managShopBox .managShopMain .managShopList table tbody{
+	width:100%;
+	height:55px;
+	line-height:55px;
+	}
+.managShopCon .managShopBox .managShopMain .managShopList table tbody .mangSoLisBg{
+	background-color:#d5f2fe;
+	}
+.managShopCon .managShopBox .managShopMain .managShopList table tbody tr{
+	border-bottom:1px dashed #d6d6d6;
+	}
+.managShopCon .managShopBox .managShopMain .managShopList table tbody tr td{
+	font-size:14px;
+	color:#666666;
+	white-space:nowrap;
+	text-overflow:ellipsis;
+	overflow:hidden;
+	}
+.managShopCon .managShopBox .managShopMain .managShopList table tbody tr td span{
+	color:#f8644b;
+	}
+.managShopCon .managShopBox .managShopMain .managShopList table tbody tr td a{
+	color:#2492c1;
+	}
+.managShopCon .managShopBox .managShopMain .managShopList table tbody tr td .managShopInp{
+	width:48px;
+	height:22px;
+	line-height:22px;
+	text-align:center;
+	border:1px solid #dbdbdb;
+	}
+.managShopCon .managShopBox .managShopMain .managShopList table tbody tr td .getInto{
+	width:100px;
+	height:28px;
+	line-height:28px;
+	font-size:14px;
+	color:#ffffff;
+	border-radius:5px;
+	background-color:#37bd9c;
+	display:inline-block;
+	cursor:pointer;
+	}
+.managShopCon .managShopBox .managShopMain .managShopList table tbody tr td .manMargL{
+	margin-left:10px;
+	}
+.managShopCon .managShopBox .managShopMain .managShopList table tbody tr td .manMargR{
+	margin-right:10px;
+	}.managShopCon .managShopBox .managShopMain .managShopList table tbody tr td .icon_xg{
+	width:30px;
+	height:30px;
+	margin-right:10px;
+	background-image:url(../images/icon_xg.png);
+	display:inline-block;
+	vertical-align:-10px;
+	cursor:pointer;
+	}
+.managShopCon .managShopBox .managShopMain .managShopList table tbody tr td .icon_close01{
+	width:30px;
+	height:30px;
+	background-image:url(../images/icon_close01.png);
+	display:inline-block;
+	vertical-align:-10px;
+	cursor:pointer;
+	}
+/*----------------------------------------------------------店铺管理结束----------------------------------------------------------*/
+
+
+/*----------------------------------------------------------添加店铺开始----------------------------------------------------------*/
+/*-------------------------单个添加-------------------------*/
+.addShopSingCon{
+	width:100%;
+	padding:38px 0 0 0;
+	overflow:hidden;
+	}
+.addShopSingCon .addShopSingL{
+	width:468px;
+	padding:0 0 0 110px;
+	border-left:1px solid #e6e6e6;
+	float:left;
+	overflow:hidden;
+	}
+.addShopSingCon .bor_no{
+	border:none;
+	}
+.addShopSingCon .addShopSingL h3{
+	margin-bottom:20px;
+	font-size:16px;
+	color:#1783b2;
+	font-weight:normal;
+	}
+.addShopSingCon .addShopSingL ul li{
+	width:100%;
+	line-height:34px;
+	padding:7px 0;
+	overflow:hidden;
+	}
+.addShopSingCon .addShopSingL ul li span{
+	width:70px;
+	text-align:right;
+	font-size:14px;
+	color:#666666;
+	float:left;	
+	}
+.addShopSingCon .addShopSingL ul li input{
+	width:244px;
+	height:32px;
+	line-height:32px;
+	padding:0 10px;
+	font-size:14px;
+	color:#333;
+	border:1px solid #dbdbdb;
+	border-radius:4px;
+	background-color:#fafafa;
+	}
+.addShopSingCon .addShopSingL ul li select{
+	width:264px;
+	height:34px;
+	padding:6px 10px;
+	font-size:12px;
+	color:#666666;
+	border:1px solid #dbdbdb;
+	border-radius:4px;
+	background-color:#fafafa;
+	outline:none;
+	}
+.addShopSingCon .addShopSingL ul li b{
+	font-size:14px;
+	color:#1783b2;
+	font-weight:normal;
+	padding-left:6px;
+	}
+.addShopSingCon .addShopSingL .addShopSingBut{
+	padding:13px 0 0 70px;
+	}
+.addShopSingCon .addShopSingL .addShopSingBut input{
+	width:140px;
+	height:34px;
+	font-size:16px;
+	color:#ffffff;
+	background-color:#f8644b;
+	border-radius:4px;
+	cursor:pointer;
+	}
+/*-------------------------批量添加-------------------------*/
+.addShopBatcButBox{
+	padding:20px 0 0 20px;
+	overflow:hidden;
+	}
+.addShopBatcButBox ul li{
+	padding:0 20px 20px 0;
+	float:left;
+	overflow:hidden;
+	}
+.addShopBatcButBox ul li input{
+	height:36px;
+	padding:0 20px;
+	font-size:16px;
+	color:#ffffff;
+	border-radius:4px;
+	cursor:pointer;
+	}
+.addShopBatcButBox ul li .color_bg01{
+	background-color:#f8644b;
+	}
+.addShopBatcCon{
+	width:100%;
+	overflow:hidden;
+	}
+.addShopBatcCon table{
+	width:100%;
+	text-align:center;
+	}
+.addShopBatcCon table thead{
+	line-height:46px;
+	font-size:16px;
+	color:#ffffff;
+	background-color:#b3b3b3;
+	}
+.addShopBatcCon table tbody{
+	width:100%;
+	}
+.addShopBatcCon table tbody tr{
+	border-bottom:1px dashed #d6d6d6;
+	}
+.addShopBatcCon table tbody tr td{
+	padding:10px 0px;
+	}
+.addShopBatcCon table tbody tr td input{
+	width:118px;
+	height:34px;
+	line-height:34px;
+	padding:0 10px;
+	text-align:center;
+	font-size:14px;
+	color:#333;
+	border:1px solid #dbdbdb;
+	border-radius:4px;
+	}
+.addShopBatcCon table tbody tr td .w238{
+	width:218px;
+	}
+.addShopBatcCon table tbody tr td select{
+	width:138px;
+	height:36px;
+	padding:8px 0;
+	font-size:12px;
+	color:#666666;
+	border:1px solid #dbdbdb;
+	border-radius:4px;
+	outline:none;
+	}
+.addShopBatcCon table tbody tr td i{
+	width:30px;
+	height:30px;
+	display:inline-block;
+	background-image:url(../images/icon_close01.png);
+	vertical-align:-2px;
+	cursor:pointer;
+	}
+.addShopBatcCon table tfoot{
+	width:100%;
+	overflow:hidden;
+	}
+.addShopBatcCon table tfoot tr td{
+	padding-top:20px;
+	}
+.addShopBatcCon table tfoot tr td input{
+	width:120px;
+	height:40px;
+	background-color:transparent;
+	background-image:url(../images/addShopBatcBut.png);
+	cursor:pointer;
+	}
+/*----------------------------------------------------------添加店铺结束----------------------------------------------------------*/
+
+/*----------------------------------------------------------订单管理开始----------------------------------------------------------*/
+.ordManagQuery{
+	padding:20px 0;
+	border-bottom:1px solid #dbdbdb;
+	overflow:hidden;
+	}
+.ordManagQuery ul li{
+	line-height:30px;
+	margin-left:16px;
+	float:left;
+	}
+.ordManagQuery ul li span{
+	padding:0 4px;
+	font-size:14px;
+	color:#666666;
+	float:left;
+	}
+.ordManagQuery ul li select{
+	width:130px;
+	height:30px;
+	background-color:#fafafa;
+	border:1px solid #e6e6e6;
+	border-radius:2px;
+	float:left;
+	outline:none;
+	}
+.ordManagQuery ul li .searchvalue{
+	width:128px;
+	height:28px;
+	margin-right:8px;
+	background-color:#fafafa;
+	border:1px solid #e6e6e6;
+	border-radius:2px;
+	float:left;
+	}
+.ordManagQuery ul li .searchBut{
+	width:100px;
+	height:30px;
+	margin-left:10px;
+	font-size:14px;
+	color:#fff;
+	background-color:#f8644b;
+	border-radius:4px;
+	float:left;
+	cursor:pointer;
+	}
+.ordManagQuery ul li .searchBut01{
+	width:100px;
+	height:30px;
+	margin-left:10px;
+	font-size:14px;
+	color:#fff;
+	background-color:#2694c4;
+	border-radius:4px;
+	float:left;
+	cursor:pointer;
+	}
+.ordManagCon{
+	width:100%;
+	overflow:hidden;
+	}
+.ordManagCon .ordManagBox{
+	padding:0 20px;
+	border-bottom:1px solid #dbdbdb;
+	overflow:hidden;
+	}
+.ordManagCon .ordManagBox:hover{
+	background-color:#f3fbff;
+	}
+.ordManagCon .ordManagBox .ordManagTop{
+	width:100%;
+	overflow:hidden;
+	}
+.ordManagCon .ordManagBox .ordManagTop dl dd{
+	line-height:35px;
+	font-size:14px;
+	color:#333333;
+	white-space:nowrap;
+	text-overflow:ellipsis;
+	float:left;
+	border-bottom:1px dashed #cccccc;
+	overflow:hidden;
+	}
+.ordManagCon .ordManagBox .ordManagTop dl .w340{
+	width:340px;
+	}
+.ordManagCon .ordManagBox .ordManagTop dl .w318{
+	width:318px;
+	}
+.ordManagCon .ordManagBox .ordManagTop dl .w464{
+	width:460px;
+	}
+.ordManagCon .ordManagBox .ordManagTop dl dd span{
+	color:#ff3b30;
+	}
+.ordManagCon .ordManagBox .ordManagTop dl dd b{
+	color:#2458c1;
+	font-weight:normal;
+	}
+.ordManagCon .ordManagBox .ordManagCen{
+	width:100%;
+	padding:6px 0;
+	border-bottom:1px dashed #cccccc;
+	overflow:hidden;
+	}
+.ordManagCon .ordManagBox .ordManagCen .ordManagCleft{
+	float:left;
+	}
+.ordManagCon .ordManagBox .ordManagCen .ordManagCleft table{
+	line-height:28px;
+	font-size:14px;
+	color:#808080;
+	}
+.ordManagCon .ordManagBox .ordManagCen .ordManagCright{
+	float:left;
+	overflow:hidden;
+	}
+.ordManagCon .ordManagBox .ordManagCen .ordManagCright ul li{
+	line-height:28px;
+	font-size:14px;
+	color:#808080;
+	overflow:hidden;
+	}
+.ordManagCon .ordManagBox .ordManagCen .ordManagCright ul li span{
+	width:116px;
+	font-size:14px;
+	color:#808080;
+	float:left;
+	}
+.ordManagCon .ordManagBox .ordManagCen .ordManagCright ul li b{
+	font-size:14px;
+	color:#ff3b30;
+	float:left;
+	font-weight:normal;
+	}
+.ordManagCon .ordManagBox .ordManagBot{
+	width:100%;
+	padding:7px 0;
+	overflow:hidden;
+	}
+.ordManagCon .ordManagBox .ordManagBot ul li{
+	line-height:26px;
+	margin-right:6px;
+	font-size:14px;
+	color:#333333;
+	float:left;
+	}
+.ordManagCon .ordManagBox .ordManagBot ul li a{
+	margin-right:4px;
+	color:#1783b2;
+	}
+.ordManagCon .ordManagBox .ordManagBot ul li input{
+	width:60px;
+	height:26px;
+	margin-left:4px;
+	font-size:14px;
+	color:#fff;
+	background-color:#1783b2;
+	border-radius:4px;
+	cursor:pointer;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*----------------------------------------------------------订单管理节结束----------------------------------------------------------*/

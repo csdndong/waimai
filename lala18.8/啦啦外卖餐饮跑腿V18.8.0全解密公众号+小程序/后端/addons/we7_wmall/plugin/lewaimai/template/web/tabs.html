@@ -1,0 +1,15 @@
+<div class="second-sidebar-title">{$_W['_plugin']['title']}</div>
+<div class="nav slimscroll">
+	<div class="menu-header">设置</div>
+	<ul class="menu-item">
+		<li class="{if $_W['_op'] == 'index'}active{/if}">
+			<a href="{php echo iurl('lewaimai/config/index');}">基础设置</a>
+		</li>
+		<li class="{if $_W['_op'] == 'post'}active{/if}">
+			<a href="{php echo iurl('lewaimai/config/post');}">开始采集</a>
+		</li>
+		<li class="{if $_W['_op'] == 'again'}active{/if}">
+			<a href="{php echo iurl('lewaimai/config/again')}">重新采集</a>
+		</li>
+	</ul>
+</div>

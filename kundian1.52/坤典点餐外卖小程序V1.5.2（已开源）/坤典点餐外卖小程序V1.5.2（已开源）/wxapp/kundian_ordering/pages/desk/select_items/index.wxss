@@ -1,0 +1,118 @@
+@import "../../../../__wuBaseWxss__/1.wxss";
+
+page {
+    background: white;
+}
+
+.scrollView {
+    width: 100%;
+    height: 100vh;
+}
+
+.dinner_Number {
+    width: 90%;
+    height: 80rpx;
+    margin: 30rpx auto 0;
+    text-align: center;
+    font-size: 36rpx;
+    font-weight: bold;
+    line-height: 80rpx;
+}
+
+.avator {
+    width: 100rpx;
+    height: 100rpx;
+    border-radius: 50%;
+}
+
+.addBorderBpttom {
+    border-bottom: 1rpx solid #ebebeb;
+    transition: all 0.3s;
+    overflow: hidden;
+}
+
+.list_containner {
+    width: 90%;
+    height: 250rpx;
+    border-radius: 25rpx;
+    margin: 30rpx auto 0rpx;
+    box-shadow: 0 0 10rpx rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.list_containner:last-child {
+    margin-bottom: 30rpx;
+}
+
+.itemImgSrc {
+    width: 190rpx;
+    height: 190rpx;
+    border-radius: 15rpx;
+}
+
+.orderInfo_list_state {
+    width: 60rpx;
+    padding: 0 20rpx;
+    height: 100%;
+    font-size: 32rpx;
+    text-align: center;
+    line-height: 60rpx;
+    color: #fff;
+}
+
+.w300 {
+    width: 300rpx;
+}
+
+.block100 {
+    height: 100rpx;
+}
+
+.footer {
+    width: 100%;
+    height: 100rpx;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    border-top: 1rpx solid #e8e8e8;
+    background-color: #fff;
+}
+
+.footer view {
+    width: 33.33%;
+    height: 100%;
+    line-height: 100rpx;
+    font-size: 34rpx;
+    letter-spacing: 5rpx;
+    text-align: center;
+}
+
+.operation {
+    color: #fff;
+}
+
+.bgffd050 {
+    background-color: #ffd050;
+}
+
+.bgffe7a7 {
+    background-color: #ffe7a7;
+}
+
+.transUp {
+    transition: all 0.3s;
+    transform: rotate(-90deg);
+}
+
+.transleft {
+    transition: all 0.3s;
+    transform: rotate(0deg);
+}
+
+.transition {
+    transition: all 0.3s;
+}
+
+.cfbdbdbd {
+    color: #bdbdbd;
+}

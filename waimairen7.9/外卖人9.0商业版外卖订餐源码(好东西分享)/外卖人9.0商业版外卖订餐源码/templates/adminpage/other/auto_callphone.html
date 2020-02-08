@@ -1,0 +1,129 @@
+ <{extends file="<{$tempdir}>/public/admin.html"}> 
+ <{block name=extendjs}>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js"></script>
+ <{/block}>
+ <{block name=controlname}>自动拨打电话设置<{/block}>
+ <{block name=bodylist}> 
+	
+	  <div style="width:auto;overflow-x:hidden;overflow-y:auto;height:auto;">   
+          <div id="tagscontent">
+            <form method="post" name="form1" action="<{ofunc type=url link="/adminpage/other/module/savecallphoneset/datatype/json"}>" onsubmit="return subform('',this);">
+              <div>
+                <table border="0" cellspacing="2" cellpadding="4" class="list" name="table" id="table" width="100%">
+                  <tbody>
+             
+			 
+				<tr style="float: left;" onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <td class="left">是否开启电话通知商家</td>
+                      <td>  
+						<input type="radio" name="is_auto_callphone"  value="0"  <{if  $is_auto_callphone ==0}>checked<{/if}>>不启用
+						<input type="radio" name="is_auto_callphone"  value="1" <{if  $is_auto_callphone ==1}>checked<{/if}> >启用
+ 					  </td>
+                    </tr>  
+			  
+                    <tr  style="float: left; <{if $is_auto_callphone == 1 }> display:block; <{else}> display:none; <{/if}>  " class="imgserverBox" onmouseover="this.bgColor='#F5F5F5';"onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                      <td class="left">Access Key Id</td>
+                      <td>	  
+                      	<input type="text" name="autoCallPhone_accessKeyId" id="autoCallPhone_accessKeyId" value="<{$autoCallPhone_accessKeyId}>" class="skey" style="width:350px;">  
+						
+                      </td>
+                    </tr>
+                        <tr  style="float: left; <{if $is_auto_callphone == 1 }> display:block; <{else}> display:none; <{/if}>  " class="imgserverBox" onmouseover="this.bgColor='#F5F5F5';"onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                      <td class="left">Access Key Secret</td>
+                      <td>	  
+                      	<input type="text" name="autoCallPhone_accessKeySecret" id="autoCallPhone_accessKeySecret" value="<{$autoCallPhone_accessKeySecret}>" class="skey" style="width:350px;">  
+						
+                      </td>
+                    </tr>
+                    
+					   <tr  style="float: left; <{if $is_auto_callphone == 1 }> display:block; <{else}> display:none; <{/if}>  " class="imgserverBox" onmouseover="this.bgColor='#F5F5F5';"onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                      <td class="left">被叫显号</td>
+                      <td>	  
+                      	<input type="text" name="autoCallPhone_tel" id="autoCallPhone_tel" value="<{$autoCallPhone_tel}>" class="skey" style="width:350px;">
+						
+                      </td>
+                    </tr> 
+					<tr  style="float: left; <{if $is_auto_callphone == 1 }> display:block; <{else}> display:none; <{/if}>  " class="imgserverBox" onmouseover="this.bgColor='#F5F5F5';"onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                      <td class="left">模板ID</td>
+                      <td>	  
+                      	<input type="text" name="autoCallPhone_TelCode" id="autoCallPhone_TelCode" value="<{$autoCallPhone_TelCode}>" class="skey" style="width:350px;">
+						
+                      </td>
+                    </tr>
+					
+					
+					  <tr  style="float: left; <{if $is_auto_callphone == 1 }> display:block; <{else}> display:none; <{/if}>   " class="imgserverBox" onmouseover="this.bgColor='#F5F5F5';"onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                      <td class="left">是否开启未制作订单几分钟内自动电话通知</td>
+                      <td>  
+						<input type="radio" name="is_make_auto_callphone"  value="0"  <{if  $is_make_auto_callphone ==0}>checked<{/if}>>不启用
+						<input type="radio" name="is_make_auto_callphone"  value="1" <{if  $is_make_auto_callphone ==1}>checked<{/if}> >启用
+ 					  </td>
+                    </tr>
+                    
+										
+                     <tr  style="float: left; <{if $is_auto_callphone == 1 }> display:block; <{else}> display:none; <{/if}>  margin-top: 40px;" class="imgserverBox" onmouseover="this.bgColor='#F5F5F5';"onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                      <td class="left">间隔分钟数</td>
+                      <td>	  
+                      	<input type="text" name="autoCallPhone_Minute" id="autoCallPhone_Minute" value="<{$autoCallPhone_Minute|default:3}>" class="skey" style="width:60px;"> 分钟 
+						
+                      </td>
+                    </tr>
+                    
+					
+					 
+                  </tbody>
+                </table>
+              </div>
+              <div class="blank20"></div>
+              <input type="hidden" name="tijiao" id="tijiao" value="do" class="skey" style="width:250px;">
+              <input type="hidden" name="saction" id="saction" value="mapset" class="skey" style="width:250px;">
+               <input type="submit" value="确认提交" class="button">  
+			   
+			   
+			   
+			   
+			   
+			   <div style="height:auto; padding-left: 150px;padding-top: 20px; line-height: 30px;" class="blank20">
+				<p><b style="color:red;font-size:15px">设置注意事项：</b>
+				 
+				<p>1、默认不启用。</p>
+				<p>2、如果启用，则需申请<span style="color:red;">阿里云产品《语音服务->文本转语音模板》</span>（<a target="_bank" href="https://www.aliyun.com/product/vms" >点击去申请</a>）和配置相关的服务器配置等，（请慎重操作，具体申请、服务器配置等详细请咨询相关客服或售后专员）</p>
+ 				<p>启用 电话通知商家说明:</p>
+ 				<p>1、主要针对于订单需商家主动确认制作的（自动接单的不考虑在内）</p>
+				<p>2、用户下单后如果商家在N分钟内未确认制作订单，则系统会自动给商家拨打电话提醒商家操作订单(暂时只自动通知一次)</p>
+ 				 
+				 <p>是否开启未制作订单几分钟内自动电话通知说明:</p>
+ 				<p>1、不启用则用户下单后直接给用户拨打电话提醒</p>
+				<p>2、启用后需要具体配置服务器任务等</p>
+ 				 
+				 
+				
+				
+				
+				
+				</div>
+			   
+			   
+			   
+			   
+            </form>
+          </div>
+         
+           
+         </div>
+      
+    
+
+          </div> 
+ 
+ <script>
+ $('input[name="is_auto_callphone"]').click(function(){
+	var checkid =  $('input[name="is_auto_callphone"]:checked').val();
+	if(checkid==1){
+		$('.imgserverBox').show();
+	}else{
+		$('.imgserverBox').hide();
+	}
+ });
+ </script>
+ <{/block}>

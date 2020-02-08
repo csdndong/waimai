@@ -1,0 +1,23 @@
+{itemplate 'public/header'}
+<div class="page clearfix">
+	<h2>计划任务</h2>
+	<form class="form-horizontal form form-validate" id="form1" action="" method="post" enctype="multipart/form-data">
+		<div class="alert alert-info">
+			计划任务只需设置一次，所有公众号均可使用<br>
+			注意：此功能需要在阿里云上配置云监控。
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">系统计划任务</label>
+			<div class="col-md-6">
+				<p class="form-control-static js-clip" data-href="{$url}">{$url}</p>
+			</div>
+		</div>
+		<div class="form-group hide">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">营业时间计划任务</label>
+			<div class="col-md-6">
+				<p class="form-control-static js-clip" data-href="{$url_business}">{$url_business}</p>
+			</div>
+		</div>
+	</form>
+</div>
+{itemplate 'public/footer'}

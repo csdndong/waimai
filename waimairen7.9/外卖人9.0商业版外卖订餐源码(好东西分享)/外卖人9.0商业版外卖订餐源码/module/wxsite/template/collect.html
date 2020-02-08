@@ -1,0 +1,257 @@
+ <{extends file="<{$tempdir}>/public/wxsite.html"}>  
+  <{block name=extendcss}> 
+  <link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/weixinlunbo.css">   
+ <{/block}>
+ 
+<{block name=hearnav}>
+ 
+<div class="toptitCon">
+ <div class="toptitBox">
+  <div class="toptitL"><i></i></div>
+  <div class="toptitC"><h3>我的收藏</h3></div>
+ </div>
+</div>
+ 
+<{/block}>
+ <{block name=sitetitle}><{$sitename}><{/block}>
+ <{block name=blockcontent}> 
+	 <div id="wrapper" style="top:40px;">
+	 
+<div id="scroller">
+ 
+<div class="homscrbusinCon" style="margin-top:0px;">
+  
+		<div id="pullDown" style="display:none;">
+			<span class="pullDownIcon"></span><span class="pullDownLabel">下拉刷新...</span>
+		</div>
+		
+ <div class="homscrbusinBox">
+  <ul   id="supplierlist">
+   
+ 
+  </ul>
+ </div>
+ 	 <center>
+	<div id="pullUp" style="border-top:0px; ">
+			<div style="width:35%; float:left;text-align:right;"><span class="pullUpIcon" style="  margin-left:60%;"></span></div>
+			<div style="width:65%; float:left;text-align:left;"><span class="pullUpLabel">上拉加载更多...</span></div>
+		</div>
+   </center>
+   
+ 
+</div>
+ 
+<!---------------------------------------------------------------------------首页结束----------------------------------------------------------------------------------->
+ 
+ 
+
+ </div>
+</div>
+<script>
+var can_show = true;
+var page = 1;
+var catid = <{$typeid|default:0}>;
+var order = 0;
+var qsjid = 0;
+var typeid = <{$typeid|default:0}>;
+var myaddress = '<{$myaddress}>';
+var search_input = '<{$search_input}>';
+var shopshowtype  = '<{$shopshowtype}>';
+var checknext = false;
+var lat = '<{$lat|default:0}>';
+var lng = '<{$lng|default:0}>';
+var addressname = '<{$addressname|default:''}>';
+var is_loading = false;
+
+$(function(){ 
+	 showLoading();
+ shopdata();
+
+});   
+  function shopdata(){  
+			var tempurl = siteurl+'/index.php?ctrl=wxsite&action=collectshopdata&page=@page@';
+   	 	     tempurl = tempurl.replace('@random@', 1+Math.round(Math.random()*1000)).replace('@page@',page);
+	         $.getScript(tempurl);
+			 newhideLoading();
+  }
+ function showmoreshop(datas){
+  
+	var spdatas = eval(datas); 
+    if(spdatas.length > 0){
+			$("#pullUp").show();
+		//var t4em = '';
+		for(i=0;i<spdatas.length;i++){
+		 	var tempdata = 'red';
+				var tempdata2 = '营业中';
+					if(spdatas[i].opentype != 2){
+					tempdata = '#ccc';
+					tempdata2 = '已打烊';
+				} 
+				if(spdatas[i].opentype ==3){
+					tempdata = 'green';
+					tempdata2 = '可预订';
+				} 
+				var backdata = '';
+				
+				
+				
+				if(spdatas[i].shoptype == 1  ){   
+					backdata +=' <a href="'+siteurl+'/index.php?ctrl=wxsite&action=shopshow&typelx=mk&id='+spdatas[i].id+'">';
+				  }else{
+				 		backdata += '<a href="'+siteurl+'/index.php?ctrl=wxsite&action=shopshow&typelx=wm&id='+spdatas[i].id+'">';
+				  }
+				backdata +='  	 <li> ';
+				backdata +='  		<div class="homscrbusinimg"><img src="'+spdatas[i].shoplogo+'"></div> ';
+				backdata +='  		<div class="listbox"> ';
+				backdata +='  		<div class="homscrbusinR"> ';
+				backdata +='  		 <div class="homscrbusint">'+spdatas[i].shopname+'</div> ';
+				backdata +='  		 <div class="homscrbusinsale"> '; 
+				for(j=1;j<=spdatas[i].point;j++){
+					backdata += '<i class="fa fa-star"></i>';
+				}
+				for(q=1;q<=5-spdatas[i].point;q++){
+					backdata += '<i class="fa fa-star" style="color:#C7C7C7;"></i>';
+				}
+				backdata +='  		<span>已售'+spdatas[i].ordercount+'单</span></div> ';
+				backdata +='  		 <div class="homscrbusinpric" style="overflow:auto;"><span>起送价￥'+spdatas[i].limitcost+'</span><b>|</b><span>配送费￥'+spdatas[i].pscost+'</span> ';
+				if(spdatas[i].attrdet.input != undefined && spdatas[i].attrdet.input != '' ){
+					backdata +='  		<b>|</b><span>'+spdatas[i].attrdet.input+'</span>';
+				}
+				backdata +='  		</div> ';
+				backdata +='  		 <div class="homscrbusinadd" >距'+spdatas[i].juli+' &nbsp;'+spdatas[i].address+'</div> ';
+				backdata +='  		</div> ';
+				backdata +='  		</div> ';
+				backdata +='  	</li> ';
+				backdata +='  	</a> ';
+				
+			//	t4em+=backdata;
+			$('#supplierlist').append(backdata); 
+			 
+			
+	}
+	
+	 setTimeout(function () { 
+		 is_loading = false;
+		 
+		// 数据加载完成后，调用界面更新方法 Remember to refresh when contents are loaded (ie: on ajax completion)
+	}, 500);
+	myScroll.refresh();
+				page = Number(page+1);  
+        //       $(".mBxCr").hide(); 
+              
+		}else{
+			 setTimeout(function () { 
+		 is_loading = false;
+		 
+		// 数据加载完成后，调用界面更新方法 Remember to refresh when contents are loaded (ie: on ajax completion)
+	}, 500);
+				can_show =  false; 
+      		      if(page == 1){
+					  htmlNull(1,'您还没有收藏商家','collectshopimg.png');
+					  $("#pullUp").hide();
+      		      }else{ 
+      		        $('.pullUpLabel').text('加载完毕'); 
+      		      }
+      		   myScroll.refresh();
+			   
+		
+		}
+		
+		
+	 
+    	
+ }
+  
+</script>
+ 
+ </script>
+<{/block}>
+<{block name=myScrolljs}>
+
+<script>
+	var myScroll, pullDownEl, pullDownOffset,pulldowncate,
+	pullUpEl, pullUpOffset,
+	generatedCount = 0;
+function pullDownAction () {
+	 
+}
+
+function pullUpAction () {
+  if(is_loading == false){
+		setTimeout(function () { 
+		shopdata();
+	    
+		 
+		// 数据加载完成后，调用界面更新方法 Remember to refresh when contents are loaded (ie: on ajax completion)
+	}, 200);	// <-- Simulate network congestion, remove setTimeout from production!
+	}
+	 
+}
+
+function loaded() {
+	pullDownEl = document.getElementById('pullDown');
+	pullDownOffset = pullDownEl.offsetHeight;
+	pullUpEl = document.getElementById('pullUp');	
+	pullUpOffset = pullUpEl.offsetHeight;
+	
+	myScroll = new iScroll('wrapper', {
+		scrollbarClass: 'myScrollbar', /* 重要样式 */
+		useTransition: false, /* 此属性不知用意，本人从true改为false */
+		topOffset: pullDownOffset,
+		onRefresh: function () {
+		if(is_loading == false){
+			if (pullDownEl.className.match('loading')) {
+				pullDownEl.className = '';
+				pullDownEl.querySelector('.pullDownLabel').innerHTML = '下拉刷新...';
+			} else if (pullUpEl.className.match('loading')) {
+				pullUpEl.className = '';
+				pullUpEl.querySelector('.pullUpLabel').innerHTML = '上拉加载更多...';
+			}
+			}
+		},
+		onScrollMove: function () { 
+		if(is_loading == false){
+			if (this.y > 1 && !pullDownEl.className.match('flip')) {
+				
+				pullDownEl.className = 'flip';
+				pullDownEl.querySelector('.pullDownLabel').innerHTML = '松手开始更新...';
+				this.minScrollY = 0;
+			} else if (this.y < 1 && pullDownEl.className.match('flip')) {
+				pullDownEl.className = '';
+				pullDownEl.querySelector('.pullDownLabel').innerHTML = '下拉刷新...';
+				this.minScrollY = -pullDownOffset;
+			} else if (this.y < (this.maxScrollY + 50) && !pullUpEl.className.match('flip')) {
+				pullUpEl.className = 'flip';
+				pullUpEl.querySelector('.pullUpLabel').innerHTML = '松手开始更新...';
+				this.maxScrollY = this.maxScrollY;
+			} else if (this.y > (this.maxScrollY + 50) && pullUpEl.className.match('flip')) {
+				pullUpEl.className = '';
+				pullUpEl.querySelector('.pullUpLabel').innerHTML = '上拉加载更多...';
+				this.maxScrollY = pullUpOffset;
+			}
+			}
+		},
+		onScrollEnd: function () {
+		if(is_loading == false){
+			if (this.y < (this.maxScrollY + 50)){
+					 
+					pullUpEl.className = 'loading';
+					pullUpEl.querySelector('.pullUpLabel').innerHTML = '加载中...';				
+				 	pullUpAction();	
+			}
+			}
+		
+			 
+		}
+	});
+	
+	setTimeout(function () { document.getElementById('wrapper').style.left = '0'; }, 200);
+}
+
+//初始化绑定iScroll控件 
+document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
+document.addEventListener('DOMContentLoaded', loaded, false); 
+
+
+</script> 
+<{/block}>

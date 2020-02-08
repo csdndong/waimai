@@ -1,0 +1,51 @@
+ <{extends file="<{$tempdir}>/public/admin.html"}> 
+ <{block name=extendjs}>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js"></script>
+ <{/block}>
+ <{block name=controlname}>积分抵现<{/block}>
+ <{block name=bodylist}> 
+	
+	   <div style="width:auto;overflow-x:hidden;overflow-y:auto"> 
+          <div class="search">
+            <div class="search_content" style='font-size:12px'>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			开启积分抵现后，会员下单时可以使用积分抵扣部分金额，抵扣金额部分由平台承担；关闭积分抵现后，用户下单时将看不到积分抵现一栏。目前仅微信端支持积分抵现功能
+			</div>
+        </div>
+		 
+		 
+          <div id="tagscontent">
+            <form method="post" name="form1" action="<{ofunc type=url link="/adminpage/card/module/savescoredx/datatype/json"}>" onsubmit="return subform('',this);">
+              <div>
+                <table border="0" cellspacing="2" cellpadding="4" class="list" name="table" id="table" width="100%">
+                  <tbody>
+				   <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                        <td class="left">是否开启：</td>
+                        <td><input type="radio" name="isopenscoretocost"   value="1"  <{if $isopenscoretocost== 1}>checked<{/if}>>&nbsp;开启&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <input type="radio" name="isopenscoretocost"   value="0"  <{if $isopenscoretocost== 0}>checked<{/if}>>&nbsp;关闭</td>
+                     </tr>
+					<tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                      <td class="left">抵现比例：</td>
+                      <td><input type="input" name="scoretocost" id="scoretocost" value="<{$scoretocost}>"  class="skey" style="width:50px;"> 积分可以抵扣1元</td>
+                    </tr>
+					<tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                        <td class="left">单次最高抵现金额：</td>
+                        <td><input type="input" name="scoretocostmax" value="<{$scoretocostmax}>"  class="skey" style="width:50px;"> 输入值为0表示不限制</td>
+                    </tr>        
+                  </tbody>
+				  
+                </table>
+              </div>
+              <div class="blank20"></div>
+              <input type="hidden" name="tijiao" id="tijiao" value="do" class="skey" style="width:250px;">
+              <input type="hidden" name="saction" id="saction" value="savescoredx" class="skey" style="width:250px;">
+               <input type="submit" value="确认提交" class="button">  
+            </form>
+          </div>
+        </div> 
+        
+        
+   
+    </div>  
+<!--newmain 结束-->
+ <{/block}>

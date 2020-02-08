@@ -1,0 +1,31 @@
+<view class="spxqimg">
+    <image src="../../img/szy.jpeg"></image>
+    <view class="spsm">商品说明：商品说明商品说明商品说明商品说明商品说明商品说明商品说明商品说明商品说明商品说明商品说明商品说明商品说明商品说明</view>
+</view>
+<view class="spxx">
+    <view class="cplbright1 flex-bet">
+        <view class="cplbright1-l">味道家味道家味道家（街道口店）</view>
+    </view>
+    <view class="cplbright3 flex-row flex-y-center">
+        <view class="cplbright31">月销100笔</view>
+        <view class="cplbright32">限1000份</view>
+    </view>
+    <view class="cplbright4 flex-bet">
+        <view class="cplbright4-l flex-grow-1">
+            <text>￥13.9</text>
+            <text>￥37.9</text>
+        </view>
+        <view class="cartControl flex-grow-0">
+            <view catchtap="spggck" class="xgg" style="background:{{color}}">选规格</view>
+        </view>
+    </view>
+</view>
+<view class="spxq">商品详情</view>
+<view class="sqxqv">
+    <rich-text></rich-text>
+</view>
+<view class="footmj">
+  下单已满20元，再买
+  <text>4.1</text>元可减
+  <text>4.1</text>元
+</view>

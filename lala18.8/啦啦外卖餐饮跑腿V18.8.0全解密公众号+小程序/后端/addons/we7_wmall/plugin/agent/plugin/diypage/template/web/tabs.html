@@ -1,0 +1,22 @@
+<div class="second-sidebar-title">{$_W['_plugin']['title']}</div>
+<div class="nav slimscroll">
+	{ifp 'diypage.diyPage' || 'diypage.vuediyShop'}
+		<div class="menu-header">新版DIY</div>
+		<ul class="menu-item">
+			<li {if $_GPC['ac'] == 'diyPage'}class="active"{/if}>
+			<a href="{php echo iurl('diypage/diyPage')}">自定义DIY</a>
+			</li>
+			<li {if $_GPC['ac'] == 'vuediyShop'}class="active"{/if}>
+			<a href="{php echo iurl('diypage/vuediyShop')}">页面设置</a>
+			</li>
+		</ul>
+	{/if}
+	{ifp 'diypage.template'}
+		<div class="menu-header">模板管理</div>
+		<ul class="menu-item">
+			<li {if $_GPC['ac'] == 'template'}class="active"{/if}>
+			<a href="{php echo iurl('diypage/template')}">全部模板</a>
+			</li>
+		</ul>
+	{/if}
+</div>

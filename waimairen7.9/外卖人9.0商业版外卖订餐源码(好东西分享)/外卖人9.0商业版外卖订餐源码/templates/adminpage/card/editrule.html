@@ -1,0 +1,78 @@
+<{extends file="<{$tempdir}>/public/admin.html"}>
+<{block name=extendjs}>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js"></script>
+<{/block}>
+ <{block name=controlname}>编辑活动设置<{/block}>
+ <{block name=bodylist}>
+   <div style="width:98%;overflow-y:auto;white-space:nowrap;">
+         
+          <div class="tags">
+          <div id="tagscontent">
+            <form method="post" name="form1" action="<{ofunc type=url link="/adminpage/card/module/saveruleset/datatype/json"}>" onsubmit="return subform('<{ofunc type=url link="/adminpage/card/module/cxruleset"}>',this);">
+              <div>
+                <table border="0" cellspacing="2" cellpadding="4" class="list" name="table" id="table" width="100%">
+                  <tbody>
+				    <input type='hidden' name='id' value="<{$ruleinfo['id']}>" />
+                  	<tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <td class="left">活动类型:</td>
+                      <td><{$ruleinfo['name']}></td>
+                    </tr>
+                    
+                     <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <td class="left">活动标签:</td>
+                      <td>
+					  <img id='imgurl' style='width: 20px;margin-bottom: -5px;'  <{ofunc type=img link="<{$ruleinfo['imgurl']}>" }>   ><span onclick="upload();" style='color:#0076cf;margin-left:10px;'>修改</span>
+					  <input type='hidden' name='imgurl' value="<{$ruleinfo['imgurl']}>" />
+					  </td>
+                    </tr>
+
+                   <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <td class="left">支持订单:</td>
+                      <td>
+                      	<{assign var=mytype value=","|explode:$ruleinfo['supportorder']}>
+                             <input type="radio" name="supportorder" value="1"  <{if in_array(1,$mytype)}>checked<{/if}>>全部
+                              &nbsp;&nbsp;&nbsp;     
+                             <input type="radio" name="supportorder" value="2" <{if in_array(2,$mytype)}>checked<{/if}>>仅在线支付订单</td>
+                    </tr>
+                    
+                    <tr class="show_1" onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <td class="left">支持平台:</td>
+                      <td>
+                          <{assign var=platform value=","|explode:$ruleinfo['supportplat']}>
+                             <input type="checkbox" name="supportplat[]" value="1"  <{if in_array(1,$platform)}>checked<{/if}>>PC端&nbsp;&nbsp;&nbsp;
+                             <input type="checkbox" name="supportplat[]" value="2"  <{if in_array(2,$platform)}>checked<{/if}>>微信端&nbsp;&nbsp;&nbsp;
+                             <input type="checkbox" name="supportplat[]" value="3"  <{if in_array(3,$platform)}>checked<{/if}>>web端&nbsp;&nbsp;&nbsp;
+                             <input type="checkbox" name="supportplat[]" value="4"  <{if in_array(4,$platform)}>checked<{/if}>>app(安卓,苹果)
+                      </td>
+                    </tr>                    
+                  </tbody>
+                </table>
+              </div>            
+               <input type="submit" value="保存" style='margin-left: 215px;height: 32px;width: 68px;color: #fff;background-color: #169bd5;border: none;border-radius: 5px;margin-top: 10px;' >
+            </form>
+          </div>
+        </div>
+        <div class="blank20"></div>
+
+      </div>
+      <div class="clear"></div>  
+    <div class="clear"></div>
+<script>
+	var dialogs ;
+ function upload(){  
+ 	  dialogs = art.dialog.open('<{ofunc type=url link="/adminpage/other/module/adminupload/uploaddir/cx/func/uploadsucess"}>');
+ 	  dialogs.title('上传图片'); 
+ }
+ function uploadsucess(flag,obj,linkurl){
+ 	 if(flag == true){
+		dialogs.close();
+		upload();
+ 	 }else{ 
+ 		dialogs.close();
+ 	    $('input[name="imgurl"]').val(linkurl);
+   	    $('#imgurl').attr('src',linkurl); 
+   }
+ }  
+
+</script>	
+<{/block}>

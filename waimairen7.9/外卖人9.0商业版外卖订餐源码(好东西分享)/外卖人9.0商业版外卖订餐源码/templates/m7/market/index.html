@@ -1,0 +1,511 @@
+ <{extends file="<{$tempdir}>/public/site.html"}>   
+<{block name=extendjs}>
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/v5_plugin.js.pagespeed.jm.inM6bedmF7.js"></script>
+  <script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/jquery.cookie.js" type="text/javascript" language="javascript"></script> 
+   <script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/slides.jquery.js"> </script>
+<{/block}>
+<{block name=extendcss}>
+<link rel="stylesheet" type="text/css" href="<{$siteurl}>/templates/<{$tempdir}>/public/css/floor.css"> 
+<link rel="stylesheet" type="text/css" href="<{$siteurl}>/templates/<{$tempdir}>/public/css/newtype.css"> 
+<{/block}>
+<{block name=sitetitle}><{$mapname}>-附近小卖铺列表<{/block}>
+
+ <{block name=bodylist}>
+  	 <{load_data assign="marketlb" table="adv"    fileds="*"  limit="5" where="advtype='marketlb' and  module='<{$sitetemp}>'    and ( cityid = '<{$CITY_ID}>' or cityid = 0  )     "}>  
+	 	 <{if !empty($marketlb['list'])}>
+  <div class="banner" style="margin-bottom:0px;">
+	<div class="banner-btn">
+		<a href="javascript:;" class="prevBtn"><i></i></a>
+		<a href="javascript:;" class="nextBtn"><i></i></a>
+	</div>
+	<ul class="banner-img">
+
+
+							<{foreach from=$marketlb['list'] item=items}>
+							<li><a href="<{$items['linkurl']}>"><img <{ofunc type=img  link="<{$items['img']}>"}>></a></li>
+							 <{/foreach}> 
+
+	
+	</ul>
+	<ul class="banner-circle"></ul>
+</div>
+
+	
+<script type="text/javascript">
+$(function(){
+        var $banner=$('.banner');
+        var $banner_ul=$('.banner-img');
+        var $btn=$('.banner-btn');
+        var $btn_a=$btn.find('a')
+        var v_width=$banner.width();
+        
+        var page=1;
+        
+        var timer=null;
+        var btnClass=null;
+
+        var page_count=$banner_ul.find('li').length;//把这个值赋给小圆点的个数
+        
+        var banner_cir="<li class='selected' href='#'><a></a></li>";
+        for(var i=1;i<page_count;i++){
+                //动态添加小圆点
+                banner_cir+="<li><a href='#'></a></li>";
+                }
+        $('.banner-circle').append(banner_cir);
+        
+        var cirLeft=$('.banner-circle').width()*(-0.5);
+        $('.banner-circle').css({'marginLeft':cirLeft});
+        
+        $banner_ul.width(page_count*v_width);
+        
+        function move(obj,classname){
+                //手动及自动播放
+        if(!$banner_ul.is(':animated')){
+                if(classname=='prevBtn'){
+                        if(page==1){
+                                        $banner_ul.animate({left:-v_width*(page_count-1)});
+                                        page=page_count; 
+                                        cirMove();
+                        }
+                        else{
+                                        $banner_ul.animate({left:'+='+v_width},"slow");
+                                        page--;
+                                        cirMove();
+                        }        
+                }
+                else{
+                        if(page==page_count){
+                                        $banner_ul.animate({left:0});
+                                        page=1;
+                                        cirMove();
+                                }
+                        else{
+                                        $banner_ul.animate({left:'-='+v_width},"slow");
+                                        page++;
+                                        cirMove();
+                                }
+                        }
+                }
+        }
+        
+        function cirMove(){
+                //检测page的值，使当前的page与selected的小圆点一致
+                $('.banner-circle li').eq(page-1).addClass('selected')
+                                                                                                .siblings().removeClass('selected');
+        }
+        
+        $banner.mouseover(function(){
+                $btn.css({'display':'block'});
+                clearInterval(timer);
+                                }).mouseout(function(){
+                $btn.css({'display':'none'});                
+                clearInterval(timer);
+                timer=setInterval(move,3000);
+                                }).trigger("mouseout");//激活自动播放
+
+        $btn_a.mouseover(function(){
+                //实现透明渐变，阻止冒泡
+                        $(this).animate({opacity:0.6},'fast');
+                        $btn.css({'display':'block'});
+                         return false;
+                }).mouseleave(function(){
+                        $(this).animate({opacity:0.3},'fast');
+                        $btn.css({'display':'none'});
+                         return false;
+                }).click(function(){
+                        //手动点击清除计时器
+                        btnClass=this.className;
+                        clearInterval(timer);
+                        timer=setInterval(move,3000);
+                        move($(this),this.className);
+                });
+                
+        $('.banner-circle li').live('click',function(){
+                        var index=$('.banner-circle li').index(this);
+                        $banner_ul.animate({left:-v_width*index},'slow');
+                        page=index+1;
+                        cirMove();
+                });
+});
+</script>
+
+<style type="text/css">
+body,ul,ol,li,p,h1,h2,h3,h4,h5,h6,form,fieldset,table,td,img,div,dl,dt,dd,input{margin:0;padding:0;}
+body{font-size:12px;}
+img{border:none;}
+li{list-style:none;}
+input,select,textarea{outline:none;}
+textarea{resize:none;}
+a{text-decoration:none;}
+
+/*清浮动*/
+.clearfix:after{content:"";display:block;clear:both;}
+.clearfix{zoom:1;}
+
+/* banner */
+.banner{width:1200px;height:90px;position:relative;overflow:hidden;margin:10px auto 20px;}
+.banner-btn{display:none;}
+.banner-btn a{display:block;line-height:40px;position:absolute;top:155px;width:40px;height:40px;background-color:#000;opacity:0.3;filter:alpha(opacity=30) color:rgb(255, 255, 255);overflow:hidden;z-index:4;}
+.prevBtn{left:5px;}
+.nextBtn{right:5px;}
+.banner-img img{width:1200px;height:90px;}
+.banner-img{font-size:0;*word-spacing:-1px;/* IE6、7 */ letter-spacing:-3px;position:relative;}
+.banner-img li{display:inline-block;*display:inline;*zoom:1;/* IE6、7 */ vertical-align:top;letter-spacing:normal;word-spacing:normal;font-size:12px;}
+.banner i{background:url(<{$siteurl}>/templates/<{$tempdir}>/public/images/indexIcon.png)  no-repeat;width:15px;height:23px;cursor:pointer;margin:8px 0 0 12px;display:block;}
+.banner .nextBtn i{ display:none;background-position:-200px -24px;}
+.banner .prevBtn i{ display:none;background-position:-200px 0px;}
+
+.banner-circle{position:absolute;left:50%;bottom:15px;height:13px;text-align:center;font-size:0;border-radius:10px;background:rgba(255,255,255,0.3);filter:alpha(opacity:30);}
+.banner-circle li{border-radius:10px;margin:2px;display:inline-block;display:-moz-inline-stack;vertical-align:middle;zoom:1;}
+.banner-circle li a{display:block;padding-top:9px;width:9px;height:0;border-radius:50%;background:#B7B7B7;overflow:hidden;}
+.banner-circle .selected a{background:#F40;}
+</style>
+<{/if}>
+ <style>
+ .menulist{ height:45px; line-height:45px; background:#f38383;}
+ .menulistdiv{ position:relative;  }
+ .allcai{ text-align:center; width: 100px;color:#ffffff; font-family:微软雅黑; font-size:14px; margin-left:20px;  cursor:pointer;  background:url(<{$siteurl}>/templates/<{$tempdir}>/public/images/dropme_iconBg.png) right 16px no-repeat ;}
+ .dropmenu{display:none;position:absolute; top:45px; left:20px; z-index:9999;color:#000; font-family:微软雅黑; font-size:14px;  cursor:pointer;  min-width: 100px;  border: 1px solid #E1E1E1; background:#fff;}
+ .dropmenu li{  height:28px; line-height:28px; color:#000000; text-align:center;}
+  .dropmenu li:hover{ background:#ccc; text-align:center;}
+ </style>
+ <div style="height:20px;"></div>
+<div class="wrapper"> 
+
+<{foreach from=$attrinfo item=items}>
+	<div class="excavator-filter ng-scope" data="cate"  >
+	
+		<div class="excavator-filter-name">商家分类:</div> 
+		<span data="0" class="excavator-filter-item  <{if empty($cate) }>focus<{/if}> "   >不限</span> 
+			   <{foreach from=$moretypelist item=items}>
+							<span    data="<{$items['param']}>" class="excavator-filter-item ng-binding ng-scope  <{if $cate ==  $items['param']}>focus<{/if}>   " > <{$items['name']}></span>					
+					  <{/foreach}>			
+		  	
+	</div>
+	 <{/foreach}>		
+	
+<script>
+
+$(function(){
+	$(".allcai").click(function(){
+		
+		$(".dropmenu").toggle();
+		
+	});
+	
+	$('.excavator-filter span').click(function(){
+		$(this).addClass('focus').siblings().removeClass('focus');
+	//	$(".allcai").text( $(this).text() );
+		makelink();
+	});
+	
+	
+	function makelink(){
+	  var findobj = $('.excavator-filter'); 
+	  var newstr = '';
+	   
+
+   $.each(findobj, function(i, newobj) {
+		 newstr +='&'+$(this).attr('data')+'=';
+			var checkid = $(this).find('span.focus').length;
+			if(checkid > 0){
+				newstr+=$(this).find('span.focus').eq(0).attr('data');
+			}else{
+				newstr+=0;
+			}		  	
+		   
+								   	  
+	});
+	
+	   window.location.href="<{$siteurl}>/index.php?ctrl=market&action=index"+newstr;
+	}
+	
+	
+	
+	
+});
+
+</script>
+ 	
+ 	
+ 	
+ 	
+ 	<script type="text/javascript">
+    var MT = {};
+    MT.BOOTSTAMP = new Date().getTime();
+    MT.STATIC_ROOT = "";
+    MT.ENV = "production";
+    </script>	
+	
+<script>
+      (function(i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] ||
+        function() {
+          (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date();
+        a = s.createElement(o), m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+      })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+      ga('create', 'UA-45741865-1', {'cookieDomain': 'waimai.meituan.com'});
+      ga('send', 'pageview');
+      (function(a,b){function d(){var a=document.createElement("script");a.async=!0,a.src="http://s0.meituan.net/vendor/js/mta.min.js";var b=document.getElementsByTagName("script")[0];b.parentNode.insertBefore(a,b)}if(a.MeituanAnalyticsObject=b,a[b]=a[b]||function(){(a[b].q=a[b].q||[]).push(arguments)},"complete"===document.readyState)d();else{var c=window.onload;window.onload=function(){d(),c&&c()}}})(window,"mta");
+      mta("create","551517ddd0a88b586dc89658");
+      mta("send","page");   
+    </script>
+	
+	
+ 	<script>
+	
+	
+	
+//添加店铺收藏
+function myFavorite2(shopid,obj)
+{ 
+  var url = siteurl+'/index.php?ctrl=shop&action=addcollect&datatype=json&collectid='+shopid+'&type=0'; 
+  var backinfo = ajaxback(url,{});
+  if(backinfo.flag == false){ 
+     		$(obj).hide(); 
+     		$(obj).next().show(); 
+     	//	$('#CancelFavShop').show();
+   }else{ 
+   	diaerror(backinfo.content); 
+  }  
+}  
+//删除店铺收藏
+function delFav(shopid,obj)
+{ 
+	var url = siteurl+'/index.php?ctrl=shop&action=delcollect&datatype=json&collectid='+shopid+'&type=0'; 
+  var backinfo = ajaxback(url,{});
+  if(backinfo.flag == false){ 
+      $(obj).hide(); 
+	  $(obj).prev().show(); 
+     // $('#CancelFavShop').hide();
+   }else{ 
+   	 diaerror(backinfo.content); 
+  }  
+}
+	
+	
+	</script>
+ 	  
+	<!---循环体-->
+ 	
+ 	
+ 	<div style="clear:both;"></div>
+ 	
+ 	
+  
+    <div class="rest-list">
+    <ul class="list clearfix">
+       <{foreach from=$shoplist key=mykey item=items}>
+        <li class="fl rest-li" >  	<div class="j-rest-outer rest-outer transition ">
+      <div class="restaurant" >
+        <a class="rest-atag" href="<{ofunc type=url link="/market/shopshow/id/<{$items['shopid']}>"}>" target="_blank">
+          <div class="top-content">
+            <div class="preview">
+              <img  class="scroll-loading" <{ofunc type=img  link="<{$items['shoplogo']}>"}>  data-max-width="208" data-max-height="156"  />
+              <div class="rest-tags">
+              </div>
+            </div>
+            <div class="content">
+              <div class="name">
+                <span title="<{$items['shopname']}>">
+    <{$items['shopname']}>
+    
+                </span>
+              </div>
+  		          <div class="rank clearfix">
+  	              <span class="star-ranking fl">
+  	                <!-- 5颗星60px长度，算此时星级的长度 -->
+  	                <!-- 算出空白填充的部分长度 -->
+					<{assign var=pointwidth value=14.4*$items['point'] }>
+  	                <span class="star-score"  style="width:<{$pointwidth}>px"></span>
+  	              </span>
+                  <span class="score-num fl"><{$items['point']}>分</span>
+  	              <span class="total cc-lightred-new fr">
+销量<{$items['sellcount']}>单
+  	              </span>
+  		          </div>
+              <div class="price">
+                <span class="start-price">起送:￥<{$items['limitcost']}></span>
+                <span class="send-price">
+				<{if $items['pscost'] == '' }>
+                  免配送费
+				 <{else}>
+				 配送费:￥<{$items['pscost']}>
+				 <{/if}>
+                </span>
+                <span class="send-time"><i class="icon i-poi-timer"></i>
+                      		
+		<{if !empty($items['arrivetime']) }><{$items['arrivetime']}>分钟<{/if}>
+                </span>
+              </div>
+			  
+			  
+			  		  
+			     <div class="price" >
+                <span class="start-price" style="width:100%;margin-top:20px;">
+				
+				
+				 <{foreach from=$mainattr item=itat}>
+                            <{if $itat['type']=='img'}>
+                            <{foreach from=$items['attrdet'] item=itaa}>
+                            <{if $itat['id'] == $itaa['firstattr']}>
+                            <em class="pay-min-icon premium-icon" data-msg="<{$itat['name']}><{$itat['instro']}>"><img style="width:20px; height:20px;" alt="<{$itat['name']}>" title="<{$itat['instro']}>" <{ofunc type=img  link="<{$itaa['value']}>"}>></em>
+                            <{/if}>
+                            <{/foreach}>
+                            <{/if}>
+                            <{/foreach}>
+				
+				</span>
+              
+             
+              </div>
+			  
+			  
+            </div>
+            <div class="clear"></div>
+          </div>
+      
+        </a>
+       
+    </div>
+    </div>
+</li>
+	<{/foreach}>	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+    </ul>
+  </div>
+  
+
+   
+	
+ 	
+
+	
+
+ 
+ 	
+ 	
+ 	
+ 	 	<div style="clear:both;"></div>
+ 	
+ 	
+ 	
+ 	
+</div>
+
+<script>
+
+
+	
+					
+					$(".floor-content .floor-goods").mouseover(function(){
+	
+						$(this).find($(".iscollect")).show();
+						
+					});
+					$(".floor-content .floor-goods").mouseout(function(){
+					
+						$(this).find($(".iscollect")).hide();
+						
+					});
+				
+
+
+
+ $(function(){
+ 
+	var shopzongshu = '<{$shopzongshu|default:0}>';
+	$("#shopzongshu").text(shopzongshu);
+ 
+		<{if $locationtype == 1}>
+ 	   var lng = '<{$lng}>';
+		
+		if(lng == 0 ){
+			 window.location.href= '<{ofunc type=url link="/site/guide"}>';
+		}
+ 	<{else}>
+		var myaddressid = '<{$myaddress}>';
+		if(myaddressid == null|| myaddressid==''){
+			 window.location.href= '<{ofunc type=url link="/site/guide"}>';
+		}
+	<{/if}>
+ 
+  $("#mygunclick").click(function(e) {
+    //
+    var offset = $(this).offset();
+    var relativeX = (e.pageX - offset.left);
+    var bili = Number(relativeX)/Number($(this).width())*100; 
+    bili = Math.ceil(bili);
+    var checknowid = $('#limitcost').val();
+    if(bili > 75){
+    	//30
+    	 $('#blue_bar').css({'width':'93%'});
+    	$('#limitcost').val(30);
+    	$('#showlimittext').text('30元以上');
+    	if(checknowid != 30){
+    		dosetdata();
+    	}
+       
+    }else if(bili > 50){
+       //20
+       $('#blue_bar').css({'width':'75%'});
+       $('#limitcost').val(20);
+       $('#showlimittext').text('20元以上');
+       if(checknowid != 20){
+    		dosetdata();
+    	}
+    }else if(bili > 25){
+      //10
+      $('#blue_bar').css({'width':'50%'});
+       $('#limitcost').val(10);
+       $('#showlimittext').text('10元以上');
+       if(checknowid != 10){
+    		dosetdata();
+    	}
+    }else if(bili > 5){
+    	 $('#blue_bar').css({'width':'25%'});
+       $('#limitcost').val(5);
+       $('#showlimittext').text('5元以上');
+       if(checknowid != 5){
+    	   	dosetdata();
+    	}
+    }else{
+    	$('#blue_bar').css('width','0px');
+    	$('#limitcost').val(0);
+    	$('#showlimittext').text('不限制');
+    	if(checknowid != 0){
+    	   	dosetdata();
+    	}
+    }
+     
+  }); 
+});
+  function dosetdata(){
+  	    var url = siteurl+"/index.php?ctrl=site&action=indexlist"; 
+	   $.post(url, $('#doselectform').serialize(),function (data, textStatus){  
+	     	$('#shopList').html(data);  
+	  }, 'html'); 
+  }
+	function tabCutover02(obj,tempobj){
+		$(obj).addClass('current').siblings().removeClass('current');
+		$(obj).parent().parent().find($('.'+tempobj)).addClass('floor-con-show').siblings().removeClass('floor-con-show');
+	}
+</script>
+<div style="height:20px;"></div>
+<!--区域店铺-->
+ 
+<{/block}>

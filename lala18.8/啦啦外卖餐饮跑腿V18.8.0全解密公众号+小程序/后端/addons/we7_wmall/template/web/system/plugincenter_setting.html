@@ -1,0 +1,200 @@
+{itemplate 'public/header'}
+{if $op == 'setting'}
+<div class="page clearfix">
+	<form class="form-horizontal form form-validate" id="form2" action="" method="post" enctype="multipart/form-data">
+		<ul class="nav nav-tabs" role="tablist">
+			<li role="presentation" {if $_GPC['type'] == 'basic' || !$_GPC['type']}class="active"{/if}><a href="#basic" aria-controls="basic" role="tab" data-toggle="pill">基本设置</a></li>
+			<li role="presentation" {if $_GPC['type'] == 'pay'}class="active"{/if}><a href="#pay" aria-controls="pay" role="tab" data-toggle="pill">支付设置</a></li>
+			<li role="presentation" {if $_GPC['type'] == 'contact'}class="active"{/if}><a href="#contact" aria-controls="contact" role="tab" data-toggle="pill">联系方式</a></li>
+		</ul>
+		<div class="tab-content">
+			<div class="tab-pane {if $_GPC['type'] == 'basic' || !$_GPC['type']}active{/if}" role="tabpanel" id="basic">
+				<div class="alert alert-warning">注意：默认授权应用设置会在【<a href="{php echo iurl('system/account/list', array(), true);}" target="_blank">公众号权限</a>】开启之后，设置公众号的应用权限。如需单独设置，请到【<a href="{php echo iurl('system/account/list', array(), true);}" target="_blank">公众号权限</a>】单独设置。</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">是否启用</label>
+					<div class="col-sm-9 col-xs-12">
+						<div class="radio radio-inline">
+							<input type="radio" name="basic[status]" value="1" id="status-1" {if $power['basic']['status'] == 1}checked{/if}>
+							<label for="status-1">启用</label>
+						</div>
+						<div class="radio radio-inline">
+							<input type="radio" name="basic[status]" value="0" id="status-0" {if !$power['basic']['status']}checked{/if}>
+							<label for="status-0">不启用</label>
+						</div>
+						<div class="help-block"><span class="text-danger">注意：开启之后，设置了默认授权应用，需要针对之前没有设置公众号权限而默认拥有全部插件权限的公众号单独设置授权。</span></div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">授权中心广告位</label>
+					<div class="col-sm-9 col-xs-12">
+						{php echo tpl_form_field_image('basic[thumb]', $power['basic']['thumb']);}
+						<div class="help-block">建议图片尺寸:640*240</div>
+					</div>
+				</div>
+				<div id="change-plugin" class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">默认授权应用</label>
+					<div class="col-sm-9 col-xs-12">
+						{loop $plugins $plugin}
+							<div class="col-xs-3">
+								<div class="checkbox checkbox-inline">
+									<input type="checkbox" name="basic[pluginname][]" value="{$plugin['name']}" id="pluginname-{$plugin['name']}" {if in_array($plugin['name'], $power['basic']['pluginname'])}checked{/if}>
+									<label for="pluginname-{$plugin['name']}">{$plugin['title']}</label>
+								</div>
+							</div>
+						{/loop}
+					</div>
+				</div>
+			</div>
+			<div class="tab-pane {if $_GPC['type'] == 'pay'}active{/if}" role="tabpanel" id="pay">
+				<div class="panel panel-default panel-payment-switch hide">
+					<div class="panel-body">
+						<div class="col-sm-9 col-xs-12">
+							<h4>微信支付</h4>
+						</div>
+						<div class="col-sm-2 pull-right">
+							<input type="checkbox" name="app_type[wechat]" value="1" class="js-switch" {if in_array('wechat', $power['app'])}checked{/if}/>
+						</div>
+					</div>
+					<div class="panel-body">
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">微信AppId</label>
+							<div class="col-sm-9 col-xs-12">
+								<input type="text" class="form-control" name="app[wechat][appid]" value="{$power['pay_type']['wechat']['appid']}">
+								<div class="help-block">公众号身份标识</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">微信支付商户号(MchId)</label>
+							<div class="col-sm-9 col-xs-12">
+								<input type="text" class="form-control" name="app[wechat][mchid]" value="{$power['pay_type']['wechat']['mchid']}">
+								<div class="help-block">公众号支付请求中用于加密的密钥Key</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">商户支付密钥(API密钥)</label>
+							<div class="col-sm-9 col-xs-12">
+								<input type="text" class="form-control" name="app[wechat][apikey]" value="{$power['pay_type']['wechat']['apikey']}">
+								<div class="help-block">此值需要手动在腾讯商户后台API密钥保持一致，<a href="http://bbs.we7.cc/thread-5788-1-1.html" target="_blank">查看设置教程</a></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="panel panel-default panel-payment-switch">
+					<div class="panel-body">
+						<div class="col-sm-9 col-xs-12">
+							<h4>支付宝支付</h4>
+						</div>
+						<div class="col-sm-2 pull-right">
+							<input type="checkbox" name="app_type[alipay]" value="1" class="js-switch" {if in_array('alipay', $power['app'])}checked{/if}/>
+						</div>
+					</div>
+					<div class="panel-body">
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">收款支付宝账号</label>
+							<div class="col-sm-9 col-xs-12">
+								<input type="text" class="form-control" name="app[alipay][account]" value="{$power['pay_type']['alipay']['account']}">
+								<div class="help-block">如果开启兑换或交易功能，请填写真实有效的支付宝账号，用于收取用户以现金兑换交易积分的相关款项。如账号无效或安全码有误，将导致用户支付后无法正确对其积分账户自动充值，或进行正常的交易对其积分账户自动充值，或进行正常的交易。 如您没有支付宝帐号， <a href="https://memberprod.alipay.com/account/reg/enterpriseIndex.htm" target="_blank">请点击这里注册</a></div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">合作者身份</label>
+							<div class="col-sm-9 col-xs-12">
+								<input type="text" class="form-control" name="app[alipay][partner]" value="{$power['pay_type']['alipay']['partner']}">
+								<div class="help-block">支付宝签约用户请在此处填写支付宝分配给您的合作者身份，签约用户的手续费按照您与支付宝官方的签约协议为准。 如果您还未签约，<a href="https://memberprod.alipay.com/account/reg/enterpriseIndex.htm" target="_blank">请点击这里签约</a>；如果已签约,<a href="https://b.alipay.com/order/pidKey.htm?pid=2088501719138773&amp;product=fastpay" target="_blank">请点击这里获取PID、Key</a>;</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">校验密钥</label>
+							<div class="col-sm-9 col-xs-12">
+								<input type="text" class="form-control" name="app[alipay][secret]" value="{$power['pay_type']['alipay']['secret']}">
+								<div class="help-block">支付宝签约用户可以在此处填写支付宝分配给您的交易安全校验码，此校验码您可以到支付宝官方的商家服务功能处查看</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="tab-pane {if $_GPC['type'] == 'contact'}active{/if}" role="tabpanel" id="contact">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">在线客服</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" class="form-control" name="contact[customer]" value="{$power['contact']['customer']}">
+						<div class="help-block">客服QQ号</div>
+					</div>
+				</div>
+				<div class="form-group" id="peerpay-container">
+					<div class="col-sm-2 control-label">联系电话</div>
+					<div class="col-sm-9">
+						<div class="help-items">
+							{if !empty($power['contact']['meal'])}
+							{loop $power['contact']['meal'] $val}
+							<div class="input-group help-item" style="margin-bottom: 10px;">
+								<div class="input-group-addon">电话</div>
+								<input class="form-control" type="number" value="{$val['tel']}" name="meal[tel][]">
+								<div class="input-group-addon">备注</div>
+								<input class="form-control" type="text" value="{$val['note']}" name="meal[note][]">
+								<div class="input-group-btn del-item">
+									<a class="btn btn-danger" href="javascript:;">
+										<i class="fa fa-remove"></i>
+									</a>
+								</div>
+							</div>
+							{/loop}
+							{else}
+							<div class="input-group help-item" style="margin-bottom: 10px;">
+								<div class="input-group-addon">电话</div>
+								<input class="form-control" type="text" value="" name="meal[tel][]">
+								<div class="input-group-addon">备注</div>
+								<input class="form-control" type="number" value="" name="meal[note][]">
+								<div class="input-group-btn del-item">
+									<a class="btn btn-danger" href="javascript:;">
+										<i class="fa fa-remove"></i>
+									</a>
+								</div>
+							</div>
+							{/if}
+						</div>
+						<div style="margin-top: 5px;">
+							<a href="javascript:;" class="btn btn-default add-help-words"><i class="fa fa-plus"></i> 新增联系电话</a>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">服务时间</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" class="form-control" name="contact[servertime]" value="{$power['contact']['servertime']}">
+						<div class="help-block">例：周一至周五 9:00~18：00</div>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-9 col-xs-9 col-md-9">
+					<input type="hidden" name="token" value="{$_W['token']}">
+					<input type="submit" value="提交" class="btn btn-primary">
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+<script>
+	$(function (){
+		$(document).on('click', '.add-help-words', function() {
+			var html = '<div class="input-group help-item" style="margin-bottom: 10px;">'+
+				'		<div class="input-group-addon">电话</div>'+
+				'		<input class="form-control" type="number" name="meal[tel][]">'+
+				'		<div class="input-group-addon">备注</div>'+
+				'		<input class="form-control" type="text" name="meal[note][]">'+
+				'		<div class="input-group-btn del-item">'+
+				'			<a class="btn btn-danger" href="javascript:;">'+
+				'				<i class="fa fa-remove"></i>'+
+				'			</a>'+
+				'		</div>'+
+				'	</div>';
+			$('#peerpay-container .help-items').append(html);
+		});
+		$(document).on('click', '.del-item', function() {
+			$(this).parents('.input-group').remove();
+		});
+	});
+</script>
+{/if}
+{itemplate 'public/footer'}

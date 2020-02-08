@@ -1,0 +1,3 @@
+<view bindtap="choose">上传</view>
+<textarea bindinput="emoji" class="mar_t pa" placeholder="请输入表情"></textarea>
+<view class="mar_t pa fon_30">{{text}}</view>

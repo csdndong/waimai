@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PhpIncludePathManager">
+    <include_path>
+      <path value="$PROJECT_DIR$/yunshangcheng/vendor/PHPExcel/Cell" />
+      <path value="$PROJECT_DIR$/yunshangcheng/vendor/composer" />
+      <path value="$PROJECT_DIR$/yunshangcheng/vendor/PHPExcel/Worksheet" />
+      <path value="$PROJECT_DIR$/yunshangcheng/vendor/ecmoban/Upload" />
+      <path value="$PROJECT_DIR$/yunshangcheng/vendor/PHPExcel/RichText" />
+      <path value="$PROJECT_DIR$/yunshangcheng/vendor/riverslei/payment" />
+      <path value="$PROJECT_DIR$/yunshangcheng/vendor/aliyuncs/oss-sdk-php" />
+      <path value="$PROJECT_DIR$/yunshangcheng/vendor/PHPExcel/locale" />
+      <path value="$PROJECT_DIR$/yunshangcheng/vendor/PHPExcel/Shared" />
+      <path value="$PROJECT_DIR$/yunshangcheng/vendor/PHPExcel/CachedObjectStorage" />
+      <path value="$PROJECT_DIR$/yunshangcheng/vendor/PHPExcel/Style" />
+      <path value="$PROJECT_DIR$/yunshangcheng/vendor/PHPExcel/Calculation" />
+      <path value="$PROJECT_DIR$/yunshangcheng/vendor/PHPExcel/Writer" />
+      <path value="$PROJECT_DIR$/yunshangcheng/vendor/PHPExcel/Reader" />
+      <path value="$PROJECT_DIR$/yunshangcheng/vendor/filp/whoops" />
+      <path value="$PROJECT_DIR$/yunshangcheng/vendor/PHPExcel/CalcEngine" />
+      <path value="$PROJECT_DIR$/yunshangcheng/vendor/PHPExcel/Chart" />
+    </include_path>
+  </component>
+  <component name="PhpProjectSharedConfiguration" php_language_level="5.3.0" />
+</project>

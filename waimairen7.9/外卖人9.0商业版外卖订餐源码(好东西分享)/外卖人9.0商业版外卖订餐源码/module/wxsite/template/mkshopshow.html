@@ -1,0 +1,1189 @@
+ <{extends file="<{$tempdir}>/public/wxsite.html"}>  
+<{block name=extendcss}>  
+ <link rel="stylesheet" href="<{$siteurl}>/js/jquerymobile/jquery.mobile.min.css" /> 
+<script type="text/javascript" src="<{$siteurl}>/js/jquerymobile/jquery.mobile.min.js"></script>  
+<{/block}>
+ <{block name=extendjs}><{/block}>
+<{block name=myScrolljs}> 
+
+<{/block}>
+ <{block name=hearnav}>
+ 
+
+<{/block}>
+<{block name=sitetitle}><{$sitename}><{/block}>
+<{block name=blockcontent}> 
+
+<div  data-role="page" data-theme="m" id="pageshow">
+
+ <link rel="stylesheet" type="text/css" href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/new_2hang_show.css">
+ <link rel="stylesheet" href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/shopcart/css/font-awesome.min.css" />
+<link rel="stylesheet" href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/shopcart/css/index.css" />
+<link rel="stylesheet" href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/newshop/css/font-awesome.min.css" />
+<link rel="stylesheet" href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/newshop/css/index.css" /> 
+  <script src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/js/template.min.js"></script>    
+    <script src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/js/wxshop.js"></script>  
+   <script src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/js/cart.js"></script> 
+   
+   
+   <div data-role="content">
+   <script>
+   	 var shopid = <{$shopinfo['id']}>;
+   	 var is_goshop = <{$shopdet['is_goshop']|default:0}>;
+	 var shopis_open = "<{$openinfo['opentype']}>";
+   	 var checknext = false;
+   	 var shoplimitcost = '<{$shopdet['limitcost']}>';
+   	 var zuocart = '<{$siteurl}>/index.php?ctrl=wxsite&action=gowei&id=<{$id}>';
+   	 var colorset = '<{$color}>';
+	checkcartifempty();
+	 function checkcartifempty(){    //检查购物车是否为空
+		if( $('#total_count').html() == 0 ){
+			<!-- $(".ordeilpaymenshop").hide(); -->
+			$(".emptycartBg").show();
+			$(".ordeilpaymen").hide();
+			$(".emptyordeilpaymen").show();
+			$('#total_count').hide();
+			$('.wmr_botcar_numbox').css('background-color','#cccccc')
+		}else{
+			$(".ordeilpaymenshop").show();
+			$(".emptycartBg").hide();
+			$(".ordeilpaymen").show();
+			$(".emptyordeilpaymen").hide();
+			$('#total_count').show();
+			if(colorset == 'yellow'){
+				$('.wmr_botcar_numbox').css('background-color','#ff7600')
+			}else if(colorset == 'green'){
+				$('.wmr_botcar_numbox').css('background-color','#00cd85')
+			}else{
+				$('.wmr_botcar_numbox').css('background-color','#ff6e6e')
+			}
+			 
+		}
+} 
+$(function(){
+		$(window).resize(function(){
+			$('#pageshow').css('min-height',$(window).height());
+			height = $(window).height()-202;
+			$('#standard').css('height',height);
+			$('#transition').css('height',height);
+			$('body').css('height',$(window).height());			
+		});
+	}); 
+   	  $(function(){ 
+	 $('.fa-angle-left').bind("click", function() {
+       window.location.href='<{$siteurl}>/index.php?ctrl=wxsite&action=index';
+   });
+
+	
+	if( shoplimitcost == 0 ){
+		$("#addShopping").show();
+	}else{
+		$("#showlimit").show();
+	}
+
+  
+	  
+  		/*初始化样式*/
+  		   url = siteurl+'/index.php?ctrl=wxsite&action=cart&shopid='+shopid+'&datatype=json&random=@random@';
+        url = url.replace('@random@', 1+Math.round(Math.random()*1000));
+      	var bk = ajaxback(url,''); 
+      	 initshop(bk);
+      	 
+ 
+         
+		 
+		 
+		 
+  	});
+	
+	
+	
+	
+  	function myyanchi(){
+  		  checknext = false;
+  	}
+  	function sortitemclick(doid,obj){  
+  	  // var scroptop= $('#listto_'+doid).offset().top-40;// checktype == '1'?Number($("#sort_sh_"+doid).offset().top)-81:Number($("#sort_sh_"+doid).offset().top)-162;
+  	 // alert(doid);
+  	  //right_list
+  	   
+  	  var defaultheight = 0;
+  	  var listobj = $('.right_list_box');
+  	  for(var i=0;i<$(listobj).length;i++){
+  	   
+  	    if($(listobj).eq(i).attr('data') == doid){
+  	     
+  	       break;
+  	    }else{ 
+  	       defaultheight = Number(defaultheight)+Number($(listobj).eq(i).height());
+  	     }
+  	  }
+  	  $(obj).addClass('on').siblings().removeClass('on'); 
+  	  scroll2.scrollTo(0,Number(defaultheight)*-1,200,false); 
+ 
+    }
+  	function initshop(datas){ 
+  		 $('.onselect').removeClass('onselect');
+	         	 $('.righ_l_b_btn_moren').show();
+	         	 $('.righ_l_b_btn_hover').hide();
+	         	 $('.cartshuliang').hide();
+	         	 $('.right_l_btn_nub').val(0);
+	         	 $('.cartshuliang').text(0);
+	         	 $('#total_count').text(0);
+	         	 $('#total_money').text(0);
+	      if(datas.flag == false){    
+		 
+	         if($('#total_money').html() != undefined){
+			     
+	         	 $('.qipao').text(0);
+	         	 $.each(datas.content.list, function(i,val){
+	         	 	 if($('#gidli_'+val.id).html() != undefined){  
+	         	 	 	  var typeid = $('#gidli_'+val.id).attr('typeid');
+  	                 $('#gidli_'+val.id).addClass('onselect');
+					               if($('#cp_'+val.typeid).html() != undefined){
+									   if($('#cp_'+val.typeid).find('.qipao').eq(0).html() != undefined){  
+										     var othershu = Number($('#cp_'+val.typeid).find('.qipao').eq(0).text())+Number(val.count);
+										    $('#cp_'+val.typeid).find('.qipao').eq(0).text(othershu);
+									   }else{ 
+										  $('#cp_'+val.typeid).append('<div class="qipao" style="position: absolute; margin-top: 5px; right: 5px; width: 16px; height: 16px; line-height: 13px; text-align: center; color: rgb(255, 255, 255); background-image: url(/upload/images/qipao.png); background-size: 16px; background-position: 0px 0px; background-repeat: no-repeat no-repeat;  display: inline-block;">'+val.count+'</div>');
+										}
+								  }
+	                $('#gshu_'+val.id).val(val.count);
+	                $('#gidli_'+val.id).find('.righ_l_b_btn_moren').eq(0).hide();
+	                $('#gidli_'+val.id).find('.righ_l_b_btn_hover').eq(0).show();
+					//alert('#gshu_'+val.id);
+	                $('#gshu_'+val.id).show();
+	         	 	 } 
+	          	}); 
+				 if(Number(datas.content.sumcount)>0){
+				 $('#total_count').show();
+				 if(colorset == 'yellow'){
+					$('.wmr_botcar_numbox').css('background-color','#ff7600')
+				}else if(colorset == 'green'){
+					$('.wmr_botcar_numbox').css('background-color','#00cd85')
+				}else{
+					$('.wmr_botcar_numbox').css('background-color','#ff6e6e')
+				}
+				 }else{
+				 $('#total_count').hide();
+				 $('.wmr_botcar_numbox').css('background-color','#cccccc');
+				 }
+	          	$('#total_count').text(datas.content.sumcount);
+				checkcartifempty();
+				var shijicost = Number(datas.content.sum);
+                shijicost =  shijicost.toFixed(2);
+	          	$('#total_money').text(shijicost);
+				 
+	          	if(Number(datas.content.sum) >= Number(shoplimitcost)){
+	          		 $('#showlimit input').val('');
+					 $("#addShopping").show();
+					 $("#showlimit").hide();
+					 if(shopis_open !=2 && shopis_open !=3){
+							 
+							$("#showlimit").show();
+							$("#addShopping").hide();
+							$('#showlimit input').val('休息中');
+
+						}
+					  
+	          	}else{
+				 
+	          	        var checkcost = Number(shoplimitcost)-Number(datas.content.sum);
+						<{if $shopdet['is_goshop'] == 1  }>
+	          	        $('#showlimit input').val('还差'+checkcost+'元');
+						<{else}>
+	          	        $('#showlimit input').val('还差'+checkcost+'元');
+						<{/if}>
+						if(shopis_open !=2 && shopis_open !=3){
+							 
+							$("#showlimit").show();
+							$("#addShopping").hide();
+							$('#showlimit input').val('休息中');
+
+						}
+						 $("#addShopping").hide();
+						$("#showlimit").show();
+	          	}
+        	 }else{
+					
+        	 }
+        }
+	 
+    }
+	
+		
+//加购物车动画
+function cartimg(obj,gid){
+    var display=$('#gidli_'+gid+' .righ_l_b_btn_hover').css("display");
+    if(display == 'none'){
+        var thisobj=$('#gidli_'+gid+' .righ_l_b_btn_moren'+' #gid_'+gid);
+    }else{
+        var thisobj=$('#gidli_'+gid+' .righ_l_b_btn_hover'+' #gid_'+gid);
+    }
+ 	if( $(thisobj).offset() ==  undefined ){
+				freshcart();
+	}else{
+	     $("#addload").show();
+
+        var pos =$(thisobj).offset();
+       var topval = pos.top;
+		$('#total_count').show(); 
+       $("#addload").css("top", topval + "px"); 
+       $("#addload").css("left", pos.left + "px");
+        $("#addload").css({'width':'15px','height':'15px'}); 
+       var target_ob = $('#total_count').offset();
+       var target_top = Number(target_ob.top);
+       var target_left = Number(target_ob.left);
+       $("#addload").animate({top:target_top,left:target_left, 'width':'0px','height':'0px'});
+
+
+
+        $('.ordeilpaymenshop').addClass('bound');
+        setTimeout(function(){
+            $('.ordeilpaymenshop').removeClass('bound');
+        },500);
+
+
+
+       $('#total_count').text(Number($('#total_count').text())+1);
+	   
+	   checkcartifempty();
+	   
+	          if($('#cp_'+$('#gidli_'+gid).attr('typeid')).find('.qipao').eq(0).html() != undefined){
+				  var othershu = Number($('#cp_'+$('#gidli_'+gid).attr('typeid')).find('.qipao').eq(0).text())+1;
+				 
+				  $('#cp_'+$('#gidli_'+gid).attr('typeid')).find('.qipao').eq(0).text(othershu);
+			   }else{ 
+				   $('#cp_'+$('#gidli_'+gid).attr('typeid')).append('<div class="qipao" style="position: absolute; margin-top: 5px; right: 5px; width: 16px; height: 16px; line-height: 13px; text-align: center; color: rgb(255, 255, 255); background-image: url(/upload/images/qipao.png); background-size: 16px; background-position: 0px 0px; background-repeat: no-repeat no-repeat;  display: inline-block;">1</div>');
+			   }
+			   
+	   
+	 //  	var shijicost = datas.content.sum;
+	   //       	$('#total_money').text(shijicost.toFixed(2));
+	   
+	   var sjcost111 = Number($('#total_money').text())+Number($(obj).attr('data-price'));
+	   
+	    	$('#total_money').text( sjcost111.toFixed(2) ); 
+	    	
+	    	if(Number($('#total_money').text()) >= Number(shoplimitcost)){
+	          		  $('#showlimit input').val('');
+					 $("#addShopping").show();
+					 $("#showlimit").hide();
+	          	}else{
+	          	        var checkcost = Number(shoplimitcost)-Number($('#total_money').text());
+						checkcost = checkcost.toFixed(2);	          	        
+						<{if $shopdet['is_goshop'] == 1  }>
+	          	        $('#showlimit input').val('还差'+checkcost+'元');
+						<{else}>
+	          	        $('#showlimit input').val('还差'+checkcost+'元');
+						<{/if}>
+						 $("#addShopping").hide();
+						$("#showlimit").show();
+	          	        
+	          	}
+	    	
+	    	
+	    	$('#gidli_'+gid).find('.righ_l_b_btn_moren').hide();
+	    	$('#gidli_'+gid).find('.righ_l_b_btn_hover').show();
+	  //    var typeid = $(obj).attr('typeid');
+	  //    $('#typelist'+typeid).show();
+	 //     $('#typelist'+typeid).text(Number($('#typelist'+typeid).text())+1);
+	      $('#gidli_'+gid).addClass('onselect');
+	      $('#gshu_'+gid).val(Number($('#gshu_'+gid).val())+1); 
+		  $('#gshu_'+gid).show();
+		  $('#total_count').show();
+		  if(colorset == 'yellow'){
+				$('.wmr_botcar_numbox').css('background-color','#ff7600')
+			}else if(colorset == 'green'){
+				$('.wmr_botcar_numbox').css('background-color','#00cd85')
+			}else{
+				$('.wmr_botcar_numbox').css('background-color','#ff6e6e')
+			}
+ 	}  
+	    	//if($(valse).is(':checked') == true)
+} 
+
+
+function removeonedish(gid,tshopid,num){ 
+
+	   showLoading();
+	   url = siteurl+'/index.php?ctrl=site&action=downcart&goods_id='+gid+'&shopid='+tshopid+'&num=1&datatype=json&random=@random@';
+	  	 url = url.replace('@random@', 1+Math.round(Math.random()*1000));
+    	var bk = ajaxback(url,'');
+	    if(bk.flag == false){ 
+			newhideLoading();
+	       if($('#total_money').html() != undefined){
+ 
+			checkcartifempty();
+			  
+			 var sjcost222 = $('#total_money').text()-Number(   $('#gidli_'+gid).attr('data-price')   );
+	         notypenum = Number(sjcost222.toFixed(2)); 
+	          $('#total_money').text(notypenum);
+	         if(notypenum < 0){
+	         	$('#total_money').text(0);
+	         }
+			   notypenum = Number($('#total_count').text())-1;
+			   $('#total_count').text(notypenum);
+			   if(notypenum < 1){
+				    $('#total_count').text(0);
+				  $('#total_count').hide();
+				  $('.wmr_botcar_numbox').css('background-color','#cccccc')
+			   }
+
+	         	if(Number($('#total_money').text()) >= Number(shoplimitcost)){
+	          		 $('#showlimit input').val('');
+					 $("#addShopping").show();
+					 $("#showlimit").hide();
+	          	}else{
+	          	        var checkcost = Number(shoplimitcost)-Number($('#total_money').text());
+						checkcost = checkcost.toFixed(2);
+	          	         <{if $shopdet['is_goshop'] == 1  }>
+	          	        $('#showlimit input').val('还差'+checkcost+'元');
+						<{else}>
+	          	        $('#showlimit input').val('还差'+checkcost+'元');
+						<{/if}>
+						 $("#addShopping").hide();
+						$("#showlimit").show();
+	          	        
+	          	}
+	         notypenumcount = Number($('#gshu_'+gid).val()) -1;
+	          $('#gshu_'+gid).text(notypenumcount);
+	         if(notypenumcount < 1){
+				$('#cp_'+$('#gidli_'+gid).attr('typeid')).find('.qipao').eq(0).remove();
+	         	$('#gshu_'+gid).val(0);
+	         	$('#gidli_'+gid).removeClass('onselect');
+	         	$('#gidli_'+gid).find('.righ_l_b_btn_hover').hide(); 
+	         	$('#gidli_'+gid).find('.righ_l_b_btn_moren').show();
+				$('#gshu_'+gid).hide();
+			 
+	         }else{
+				 $('#gshu_'+gid).val(Number($('#gshu_'+gid).val())-1); 
+			 } 
+	   	   }else{ 
+	   	    	  freshcart();
+	   	   }
+	    }else{
+			newhideLoading();
+	    	Tmsg(bk.content);
+	    }
+}   
+    var baoshifu = false;
+    var hidetopflag = false;
+    var scroll1, scroll2,scroll3,scroll4,scroll5;
+function loaded() { 
+	scroll1 = new iScroll('standard',{hScrollbar:false, vScrollbar:false,bounce:false});  //	hScrollbar:false, 		vScrollbar:false,		useTransition: true,//
+	scroll2 = new iScroll('transition', {hScroll:false,hScrollbar:false, vScrollbar:false,onScrollEnd:function(e){
+							$("img").lazyload({
+								threshold :20
+							});
+            if(this.y < -121){
+                if(hidetopflag == false){
+                    hidetopflag = true;
+                    $('.ordshopTop').hide();
+                    $('.ordshopBot').hide();
+                    $('#parentcate').hide();
+					$('.order_head_content').hide();
+                    $('#transition').css({'top':'82px'});
+                    $('#standard').css({'top':'82px'});
+                    scroll2.refresh();
+                    scroll1.refresh();
+					
+					
+					
+					
+                 }
+            }else if(this.y > -10 ){
+                if(hidetopflag == true){
+                    hidetopflag = false;
+                    $('.ordshopTop').show();
+                    $('.ordshopBot').show();
+                    $('#parentcate').show();
+					$('.order_head_content').show();
+					<{if !empty($cxlist)}>
+					$('#transition').css({'top':'234px'});
+					$('#standard').css({'top':'183px'});
+					<{else}>
+					$('#transition').css({'top':'210px'});
+					$('#standard').css({'top':'159px'});
+					<{/if}>		
+                    
+					 
+                    scroll2.refresh();
+                    scroll1.refresh();
+                 }
+            }
+
+     },bounce:false});
+ scroll3 = new iScroll('parentcate',{ scrollX: true, scrollY: false, mouseWheel: true ,vScrollbar:true,scrollbars:true,bounce:false,hScroll:true,hScrollbar:false, vScrollbar:false}); 
+ 	
+
+	if( baoshifu == false ){
+		baoshifu = true;
+ 	    
+		
+		<{if !empty($goodinfo) }>
+		  
+			 <{if $goodinfo['have_det'] == 1  }>
+				 ggtc("<{$goodinfo['id']}>");
+			 <{else}>
+				addonedish("<{$goodinfo['id']}>","<{$shopinfo['shopid']}>",1,"#gid_<{$goodinfo['id']}>");
+				$('#zhezhao').toggle(); 
+			 $("#showorderdet").toggle(); 
+			 freshowdetcart();
+			 <{/if}> 
+		 <{/if}>
+		 
+		 getcatefoods();	
+		
+		
+	}
+	
+	
+	$("img").lazyload({
+								threshold :20
+							});
+	
+}
+
+  $(function(){
+setTimeout("loaded()", 200);
+
+});
+
+function ggtc(id){
+		     
+		var content = htmlback1(siteurl+'/index.php?ctrl=wxsite&action=foodsgg&id='+id);
+		    
+			if(content.flag == false){
+		         var getmoreContent =  $.trim(content.content);  
+		           $('.shopping_popup_box').html(getmoreContent); 
+		           $('.wmr_botcar_num').css('display','block');
+		           $(".shopping_popup_content").show(); 
+		           $(".shopping_popup_box").show();
+		           $('.refuImg').hide();
+		           $('.refuFang').hide();
+		           $('#loading').hide();
+			}else{
+			    Tmsg('获取失败');
+			}  
+		} 
+		function htmlback1(url,info)
+		{
+			var backmessage = {'flag':true,'content':''};
+			$.ajax({
+		       type: 'POST',
+		       async:false,
+		       url: url.replace('@random@', 1+Math.round(Math.random()*1000)),
+		       data: info,
+		      dataType: 'html',success: function(content) {  
+			   backmessage['flag'] = false;
+		      	   backmessage['content'] = content; 
+				  },
+		      error: function(content) { 
+		      backmessage['content'] = '获取失败';
+			   }
+		   });  
+		   return backmessage;
+		   console.log(backmessage);
+		}	
+
+</script>
+</div>
+<style>
+ body{overflow:hidden!important;}
+</style>
+<!-------店铺公告和活动弹窗开始------->
+<div class="maskbg hide">
+	<div class="wmr_order_popup_con">
+		<div class="wmr_order_popup_box">
+			<div class="wmr_order_popup">
+				<div class="wmr_order_popup_head">
+					<img <{ofunc type=img  link="<{$shopinfo['shoplogo']|default:$shoplogo}>"}> />
+					<h3><{$shopinfo['shopname']}></h3>
+				</div>
+				<{if !empty($cxlist)}>
+				<div class="wmr_order_popup_list">
+					<ul>
+					<{foreach from=$cxlist  item=items}><ul>
+			        <li style='margin:0px'>
+					    <img <{ofunc type=img  link="<{$items['imgurl']}>"}> >
+					    <span><{$items['name']}></span>
+					</li>
+			        <{/foreach}>						
+					</ul>
+				</div>
+				<{/if}>
+				<div class="wmr_order_popup_txt">
+					<p style='display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 6;overflow: hidden;'>店铺公告：
+					<{if empty(<{$shopinfo['notice_info']|htmlspecialchars_decode}>)}>
+				        <{if empty($shopnotice)}>暂无公告<{else}><{$shopnotice}><{/if}>
+				    <{else}>
+				        <{$shopinfo['notice_info']|htmlspecialchars_decode}>
+				    <{/if}>
+					</p>
+				</div>
+			</div>
+			<img class="icon_colse" src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/newshop/images/icon_x.png" />
+		</div>
+	</div>
+</div>
+
+<script>
+$(function(){
+$('.icon_colse').bind('click',function(){
+   $('.maskbg').hide();
+})
+$('.order_head_activity').bind('click',function(){
+   $('.maskbg').show();
+})
+$('#huodong').bind('click',function(){
+   $('.maskbg').show();
+})
+$('.notice').bind('click',function(){
+   $('.maskbg').show();
+})
+
+ 
+
+})
+function setshow(){
+ $('.goodsli_parent').show();
+}
+</script>
+<!----------------------店铺公告和活动弹窗结束---------------------->
+
+<div class="wmr_title_content">
+	<div class="wmr_title_left ">
+	 <a href="javascript:void(0);">	<i class="return"></i> </a>
+	</div>
+	<div class="wmr_title_center" style="margin-left:-50px;"><{$shopinfo['shopname']}></div>
+	<!-- <div class="wmr_title_right">
+		<img style='display:none' src="images/icon_titfx.png" />
+	</div> -->
+</div>
+ <style>
+     .order_head_center ul li{
+         font-size:13px!important;
+     }
+     .notice p{
+         font-size:12px!important;
+     }
+ </style>
+ <div class="order_head_content" style='height:<{if !empty($cxlist)}>100px<{else}>76px<{/if}>'>
+	<div class="order_head_top">
+		<div class="order_head_photo">
+			<img <{ofunc type=img  link="<{$shopinfo['shoplogo']|default:$shoplogo}>"}> >
+		</div>
+		<div class="order_head_center">
+			<ul>
+				<li>起送价￥<{$shopdet['limitcost']|default:0}></li>
+				<li>配送费￥<{$psinfo['pscost']|default:0}></li>
+				<li><{$shopdet['arrivetime']|default:0}>分钟</li>
+			</ul>
+			<div class="notice" style="padding:5px;line-height:17px;">
+				<span><img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/newshop/images/icon_notice1.png">：</span>
+				<p>				 
+				<{if empty(<{$shopinfo['notice_info']|htmlspecialchars_decode}>)}>
+				    <{if empty($shopnotice)}><{else}><{$shopnotice}><{/if}>
+				<{else}>
+				    <{$shopinfo['notice_info']|htmlspecialchars_decode}>
+				<{/if}>
+				</marquee>
+				</p>
+			</div>
+		</div>
+		<div class="order_head_right" <{if !empty($collect) }>style="display:none;"<{/if}> onclick="myFavorite(<{$shopinfo['id']}>,this); " >
+			<img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/newshop/images/icon-xx01.png" >
+			<span>收藏</span>
+		</div>
+		<div class="order_head_right" <{if empty($collect) }>style="display:none;"<{/if}> onclick="delFav(<{$shopinfo['id']}>,this); " >
+			<img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/newshop/images/icon-xx02.png" >
+			<span>已收藏</span>
+		</div> 
+	</div>
+	<{if !empty($cxlist)}>
+	<style>
+.dowebok { width:79%; height: 24px; line-height:24px;   max-height: 24px;overflow: hidden;  font-size: 14px;position: fixed;top: 118px;background-color:rgba(0,0,0,.05)!important;}
+.dowebok ul { margin: 0; line-height: 20px;}
+.dowebok ul li { margin-left:5px!important;font-size:12px;text-overflow:ellipsis;overflow:hidden;white-space: nowrap;}
+.dowebok a { color: #333; text-decoration: none;}
+.dowebok a:hover { text-decoration: underline;}
+</style>
+	<div class="order_head_activity dowebok" >	  
+			<ul style="    max-height: 24px;  overflow: hidden;display:block;">
+			<{foreach from=$cxlist  item=items}>
+				<li><img <{ofunc type=img  link="<{$items['imgurl']}>"}> ><{$items['name']}></li> 
+			<{/foreach}> 
+			</ul>
+ 	</div>
+	<script>
+		$(function(){
+			//文字滚动的函数
+			function textslide(){
+
+				var height=($('.order_head_activity ul li').height());//获取li的高度
+				//让第一个向上npx,完成之后，再把这个li添加到li的最后，然后把它的marginTop还原到0
+				$('.order_head_activity ul li').eq(0).animate({marginTop:-height},function(){
+					$(this).remove().appendTo('.order_head_activity ul').css({marginTop:0})
+				});
+
+			}
+			//每隔ns执行一次文字的滚动
+			if($('.order_head_activity ul li').length>1){
+				var t=setInterval(textslide,2000);
+			}
+
+		})
+		</script>
+	<{/if}>
+	<{if count($cxlist) > 0}>
+			<span id="huodong" style="position: fixed;top: 118px; right: 0px;font-size: 12px;color: #fff;background-color:rgba(0,0,0,.05)!important;"><{count($cxlist)}>种优惠 &nbsp;></span>
+		<{/if}>
+</div>
+
+ 
+<!--链接-->
+<div class="ordislink">
+ <ul>
+  <li  onclick="dolink('<{ofunc type=url link="/wxsite/shopshow/typelx/<{$typelx}>/id/<{$shopinfo['id']}>"}>');"  class="ordislinkaA">商品</li>
+  <li  onclick="dolink('<{ofunc type=url link="/wxsite/getshopcomment/typelx/<{$typelx}>/shopid/<{$shopinfo['id']}>"}>');"  >评价</li>
+  <li  onclick="dolink('<{ofunc type=url link="/wxsite/getdetailinfo/typelx/<{$typelx}>/shopid/<{$shopinfo['id']}>"}>');" ">商家</li>
+ </ul>
+</div>
+<div class="shopping_popup_content" style="display: none">
+	<div class="shopping_popup_box" style="display: none">
+
+	</div>
+</div> 
+ 
+<script>
+$(function(){
+	
+	var parlilength = $("#parentcate .ordisordlabox li").length;	 
+	var liwidthsum  = '';
+	for(i=0;i<parlilength;i++){
+		var getliwidth = $("#parentcate .ordisordlabox li").eq(i).width();		 
+		liwidthsum = Number(liwidthsum)+Number(getliwidth)+25;	
+ 	}
+	liwidthsum = Number(liwidthsum)+7;
+	 
+	$("#parentcateul").css('width',liwidthsum);
+	var gonggaoshow = Number( $("#notice").text().length )*16;
+	var screenwidth = document.body.clientWidth-20;
+	if( gonggaoshow >= screenwidth ){ 
+		$("#marqueenotice").show();
+		$("#notice").hide();
+	}else{
+	 
+		$("#marqueenotice").hide();
+		$("#notice").show();
+	}
+});
+</script>
+<!-- 一级分类 -->
+<div  id="standard" style="width:20%; overflow:hidden;  position:absolute; <{if !empty($cxlist)}>top:183px;<{else}>top:159px;<{/if}> z-index:9;bottom:45px; " >
+
+ <div class="ordisordLeft"   style="width:100%;">
+  <ul>
+  <!-- active  -->
+    
+  <{foreach from=$goodstype key=mykey item=items}>
+			<{if $items['partent_id'] == 0 }>
+				<li cateid="<{$items['id']}>" <{if $mykey == 0  }>class="active"<{/if}> ><a><{$items['name']}></a></li>   
+			<{/if}>
+		<{/foreach}> 
+  </ul>
+ </div>
+ 
+</div> 
+
+
+<!-- 一级分类 -->
+<div   id="parentcate" style="position:absolute;background:#fff; width:80%;  margin-left:20%;<{if !empty($cxlist)}>top:183px;<{else}>top:159px;<{/if}> z-index:9;height:50px; overflow:hidden;">
+  <div id="parentcateul" style="height:50px;"> 
+	  <div class="ordisordlab" style="width:100%; margin:0px 0px 0px 5px;">
+   <div class="ordisordlabox">
+    <ul>
+	    <{foreach from=$goodstype key=mykey item=items}>
+		<{foreach from=$items['soncate'] key=mykey item=itv}>
+			<li style="display:none;" class="soncate soncate_<{$itv['parent_id']}>    <{if $mykey == 0  }>ordisordlaA<{/if}> " cateid="<{$itv['id']}>"  ><a><{$itv['name']}></a></li>   
+	   <{/foreach}>  
+   <{/foreach}> 
+   
+	 
+    </ul>
+   </div>
+  </div>
+   </div>
+</div>
+
+ 
+<div id="transition"  style="width:80%;  position:absolute; <{if !empty($cxlist)}>top:234px;<{else}>top:210px;<{/if}>  bottom:45px; z-index:9;  left:20%;overflow: hidden; "  >
+
+ <div class="ordisordRight" id="catefoods"  style="width:100%; background:#fff;" >
+	 <!-- 点击分类ajax获取分类下的所有商品 -->
+ </div>
+ 
+</div>
+ 
+<!-- 获取评论内容 -->
+<div id="getpinglun" style="display:none;width:100%; position:absolute;z-index:99; top:89px; bottom:70px;">
+	<div class="huoqucomment">
+		
+	</div>
+</div>
+
+ <!-- 获取商家详情 -->
+<div id="getdetailinfo" style="width:100%;display:none; position:absolute;z-index:99; top:89px; bottom:70px;">
+	<div class="getdetailinfo">
+	 
+	</div>
+</div>
+ 
+ 
+		 <div style="height:10px;"></div>
+	 <style>
+	 .ordisordlab .ordisordlabox ul li{
+	 border: 1px solid #CCCBCB;
+	 }
+	 .ordisordlab .ordisordlabox ul li.ordisordlaA{
+		 border: 1px solid #FF6E6E;
+	 }
+	  .newhide{display:none!important;}
+	 .newshow{display:block!important;}
+	 </style>
+ <script>
+ var click_button = false;
+function doubleclick(){
+	click_button = false;
+}
+function lockclick(){
+	 if(click_button == false){
+			click_button = true;
+			setTimeout("doubleclick()", 400); 
+			return true;
+	 }else{
+		 return false;
+	 }
+	 
+	
+	 
+}
+
+ var is_open = false; 
+ $(function(){  
+ 	 
+    
+	  /* 点击展示购物车详情  */
+	$(".ordeilpaymenshop").bind('click',function(){
+  		 $('#zhezhao').toggle(); 
+		 $("#showorderdet").toggle();
+		
+		 freshowdetcart();
+		 
+	 	
+	}); 
+	
+	$("#zhezhao").bind('click',function(){
+		$(this).toggle();
+		$("#showorderdet").toggle();
+	});
+	
+   
+ });
+ 
+ 
+ 
+ 
+ $(document).ready(function(){ 
+ 
+	 $(".ordisordLeft li").bind('click',function(){
+		   if(lockclick()){  		  
+			$(".ordisordLeft li").removeClass('active');
+			$(this).addClass('active');
+			$(".ordisordlabox li").removeClass('ordisordlaA');
+		 	var parentid =  $(this).attr('cateid');
+			$(".soncate_"+parentid).eq(0).addClass('ordisordlaA');
+			getcatefoods();
+		  }
+	 });
+	  
+	  $(".ordisordlabox li").bind('click',function(){
+	
+		  if(lockclick()){  
+		  
+			$(".ordisordlabox li").removeClass('ordisordlaA');
+			$(this).addClass('ordisordlaA');
+		 	getcatefoods();
+		  }
+	 });
+	  
+	 
+	 
+ })
+function getcatefoods(){
+		var parentid =  $(".ordisordLeft li.active").attr('cateid');
+		var curcateid = $(".ordisordlabox li.ordisordlaA").attr('cateid'); 
+		$(".soncate").removeClass('newshow');
+		$(".soncate").removeClass('newhide'); 
+		$(".soncate_"+parentid).addClass('newshow');
+		var parlilength = $(".ordisordlabox li.newshow").length;	 
+ 	var liwidthsum  = '';
+	for(i=0;i<parlilength;i++){
+ 			var getliwidth = $(".ordisordlabox li.newshow").eq(i).width();	
+			console.log(getliwidth);			
+			liwidthsum = Number(liwidthsum)+Number(getliwidth)+Number(25);	
+  	}
+	liwidthsum = Number(liwidthsum)+7; 
+  	if( Number(liwidthsum) < 150 ){
+		liwidthsum = 150;
+	}
+	$("#parentcateul").css('width',liwidthsum); 
+	scroll3.refresh();
+	 scroll1.refresh();
+		 
+			$("#catefoods").html('');
+			var url = '<{ofunc type=url link="/wxsite/mkcatefoods"}>'; 
+					$.post(url, {'parentid':parentid,'curcateid':curcateid,'shoptype':<{$shopinfo['shoptype']}>,'shopid':<{$shopinfo['id']}>,'type':1},function (data, textStatus){ 
+							$('#catefoods').html(data); 
+							
+							
+							
+							
+							
+							  freshcart();
+							scroll2.refresh();  	 
+							scroll3.refresh();
+							 scroll1.refresh(); 
+							
+							 $('.righ_l_b_btn_moren').unbind();							
+						 
+							   $('.right_l_btn_left').bind("click", function() {   
+									if($(this).attr('have_det') == 1){
+										removeoneproduct($(this).attr('data-id'),$(this).attr('data-shopid'),1);
+									   }else{
+										removeonedish($(this).attr('data-id'),$(this).attr('data-shopid'),1);
+										}
+							  }); 
+							   $('.right_l_btn_right').bind("click", function() {   
+									if(lockclick()){
+										 if($(this).attr('have_det') == 1){
+											addproduct($(this).attr('data-id'),$(this).attr('data-shopid'),1,this);
+										 }else{
+											addonedish($(this).attr('data-id'),$(this).attr('data-shopid'),1,this);
+									   }
+									  }
+									 
+							  }); 
+							 
+							 
+							 
+							 $("img").lazyload({
+								threshold :20
+							});
+							
+						}, 'html');
+						
+}	
+ 
+//添加店铺收藏
+function myFavorite(shopid,obj)
+{ 
+  var url = siteurl+'/index.php?ctrl=shop&action=addcollect&datatype=json&collectid='+shopid+'&type=0'; 
+  var backinfo = ajaxback(url,{});
+  if(backinfo.flag == false){ 
+     		$(obj).hide(); 
+     		$(obj).next().show();
+			Tmsg('收藏成功');
+     	//	$('#CancelFavShop').show();
+   }else{ 
+         if(backinfo.content =='未登录')
+         { 
+             window.location.href =siteurl+'/index.php?ctrl=wxsite&action=login';
+             }else{
+   	      Tmsg(backinfo.content);
+          } 
+  }
+}  
+//删除店铺收藏
+function delFav(shopid,obj)
+{ 
+	var url = siteurl+'/index.php?ctrl=shop&action=delcollect&datatype=json&collectid='+shopid+'&type=0'; 
+  var backinfo = ajaxback(url,{});
+  if(backinfo.flag == false){ 
+      $(obj).hide(); 
+	  $(obj).prev().show();
+	  Tmsg('取消收藏');
+     // $('#CancelFavShop').hide();
+   }else{ 
+   	 Tmsg(backinfo.content); 
+  }  
+}
+
+
+ 
+ function freshowdetcart(){
+			 url = siteurl+'/index.php?ctrl=wxsite&action=cart&shopid='+shopid+'&datatype=json&random=@random@';
+			url = url.replace('@random@', 1+Math.round(Math.random()*1000));
+			var bk = ajaxback(url,''); 
+			if($('#showorderdet .showorderListss').html() == undefined){
+ 			}else{
+			 showcartdet(bk);
+			 
+			}
+		//	Tmsg($('#showorderdet').find('.box_inline').length);
+			
+			
+		 
+		 
+	}
+function showcartdet(datas){ 
+ 
+ 	 $('#showorderdet .showorderListss').html('');
+ 	  if(datas.flag == false){    
+    	   //	$('.listcontent').remove();
+    	var temp_htmls = '';
+           $('#showorderdet .showorderListss').append(temp_htmls);
+    	 	  $.each(datas.content.list, function(i,val){    
+    	 	 	  var htmls = template.render('cartlist', {list:val});
+    	 	 	  $('#showorderdet .showorderListss').append(htmls);
+    	    }); 
+ 		 
+    	  
+           $('.addbtn').bind("click", function() {   
+      	    	if(checknext ==  false){ 
+      	    		checknext = true;
+					var checkhavedet = $(this).attr('have_det');
+					 
+					if(checkhavedet == 1){					 
+						  uponeproduct($(this).attr('product_id'),$(this).attr('data-shopid'),1);
+						 freshowdetcart();
+					}else{
+					 
+						addonedish($(this).attr('data-id'),$(this).attr('data-shopid'),1,this);
+					 	freshowdetcart();
+						
+				   }
+				  
+      	     	   setTimeout("myyanchi()", 500 );
+           	  }
+      	 	
+          }); 
+           $('.downdbtn').bind("click", function() {   
+           	  if(checknext ==  false){ 
+           	  		checknext = true;
+					var checkhavedet = $(this).attr('have_det');
+					if(checkhavedet == 1){
+						 removeoneproduct($(this).attr('product_id'),$(this).attr('data-shopid'),1);
+						 freshowdetcart();
+					 
+					}else{
+						
+						removeonedish($(this).attr('data-id'),$(this).attr('data-shopid'),1,this);
+						freshowdetcart();
+						 freshcart();
+						 
+				   }
+				  
+      	     	   setTimeout("myyanchi()", 500 );
+           	  }
+      	 	
+          });
+		   $('.showorderListss').css('height',$('#showorderdet').find('.box_inline').length*49);
+		    
+		 
+     	  
+    }else{
+  		 
+          $('#cartlist').hide();
+      
+          
+       
+    }
+} 
+ /* 点击展示购物车详情   end*/
+				
+  </script>
+  
+ <div id="zhezhao" style="z-index:10"></div>
+ 
+ 
+<script id="cartlist" type="text/html">   
+ 
+ <div class="box_inline goodsli" style="padding:5px 5px 5px 8px;border-top: 1px solid #cccccc; "    id="gidli_<^%=list.id%^> "  >
+		<div class="liwd30 detcart"  style="width:50%; text-align:left;">
+		<^%=list.name%^>
+		<^%if(list.have_det==1){%^><font style="color:#ccc;font-size:10px;">【<^%=list.gg.attrname%^>】</font><^%}%^>
+			</div>
+		<div class="liwd30 detcart" style="width:20%; text-align:left;">
+			￥<^%=list.cost%^>
+			</div>
+			<div class="liwd30 detcart" style="width:30%; text-align:center;">
+			<div style="width:90px; height:38px; line-height:38px;">
+			<span class="addbtn" have_det="<^%=list.have_det%^>"  <^%if(list.have_det==1){%^> product_id="<^%=list.gg.id%^>" <^%}%^>  data-id="<^%=list.id%^>" data-shopid="<^%=list.shopid%^>"><img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/<{if $color == 'green'}>grjia.png<{else if $color == 'yellow'}>yejia.png<{else}>redjia.png<{/if}>" /></span>
+			<span class="shuliang gdhd"><^%=list.count%^></span>
+			<span class="downdbtn " have_det="<^%=list.have_det%^>"  <^%if(list.have_det==1){%^> product_id="<^%=list.gg.id%^>" <^%}%^>     data-id="<^%=list.id%^>" data-shopid="<^%=list.shopid%^>"><img   src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/<{if $color == 'green'}>add_01_1.png<{else if $color == 'yellow'}>add_01_2.png<{else}>add_01.png<{/if}>" /></span>
+			</div>
+			</div>
+	</div>
+ 
+ </script>
+ <div id="showorderdet" style="z-index:10000;overflow-x: hidden;overflow-y: scroll;">
+     <div style="background-color: #FAFAFA;position: fixed;width: 100%;">
+         <div style="color: #4a4a4a;font-size: 14px;font-weight: bold;padding:5px 5px 5px 8px;border-top: 1px solid #cccccc; ">
+             <span id="closecart">关闭</span>
+             <span id="emptycart" style="float:right">清空购物车</span>
+         </div>
+		 
+     </div>
+     <div class="showorderListss" style="padding-top:35px;">
+
+     </div>
+ </div>
+ <script>
+
+     $("#closecart").bind('click',function(){
+         $("#showorderdet").toggle();
+         $("#zhezhao").toggle();
+     });
+     //        清空购物车
+     $("#emptycart").bind('click',function(){
+         $("#showorderdet").toggle();
+         delshopcart();
+         $("#zhezhao").hide();
+     });
+	 
+ </script>
+ 
+ 
+<div class="wmr_botcar_content">
+	<div class="wmr_botcar_left">
+		<div class="wmr_botcar_numbox" style='background-color:#cccccc'>
+			<div class="wmr_botcar_num ordeilpaymenshop" >
+				<img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/shopcart/images/icon_shopcar.png" />
+				<i id="total_count" style='display:none'></i>
+			</div>
+		</div>
+		<div class="wmr_botcar_txt">
+            <div style="line-height:14px;">
+                <span style="display:inline-block;width:10px;">￥</span>
+                <span id="total_money" style="font-weight:bold;">0.00</span>
+            </div>
+			<{if $psinfo['pscost'] > 0 }>
+            <b style="line-height:14px;">另需配送费<{$psinfo['pscost']}>元<{if $psinfo['is_allow_ziti'] == 1}>&nbsp;|&nbsp;支持自取<{/if}></b>
+			<{else}>
+			<b style="line-height:14px;"><{if $psinfo['is_allow_ziti'] == 1}>&nbsp;支持自取<{/if}></b>
+			<{/if}>
+			 
+		</div>
+	</div>
+	<div class="wmr_botcar_btn" onclick="dolink('<{ofunc type=url link="/wxsite/shopcart/id/<{$id}>"}>');" id="addShopping" style='display:none;border-radius:0px!important'>
+		<input  data-role="none"  type="button" value="选好了" style='border-radius:0px!important' />
+	</div>
+	<div class="wmr_botcar_btn"  id="showlimit" style='border-radius:0px!important'>
+		<input  data-role="none"  type="button" value="还差<{$shopdet['limitcost']}>元" style='border-radius:0px!important'/>
+	</div>
+	 
+</div>
+
+<style type="text/css">
+     .bound{
+         -webkit-transition-timing-function: cubic-bezier(0.6, 4, 0.3, 0.8);
+         transition-timing-function: cubic-bezier(0.6, 4, 0.3, 0.8);
+         -webkit-animation: gelatine 0.5s 1;
+         animation: gelatine 0.5s 1;
+     }
+     @keyframes gelatine {
+         from, to {
+             -webkit-transform: scale(1, 1);
+             transform: scale(1, 1);
+         }
+
+         25% {
+             -webkit-transform: scale(0.9, 1.1);
+             transform: scale(0.9, 1.1);
+         }
+
+         50% {
+             -webkit-transform: scale(1.1, 0.9);
+             transform: scale(1.1, 0.9);
+         }
+
+         75% {
+             -webkit-transform: scale(0.95, 1.05);
+             transform: scale(0.95, 1.05);
+         }
+
+         from, to {
+             -webkit-transform: scale(1, 1);
+             transform: scale(1, 1);
+         }
+
+         25% {
+             -webkit-transform: scale(0.9, 1.1);
+             transform: scale(0.9, 1.1);
+         }
+
+         50% {
+             -webkit-transform: scale(1.1, 0.9);
+             transform: scale(1.1, 0.9);
+         }
+
+         75% {
+             -webkit-transform: scale(0.95, 1.05);
+             transform: scale(0.95, 1.05);
+         }
+     }
+     @-webkit-keyframes gelatine {
+         from, to {
+             -webkit-transform: scale(1, 1);
+             transform: scale(1, 1);
+         }
+
+         25% {
+             -webkit-transform: scale(0.9, 1.1);
+             transform: scale(0.9, 1.1);
+         }
+
+         50% {
+             -webkit-transform: scale(1.1, 0.9);
+             transform: scale(1.1, 0.9);
+         }
+
+         75% {
+             -webkit-transform: scale(0.95, 1.05);
+             transform: scale(0.95, 1.05);
+         }
+
+         from, to {
+             -webkit-transform: scale(1, 1);
+             transform: scale(1, 1);
+         }
+
+         25% {
+             -webkit-transform: scale(0.9, 1.1);
+             transform: scale(0.9, 1.1);
+         }
+
+         50% {
+             -webkit-transform: scale(1.1, 0.9);
+             transform: scale(1.1, 0.9);
+         }
+
+         75% {
+             -webkit-transform: scale(0.95, 1.05);
+             transform: scale(0.95, 1.05);
+         }
+     }
+ </style> 
+ 
+ </div>
+ 
+<{/block}>
+<{block name=footer}>
+ 
+<{/block}>
+<{block name=sharetitle}><{$shopinfo1['shopname']}><{/block}> 
+<{block name=sharedesc}><{$shopinfo1['intr_info']|default:''}><{/block}>
+<{block name=shareimg}><{$siteurl}><{$shopinfo1['shoplogo']}><{/block}>
+<{block name=sharelink}><{ofunc type=url link="/wxsite/shopshow/typelx/mk/id/<{$shopinfo1['id']}>/key/<{$jiamiuidkey}>"}><{/block}>

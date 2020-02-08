@@ -1,0 +1,159 @@
+ <{extends file="<{$tempdir}>/public/wxsite.html"}>  
+<{block name=extendcss}> 
+ <link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/address.css">  
+<{/block}>
+ <{block name=extendjs}> 
+ 
+<script> 
+
+	$(function(){
+	
+ 
+	$('#myaddress').bind("click", function() {
+
+	  window.location.href= siteurl+'/index.php?ctrl=wxsite&action=member';
+        return false;
+   });
+
+	
+		 $('.setdefault').bind("click", function() { 
+		 	showLoading();
+	    var info = {'tijiao':'do','default':'1','addressid':$(this).attr('gid'),'what':'default'};
+	  	var url = '<{ofunc type=url link="/area/editaddress/random/@random@/datatype/json"}>';
+		      url = url.replace('@random@', 1+Math.round(Math.random()*1000));
+		   var backinfo = ajaxback(url,info);
+		      if(backinfo.flag ==  false){
+	             location.reload();  
+	        }else{
+	        	newhideLoading();
+	             Tmsg(backinfo.content);
+	        } 
+
+     }); 
+ 	  $('.bjddress').bind("click", function() {   
+       	 	var gid = $(this).attr('gid');   
+ 	        	window.location.href= siteurl+'/index.php?ctrl=wxsite&action=editaddress&id='+gid; 
+ 	  });
+
+ 	  $('.myaddressBox').bind("click", function() {  
+ 	  	    window.location.href=siteurl+'/index.php?ctrl=wxsite&action=editaddress'; 
+ 	  }); 
+ 	  $('.deladdress').bind("click", function() {
+		  if(confirm('确认删除？')) {
+			  showLoading();
+			  var gid = $(this).attr('gid');
+			  var info = {'tijiao': 'del', 'addressid': gid};
+			  var url = '<{ofunc type=url link="/area/deladdress/random/@random@/datatype/json"}>';
+			  url = url.replace('@random@', 1 + Math.round(Math.random() * 1000));
+			  var backinfo = ajaxback(url, info);
+			  if (backinfo.flag == false) {
+				  location.reload();
+			  } else {
+				   newhideLoading();
+				  Tmsg(backinfo.content);
+			  }
+		  }
+ 	  }); 
+	   
+
+	});
+</script>
+<{/block}>
+ <{block name=myScrolljs}>
+<script> 
+		var myScroll;
+function loaded() {
+	myScroll = new iScroll('wrapper', {
+		useTransform: false,
+		onBeforeScrollStart: function (e) {
+			var target = e.target;
+			while (target.nodeType != 1) target = target.parentNode;
+
+			if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA')
+				e.preventDefault();
+		}
+	});
+}
+document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false); 
+document.addEventListener('DOMContentLoaded', function () { setTimeout(loaded, 200); }, false);
+</script>
+<{/block}>
+<{block name=sitetitle}><{$sitename}><{/block}>
+<{block name=hearnav}>
+ <style>
+     .toptitBox .toptitLss i {
+         display: inline-block;
+         width: 100%;
+         height: 22px;
+         background-image: url(/templates/<{$tempdir}>/public/wxsite/images/top04.png);
+         background-repeat: no-repeat;
+         background-size: 100%;
+     }
+ </style>
+<div class="toptitCon">
+ <div class="toptitBox">
+  <div class="toptitLss" style=" height: 22px; display: inline-block; width: 3.625%; float: left;"  id="myaddress" ><a href="#"><i></i></a></div>
+  <div class="toptitC"><h3>我的收货地址</h3></div>
+ </div>
+</div>
+<{/block}>
+<{block name=blockcontent}> 
+ <div id="wrapper" style="top:40px;">
+	<div id="scroller">
+
+
+	<!--添加收货地址-->
+<div class="myaddressCon">
+  <div class="myaddressBox"><i>添加收货地址</i></div> 
+</div>
+<!--默认地址-->
+
+ <{foreach from=$arealist key=mykey item=items}>
+<div class="defaultadd">
+ <div class="defaultaddt">
+  <div class="difaultbox">
+   <ul class="difaultbot">
+    <li style="position:relative;">
+     <ul class="difaultxx">
+      <li><a><{$items['contactname']}></a></li>
+		<li><{$items['phone']}></li>
+     </ul>
+	 
+	 <{if $items['tag'] > 0 }>
+	 <div class="difau_lab addtagBg_<{$items['tag']}>">
+		 <span><{if $items['tag'] == 1 }>家<{else if $items['tag'] == 2  }>公司<{else if $items['tag'] == 3  }>学校<{/if}></span>
+	 </div>
+	 <{/if}>
+	 
+    </li>
+    <li><p><{$items['bigadr']}><span><{$items['detailadr']}></span></p></li>
+   </ul>
+  </div>
+ </div>
+ <div class="defaultaddb" style='border-bottom:solid 1px #ccc'>
+  <div class="difaultbox">
+   <ul class="difaultl">
+    <li><label><input type="radio" name="sex" checked="checked">
+	 <{if $items['default'] == 1}> 
+	<i class="difyd"></i>
+	<{else}>
+	<i class="difwb setdefault"   gid="<{$items['id']}>"></i>
+	<{/if}>  
+	</label></li>
+    <li>
+	 <{if $items['default'] == 1}><span>默认地址</span><{else}><span class="setdefault"   gid="<{$items['id']}>">设为默认</span><{/if}></li>
+   </ul>
+   <ul class="difaultr">
+     <li class="bjddress"  gid="<{$items['id']}>"><a><i class="fa fa-edit"></i>编辑</a></li>
+    <li class="deladdress"  gid="<{$items['id']}>"><a><i class="fa fa-trash"></i>删除</a></li>
+   </ul>
+  </div>
+ </div>
+</div>
+<{/foreach}>
+ <div style="height:20px;"></div>
+ 
+ 
+ 
+ </div> </div>
+<{/block}>

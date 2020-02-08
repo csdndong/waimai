@@ -1,0 +1,746 @@
+ <{extends file="<{$tempdir}>/public/site.html"}>   
+<{block name=extendjs}>
+ <script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/cart.js" type="text/javascript" language="javascript"></script> 
+<!--[if lt IE 9]>
+  <script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/html5shiv.min.js"></script>
+  <script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/respond.min.js"></script>
+<![endif]-->
+<{/block}>
+<{block name=extendcss}>
+
+<link rel="stylesheet" type="text/css" href="<{$siteurl}>/templates/<{$tempdir}>/public/css/nmmiain.css"> 
+<link rel="stylesheet" type="text/css" href="<{$siteurl}>/templates/<{$tempdir}>/public/css/nmcomm.css"> 
+<link rel="stylesheet" type="text/css" href="<{$siteurl}>/templates/<{$tempdir}>/public/css/nmage.css"> 
+
+<{/block}>
+<{block name=sitetitle}><{$mapname}>-附近商家列表<{/block}>
+<{block name=shophide}><{/block}>
+<{block name=bgshow}><div class="mmbg" <{if !empty($sitebk)}>style="background:#ffffff;"<{/if}>></div> <{/block}>
+ <{block name=bodylist}>
+<style>
+input{margin:0px;important!}
+.input-control input{margin-bottom:0px;}
+</style>
+<div id="content" class="clearfix" style="min-height: 322px;">
+<div class="main">
+
+<section class="breadcrumb">
+<a href="/">首页</a>
+<i>&gt;</i>
+<a href="<{ofunc type=url link="/shop/index/id/<{$shopinfo['id']}>"}>"><{$shopinfo['shopname']}></a>
+<i>&gt;</i>
+<span>确认订单</span>
+</section>
+<div class="main-l">
+<div class="empty clearfix"></div>
+
+
+<section id="cartshow_c" class="cart-section fl">
+
+</section>
+
+
+
+
+<section class="delivery fl">
+<div class="delivery-title">
+<h2>配送信息</h2>
+</div>
+<ul class="delivery-ul">
+
+ <{if !empty($member['uid'])}> 	
+ <{load_data assign="list" table="address"    fileds="*"  limit="5"  where="userid='<{$member['uid']}>'"}>
+	
+<li class="addr-list-li">	 
+			<div data-node="loading" style="text-align: center; height: 90px; padding: 70px 0px; display: none;">
+			<img src="<{$siteurl}>/upload/images/loading_50c5e3e.gif">
+			</div>
+			 <{if !empty($list['list']) }>	
+			<div class="list-title" data-node="listTitle" style="">
+			<span>收货人信息：</span>
+			<span class="add-new" data-node="addNew">新增送餐地址</span>
+			</div>			
+			<ul class="curAddrPanel" data-node="addrPanel" style="height: auto;">
+			 <{foreach from=$list['list'] item=items}>	
+				<li  class="addr-item <{if $items['default'] == 1}> select <{/if}> " >   
+				<div class="addr-title">        
+					<div class="addr-user"   <{if $items['default'] != 1}> onclick="changeAddr(<{$items['id']}>);" <{/if}>  >           
+						<span class="name"><{$items['contactname']}></span>          
+						<span class="sex"><{if $items['sex'] == 1 }>先生<{/if}><{if $items['sex'] == 2 }>女士<{/if}></span>        
+					</div>        
+					<div class="addr-action">            
+						<a class="addr-edit" addid="<{$items['id']}>">编辑</a>            
+						<a class="addr-remove" onclick="delAddrs(<{$items['id']}>);">删除</a>       
+					</div>    
+				</div>    
+				<div class="addr-con"   <{if $items['default'] != 1}> onclick="changeAddr(<{$items['id']}>);" <{/if}>  >        
+					<p class="phone"><{$items['phone']}></p>        
+					<p class="addr-desc"><{$items['address']}></p>    
+				</div>    
+				<{if $items['default'] == 1}> <span class="select-ico"></span> <{/if}>
+			</li>
+				<{/foreach}>
+			</ul>
+
+			<{else}>
+						
+			<ul class="curAddrPanel" data-node="addrPanel" style="height: auto;">
+		<div class="addr-detail" id="new-address-section">   
+			<form id="addform">       
+				<table class="addr-table" border="0">           
+					<tbody>
+						<tr>                
+							<td valign="top">
+								<span class="l-label">姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名</span>
+							</td>                
+							<td>        
+            
+								<input type="hidden" value="<{$addinfo['id']|default:''}>" id="address_id" name="address_id">                   
+								<div class="form-group">                        
+									<div class="input-control">                            
+										<input type="text" name="contactname" id="yonghuming"  placeholder="您的姓名" value="<{$addinfo['contactname']|default:''}>" class="placeholder-con yonghuming"> <span class="star">*</span>                       
+									</div>                        
+									<div class="error-msg v-hide yhm">请填写您的姓名，不能超过8个字符</div>                   
+								</div>                   
+								<div class="form-group">                       
+									<div class="input-control"  id="xingbie">                           
+										<div class="s-gender <{if $addinfo['sex'] == 1 }> selected  <{/if}> " data-gender="1">                                <i></i><span>先生</span>                            </div>  
+										<div class="s-gender  <{if $addinfo['sex'] == 2 }> selected  <{/if}> "  data-gender="2">                                <i></i><span>女士</span>                            </div>                        
+									</div>                       
+									<div class="error-msg v-hide">请选择您的性别</div>                    </div>                
+							</td>            
+					    </tr>           
+						<tr>                
+						<td valign="top"><span class="l-label">电&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;话</span></td>                
+						<td>                    
+						<div class="form-group">                        
+						<div class="input-control">                           
+						<input type="text" name="phone" id="shoujihao"  placeholder="11位手机号" value="<{$addinfo['phone']|default:''}>" class="placeholder-con shoujihao">                            <span class="star">*</span>                       
+						</div>                        
+						<div class="error-msg v-hide sjh">请填写正确的手机号</div>                 
+						</div>               
+						</td>           
+						</tr>   
+						<tr>               
+							<td valign="top"><span class="l-label">详细地址</span></td>               
+							<td>                    
+								<div class="form-group">                        
+									<div class="input-control">                                                       
+										<input type="text" name="add_new" id="newaddress"  placeholder="请输入门牌号等详细信息" value="<{if empty($addinfo['address'] )}><{$areainfo|default:''}><{else}><{$addinfo['address']}><{/if}>" class="placeholder-con newaddress">    <span class="star">*</span>                            
+									</div>                       
+									<div class="error-msg v-hide ndd">请输入门牌号等详细信息</div>                   
+								</div>                
+							</td>            
+						</tr>      
+				</tbody>
+			</table>       
+<div class="form-group form-submit">   <input type="button" class="saveBtn"  onclick="newAddr();"  value="保存送餐信息">                    </div>  
+			</form>
+			</div>
+			</ul>
+			
+	
+		 <div style="clear:both;"></div>
+						
+						
+			<{/if}>
+
+
+			<div class="list-bottom">
+			<span class="expland" data-node="expPanel" style="display: none;"><span class="inner">显示所有地址</span></span>
+			</div>
+	</li>
+	
+
+ <{else}>
+ 
+<li class="addr-list-li">
+<div data-node="loading" style="text-align: center; height: 90px; padding: 70px 0px; display: none;">
+<img src="http://webmap3.map.bdimg.com/static/waimai/images/loading_50c5e3e.gif">
+</div>
+<div class="list-title" data-node="listTitle" style="display: none;">
+<span>收货人信息：</span>
+<span class="add-new" data-node="addNew">新增送餐地址</span>
+</div>
+
+<ul class="curAddrPanel" data-node="addrPanel" style="height: auto;">
+<div class="addr-detail" id="new-address-section">   
+ <form>        
+ <table class="addr-table" border="0">            
+ <tbody>
+ <tr>                
+ <td valign="top">
+ <span class="l-label">姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名</span>
+ </td>                
+ <td>                    
+ <input type="hidden" value="" name="adrr_id">                    
+ <div class="form-group">                        
+ <div class="input-control">                            
+ <input type="text" name="user_name"  placeholder="您的姓名" value="" class="placeholder-con yonghuming">  
+ <span class="star">*</span>                        
+ </div>                        
+ <div class="error-msg v-hide yhm">请填写您的姓名，不能超过8个字符</div>                    
+ </div>                    
+ <div class="form-group">                        
+ <div class="input-control">                                                        
+ <input type="hidden" name="gender" value="1">                          
+ <div class="s-gender  selected " data-gender="1">                               
+ <i></i><span>先生</span>                           
+ </div>                            
+ <div class="s-gender " data-gender="2">                                
+ <i></i><span>女士</span>                            
+ </div>                       
+ </div>                       
+ <div class="error-msg v-hide">请选择您的性别</div>                    
+ </div>                
+ </td>            
+ </tr>            
+ <tr>               
+ <td valign="top"><span class="l-label">电&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;话</span></td>                
+ <td>                    
+ <div class="form-group">                        
+ <div class="input-control">                           
+ <input type="text" name="user_phone"  placeholder="11位手机号" value="" class="placeholder-con shoujihao">  
+ <span class="star">*</span>                       
+ </div>                       
+ <div class="error-msg v-hide sjh">请填写正确的手机号</div>                    
+ </div>                
+ </td>           
+ </tr>           
+ <tr>                
+ <td valign="top"><span class="l-label">详细地址</span></td>               
+ <td>                   
+ <div class="form-group">                       
+ <div class="input-control">                                                       
+ <input type="text" name="detail_address" placeholder="请输入门牌号等详细信息" value="<{$areainfo|default:''}>" class="placeholder-con newaddress">  <span class="star">*</span>                   
+ </div>                        <div class="error-msg v-hide ndd">请输入门牌号等详细信息</div>                 
+ </div>              
+ </td>           
+ </tr>        
+ </tbody>
+ </table>        
+  
+ </form>
+ </div>
+  </ul>
+
+ 
+<div class="list-bottom">
+<span class="expland" data-node="expPanel" style="display: none;"><span class="inner">显示所有地址</span></span>
+</div>
+</li>
+
+
+
+<{/if}>
+
+<li class="">
+<div class="delivery-lable">
+<span class="lable">支付方式：</span>
+</div>
+<div class="delivery-input" data-node="payMethod">
+<table class="pay-list">
+<tbody>
+
+<{if !( ( $open_acout == 0 || $shopinfo['is_onlinepay'] == 0 ) && ( $is_daopay == 0 || $shopinfo['is_daopay'] == 0 ) )}>
+	<{if $is_daopay == 1 && $shopinfo['is_daopay'] == 1 }>
+	<tr data-value="0" class="pay-box select">
+	<td class="radio-con">
+	<div class="s-radio">
+	<i></i>
+	</div>
+	</td>
+	<td class="text">
+	<span class="pay-name">货到付款</span>
+	<span class="pay-desc"></span>
+	</td>
+	</tr>
+	<{/if}>
+	<{if $open_acout == 1 && $shopinfo['is_onlinepay'] == 1 }>
+	<tr data-value="1" class="pay-box <{if $is_daopay == 0 || $shopinfo['is_daopay'] == 0 }>  select  <{/if}>">
+	<td class="radio-con">
+	<div class="s-radio">
+	<i></i>
+	</div>
+	</td>
+	<td class="text">
+	<span class="pay-name">支付宝等其他在线支付方式</span>
+	<span class="pay-desc"></span>
+	</td>
+	</tr>
+	<{/if}>
+<{else}>
+	<tr  class="pay-box <{if $is_daopay == 0 || $shopinfo['is_daopay'] == 0 }>  select  <{/if}>">
+	<td class="radio-con">
+	<div class="s-radio">
+	<i></i>
+	</div>
+	</td>
+	<td class="text">
+	<span class="pay-name">未开启任何支付方式</span>
+	<span class="pay-desc"></span>
+	</td>
+	</tr>
+
+	
+<{/if}>
+
+</tbody></table>
+</div>
+</li>
+
+<li>
+<div class="delivery-lable">
+<span class="lable">送达时间：</span>
+</div>
+
+
+	<select name="timeid" id="timeid"  style=" display:; width: 222px;border-radius:0px;margin:0px; height:38px!important; border: 1px solid #e4e4e4;background: #ffffff;"  onchange="doshownewps();">
+								   		 <{foreach from=$pstimelist item=itk}>
+										<option value="<{$itk['value']}>" pscost="<{$itk['cost']}>"><{$itk['name']}></option>
+								 <{/foreach}> 
+								  </select> 
+							 
+						 
+
+
+</li>
+<li id="testdrop">
+<div class="delivery-lable">
+<span class="lable">备注信息：</span>
+</div>
+<div style="position:relative;" class="beizhuinfo">
+<div class="delivery-input">
+<input class="input mark" maxlength="200" name="remark" id="remark" data-node="markInput" value="" placeholder="请填写备注">
+<textarea data-node="markInput_list" style="display:none">                  
+                </textarea>
+</div>
+<ul class="mod-dropdown markStyle" style="z-index: 1000; display: none; position: absolute; top: 40px; left: 75px;">
+
+<{if isset($orderbz) &&!empty($orderbz)}>
+						<{$orderbz = $orderbz|unserialize}>
+						 <{foreach from=$orderbz item=itv}>
+						  <{if !empty($itv)}>
+				
+					
+					<li class="mod-dropdown-item" data-value="<{$itv}>" ><a class="s-item" href="javascript: void(0)"><{$itv}></a></li>
+					
+					
+					 <{/if}>
+						<{/foreach}> 					
+						<{/if}>		
+	
+</ul>
+</div>
+</li>
+<li>
+<div class="delivery-lable">
+<span class="lable"></span>
+</div>
+<div class="delivery-input hide <{if !empty($member['uid'])}> 	 <{if empty($list['list']) }> delivery-btn-no <{else}> delivery-btn	<{/if}> <{else}>  delivery-btn  <{/if}>" style="display: block;"> 	<!-- -no -->
+<span id="showtj"  <{if !empty($member['uid'])}> 	 <{if !empty($list['list'])  }> onclick="orderSubmit();"  <{/if}> <{else}>  onclick="orderSubmit();"  <{/if}> ><h2>确认下单</h2></span>
+<span id="showtj2" style="display:none;"><h2>提交中，请稍等</h2></span>
+<a id="continue-to-book"  style="display: none;">继续点餐</a>
+</div>
+</li>
+</ul>
+<{if !empty($member['uid'])}>
+<{if empty($list['list']) }>
+<p id="commit_warning" class="commit-warning hide" style="display: block;">(提示：您需要先保存送餐地址，再提交订单)</p>
+<{/if}>
+<{else}>
+
+<{/if}>
+</section>
+<div class="empty clearfix"></div>
+</div>
+</div>
+<!--[if IE]>
+<style type="text/css">
+/*widget.cart*/
+.cart .cart-panel .item-list .item .item-count .item-count, 
+.cart .cart-panel .collect .item .item-count .item-count {
+    line-height: 20px;
+}
+.cart .cart-panel .item-list .item .item-count .item-minus, 
+.cart .cart-panel .collect .item .item-count .item-minus, 
+.cart .cart-panel .item-list .item .item-count .item-plus, 
+.cart .cart-panel .collect .item .item-count .item-plus {
+    line-height: 18px;
+}
+
+.delivery{
+	_display:inline;
+
+}
+.delivery .delivery-ul li .input{
+	 *height: 24px;
+}
+.delivery .delivery-ul li .send_time_mock_arrow{
+	*vertical-align: text-top;
+}
+.delivery .delivery-ul li .mod-dropdown {
+	*height: 200px;
+}
+</style>
+<script type="text/javascript">
+</script>
+<![endif]-->
+<!--[if IE 6]>
+<style type="text/css">
+.cart {
+    display:inline;
+}
+</style>
+<![endif]-->
+
+
+</div>
+ 
+ <!-- 修改编辑删除地址 -->
+ <div class="mod-dialog-frame" id="mod-dialog-frame" style="overflow: auto; position: fixed; left: 0px; top: 0px; right: 0px; bottom: 0px; z-index: 1000; display: none; background-color: rgba(0, 0, 0, 0.54902);">
+	
+	
+	
+</div>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+<script type="text/javascript"> 
+
+var juanlist = [];
+ 
+	var cartshopid = '<{$shopid}>';
+	var shopid = '<{$shopid}>'; 
+	 var starttime = '<{$shopinfo['starttime']}>'; 
+	 var is_orderbefore=<{$shopinfo['is_orderbefore']}>;
+	 var nowdate = '<{time()|date_format:"%Y-%m-%d"}>';
+	 var nowtime = '<{time()|date_format:"%Y-%m-%d %H:%M:%S"}>';
+	   <{$yanchitime = time()+$shopinfo['maketime']*60}>
+	  var maketime = '<{$yanchitime|date_format:"%Y-%m-%d %H:%M:%S"}>';
+	 	var submithtml = '<{ofunc type=url link="/shop/makeorder/datatype/json/random/@random@"}>';
+	  var orderhtml = '<{ofunc type=url link="/site/waitpay/orderid/@orderid@"}>';
+	  var memberid = <{$member['uid']}>;
+	  var xiangxidizhi = '<{$areainfo}>';
+var allowedguestbuy = <{$allowedguestbuy|default:0}>;
+$(function(){ 	
+	//maketimenenu();
+	
+});
+
+$(".pay-box").click(function(){
+	$(this).addClass('select').siblings().removeClass('select');
+    freshcart();
+});
+$(".escBtn").click(function(){
+	$(".mod-dialog-frame").hide();
+});
+
+$(".s-gender").click(function(){
+
+	$(this).addClass('selected').siblings().removeClass('selected');
+});
+$("#remark").focus(function(){
+	$(".mod-dropdown").show();
+});
+
+ $(document).click(function(e){ 
+ e = window.event || e; // 兼容IE7
+ obj = $(e.srcElement || e.target);
+    if ($(obj).is("#testdrop,#testdrop *,.remark")) {
+   } else {
+     $('.mod-dropdown').hide();//// alert('你的点击不在目标区域');
+ } 
+});
+
+$(".mod-dropdown li a").click(function(){
+	var value = $('#remark').val()+$(this).text() + ',';
+	$('#remark').val(value);
+});
+function changeAddr(uid)
+	{
+		 
+		var info = {'tijiao':'do','default':'1','addressid':uid,'what':'default'};
+	 	var url = '<{ofunc type=url link="/area/editaddress/random/@random@/datatype/json"}>';
+		 myajax(url,info);
+	}
+function newAddr()
+	{
+		if( $('.yonghuming').val() == '' || $('.shoujihao').val() == '' || $('.newaddress').val() == '' ){
+			if( $('.yonghuming').val() == ''  ){
+				$('.yonghuming').addClass('caution-line');
+				$('.yhm').removeClass('v-hide');
+			}else{
+				$('.yonghuming').removeClass('caution-line');
+				$('.yhm').addClass('v-hide');
+				if( $('.shoujihao').val() == ''  ){
+					$('.shoujihao').addClass('caution-line');
+					$('.sjh').removeClass('v-hide');
+				}else{
+					$('.shoujihao').removeClass('caution-line');
+					$('.sjh').addClass('v-hide');
+					alert($('.newaddress').val());
+					if( $('.newaddress').val() == '' ||  $('.newaddress').val() == '文化路创新大厦' ){
+						$('.newaddress').addClass('caution-line');
+						$('.ndd').removeClass('v-hide');
+					}else{
+						$('.newaddress').removeClass('caution-line');
+						$('.ndd').addClass('v-hide');
+					}
+				}
+			}
+			
+			
+		}else{
+			var info = {'addressid':$("#address_id").val(),'contactname':$("#yonghuming").val(),'sex':$("#xingbie .selected").attr('data-gender'),'phone':$("#shoujihao").val(),'add_new':$("#newaddress").val(),'laiyuan':1};
+			var url = '<{ofunc type=url link="/area/saveaddress/random/@random@/datatype/json"}>';
+			myajax(url,info);
+		}
+	}
+		$(".addr-edit,.add-new").click(function(){
+					
+					var addid = $(this).attr('addid');
+				
+					$("#mod-dialog-frame").show();
+					
+					var url = '<{ofunc type=url link="/site/xiugaiaddress"}>'; 
+					$.post(url, {'addid':addid},function (data, textStatus){ 
+							$('#mod-dialog-frame').html(data); 
+						}, 'html');
+					
+			});
+
+function delAddrs(uid){
+		if(confirm('确定操作吗？')){
+		var info = {'tijiao':'del','addressid':uid};
+		var url = '<{ofunc type=url link="/area/deladdress/random/@random@/datatype/json"}>';
+		myajax(url,info);
+		
+	 }
+	}	
+
+ 
+
+  
+ 
+
+function addSend_time(obj)
+{
+	$('#send_time').val($(obj).val());
+}
+function setaddress(address,contactname,phone,areainfo) 
+{
+	 $("input[name='addrestemp']").val(areainfo+address);
+   $("input[name='phone']").val(phone);
+   $("input[name='recieve_name']").val(contactname); 
+}
+
+ 
+$('.beizhubox span').click(function(){
+	var value = $('#remark').val()+$(this).text() + ',';
+	$('#remark').val(value);
+})
+
+
+
+//刷新购物车
+function freshcart(){ 
+
+if($('#ShopCart').html() != undefined){
+	    url = siteurl+'/index.php?ctrl=site&action=smallcat&shopid='+shopid+'&random=@random@';
+	    url = url.replace('@random@', 1+Math.round(Math.random()*1000)); 
+	    $.get(url, function(result){ 
+	   
+        $("#cartlist").html(result);
+         freachperson();
+         jifenduihuan();  
+		 
+       //  $('.new_cart_show').bind("hover", function() {   
+      //   	  $(this).addClass('hoveron').siblings().removeClass('hoveron');
+      //   });
+    //    $('#CMoney').text(allcost);
+     //   $('#waimaibtn').text(allcost);
+      });
+   }else{ 
+   	//调用  自动刷新购物车  
+    var paytype = $(".pay-list tr.select").attr('data-value');
+    url = siteurl+'/index.php?ctrl=site&action=smallcat2&shopid='+shopid+'&paytype='+paytype+'&random=@random@';
+ 
+	    url = url.replace('@random@', 1+Math.round(Math.random()*1000)); 
+	    $.get(url, function(result){  
+         $("#cartshow_c").html(result);  
+         if(Number($('#jifendkou').attr('data')) > 0){
+  	        $('#jifendkou').show();
+         } 
+		 doshownewps();
+          jifenduihuan();  
+		  
+      }); 
+     
+     
+   }  
+}
+
+function doshownewps(){
+	var tempb =  $("select[name='timeid']").find("option:selected").attr('pscost'); 
+		 if(tempb > 0){
+		    $('#fups').show();
+			$('#sendFee1').text(tempb);
+			var tempc = Number(tempb)+Number($('#total_money').attr('data'));
+			$('#total_money').text(tempc.toFixed(2));
+		 }else{
+			$('#fups').hide();
+			$('#total_money').text($('#total_money').attr('data'));
+		 }
+}
+
+function  orderSubmit(){
+
+	//  url = siteurl+'/index.php?ctrl=shop&action=order&random=@random@';
+	 $('#showtj').hide();
+	 $('#showtj2').show();
+	  url = submithtml.replace('@random@', 1+Math.round(Math.random()*1000));
+	
+ <{if !empty($member['uid'])}> 	
+	var contactname = $(".curAddrPanel li.select .name").text();
+	var phone = $(".curAddrPanel li.select .phone").text();
+	var address = $(".curAddrPanel li.select .addr-desc").text();	
+<{else}>
+	var contactname = $("input[name='user_name']").val();
+	var phone = $("input[name='user_phone']").val();
+	var address = $("input[name='detail_address']").val();
+<{/if}>
+
+	  
+	var ordercheckphone = <{$ordercheckphone}>;
+
+	if( ordercheckphone == 1 ){
+		if($('#cat_zhe').is(":hidden") == true){
+			 $('#cat_zhe').show();
+			 $('#goosshow').show();
+			 $('#phonefont').text(phone);
+			 return ;
+		}
+
+	} 
+
+	 
+
+
+	
+	var remark = $("#remark").val();
+	var paytype = $(".pay-list tr.select").attr('data-value');
+
+   $.ajax({         //script定义
+             url: url.replace('@random@', 1+Math.round(Math.random()*1000)),
+            dataType: "json",
+            async:true,
+            data:{'phonecode':$('#phonecode').val(),shopid:shopid,'remark':remark,'username':contactname,'mobile':phone,'addressdet':address,'areaid1':$("#areaid1").find("option:selected").val(),'areaid2':$("#areaid2").find("option:selected").val(),'areaid3':$("#areaid3").find("option:selected").val(),'senddate':'','minit':$("#timeid").find("option:selected").val(),'paytype':paytype,'dikou':$("select[name='jfdk']").find("option:selected").val(),'juanid':$("input[name='buyjuan']:checked").val()},
+            success:function(content) { 
+			
+			
+            //	$('#loading').toggle();
+             if(content.error == true){ 
+                $('#showtj2').hide();
+	              $('#showtj').show();
+	              alert(content.msg);
+             }else{
+             
+	             window.location.href= orderhtml.replace('@orderid@', content.msg);
+             }
+            },
+            error:function(){
+            	 $('#showtj2').hide();
+	              $('#showtj').show();
+            	//$('#loading').toggle();
+            	alert('数据提交失败');
+            }
+   });     
+}
+</script>
+ 
+
+<div id="cat_zhe" class="cart_zhe" style="display:none;"></div>
+<div id="goosshow" class="cart_position" style="display:none;">
+	 <form id="dosubmit">
+		 <div class="position_top"><span class="title">验证手机</span><i class="close" onclick="close_pop('goosshow')"></i></div>
+		 <div class="goodsshow" style="padding:20px;">为了保证您的用餐请验证您的手机号</div>
+		 <div class="position_middel"> 
+		  <div class="line_class"><label>联系电话:</label><font id="phonefont">0</font></div>
+		  <div class="line_class"><label>获取验证码:</label><input type="button" value="发送手机验证码" id="dosendbtn" time="0" style="line-height:15px;"></div>
+		  <div class="line_class"><label>验证码:</label><input type="text" name="phonecode" id="phonecode" value=""></div> 
+		  <div class="line_class">  <input type="hidden" name="shopid" value="13"><input type="hidden" name="subtype" value="1"><input type="button" class="next bg" value="确认提交" id="cfbtn" onclick="orderSubmit()"></div>
+		 </div> 
+		</form>
+</div>
+<style>
+.cart_position  .position_middel input{ border:1px solid;}
+	.cart_position{width: 400px;height: 400px;position: fixed;z-index: 1050;background-color: #fff;left: 50%;top: 50%;margin-left: -200px;margin-top:-200px;border:4px solid #da3838;border-radius: 5px;}
+.cart_position .position_top{height:40px;line-height:40px;text-align:center;font-weight:bold;color:#fff;}
+.cart_position .position_top .title{padding-left:20px;padding-right:20px;background-color:#da3838;line-height:30px;height:30px;padding-top:10px;padding-bottom:11px;}
+.cart_position .position_top  i{width: 21px;height: 21px;position:absolute;margin-right: 5px;margin-top: 5px;background: url(<{$siteurl}>/templates/<{$tempdir}>/public/images/plate/icon.png) no-repeat;background-position: -362px -92px;cursor: pointer;right:0px;}
+.cart_position  .position_middel .line_class{height:30px;line-height:30px;padding-left:20px;clear:both;margin-top:10px;}
+.cart_position  .position_middel .line_class label{width:80px;float:left;line-height:30px;height:30px;}
+.cart_position  .position_middel .line_class select{width:100px;padding:0px;height:30px;line-height:30px;float:left;}
+.cart_position  .position_middel .line_class input{float:left;border:1px solid;}
+.cart_position  .position_middel .line_class .next{width: 120px;margin-top: 10px;height: 30px;line-height: 30px;font-size: 16px;color: #fff;border: none;margin-left: 10px;cursor: pointer;}
+.cart_position  .position_middel .line_class .bg{background: #da3838;cursor: pointer;}
+.cart_position  .position_middel .line_class .bg:hover{background: #e51914}
+.cart_position  .position_middel .line_class .diabled{background-color:#ccc;}
+.cart_position  .position_middel .line_class .diabled:hover{background-color:#ccc;}
+.cart_position  .position_middel .mutile_class{clear:both;float:left;margin-top:10px;padding-left:20px;height:80px;} 
+.cart_position  .position_middel .mutile_class label{width:80px;float:left;}
+.cart_position  .position_middel .mutile_class textarea{height:70px;float:left;width:280px;}
+</style>
+<script>
+	function close_pop(divid){
+	  $('#'+divid).hide();//phone
+	  $('#cat_zhe').hide();
+	  $('#showtj2').hide();
+	              $('#showtj').show();
+	}
+	$(function(){    
+   	     $('#dosendbtn').bind("click", function() {  
+   	     	   $('#dosendbtn').attr('disabled',true); 
+   	     	   $('#dosendbtn').attr('value','发送中..');
+   	 	       var tempurl = siteurl+'/index.php?ctrl=site&action=phonecode&random=@random@&phone=@phone@';
+			    <{if !empty($member['uid'])}> 	
+					tempurl = tempurl.replace('@random@', 1+Math.round(Math.random()*1000)).replace('@phone@',$(".curAddrPanel li.select .phone").text() );
+				<{else}>
+					tempurl = tempurl.replace('@random@', 1+Math.round(Math.random()*1000)).replace('@phone@',$("input[name='user_phone']").val() );
+				<{/if}>
+	            $.getScript(tempurl);      
+         }); 
+  }); 
+function showsend(phone,time){  
+     $('#dosendbtn').attr('time',time);
+     setTimeout("btntime()",1000);  
+} 
+function showmessage(msg){
+	 alert(msg);
+	  $('#dosendbtn').attr('disabled',false);
+		 $('#dosendbtn').attr('value','发送手机验证码');
+}
+function  btntime(){
+	//dosendbtn
+	var nowtime = Number($('#dosendbtn').attr('time'));
+	if(nowtime > 0){
+	   $('#dosendbtn').attr('disabled',true);
+	   var c = Number(nowtime)-1;
+	    $('#dosendbtn').attr('time',c);
+	    var  mx = 60-(60 - Number(c));
+	     $('#dosendbtn').attr('value','验证码还有'+mx+'秒失效');
+	      setTimeout("btntime()",1000);
+	}else{
+		 $('#dosendbtn').attr('disabled',false);
+		 $('#dosendbtn').attr('value','发送手机验证码');
+  }
+}
+</script>
+<{/block}>

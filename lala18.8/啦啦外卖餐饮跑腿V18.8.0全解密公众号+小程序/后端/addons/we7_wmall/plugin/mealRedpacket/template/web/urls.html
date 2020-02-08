@@ -1,0 +1,40 @@
+{itemplate 'public/header'}
+	<div class="page clearfix">
+		<div class="form-horizontal">
+			<h3>套餐红包购买链接</h3>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">小程序</label>
+				<div class="col-sm-9 col-xs-12">
+					<p class="form-control-static js-clip" data-href="package/pages/mealRedpacket/meal"><a href="javascript:;" title="点击复制链接">package/pages/mealRedpacket/meal</a></p>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">公众号(新版)</label>
+				<div class="col-sm-9 col-xs-12">
+					<p class="form-control-static js-clip" data-href="{php echo ivurl('/package/pages/mealRedpacket/meal', array(), true);}"><a href="javascript:;" title="点击复制链接">{php echo ivurl('/package/pages/mealRedpacket/meal', array(), true);}</a></p>
+				</div>
+			</div>
+		</div>
+		<div class="form-horizontal">
+			<h3>套餐红包Plus购买链接</h3>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">小程序</label>
+				<div class="col-sm-9 col-xs-12">
+					<p class="form-control-static js-clip" data-href="package/pages/mealRedpacket/plus"><a href="javascript:;" title="点击复制链接">package/pages/mealRedpacket/plus</a></p>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">公众号(新版)</label>
+				<div class="col-sm-9 col-xs-12">
+					<p class="form-control-static js-clip" data-href="{php echo ivurl('/package/pages/mealRedpacket/plus', array(), true);}"><a href="javascript:;" title="点击复制链接">{php echo ivurl('/package/pages/mealRedpacket/plus', array(), true);}</a></p>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">公众号(旧版)</label>
+				<div class="col-sm-9 col-xs-12">
+					<p class="form-control-static js-clip" data-href="{php echo imurl('mealRedpacket/plus', array(), true);}"><a href="javascript:;" title="点击复制链接">{php echo imurl('mealRedpacket/plus', array(), true);}</a></p>
+				</div>
+			</div>
+		</div>
+	</div>
+{itemplate 'public/footer'}

@@ -1,0 +1,28 @@
+<view class="navbar flex-row" style="background-image: url({{_navbar.background_image}});border:1rpx solid {{_navbar.border_color}}" wx:if="{{_navbar&&_navbar.navs&&_navbar.navs.length>0}}">
+    <block wx:for="{{_navbar.navs}}">
+        <navigator class="flex-grow-1 flex-y-center" openType="redirect" url="{{item.url}}" wx:if="{{item.item=='1'||item.item==null}}">
+            <view>
+                <image class="navbar-icon" src="{{item.active?item.logo:item.logo2}}"></image>
+                <view class="navbar-text" style="color: {{item.active?item.title_color:item.title_color2}};">{{item.title}} 
+
+          </view>
+            </view>
+        </navigator>
+        <navigator class="flex-grow-1 flex-y-center" openType="navigate" url="/zh_cjdianc/pages/extra/weburl?url={{item.src2}}" wx:if="{{item.item=='2'}}">
+            <view>
+                <image class="navbar-icon" src="{{item.active?item.logo:item.logo2}}"></image>
+                <view class="navbar-text" style="color: {{item.active?item.title_color:item.title_color2}};">{{item.title}} 
+
+          </view>
+            </view>
+        </navigator>
+        <navigator appId="{{item.appid}}" class="flex-grow-1 flex-y-center" extraData="" openType="navigate" path="" target="miniProgram" version="release" wx:if="{{item.item=='3'}}">
+            <view>
+                <image class="navbar-icon" src="{{item.active?item.logo:item.logo2}}"></image>
+                <view class="navbar-text" style="color: {{item.active?item.title_color:item.title_color2}};">{{item.title}} 
+
+          </view>
+            </view>
+        </navigator>
+    </block>
+</view>

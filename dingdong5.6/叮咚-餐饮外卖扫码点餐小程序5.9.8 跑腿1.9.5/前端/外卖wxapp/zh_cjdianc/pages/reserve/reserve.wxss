@@ -1,0 +1,147 @@
+@import "../wddd/ddxq.wxss";
+
+.font {
+    padding-bottom: 120rpx;
+}
+
+.flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+page {
+    background-color: #F4F4F4;
+}
+
+.reserve {
+    background-color: white;
+    border-top: 1rpx solid #E6E6E6;
+    border-bottom: 1rpx solid #E6E6E6;
+    font-size: 30rpx;
+    margin-bottom: 40rpx;
+}
+
+.reserve_arrow {
+    width: 20rpx;
+    height: 30rpx;
+    margin-left: 20rpx;
+}
+
+.reserve_date {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.reserve_date picker {
+    text-align: right;
+    width: 450rpx;
+}
+
+.reserve_date view {
+    font-size: 30rpx;
+    color: #333;
+}
+
+.reserve_type {
+    height: 90rpx;
+    border-bottom: 1rpx solid #E6E6E6;
+    margin: 0rpx 30rpx;
+}
+
+.reserve_sele {
+    color: #999;
+    font-size: 28rpx;
+    border: 1rp solid red;
+}
+
+.reserve_tab {
+    text-align: right;
+}
+
+.reserve_man {
+    display: flex;
+    align-items: center;
+}
+
+.reserve_num {
+    width: 170rpx;
+}
+
+.reserve_marks {
+    font-size: 28rpx;
+    background-color: white;
+    padding: 20rpx 30rpx 30rpx;
+}
+
+.reserve_text {
+    border: 1rpx solid #E6E6E6;
+    width: 100%;
+    height: 160rpx;
+    padding: 20rpx;
+    font-size: 28rpx;
+    margin-top: 10rpx;
+    border-radius: 6rpx;
+}
+
+.reserve_pay {
+    font-size: 28rpx;
+    color: #999;
+    margin-top: 15rpx;
+    text-indent: 2em;
+}
+
+.reserve_warn {
+    display: flex;
+    align-items: center;
+}
+
+.reserve_warn view {
+    margin-left: 15rpx;
+}
+
+.reserve_money {
+    color: #FF7272;
+}
+
+.modalbd {
+    padding: 60rpx 30rpx;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.xdcg {
+    margin-top: 30rpx;
+    font-size: 35rpx;
+}
+
+.qwxzsp {
+    background: #fff;
+    margin-bottom: 30rpx;
+}
+
+.radio {
+    margin-left: 20rpx;
+    font-size: 22rpx;
+}
+
+.msradiogroup {
+    display: flex;
+    flex-direction: row;
+    padding: 20rpx 30rpx;
+    justify-content: space-between;
+}
+
+.msradiogroup .weui-cell {
+    width: 46%;
+    border-radius: 10rpx;
+    border: 1rpx solid #E6E6E6;
+    padding: 30rpx;
+}
+
+.weui-cell:before {
+    border-top: none;
+}

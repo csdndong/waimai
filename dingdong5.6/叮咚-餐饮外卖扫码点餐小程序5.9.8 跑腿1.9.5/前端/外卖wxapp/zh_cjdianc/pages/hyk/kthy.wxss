@@ -1,0 +1,121 @@
+.page {
+    padding-bottom: 120rpx;
+}
+
+.head .weui-cell {
+    padding: 40rpx;
+    font-size: 28rpx;
+    color: #fff;
+}
+
+.head .weui-cell__hd {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.head .weui-cell__hd image {
+    min-width: 80rpx;
+    width: 100rpx;
+    height: 100rpx;
+    margin-right: 20rpx;
+    border-radius: 50%;
+}
+
+.head .weui-cell__bd {
+    height: 90rpx;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.radiogroup .weui-cell {
+    padding: 20rpx;
+    font-size: 28rpx;
+    background: #fff;
+    background: #F3F3F3;
+    margin-bottom: 20rpx;
+    border-radius: 10rpx;
+}
+
+.radiogroup .weui-cell.active {
+    background: #FCD97D;
+}
+
+.radiogroup .weui-cell text {
+    font-size: 30rpx;
+    color: #999;
+    margin: 0 10rpx;
+}
+
+.radiogroup .active text {
+    color: #333;
+    font-weight: bold;
+}
+
+.xynr {
+    padding: 20rpx 30rpx;
+    background: #fff;
+}
+
+.foot {
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    height: 100rpx;
+    background: #fff;
+}
+
+.zj {
+    font-size: 35rpx;
+    padding-left: 30rpx;
+}
+
+.zj text {
+    color: #f44444;
+}
+
+.ljkt {
+    color: #fff;
+    font-size: 35rpx;
+    width: 250rpx;
+    height: 100rpx;
+    text-align: center;
+    line-height: 110rpx;
+    border-radius: 0;
+}
+
+.weui-cell:before {
+    border-top: 1rpx solid #f4f4f4;
+}
+
+.hyxx .weui-cell {
+    padding: 0rpx;
+    font-size: 28rpx;
+}
+
+.hyxx .weui-label {
+    width: 150rpx;
+}
+
+.hyxx .weui-cell_input {
+    padding: 10rpx 30rpx 10rpx 30rpx;
+}
+
+.blbanner {
+    border-bottom: 1rpx solid #f4f4f4;
+}
+
+.yanz {
+    font-size: 28rpx;
+    color: #999;
+    line-height: 2;
+    padding: 5rpx 20rpx;
+    background: #fff;
+}
+
+.yanz-on {
+    background: #efeff4;
+    color: #999;
+}

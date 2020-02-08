@@ -1,0 +1,94 @@
+{template 'web/common/common'}
+{template 'web/giftToken/navbar'}
+<link rel="stylesheet" type="text/css" href="../addons/kundian_ordering/resource/css/style.css" />
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            兑换产品信息>编辑
+        </h3>
+    </div>
+    <div class="panel-body">
+        <form id="sign-form" class="form-horizontal" role="form" method="post" enctype="multipart/form-data" action="{url 'site/entry/giftToken',array('m'=>'kundian_ordering','op'=>'product_list_save','version_id'=>$_GPC['version_id'])}" name="submit" style="padding: 20px 0;">
+            <div class="form-group">
+                <label for="product_name" class="col-sm-2 control-label">产品名称</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control"  name="product_name" id="product_name" value="{$list['product_name']}">
+                    <input type="hidden" name="id" value="{$list['id']}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="old_price" class="col-sm-2 control-label">原价</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control"  name="old_price" id="old_price" value="{$list['old_price']}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">现价</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control"  name="price" value="{$list['price']}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">销量</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control"  name="sale_count" value="{$list['sale_count']}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">库存</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control"  name="count" value="{$list['count']}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">封面(375*530)</label>
+                <div class="col-sm-8">
+                    {php echo tpl_form_field_image('cover',$list['cover']);}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">是否上架</label>
+                <div class="col-sm-8">
+                    {if $list['is_putaway']==1}
+                    <input type="checkbox" checked class="js-switch" value="1" name="is_putaway">
+                    {else}
+                    <input type="checkbox" class="js-switch" name="is_putaway" value="1">
+                    {/if}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">排序</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control"  name="rank" value="{$list['rank']}">
+                </div>
+            </div>
+
+            <div class="form-group">
+
+                <div class="col-sm-offset-2 col-sm-10">
+                    <input type="submit" name="submit" class="btn btn-default">
+                    <a class="btn btn-default" href="{url 'site/entry/giftToken',array('m'=>'kundian_ordering','op'=>'token_product_list')}">返回</a>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+{template 'common/footer'}
+<script type="text/javascript">
+    <!--
+    // ueditoroption 这个变量是微擎定义好的百度编辑器的初始化参数，直接使用即可
+    var editor = UE.getEditor('content', ueditoroption);
+    editor.addListener('contentChange', function() {
+        //此处增加了侦听编辑器内容变化的事件
+        //do something
+    });
+
+    editor.addListener('ready', function(){
+        //此处增加了侦听编辑器初始化的事件
+        //do something
+    });
+    //-->
+</script>

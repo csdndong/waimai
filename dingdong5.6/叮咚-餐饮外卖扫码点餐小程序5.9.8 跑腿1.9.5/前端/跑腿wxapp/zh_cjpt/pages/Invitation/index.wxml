@@ -1,0 +1,40 @@
+<view class="head">
+    <image mode="aspectFill" src=""></image>
+</view>
+<view class="body">
+    <button openType="share" style="background:{{color}}">立即邀请</button>
+    <button bindtap="se_code" class="color_6" style="color:{{color}};border:2rpx solid {{color}}">面对面邀请</button>
+</view>
+<view class="footer">
+    <view class="t_c pa_0">
+        <view>
+            <text class="fon_50 wei">0</text>
+            <text class="fon_24">人</text>
+        </view>
+        <view class="fon_28 color_6 pa_0">红包在路上</view>
+    </view>
+    <view class="t_c pa_0">
+        <view>
+            <text class="fon_50 wei">0</text>
+            <text class="fon_24">元</text>
+        </view>
+        <view class="fon_28 color_6 pa_0">累计获得</view>
+    </view>
+    <view class="t_c pa_0">
+        <view>
+            <text class="fon_50 wei">0</text>
+            <text class="fon_24">人</text>
+        </view>
+        <view class="fon_28 color_6 pa_0">成功邀请</view>
+    </view>
+</view>
+<view class="rule mar_t ba_f pa">
+    <view class="t_c fon_30">活动规则</view>
+    <view class="fon_28 color_6 pa_0">
+    极光以其瑰丽的色彩和流动的形态给人带来无穷的幻想，是大自然带给我们的另一个魔术。博闻多识的亚里士多德称之为“天上的裂隙”，北欧神话认为那是女武神们驰骋天际时，铠甲反射的光芒，在中国传说中则是烛照极地、临驭风雪的北国烛龙…… 这个魔术的原理直到1896年才被挪威的物理学家伯克兰揭示出来：太阳发射的高能带电粒子流被地球磁场捕获，在地磁场的作用下沿着地球的磁力线做螺旋运动，并逐渐到达两极地区，与那里的大气分子碰撞，激发大气分子发光，就形成了极光。 极光的色彩来源于不同分子的激发，一般氧气分子发出绿色和红色的光，氮气分子则发出紫、蓝和一些深红色的光。太阳的活动以11年为周期，因此极光的发生是很罕见的。
+  </view>
+</view>
+<view class="sele_fixed" hidden="{{select_code}}">
+    <view bindtap="se_code" class="ab"></view>
+    <view class="ab udlr"></view>
+</view>

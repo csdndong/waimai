@@ -1,0 +1,205 @@
+{itemplate 'public/header'}
+<form action="./index.php" class="form-horizontal form-filter" id="form1">
+	{php echo tpl_form_filter_hidden('statcenter/takeoutAgent/index');}
+	<input type="hidden" name="days" value="{$days}"/>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">筛选时间</label>
+		<div class="col-sm-9 col-xs-12 js-daterange" data-form="#form1">
+			<div class="btn-group">
+				<a href="{php echo ifilter_url('days:0');}" class="btn {if !$days}btn-primary{else}btn-default{/if}">今天</a>
+				<a href="{php echo ifilter_url('days:7');}" class="btn {if $days == 7}btn-primary{else}btn-default{/if}">最近7天</a>
+				<a href="{php echo ifilter_url('days:30');}" class="btn {if $days == 30}btn-primary{else}btn-default{/if}">最近30天</a>
+				<a href="javascript:;" class="btn js-btn-custom {if $days == -1}btn-primary{else}btn-default{/if}">自定义</a>
+			</div>
+			<span class="btn-daterange js-btn-daterange {if $days != -1}hide{/if}">
+				{php echo tpl_form_field_daterange('stat_day', array('start' => $starttime, 'end' => $endtime));}
+			</span>
+		</div>
+	</div>
+	<div class="form-group clearfix form-inline">
+		<label class="col-xs-12 col-sm-2 col-md-1 control-label">其他</label>
+		<div class="col-sm-7 col-lg-8 col-xs-12">
+			<select name="agentid" class="select2 js-select2 form-control width-130">
+				<option value="-1">选择代理区域</option>
+				{loop $agents $agent}
+					<option value="{$agent['id']}" {if $agentid == $agent['id']}selected{/if}>{$agent['area']}</option>
+				{/loop}
+			</select>
+		</div>
+	</div>
+	<div class="form-group clearfix">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">排序</label>
+		<div class="col-sm-7 col-lg-8 col-md-8 col-xs-12">
+			<div class="btn-group">
+				<a href="{php echo ifilter_url('orderby: final_fee')}" class="btn {if $orderby == 'final_fee'}btn-primary{else}btn-default{/if}">营业额</a>
+				<a href="{php echo ifilter_url('orderby: total_success_order')}" class="btn {if $orderby == 'total_success_order'}btn-primary{else}btn-default{/if}">有效订单量</a>
+				<a href="{php echo ifilter_url('orderby: agent_final_fee')}" class="btn {if $orderby == 'agent_final_fee'}btn-primary{else}btn-default{/if}">佣金收入</a>
+			</div>
+		</div>
+	</div>
+</form>
+<div class="clearfix">
+	<div class="panel panel-stat">
+		<div class="panel-heading">
+			<h3>总览</h3>
+		</div>
+		<div class="panel-body">
+			<div class="col-md-3">
+				<div class="title">
+					营业总额(元)
+					<i class="fa fa-info-circle" data-toggle="popover" data-placement="top" data-content="平台账户收入的总金额。（参考公式：营业总额=支付宝支付总额+微信支付总额+余额支付总额+货到付款支付总额）"></i>
+				</div>
+				<div class="num-wrapper">
+					<a class="num" href="javascript:;">
+						<span id="html-final-fee">￥0</span>
+					</a>
+				</div>
+			</div>
+			<div class="col-md-3">
+				<div class="title">
+					佣金收入
+					<i class="fa fa-info-circle" data-toggle="popover" data-placement="top" data-content="佣金收入：代理从有效订单扣除的服务佣金除去平台抽代理的服务费。（单个订单佣金计算公式：服务佣金（商户配送模式）=商品费用+餐盒费+包装费+配送费-商户优惠费用） x 佣金费率(代理对商户) - 代理佣金(平台对代理)。服务佣金（平台配送模式）=商品费用+餐盒费+包装费-商户优惠费用） x 佣金费率(代理对商户) - 代理佣金(平台对代理)"></i>
+				</div>
+				<div class="num-wrapper">
+					<a class="num" href="javascript:;">
+						<span id="html-agent-final-fee">￥0</span>
+					</a>
+				</div>
+			</div>
+			<div class="col-md-3">
+				<div class="title">
+					有效订单量
+					<i class="fa fa-info-circle" data-toggle="popover" data-placement="top" data-content="有效订单量：交易成功且用户未退单的订单。"></i>
+				</div>
+				<div class="num-wrapper">
+					<a class="num" href="javascript:;">
+						<span id="html-total-success-order">0</span>
+					</a>
+				</div>
+			</div>
+			<div class="col-md-3">
+				<div class="title">
+					无效订单量
+					<i class="fa fa-info-circle" data-toggle="popover" data-placement="top" data-content="无效订单量：用户支付成功但最终被取消的订单。包括用户取消、商家取消和系统因超时未处理取消的订单。"></i>
+				</div>
+				<div class="num-wrapper">
+					<a class="num" href="javascript:;">
+						<span id="html-total-cancel-order">0</span>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="clearfix">
+	<div class="panel panel-trend">
+		<div class="panel-heading">
+			<h3>趋势图</h3>
+		</div>
+		<div class="panel-body">
+			<div id="chart-order-holder" style="width: 100%;height:400px;"></div>
+		</div>
+	</div>
+</div>
+<form action="" class="form-table form" method="post">
+	<div class="panel panel-table">
+		<div class="panel-body table-responsive">
+			<table class="table table-bordered table-hover text-center" style="background: #fff">
+			<thead class="navbar-inner">
+			<tr>
+				<th>排名</th>
+				<th>代理</th>
+				<th>营业额</th>
+				<th>营业额占比</th>
+				<th>佣金收入</th>
+				<th>佣金收入占比</th>
+				<th>有效订单量</th>
+				<th>有效订单量占比</th>
+				<th>无效订单量</th>
+				<th>无效订单量占比</th>
+			</tr>
+			</thead>
+			<tbody>
+			{loop $records $record}
+				{php $i++;}
+				<tr>
+					<td><strong>{$i}</strong></td>
+					<td><strong>{$record['agent_name']}</strong></td>
+					<td><span class="text-success">￥{$record['final_fee']}</span></td>
+					<td><span class="text-success">{$record['pre_final_fee']}%</span></td>
+					<td><span class="text-danger">{$record['agent_final_fee']}</span></td>
+					<td><span class="text-danger">￥{$record['pre_agent_final_fee']}%</span></td>
+					<td><span class="text-success">{$record['total_success_order']}</span></td>
+					<td><span class="text-success">{$record['pre_success_order']}%</span></td>
+					<td><span class="text-danger">{$record['total_cancel_order']}</span></td>
+					<td><span class="text-danger">{$record['pre_cancel_order']}%</span></td>
+				</tr>
+			{/loop}
+			</tbody>
+		</table>
+		</div>
+	</div>
+</form>
+<script type="text/javascript">
+irequire(['echarts'], function(echarts){
+	var option = {
+		color: ['#3398DB'],
+		tooltip : {
+			trigger: 'axis',
+			axisPointer : {
+				type : 'shadow'
+			}
+		},
+		grid: {
+			left: '3%',
+			right: '4%',
+			bottom: '3%',
+			containLabel: true
+		},
+		xAxis : [
+			{
+				type : 'category',
+				data : [],
+				axisTick: {
+					alignWithLabel: true
+				}
+			}
+		],
+		yAxis : [
+			{
+				type : 'value'
+			}
+		],
+		series : []
+	};
+
+	var myChart = echarts.init($('#chart-order-holder')[0]);
+	myChart.setOption(option);
+	myChart.showLoading();
+	$.post(location.href, function(data){
+		myChart.hideLoading();
+		var result = $.parseJSON(data);
+		var xAxis = {
+			type : 'category',
+			data : result.message.message.agentid,
+			axisTick: {
+				alignWithLabel: true
+			}
+		}
+		option.xAxis = xAxis;
+		var series =  {
+				name: result.message.message.title,
+				type:'bar',
+				barWidth: '60%',
+				data: result.message.message.value
+		}
+		option.series = series;
+		myChart.setOption(option);
+		$('#html-final-fee').html('￥' + result.message.message.final_fee);
+		$('#html-total-success-order').html(result.message.message.total_success_order);
+		$('#html-agent-final-fee').html('￥' + result.message.message.agent_final_fee);
+		$('#html-total-cancel-order').html(result.message.message.total_cancel_order);
+	});
+});
+</script>
+{itemplate 'public/footer'}

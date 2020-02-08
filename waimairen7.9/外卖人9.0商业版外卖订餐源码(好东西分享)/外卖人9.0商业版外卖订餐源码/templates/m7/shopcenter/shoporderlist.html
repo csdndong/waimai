@@ -1,0 +1,628 @@
+ <{extends file="<{$tempdir}>/public/shopcenter.html"}>  
+ <{block name=extendjs}>
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/jquery.PrintArea.js" type="text/javascript" language="javascript"></script>
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/datepicker/WdatePicker.js" type="text/javascript" language="javascript"></script> 
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js" type="text/javascript" language="javascript"></script>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js"></script>   
+   <script>
+  	var mynomenu='baseorder';
+  	</script>
+ <{/block}> 
+ <{block name=bodylist}>
+ <style>
+ .unreason{display:none;width: 380px;height: 210px;background-color: #fff;position: fixed;left: 35%;top: 35%;border-radius: 5px;z-index: 10;border: 1px solid #ccc;}
+ .unreasont{width:100%;height:30px;background-color:#6dccf6;border-top-left-radius: 5px;border-top-right-radius: 5px;line-height:30px;}
+ .drowback{cursor:pointer} 
+ .backlog{z-index:10000;display:none;width:400px; height:500px; background:#fff;border: 1px #ccc solid;border-radius: 5px;padding-bottom: 20px;position: fixed;top: 25%;left: 40%; }
+ .backlogtop{border-top-left-radius: 5px;border-top-right-radius: 5px;color: #000;width:100%;font-size: 14px;text-align: center;border-bottom: 1px solid #ccc;background-color: #6dccf6;height: 30px;line-height: 30px}  
+ .backlogcon{height: 470px;overflow: hidden;overflow-y: auto;}
+ .backlogcon ul li {padding: 10Px 15px;border-bottom: 1px solid #ccc;}
+ .refund_schedule_head i{float: right;padding-right: 20px;line-height:25px}
+ .closelog{padding-right: 20px;position: absolute;right: 0;cursor: pointer;}
+ .refund_schedule_right{font-size:14px;line-height:25px; }
+ .refund_schedule_head span{font-weight:bold;color:#000;}
+ .refund_schedule_head i{color:#999}
+ .refund_schedule_txt{color:#999;padding-left:12px}
+ .showlog{margin: 0;color: yellow;margin:0!important;cursor: pointer;width: 130px;font-weight: bold;border: 1px solid yellow;text-align: center;border-radius: 5px;height: 25px;line-height: 25px;}  
+</style>
+ <!--商家拒绝退款弹窗开始-->
+ <div  class='unreason' >
+     <div class='unreasont' >&nbsp;&nbsp;请填写退款申请拒绝理由</div>
+     <div class='unreasontext' style='text-align:center;    margin-top: 15px;'>
+	     <textarea name="unbackreason" id='unbackreason' style='width:300px;height:100px'></textarea>
+	 </div>
+     <input type='button' data=''  value='确认提交' id='unrebacksub' style='margin:20px 0 0 30px;'>
+ 
+ </div>
+ <!--商家拒绝退款弹窗结束-->
+ 
+ 
+  <!---content right start--->
+  <div class="conWaiSet fr">
+    <div class="shopSetTop"> <span>订单查询</span> </div>
+    <div class="selOrder">
+      <div class="autoRe" id="showztai" udata="<{$hidecount}>"  data="20" > 自动刷新倒计时<span>0</span>秒 </div>  
+      <div class="refresh_set">
+        <div  class="refset" onclick="refreshorder();"> <img src="<{$siteurl}>/templates/<{$tempdir}>/public/shopcenter/images/sdsx.png" /><span>手动刷新</span> </div>
+        <div class="refset"> <img src="<{$siteurl}>/templates/<{$tempdir}>/public/shopcenter/images/lstx.png" /><span>铃声提醒</span> </div>
+        <div class="refset" id="startwave" 	 > <img src="<{$siteurl}>/templates/<{$tempdir}>/public/shopcenter/images/start.png"  /><span>开启</span> </div>
+        <div class="refset"  id="closetwave"  > <img src="<{$siteurl}>/templates/<{$tempdir}>/public/shopcenter/images/close.png"/><span>关闭</span> </div>
+       
+      </div>
+      <div class="cl"></div>
+    </div>
+    <div class="cl"></div>
+    <script>             	
+	$(function(){
+		$(".waimaiset .jbset").click(function(){
+			$(this).css('background','#ec7501').siblings().css('background','');			
+		});	
+		$('.closelog').click(function(){
+		   $('.backlog').hide();
+		})
+		
+	});
+	
+	</script>
+    <form action="<{ofunc type=url link="/shopcenter/shoporderlist"}>" method="post">
+      <div class="order_search" style="height:auto;">
+        <!--<label class="chaxun">查询：</label>
+        <label>
+          <input type="radio" value="1" name="orderSource" <{if $orderSource==1}>checked<{/if}>  />
+          网站订单</label>
+        
+        <label>
+          <input type="radio" value="3" name="orderSource" <{if $orderSource==3}>checked<{/if}>  />
+          待确认订单</label>
+        <label>
+          <input type="radio" value="4" name="orderSource" <{if $orderSource==4}>checked<{/if}>   />
+          待发货订单</label>
+        <label>
+          <input type="radio" value="5" name="orderSource" <{if $orderSource==5}>checked<{/if}>   />
+          已发货订单</label>
+ 		  <label >
+          <input type="radio" value="6" name="orderSource" <{if $orderSource==6}>checked<{/if}>   />
+          退款待处理</label>
+		  
+		    <label>
+          <input type="radio" value="7" name="orderSource" <{if $orderSource==7}>checked<{/if}>   />
+          已退款</label>
+		  
+		    <label >
+          <input type="radio" value="8" name="orderSource" <{if $orderSource==8}>checked<{/if}>   />
+          已拒绝退款订单</label>-->
+		 <label  style="margin-left:100px;"> 订单编号
+		 <input class='xzrq'  type='text' name='dno' value='<{$dno}>'>
+         </label>		 
+        <label  style="margin-left:100px;">选择日期
+		  
+          <input class="xzrq  Wdate datefmt" type="text" name="starttime" style='color:#333' id="starttime" value="<{$starttime|date_format:"%Y-%m-%d"}>"  onFocus="WdatePicker({isShowClear:false,readOnly:true});" />至
+		   <input class="xzrq  Wdate datefmt" type="text" name="endtime" style='color:#333' id="endtime" value="<{$endtime|date_format:"%Y-%m-%d"}>"  onFocus="WdatePicker({isShowClear:false,readOnly:true});" />
+        </label>
+		<label>
+        <input class="searchBg" style="padding-bottom: 8px;border-radius: 5px;" type="submit" name="" value="" />
+		</label>
+		<input type='hidden' value='<{$orderSource}>' name='orderSource'>
+      </div>
+    </form>
+    <div class="orderList">
+    	  
+      <div class="orderspan"> 共计<span class="numOrder"><{$tongji1['shuliang1']}></span>张订单，成功订单金额<span class="seccost"><{$tongji['allcost']|default:'0'}></span>元 </div>
+      
+      <div id="all_area">
+       <{foreach from=$list key=myid item=items}>  
+      <div class="singleOrder" id="order_area_<{$items['id']}>">
+        <div class="singleOrder_title">
+          <div class="orderNum" style='position:relative'> <span><{$items['daycode']}></span></div>
+          <div class="order_xx"> <span style=" margin-left:26px;"><span class="oxx">订单号</span>：<{$items['dno']}>
+		  
+		  
+		  
+		  			<{if $items['is_ziti'] == 1}> <span style='background: #33bbee;color: #fff;padding: 2px 4px;border-radius: 3px;'>自取单</span> <{/if}>
+<{if $items['is_hand'] == 0 && $items['is_ziti'] == 0}><span style='background: #33bbee;color: #fff;padding: 2px 4px;border-radius: 3px;'>预订单</span><{/if}>
+		  </span> <span style=" margin-left:30px;"><span class="oxx">下单时间</span>：<{$items['addtime']|date_format:"%Y-%m-%d %H:%M:%S"}></span>
+		  <span style=" margin-left:30px;">
+		  <span class="oxx">状态</span>：<{$items['ordstatus']}></span> </div>
+          <div class="showorderdet curbtn" onclick="showdet('<{$items['id']}>',this);">查看详情</div>
+        </div>
+        <div class="order_details" id="order_det<{$items['id']}>">
+		
+		
+			
+			<{if !empty($items['drawbacklog']) }>
+			
+					<div>
+			
+			<h3>退款申请信息</h3>
+				    <table class="order_listli" style="font-size: 14px; margin-top: 5px; text-align: left; margin-left: 20px;" width="898" align="center" border="" cellpadding="0" cellspacing="0" bordercolor="#6596a9" >
+			<tr>
+              <td><div>申请时间: <span><{$items['drawbacklogone']['addtime']|date_format:"%Y-%m-%d %H:%M:%S"}></span></div></td>
+              <td><div>会员名称: <span><{$items['drawbacklogone']['username']}></span></div></td>  
+            
+            </tr>           
+		    
+            <tr>
+              <td><div>退款金额: <span><{$items['drawbacklogone']['cost']}>元</span></div></td>
+              <td><div>支付方式: <span>
+						<{if $items['paytype_name']  == 'open_acout' }>余额支付<{/if}> 
+						<{if $items['paytype_name']  == 'weixin' }>微信支付<{/if}> 
+						<{if $items['paytype_name']  == 'alipay' }>支付宝支付<{/if}> 
+						<{if $items['paytype_name']  == 'alimobile' }>手机支付宝支付<{/if}>
+			  </span></div></td>  
+			       <{if $items['paytype_name']  == 'weixin' ||  $items['paytype_name']  == 'alipay'  || $items['paytype_name']  == 'alimobile'  }>
+					    <td colspan="2"><div>交易号: <span> <font color=red><{$items['trade_no']}></font></span></div></td>
+				   <{/if}>
+            </tr>
+  
+            <tr>
+              <td><div  style='max-width:300px'>退款原因: <span> <{$items['drawbacklogone']['reason'] }> </span></div></td>                          
+              <td><div  style='max-width:300px'>退款详细说明: <span> <{$items['drawbacklogone']['content'] }> </span></div></td>             
+            </tr>
+		    <tr>
+                                      
+              <td><div>退款状态: <span>
+				  <{if $items['is_reback'] == 1 }>退款中，待平台处理<{/if}> 
+				  <{if $items['is_reback'] == 2 }>退款成功<{/if}>
+				  <{if $items['is_reback'] == 3 && $items['status'] != 3 }>商家拒绝退款，等待用户处理<{/if}>
+				  <{if $items['is_reback'] == 3 && $items['status'] == 3 }>商家拒绝退款，退款关闭<{/if}>
+				  <{if $items['is_reback'] == 4 }>退款中，待商家处理<{/if}>
+				  <{if $items['is_reback'] == 5 }>用户取消退款申请<{/if}>
+			  </span></div></td>  
+                  <td><div><div onclick='showbacklog(<{$items['id']}>);' class='showlog'>查看退款协商记录</div></div></td>      	  
+            </tr>
+			<!--查看协商记录弹窗开始-->
+ <div class="backlog backlog_<{$items['id']}>">
+   <div class="backlogtop">退款协商记录<span class='closelog'>✖</span></div>
+   
+   <div class="backlogcon">
+      <ul>
+	    <{foreach from=$items['drawbacklog'] key=mkey item=items1}>  
+		<li>
+			<div class="refund_schedule_right">
+				<div class="refund_schedule_head">
+				    <span <{if $mkey == 0 }>style='color:#ec7501'<{/if}>>● <{$items1['title']}></span>
+				    <i><{$items1['addtime']}></i>
+				</div>
+				<div class="refund_schedule_txt">						    					 
+					<p><{$items1['content1']}></p>
+					<{if !empty($items1['content2'])}><p><{$items1['content2']}></p><{/if}>
+				</div>
+			</div>
+		</li> 
+		<{/foreach}>
+       </ul> 
+   </div>
+   <div></div>
+</div>  
+ <!--查看协商记录弹窗结束-->
+			
+          </table>
+			</div>
+				<h3>订单详情</h3>
+			<{/if}>
+			
+		
+          <table class="order_listli" style="font-size: 14px; margin-top: 5px; text-align: left; margin-left: 20px;" width="898" align="center" border="" cellpadding="0" cellspacing="0" bordercolor="#6596a9" >
+            <tr>
+              <td><div>支付方式: <span><{$paytypearr[$items['paytype']]}>(<{if !empty($items['paytype_name'])}><{$payway[$items['paytype_name']]}>，<{/if}><{if $items['paystatus'] == 1}>已付<{else}>未付<{/if}>) </span></div></td>
+              <td><div>订单状态: <span><{$items['ordstatus']}></span></div></td>
+              <td><div> <{if $items['is_ziti'] != 1}> 配送时间:<{else}> 自取时间： <{/if}> <span><{$items['posttime']|date_format:"%Y-%m-%d"}><{if $items['is_goshop'] != 1 && $items['is_hand'] == 1}> 立即配送<{else}> <{$items['postdate']}> <{/if}> </span></div></td>
+           
+            </tr>
+            <tr>
+              <td><div><{if $items['is_ziti'] != 1}>顾客<{else}>自取<{/if}>电话: <span><{$items['buyerphone']}></span></div></td>
+              <{if $items['is_goshop'] != 1}>   <td><div>顾客地址: <span><{if $items['is_ziti'] != 1}><{$items['buyeraddress']}><{else}>用户上门自取<{/if}></span></div></td>  <{/if}>
+              <td colspan="2"><div>联系人: <span><{$items['buyername']}></span></div></td>
+            </tr>
+           
+            <tr>
+              <td><div>审核参考: <span> <{if empty($items['buyeruid'])}>游客<{else}>成交次数:<{$items['maijiagoumaishu']}><{/if}></span></div></td>
+              <td><div>下单IP: <span><{preg_replace('/[^\.0123456789]/s', '',$items['ipaddress'])}></span></div></td>
+			  <{if $items['is_goshop'] != 1}>    <td><div>配送方式: <span <{if $items['is_ziti'] == 1}>style='color:red'<{/if}>><{if $items['is_ziti'] != 1}><{if $items['pstype'] == 1}>店铺<{else}>网站<{/if}>配送<{else}>到店自取<{/if}></span></div></td>   <{/if}>
+            </tr>
+			<{if !empty($items['content'])}>
+			 <tr>
+              <td colspan="4"><div>订单备注: <span><{$items['content']}></span><{assign var=showother value=$items['othertext']|unserialize}>   
+			 <{foreach from=$showother key=mytest item=itc}>
+			<{if $mytest != 0 }>
+			<font color=red> <{$mytest}></blue>:<{$itc}> </font>
+			<{else}>
+<!--										无-->
+			<{/if}>
+			 <{/foreach}></div></td>
+            </tr>
+			<{/if}>
+          </table>
+          <div class="order_alllist">
+            <table style="font-size: 14px; margin-top: 5px; text-align: left; margin-left: 20px;" width="898" align="center" border="1" cellpadding="0" cellspacing="0" bordercolor="#6596a9" >
+              <tr>
+                  <td style=" font-weight:bold;" width="55%">美食篮子</td>
+                  <td style=" font-size:14px; color:#333; font-weight:bold;"  align="center">单价</td>
+                  <td style=" font-size:14px; color:#333; font-weight:bold;"  align="center" align="center"> 数量 </td>
+                  <td style=" font-size:14px; color:#333; font-weight:bold;"  align="center" align="center">总价  </td>
+              </tr> 
+               <{foreach from=$items['detlist'] item=value}>  
+              <tr>
+                <td style=" font-weight:bold;"  width="55%"><{$value['goodsname']}><{if $value['is_send'] == 1}><font color=red>[赠品]</font><{/if}><{if $value['shopid'] == 0}><font color=blue>[商城]</font><{/if}></td>
+                <td style=" font-size:14px; color:#333; font-weight:bold;"  align="center"><{$value['goodscost']}></td>
+                  <td style=" font-size:14px; color:#333; font-weight:bold;"  align="center" align="center"><{$value['goodscount']}></td>
+                  <td style=" font-size:14px; color:#333; font-weight:bold;"  align="center" align="center"><{$value['goodscount']*$value['goodscost']}>  </td>
+              </tr>
+               <{/foreach}>   
+              <tr>
+                <td style=" font-weight:bold;" colspan="4">
+                	<{if $items['scoredown'] > 0}> <span class="info_name">积分抵扣：<font color=red>- <{$items['scoredown']}></font>个&nbsp;（10分抵一元）&nbsp;</span><{/if}>
+					 <{if $items['is_goshop'] != 1}>	  <span class="info_name">配送费：<font color=red><{$items['shopps']}></font>元</span>   <{/if}>
+					 <{if $items['yhjcost']> 0}><span class="info_name ml20">优惠券金额：<font color=red>- <{$items['yhjcost']}></font>元</span><{/if}>
+					 <!--<{if $items['cxcost']> 0}> <span class="info_name ml20">促销优惠：<font color=red><{$items['cxcost']}></font>元</span><{/if}>-->
+					 <{if $items['bagcost']> 0}><span class="info_name ml20">打包费：<font color=red><{$items['bagcost']}></font>元</span><{/if}>
+					 <{if !empty($items['cxdet'])}>
+					 <br>
+					 <{foreach from=$items['cxdet'] key=keyd item=itemd}>
+					     <span class="info_name ml20"><{$itemd['name']}>：<font color=red>- <{$itemd['downcost']}></font>元</span>
+					 <{/foreach}>
+					 <{/if}>
+					 
+					 <span class="info_name ml20">应收金额：<font color=red><{$items['allcost']}></font>元</span>
+                </td> 
+              </tr>
+            </table>
+            <div class="order_bottom"  id="<{$items['id']}>">
+            	<{if $items['status'] == 1}>				 
+					<{if $items['is_make'] == 0}>
+						<{if $items['is_reback'] == 0 || $items['is_reback'] == 5 }>
+							<span onclick="unmakeorder(<{$items['id']}>);" class="curbtn">
+							<img src="<{$siteurl}>/templates/<{$tempdir}>/public/shopcenter/images/buzhizuo.png" /></span> 
+							<span  onclick="makeorder(<{$items['id']}>);" class="curbtn">
+							<img src="<{$siteurl}>/templates/<{$tempdir}>/public/shopcenter/images/zhizuodingdan.png" /></span>
+						<{/if}>
+						<{if $items['is_reback'] == 3}>
+							<span  onclick="makeorder(<{$items['id']}>);" class="curbtn">
+							<img src="<{$siteurl}>/templates/<{$tempdir}>/public/shopcenter/images/zhizuodingdan.png" /></span>
+						<{/if}>
+					<{elseif $items['is_make'] == 1 && $items['is_ziti'] == 0 }>
+						<{if $items['is_reback'] != 4}> 
+							<span onclick="sendorder(<{$items['id']}>);" class="curbtn">
+							<img src="<{$siteurl}>/templates/<{$tempdir}>/public/shopcenter/images/peisongfahuo.png" /></span> 	 
+						<{/if}>
+					<{elseif $items['is_make'] == 2}>订单取消制作
+					<{/if}>				    
+       	       <{/if}>
+            <a href="<{$siteurl}>/index.php?ctrl=shopcenter&action=orderprint&orderid=<{$items['id']}>&printtype=0" target="_blank"> 
+			<img src="<{$siteurl}>/templates/<{$tempdir}>/public/shopcenter/images/dayindingdan.png" /></a> 
+            <a href="<{$siteurl}>/index.php?ctrl=shopcenter&action=orderprint&orderid=<{$items['id']}>&printtype=1" target="_blank">
+			<img src="<{$siteurl}>/templates/<{$tempdir}>/public/shopcenter/images/xiaopiaodayin.png" /></a> 
+		
+		<{if ($items['status'] == 2 && $items['is_reback'] != 4 && $items['status'] != 3 ) ||($items['is_ziti'] == 1 && $items['is_make'] == 1 && $items['status'] != 3 )  }>
+            <span class="curbtn" onclick="wancheng(<{$items['id']}>);"  >
+			<img src="<{$siteurl}>/templates/<{$tempdir}>/public/shopcenter/images/wanchengdingdan.png" /></span> 
+        <{/if}>
+		
+		<{if $items['is_reback'] == 4}>
+             <span class='drowback' onclick="rebackclick(<{$items['id']}>);"  >同意退款</span>  
+			 <span class='drowback' onclick="unrebackclick(<{$items['id']}>);" >拒绝退款</span>  
+        <{/if}>
+		 
+		<!-- <{if $items['psuid'] > 0}>	
+			<{if $items['status'] > 0 && $items['status'] < 3}>
+				<span onclick="pickorder(<{$items['id']}>);" class="curbtn">通知取单</span> 
+			<{/if}>
+		<{/if}> -->
+		
+        <{if !empty($items['drawbacklog'])}>			 
+			<{if $items['is_reback'] == 1 }><span style="padding: 4px 8px; position:relative;top:-6px;background: #EC7501;curosr:text;"  >已申请退款等待平台处理</span><{/if}>
+			<{if $items['is_reback'] == 2 }><span style="padding: 4px 8px; position:relative;top:-6px;background: #EC7501;curosr:text;"  >管理员已退款给用户</span><{/if}>
+			<{if $items['is_reback'] == 4 }><span style="padding: 4px 8px; position:relative;top:-6px;background: #EC7501;curosr:text;"  >已申请退款等待商家处理</span><{/if}>
+		<{/if}>
+		</div> 
+			</div>
+        </div>
+      </div>
+      <{/foreach}>
+       
+      <!---订单循环-->
+    </div>
+     
+    </div>
+  </div>
+  <div class="cl"></div>
+  
+  <!---content right end---> 
+ <style>
+ .drowback{
+    background-color: yellow;
+    color: black;
+    text-align: center;
+    height: 35px;
+    width: 108px;
+    padding: 10px;
+	position: relative;
+    top: -13px;
+	margin: 0 10px;
+ }
+ 
+ </style>
+<div id="print_area" style="display:none;"></div>
+<div id="palywave" style="display:none;"></div>
+ <script>     
+ 	<{if $playwave != 2}> 
+ 	var playwave = true;  	
+ 	<{else}>
+ 		var playwave = false;  	
+ 	<{/if}>
+				$(function(){
+					 if(playwave == true){
+					 	$('#startwave').css('background','#ec7501');
+					}else{
+						$('#closetwave').css('background','#ec7501');
+					}
+					$("#startwave").click(function(){
+						$(this).css('background','#ec7501');//.siblings().css('background','');
+						$('#closetwave').css('background','');
+						playwave =   true;
+						ajaxback('<{ofunc type=url link="/shopcenter/wavecontrol/type/openwave/datatype/json"}>',''); 
+					});	
+					$("#closetwave").click(function(){
+						$(this).css('background','#ec7501');//.siblings().css('background','');
+							$('#startwave').css('background','');
+								playwave = false;
+					    	ajaxback('<{ofunc type=url link="/shopcenter/wavecontrol/type/closewave/datatype/json"}>',''); 
+						
+					});	
+					
+				});
+function refreshorder(){
+	window.location.reload();
+}
+</script> 
+<script type="text/javascript">
+     var dialogs ;
+	 function showdet(order,obj){
+	 	var checkobj = $('#order_det'+order).is(":hidden");
+	 	if(checkobj ==  false){
+	 		 $(obj).text('查看详情');
+	 		 $('#order_det'+order).hide();
+	 	}else{
+	 		$(obj).text('隐藏详情');
+	 		$('#order_det'+order).show();
+	 	}
+	 	 
+	}
+	 function unorder(orderid,dno)
+	 {
+	 	   var dialog =  art.dialog({
+	 	   	id:'coslid',
+        title:'取消订单'+dno,
+           content: '<div>关闭订单理由</div><div><textarea name="reason" id="reason" style="height:40px;"></textarea></div><div class="btn_wuxiao hc_listfoods_menus_foods hcl_food_lists_cont_div_order2 hcl_food_lists_cont_div_order4 hc_listfoods_menus_foods2" style="width:65px;float:left;" onclick="sureclose('+orderid+');">提交关闭</div>'
+        });
+	 }
+	 function sureclose(orderid)
+	 {
+	 	  var reasons = $('#reason').val();
+	 	  if(reasons == undefined || reasons == '')
+	 	  {
+	 	  	alert('关闭理由不能为空');
+	 	  }else{ 
+	 	    myajax('<{ofunc type=url link="/shopcenter/shopcontrol/controlname/unorder/datatype/json"}>',{'orderid':orderid,'reason':reasons}); 
+	 	 }
+	 }
+	 function makeorder(orderid){
+	 	
+	 	  if(confirm('订单已审核通过，确认制作吗？')){
+		        myajax('<{ofunc type=url link="/shopcenter/shopcontrol/controlname/makeorder/datatype/json"}>',{'orderid':orderid});
+		  }
+	 	
+	 	
+	 	
+	 }
+	 function pickorder(orderid){
+	 	 if(confirm('确认通知配送员取单吗？')){
+		        myajax('<{ofunc type=url link="/app/txingorder/datatype/json"}>',{'orderid':orderid});
+		  } 
+	}
+	function wancheng(orderid){
+		if(confirm('订单操作确认完成该订单吗？')){
+		        myajax('<{ofunc type=url link="/shopcenter/shopcontrol/controlname/wancheng/datatype/json"}>',{'orderid':orderid});
+		  }
+	}
+	 function unmakeorder(orderid){
+	 	
+	 	  if(confirm('订单已审核通过，取消不制作吗？')){
+		       myajax('<{ofunc type=url link="/shopcenter/shopcontrol/controlname/unmakeorder/datatype/json"}>',{'orderid':orderid});
+		  }
+	 	
+	 }
+	 
+	  function unyudingorder(orderid){
+	 	
+	 	  if(confirm('订单已审核通过，取消此预定订单吗？')){
+		       myajax('<{ofunc type=url link="/shopcenter/shopcontrol/controlname/unmakeorder/datatype/json"}>',{'orderid':orderid});
+		  }
+	 	
+	 }
+	 
+	 function sendorder(orderid)
+	{
+		if(confirm('订单已审核通过，确认发货吗？')){
+		   myajax('<{ofunc type=url link="/shopcenter/shopcontrol/controlname/sendorder/datatype/json"}>',{'orderid':orderid});
+		}
+	}
+	function shenhe(orderid)
+	{
+		if(confirm('通过审核，此订单将生效吗？')){
+		   myajax('<{ofunc type=url link="/shopcenter/shopcontrol/controlname/shenhe/datatype/json"}>',{'orderid':orderid});
+		}
+	}
+	function delorder(orderid)
+	{
+		if(confirm('彻底删除订单吗？')){
+		   myajax('<{ofunc type=url link="/shopcenter/shopcontrol/controlname/delorder/datatype/json"}>',{'orderid':orderid});
+		}
+	}
+	//退款
+	 function rebackclick(orderid){
+			if(confirm('确定同意退款吗，同意后管理员会把钱退还给用户？')){
+		        myajax('<{ofunc type=url link="/shopcenter/shopcontrol/controlname/reback/datatype/json"}>',{'orderid':orderid});
+		  }
+	 }
+	 //取消退款
+	 function unrebackclick(orderid){		 
+		 $('#unrebacksub').attr('data',orderid);
+	     $('.unreason').show();
+	 }
+	 
+	 $('#unrebacksub').live('click',function(){
+	     var  orderid =  $(this).attr('data');
+	     var  reason = $('#unbackreason').val();
+	     if(reason==''){
+		    alert('请填写退款申请拒绝理由');
+			return false;
+		 }
+		  /*myajax('<{ofunc type=url link="/shopcenter/shopcontrol/controlname/unreback/datatype/json"}>',{'orderid':orderid,'reason':reason});
+		 $('#unrebacksub').attr('data','');
+	     $('.unreason').hide();
+		 $('#unbackreason').val('');
+         location.reload();  */
+		 
+		 
+		 url = '<{ofunc type=url link="/shopcenter/shopcontrol/controlname/unreback/datatype/json"}>';
+		 $.ajax({
+         type: 'POST',
+         async:false,
+        url: url.replace('@random@', 1+Math.round(Math.random()*1000)),
+        data: {'orderid':orderid,'reason':reason},
+        dataType: 'json',success: function(content) { 
+      	if(content.error == true)
+      	{
+      		alert(content.msg);
+      	}else if(content.error == false)
+      	{
+      		location.reload();  
+      	}else{
+      	  alert(content);
+      	} 
+		  },
+        error: function(content) { 
+      	alert('传送数据失败111');
+	   }
+   });  
+		 
+		 
+
+	    
+	 })
+	 
+	 
+	  var mydialog;
+	function printorder(orderid,printtype)
+	{
+		if(printtype == 1){
+			window.open(siteurl+'/index.php?ctrl=shopcenter&action=orderprint&orderid='+orderid+'&printtype='+printtype,"窗口名称","窗口外观设定");
+			return;
+			   mydialog = art.dialog.open(siteurl+'/index.php?ctrl=shopcenter&action=orderprint&orderid='+orderid+'&printtype='+printtype,{height:'600px',width:'400px'},false);  //小票打印
+		}else{
+			window.open(siteurl+'/index.php?ctrl=shopcenter&action=orderprint&orderid='+orderid+'&printtype='+printtype,"窗口名称","窗口外观设定");
+			return;
+			   mydialog = art.dialog.open(siteurl+'/index.php?ctrl=shopcenter&action=orderprint&orderid='+orderid+'&printtype='+printtype,{height:'690px',width:'794px'},false);  //打印A4 
+		}
+	}
+  function print_all_area()
+  {
+  	$('#print_area').html($('#all_area').html());
+	  $("#print_area").find('.order_bottom').remove();
+	  $("#print_area").printArea();
+  }
+</script>
+<script>
+	 
+$(function(){
+	setTimeout("get_status()",1000); 		
+}); 
+function get_status(){//<span id="timeshow" data="20" style="color:#666;"></div>
+	//alert('xxx');
+	var timeaction =  $('#showztai').attr('data');
+	 
+ 
+	if(timeaction == 0){
+	$('#showztai').text('检测订单..'); 
+	 var url = siteurl+'/index.php?ctrl=shopcenter&action=ajaxcheckshoporder&datatype=json&random=@random@';
+	 $.ajax({
+       type: 'POST',
+       async:false,
+       url: url.replace('@random@', 1+Math.round(Math.random()*1000)),
+       data: {},
+      dataType: 'json',success: function(content) { 
+      	if(content.error == true)
+      	{
+      		$('#showztai').text('未获取到新订单');
+      		$('#showztai').attr('data','20');
+ 	       
+      		setTimeout("get_status()",1000); 	
+      	}else if(content.error == false)
+      	{
+      		  var checkNum = Number($('#showztai').attr('udata'));
+      		  var ccNumber = Number(content.msg);
+      		  if(ccNumber > checkNum){
+      		  	palywav();
+      		  }else{
+      		  	 $('#showztai').text('未获取到新订单');
+      	     	$('#showztai').attr('data','20');
+ 	       
+      	      	setTimeout("get_status()",1000); 	
+      		  }
+      	 
+      	}else{
+      	 $('#showztai').text('未获取到新订单');
+      		$('#showztai').attr('data','20');
+ 	       
+      		setTimeout("get_status()",1000); 	
+      	}
+      	
+		  },
+      error: function(content) { 
+      $('#showztai').text('未获取到新订单');
+      		$('#showztai').attr('data','20');
+ 	       
+      		setTimeout("get_status()",1000); 	
+	   }
+   }); 
+ }else{
+ 	var nowtime = Number(timeaction)-1;
+ 	$('#showztai').attr('data',nowtime);
+ 	$('#showztai').html('自动刷新倒计时<span>'+nowtime+'</span>秒');
+ 	setTimeout("get_status()",1000); 	
+ 	
+ }
+ 
+}
+function palywav(){
+	if(playwave == true){
+				if(navigator.userAgent.indexOf("Chrome") > -1){  
+				$('#palywave').html('<audio src="<{$siteurl}>/upload/wave.mp3" type="audio/mp3" autoplay=”autoplay” hidden="true"></audio>');
+				}else if(navigator.userAgent.indexOf("Firefox")!=-1){  
+				$('#palywave').html('<embed src="<{$siteurl}>/upload/wave.mp3" type="audio/mp3" hidden="true" loop="false" mastersound></embed>');
+				}else if(navigator.appName.indexOf("Microsoft Internet Explorer")!=-1 && document.all){ 
+				$('#palywave').html('<object classid="clsid:22D6F312-B0F6-11D0-94AB-0080C74C7E95"><param name="AutoStart" value="1" /><param name="Src" value="<{$siteurl}>/upload/wave.mp3" /></object>');
+				}else if(navigator.appName.indexOf("Opera")!=-1){ 
+				$('#palywave').html('<embed src="<{$siteurl}>/upload/wave.mp3" type="audio/mpeg" loop="false"></embed>');
+				}else{ 
+				$('#palywave').html('<embed src="<{$siteurl}>/upload/wave.mp3" type="audio/mp3" hidden="true" loop="false" mastersound></embed>'); 
+				} 
+
+
+				  // $('#palywave').html('<embed id=cct src="<{$siteurl}>/wave.wav" loop="0" autostart="true" hidden="true"></embed>'); 
+				   setTimeout("playon()",3000); 	
+   }
+}
+function playon(){
+	//$('#cct').load("<{$siteurl}>/upload/wave.mp3");
+	 
+ 	location.reload();  
+}
+function showbacklog(id){
+   $('.backlog_'+id).show();
+}
+var orderstatus = $('.navaA').attr('data');
+console.log('orderstatus'+orderstatus)
+</script>
+ <{/block}>

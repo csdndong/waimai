@@ -1,0 +1,126 @@
+ <{extends file="<{$tempdir}>/public/shopcenter.html"}>  
+ <{block name=extendjs}>
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/jquery.PrintArea.js" type="text/javascript" language="javascript"></script>
+ <script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/datepicker/WdatePicker.js" type="text/javascript" language="javascript"></script>
+    <script>
+  	var mynomenu='baseordertj';
+  	</script>
+ <{/block}> 
+ <{block name=bodylist}>
+ <style>
+.show_page a{
+  margin-right:10px;
+}
+
+ </style>
+ <!---content right start--->
+  <div class="conWaiSet fr">
+    <div class="shopSetTop"> <span>商家结算</span>  
+	
+	
+	<span style=" float:right; margin-right:5px;"><a style="color:lime; font-weight:bold;" href="<{ofunc type=url link="/shopcenter/shoptotal"}>">订单统计</a></span>  
+	 <span style=" float:right; margin-right:5px;"><a style="color:lime; font-weight:bold;" href="<{ofunc type=url link="/shopcenter/txlog"}>">商家金额记录</a></span>
+	</div>
+    <div class="orderTongji">
+      <div class="sjser" style="font-weight:none;">商家订单统计查询
+	  
+	  
+	
+	  </div>
+      <form action="<{ofunc type=url link="/shopcenter/shopjs"}>" method="post" id="chafrom">  
+      <div class="newtitilexx"  >
+      <span>从
+	   <input class="xzrq  Wdate datefmt" type="text" name="stime" id="stime" value="<{$stime|date_format:"%Y-%m-%d"}>"  onFocus="WdatePicker({isShowClear:false,readOnly:true});" />
+	   至
+	    <input class="xzrq  Wdate datefmt" type="text" name="etime" id="etime" value="<{$etime|date_format:"%Y-%m-%d"}>"  onFocus="WdatePicker({isShowClear:false,readOnly:true});"  />
+      </span>
+      <span id="showmonth"> 
+      	
+      	 
+      </span>
+      <span id="showday">
+       
+      </span> 
+	   <span>总额：<span class="ddnum"><{$tjdata['online']+$tjdata['unline']}>元</span></span> 
+       <span>佣金：<span class="ddnum"><{$tjdata['yj']}>元</span></span>
+	    <span>结算额：<span class="ddnum"><{number_format($tjdata['actcost'],2)}>元</span></span>
+        <span class="tingjiSer curbtn" id="dosubmit"></span>
+       
+       </div>
+       </form>  
+      <div class="cl"></div>
+    </div>
+    <div class="cl"></div>
+    <div class="caidanSet"> 
+      	
+      <!---留言管理----->
+    
+        <div class="mes_box" style="display:block;" id="liuyan">        
+            <table cellpadding="0" cellspacing="0" width="100%">
+              <tbody>
+                <tr>
+				 <th width="14%">描述</th> 
+                 <th width="8%">配送方式</th>
+                 <th width="8%">交易类型</th>
+                  <th width="8%">订单数</th>
+                   <th width="8%">金额</th>
+                    <th width="8%">佣金比例</th>
+                     <th width="8%">佣金</th> 
+                       <th width="8%">结算金额</th>
+                        <th width="20%">结算时间</th> 
+                         
+                </tr>
+                <{foreach from=$jslist item=items}> 
+				
+				  <tr>
+				  <td align="center" rowspan="2"> <{$items['name']}> </td>
+					<td align="center" rowspan="2"><{if $items['sendtype'] == 1}>店铺配送<{else}>平台配送<{/if}></td>
+						<td align="center" > 线上 </td>
+						<td align="center" > <{$items['onlinecount']}> </td>
+						<td align="center" > <{$items['onlinecost']}> </td>
+						<td align="center" rowspan="2"> <{number_format($items['yjb']*0.01,2)}> </td>
+						<td align="center" rowspan="2"> <{number_format($items['yjcost'],2)}> </td>
+						<td align="center" rowspan="2"> <{number_format($items['acountcost'],2)}> </td>
+						<td align="center" rowspan="2"> <{$items['addtime']|date_format:"%Y-%m-%d %H:%M:%S"}> </td>
+						
+                        </tr>
+						<tr class="s_out" onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                       
+                         
+						<td align="center" > 线下 </td>
+						<td align="center" > <{$items['unlinecount']}> </td>
+						<td align="center" > <{$items['unlinecost']}> </td>
+						 
+						
+                        </tr>
+                <{/foreach}>
+             <tr>
+                	<td align="right" style=" padding-right:50px;" colspan="9"><div class="show_page"><{$pagecontent}></div></td>
+                </tr>
+              </tbody>
+            </table>
+         
+        </div>
+        
+        
+       
+   
+    </div>
+  </div>
+  <div class="cl"></div>
+  
+  <!---content right end---> 
+ 
+ <script> 
+$(function(){
+ 	 	$('#dosubmit').click(function(){
+ 	 		$('#chafrom').submit();
+    }); 
+}); 
+
+  
+ 	</script>
+ 
+ 
+ 
+ <{/block}>

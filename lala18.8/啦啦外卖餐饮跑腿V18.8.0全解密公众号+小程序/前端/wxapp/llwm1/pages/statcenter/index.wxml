@@ -1,0 +1,67 @@
+<view class="page-index">
+    <view class="content">
+        <view class="store-takeout">外卖</view>
+        <view class="store-data">
+            <view class="store-data-item">
+                <view class="store-border">
+                    <view class="store-data-sum">{{wmall.num}}</view>
+                    <view class="store-data-info">今日有效订单</view>
+                </view>
+            </view>
+            <view class="store-data-item">
+                <view class="store-border">
+                    <view class="store-data-sum">{{wmall.total_fee}}</view>
+                    <view class="store-data-info">今日总营业额</view>
+                </view>
+            </view>
+            <view class="store-data-item">
+                <view class="store-border">
+                    <view class="store-data-sum">{{wmall.final_fee}}</view>
+                    <view class="store-data-info">今日总收入</view>
+                </view>
+            </view>
+        </view>
+        <view class="store-tangshi">店内</view>
+        <view class="store-data">
+            <view class="store-data-item">
+                <view class="store-border">
+                    <view class="store-data-sum">{{tangshi.num}}</view>
+                    <view class="store-data-info">今日有效订单</view>
+                </view>
+            </view>
+            <view class="store-data-item">
+                <view class="store-border">
+                    <view class="store-data-sum">{{tangshi.total_fee}}</view>
+                    <view class="store-data-info">今日总营业额</view>
+                </view>
+            </view>
+            <view class="store-data-item">
+                <view class="store-border">
+                    <view class="store-data-sum">{{tangshi.final_fee}}</view>
+                    <view class="store-data-info">今日总收入</view>
+                </view>
+            </view>
+        </view>
+        <view class="tangshi-takeout">店内加外卖</view>
+        <view class="store-data">
+            <view class="store-data-item">
+                <view class="store-border">
+                    <view class="store-data-sum">{{paybill.num}}</view>
+                    <view class="store-data-info">今日有效订单</view>
+                </view>
+            </view>
+            <view class="store-data-item">
+                <view class="store-border">
+                    <view class="store-data-sum">{{paybill.total_fee}}</view>
+                    <view class="store-data-info">今日总营业额</view>
+                </view>
+            </view>
+            <view class="store-data-item">
+                <view class="store-border">
+                    <view class="store-data-sum">{{paybill.final_fee}}</view>
+                    <view class="store-data-info">今日总收入</view>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>

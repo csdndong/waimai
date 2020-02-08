@@ -1,0 +1,6 @@
+{
+    "navigationBarTitleText": "多人拼单",
+    "usingComponents": {
+        "cardlist": "/zh_cjdianc/dist/cardlist/index"
+    }
+}

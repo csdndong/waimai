@@ -1,0 +1,359 @@
+ <{extends file="<{$tempdir}>/public/site.html"}>  
+ 
+<{block name=extendcss}><link rel="stylesheet" type="text/css" href="<{$siteurl}>/templates/<{$tempdir}>/public/css/shop.css"><{/block}>
+
+
+<{block name=extendjs}> 
+ <script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js"></script>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/adminpage/public/js/allj.js"></script>
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/datepicker/WdatePicker.js" type="text/javascript" language="javascript"></script>
+<{/block}>
+<{block name=bodylist}>  
+ <style>
+ .selfruzhu{float:left; height:42px; line-height:42px; cursor:pointer; padding:0px 20px;margin:19px 0px 0px 70px;font-size:16px; color:#000;}
+ .qyrz{float:left; height:42px; line-height:42px; cursor:pointer; padding:0px 20px; margin:19px 0px 0px 0px; font-size:16px; color:#000;}
+ .curruzhu{ color:#ffffff; background:#ff6931; height:42px; line-height:42px;}
+ .uploads,.fanuploads{ background:#f0f0f0; padding:4px 5px; border:1px solid #ccc; color:#000; cursor:pointer;}
+ .lableinfo{width:120px; float:left; margin-top:5px;}
+ .hc_login_div img{ width；140px; height:80px;}
+ .qiyeruzhu{display:none;}
+ </style>
+<script>
+
+</script>
+<div id="content">
+	<form id="regForm" method="post" action="<{ofunc type=url link="/shop/saveopen/datatype/json"}>">
+<div class="hc_content">
+		<div class="hc_login" style="height:auto;">
+			<div class="hc_login_head"><span class="hc_login_head_span">我要开店</span></div>
+			<div class="hc_login_content" style="overflow:normal;">
+				<div class="hc_login_content_left" style="height:auto; background:#ffffff; width:699px;">
+					
+					<{load_data assign="shopinfo" table="shop" type="one" where="uid='<{$member['uid']}>' " fileds="*" }>  
+					<{if empty($shopinfo)}>
+					<div style="height:60px;text-align:center; border-bottom:1px solid #ccc;">
+						
+						<div class="qyrz" style="background-color:#00CD85;font-color:#fff">商家入驻</div>
+						<input type="hidden" name="ruzhutype" id="ruzhutype" value="0"  />
+					</div>
+					
+					<div class="hc_login_div">
+						<div class="hc_login_div_span hc_login_zhuce_margin lableinfo"><span class="hc_login_div_span_span">*</span><span>店铺名称：</span></div>
+						<input   class="hc_login_input" style="line-height: 38px; padding: 0 5px; margin: 0; border: 0; width: 252px; height: 38px; outline: none;" placeholder="店铺名称（填写中文名称）" type="text" name="shopname" value="">
+						
+					</div>
+					<div class="hc_login_div">
+						<div class="hc_login_div_span hc_login_zhuce_margin lableinfo"><span class="hc_login_div_span_span">*</span>联系电话：</div>
+						<input   class="hc_login_input" style="line-height: 38px; padding: 0 5px; margin: 0; border: 0; width: 252px; height: 38px; outline: none;" placeholder="负责人联系电话" type="text" name="maphone" value="">
+					
+					</div>		
+					
+					<div class="hc_login_div">
+						<div class="hc_login_div_span hc_login_zhuce_margin lableinfo"><span class="hc_login_div_span_span">*</span>联系地址：</div> 
+						<input   class="hc_login_input" style="line-height: 38px; padding: 0 5px; margin: 0; border: 0; width: 252px; height: 38px; outline: none;" placeholder="店铺位置的详细信息" type="text" name="address" value="">
+					
+					</div>
+					<div class="hc_login_div">
+						<div class="hc_login_div_span hc_login_zhuce_margin lableinfo"><span class="hc_login_div_span_span">*</span>店铺类型：</div>
+					  <select name="shoptype" style="height:40px; border:1px solid #ccc;">
+					  	<{foreach from=$shoptype key=mykey item=items}>
+					  	<option value="<{$mykey}>"><{$items}></option>
+					  	<{/foreach}>
+					  </select>
+						
+					</div>	
+					
+
+					
+					<div class="hc_login_div" >
+						<div class="hc_login_div_span hc_login_zhuce_margin lableinfo"><span class="hc_login_div_span_span">*</span>营业执照：</div> 
+							<img src="" width="140" height="80" id="qiyeimgshow" <{if  empty($juaninfo['shareimg'])}> style="display:none;"<{/if}>>
+						<input type="hidden" name="qiyeimgurl" id="qiyeimgurl" value="" class="skey" style="width:150px;" >
+                      	<span id="qiyeuploads" class="uploads">上传营业执照图片</span>
+					</div>
+					
+					
+					
+					
+					
+					
+					<div class="hc_login_div">
+						<label class="checkbox" style="margin-left: 160px;">
+					      <input name="reg[agree]" type="checkbox" checked="" disabled> 我接受<a target="_blank" href="<{ofunc type=url link="/site/single/show/xieyi"}>"><{$sitename}>开店协议</a>。
+					    </label>
+					    <p class="tip2"></p>											
+					</div>
+					<div class="hc_login_btn" style="margin-bottom:20px;">
+						<input name="tijiao" type="hidden" value="do"> 
+						<div id="te_reg_btn" class="login-button hc_login_btn_div hc_login_btn_margin_left1">提交申请</div>
+						<div class="clear"></div>
+					</div>
+          <{else}>
+          <div class="hc_login_div">
+						<span class="hc_login_div_span hc_login_zhuce_margin"><span class="hc_login_div_span_span">*</span>申请店铺名称：</span>
+						<{$shopinfo['shopname']}>
+						<p class="tip2"></p>
+					</div>
+					<div class="hc_login_div">
+						<span class="hc_login_div_span hc_login_zhuce_margin"><span class="hc_login_div_span_span">*</span>申请联系电话：</span>
+						<{$shopinfo['maphone']}>
+					</div>		
+					
+					<div class="hc_login_div">
+						<span class="hc_login_div_span hc_login_zhuce_margin"><span class="hc_login_div_span_span">*</span>申请联系地址：</span> 
+							<{$shopinfo['address']}>
+					</div>
+						
+					<div class="hc_login_div">
+						<span class="hc_login_div_span hc_login_zhuce_margin"><span class="hc_login_div_span_span">*</span>申请类型：</span> 
+							<{if $shopinfo['shoptype'] == 0}>外卖<{else}>超市<{/if}>
+					</div>
+					<div class="hc_login_div">
+						<span class="hc_login_div_span hc_login_zhuce_margin"><span class="hc_login_div_span_span">*</span>申请处理状态：</span> 
+							<{if $shopinfo['is_pass'] == 0}>处理中<{else}>通过审核<{/if}>
+					</div>
+					<{if $shopinfo['ruzhutype'] == 1}>
+					<div class="hc_login_div">
+						<span class="hc_login_div_span hc_login_zhuce_margin"><span class="hc_login_div_span_span">*</span>企业执照：</span> 
+						<{if !empty($shopinfo['shoplicense']) }>		<img <{ofunc type=img link="<{$shopinfo['shoplicense']}>" }> /><{else}> 无	<{/if}>
+					</div>
+					<{else}>
+					<div class="hc_login_div">
+						<span class="hc_login_div_span hc_login_zhuce_margin"><span class="hc_login_div_span_span">*</span>营业执照：</span> 
+						<{if !empty($shopinfo['shoplicense']) }>		<img <{ofunc type=img link="<{$shopinfo['shoplicense']}>" }> /><{else}> 无	<{/if}>
+					</div>
+					<{/if}>
+					
+				  <{/if}>
+
+				</div>
+
+				<div class="hc_login_content_right">
+					<div style="margin-left:10px;margin-top:10px;width:450px;height:450px;overflow-x:visible;overflow-y:scroll;"> 
+						<{load_data assign="xieyi" table="single" type="one" where="code='xieyi'" fileds="*" }>  
+			         <{$xieyi['content']|htmlspecialchars_decode}> 
+            </div>
+					 
+				</div>
+				<div class="clear"></div>
+			</div>
+
+		</div>
+
+
+
+	</div>
+
+</form>
+
+<script type="text/javascript">
+
+$('.login-button').click(function(){ 
+	subform('',$('#regForm'));
+})
+$(".hc_login_input").change(function(j){
+		var v=$(this).val();
+		var p=$(this).attr("name"); 
+		switch(p){
+		case "shopname":
+			if(v == '' ||v == null){
+			  alert('店铺名不能为空'); 
+			}else{
+				$.ajax({
+				type: "POST",
+				url: '<{ofunc type=url link="/shop/checkshopname/datatype/json"}>',
+				dataType: "json",
+				data: "uname=" + v,
+				success: function(msg){     
+					if(msg.error == true){ 
+						$('[name="email"]').val('');
+					  alert(msg.msg); 
+					 }
+					}
+				});			
+			}
+		break;
+		case "maphone":
+		 	var patrn=/[u4e00-u9fa5]/;  
+			if(v == '' ||v == null){
+			  alert('用户名不能为空'); 
+			}else{
+				$.ajax({
+				type: "POST",
+				url: '<{ofunc type=url link="/shop/checkshopphone/datatype/json"}>',
+				dataType: "json",
+				data: "uname=" + v,
+				success: function(msg){ 
+					if(msg.error==true){ 
+						$('[name="tname"]').val('');
+					  alert(msg.msg); 
+					 }
+					}
+				});	
+			}
+		break; 
+		case "address":
+			var patrn=/(.){6,50}/;  
+			if(!patrn.exec(v)){
+				 alert('联系地址大于6小于50');  
+			 } 
+		break;
+		}
+	});
+
+</script>
+
+	<script>
+	
+	$(function(){
+		$("#zmuploads").click(function(){
+			uploads();
+		});
+		$("#fanuploads").click(function(){
+			fanuploads();
+		});
+		$("#fooduploads").click(function(){
+			fooduploads();
+		});
+		$("#jkuploads").click(function(){
+			jkuploads();
+		});	
+		$("#qiyeuploads").click(function(){
+			qiyeuploads();
+		});
+		$("#squploads").click(function(){
+			squploads();
+		});
+	});
+	 function addimg()
+	 {
+	 	 var panduan = $("#parent_id  option:selected").val(); 
+	 	 if(panduan == 0)
+	 	 {
+	 	 	showupload();
+	 	 }else{
+	 	 	hideupload();
+	  	} 
+	 }
+	 function showupload()
+	 {
+	 	  $('#imgdo').show();
+	 }
+	 function hideupload()
+	 {
+	 	  $('#imgdo').hide();
+	 }
+	 var dialogs ;
+ function uploads(){  
+ 	  dialogs = art.dialog.open('<{ofunc type=url link="/other/adminupload/func/uploadsucess"}>');
+ 	  dialogs.title('上传身份证正面图片'); 
+ } 
+ function uploadsucess(flag,msg,linkurl){
+
+ 	 if( linkurl == '' ){
+ 		alert(linkurl);
+		dialogs.close();
+	//	uploads();
+ 	 }else{ 
+ 		dialogs.close();
+ 	  $('#zmimgurl').val(linkurl);
+ 	  $('#zmimgshow').attr('src',linkurl);
+ 	  $('#zmimgshow').show(); 
+   }
+ } 
+ 
+ 
+   function fanuploads(){  
+ 	  dialogs = art.dialog.open('<{ofunc type=url link="/other/adminupload/func/fanuploadsucess"}>');
+ 	  dialogs.title('上传身份证反面图片'); 
+ }
+  function fanuploadsucess(flag,msg,linkurl){
+ 	 if(linkurl == ''){
+ 		alert(linkurl);
+		dialogs.close();
+		//fanuploadsucess();
+ 	 }else{ 
+ 		dialogs.close();
+ 	  $('#fanimgurl').val(linkurl);
+ 	  $('#fanimgshow').attr('src',linkurl);
+ 	  $('#fanimgshow').show(); 
+   }
+ } 
+ 
+ function fooduploads(){  
+ 	  dialogs = art.dialog.open('<{ofunc type=url link="/other/adminupload/func/fooduploadsucess"}>');
+ 	  dialogs.title('上传食品流通证图片'); 
+ }
+  function fooduploadsucess(flag,msg,linkurl){
+ 	 if(linkurl == ''){
+ 		alert(linkurl);
+		dialogs.close();
+	//	fooduploadsucess();
+ 	 }else{ 
+ 		dialogs.close();
+ 	  $('#foodimgurl').val(linkurl);
+ 	  $('#foodimgshow').attr('src',linkurl);
+ 	  $('#foodimgshow').show(); 
+   }
+ } 
+ 
+ 
+ function jkuploads(){  
+ 	  dialogs = art.dialog.open('<{ofunc type=url link="/other/adminupload/func/jkuploadsucess"}>');
+ 	  dialogs.title('上传健康证图片'); 
+ }
+  function jkuploadsucess(flag,msg,linkurl){
+ 	 if(linkurl == ''){
+ 		alert(linkurl);
+		dialogs.close();
+		//jkuploads();
+ 	 }else{ 
+ 		dialogs.close();
+ 	  $('#jkimgurl').val(linkurl);
+ 	  $('#jkimgshow').attr('src',linkurl);
+ 	  $('#jkimgshow').show(); 
+   }
+ } 
+ 
+ 
+ 
+ function qiyeuploads(){  
+ 	  dialogs = art.dialog.open('<{ofunc type=url link="/other/adminupload/func/qiyeuploadsucess"}>');
+ 	  dialogs.title('上传企业执照图片'); 
+ }
+  function qiyeuploadsucess(flag,msg,linkurl){
+ 	 if(linkurl == ''){
+ 		alert(linkurl);
+		dialogs.close();
+		qiyeuploadsucess();
+ 	 }else{ 
+ 		dialogs.close();
+ 	  $('#qiyeimgurl').val(linkurl);
+ 	  $('#qiyeimgshow').attr('src',linkurl);
+ 	  $('#qiyeimgshow').show(); 
+   }
+ } 
+ 
+ 
+ 
+  function squploads(){  
+ 	  dialogs = art.dialog.open('<{ofunc type=url link="/other/adminupload/func/squploadsucess"}>');
+ 	  dialogs.title('上传商家授权书图片'); 
+ }
+  function squploadsucess(flag,msg,linkurl){
+ 	 if(flag == true){
+ 		alert(linkurl);
+		dialogs.close();
+		squploadsucess();
+ 	 }else{ 
+ 		dialogs.close();
+ 	  $('#sqimgurl').val(linkurl);
+ 	  $('#sqimgshow').attr('src',linkurl);
+ 	  $('#sqimgshow').show(); 
+   }
+ } 
+ 
+</script>
+
+</div>
+<{/block}>

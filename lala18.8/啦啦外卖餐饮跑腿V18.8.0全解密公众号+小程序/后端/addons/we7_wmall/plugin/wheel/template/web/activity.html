@@ -1,0 +1,543 @@
+{itemplate 'public/header'}
+<link href="../addons/we7_wmall/plugin/wheel/static/css/diy.web.css?t={php echo time();}" rel="stylesheet" type="text/css"/>
+<link href="../addons/we7_wmall/plugin/wheel/static/css/diy.purview.css?t={php echo time();}" rel="stylesheet" type="text/css"/>
+<link rel="stylesheet" href="//apps.bdimg.com/libs/jqueryui/1.10.4/css/jquery-ui.min.css">
+
+{if $op == 'post'}
+<div class="clearfix">
+	<div class="alert alert-danger form-horizontal" style="font-size: 14px;">
+		提示：中奖概率计算，首先从奖项总数量中选取一个，判断中了几等奖，再根据该奖项设置的中奖概率计算是否中奖。</br>
+		示例1，设置一等奖1个，中奖概率20%；二等奖3个，中奖概率50%；三等奖6个，中奖概率100%；抽中一等奖概率1/（1+3+6）= 10%；中一等奖概率为10% * 20% = 2% 。</br>
+		示例2，设置一等奖0个，中奖概率20%；二等奖10个，中奖概率0%；三等奖10个，中奖概率100%；中一等奖概率为0/（0+10+10）* 20% = 0； 中二等奖概率为10/（0+10+10）* 0% = 0； 中三等奖概率为10/（0+10+10）* 100% = 50%。
+	</div>
+	<div class="app-preview">
+		<div class="app-header"></div>
+		<div class="app-body">
+			<div class="title">编辑活动</div>
+			<div class="main" id="app-preview">
+				<div class="drag select">
+					<div class="wheel-info">
+						<div class="content-wheel">
+							<div class="wheel-item">
+								<img class="wheel-img" src="../addons/we7_wmall/plugin/wheel/static/img/reward.png">
+								<div class="wheel-text">一等奖</div>
+							</div>
+							<div class="thanks-join">
+								<img class="wheel-img" src="../addons/we7_wmall/plugin/wheel/static/img/huigu.png">
+								<div class="wheel-text">谢谢惠顾</div>
+							</div>
+							<div class="wheel-item">
+								<img class="wheel-img" src="../addons/we7_wmall/plugin/wheel/static/img/reward.png">
+								<div class="wheel-text">一等奖</div>
+							</div>
+							<div class="wheel-item">
+								<img class="wheel-img" src="../addons/we7_wmall/plugin/wheel/static/img/reward.png">
+								<div class="wheel-text">一等奖</div>
+							</div>
+							<div class="start-draw">
+								<span class="draw-click">点击抽奖<span class="draw-go">GO!</span></span>
+							</div>
+							<div class="wheel-item">
+								<img class="wheel-img" src="../addons/we7_wmall/plugin/wheel/static/img/reward.png">
+								<div class="wheel-text">一等奖</div>
+							</div>
+							<div class="wheel-item">
+								<img class="wheel-img" src="../addons/we7_wmall/plugin/wheel/static/img/reward.png">
+								<div class="wheel-text">一等奖</div>
+							</div>
+							<div class="wheel-item">
+								<img class="wheel-img" src="../addons/we7_wmall/plugin/wheel/static/img/reward.png">
+								<div class="wheel-text">一等奖</div>
+							</div>
+							<div class="wheel-item">
+								<img class="wheel-img" src="../addons/we7_wmall/plugin/wheel/static/img/reward.png">
+								<div class="wheel-text">一等奖</div>
+							</div>
+						</div>
+						<div class="info-wrap">
+							<div class="wrap-head">查看奖品</div>
+							<div class="wrap-text">
+								<div class="wrap-inner">
+									1.活动有效时间：
+									<span class="activity-info-content">活动有效时间活动有效时间活动有效时间活动有效时间活动有效</span>
+								</div>
+								<div class="wrap-inner">
+									2.活动说明：
+									<span class="activity-info-content">a.每次抽奖消耗10积分，每人每天限抽2次。b.抽中的奖品会直接发送到您的账户中，请在个人会员中心查看。c.奖品一：15积分；奖品二：25积分；奖品三：麦点点外卖5元券；奖品四：麦点点外卖10元券。d.客服电话：400-007-3322</span>
+								</div>
+								<div class="wrap-inner">
+									2.发行方:
+									<span class="activity-info-content">比兹比少儿英语培训</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="btn-edit-del">
+						<div class="btn-edit">编辑</div>
+						<div class="btn-del">删除</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="app-footer"></div>
+	</div>
+	<div class="app-editor form-horizontal" id="app-editor">
+		<div class="editor-arrow"></div>
+		<div class="inner">
+		</div>
+	</div>
+</div>
+<div class="app-action">
+	<div class="action">
+		<nav class="btn btn-default btn-sm pull-left" id="gotop">返回顶部</nav>
+		<nav class="btn btn-primary btn-sm btn-save">保存活动</nav>
+	</div>
+</div>
+
+<script type="text/html" id="tpl-show-wheel">
+	<div class="drag" data-itemid="<(itemid)>">
+		<div class="wheel-info">
+			<div class="content-wheel">
+				<div class="wheel-item">
+					<img class="wheel-img" src="<(tomedia data['one'].imgurl)>">
+					<div class="wheel-text" style="color: <(data['one'].color)>"><(data['one'].text)></div>
+				</div>
+				<div class="thanks-join">
+					<img class="wheel-img" src="../addons/we7_wmall/plugin/wheel/static/img/huigu.png">
+					<div class="wheel-text">谢谢惠顾</div>
+				</div>
+				<div class="thanks-join">
+					<img class="wheel-img" src="../addons/we7_wmall/plugin/wheel/static/img/huigu.png">
+					<div class="wheel-text">谢谢惠顾</div>
+				</div>
+				<div class="thanks-join">
+					<img class="wheel-img" src="../addons/we7_wmall/plugin/wheel/static/img/huigu.png">
+					<div class="wheel-text">谢谢惠顾</div>
+				</div>
+				<div class="start-draw">
+					<span class="draw-click">点击抽奖<span class="draw-go">GO!</span></span>
+				</div>
+				<div class="wheel-item">
+					<img class="wheel-img" src="<(tomedia data['two'].imgurl)>">
+					<div class="wheel-text" style="color: <(data['two'].color)>"><(data['two'].text)></div>
+				</div>
+				<div class="wheel-item">
+					<img class="wheel-img" src="<(tomedia data['three'].imgurl)>">
+					<div class="wheel-text" style="color: <(data['three'].color)>"><(data['three'].text)></div>
+				</div>
+				<div class="thanks-join">
+					<img class="wheel-img" src="../addons/we7_wmall/plugin/wheel/static/img/huigu.png">
+					<div class="wheel-text">谢谢惠顾</div>
+				</div>
+				<div class="thanks-join">
+					<img class="wheel-img" src="../addons/we7_wmall/plugin/wheel/static/img/huigu.png">
+					<div class="wheel-text">谢谢惠顾</div>
+				</div>
+			</div>
+			<div class="info-wrap">
+				<div class="wrap-head">查看奖品</div>
+				<div class="wrap-text">
+					<div class="wrap-inner">
+						1.活动有效时间：
+						<span class="activity-info-content"><(params.starttime)>~<(params.endtime)></span>
+					</div>
+					<div class="wrap-inner">
+						2.活动说明：
+						<(each params.desc_arr as child)>
+							<span class="activity-info-content"><(child)></span>
+						<(/each)>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</script>
+
+<script type="text/html" id="tpl-edit-wheel">
+	<div class="list-item">
+		<div class="form-group">
+			<div class="col-sm-2 control-label">活动名称</div>
+			<div class="col-sm-10">
+				<input class="form-control input-sm diy-bind" data-bind-child="params" data-bind="name" data-placeholder="请输入名称" placeholder="请输入名称" value="<(params.name)>" />
+				<div class="help-block"></div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-2 control-label">活动说明</div>
+			<div class="col-sm-10">
+				<textarea class="form-control richtext diy-bind" cols="70" rows="3" placeholder="请输入页面介绍" data-bind-child="params" data-bind="desc" data-placeholder=""><(params.desc)></textarea>
+				<div class="help-block"></div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-2 control-label">活动状态</div>
+			<div class="col-sm-10">
+				<label class="radio-inline"><input type="radio" value="1" class="diy-bind" data-bind-child="params" data-bind="status" data-bind-init="true" <(if params.status=='1')>checked<(/if)> > 开启</label>
+				<label class="radio-inline"><input type="radio" value="0" class="diy-bind" data-bind-child="params" data-bind="status" data-bind-init="true" <(if params.status=='0' ||!params.status)>checked<(/if)> > 关闭</label>
+			</div>
+		</div>
+		<div class="form-group datetimepicker">
+			<div class="col-sm-2 control-label">开始时间</div>
+			<div class="col-sm-6 col-xs-6 col-md-4">
+				<input type="text" name="starttime" readonly class="form-control input-sm diy-bind" data-bind-child="params"  data-bind="starttime" value="<(params.starttime)>">
+			</div>
+		</div>
+		<div class="form-group datetimepicker">
+			<div class="col-sm-2 control-label">结束时间</div>
+			<div class="col-sm-6 col-xs-6 col-md-4">
+				<input type="text" name="endtime" readonly class="form-control input-sm diy-bind" data-bind-child="params"  data-bind="endtime" value="<(params.endtime)>">
+			</div>
+		</div>
+	</div>
+	<div class="line"></div>
+	<div class="list-item">
+		<div class="form-group">
+			<div class="col-sm-2 control-label">参与用户</div>
+			<div class="col-sm-10">
+				<label class="radio-inline"><input type="radio" value="0" class="diy-bind" data-bind-child="params" data-bind="memberlimit" data-bind-init="true" <(if params.memberlimit=='0'||!params.memberlimit)>checked<(/if)> > 不限</label>
+				<label class="radio-inline"><input type="radio" value="1" class="diy-bind" data-bind-child="params" data-bind="memberlimit" data-bind-init="true" <(if params.memberlimit=='1')>checked<(/if)> > 外卖下单用户</label>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-2 control-label">消耗积分</div>
+			<div class="col-sm-10">
+				<input class="form-control input-sm diy-bind" data-bind-child="params" data-bind="consume" value="<(params.consume)>" type="number"/>
+				<div class="help-block">用户每次参与消耗积分，0表示不扣积分</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-2 control-label">参与奖励</div>
+			<div class="col-sm-10">
+				<label class="radio-inline"><input type="radio" value="0" class="diy-bind" data-bind-child="params" data-bind="backstatus" data-bind-init="true" <(if params.backstatus=='0' || !params.backstatus)>checked<(/if)> > 不奖励</label>
+				<label class="radio-inline"><input type="radio" value="1" class="diy-bind" data-bind-child="params" data-bind="backstatus" data-bind-init="true" <(if params.backstatus=='1')>checked<(/if)> > 赠送积分</label>
+				<label class="radio-inline"><input type="radio" value="2" class="diy-bind" data-bind-child="params" data-bind="backstatus" data-bind-init="true" <(if params.backstatus=='2')>checked<(/if)> > 赠送余额</label>
+			</div>
+		</div>
+		<(if params.backstatus > 0)>
+			<div class="form-group">
+				<div class="col-sm-2 control-label">赠送</div>
+				<div class="col-sm-10">
+					<div class="input-group">
+						<input class="form-control input-sm diy-bind" data-bind-child="params" data-bind="takepartback" value="<(params.takepartback)>" type="number"/>
+						<span class="input-group-addon"><(params.backstatus=='1' ? '积分' : '元')></span>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-2 control-label">赠送对象</div>
+				<div class="col-sm-10">
+					<label class="radio-inline"><input type="radio" value="0" class="diy-bind" data-bind-child="params" data-bind="backlimit" data-bind-init="true" <(if params.backlimit=='0' || !params.backlimit)>checked<(/if)> > 所有参与者</label>
+					<label class="radio-inline"><input type="radio" value="1" class="diy-bind" data-bind-child="params" data-bind="backlimit" data-bind-init="true" <(if params.backlimit=='1')>checked<(/if)> > 仅赠送未中奖者</label>
+				</div>
+			</div>
+		<(/if)>
+		<div class="form-group">
+			<div class="col-sm-2 control-label">未中奖提示语</div>
+			<div class="col-sm-10">
+				<input class="form-control input-sm diy-bind" data-bind-child="params" data-bind="noawardtips" data-placeholder="未中奖提示" value="<(params.noawardtips)>" />
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-2 control-label">参与次数</div>
+			<div class="col-sm-10">
+				<div class="input-group">
+					<(if params.memberlimit == 1)>
+						<span class="input-group-addon">每次下单后可参与</span>
+						<input class="form-control input-sm diy-bind" data-bind-child="params" data-bind="takeparttotal" data-placeholder="每次下单后可参与次数" value="<(params.takeparttotal)>" />
+					<(else)>
+						<span class="input-group-addon">同一用户总共可参与</span>
+						<input class="form-control input-sm diy-bind" data-bind-child="params" data-bind="takeparttotal" data-placeholder="总共可参与次数" value="<(params.takeparttotal)>" />
+						<span class="input-group-addon">次</span>
+						<span class="input-group-addon">每天</span>
+						<input class="form-control input-sm diy-bind" data-bind-child="params" data-bind="per_day" data-placeholder="每天可参与" value="<(params.per_day)>" />
+					<(/if)>
+					<span class="input-group-addon">次</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="line"></div>
+	<div class="list-item">
+		<div class="form-items" data-min="1" data-max="3">
+			<div class="inner" id="form-items">
+				<(each data as child itemid )>
+				<div class="item" data-id="<(itemid)>">
+					<div class="item-image square">
+						<div class="text js-selectImg" data-input="#cimg-<(itemid)>" data-img="#pimg-<(itemid)>" data-element="#pimg-<(itemid)>">选择图片</div>
+						<img src="<(child.imgurl)>" onerror="this.src='../addons/we7_wmall/static/img/nopic.jpg';" id="pimg-<(itemid)>" />
+						<input type="hidden" class="diy-bind" data-bind-parent="data" data-bind-child="<(itemid)>" data-bind="imgurl"  id="cimg-<(itemid)>" value="<(child.imgurl)>" />
+					</div>
+					<div class="item-form">
+						<div class="input-group" style="margin-bottom:0px; ">
+							<span class="input-group-addon">文字</span>
+							<input type="text" class="form-control input-sm diy-bind" data-bind-parent="data" data-bind-child="<(itemid)>" data-bind="text" placeholder="奖品名称" value="<(child.text)>" />
+						</div>
+						<div class="input-group" style="margin-top:10px; margin-bottom:0px; ">
+							<span class="input-group-addon">文字颜色</span>
+							<input class="form-control input-sm diy-bind color " data-bind-parent="data" data-bind-child="<(itemid)>" data-bind="color" value="<(child.color)>" type="color" />
+							<span class="input-group-addon btn btn-default" onclick="$(this).prev().val('#666666').trigger('propertychange')">重置颜色</span>
+						</div>
+					</div>
+					<div class="line"></div>
+					<div class="form-group">
+						<div class="col-sm-2 control-label">奖品总份数</div>
+						<div class="col-sm-10">
+							<input class="form-control input-sm diy-bind" data-bind-parent="data" data-bind-child="<(itemid)>" data-bind="awardtotal" data-placeholder="奖项奖励总数" value="<(child.awardtotal)>" />
+							<div class="help-block">奖品总份数设置为0表示，不设置此奖项</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-2 control-label">中奖概率</div>
+						<div class="col-sm-10">
+							<div class="input-group" style="margin-top: 0px;">
+								<input class="form-control input-sm diy-bind" data-bind-parent="data" data-bind-child="<(itemid)>" data-bind="get_chance" value="<(child.get_chance)>" type="number"/>
+								<span class="input-group-addon">%</span>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-2 control-label">该奖项每人总共可中奖</div>
+						<div class="col-sm-10">
+							<div class="input-group" style="margin-top: 0px;">
+								<input class="form-control input-sm diy-bind" data-bind-parent="data" data-bind-child="<(itemid)>" data-bind="can_get_total" value="<(child.can_get_total)>" type="number"/>
+								<span class="input-group-addon">次</span>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-2 control-label">该奖项每人每日可中奖</div>
+						<div class="col-sm-10">
+							<div class="input-group" style="margin-top: 0px;">
+								<input class="form-control input-sm diy-bind" data-bind-parent="data" data-bind-child="<(itemid)>" data-bind="can_get_day" value="<(child.can_get_day)>" type="number"/>
+								<span class="input-group-addon">次</span>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-2 control-label">奖品类型</div>
+						<div class="col-sm-10">
+							<label class="radio-inline"><input type="radio" value="credit1" class="diy-bind" data-bind-parent="data" data-bind-child="<(itemid)>" data-bind="award" data-bind-init="true" <(if child.award=='credit1')>checked<(/if)> > 积分</label>
+							<label class="radio-inline"><input type="radio" value="credit2" class="diy-bind" data-bind-parent="data" data-bind-child="<(itemid)>" data-bind="award" data-bind-init="true" <(if child.award=='credit2')>checked<(/if)> > 余额</label>
+							<label class="radio-inline"><input type="radio" value="redpacket" class="diy-bind" data-bind-parent="data" data-bind-child="<(itemid)>" data-bind="award" data-bind-init="true" <(if child.award=='redpacket')>checked<(/if)> > 红包</label>
+							<label class="radio-inline"><input type="radio" value="gift" class="diy-bind" data-bind-parent="data" data-bind-child="<(itemid)>" data-bind="award" data-bind-init="true" <(if child.award=='gift')>checked<(/if)> > 赠品</label>
+							<(if params.memberlimit=='1')>
+								<label class="radio-inline"><input type="radio" value="order_discount" class="diy-bind" data-bind-parent="data" data-bind-child="<(itemid)>" data-bind="award" data-bind-init="true" <(if child.award=='order_discount')>checked<(/if)> > 本单优惠</label>
+							<(/if)>
+						</div>
+					</div>
+					<(if child.award=='credit1' || child.award=='credit2')>
+						<div class="form-group">
+							<div class="col-sm-2 control-label">赠送方式</div>
+							<div class="col-sm-10">
+								<label class="radio-inline"><input type="radio" value="0" class="diy-bind" data-bind-parent="data" data-bind-child="<(itemid)>" data-bind="credittype" data-bind-init="true" <(if child.credittype=='0' || !child.credittype)>checked<(/if)> > 固定</label>
+								<label class="radio-inline"><input type="radio" value="1" class="diy-bind" data-bind-parent="data" data-bind-child="<(itemid)>" data-bind="credittype" data-bind-init="true" <(if child.credittype=='1')>checked<(/if)> > 随机</label>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-sm-2 control-label">赠送<(child.award=='credit1' ? '积分' : '余额')></div>
+							<div class="col-sm-10">
+								<div class="input-group" style="margin-top: 0px;">
+									<(if child.credittype == 1)>
+									<span class="input-group-addon">可获得最多</span>
+									<input class="form-control input-sm diy-bind" data-bind-parent="data" data-bind-child="<(itemid)>" data-bind="creditmax" data-placeholder="最大获得" value="<(child.creditmax)>" />
+									<span class="input-group-addon">最少</span>
+									<input class="form-control input-sm diy-bind" data-bind-parent="data" data-bind-child="<(itemid)>" data-bind="creditmin" data-placeholder="最少获得" value="<(child.creditmin)>" />
+									<span class="input-group-addon"><(child.award=='credit1' ? '积分' : '余额')></span>
+									<(else)>
+									<span class="input-group-addon">赠送</span>
+									<input class="form-control input-sm diy-bind" data-bind-parent="data" data-bind-child="<(itemid)>" data-bind="creditnum" data-placeholder="" value="<(child.creditnum)>" />
+									<span class="input-group-addon"><(child.award=='credit1' ? '积分' : '余额')></span>
+									<(/if)>
+								</div>
+							</div>
+						</div>
+					<(else if child.award=='gift')>
+						<div class="form-group">
+							<div class="col-sm-2 control-label">赠送奖品</div>
+							<div class="col-sm-10">
+								<input class="form-control input-sm diy-bind" data-bind-parent="data" data-bind-child="<(itemid)>" data-bind="giftcontent" value="<(child.giftcontent)>" type="text"/>
+							</div>
+						</div>
+					<(else if child.award=='redpacket')>
+						<div class="form-items form-child-items" data-min="0" data-max="2">
+							<div class="inner">
+							<(each child.redpackets as redpacket index)>
+								<div class="redpackets child-item item" data-child-id="<(index)>" data-id="<(itemid)>">
+									<span class="btn-del del-childItem" title="删除"></span>
+									<div class="item-body">
+										<div class="form-group">
+											<div class="col-sm-2 control-label">使用场景</div>
+											<div class="col-sm-10">
+												<div class="radio radio-inline">
+													<input type="radio" value="waimai" class="diy-bind" data-bind-child="<(itemid)>" data-bind-parent="data" data-bind="redpackets" data-bind-category="<(index)>" data-bind-type="scene" data-bind-init="true" id="use-scene-<(index)>-0" <(if redpacket.scene == 'waimai')>checked<(/if)>>
+													<label for="use-scene-<(index)>-0">外卖</label>
+												</div>
+												<div class="radio radio-inline hide">
+													<input type="radio" value="paotui" class="diy-bind" data-bind-child="<(itemid)>" data-bind-parent="data" data-bind="redpackets" data-bind-category="<(index)>" data-bind-type="scene" data-bind-init="true" id="use-scene-<(index)>-1" <(if redpacket.scene == 'paotui')>checked<(/if)>>
+													<label for="use-scene-<(index)>-1">跑腿</label>
+												</div>
+											</div>
+										</div>
+										<div class="form-group">
+											<div class="col-sm-2 control-label">红包名称及金额</div>
+											<div class="col-sm-10">
+												<div class="input-group">
+													<span class="input-group-addon">名称</span>
+													<input class="form-control input-sm diy-bind" type="text" data-bind-child="<(itemid)>" data-bind-parent="data" data-bind="redpackets" data-bind-category="<(index)>" data-bind-type="name" value="<(redpacket.name)>">
+													<span class="input-group-addon border-0-lr">金额</span>
+													<input class="form-control input-sm diy-bind" type="text" data-bind-child="<(itemid)>" data-bind-parent="data" data-bind="redpackets" data-bind-category="<(index)>" data-bind-type="discount" value="<(redpacket.discount)>">
+													<span class="input-group-addon">元</span>
+												</div>
+											</div>
+										</div>
+										<div class="form-group">
+											<div class="col-sm-2 control-label">使用条件</div>
+											<div class="col-sm-10">
+												<div class="input-group">
+													<span class="input-group-addon">满多少元可用</span>
+													<input class="form-control input-sm diy-bind" type="text" data-bind-child="<(itemid)>" data-bind-parent="data" data-bind="redpackets" data-bind-category="<(index)>" data-bind-type="condition" value="<(redpacket.condition)>">
+													<span class="input-group-addon">元</span>
+												</div>
+											</div>
+										</div>
+										<div class="form-group">
+											<div class="col-sm-2 control-label">使用期限</div>
+											<div class="col-sm-10">
+												<div class="input-group">
+													<span class="input-group-addon">领取后</span>
+													<input class="form-control input-sm diy-bind" type="text" data-bind-child="<(itemid)>" data-bind-parent="data" data-bind="redpackets" data-bind-category="<(index)>" data-bind-type="grant_days_effect" value="<(redpacket.grant_days_effect)>">
+													<span class="input-group-addon border-0-lr">天后生效</span>
+													<span class="input-group-addon">有效期</span>
+													<input class="form-control input-sm diy-bind border-0-l" type="text" data-bind-child="<(itemid)>" data-bind-parent="data" data-bind="redpackets" data-bind-category="<(index)>" data-bind-type="use_days_limit" value="<(redpacket.use_days_limit)>">
+													<span class="input-group-addon">天</span>
+												</div>
+												<div class="help-block">
+													如需红包发放后立即生效， 可设置为0
+												</div>
+											</div>
+										</div>
+										<div class="form-group">
+											<div class="col-sm-2 control-label">使用时间段</div>
+											<div class="col-sm-10">
+												<a href="javascript:;" class="btn btn-default btn-sm hour-add"><i class="fa fa-plus-circle"></i> 添加时间段</a>
+											</div>
+										</div>
+										<div class="hour clockpicker">
+											<(each redpacket.times as time timeid)>
+												<div class="form-group">
+													<div class="col-sm-2 control-label"></div>
+													<div class="col-sm-9">
+														<div class="input-group">
+															<input type="text" readonly class="form-control input-sm diy-bind" data-bind-child="<(itemid)>" data-bind-parent="data" data-bind="redpackets" data-bind-category="<(index)>" data-bind-type="times" data-bind-one="<(timeid)>" data-bind-two="start_hour" value="<(time.start_hour)>">
+															<span class="input-group-addon border-0-lr">至</span>
+															<input type="text" readonly class="form-control input-sm diy-bind" data-bind-child="<(itemid)>" data-bind-parent="data" data-bind="redpackets" data-bind-category="<(index)>" data-bind-type="times" data-bind-one="<(timeid)>" data-bind-two="end_hour" value="<(time.end_hour)>">
+														</div>
+													</div>
+													<div class="col-sm-1">
+														<a href="javascript:;" class="btn-del hour-del child-item-del" data-id="<(timeid)>" data-type="times"></a>
+													</div>
+												</div>
+											<(/each)>
+										</div>
+										<div class="form-group <(if redpacket.scene == 'paotui')>hide<(/if)>">
+											<div class="col-sm-2 control-label">使用分类</div>
+											<div class="col-sm-10">
+												<a href="javascript:;" class="btn btn-default btn-sm category-add"><i class="fa fa-plus-circle"></i> 选择分类</a>
+											</div>
+										</div>
+										<div class="category-container">
+											<div class="col-sm-2 control-label"></div>
+											<div class="col-sm-10">
+												<(each redpacket.categorys as category categoryid)>
+													<div class="col-sm-3">
+														<div class="category-item" id="category-<(categoryid)>">
+															<a href="javascript:;" class="btn-del category-del child-item-del" data-id="<(categoryid)>" data-type="categorys"></a>
+															<img src="<(tomedia category.src)>" alt=""/>
+															<div class="title js-selectCategory" data-id-input="#id-<(categoryid)>" data-title-input="#title-<(categoryid)>" data-src-input="#src-<(categoryid)>" data-element="#category-<(categoryid)>"><(category.title)></div>
+															<input type="hidden" class="diy-bind" value="<(category.id)>" id="id-<(categoryid)>" data-bind-child="<(itemid)>" data-bind-parent="data" data-bind="redpackets" data-bind-category="<(index)>" data-bind-type="categorys" data-bind-one="<(categoryid)>" data-bind-two="id">
+															<input type="hidden" class="diy-bind" value="<(category.title)>" id="title-<(categoryid)>" data-bind-child="<(itemid)>" data-bind-parent="data" data-bind="redpackets" data-bind-category="<(index)>" data-bind-type="categorys" data-bind-one="<(categoryid)>" data-bind-two="title">
+															<input type="hidden" class="diy-bind" value="<(tomedia category.src)>" id="src-<(categoryid)>" data-bind-child="<(itemid)>" data-bind-parent="data" data-bind="redpackets" data-bind-category="<(index)>" data-bind-type="categorys" data-bind-one="<(categoryid)>" data-bind-two="src">
+														</div>
+													</div>
+												<(/each)>
+											</div>
+										</div>
+									</div>
+								</div>
+							<(/each)>
+							<div class="btn btn-w-m btn-block btn-default btn-outline" id="addChildItem"><i class="fa fa-plus"></i> 添加红包</div>
+							</div>
+						</div>
+					<(else if child.award=='order_discount')>
+						<div class="form-group">
+							<div class="col-sm-2 control-label">优惠方式</div>
+							<div class="col-sm-10">
+								<label class="radio-inline"><input type="radio" value="free" class="diy-bind" data-bind-parent="data" data-bind-child="<(itemid)>" data-bind="order_discount_type" data-bind-init="true" <(if child.order_discount_type=='free')>checked<(/if)> > 本单免单</label>
+								<(if 0)>
+									<label class="radio-inline"><input type="radio" value="discount" class="diy-bind" data-bind-parent="data" data-bind-child="<(itemid)>" data-bind="order_discount_type" data-bind-init="true" <(if child.order_discount_type=='discount')>checked<(/if)> > 本单打折</label>
+								<(/if)>
+							</div>
+						</div>
+						<(if child.order_discount_type=='free')>
+							<div class="form-group">
+								<div class="col-sm-2 control-label">免单限制</div>
+								<div class="col-sm-10">
+									<div class="input-group" style="margin-top: 0;">
+										<span class="input-group-addon">订单金额小于</span>
+										<input class="form-control input-sm diy-bind" type="text" data-bind-child="<(itemid)>" data-bind-parent="data" data-bind="order_free_max" value="<(child.order_free_max)>">
+										<span class="input-group-addon">元可免单</span>
+									</div>
+								</div>
+							</div>
+						<(else if child.order_discount_type=='discount')>
+							<div class="form-group">
+								<div class="col-sm-2 control-label">折扣设置</div>
+								<div class="col-sm-10">
+									<div class="input-group" style="margin-top: 0;">
+										<span class="input-group-addon">订单金额小于</span>
+										<input class="form-control input-sm diy-bind" type="text" data-bind-child="<(itemid)>" data-bind-parent="data" data-bind="order_free_max" value="<(child.order_free_max)>">
+										<span class="input-group-addon">元 打</span>
+										<input class="form-control input-sm diy-bind" type="text" data-bind-child="<(itemid)>" data-bind-parent="data" data-bind="order_free_max" value="<(child.order_free_max)>">
+										<span class="input-group-addon">折</span>
+									</div>
+								</div>
+							</div>
+						<(/if)>
+					<(/if)>
+				</div>
+				<(/each)>
+			</div>
+		</div>
+	</div>
+</script>
+
+<script type="text/html" id="tpl-editor-del">
+	<div class="btn-edit-del">
+		<div class="btn-edit">编辑</div>
+		<div class="btn-del">删除</div>
+	</div>
+</script>
+<script type="text/html" id="tpl-parts">
+	<nav class="btn btn-link" data-id="page"><i class="fa fa-cog"></i> 页面设置</nav>
+	<(each initPart as part)>
+	<nav class="btn btn-link" data-id="<(part.id)>"><i class="fa fa-plus"></i> <(part.name)></nav>
+	<(/each)>
+</script>
+
+<script type="text/javascript" src="./resource/components/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="./resource/components/ueditor/ueditor.all.min.js"></script>
+<script type="text/javascript" src="./resource/components/ueditor/lang/zh-cn/zh-cn.js"></script>
+<script language="javascript">
+	var path = '../../plugin/wheel/static/js/diy.wheel';
+	irequire([path, 'tmodtpl'],function(diy, tmodtpl){
+		diy.init({
+			tmodtpl: tmodtpl,
+			attachurl: "{$_W['attachurl']}",
+			id: '{php echo intval($_GPC["id"])}',
+			wheel: {if !empty($wheel['data'])}{php echo json_encode($wheel['data'])}{else}null{/if},
+		});
+	});
+
+</script>
+{/if}
+{itemplate 'public/footer'}

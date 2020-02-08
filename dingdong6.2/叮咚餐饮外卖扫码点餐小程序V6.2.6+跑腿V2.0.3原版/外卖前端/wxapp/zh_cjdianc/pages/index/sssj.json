@@ -1,0 +1,6 @@
+{
+    "navigationBarTitleText": "搜索",
+    "usingComponents": {
+        "cardlist": "/zh_cjdianc/dist/cardlist/index"
+    }
+}

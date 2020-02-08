@@ -1,0 +1,23 @@
+{itemplate 'public/header'}
+{if $op == 'index'}
+	<div class="page clearfix">
+		<form class="form-horizontal form form-validate" id="form1" action="" method="post" enctype="multipart/form-data" style="max-width: 100%">
+			<div class="tab-content">
+				<div class="tab-pane {if $_GPC['type'] == 'basic' || !$_GPC['type']}active{/if}" role="tabpanel" id="basic">
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-3 col-md-1 control-label">会员卡协议内容</label>
+						<div class="col-sm-5 col-xs-12">
+							{php echo tpl_ueditor('protocol', $protocol);}
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-9 col-xs-9 col-md-9">
+					<input type="submit" value="提交" class="btn btn-primary">
+				</div>
+			</div>
+		</form>
+	</div>
+{/if}
+{itemplate 'public/footer'}

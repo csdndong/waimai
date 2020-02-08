@@ -1,0 +1,26 @@
+<view class="head t_c pa_0" style="background:{{color}}">
+    <view class="fon_24 color_e pa_0">今日收益佣金(元)</view>
+    <view class="fon_60 color_f pa_0 wei">180</view>
+    <view class="fon_24 color_e pa_0">累计收益佣金(元)</view>
+    <view class="fon_40 color_f pa_0">1254564</view>
+</view>
+<view class="pa ba_ff put_forward">
+    <view class="dis_in fon_24">
+        <view>可提现佣金(元)</view>
+        <view class="fon_36">8888.8</view>
+    </view>
+    <view class="dis_in fon_24">
+        <view>已提现佣金(元)</view>
+        <view class="fon_36">8888.8</view>
+    </view>
+</view>
+<view bindtap="detaulted" class="pa ba_ff mar_t list bor_bottom rel">
+    <image class="dis_in" mode="aspectFit" src="../img/mx.png"></image>
+    <text class="dis_in fon_30">佣金明细</text>
+    <image class="ab ud" mode="aspectFill" src="../img/acright.png"></image>
+</view>
+<view bindtap="detault" class="pa ba_ff list rel">
+    <image class="dis_in" mode="aspectFit" src="../img/tx.png"></image>
+    <text class="dis_in fon_30">提现记录</text>
+    <image class="ab ud" mode="aspectFill" src="../img/acright.png"></image>
+</view>

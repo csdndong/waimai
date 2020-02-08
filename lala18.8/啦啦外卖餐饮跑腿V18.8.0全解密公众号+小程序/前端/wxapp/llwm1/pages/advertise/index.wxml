@@ -1,0 +1,89 @@
+<view class="page-advertise">
+    <view class="content">
+        <view class="active-tab border-1px-b">
+            <view class="tab-item active">新建推广</view>
+            <view bind:tap="onJsEvent" class="tab-item" data-event-type="jsUrl" data-url="pages/advertise/list">已推广的活动</view>
+        </view>
+        <view class="main">
+            <view class="activity-col clearfix">
+                <view class="col-left">
+                    <text class="text-yellow">优选</text>
+                </view>
+                <view class="col-right border-1px-b">
+                    <view class="content">
+                        <text class="top">为您优选</text>
+                        <text class="body">购买商户为您优选推广,吸引更多用户下单</text>
+                    </view>
+                    <view bind:tap="onJsEvent" class="link" data-event-type="jsUrl" data-url="pages/advertise/recommend" wx:if="{{advertise.type.recommend.status==1}}">立即推广</view>
+                    <view class="link add" wx:else>广告未开售,敬请关注</view>
+                </view>
+            </view>
+            <view class="activity-col clearfix">
+                <view class="col-left">
+                    <text class="text-green">置顶</text>
+                </view>
+                <view class="col-right border-1px-b">
+                    <view class="content">
+                        <text class="top">商户置顶</text>
+                        <text class="body">购买商户置顶推广,吸引更多用户下单</text>
+                    </view>
+                    <view bind:tap="onJsEvent" class="link" data-event-type="jsUrl" data-url="pages/advertise/stick?type=stick" wx:if="{{advertise.type.stick.status==1}}">立即推广</view>
+                    <view class="link add" wx:else>广告未开售,敬请关注</view>
+                </view>
+            </view>
+            <view class="activity-col clearfix">
+                <view class="col-left">
+                    <text class="text-red">顶部</text>
+                </view>
+                <view class="col-right border-1px-b">
+                    <view class="content">
+                        <text class="top">首页顶部</text>
+                        <text class="body">购买首页顶部幻灯片推广,吸引更多用户下单</text>
+                    </view>
+                    <view bind:tap="onJsEvent" class="link" data-event-type="jsUrl" data-url="pages/advertise/stick?type=slideHomeTop" wx:if="{{advertise.type.slideHomeTop.status==1}}">立即推广</view>
+                    <view class="link add" wx:else>广告未开售,敬请关注</view>
+                </view>
+            </view>
+            <view class="activity-col clearfix">
+                <view class="col-left">
+                    <text class="text-gold">会员</text>
+                </view>
+                <view class="col-right border-1px-b">
+                    <view class="content">
+                        <text class="top">会员中心</text>
+                        <text class="body">购买会员中心幻灯片推广,吸引更多用户下单</text>
+                    </view>
+                    <view bind:tap="onJsEvent" class="link" data-event-type="jsUrl" data-url="pages/advertise/stick?type=slideMember" wx:if="{{advertise.type.slideMember.status==1}}">立即推广</view>
+                    <view class="link add" wx:else>广告未开售,敬请关注</view>
+                </view>
+            </view>
+            <view class="activity-col clearfix">
+                <view class="col-left">
+                    <text class="text-orange">收银台</text>
+                </view>
+                <view class="col-right border-1px-b">
+                    <view class="content">
+                        <text class="top">顾客支付页</text>
+                        <text class="body">购支付页幻灯片推广,吸引更多用户下单</text>
+                    </view>
+                    <view bind:tap="onJsEvent" class="link" data-event-type="jsUrl" data-url="pages/advertise/stick?type=slidePaycenter" wx:if="{{advertise.type.slidePaycenter.status==1}}">立即推广</view>
+                    <view class="link add" wx:else>广告未开售,敬请关注</view>
+                </view>
+            </view>
+            <view class="activity-col clearfix">
+                <view class="col-left">
+                    <text class="text-blue">订单</text>
+                </view>
+                <view class="col-right border-1px-b">
+                    <view class="content">
+                        <text class="top">订单详情页</text>
+                        <text class="body">购买订单详情页幻灯片推广,吸引更多用户下单</text>
+                    </view>
+                    <view bind:tap="onJsEvent" class="link" data-event-type="jsUrl" data-url="pages/advertise/stick?type=slideOrderDetail" wx:if="{{advertise.type.slideOrderDetail.status==1}}">立即推广</view>
+                    <view class="link add" wx:else>广告未开售,敬请关注</view>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>
+<include src="../public/footer.wxml"></include>

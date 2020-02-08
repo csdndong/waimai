@@ -1,0 +1,304 @@
+{itemplate 'public/header'}
+{if $op == 'list'}
+<form action="" class="form-table form" method="post">
+	<div class="panel panel-table">
+		<div class="panel-heading">
+			<a href="{php echo iurl('tongcheng/category/post');}" class="btn btn-primary btn-sm">添加分类</a>
+		</div>
+		<div class="panel-body table-responsive js-table">
+			{if empty($category)}
+			<div class="no-result">
+				<p>还没有相关数据</p>
+			</div>
+			{else}
+			<table class="table table-hover">
+				<thead class="navbar-inner">
+				<tr>
+					<th>
+						<div class="checkbox checkbox-inline">
+							<input type="checkbox" name="id[]"/>
+							<label></label>
+						</div>
+					</th>
+					<th>分类ID</th>
+					<th>分类图片</th>
+					<th>分类名称</th>
+					{if $_W['is_agent']}
+						<th>所属城市</th>
+					{/if}
+					<th>开启状态</th>
+					<th>热门状态</th>
+					<th>排序</th>
+					<th style="text-align:right;">操作</th>
+				</tr>
+				</thead>
+				<tbody>
+				{loop $category $item}
+				<tr>
+					<td>
+						<input type="hidden" name="ids[]" value="{$item['id']}">
+						<div class="checkbox checkbox-inline">
+							<input type="checkbox" name="id[]" value="{$item['id']}">
+							<label></label>
+						</div>
+					</td>
+					<td>
+						<strong>{$item['id']}</strong>
+					</td>
+					<td>
+						<img src="{php echo tomedia($item['thumb'])}" alt="" style="width: 50px;">
+					</td>
+					<td><input type="text" name="title[]" class="form-control width-100" value="{$item['title']}"></td>
+					{if $_W['is_agent']}
+						<td>{php echo toagent($item['agentid'])}</td>
+					{/if}
+					<td>
+						<input type="checkbox" class="js-checkbox" data-href="{php echo iurl('tongcheng/category/status', array('id' => $item['id']));}" data-name="status" value="{$item['status']}" {if $item['status'] == 1}checked{/if}>
+					</td>
+					<td>
+						<input type="checkbox" class="js-checkbox" data-href="{php echo iurl('tongcheng/category/status', array('id' => $item['id'], 'type' => 'is_hot'));}" data-name="is_hot" value="{$item['is_hot']}" {if $item['is_hot'] == 1}checked{/if}>
+					</td>
+					<td>
+						<input type="text" name="displayorder[]" class="form-control width-100" value="{$item['displayorder']}">
+					</td>
+					<td style="text-align:right;">
+						<a href="{php echo iurl('tongcheng/category/post', array('parentid' => $item['id']))}" class="btn btn-default btn-sm">添加子分类</a>
+						<a href="{php echo iurl('tongcheng/category/post', array('id' => $item['id']))}" class="btn btn-default btn-sm">修改分类</a>
+						<a href="{php echo iurl('tongcheng/category/del', array('id' => $item['id']))}" class="btn btn-default btn-sm js-remove" title="删除" data-toggle="tooltip" data-placement="top" data-confirm="确定删除该分类吗?"><i class="fa fa-times"> </i></a>
+					</td>
+				</tr>
+					{if !empty($item['child'])}
+						{loop $item['child'] $row}
+						<tr>
+							<td>
+								<input type="hidden" name="ids[]" value="{$row['id']}">
+								<div class="checkbox checkbox-inline">
+									<input type="checkbox" name="id[]" value="{$row['id']}">
+									<label></label>
+								</div>
+							</td>
+							<td>
+								<strong>{$row['id']}</strong>
+							</td>
+							<td style="padding-left: 35px;">
+								<img src="{php echo tomedia($row['thumb'])}" alt="" style="width: 50px;">
+							</td>
+							<td><input type="text" name="title[]" class="form-control width-100" value="{$row['title']}"></td>
+							{if $_W['is_agent']}
+								<td>{php echo toagent($row['agentid'])}</td>
+							{/if}
+							<td>
+								<input type="checkbox" class="js-checkbox" data-href="{php echo iurl('tongcheng/category/status', array('id' => $row['id']));}" data-name="status" value="{$row['status']}" {if $row['status'] == 1}checked{/if}>
+							</td>
+							<td>
+								<input type="checkbox" class="js-checkbox" data-href="{php echo iurl('tongcheng/category/status', array('id' => $row['id'], 'type' => 'is_hot'));}" data-name="is_hot" value="{$item['is_hot']}" {if $item['is_hot'] == 1}checked{/if}>
+							</td>
+							<td>
+								<input type="text" name="displayorder[]" class="form-control width-100" value="{$row['displayorder']}">
+							</td>
+							<td style="text-align:right;">
+								<a href="{php echo iurl('tongcheng/category/post', array('id' => $row['id']))}" class="btn btn-default btn-sm">修改分类</a>
+								<a href="{php echo iurl('tongcheng/category/del', array('id' => $row['id']))}" class="btn btn-default btn-sm js-remove" title="删除" data-toggle="tooltip" data-placement="top" data-confirm="确定删除该分类吗?"><i class="fa fa-times"> </i></a>
+							</td>
+						</tr>
+						{/loop}
+					{/if}
+				{/loop}
+				</tbody>
+			</table>
+			<div class="btn-region clearfix">
+				<div class="pull-left">
+					<input name="token" type="hidden" value="{$_W['token']}" />
+					<input type="submit" class="btn btn-primary btn-sm" value="提交修改">
+				</div>
+				<div class="pull-right">
+					{$pager}
+				</div>
+			</div>
+			{/if}
+		</div>
+	</div>
+</form>
+{/if}
+{if $op == 'post'}
+<div class="page clearfix">
+	<h2>编辑分类</h2>
+	<form class="form-horizontal form form-validate" style="max-width: 950px;" id="form1" action="" method="post" enctype="multipart/form-data">
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">排序</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="number" class="form-control" name="displayorder" value="{$category['displayorder']}">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">分类名称</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="text" class="form-control" name="title" value="{$category['title']}" required="true">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">分类描述</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="text" class="form-control" name="content" value="{$category['content']}">
+				<div class="help-block">粉丝分享时调用</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">分类图标</label>
+			<div class="col-sm-9 col-xs-12">
+				{php echo tpl_form_field_image('thumb', $category['thumb']);}
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">付费发帖</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="input-group">
+					<input type="text" class="form-control" name="price" value="{$category['price']}" required="true">
+					<span class="input-group-addon">元/贴</span>
+				</div>
+				<div class="help-block">
+					最多保留两位小数，不填即为免费发帖
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">分类状态</label>
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<div class="radio radio-inline">
+					<input type="radio" name="status" value="1" id="nav-status-1" {if $category['status'] == 1}checked{/if}>
+					<label for="nav-status-1">启用</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" name="status" value="0" id="nav-status-0" {if $category['status'] == 0}checked{/if}>
+					<label for="nav-status-0">关闭</label>
+				</div>
+				<div class="help-block">
+					提示：分类不显示，其子分类也不显示
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">热门设置</label>
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<div class="radio radio-inline">
+					<input type="radio" name="is_hot" value="1" id="is_hot-1" {if $category['is_hot'] == 1}checked{/if}>
+					<label for="is_hot-1">是</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" name="is_hot" value="0" id="is_hot-0" {if $category['is_hot'] == 0 || !$category['is_hot']}checked{/if}>
+					<label for="is_hot-0">否</label>
+				</div>
+				<div class="help-block">
+					提示：设置为热门分类后，进入帖子搜索页面，会在热门搜索栏目下展示该分类。
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">导航链接</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="text" class="form-control" name="link" value="{$category['link']}">
+				<div class="help-block">
+					导航标签不会被视作分类，只在首页做导航使用,子分类只能作为普通分类。
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">预设标签</label>
+			<div class="col-sm-9 col-xs-12">
+				<textarea name="tags" cols="30" rows="7" class="form-control">{$category['tags']}</textarea>
+				<div class="help-block">可设置多个标签，每行一个</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">帖子排列顺序</label>
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<div class="radio radio-inline">
+					<input type="radio" name="config[orderby]" value="addtime" id="config-orderby-1" {if $category['config']['displayorder'] == addtime || !$category['config']['displayorder']}checked{/if}>
+					<label for="config-orderby-1">按发帖时间</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" name="config[orderby]" value="looknum" id="config-orderby-2" {if $category['config']['displayorder'] == looknum}checked{/if}>
+					<label for="config-orderby-2">按浏览数量</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" name="config[orderby]" value="sharenum" id="config-orderby-3" {if $category['config']['displayorder'] == sharenum}checked{/if}>
+					<label for="config-orderby-3">按分享数量</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" name="config[orderby]" value="likenum" id="config-orderby-4" {if $category['config']['displayorder'] == likenum}checked{/if}>
+					<label for="config-orderby-4">按点赞数量</label>
+				</div>
+			</div>
+		</div>
+		<div class="form-group" id="peerpay-container">
+			<div class="col-sm-2 control-label">置顶价格</div>
+			<div class="col-sm-9">
+				<div class="stick-items">
+					{if !empty($category['config']['stick_price'])}
+					{loop $category['config']['stick_price'] $stick_price}
+					<div class="input-group help-item" style="margin-bottom: 10px;">
+						<div class="input-group-addon">置顶时间(天)</div>
+						<input type="number" class="form-control" name="config[stick_price][day][]" value="{$stick_price['day']}">
+						<div class="input-group-addon">￥</div>
+						<input type="number" class="form-control" name="config[stick_price][price][]" value="{$stick_price['price']}">
+						<div class="input-group-btn del-item">
+							<a class="btn btn-danger" href="javascript:;" style="border-color: #ff595f;">
+								<i class="fa fa-remove"></i>删除
+							</a>
+						</div>
+					</div>
+					{/loop}
+					{else}
+					<div class="input-group help-item" style="margin-bottom: 10px;">
+						<div class="input-group-addon">置顶时间(天)</div>
+						<input type="number" class="form-control" name="config[stick_price][day][]" value="">
+						<div class="input-group-addon">￥</div>
+						<input type="number" class="form-control" name="config[stick_price][price][]" value="">
+						<div class="input-group-btn del-item">
+							<a class="btn btn-danger" href="javascript:;" style="border-color: #ff595f;">
+								<i class="fa fa-remove"></i>删除
+							</a>
+						</div>
+					</div>
+					{/if}
+				</div>
+				<div style="margin-top: 5px;">
+					<a href="javascript:;" class="btn btn-default add-stick-price"><i class="fa fa-plus"></i> 增加一种规则</a>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<input type="hidden" name="token" value="{$_W['token']}">
+				<input type="submit" value="提交" class="btn btn-primary">
+			</div>
+			<div class="pull-right">
+				{$pager}
+			</div>
+		</div>
+	</form>
+</div>
+<script>
+	$(function (){
+		$(document).on('click', '.add-stick-price', function() {
+			var html =
+				'<div class="input-group help-item" style="margin-bottom: 10px;">'+
+				'	<div class="input-group-addon">置顶时间(天)</div>'+
+				'	<input type="number" class="form-control" name="config[stick_price][day][]" value="">'+
+				'	<div class="input-group-addon">￥</div>'+
+				'	<input type="number" class="form-control" name="config[stick_price][price][]" value="">'+
+				'	<div class="input-group-btn del-item">'+
+				'		<a class="btn btn-danger" href="javascript:;" style="border-color: #ff595f;">'+
+				'		<i class="fa fa-remove"></i>删除'+
+				'		</a>'+
+				'	</div>'+
+				'</div>';
+			$('#peerpay-container .stick-items').append(html);
+		});
+		$(document).on('click', '.del-item', function() {
+			$(this).parents('.input-group').remove();
+		});
+	});
+</script>
+{/if}
+{itemplate 'public/footer'}

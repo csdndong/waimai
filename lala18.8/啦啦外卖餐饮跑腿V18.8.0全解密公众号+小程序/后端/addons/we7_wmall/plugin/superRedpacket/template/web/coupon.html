@@ -1,0 +1,232 @@
+{itemplate 'public/header'}
+<link href="../addons/we7_wmall/plugin/superRedpacket/static/css/diy.web.css" rel="stylesheet" type="text/css"/>
+<div class="clearfix">
+	<div class="alert alert-danger form-horizontal" style="font-size: 18px">
+		注意：自定义门店首页的默认页面只有 <span class="text-danger">保存</span> 后才会生效！
+	</div>
+	<div class="app-preview">
+		<div class="app-header"></div>
+		<div class="app-body">
+			<div class="title">商家代金券设置</div>
+			<div class="main" id="app-preview"></div>
+		</div>
+		<div class="app-footer"></div>
+	</div>
+	<div class="app-editor form-horizontal" id="app-editor">
+		<div class="editor-arrow"></div>
+		<div class="inner"></div>
+	</div>
+</div>
+<div class="app-action">
+	<div class="action">
+		<nav class="btn btn-default btn-sm pull-left" id="gotop">返回顶部</nav>
+		<nav class="btn btn-primary btn-sm btn-save">保存</nav>
+	</div>
+</div>
+<script type="text/html" id="tpl-show-superRedpacket">
+	<style>
+		#sharemodal .banner{background-color: <(style.backgroundColor)>;}
+		#sharemodal .container{background-color: <(style.backgroundColor)>;}
+		#sharemodal .go-home a{color: <(style.buttonColor)>; background-color: <(style.buttonBackgroundColor)>;}
+		#sharemodal .container .coupon-item .shu .circle{background-color: <(style.backgroundColor)>;}
+	</style>
+	<div class="modal modal-no-buttons modal-in" id="sharemodal">
+		<div class="banner">
+			<img src="<(tomedia params.image)>" alt=""/>
+		</div>
+		<div class="container">
+			<div class="coupon-list">
+				<div class="coupon-item">
+					<div class="item-inner flex-lr">
+						<div class="store-info flex-lr">
+							<img src="http://1.xinzuowl.com/attachment/images/1/2016/12/ecc9Eu0LIyr62aoOiC6goU6aLAcIIC.jpg" alt="">
+							<div class="info">
+								<div class="store-title ellipsis" style="color: <(style.storeTitleColor)>">茶不思</div>
+								<div class="useful-day" style="color: <(style.usefulDayColor)>">有效期4天</div>
+							</div>
+						</div>
+						<div class="coupon-price flex-lr">
+							<div class="info">
+								<div class="number"  style="color: <(style.moneyColor)>">¥ <span>10</span></div>
+								<div class="limit" style="color: <(style.useLimitColor)>">满20元可用</div>
+							</div>
+							<div class="to-use" style="color: <(style.toUseColor)>; background-color: <(style.toUseBackgroundColor)>">去使用</div>
+						</div>
+					</div>
+					<div class="shu">
+						<div class="circle top-circle"></div>
+						<div class="line"></div>
+						<div class="circle bottom-circle"></div>
+					</div>
+				</div>
+				<div class="coupon-item">
+					<div class="item-inner flex-lr">
+						<div class="store-info flex-lr">
+							<img src="https://1.xinzuowl.com/attachment/images/1/2016/08/f3dM7mM6bC4ad4bmAYvFB38CLyb4CW.png" alt="">
+							<div class="info">
+								<div class="store-title ellipsis" style="color: <(style.storeTitleColor)>">绝味鸭脖</div>
+								<div class="useful-day"  style="color: <(style.usefulDayColor)>">有效期10天</div>
+							</div>
+						</div>
+						<div class="coupon-price flex-lr">
+							<div class="info">
+								<div class="number" style="color: <(style.moneyColor)>">¥ <span>15</span></div>
+								<div class="limit" style="color: <(style.useLimitColor)>">满30元可用</div>
+							</div>
+							<div class="to-use" style="color: <(style.toUseColor)>; background-color: <(style.toUseBackgroundColor)>">去使用</div>
+						</div>
+					</div>
+					<div class="shu">
+						<div class="circle top-circle"></div>
+						<div class="line"></div>
+						<div class="circle bottom-circle"></div>
+					</div>
+				</div>
+				<div class="coupon-item">
+					<div class="item-inner flex-lr">
+						<div class="store-info flex-lr">
+							<img src="http://1.xinzuowl.com/attachment/images/1/2017/12/IVyVoiiOrWXSb8nIjnrEHwIE25z9Ey.jpg" alt="">
+							<div class="info">
+								<div class="store-title ellipsis" style="color: <(style.storeTitleColor)>">文具用品店</div>
+								<div class="useful-day"  style="color: <(style.usefulDayColor)>">有效期30天</div>
+							</div>
+						</div>
+						<div class="coupon-price flex-lr">
+							<div class="info">
+								<div class="number" style="color: <(style.moneyColor)>">¥ <span>4</span></div>
+								<div class="limit" style="color: <(style.useLimitColor)>">满10元可用</div>
+							</div>
+							<div class="to-use" style="color: <(style.toUseColor)>; background-color: <(style.toUseBackgroundColor)>">去使用</div>
+						</div>
+					</div>
+					<div class="shu">
+						<div class="circle top-circle"></div>
+						<div class="line"></div>
+						<div class="circle bottom-circle"></div>
+					</div>
+				</div>
+			</div>
+			<div class="go-home"><a href="javascript:;" style="color: <(style.buttonColor)>; background-color: <(style.buttonBackgroundColor)>">进入首页</a></div>
+		</div>
+		<span class="icon icon-close js-close-modal" data-modal="#sharemodal"></span>
+	</div>
+</script>
+
+<script type="text/html" id="tpl-edit-superRedpacket">
+		<div class="form-group">
+			<div class="col-sm-2 control-label">代金券名称</div>
+			<div class="col-sm-10">
+				<input type="text" class="form-control input-sm diy-bind" data-bind="name" placeholder="请输入名称" value="<(name)>" />
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-2 control-label">顶部图片</div>
+			<div class="col-sm-10">
+				<div class="input-group">
+					<input type="text" class="form-control input-sm diy-bind" placeholder="请选择图片或输入图片地址" value="<(params.image)>" data-bind-child="params" data-bind="image" id="pimg">
+					<span class="input-group-addon btn btn-default js-selectImg" data-input="#pimg" data-element="#cimg">选择图片</span>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-2 control-label">整体背景色</div>
+			<div class="col-sm-5 color">
+				<div class="input-group">
+					<span class="input-group-addon">默认</span>
+					<input class="form-control input-sm diy-bind color" type="color" data-bind-child="style" data-bind="backgroundColor" value="<(style.backgroundColor)>" />
+					<span class="input-group-addon btn btn-default" onclick="$(this).prev().val('#b80404').trigger('propertychange')">清除</span>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-2 control-label">门店名称颜色</div>
+			<div class="col-sm-5 color">
+				<div class="input-group">
+					<span class="input-group-addon">默认</span>
+					<input class="form-control input-sm diy-bind color" type="color" data-bind-child="style" data-bind="storeTitleColor" value="<(style.storeTitleColor)>" />
+					<span class="input-group-addon btn btn-default" onclick="$(this).prev().val('#333333').trigger('propertychange')">清除</span>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-2 control-label">有效期颜色</div>
+			<div class="col-sm-5 color">
+				<div class="input-group">
+					<span class="input-group-addon">默认</span>
+					<input class="form-control input-sm diy-bind color" type="color" data-bind-child="style" data-bind="usefulDayColor" value="<(style.usefulDayColor)>" />
+					<span class="input-group-addon btn btn-default" onclick="$(this).prev().val('#8F8F8F').trigger('propertychange')">清除</span>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-2 control-label">券金额颜色</div>
+			<div class="col-sm-5 color">
+				<div class="input-group">
+					<span class="input-group-addon">默认</span>
+					<input class="form-control input-sm diy-bind color" type="color" data-bind-child="style" data-bind="moneyColor" value="<(style.moneyColor)>" />
+					<span class="input-group-addon btn btn-default" onclick="$(this).prev().val('#ff2d4b').trigger('propertychange')">清除</span>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-2 control-label">满减限制颜色</div>
+			<div class="col-sm-5 color">
+				<div class="input-group">
+					<span class="input-group-addon">默认</span>
+					<input class="form-control input-sm diy-bind color" type="color" data-bind-child="style" data-bind="useLimitColor" value="<(style.useLimitColor)>" />
+					<span class="input-group-addon btn btn-default" onclick="$(this).prev().val('#8F8F8F').trigger('propertychange')">清除</span>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-2 control-label">使用文字颜色</div>
+			<div class="col-sm-5 color">
+				<div class="input-group">
+					<span class="input-group-addon">默认</span>
+					<input class="form-control input-sm diy-bind color" type="color" data-bind-child="style" data-bind="toUseColor" value="<(style.toUseColor)>" />
+					<span class="input-group-addon btn btn-default" onclick="$(this).prev().val('#333333').trigger('propertychange')">清除</span>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-2 control-label">使用背景颜色</div>
+			<div class="col-sm-5 color">
+				<div class="input-group">
+					<span class="input-group-addon">默认</span>
+					<input class="form-control input-sm diy-bind color" type="color" data-bind-child="style" data-bind="toUseBackgroundColor" value="<(style.toUseBackgroundColor)>" />
+					<span class="input-group-addon btn btn-default" onclick="$(this).prev().val('#ffd161').trigger('propertychange')">清除</span>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-2 control-label">按钮文字颜色</div>
+			<div class="col-sm-5 color">
+				<div class="input-group">
+					<span class="input-group-addon">默认</span>
+					<input class="form-control input-sm diy-bind color" type="color" data-bind-child="style" data-bind="buttonColor" value="<(style.buttonColor)>" />
+					<span class="input-group-addon btn btn-default" onclick="$(this).prev().val('#333333').trigger('propertychange')">清除</span>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-2 control-label">按钮背景颜色</div>
+			<div class="col-sm-5 color">
+				<div class="input-group">
+					<span class="input-group-addon">默认</span>
+					<input class="form-control input-sm diy-bind color" type="color" data-bind-child="style" data-bind="buttonBackgroundColor" value="<(style.buttonBackgroundColor)>" />
+					<span class="input-group-addon btn btn-default" onclick="$(this).prev().val('#ffd161').trigger('propertychange')">清除</span>
+				</div>
+			</div>
+		</div>
+</script>
+<script language="javascript">
+	var path = '../../plugin/superRedpacket/static/js/superRedpacketCoupon';
+	irequire([path, 'tmodtpl'],function(superRedpacket, tmodtpl){
+		superRedpacket.init({
+			tmodtpl: tmodtpl,
+			attachurl: "{$_W['attachurl']}",
+			data: {if !empty($coupon)}{php echo json_encode($coupon)}{else}null{/if}
+		});
+	});
+</script>
+{itemplate 'public/footer'}

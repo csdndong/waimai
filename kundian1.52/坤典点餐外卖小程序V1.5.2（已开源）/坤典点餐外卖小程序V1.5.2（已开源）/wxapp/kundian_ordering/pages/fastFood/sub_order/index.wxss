@@ -1,0 +1,353 @@
+page {
+    font-size: 28rpx;
+    background: #f4f4f4;
+}
+
+.clear {
+    clear: both;
+}
+
+.top-sel {
+    width: 92%;
+    height: auto;
+    background: white;
+    margin-left: 4%;
+    margin-top: 20rpx;
+}
+
+.top-sel .sel-address {
+    width: 100%;
+    height: 100rpx;
+    border-bottom: 1rpx solid #f4f4f4;
+    line-height: 100rpx;
+}
+
+.top-sel .sel-address image {
+    width: 40rpx;
+    height: 40rpx;
+    margin-left: 20rpx;
+    margin-right: 20rpx;
+    position: relative;
+    top: 8rpx;
+}
+
+.top-sel .sel-time {
+    width: 100%;
+    height: 100rpx;
+    border-bottom: 1rpx solid #f4f4f4;
+    line-height: 100rpx;
+}
+
+.top-sel .sel-time .time-img {
+    width: 40rpx;
+    height: 40rpx;
+    margin-left: 20rpx;
+    margin-right: 20rpx;
+    position: relative;
+    top: 30rpx;
+    float: left;
+}
+
+.top-sel .sel-time .section {
+    width: 80%;
+    float: left;
+}
+
+.top-sel .sel-time .time-jiantou {
+    float: right;
+    width: 30rpx;
+    height: 30rpx;
+    margin-right: 20rpx;
+    top: 30rpx;
+    position: relative;
+}
+
+.have-address {
+    width: 100%;
+    height: 100rpx;
+    border-bottom: 1rpx solid #f4f4f4;
+    padding-top: 20rpx;
+}
+
+.have-address .left {
+    width: 13%;
+    height: 100%;
+    float: left;
+}
+
+.have-address .center {
+    width: 80%;
+    height: 100%;
+    float: left;
+}
+
+.have-address .center .address-detail {
+    display: block;
+}
+
+.have-address .center .name {
+    color: gray;
+}
+
+.have-address .left image {
+    width: 50rpx;
+    height: 50rpx;
+    margin-left: 20rpx;
+    position: relative;
+    top: 10rpx;
+}
+
+.have-address .right {
+    width: 6%;
+    height: 100%;
+    float: left;
+}
+
+.have-address .right image {
+    width: 30rpx;
+    height: 30rpx;
+    position: relative;
+    top: 25rpx;
+}
+
+.order-ul {
+    width: 92%;
+    height: auto;
+    padding-top: 20rpx;
+    margin-left: 4%;
+    margin-top: 20rpx;
+    padding-bottom: 120rpx;
+    overflow: hidden;
+}
+
+.order-ul .ul-top {
+    width: 100%;
+    height: 80rpx;
+    line-height: 80rpx;
+    background: white;
+}
+
+.order-ul .ul-top image {
+    width: 50rpx;
+    height: 50rpx;
+    position: relative;
+    top: 10rpx;
+    margin-left: 20rpx;
+    margin-right: 20rpx;
+}
+
+.order-ul .ul {
+    width: 100%;
+    height: auto;
+    padding-top: 20rpx;
+}
+
+.order-ul .ul .ul-li {
+    width: 100%;
+    height: 120rpx;
+    border-bottom: 2rpx solid white;
+    margin-bottom: 20rpx;
+}
+
+.ul-li .li-left {
+    width: 20%;
+    height: 100%;
+    float: left;
+    text-align: center;
+}
+
+.ul-li .li-left image {
+    width: 100rpx;
+    height: 100rpx;
+}
+
+.ul-li .li-center {
+    width: 60%;
+    height: 100%;
+    float: left;
+}
+
+.ul-li .li-center .name {
+    font-size: 28rpx;
+    display: block;
+    width: 90%;
+    height: 45rpx;
+    text-overflow: -o-ellipsis-lastline;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+}
+
+.ul-li .li-right {
+    width: 20%;
+    height: 100%;
+    float: left;
+    text-align: center;
+}
+
+.ul-li .li-right .price {
+    display: block;
+}
+
+.ul-li .li-right .old-price {
+    color: gray;
+    text-decoration: line-through;
+}
+
+.peisong-money {
+    width: 100%;
+    height: 80rpx;
+    line-height: 80rpx;
+    background: white;
+    border-bottom: 1rpx solid #f4f4f4;
+}
+
+.peisong-money .value {
+    float: right;
+    margin-right: 20rpx;
+}
+
+.peisong-money .title {
+    margin-left: 20rpx;
+}
+
+.sel-token {
+    width: 100%;
+    height: 80rpx;
+    line-height: 80rpx;
+    background: white;
+    border-bottom: 1rpx solid #f4f4f4;
+}
+
+.sel-token .section_title {
+    width: 30%;
+    height: 100%;
+    float: left;
+    margin-left: 20rpx;
+}
+
+.sel-token .picker {
+    text-align: right;
+    margin-right: 20rpx;
+}
+
+.sel-token .section {
+    width: 92%;
+    height: 100%;
+    float: left;
+}
+
+.sel-token .time-jiantou {
+    float: right;
+    width: 30rpx;
+    height: 30rpx;
+    margin-right: 20rpx;
+    top: 26rpx;
+    position: relative;
+}
+
+.total {
+    width: 100%;
+    height: 80rpx;
+    line-height: 80rpx;
+    text-align: right;
+    background: white;
+    border-bottom: 1rpx solid #f4f4f4;
+}
+
+.total .total-price {
+    color: red;
+    margin-right: 20rpx;
+}
+
+.total text {
+    float: right;
+}
+
+.remark {
+    width: 100%;
+    height: 100rpx;
+    line-height: 100rpx;
+    background: white;
+}
+
+.remark input {
+    width: 90%;
+    height: 100%;
+    margin-left: 20rpx;
+}
+
+.white-token {
+    width: 100%;
+    height: 160rpx;
+    background: white;
+}
+
+.white-token .token-card {
+    width: 100%;
+    height: 80rpx;
+    border-bottom: 1rpx solid #f4f4f4;
+    line-height: 80rpx;
+}
+
+.white-token .token-card text {
+    margin-left: 20rpx;
+}
+
+.white-token .token-card input {
+    width: 75%;
+    float: right;
+    height: 100%;
+}
+
+.footer {
+    width: 100%;
+    height: 100rpx;
+    background: white;
+    position: fixed;
+    bottom: 0;
+}
+
+.footer .left {
+    width: 70%;
+    height: 100%;
+    text-align: right;
+    float: left;
+    line-height: 100rpx;
+}
+
+.footer .left .dai-price {
+    color: red;
+    margin-right: 20rpx;
+}
+
+.footer .right {
+    width: 30%;
+    line-height: 100rpx;
+    text-align: center;
+    height: 100%;
+    background: black;
+    float: left;
+    color: white;
+}
+
+.footer .right button {
+    width: 100%;
+    height: 100%;
+    line-height: 100rpx;
+    background: black;
+    color: white;
+    border: none;
+}
+
+.has-fast-food {
+    height: 100rpx;
+    border-bottom: 1rpx solid #f4f4f4;
+    line-height: 100rpx;
+}
+
+.text-fast {
+    margin-left: 20rpx;
+}

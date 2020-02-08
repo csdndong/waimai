@@ -1,0 +1,18 @@
+<form class="form-horizontal form-validate" action="{php echo iurl('service/comment/group');}" method="post" enctype="multipart/form-data">
+	<input type='hidden' name='comment_ids' value='{$ids}'/>
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button data-dismiss="modal" class="close" type="button">×</button>
+				<h4 class="modal-title">批量回复</h4>
+			</div>
+			<div class="modal-body">
+				<textarea class="form-control" name="reply" placeholder="限300字符，请勿恶意回复，一经查实将严肃处理" required style="min-height: 200px;"></textarea>
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-primary" type="submit">提交</button>
+				<button data-dismiss="modal" class="btn btn-default" type="button">取消</button>
+			</div>
+		</div>
+	</div>
+</form>

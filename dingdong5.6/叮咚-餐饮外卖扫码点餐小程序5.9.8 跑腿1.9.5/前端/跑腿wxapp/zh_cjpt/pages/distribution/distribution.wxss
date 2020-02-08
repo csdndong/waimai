@@ -1,0 +1,25 @@
+.put_forward>view {
+    width: 50%;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.put_forward>view:nth-child(1) {
+    border-right: 2rpx solid #e5e5e5;
+}
+
+.put_forward>view view:nth-child(2) {
+    padding: 10rpx 0 0 0;
+}
+
+.list image:nth-child(1) {
+    width: 30rpx;
+    height: 30rpx;
+    margin-right: 20rpx;
+}
+
+.list image:nth-child(3) {
+    width: 20rpx;
+    height: 30rpx;
+    right: 20rpx;
+}

@@ -1,0 +1,85 @@
+<!--   time:2019-07-18 01:03:21 -->
+<include src="/zh_cjdianc/pages/commons/navbar/navbar.wxml" />
+<view class="paddbottom">
+	<view class="blbanner">
+		<view class="b-head" style="border-color:{{color}}">{{wm_name}}订单</view>
+	</view>
+	<view class="ddlb">
+		<view style="border-right:1px solid #d9d9d9">
+			<text class="num">{{wmdd.wmnum}}</text>
+			<text class="text">今日订单量</text>
+		</view>
+		<view>
+			<text class="num">{{wmdd.wm}}</text>
+			<text class="text">今日营业额（元）</text>
+		</view>
+	</view>
+	<view class="tjlb">
+		<view>
+			<text class="num">{{wmdd.wxwmnum}}</text>
+			<text class="text">微信支付(单)</text>
+		</view>
+		<view>
+			<text class="num">{{wmdd.hdwmnum}}</text>
+			<text class="text">货到付款(单)</text>
+		</view>
+		<view>
+			<text class="num">{{wmdd.yuewmnum}}</text>
+			<text class="text">余额支付(单)</text>
+		</view>
+		<view style="border:none">
+			<text class="num">{{wmdd.ztwmnum}}</text>
+			<text class="text">到店自提(单)</text>
+		</view>
+	</view>
+	<view class="blbanner">
+		<view class="b-head" style="border-color:{{color}}">{{dc_name}}订单</view>
+	</view>
+	<view class="ddlb">
+		<view style="border-right:1px solid #d9d9d9">
+			<text class="num">{{wmdd.dnnum}}</text>
+			<text class="text">今日订单量</text>
+		</view>
+		<view>
+			<text class="num">{{wmdd.dn}}</text>
+			<text class="text">今日营业额（元）</text>
+		</view>
+	</view>
+	<view class="tjlb">
+		<view>
+			<text class="num">{{wmdd.wxdnnum}}</text>
+			<text class="text">微信支付(单)</text>
+		</view>
+		<view>
+			<text class="num">{{wmdd.chdnnum}}</text>
+			<text class="text">餐后支付(单)</text>
+		</view>
+		<view style="border:none">
+			<text class="num">{{wmdd.yuednnum}}</text>
+			<text class="text">余额支付(单)</text>
+		</view>
+	</view>
+	<view class="blbanner">
+		<view class="b-head" style="border-color:{{color}}">当面付订单</view>
+	</view>
+	<view class="ddlb">
+		<view style="border-right:1px solid #d9d9d9">
+			<text class="num">{{wmdd.dmnum}}</text>
+			<text class="text">今日订单量</text>
+		</view>
+		<view>
+			<text class="num">{{wmdd.dm}}</text>
+			<text class="text">今日营业额（元）</text>
+		</view>
+	</view>
+	<view class="tjlb">
+		<view>
+			<text class="num">{{wmdd.wxdmnum}}</text>
+			<text class="text">微信支付(单)</text>
+		</view>
+		<view style="border:none">
+			<text class="num">{{wmdd.yuedmnum}}</text>
+			<text class="text">余额支付(单)</text>
+		</view>
+	</view>
+</view>

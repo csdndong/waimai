@@ -1,0 +1,39 @@
+{itemplate 'public/header'}
+{if $ta == 'index'}
+<div class="page page-order-table">
+	<header class="bar bar-nav common-bar-nav">
+		<a class="icon pull-left icon icon-arrow-left back"></a>
+		<h1 class="title">店内桌台</h1>
+		<a class="icon pull-right icon icon-refresh refresh"></a>
+	</header>
+	{itemplate 'public/nav'}
+	<div class="content">
+		<div class="tabs-list">
+			<div class="tabs-item {if $_GPC['cid'] == 0}active{/if}"><a href="{php echo imurl('manage/order/table/index', array(cid => '0'));}">全部</a></div>
+			{loop $table_category $tabCate}
+				<div class="tabs-item {if $_GPC['cid'] == $tabCate['id']}active{/if}"><a href="{php echo imurl('manage/order/table/index', array('cid' => $tabCate['id']));}">{$tabCate['title']}</a></div>
+			{/loop}
+		</div>
+		<div class="content-padded">
+			{if empty($tables)}
+			<div class="no-data">
+				<div class="bg"></div>
+				<p>没有任何订单哦～</p>
+			</div>
+			{else}
+			<div class="row">
+				{loop $tables $item}
+					<div class="col-33 js-post" data-href="{php echo imurl('manage/order/table/status', array('id' => $item['id']), true);}" data-confirm="{if $item['status'] != '空闲中'}确定将该桌台设为空闲中吗？{else}确定将该桌台设为已开台吗？{/if}">
+						<div class="table-item {if $item['status'] == '已开台'}active{elseif $item['status'] == '空闲中'}blue{/if}">
+							<div class="type">{$item['title']}</div>
+							<div class="status">{$item['status']}</div>
+						</div>
+					</div>
+				{/loop}
+			</div>
+			{/if}
+		</div>
+	</div>
+</div>
+{/if}
+{itemplate 'public/footer'}

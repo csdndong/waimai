@@ -1,0 +1,33 @@
+<style>
+	.checkbox-inline:first-child{
+		margin-left: 10px;
+	}
+</style>
+<form class="form-horizontal form-validate" action="{php echo iurl('cloudGoods/storeGoods/synchronization', array('set' => 1));}" method="post" enctype="multipart/form-data">
+	<input type='hidden' name='ids' value='{$ids}'/>
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button data-dismiss="modal" class="close" type="button">×</button>
+				<h4 class="modal-title">批量同步到商品库</h4>
+			</div>
+			<div class="modal-body">
+				<h3>请选择商品分类</h3>
+				<div class="form-group">
+					<div>
+						{loop $categorys $category}
+							<div class="checkbox checkbox-inline">
+								<input type="checkbox" name="category_id[]" id="type-takeout-{$category['id']}" value="{$category['id']}">
+								<label for="type-takeout-{$category['id']}">{$category['title']}</label>
+							</div>
+						{/loop}
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-primary" type="submit">提交</button>
+				<button data-dismiss="modal" class="btn btn-default" type="button">取消</button>
+			</div>
+		</div>
+	</div>
+</form>

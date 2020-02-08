@@ -1,0 +1,152 @@
+{itemplate 'public/header'}
+<style>
+	.form-table .customer-name{display: flex;justify-content: flex-end;align-items: center;}
+	.form-table .customer-name div{padding-left: 15px;}
+	.form-table .comment-member{margin-bottom: 5px; margin-left: 92px;text-align: left;}
+</style>
+<form action="" class="form-table form" method="post">
+	{if !empty($comments)}
+	<table class="table js-table">
+		<thead class="navbar-inner">
+		<tr>
+			<th width="40">
+				<div class="checkbox checkbox-inline">
+					<input type="checkbox" name="id[]">
+					<label></label>
+				</div>
+			</th>
+			<th style="text-align: center;">评论内容</th>
+		</tr>
+		</thead>
+		<tbody>
+		{loop $comments $comment}
+		<tr>
+			<td style="vertical-align: middle">
+				<div class="checkbox checkbox-inline">
+					<input type="checkbox" name="ids[]" value="{$comment['id']}">
+					<label></label>
+				</div>
+			</td>
+			<td>
+				<div class="panel panel-comment">
+					<div class="panel-body">
+						<div class="comment-item clearfix">
+							<div class="col-sm-2 col-md-2 col-lg-2 comment-item-left">
+								<div class="customer-name flex">
+									<img src="{$comment['goods']['thumb']}" alt="" style="width: 80px;">
+									<div>{$comment['goods']['name']}</div>
+								</div>
+								<div class="comment-member">评价人：{$comment['username']}</div>
+								<div class="store-title">手机号：{$comment['mobile']}</div>
+								<div class="seller">商品质量
+									<?php
+										for($i = 0; $i < $comment['goods_quality']; $i++) {
+											echo '<span><i class="fa fa-star star light"></i></span> ';
+									}
+									for($i = $comment['goods_quality']; $i < 5; $i++) {
+									echo '<span><i class="fa fa-star star"></i></span> ';
+									}
+									?>
+								</div>
+							</div>
+							<div class="col-sm-10 col-md-10 col-lg-10 comment-item-right">
+								<div class="comment-date">
+									{php echo date('Y-m-d H:i', $comment['addtime'])}
+									&nbsp;
+									{if $comment['status'] == 1}
+									<span class="tag tag-success">审核通过</span>
+									{elseif $comment['status'] == 2}
+									<span class="tag tag-danger">审核未通过</span>
+									{else}
+									<span class="tag tag-default">待审核</span>
+									{/if}
+									<a href="{php echo iurl('order/takeout/detail', array('id' => $comment['oid']));}" target="_blank" class="pull-right check-order greenest">查看订单 <b class="fa fa-angle-right"></b></a>
+								</div>
+								<div class="comment-main">
+									<div class="customer-comment">{if !empty($comment['note'])}{$comment['note']}{else}该用户没有填写评价内容{/if}</div>
+									<div class="comment-img">
+										{loop $comment['thumbs'] $thumb}
+										<a href="{php echo tomedia($thumb)}" target="_blank"><img src="{php echo tomedia($thumb)}" alt=""></a>
+										{/loop}
+									</div>
+									<div class="seller-comment clearfix grayest">
+										{if !empty($comment['tag_goods'])}
+										<div class="pull-left seller-comment-goods">
+											{if $comment['goods_quality'] < 3}
+											<b class="fa fa-thumbs-o-down"></b>
+											{else}
+											<b class="fa fa-thumbs-o-up"></b>
+											{/if}
+											{loop $comment['tag_goods'] $good}
+											<span>{$good['title']}</span>
+											{/loop}
+										</div>
+										{/if}
+									</div>
+									<a href="javascript:;" class="reply greenest" onclick="$(this).next('.reply-area').slideDown();"><b class="fa fa-comment-o"></b>回复</a>
+									<div class="reply-area" {if !empty($comment['replytime'])}style="display:block"{/if}>
+									<div class="reply-list">
+										<div><span class="grayest">商家回复：</span></div>
+										{if !empty($comment['replytime'])}
+										<span class="grayest">{php echo date('Y-m-d H:i', $comment['replytime'])}</span>
+										{/if}
+									</div>
+									<div class="input-area">
+										<textarea class="form-control" placeholder="限300字符，请勿恶意回复，一经查实将严肃处理">{$comment['reply']}</textarea>
+										<a href="javascript:;" class="btn btn-primary btn-reply" data-id="{$comment['id']}">回复</a>
+										{if empty($comment['replytime'])}
+										<a href="javascript:;" class="btn btn-default" onclick="$(this).parents('.reply-area').slideUp();">取消</a>
+										{/if}
+										<a href="{php echo iurl('gohome/comment/status', array('comment_id' => $comment['id'], 'status' => 1))}" class="btn btn-success js-post">审核通过</a>
+										<a href="{php echo iurl('gohome/comment/status', array('comment_id' => $comment['id'], 'status' => 2))}" class="btn btn-danger js-post">未通过</a>
+									</div>
+									<div class="arrow"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</td>
+		</tr>
+		{/loop}
+		</tbody>
+	</table>
+	<div class="btn-region clearfix">
+		<div class="pull-left">
+			<a href="{php echo iurl('gohome/comment/group')}" class="btn btn-primary js-batch" data-batch="modal">批量回复</a>
+			<a href="{php echo iurl('gohome/comment/status', array('status' => 1))}" class="btn btn-success js-batch" data-confirm="确定评论通过审核吗">审核通过</a>
+			<a href="{php echo iurl('gohome/comment/status', array('status' => 2))}" class="btn btn-danger js-batch" data-confirm="确定评论未通过审核吗">未通过</a>
+		</div>
+		<div class="pull-right">
+			{$pager}
+		</div>
+	</div>
+	{else}
+	<div class="no-result">
+		<p>还没有相关数据</p>
+	</div>
+	{/if}
+</form>
+<script>
+	$(function(){
+		$(document).on('click', '.input-area .btn-reply', function(){
+			var id = $(this).data('id');
+			var reply = $(this).prev('textarea').val();
+			if(!reply) {
+				Notify.info('回复内容不能为空');
+				return false;
+			}
+			$(this).attr('disabled', true);
+			$.post("{php echo iurl('gohome/comment/reply')}", {id: id, reply: reply}, function(data){
+				$(this).attr('disabled', false);
+				var result = $.parseJSON(data);
+				if(!result.message.errno) {
+					Notify.success('回复成功', location.href);
+				} else {
+					Notify.error(result.message.message);
+				}
+			});
+		});
+	});
+</script>
+{itemplate 'public/footer'}

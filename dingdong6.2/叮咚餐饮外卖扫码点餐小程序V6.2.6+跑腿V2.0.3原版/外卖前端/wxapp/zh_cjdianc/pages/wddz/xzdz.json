@@ -1,0 +1,6 @@
+{
+    "navigationBarTitleText": "选择收货地址",
+    "usingComponents": {
+        "cardlist": "/zh_cjdianc/dist/cardlist/index"
+    }
+}

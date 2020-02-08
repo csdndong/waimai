@@ -1,0 +1,49 @@
+<view class="page-list">
+    <view class="buttons-tab border-1px-b">
+        <view bind:tap="onChangeStatus" class="tabs {{status==0?'active':''}}" data-status="0">未开启</view>
+        <view bind:tap="onChangeStatus" class="tabs {{status==1?'active':''}}" data-status="1">进行中</view>
+        <view bind:tap="onChangeStatus" class="tabs {{status==2?'active':''}}" data-status="2">已结束</view>
+    </view>
+    <view class="content">
+        <view class="card" wx:for="{{advertise}}">
+            <view class="card-header border-1px-b">
+                <view class="activity-title">{{item.title}}</view>
+                <view class="pull-right" wx:if="{{item.status==1}}">进行中 剩余<text>{{item.until}}天</text>
+                </view>
+                <view class="pull-right" wx:elif="{{item.status==2}}">未开始</view>
+                <view class="pull-right" wx:elif="{{item.status==0}}">已结束</view>
+            </view>
+            <view class="card-content">
+                <view class="card-content-inner">
+                    <view class="discription">
+                        <view class="one-list clearfix" wx:if="{{item.type=='stick'}}">
+                            <view class="left">置顶排序:</view>
+                            <view class="right">No.{{item.displayorder}}</view>
+                        </view>
+                        <view class="one-list clearfix">
+                            <view class="left">广告持续:</view>
+                            <view class="right">{{item.days}}天</view>
+                        </view>
+                        <view class="one-list clearfix">
+                            <view class="left">开始时间:</view>
+                            <view class="right">{{item.starttime_cn}}</view>
+                        </view>
+                        <view class="one-list clearfix">
+                            <view class="left">结束时间:</view>
+                            <view class="right">{{item.endtime_cn}}</view>
+                        </view>
+                        <view class="one-list clearfix">
+                            <view class="left">创建日期:</view>
+                            <view class="right">{{item.addtime_cn}}</view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view class="no-data" wx:if="{{advertise.length==0}}">
+        <view class="bg"></view>
+        <view>还没有为店铺推广哦~</view>
+    </view>
+</view>
+<include src="../public/footer.wxml"></include>

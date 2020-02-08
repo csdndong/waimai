@@ -1,0 +1,4 @@
+.container{ overflow-y: hidden; }
+.head{ margin-top: 50rpx; height: 300rpx; display: flex; justify-content: center; align-items: center; }
+.text{ text-align: center; font-size: 30rpx; color: #666; }
+.btn{ margin-top: 150rpx; width: 70%; margin-left: 15%; }

@@ -1,0 +1,70 @@
+ <{extends file="<{$tempdir}>/public/wxsite.html"}>  
+<{block name=extendcss}>  
+<link rel="stylesheet" href="<{$siteurl}>/js/jquerymobile/jquery.mobile.min.css" /> 
+<script type="text/javascript" src="<{$siteurl}>/js/jquerymobile/jquery.mobile.min.js"></script>  
+<{/block}>
+<{block name=extendjs}><{/block}>
+<{block name=myScrolljs}><{/block}>
+<{block name=sitetitle}><{$sitename}><{/block}>
+<{block name=hearnav}><{/block}>
+<{block name=blockcontent}>  
+ <div data-role="page">
+<link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/editaddress.css">  
+ <script src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/js/template.min.js"></script>  
+ <div data-role="content">
+ <script> 
+ 		var myScroll;
+function loaded() {
+	myScroll = new iScroll('wrapper', {
+		useTransform: false,
+		onBeforeScrollStart: function (e) {
+			var target = e.target;
+			while (target.nodeType != 1) target = target.parentNode;
+
+			if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA')
+				e.preventDefault();
+		}
+	});
+}
+//document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false); 
+document.addEventListener('DOMContentLoaded', function () { setTimeout(loaded, 200); }, false);
+</script>
+ </div>
+<style>
+.noticeCont img{width:100%!important;}
+</style>
+<div class="toptitCon">
+ <div class="toptitBox">
+  <div class="toptitL"><a href="javascript:void(0);" data-rel="back"  ><i></i></a></div>
+  <div class="toptitC"><h3>通知内容</h3></div>
+ </div>
+</div>
+ <div id="wrapper" style="top:40px;background:#fff;">
+	<div id="scroller">
+		
+ 
+<div style="padding:10px;">
+	<div style="width:100%;">
+		<h1 style="color:#333333;font-size:18px; font-weight:bold;"><{$noticeinfo['title']}></h1>
+		<h2 style="text-align:right;color:#999999; font-size:12px;margin-right:10px;"><{$noticeinfo['addtime']|date_format:"%Y-%m-%d"}></h2>
+	</div>
+	<div class="noticeCont"	style="padding:10px;">
+		<{$noticeinfo['content']|htmlspecialchars_decode|default:'暂无详细通知说明'}>
+	</div>
+</div>
+ 
+ 
+   <div style="height:10px;"></div>
+</div>		 
+</div>		
+<div class="bottom-bar-warp">
+        <div class="bottom-bar" id="bottom-bar">
+            <div class="bbar-btn tap-click" onclick="dolink('<{ofunc type=url link="/wxsite/index"}>');"  ><i  class="icon icon_home"></i><div class="text" style="margin-top:-8px;">首页</div></div>
+            <div class="bbar-btn tap-click" onclick="dolink('<{ofunc type=url link="/wxsite/order"}>');" ><i class="icon icon_user"></i><div class="text" style="margin-top:-8px;">我的订单</div></div>
+     
+            <div class="bbar-btn tap-click" onclick="dolink('<{ofunc type=url link="/wxsite/togethersay"}>');"  ><i class="icon icon_order"></i><div class="text" style="margin-top:-8px;">一起说</div></div>
+            <div class="bbar-btn"  onclick="dolink('<{ofunc type=url link="/wxsite/member"}>');"><i class="icon icon_phone" style="margin-top: 8px;"></i></a><a class="text" style="margin-top:-10px;">个人中心</div>
+        </div>
+    </div> 
+ </div>
+<{/block}>

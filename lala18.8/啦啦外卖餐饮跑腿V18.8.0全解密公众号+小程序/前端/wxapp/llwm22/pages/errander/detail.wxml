@@ -1,0 +1,163 @@
+<view class="page-orderdetail">
+    <view class="tip">订单配送</view>
+    <view class="address">
+        <view class="title border-1px-b">{{order.delivery_collect_type_cn}}</view>
+        <view class="address-item flex">
+            <view class="content flex">
+                <view class="circle"></view>
+                <view class="detail">
+                    <view class="ellipsis">{{order.buy_address}}</view>
+                    <view class="ellipsis" wx:if="{{order.buy_username}}">{{order.buy_username}}{{order.buy_sex?'('+order.buy_sex+')':''}} {{order.buy_mobile}}</view>
+                </view>
+            </view>
+            <view bind:tap="onJsEvent" class="address-icon" data-address="{{order.buy_address}}" data-event-type="jsLocation" data-lat="{{order.buy_location_x}}" data-lng="{{order.buy_location_y}}" wx:if="{{order.buy_location_x}}">
+                <view class="icon icon-lbsfill"></view>
+            </view>
+        </view>
+        <view class="address-item flex">
+            <view class="content flex">
+                <view class="circle customer"></view>
+                <view class="detail">
+                    <view class="ellipsis">{{order.accept_address}}</view>
+                    <view class="ellipsis">{{order.accept_username}}{{order.accept_sex?'('+order.accept_sex+')':''}} {{order.accept_mobile}}</view>
+                </view>
+            </view>
+            <view bind:tap="onJsEvent" class="address-icon" data-address="{{order.accept_address}}" data-event-type="jsLocation" data-lat="{{order.accept_location_x}}" data-lng="{{order.accept_location_y}}">
+                <view class="icon icon-lbsfill"></view>
+            </view>
+        </view>
+    </view>
+    <view class="divide">
+        <view class="divide-line"></view>
+    </view>
+    <view class="phone flex">
+        <view bind:tap="onJsEvent" class="phone-item" data-event-type="jsPhone" data-phoneNumber="{{order.buy_mobile}}" wx:if="{{order.order_type!='buy'}}">
+            <image mode="widthFix" src="/static/img/store.png"></image>{{order.buy_mobile}}
+		</view>
+        <view bind:tap="onJsEvent" class="phone-item border-1px-l" data-event-type="jsPhone" data-phoneNumber="{{order.accept_mobile}}">
+            <image mode="widthFix" src="/static/img/customer.png"></image>{{order.accept_mobile}}
+		</view>
+    </view>
+    <view class="tip">货品信息</view>
+    <view class="goods-info">
+        <view class="title">
+            <view class="title-content border-1px-b flex">
+                <view>{{order.delivery_time}}</view>
+            </view>
+        </view>
+        <view class="remark" wx:if="{{order.note}}">
+            <view class="name">备注：</view>
+            <view class="content">{{order.note}}</view>
+        </view>
+    </view>
+    <view class="order-extra">
+        <view class="extra-item flex">
+            <view class="left">物品名称</view>
+            <view class="right">{{order.goods_name}}</view>
+        </view>
+        <view class="extra-item flex">
+            <view class="left">物品预期价格</view>
+            <view class="right">{{order.goods_price}}</view>
+        </view>
+        <view class="extra-item flex">
+            <view class="left">物品重量</view>
+            <view class="right">{{order.goods_weight}}公斤</view>
+        </view>
+        <block wx:if="{{order.data.order.partData}}" wx:for="{{order.data.order.partData}}">
+            <view class="extra-item flex" wx:if="{{item.type!='multipleChoices'}}">
+                <view class="left">{{item.title}}</view>
+                <view class="right">{{item.value}}</view>
+            </view>
+            <view class="extra-item flex" wx:else>
+                <view class="left">{{item.title}}</view>
+                <view class="right">
+                    <block wx:for="{{item.value}}" wx:for-item="value_child">
+						{{' '+value_child}}
+					</block>
+                </view>
+            </view>
+        </block>
+    </view>
+    <block wx:if="{{order.thumbs}}">
+        <view class="tip">顾客上传的图片</view>
+        <view class="imgs">
+            <view class="img-item" wx:for="{{order.thumbs}}">
+                <image bind:tap="onJsEvent" data-event-type="jsPreviewImage" data-preview="{{item}}" src="{{item}}"></image>
+            </view>
+        </view>
+    </block>
+    <block wx:if="{{order.data.order.extra_fee}}">
+        <view class="tip">附加服务</view>
+        <view class="order-info">
+            <view class="order-info-item flex" wx:for="{{order.data.order.extra_fee}}">
+                <view>{{item.title}}</view>
+                <view>
+                    <block wx:for="{{item.value}}" wx:for-item="childItem">
+							{{' '+childItem.name}}
+						</block>
+                </view>
+            </view>
+        </view>
+    </block>
+    <view class="tip">订单信息</view>
+    <view class="order-info">
+        <view class="order-info-item flex">
+            <view>订单号</view>
+            <view>{{order.order_sn}}</view>
+        </view>
+        <view class="order-info-item flex">
+            <view>下单时间</view>
+            <view>{{order.addtime_cn}}</view>
+        </view>
+        <view class="order-info-item flex">
+            <view>付款方式</view>
+            <view>{{order.pay_type_cn}}</view>
+        </view>
+    </view>
+    <view class="tip">订单收入</view>
+    <view class="order-info">
+        <view class="order-info-item flex">
+            <view>配送费</view>
+            <view>¥{{order.deliveryer_fee}}</view>
+        </view>
+        <view class="order-info-item flex" wx:if="{{order.delivery_tips>0}}">
+            <view>小费</view>
+            <view>¥{{order.delivery_tips}}</view>
+        </view>
+        <view class="order-info-item flex">
+            <view>本单收入</view>
+            <view>¥{{order.deliveryer_total_fee}}</view>
+        </view>
+    </view>
+    <view class="btn-groups">
+        <block wx:if="{{order.transfer_deliveryer_id==deliveryer.id&&order.transfer_delivery_status==1}}">
+            <view bind:tap="onChangeOrderStatus" class="btn-container" data-confirm="确定拒绝转单吗" data-id="{{order.id}}" data-reply="refuse" data-type="direct_transfer_reply">
+                <view class="btn-item danger">拒绝转单</view>
+            </view>
+            <view bind:tap="onChangeOrderStatus" class="btn-container" data-confirm="确定接受转单吗" data-id="{{order.id}}" data-reply="agree" data-type="direct_transfer_reply">
+                <view class="btn-item primary">接受转单</view>
+            </view>
+        </block>
+        <block wx:elif="{{deliveryer.id==order.deliveryer_id}}">
+            <view bind:tap="onChangeOrderStatus" class="btn-container" data-confirm="确认送达吗" data-id="{{order.id}}" data-type="delivery_success" wx:if="{{order.delivery_status==3}}">
+                <view class="btn-item primary">确认送达</view>
+            </view>
+            <view bind:tap="onChangeOrderStatus" class="btn-container" data-confirm="确认取货吗" data-id="{{order.id}}" data-type="delivery_instore" wx:if="{{order.delivery_status==2}}">
+                <view class="btn-item primary">确认取货</view>
+            </view>
+            <view bind:tap="onChangeOrderStatus" class="btn-container" data-id="{{order.id}}" data-status="{{order.delivery_status}}" data-type="delivery_transfer" wx:if="{{order.deliveryer_transfer_status}}">
+                <view class="btn-item primary">申请转单</view>
+            </view>
+            <view bind:tap="onChangeOrderStatus" class="btn-container" data-id="{{order.id}}" data-status="{{order.delivery_status}}" data-type="direct_transfer" wx:if="{{order.deliveryer_transfer_status}}">
+                <view class="btn-item danger">定向转单</view>
+            </view>
+            <view bind:tap="onChangeOrderStatus" class="btn-container" data-id="{{order.id}}" data-status="{{order.delivery_status}}" data-type="cancel" wx:if="{{order.deliveryer_cancel_status}}">
+                <view class="btn-item danger">取消订单</view>
+            </view>
+        </block>
+    </view>
+    <modal bindcancel="onCodecancel" bindconfirm="onCodeConfirm" cancelText="取消" confirmText="提交" hidden="{{codeModalHide}}" title="请输入收货码">
+        <input bindinput="onInput" placeholder="请输入收货码" type="text"></input>
+    </modal>
+</view>
+<include src="../public/footer.wxml"></include>

@@ -1,0 +1,466 @@
+{itemplate 'public/header'}
+{if $op == 'list'}
+<form action="./index.php" class="form-horizontal form-filter">
+	{php echo tpl_form_filter_hidden('iservice/service/list');}
+	<input type="hidden" name="ta" value="list"/>
+	<div class="form-group form-inline">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">筛选</label>
+		<div class="col-sm-9 col-xs-12">
+			<select class="form-control" id="cid" name="cid" style="width: 200px;">
+				<option value="0">服务分类</option>
+				{loop $categorys $val}
+				<option value="{$val['id']}" {if $val['id'] == $_GPC['cid']}selected{/if}>{$val['title']}</option>
+				{/loop}
+			</select>
+			<input class="form-control" name="keyword" id="" type="text" value="{$_GPC['keyword']}" placeholder="服务名称或ID">
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">排序</label>
+		<div class="col-sm-9 col-xs-12">
+			<div class="btn-group">
+				<a class="btn {if $order_by_type == 'displayorder'}btn-primary{else}btn-default{/if}" href="{php echo iurl('iservice/service/list', array('order_by_type' => 'displayorder'))}">排序</a>
+				<a class="btn {if $order_by_type == 'sailed'}btn-primary{else}btn-default{/if}" href="{php echo iurl('iservice/service/list', array('order_by_type' => 'sailed'))}">销量</a>
+				<a class="btn {if $order_by_type == 'total'}btn-primary{else}btn-default{/if}" href="{php echo iurl('iservice/service/list', array('order_by_type' => 'total'))}">库存</a>
+			</div>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+		<div class="col-sm-9 col-xs-12">
+			<button class="btn btn-primary">筛选</button>
+		</div>
+	</div>
+</form>
+
+<form action="" class="form-table form form-validate" method="post">
+	<div class="panel panel-table">
+		<div class="panel-heading">
+			<a href="{php echo iurl('iservice/service/post');}" class="btn btn-primary btn-sm">添加服务</a>
+		</div>
+		<div class="panel-body table-responsive js-table">
+			{if empty($service)}
+			<div class="no-result">
+				<p>还没有相关数据</p>
+			</div>
+			{else}
+			<table class="table table-hover">
+				<thead>
+				<tr>
+					<th>
+						<div class="checkbox checkbox-inline">
+							<input type="checkbox" name="id[]"/>
+							<label></label>
+						</div>
+					</th>
+					<th>id</th>
+					<th>缩略图</th>
+					<th>服务名称</th>
+					<th>所属分类</th>
+					<th>价格</th>
+					<th>已售出</th>
+					<th>库存</th>
+					<th>排序</th>
+					<th>是否上架</th>
+					<th class="text-right">操作</th>
+				</tr>
+				</thead>
+				{loop $service $service}
+				<tr>
+					<td>
+						<div class="checkbox checkbox-inline">
+							<input type="checkbox" name="id[]" value="{$service['id']}"/>
+							<label></label>
+						</div>
+					</td>
+					<input type="hidden" name="ids[]" value="{$service['id']}">
+					<td>
+						<strong>{$service['id']}</strong>
+					</td>
+					<td><img src="{php echo tomedia($service['thumb']);}" width="48"></td>
+					<td>
+						<input type="text" name="titles[]" class="form-control width-100" value="{$service['title']}">
+					</td>
+					<td>
+						{$categorys[$service['cid']]['title']}
+					</td>
+					<td>
+						<input type="text" name="prices[]" class="form-control width-100" value="{$service['price']}">
+					</td>
+					<td>
+						<input type="text" name="sailed[]" class="form-control width-100" value="{$service['sailed']}">
+					</td>
+					<td>
+						<input type="text" name="totals[]" class="form-control width-100" value="{$service['total']}">
+					</td>
+					<td>
+						<input type="text" name="displayorders[]" class="form-control width-100" value="{$service['displayorder']}">
+					</td>
+					<td>
+						<input type="checkbox" class="js-checkbox" data-href="{php echo iurl('iservice/service/status', array('id' => $service['id']));}" data-name="status" value="{$service['status']}" {if $service['status'] == 1}checked{/if}>
+					</td>
+					<td class="text-right">
+						<a href="{php echo iurl('iservice/service/post', array('id' => $service['id']))}" class="btn btn-default btn-sm" title="编辑" data-toggle="tooltip" data-placement="top" >编辑</a>
+						<a href="{php echo iurl('iservice/service/del', array('id' => $service['id']))}" class="btn btn-default btn-sm js-post" data-confirm="确定删除该服务?"> 删除</a>
+					</td>
+				</tr>
+				{/loop}
+			</table>
+			<div class="btn-region clearfix">
+				<div class="pull-left">
+					<input name="token" type="hidden" value="{$_W['token']}" />
+					<input type="submit" class="btn btn-primary btn-sm" name="submit" value="提交修改" />
+				</div>
+				<div class="pull-right">
+					{$pager}
+				</div>
+			</div>
+			{/if}
+		</div>
+	</div>
+</form>
+{/if}
+{if $op == 'post'}
+<style>
+	#tags{padding-bottom: 10px;}
+	#tags .fa-times{position: absolute;top:-6px;right:-6px;z-index:99;padding: 2px 3px;border-radius:100%;background: #ff2d4b;color: #fff;}
+	#tags .form-group{margin-bottom: 0px;padding-bottom: 0px;}
+</style>
+<div class="page clearfix">
+	<h2>编辑服务</h2>
+	<form class="form-horizontal form form-validate" id="form1" action="" method="post" enctype="multipart/form-data">
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">服务名称</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="text" class="form-control" name="title" value="{$service['title']}" required="true">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">服务咨询电话</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="text" class="form-control" name="mobile" value="{$service['mobile']}" required="true">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">服务商</label>
+			<div class="col-sm-9 col-xs-12">
+				<select class="form-control tpl-category-parent" name="pid">
+					<option value="0">所属服务商</option>
+					{loop $providers $provider}
+					<option value="{$provider['id']}" {if $service['pid'] == $provider['id']}selected{/if}>{$provider['title']}</option>
+					{/loop}
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">服务分类</label>
+			<div class="col-sm-9 col-xs-12">
+				<select class="form-control tpl-category-parent" name="cid">
+					<option value="0">所属分类</option>
+					{loop $categorys $val}
+					<option value="{$val['id']}" {if $service['cid'] == $val['id']}selected{/if}>{$val['title']}</option>
+					{/loop}
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">服务缩略图</label>
+			<div class="col-sm-9 col-xs-12">
+				{php echo tpl_form_field_image('thumb', $service['thumb']);}
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">服务幻灯片</label>
+			<div class="col-sm-9 col-xs-12">
+				{php echo tpl_form_field_multi_image('thumbs', $service['thumbs']);}
+				<div class="help-block">推荐大小: 640*230, 最多不能超过4张图片</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">服务价格</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="input-group">
+					<div class="input-group-addon">服务现价</div>
+					<input type="text" class="form-control" name="price" value="{$service['price']}">
+					<div class="input-group-addon">服务原价</div>
+					<input type="text" class="form-control" name="old_price" value="{$service['old_price']}">
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span class="require"> 启用规格</span></label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="checkbox checkbox-inline">
+					<input type="checkbox" name="is_options" id="is-options-1" value="1" {if $service['is_options'] == 1}checked{/if} onclick="$('#options').toggle();">
+					<label for="is-options-1">启用</label>
+				</div>
+				<div id="options" {if $service['is_options']}style="display:block"{/if}>
+					<div class="tpl">
+						{if !empty($service['options'])}
+							{loop $service['options'] $row}
+								<div class="input-group">
+									<span class="input-group-addon">规格名称</span>
+									<input type="hidden" name="options[id][]" value="{$row['id']}">
+									<input type="text" name="options[name][]" value="{$row['name']}" class="form-control" placeholder="规格名称">
+									<span class="input-group-addon">价格</span>
+									<input type="text" name="options[price][]" value="{$row['price']}" class="form-control" placeholder="价格">
+									<span class="input-group-addon">库存</span>
+									<input type="text" name="options[total][]" value="{$row['total']}" class="form-control" placeholder="库存">
+									<span class="input-group-addon">库存预警</span>
+									<input type="text" name="options[total_warning][]" value="{$row['total_warning']}" class="form-control" placeholder="库存预警">
+									<span class="input-group-addon">排序</span>
+									<input type="text" name="options[displayorder][]" value="{$row['displayorder']}" class="form-control" placeholder="排序">
+									<span class="input-group-addon"><a href="javascript:;" class="delOptions"><i class="fa fa-times"></i></a></span>
+								</div>
+							{/loop}
+						{else}
+							<div class="input-group">
+								<span class="input-group-addon">规格名称</span>
+								<input type="hidden" name="options[id][]" value="">
+								<input type="text" name="options[name][]" class="form-control" placeholder="规格名称">
+								<span class="input-group-addon">价格</span>
+								<input type="text" name="options[price][]" class="form-control" placeholder="价格">
+								<span class="input-group-addon">库存</span>
+								<input type="text" name="options[total][]" class="form-control" placeholder="库存" value="-1">
+								<span class="input-group-addon">库存预警</span>
+								<input type="text" name="options[total_warning][]" class="form-control" placeholder="库存预警" value="0">
+								<span class="input-group-addon">排序</span>
+								<input type="text" name="options[displayorder][]" class="form-control" placeholder="排序" value="0">
+								<span class="input-group-addon"><a href="javascript:;" class="delOptions"><i class="fa fa-times"></i></a></span>
+							</div>
+						{/if}
+					</div>
+					<a href="javascript:;" class="addOptions"><i class="fa fa-plus-circle"></i> 添加规格</a>
+					<span class="help-block">-1为库存无限制. 排序数字越大越靠前</span>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">服务属性</label>
+			<div class="col-sm-9 col-xs-12">
+				<div id="attrs-container">
+					{if !empty($service['attrs'])}
+						{loop $service['attrs'] $attr}
+							<div class="attr-item">
+								<div class="col-md-3">
+									<input type="text" name="attrs[name][]" class="form-control" value="{$attr['name']}" placeholder="列如:辣度">
+								</div>
+								<div class="col-md-8">
+									<input type="text" name="attrs[label][]" class="form-control" value="{$attr['label']}" placeholder="列如:微辣">
+								</div>
+								<div class="col-md-1">
+									<span class="attrs-delete"><i class="fa fa-remove"></i></span>
+								</div>
+							</div>
+						{/loop}
+					{/if}
+				</div>
+				<a class="btn btn-primary btn-sm add-attr" href="javascript:;">添加商品属性</a>
+				<span class="help-block">列如：属性名称可以设为辣度，属性标签可以设为微辣，中辣等。输入多个属性标签时用英文状态的逗号隔开。</span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">服务标签</label>
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<div id="tags">
+					<div class="form-group tags-item">
+						{if !empty($service['label'])}
+						{loop $service['label'] $val}
+						<div class="col-sm-9 col-xs-4 col-md-3">
+							<div class="input-group">
+								<a href="javascript: ;" onclick="$(this).parent().parent().remove()"><i class="fa fa-times"></i></a>
+								<input type="text" name="label[]" class="form-control" placeholder="请不要超过四个字" value="{$val}">
+							</div>
+						</div>
+						{/loop}
+						{/if}
+					</div>
+				</div>
+				<a href="javascript:;" id="tags-add"><i class="fa fa-plus-circle"></i> 添加服务标签</a>
+				<div class="help-block">服务标签最多可添加四个</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">总库存</label>
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<input type="text" class="form-control" name="total" value="{$service['total']}" required="true" number="true">
+				<div class="help-block">-1为库存无限制。<span>注意:启用库存后,这里的总库存将失效，库存以规格的库存为准</span></div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">库存预警</label>
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<input type="text" class="form-control" name="total_warning" value="{$service['total_warning']}" number="true">
+				<div class="help-block">当库存小于等于库存预警数量的时候,会给店员发送微信模板消息提醒,0为无库存预警限制</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">库存更新方式</label>
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<div class="radio radio-inline">
+					<input type="radio" name="total_update_type" id="total-update-type-1" value="1" {if !$service['total_update_type'] || $service['total_update_type'] == 1}checked{/if}>
+					<label for="total-update-type-1">拍下减库存</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" name="total_update_type" id="total-update-type-2" value="2" {if $service['total_update_type'] == 2}checked{/if}>
+					<label for="total-update-type-2">付款减库存</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio"  name="total_update_type" id="total-update-type-3" value="3" {if $service['total_update_type'] == 3}checked{/if}>
+					<label for="total-update-type-3">永不减库存</label>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">已卖出</label>
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<input type="text" class="form-control" name="sailed" value="{$service['sailed']}">
+				<div class="help-block">已卖出的份数默认会根据订单自动更新。您也可以手动设置</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">简单描述</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="text" class="form-control" name="content" value="{$service['content']}">
+				<div class="help-block">该信息显示在商品列表页面, 字数控制在30个以内</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">排序</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="text" class="form-control" name="displayorder" value="{$service['displayorder']}">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">设置为热销</label>
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<div class="radio radio-inline">
+					<input type="radio" name="is_hot" id="is-hot-1" value="1" {if $service['is_hot'] == 1}checked{/if}>
+					<label for="is-hot-1">设置</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" name="is_hot" id="is-hot-0" value="0" {if $service['is_hot'] == 0 || !$service['is_hot']}checked{/if}>
+					<label for="is-hot-0">不设置</label>
+				</div>
+				<div class="help-block">设为热销后,将在门店信息列表页显示</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">是否上架</label>
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<div class="radio radio-inline">
+					<input type="radio" name="status" id="status-1" value="1" {if $service['status'] == 1 || !$service['status']}checked{/if}>
+					<label for="status-1">上架</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" name="status" id="status-2" value="2" {if $service['status'] == 2}checked{/if}>
+					<label for="status-2">下架</label>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">服务详情</label>
+			<div class="col-sm-9 col-xs-12">
+				{php echo tpl_ueditor('description', $service['description']);}
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<input type="hidden" name="token" value="{$_W['token']}">
+				<input type="submit" value="提交" class="btn btn-primary">
+			</div>
+		</div>
+	</form>
+</div>
+<script type="text/javascript">
+	$(function() {
+		$('#form1').submit(function(){
+			var is_options = $(':checkbox[name="is_options"]').prop('checked');
+			if(is_options) {
+				var name_flag = price_flag = false;
+				$.each($(':text[name="options[name][]"]'), function(){
+					if(!$.trim($(this).val())) {
+						name_flag = true;
+					}
+					if(!$.trim($(this).next().next().val())) {
+						price_flag = true;
+					}
+				});
+				if(name_flag) {
+					Notify.info('存在没有设置名称的规格项');
+					$('form').attr('stop',1);
+					return false;
+				}
+				if(price_flag) {
+					Notify.info('存在没有设置价格的规格项');
+					$('form').attr('stop',1);
+					return false;
+				}
+			}
+			$('form').attr('stop',0);
+			return false;
+		});
+
+		$('.addOptions').click(function(){
+			var html = '<div class="input-group">'+
+				'<span class="input-group-addon">规格名称</span>'+
+				'<input type="hidden" name="options[id][]" value="">'+
+				'<input type="text" name="options[name][]" class="form-control" placeholder="规格名称">'+
+				'<span class="input-group-addon">价格</span>'+
+				'<input type="text" name="options[price][]" class="form-control" placeholder="价格">'+
+				'<span class="input-group-addon">库存</span>'+
+				'<input type="text" name="options[total][]" class="form-control" value="-1" placeholder="库存">'+
+				'<span class="input-group-addon">库存预警</span>'+
+				'<input type="text" name="options[total_warning][]" class="form-control" value="0" placeholder="库存预警">'+
+				'<span class="input-group-addon">排序</span>'+
+				'<input type="text" name="options[displayorder][]" class="form-control" value="0" placeholder="排序">'+
+				'<span class="input-group-addon"><a href="javascript:;" class="" onclick="$(this).parent().parent().remove();"><i class="fa fa-times"></i></a></span>'+
+				'</div>';
+			$('#options .tpl').append(html);
+		});
+
+		$('.delOptions').click(function(){
+			$(this).parent().parent().remove();
+		});
+
+		$(document).on('click', '.add-attr', function() {
+			var length = $('#attrs-container .attr-item').length;
+			if(length >= 10) {
+				Notify.info('最多可添加10个属性');
+				return false;
+			}
+			var html = '<div class="attr-item">'+
+				'		<div class="col-md-3">'+
+				'			<input type="text" name="attrs[name][]" class="form-control" placeholder="列如:辣度">'+
+				'		</div>'+
+				'		<div class="col-md-8">'+
+				'			<input type="text" name="attrs[label][]" class="form-control" placeholder="列如:微辣">'+
+				'		</div>'+
+				'		<div class="col-md-1">'+
+				'			<span class="attrs-delete"><i class="fa fa-remove"></i></span>'+
+				'		</div>'+
+				'	</div>';
+			$('#attrs-container').append(html);
+		});
+		$(document).on('click', '.attrs-delete', function() {
+			$(this).parent().parent().remove();
+		});
+	});
+	$('#tags-add').click(function(){
+		var tags_length = $('#tags .input-group').length;
+		if(tags_length < 4) {
+			var html =
+				'<div class="col-sm-9 col-xs-4 col-md-3">'+
+				'<div class="input-group">'+
+				'<a href="javascript: ;" onclick="$(this).parent().parent().remove()"><i class="fa fa-times"></i></a>'+
+				'<input type="text" name="label[]" class="form-control" placeholder="请不要超过四个字" value="">'+
+				'</div>'+
+				'</div>';
+			$('#tags .tags-item').append(html);
+		} else {
+			util.message('最多可添加4个服务标签', '', 'error');
+		}
+	});
+</script>
+{/if}
+{itemplate 'public/footer'}

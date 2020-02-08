@@ -1,0 +1,7 @@
+{
+    "enablePullDownRefresh": false,
+    "navigationBarTitleText": "首页",
+    "usingComponents": {
+        "slide": "/kundian_ordering/components/navbar/navbar"
+    }
+}

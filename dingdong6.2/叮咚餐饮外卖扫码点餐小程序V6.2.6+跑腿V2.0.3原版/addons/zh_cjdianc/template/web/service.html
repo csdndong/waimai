@@ -1,0 +1,198 @@
+{template 'public/header'}
+{template 'public/comhead'}
+<!-- <link rel="stylesheet" type="text/css" href="../addons/zh_tcwq/template/public/ygcsslist.css"> -->
+<link rel="stylesheet" type="text/css" href="../addons/zh_cjdianc/template/public/ygcss.css">
+<link rel="stylesheet" type="text/css" href="../addons/zh_cjdianc/template/public/ygcsslist.css">
+<style type="text/css">
+  .store_list_img{width: 40px;height: 40px;background-color: pink;}
+  .yg5_tabel{border: none;outline: none;}
+  .yg5_tr3>td{border-bottom: 1px solid #efefef;padding: 5px 0px;text-align: center;}
+  .yg5_tr4>td{border-bottom: 1px solid #efefef;padding: 5px 0px;text-align: center;background: #f2f2f2;}
+  .yg5_tr2>td{padding: 10px 0px;border-bottom: 1px solid #efefef;text-align: center;
+
+  }
+  .yg5_tr1{border-bottom: 1px solid #efefef;font-weight: bold;text-align: center;
+  }
+  .fenleilist1{height: 35px;line-height: 35px;}
+  .yg5_tr3>td:nth-child(1),.yg5_tr1>td:nth-child(1){width: 80px;text-align: center;}
+  .yg5_tr3>td:nth-child(2),.yg5_tr1>td:nth-child(2){width: 80px;}
+  .yg5_tr3>td:nth-child(3),.yg5_tr1>td:nth-child(3){width: 120px;}
+  .yg5_tr3>td:nth-child(4),.yg5_tr1>td:nth-child(4){width: auto;}
+  .yg5_tr3>td:nth-child(5),.yg5_tr1>td:nth-child(5){width: auto;}
+  .yg5_tr3>td:nth-child(6),.yg5_tr1>td:nth-child(6){width: 120px;}
+  .yg5_tr3>td:nth-child(7),.yg5_tr1>td:nth-child(7){width: auto;}
+  .yg5_tr3>td:nth-child(8),.yg5_tr1>td:nth-child(8){width: 100px;}
+  /*.yg5_tr3>td:nth-child(9),.yg5_tr1>td:nth-child(9){width: auto;}*/
+  .yg5_tr3>td:nth-child(4){padding-left: 30px;}
+  .yg5_tr3:hover{background-color: #EDF6FF;}
+  .yg5_tr2:hover{background-color: #EDF6FF;}
+  .fxiala{font-size: 16px;cursor: pointer;opacity: 0.5;display: inline-block;width: 50px;height: 20px;text-align: center;}
+  .fxiala:hover{color: #333;opacity: 1;}
+  .collapse{transition: all 0.5s;}
+  .ygsave{margin-top: 50px;}
+  .storespan2{font-size: 14px;color: white;margin: 5px;position: relative;background-color: #44abf7;}
+  .storespan2:hover{color: #fff;}
+  .storespan2:hover .bianji{display: block;}
+  .feileibqbox{position: relative;margin-right: 15px;display: inline-block;padding: 5px;}
+  .feileibq2{position: absolute;top: -5px;right: -5px;cursor: pointer;}
+  .feileibq2>img{width: 25px;height: 25px;}
+  .feileibqremark{width: 80px;height: 20px;}
+  .storegrey3{width: 120px;height: 35px;padding: 0px 10px;border-radius: 10px;text-align: center;outline: none;}
+  .xgsuccess{position: absolute;top: 17%;left: 0%;z-index: 1080;display: none;}
+</style>
+
+<ul class="nav nav-tabs">
+  <span class="ygxian"></span>
+  <div class="ygdangq">当前位置:</div>    
+  <li ><a href="{php echo $this->createWebUrl('service')}">送达时间</a></li>
+  <li class="active"><a href="{php echo $this->createWebUrl('addservice',array('op'=>'post'))}">添加送达时间</a></li>
+</ul>
+<div class="main">
+  <div class="panel panel-default ygbody">
+    <div class="panel-body">
+     温馨提示：该时间段设置只对商家配送有效.
+     <br>
+     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+     &nbsp;&nbsp;&nbsp;时间点输入按以下格式,如今日 09:50,次日 10:00...
+
+   </div>
+ </div>
+ <!-- 门店列表部分开始 -->
+ <div class="panel panel-default ygdefault">
+  <div class="panel-heading wyheader">
+    送达时间
+  </div>
+  <div class="panel-body" style="padding: 0px 15px;">
+    <div class="row">
+      <table class="yg5_tabel col-md-12">
+        <tr class="yg5_tr1">
+          <td class="fenleilist1">顺序</td>
+          <td>ID</td>
+          <td>时间</td>
+          <td>操作</td>
+          <td></td>
+        </tr>
+        {loop $list $row}
+        <tr class="yg5_tr2">
+          <td class="num{$row['id']}">
+            <span class="numspan{$row['id']}">{$row['num']}</span>
+            <input style="display: none;width: 100%;" type="number" name="num{$row['id']}" class="numinp{$row['id']}" value="{$row['num']}" />
+          </td>
+          <td>{$row['id']}</td>
+          <td>{$row['time']}</td>
+          <td>
+            <a href="{php echo $this->createWebUrl('addsonservice', array('pid' => $row['id']))}" class="storespan btn btn-xs">
+              <span class="fa fa-plus"></span>
+              <span class="bianji" style="left: -30px;">添加送达时间点
+                <span class="arrowdown"></span>
+              </span>                            
+            </a> 
+            <a href="{php echo $this->createWebUrl('addservice', array('id' => $row['id']))}" class="storespan btn btn-xs">
+              <span class="fa fa-pencil"></span>
+              <span class="bianji">编辑
+                <span class="arrowdown"></span>
+              </span>                            
+            </a>
+            <a href="javascript:void(0);" class="storespan btn btn-xs" data-toggle="modal" data-target="#myModal{$row['id']}">
+              <span class="fa fa-trash-o"></span>
+              <span class="bianji">删除
+                <span class="arrowdown"></span>
+              </span>
+            </a>
+          </td>
+          <td>
+            <a class="fxiala" data-toggle="collapse" data-parent="#accordion" href="#collapse{$row['id']}">
+              <span class="fa fa-chevron-down"></span>
+            </a>
+          </td>
+        </tr>
+        <div class="modal fade" id="myModal{$row['id']}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel" style="font-size: 20px;">提示</h4>
+              </div>
+              <div class="modal-body" style="font-size: 20px">
+                确定删除么？
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <a href="{php echo $this->createWebUrl('service', array('id' => $row['id'],'op'=>'delete'))}" type="button" class="btn btn-info" >确定</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <tbody id="collapse{$row['id']}" class="panel-collapse collapse">
+          {if empty($row['ej'])}
+          <tr class="yg5_tr4"><td colspan="8">暂无时间点信息</td></tr>
+          {else}
+          {loop $row['ej'] $son}
+          <tr class="yg5_tr3">
+            <td>{$son['num']}</td> 
+          
+            <td>{$son['id']}</td>                             
+            <td style="text-align: center;">----{$son['time']}</td>
+            <td>
+            <a href="{php echo $this->createWebUrl('addsonservice', array('id' => $son['id'],'pid'=> $son['pid']))}" class="storespan btn btn-xs">
+              <span class="fa fa-pencil"></span>
+              <span class="bianji">编辑
+                <span class="arrowdown"></span>
+              </span>                            
+            </a>
+            <a href="#myModal{$son['id']}" class="storespan btn btn-xs" data-toggle="modal" data-target="#myModal{$son['id']}">
+              <span class="fa fa-trash-o"></span>
+              <span class="bianji">删除
+                <span class="arrowdown"></span>
+              </span>
+            </a>
+            <div class="modal fade" id="myModal{$son['id']}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel" style="font-size: 20px;">提示</h4>
+                  </div>
+                  <div class="modal-body" style="font-size: 20px">确定删除吗？</div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <a href="{php echo $this->createWebUrl('service', array('id' => $son['id'],'op'=>'delete'))}" type="button" class="btn btn-info" >确定</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td></td>
+        </tr>
+        {/loop}
+        {/if}
+      </tbody>
+
+
+      {/loop}
+
+      {if empty($list)}
+      <tr class="yg5_tr2">
+        <td colspan="6">
+          暂无时间信息
+        </td>
+      </tr>
+      {/if}
+    </table>
+  </div>
+</div>
+</div>
+{$pager}
+</div>
+<script type="text/javascript">
+  $(function(){
+    $("#frame-0").show();
+    $("#yframe-0").addClass("wyactive");
+    $(".allcheck").on('click',function(){
+      var checked = $(this).get(0).checked;
+      $("input[type=checkbox]").prop("checked",checked);
+    });
+  })
+</script>
+{template 'common/footer'}

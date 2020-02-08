@@ -1,0 +1,223 @@
+ <{extends file="<{$tempdir}>/public/wxsite.html"}>  
+<{block name=extendcss}> 
+<link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/order.css">  
+<{/block}>
+ <{block name=extendjs}> 
+  <{if empty($order)}>
+  <script>
+$(function(){  
+       error($('#supplierlist'),'未获取到订单'); 
+});
+  </script>
+  <{/if}>
+<{/block}>
+<{block name=sitetitle}><{$sitename}><{/block}>
+<{block name=hearnav}>
+<div class="toptitCon">
+ <div class="toptitBox">
+  <div class="toptitL"><i></i></div>
+  <div class="toptitC"><h3>评价订单</h3></div>
+ </div>
+</div>
+<{/block}>
+ 
+<{block name=myScrolljs}>
+<script> 
+		var myScroll;
+function loaded() {
+	myScroll = new iScroll('wrapper', {
+		useTransform: false,
+		hScrollbar:false,
+		vScrollbar:false,
+		onBeforeScrollStart: function (e) {
+			var target = e.target;
+			while (target.nodeType != 1) target = target.parentNode;
+
+			if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA' && target.tagName != 'span')
+				e.preventDefault();
+		}
+	});
+}
+document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false); 
+document.addEventListener('DOMContentLoaded', function () { setTimeout(loaded, 200); }, false);
+</script>
+<{/block}>
+<{block name=blockcontent}> 
+   <div id="wrapper" style="top:40px;bottom:54px;">
+	<div id="scroller">
+	 
+   	<{if !empty($order)  }>
+	
+	
+	<{if $order['is_ping'] == 0}>
+   <form id="ordercomment"  >
+<!--评价-->
+
+ <{foreach from=$orderdet item=items}>
+<div class="ordisevaluCon">
+ <div class="ordisevaluBox">
+  <div class="ordisevalutit">
+   <ul>
+    <li><i></i></li>
+    <li><h3><{$items['goodsname']}></h3></li>
+   </ul>
+  </div>
+  <div class="ordisevalu">
+   <ul>
+    <li>描述相符</li>
+    <li class="startpoint startpoint_<{$items['id']}>" data="<{$items['id']}>"  >
+		<input type="hidden" value="0" name="goodsid_<{$items['id']}>" class="pointsnum_<{$items['id']}>  cintempty " />
+		<i data="1" class="fa fa-star"></i><i data="2" class="fa fa-star"></i><i data="3" class="fa fa-star"></i><i data="4" class="fa fa-star"></i><i data="5" class="fa fa-star"></i>
+	</li>
+   </ul>
+  </div>
+  
+  <textarea class="cintempty" id="content_<{$items['id']}>"  name="content_<{$items['id']}>"   placeholder="您的意见很重要！请点评一下吧"></textarea>
+ </div>
+</div>
+<{/foreach}>
+
+<div class="ordisevaluzh">
+ <div class="ordisevaluzhBox">
+  <ul>
+   <li>总体评价</li>
+   <li class="shoppoint">
+		<input type="hidden" value="0" name="shoppointnum" class="shoppointnum  " />
+		<i data="1" class="fa fa-star"></i><i data="2" class="fa fa-star"></i><i data="3" class="fa fa-star"></i><i data="4" class="fa fa-star"></i><i data="5" class="fa fa-star"></i>
+   </li>
+  </ul>
+  <ul>
+   <li>配送服务</li>
+   <li class="shopsudupoint">
+   		<input type="hidden" value="0" name="shopsudupointnum" class="shopsudupointnum  " /> 
+		<i data="1" class="fa fa-star"></i><i data="2" class="fa fa-star"></i><i data="3" class="fa fa-star"></i><i data="4" class="fa fa-star"></i><i data="5" class="fa fa-star"></i>
+   </li>
+  </ul>
+ </div>
+</div>
+<div class="intexchabutt"><input type="button" value="提交评价" class="intexbg1"></div>
+
+
+</form>
+
+<{else}>
+<{foreach from=$orderdet item=items}>
+<div class="ordisevaluCon" style="padding-bottom: 1px;">
+ <div class="ordisevaluBox">
+  <div class="ordisevalutit">
+   <ul>
+    <li><i></i></li>
+    <li><h3><{$items['goodsname']}></h3></li>
+   </ul>
+  </div>
+  <div class="ordisevalu">
+   <ul>
+    <li>描述相符</li>
+    <li class="startpoint" >
+	<{section name=loop loop=$comment[$items['id']]['point'] }><i  class="fa fa-star curstart"></i><{/section}><{section name=loop loop=5-$comment[$items['id']]['point'] }><i  class="fa fa-star"></i><{/section}>
+	</li>
+   </ul>
+  </div>
+  <{if !empty($comment[$items['id']]['content']) }>
+  <div class="commentdiv"  ><{$comment[$items['id']]['content']}></div>
+  <{/if}>
+ </div>
+</div>
+
+  <{/foreach}>
+
+<{/if}>
+
+
+   <{/if}>
+
+<!--------------------------------------------------------------------------评价结束-------------------------------------------------------------------------------------->
+<div style="height:20px;"></div>
+   
+   
+</div>
+  </div>
+<script>
+ $(function(){
+   
+	$('.intexbg1').bind('click',function(){
+		 showLoading();
+		var biaoqian = false;
+		$.each($('.cintempty'), function(i, newobj) {
+			 if ( $(newobj).val() != 0 && $(newobj).val() != ''  ){
+				biaoqian = true;
+			 }
+		});
+//		if( biaoqian == false ){
+//			Tmsg('请对商品进行评论');
+//		}else{
+		
+					var bigdatas =  $("#ordercomment").serialize() ;
+				  var shoptype = "<{$order['shoptype']}>";
+						var url = siteurl+'/index.php?ctrl=order&action=yijianping&'+bigdatas+'&datatype=json';
+						  $.ajax({ 
+					   dataType: "json",  
+					   url: url.replace('@random@', 1+Math.round(Math.random()*1000)),  
+					   data:{'orderid':<{$order['id']}>},
+					   success: function(content) {    
+						 if(content.error == false) 
+						{  
+							 newhideLoading();
+								Tmsg('评论成功！');
+						if(shoptype==100){
+                               window.location.href=  siteurl+'/index.php?ctrl=wxsite&action=paotuidetail&orderid=<{$order['id']}>' ;
+                           }else{
+                               window.location.href=  siteurl+'/index.php?ctrl=wxsite&action=ordershow&orderid=<{$order['id']}>' ;
+                           }
+ 
+						}else{ 
+								Tmsg(content.msg);
+							  newhideLoading();
+						}  
+						 
+						 }, 
+					   error: function(content) {  
+							Tmsg('提交数据失败');
+							 newhideLoading();
+						 }
+				   
+					 });
+		<!--}-->
+
+	});
+ 
+ });
+	$(".startpoint i").bind('click',function(){
+		var goodid = $(this).parent().attr('data');
+ 		var index = $(this).attr('data');
+ 		$('.startpoint_'+goodid).find('i').removeClass('curstart');
+		for(i=0;i<index;i++){			
+			$('.startpoint_'+goodid).find('i').eq(i).addClass('curstart');
+		}
+		var goodpoint = $('.startpoint_'+goodid).find('i.curstart').length;
+		$('.startpoint_'+goodid).find('.pointsnum_'+goodid).val(goodpoint);		
+	});
+
+ $(".shoppoint i").bind('click',function(){
+		var index = $(this).attr('data');
+ 		$('.shoppoint').find('i').removeClass('curstart');
+		for(i=0;i<index;i++){			
+			$('.shoppoint').find('i').eq(i).addClass('curstart');
+		}
+		var goodpoint = $('.shoppoint').find('i.curstart').length;
+		$('.shoppoint').find('.shoppointnum').val(goodpoint);		
+	});
+ $(".shopsudupoint i").bind('click',function(){
+		var index = $(this).attr('data');
+ 		$('.shopsudupoint').find('i').removeClass('curstart');
+		for(i=0;i<index;i++){			
+			$('.shopsudupoint').find('i').eq(i).addClass('curstart');
+		}
+		var goodpoint = $('.shopsudupoint').find('i.curstart').length;
+		$('.shopsudupoint').find('.shopsudupointnum').val(goodpoint);		
+	});
+
+	  
+</script>
+
+<{/block}>

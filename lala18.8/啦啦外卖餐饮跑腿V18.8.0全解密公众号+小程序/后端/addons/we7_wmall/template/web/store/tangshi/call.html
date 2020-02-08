@@ -1,0 +1,82 @@
+{itemplate 'public/header'}
+{if $ta == 'index'}
+<form action="./index.php" class="form-horizontal form-filter">
+	{php echo tpl_form_filter_hidden('store/tangshi/call');}
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">呼叫状态</label>
+		<div class="col-sm-9 col-xs-12">
+			<div class="btn-group">
+				<div class="btn-group">
+					<a href="{php echo ifilter_url('status:-1');}" class="btn {if $status == '-1'}btn-primary{else}btn-default{/if}">不限</a>
+					<a href="{php echo ifilter_url('status:0');}" class="btn {if $status == '0'}btn-primary{else}btn-default{/if}">未处理</a>
+					<a href="{php echo ifilter_url('status:1');}" class="btn {if $status == '1'}btn-primary{else}btn-default{/if}">已处理</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+
+<form action="" class="form-table" method="post">
+	<div class="panel panel-table">
+		<div class="panel-body table-responsive js-table">
+			{if !empty($data)}
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th width="40">
+								<div class="checkbox checkbox-inline">
+									<input type="checkbox" name="id[]" value=""/>
+									<label></label>
+								</div>
+							</th>
+							<th>桌台名称</th>
+							<th>状态</th>
+							<th>呼叫时间</th>
+							<th width="350" style="text-align:right">操作</th>
+						</tr>
+					</thead>
+					{loop $data $da}
+						<tr>
+							<td>
+								<div class="checkbox checkbox-inline">
+									<input type="checkbox" name="id[]" value="{$da['id']}"/>
+									<label></label>
+								</div>
+							</td>
+							<td>{$da['table_title']}</td>
+							<td>
+								{if $da['status'] == 1}
+									<span class="label label-success">已处理</span>
+								{else}
+									<span class="label label-warning">未处理</span>
+								{/if}
+							</td>
+							<td>{php echo date('Y-m-d H:i', $da['addtime']);}</td>
+							<td align="right">
+								{if $da['status'] == 0}
+									<a href="{php echo iurl('store/tangshi/call/status', array('id' => $da['id'], 'status' => 1));}" class="btn btn-sm btn-default js-post" data-confirm="确定设为已处理吗?">设为已处理</a>
+								{/if}
+								<a href="{php echo iurl('store/tangshi/call/del', array('id' => $da['id']))}" class="btn btn-default btn-sm js-remove" data-confirm="确定删除吗?">删除</a>
+							</td>
+						</tr>
+					{/loop}
+				</table>
+				<div class="btn-region clearfix">
+					<div class="pull-left">
+						<a href="{php echo iurl('store/tangshi/call/status', array('status' => 1));}" class="btn btn-sm btn-default js-batch" data-confirm="确定设为已处理吗?">设为已处理</a>
+						<a href="{php echo iurl('store/tangshi/call/del')}" class="btn btn-default btn-sm js-batch" data-batch="remove" data-confirm="确定删除吗?">批量删除</a>
+					</div>
+					<div class="pull-right">
+						{$pager}
+					</div>
+				</div>
+			{else}
+				<div class="no-result">
+					<p>还没有相关数据</p>
+				</div>
+			{/if}
+		</div>
+	</div>
+</form>
+{/if}
+{itemplate 'public/footer'}

@@ -1,0 +1,51 @@
+{itemplate 'public/header'}
+{if $op == 'auth'}
+<div class="page clearfix">
+	<h2>授权管理</h2>
+	<form class="form-horizontal form form-validate" id="form1" action="" method="post" enctype="multipart/form-data">
+         <div class="alert alert-info">
+			模块更新日志：<a href="http://wiki.duoxunwl.com/hc/kb/section/111955/" target="_blank">http://wiki.duoxunwl.com/hc/kb/section/111955/</a>
+		</div>
+	
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">离线版授权状态</label>
+			<div class="col-md-6">
+				<p class="form-control-static">
+
+					<span class="label label-success">永久授权{if MODULE_FAMILY == 'errander_deliveryerApp'}-全插件开源至尊版{/if}</span>
+
+				</p>
+
+			</div>
+
+		</div>
+
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">当前版本</label>
+			<div class="col-md-6">
+				<p class="form-control-static">
+					<span class="label label-info">
+						{MOD_VERSION}-{MOD_RELEASE_DATE}
+					</span>
+				</p>
+			</div>
+		</div>
+		</div>
+	</form>
+</div>
+{/if}
+
+{if $op == 'upgrade'}
+<div class="page clearfix">
+	<h2>系统更新</h2>
+	<form class="form-horizontal form" id="form1" action="" method="post" enctype="multipart/form-data">
+		<div class="alert alert-warning">
+			更新时请注意备份网站数据和相关数据库文件！官方不强制要求用户跟随官方意愿进行更新尝试！
+			<br>
+			<strong class="text-danger">
+				各位在更新前， 务必关闭安全狗， 云锁，防火墙等安全防护软件， 否则将更新不成功。因未关闭安全软件造成的更新失败， 官方不会针对每个客户单独处理。
+			</strong>
+		</div>
+</div>
+{/if}
+{itemplate 'public/footer'}

@@ -1,0 +1,77 @@
+{itemplate 'public/header'}
+{if $op == 'index'}
+<div class="page clearfix">
+	<h2>基础设置</h2>
+	<form class="form-horizontal form form-validate" id="form1" action="" method="post" enctype="multipart/form-data">
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span class="require">*</span>admin_id</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="text" name="admin_id" value="{$config['admin_id']}" class="form-control">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span class="require">*</span>wym_id</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="text" name="divpage_id" value="{$config['divpage_id']}" class="form-control">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">latitude（您乐外卖商家运营的城市纬度）</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="text" name="latitude" value="{$config['latitude']}" class="form-control">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">longitude（您乐外卖商家运营的城市经度）</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="text" name="longitude" value="{$config['longitude']}" class="form-control">
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<input type="hidden" name="token" value="{$_W['token']}">
+				<input type="submit" value="提交" class="btn btn-primary">
+			</div>
+		</div>
+	</form>
+</div>
+{elseif $op == 'post'}
+<div class="page">
+	<form class="form-horizontal form form-validate" id="form1" action="" method="post" enctype="multipart/form-data">
+		<div class="form-group">
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<a href="{php echo iurl('lewaimai/batch/batch')}" class="btn-primary btn">开始采集</a>
+			</div>
+		</div>
+		<div class="alert alert-info">
+			点击开始采集按钮,即可开始导入
+		</div>
+	</form>
+</div>
+{elseif $op == 'again'}
+<div class="page">
+	<form class="form-horizontal form form-validate" id="form1" action="" method="post" enctype="multipart/form-data">
+		<div class="form-group">
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<a href="javascript:;" class="btn-primary btn" id="again">重新采集</a>
+			</div>
+		</div>
+		<div class="alert alert-info">
+			点击重新采集按钮,即可开始导入
+		</div>
+	</form>
+</div>
+<script>
+$(function(){
+	$('#again').click(function(){
+		Notify.confirm('点击重新采集将会<span class="text-danger">清空所有商家分类、商家、商品分类以及商品</span>,请谨慎操作,确定要重新采集么?', function(){
+			Notify.confirm('点击重新采集将会<span class="text-danger">清空所有商家分类、商家、商品分类以及商品</span>,请谨慎操作,确定要重新采集么?', function(){
+				var url = "{php echo iurl('lewaimai/config/afresh')}";
+				location.href = url;
+			});
+		});
+	});
+});
+</script>
+{/if}
+{itemplate 'public/footer'}

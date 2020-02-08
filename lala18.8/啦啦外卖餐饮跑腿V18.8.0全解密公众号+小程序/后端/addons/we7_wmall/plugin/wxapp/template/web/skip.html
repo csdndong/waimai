@@ -1,0 +1,77 @@
+{itemplate 'public/header'}
+<div class="page clearfix">
+	<form class="form-horizontal form form-validate" id="form1" action="" method="post" enctype="multipart/form-data" style="max-width: 950px;">
+		<h3>跳转小程序设置</h3>
+		<div class="form-group" id="peerpay-container">
+			<div class="col-sm-2 control-label">跳转小程序</div>
+			<div class="col-sm-9">
+				<div class="help-items">
+					{if !empty($wxapp_skip)}
+					{loop $wxapp_skip $item}
+					<div class="input-group help-item" style="margin-bottom: 10px;">
+						<div class="input-group-addon">小程序名称</div>
+						<input class="form-control" type="text" value="{$item['title']}" name="wxapp_skip[title][]">
+						<div class="input-group-addon">小程序AppID</div>
+						<input class="form-control" type="text" value="{$item['appid']}" name="wxapp_skip[appid][]">
+						<div class="input-group-btn del-item">
+							<a class="btn btn-danger" href="javascript:;">
+								<i class="fa fa-remove"></i>
+							</a>
+						</div>
+					</div>
+					{/loop}
+					{else}
+					<div class="input-group help-item" style="margin-bottom: 10px;">
+						<div class="input-group-addon">小程序名称</div>
+						<input class="form-control" type="text" value="" name="wxapp_skip[title][]">
+						<div class="input-group-addon">小程序AppID</div>
+						<input class="form-control" type="text" value="" name="wxapp_skip[appid][]">
+						<div class="input-group-btn del-item">
+							<a class="btn btn-danger" href="javascript:;">
+								<i class="fa fa-remove"></i>
+							</a>
+						</div>
+					</div>
+					{/if}
+				</div>
+				<div class="help-block">如果你的小程序里要实现跳转到其他的小程序,例如：某个链接要跳转到B小程序，你需要在这里把B小程序的名称和appid填写上。最多可支持跳转10个小程序。<a href="https://developers.weixin.qq.com/community/develop/doc/0000ac39168d50641477b725c51c01" target="_blank">关于小程序跳转小程序的说明</a></div>
+				<div style="margin-top: 5px;">
+					<a href="javascript:;" class="btn btn-default add-help-words"><i class="fa fa-plus"></i> 增加跳转小程序</a>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<input type="hidden" name="token" value="{$_W['token']}">
+				<input type="submit" value="提交" class="btn btn-primary">
+			</div>
+		</div>
+	</form>
+</div>
+<script>
+$(function (){
+	$(document).on('click', '.add-help-words', function() {
+		var length = $('#peerpay-container .help-item').length;
+		if(length >= 10) {
+			Notify.info('最多可添加10个跳转链接');
+			return false;
+		}
+		var html = '<div class="input-group help-item" style="margin-bottom: 10px;">'+
+			'		<div class="input-group-addon">小程序名称</div>'+
+			'		<input class="form-control" type="text" name="wxapp_skip[title][]">'+
+			'		<div class="input-group-addon">小程序AppID</div>'+
+			'		<input class="form-control" type="text" name="wxapp_skip[appid][]">'+
+			'		<div class="input-group-btn del-item">'+
+			'			<a class="btn btn-danger" href="javascript:;">'+
+			'				<i class="fa fa-remove"></i>'+
+			'			</a>'+
+			'		</div>'+
+			'	</div>';
+		$('#peerpay-container .help-items').append(html);
+	});
+	$(document).on('click', '.del-item', function() {
+		$(this).parents('.input-group').remove();
+	});
+});
+</script>
+{itemplate 'public/footer'}

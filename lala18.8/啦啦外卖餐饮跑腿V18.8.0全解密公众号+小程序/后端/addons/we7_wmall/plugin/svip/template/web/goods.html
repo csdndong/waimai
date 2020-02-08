@@ -1,0 +1,80 @@
+{itemplate 'public/header'}
+{if $op == 'list'}
+<form action="./index.php?" class="form-horizontal form-filter">
+	{php echo tpl_form_filter_hidden('svip/goods/list');}
+	<input type="hidden" name="sid" value="{$sid}"/>
+	<input type="hidden" name="status" value="{$status}"/>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">状态</label>
+		<div class="col-sm-9 col-xs-12">
+			<div class="btn-group">
+				<a href="{php echo ifilter_url('status:-1');}" class="btn {if $status == -1}btn-primary{else}btn-default{/if}">不限</a>
+				<a href="{php echo ifilter_url('status:1');}" class="btn {if $status == 1}btn-primary{else}btn-default{/if}">上架中</a>
+				<a href="{php echo ifilter_url('status:0');}" class="btn {if $status == 0}btn-primary{else}btn-default{/if}">下架中</a>
+			</div>
+		</div>
+	</div>
+	<div class="form-group form-inline">
+		<label class="col-xs-12 col-sm-2 col-md-1 control-label">其他</label>
+		<div class="col-sm-7 col-lg-8 col-xs-12">
+			<select name="sid" class="form-control select2 js-select2 width-130" id="select-sid">
+				<option value="0" {if $sid == 0}selected{/if}>所属门店</option>
+				{loop $stores $store}
+					<option value="{$store['id']}" {if $store['id'] == $sid}selected{/if}>{$store['title']}</option>
+				{/loop}
+			</select>
+			<input type="text" name="keyword" value="{$_GPC['keyword']}" class="form-control" placeholder="商品名称">
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+		<div class="col-sm-9 col-xs-12">
+			<button class="btn btn-primary">筛选</button>
+		</div>
+	</div>
+</form>
+<form action="" class="form-table form" method="post">
+	<div class="panel panel-table">
+		<div class="panel-body table-responsive js-table">
+			{if empty($goods)}
+				<div class="no-result">
+					<p>还没有相关数据</p>
+				</div>
+			{else}
+				<table class="table table-hover">
+					<thead class="navbar-inner">
+					<tr>
+						<th>缩略图</th>
+						<th>名称</th>
+						<th>所属门店</th>
+						<th>会员价</th>
+						<th>外卖现价</th>
+						<th>状态</th>
+					</tr>
+					</thead>
+					<tbody>
+					{loop $goods $good}
+						<tr>
+							<td><img src="{$good['thumb']}" alt="" width="50"/></td>
+							<td>{$good['title']}</td>
+							<td>{$good['store_title']}</td>
+							<td>{$good['svip_price']}元</td>
+							<td>{$good['price']}元</td>
+							<td>
+								{if $good['status'] == 1}
+									<span class="label label-success">上架中</span>
+								{else}
+									<span class="label label-warning">下架中</span>
+								{/if}
+							</td>
+						</tr>
+					{/loop}
+					</tbody>
+				</table>
+				{$pager}
+			{/if}
+		</div>
+	</div>
+</form>
+{/if}
+{itemplate 'public/footer'}

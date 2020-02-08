@@ -1,0 +1,108 @@
+{template 'public/header'}
+{template 'public/comhead'}
+<link rel="stylesheet" type="text/css" href="../addons/zh_cjdianc/template/public/ygcsslist.css">
+<style type="text/css">
+  .store_td1{height: 45px;}
+  .yg5_tabel{border-color: #e5e5e5;outline: 1px solid #e5e5e5;}
+    .yg5_tr2>td{padding: 10px 20px;border: 1px solid #e5e5e5;text-align: center;}
+    .yg5_tr1>th{
+        border: 1px solid #e5e5e5;
+        padding-left: 15px;
+        background-color: #FAFAFA;
+        font-weight: bold;
+        text-align: center;
+    }
+</style>
+<ul class="nav nav-tabs">
+    <span class="ygxian"></span>
+    <div class="ygdangq">当前位置:</div> 
+    <li ><a href="{php echo $this->createWebUrl2('dldishes2');}">返回菜品列表</a></li>   
+    <li class="active"><a href="{php echo $this->createWebUrl2('dlspec',array('dishes_id'=>$_GPC['dishes_id']))}">规格管理</a></li>
+    <li><a href="{php echo $this->createWebUrl2('dladdspec',array('dishes_id'=>$_GPC['dishes_id']))}">添加/编辑规格</a></li>
+</ul>
+<div class="main"> 
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            分类列表
+        </div>
+        <div class="panel-body" style="padding: 0px 15px;">
+            <div class="row">              
+                <table class="yg5_tabel col-md-12">
+                    <tr class="yg5_tr1">
+                        <th class="store_td1">规格名称</th>
+                        <th>价格</th>
+                        <th>查看</th>
+                        <th>操作</th>
+                    </tr>
+                     {loop $list $key $item}
+              <tr class="yg5_tr2">
+                <td>
+                {$item['name']}
+                </td>
+               
+                <td>
+                {$item['cost']}
+                </td>
+             
+                <td>
+                  <!-- <a class="btn btn-warning btn-sm" href="{php echo $this->createWebUrl2('dladdspec',array('id'=>$item['id'],'dishes_id'=>$_GPC['dishes_id']));}">编辑</a> -->
+                  <a href="{php echo $this->createWebUrl2('dladdspec',array('id'=>$item['id'],'dishes_id'=>$_GPC['dishes_id']));}" class="storespan btn btn-xs">
+                      <span class="fa fa-pencil"></span>
+                      <span class="bianji">编辑
+                          <span class="arrowdown"></span>
+                      </span>                                
+                  </a>
+                  
+                </td>
+                <td>
+                  <a href="javascript:void(0);" class="storespan btn btn-xs" data-toggle="modal" data-target="#myModal{$item['id']}">
+                      <span class="fa fa-trash-o"></span>
+                      <span class="bianji">删除
+                          <span class="arrowdown"></span>
+                      </span>
+                  </a>
+                  <!-- <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#myModal{$item['id']}">删</button> -->
+                </td>
+               <!--  <td> {$pager}</td> -->
+              </tr>
+               <div class="modal fade" id="myModal{$item['id']}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel" style="font-size: 20px;">提示</h4>
+                        </div>
+                        <div class="modal-body" style="font-size: 20px">
+                            确定删除么？
+                        </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                            <a href="{php echo $this->createWebUrl2('dlspec', array('id'=>$item['id'],'dishes_id'=>$_GPC['dishes_id']));}" type="button" class="btn btn-info" >确定</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+               {/loop}
+              
+              {if empty($list)}
+             <tr>
+                <td class="yg5_tr2" colspan="4">
+                  尚未添加规格
+                </td>
+              </tr>
+             
+              {/if}
+          </table>
+        </div>
+      </div>
+    </div>
+  
+</div>
+<script type="text/javascript">
+    $(function(){
+        // $("#frame-14").addClass("in");
+        $("#frame-2").show();
+        $("#yframe-2").addClass("wyactive");
+    })
+</script>
+{template 'common/footer'}

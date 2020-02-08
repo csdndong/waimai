@@ -1,0 +1,181 @@
+page {
+    font-size: 14px;
+    box-sizing: border-box;
+    width: 100%;
+    background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    color: transparent;
+}
+
+.buttons-tab {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 45px;
+    display: flex;
+    flex-wrap: nowrap;
+    align-self: center;
+    z-index: 100;
+    background-color: #fff;
+}
+
+.buttons-tab .tabs {
+    width: 100%;
+    height: 43px;
+    font-size: 15px;
+    line-height: 43px;
+    padding: 0 10px;
+    text-align: center;
+    text-decoration: none;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+}
+
+.buttons-tab .tabs.active {
+    color: #33aafc;
+    border-color: #33aafc;
+}
+
+.content {
+    padding-top: 45px;
+}
+
+.content .card {
+    position: relative;
+    margin: 10px;
+    font-size: 14px;
+    background: #fff;
+    border-radius: 2px;
+    box-shadow: 0 1px 2px rgba(0,0,0,.3);
+}
+
+.content .card .card-header {
+    position: relative;
+    display: flex;
+    min-height: 24px;
+    padding: 10px 15px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.content .card .card-header .activity-title {
+    max-width: 60%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 16px;
+    color: #3d4145;
+}
+
+.content .card .card-header .pull-right {
+    color: #B2B2B2;
+    max-width: 45%;
+    font-size: 16px;
+}
+
+.content .card .card-header .pull-right text {
+    font-style: normal;
+    font-size: 16px;
+    margin-left: 6px;
+    color: #33aafc;
+}
+
+.content .card .card-content {
+    position: relative;
+}
+
+.content .card .card-content .card-content-inner {
+    position: relative;
+    padding: 15px;
+}
+
+.content .card .card-content .card-content-inner .row {
+    padding-bottom: 6px;
+}
+
+.content .card .card-content .card-content-inner .col-33 .col-title {
+    text-align: center;
+    color: #C5C5C5;
+}
+
+.content .card .card-content .card-content-inner .col-33 .col-item {
+    font-size: 14px;
+    text-align: center;
+}
+
+.content .card .card-content .card-content-inner .col-33 .col-item i {
+    font-size: 20px;
+    font-style: normal;
+    margin: 0 2px;
+}
+
+.content .card .card-content .card-content-inner .col-33 .col-item.text-red {
+    color: #ff2b4b;
+}
+
+.content .card .card-content .card-content-inner .discription {
+    margin-top: 8px;
+}
+
+.content .card .card-content .card-content-inner .discription .one-list {
+    padding: 6px 0;
+}
+
+.content .card .card-content .card-content-inner .discription .one-list .left {
+    display: inline-block;
+    width: 25%;
+    float: left;
+    text-align: center;
+    color: #C5C5C5;
+}
+
+.content .card .card-content .card-content-inner .discription .one-list .right {
+    display: inline-block;
+    max-width: 74%;
+    float: left;
+}
+
+.content .card .card-footer {
+    color: #5f646e;
+    border-radius: 0 0 2px 2px;
+    min-height: 24px;
+    padding: 7px 10px;
+    overflow: hidden;
+}
+
+.content .card .card-footer .repeal-activity {
+    display: inline-block;
+    padding: 4px 6px;
+    border: 1px solid #33aafc;
+    color: #33aafc;
+    border-radius: 2px;
+    text-align: center;
+    float: right;
+}
+
+.no-data {
+    padding-top: 30%;
+    text-align: center;
+}
+
+.no-data .bg {
+    display: inline-block;
+    width: 8rem;
+    height: 8rem;
+    background: url(http://mine/we7/addons/we7_wmall/template/mobile/manage/static/img/no_order.png) no-repeat 0 0;
+    background-size: cover;
+}
+
+.no-data view {
+    margin: 0;
+    color: #999;
+    font-size: 18px;
+}

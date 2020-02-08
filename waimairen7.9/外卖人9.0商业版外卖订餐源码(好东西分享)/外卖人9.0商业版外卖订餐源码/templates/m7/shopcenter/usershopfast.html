@@ -1,0 +1,439 @@
+ <{extends file="<{$tempdir}>/public/shopcenter.html"}>  
+ <{block name=extendjs}>
+ <script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js"></script>
+   <script>
+  	var mynomenu='baseset';
+  	</script>
+ <{/block}> 
+ <{block name=bodylist}>
+ 
+   <div class="conWaiSet fr">
+        	
+            <div class="shopSetTop">
+            	<span>店铺设置</span>
+            </div> 
+            	  <{include file="<{$tempdir}>/shopcenter/usereditmenu.html"}>  
+             <div class="cl"></div>  
+                  
+                <form id="loginForm" method="post" action="<{ofunc type=url link="/shopcenter/savefastfood"}>">
+                 <div class="jutiSet">
+					 <div class="serxuanze">
+                    	<div class="xuanze_left">
+                        	<span>是否开启自动接单：</span>
+                        </div>
+                        <div class="xuanze_right">
+                           <input type="radio" name="is_autopreceipt" value="1" <{if $shopfast['is_autopreceipt'] == 1}>checked<{/if}>> 开启
+                           <input type="radio" name="is_autopreceipt" value="0" <{if $shopfast['is_autopreceipt'] == 0}>checked<{/if}>>关闭
+                        </div>
+                        <div class="cl"></div>
+                    </div>
+					
+					 <div class="newpstime"style="margin-left: 65px;">
+					   <div style=" height:40px;  color: #666;font-size:14px;line-height:42px;height:42px;" >
+							<span style="     color: #666;font-size:14px;line-height:42px;height:42px;padding-left:10px;">是否支持预订:</span> 
+							<input type="radio" name="is_orderbefore"  value="0" checked>否 
+							<input type="radio" name="is_orderbefore" <{if  $shopfast['is_orderbefore']==1}> checked<{/if}> name="is_orderbefore" id="" value="1" />是   
+							<span>支持预订营业时间之前用户也可以下单</span>
+							<span style="padding-left:10px;">间隔</span>
+							<input type="text" name="interval_minit" value="<{$shopfast['interval_minit']}>" style="width:50px;    width: 50px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;">分钟
+						    <span id="domaketime" style="background-color:#fe5722;color:#fff;padding:5px 10px;font-size:12px;cursor:pointer;    border-radius: 5px;">生成配送时间</span>
+						</div>
+					   <ul id="showpstimeli">
+					 
+					    </ul>
+					   <div style="clear:both;"></div>
+					</div> 
+                     
+					
+					
+                    <div class="serxuanze">
+                    	<div class="xuanze_left">
+                        	<span>起送价：</span>
+                        </div>
+                        <div class="xuanze_right">
+                        	<input type="text" style=" background:#e0f5ff;width:55px; height:29px;" name="limitcost" value="<{$shopfast['limitcost']}>" />&nbsp;&nbsp;&nbsp;元起
+                        </div>
+                        <div class="cl"></div>
+                    </div>
+                     <div class="serxuanze">
+                    	<div class="xuanze_left">
+                        	<span>送达时间：</span>
+                        </div>
+                        <div class="xuanze_right">
+                        	<input type="text" style=" background:#e0f5ff;width:55px; height:29px;" name="arrivetime" value="<{$shopfast['arrivetime']}>" />&nbsp;&nbsp;&nbsp;分钟
+                        </div>
+                        <div class="cl"></div>
+                    </div>
+           
+                    <div class="serxuanze" id="pssset">
+                    	<div class="xuanze_left">
+                        	<span>配送方式：</span>
+                        </div>
+                        <div class="xuanze_right">
+                        	<{if $shopfast['sendtype'] == 1}> 店铺自行配送 <{else}>网站配送<{/if}> 
+                        </div>
+                        <div class="cl"></div>
+                    </div>
+                    
+                     
+                    
+                     
+                      <{foreach from=$attrlist item=items}>
+                       <div class="serxuanze">
+                    	<div class="xuanze_left">
+                        	<span><{$items['name']}>：</span>
+                        </div>
+                        <div class="xuanze_right" style="height:auto !important;height:42px;min-height:42px;" > 
+                        	<{foreach from=$items['det'] item=itv}> 
+                        	      <{if $items['type'] ==  'input'}>
+                        	         <{assign var=shownow value=$items['id']|cat:'-0'}>   
+                        	         <input type="input" value="<{$myattr[$shownow]|default:''}>" name="mydata<{$items['id']}>" class="text" style=" background:#e0f5ff;width:200px; height:29px;margin-top:5px;">
+                        	      <{elseif $items['type'] == 'img'}>
+                        	        <{assign var=shownow value=$items['id']|cat:'-'}>   
+                        	         <{assign var=shownow1 value=$shownow|cat:$itv['id']}>  
+                        	         <input type="checkbox" value="<{$itv['id']}>" name="mydata<{$items['id']}>[]"  <{if isset($myattr[$shownow1])}>checked<{/if}> ><img src="<{$itv['name']}>" width=30px> 
+                        	      <{elseif $items['type'] == 'checkbox'}>
+                        	         <{assign var=shownow value=$items['id']|cat:'-'}>   
+                        	         <{assign var=shownow1 value=$shownow|cat:$itv['id']}>
+                        	         <input type="checkbox" value="<{$itv['id']}>" name="mydata<{$items['id']}>[]" <{if isset($myattr[$shownow1])}>checked<{/if}> ><{$itv['name']}> 
+                        	      <{elseif $items['type']=='radio'}>
+                        	           <{assign var=shownow value=$items['id']|cat:'-'}>   
+                        	         <{assign var=shownow1 value=$shownow|cat:$itv['id']}>  
+                        	           <input type="radio" value="<{$itv['id']}>" name="mydata<{$items['id']}>" <{if isset($myattr[$shownow1])}>checked<{/if}>><{$itv['name']}>  
+                        	      <{/if}>
+                        	      
+                        	<{/foreach}> 
+                        	 </div>
+                        <div class="cl"></div>
+                    </div>
+                      <{/foreach}>
+                    
+                    
+                    <div style="height:20px;"></div>
+                    
+                    
+                  	 <div class="settijiao">
+                    	
+                       
+                        	<input class="xuanze_right" type="submit" name=""  value="保 存" />
+                     
+                        <div class="cl"></div>
+                    </div>
+                    
+                    
+       			 </div>
+              </form>  
+                
+                
+        </div>
+        <div class="cl"></div>
+        
+        
+</div>
+ 
+ 
+ 
+ 
+ <style>
+ .newpstime{width:757px;margin-bottom:5px;}
+ .newpstime ul{float:left;background-color:#535251;}
+ .newpstime li{cursor:pointer;width:150px;background-color:#fff;color:#999999;font-weight:bold;float:left;height:70px;line-height:30px;text-align:center;border-bottom:1px solid #ccc;border-right:1px solid #ccc;} 
+ .newpstime input.setpscost{border:1px solid #ccc;text-align:center;display:none}
+ .psdoset{font-size:12px;}
+ .psdoset .del{padding-left:20px;color:red;cursor:pointer;display:none;}
+ .psdoset .addps{color:#27a9e3;cursor:pointer;display:none;}
+ .psdoset .dochoice{display:none;position: absolute;color: red;margin-top: -50px;margin-left: 125px;width:15px;height:15px;background:url('<{$siteurl}>/upload/images/goux.png') no-repeat;cursor:pointer;}
+
+ .newpstime li.on .dochoice{display:block;}
+ .newpstime li.on  .addps{display:block;}
+ .newpstime li.on{background-color:#d8f6e4;}
+ </style>
+ 
+ 
+ 
+ 
+ 
+<script type="text/javascript">
+  var opendata = <{$opendata|@json_encode}>;   
+  var pstimelist = <{$pstimelist|@json_encode}>;  
+ $(function(){ 
+ 	  bindlicktime();
+	  loadpstime();
+	  $('#domaketime').bind('click',function(e){
+	       var checknum = $('input[name="interval_minit"]').val();
+		   if(Number(checknum)<30){
+		        alert('时间间隔请输入不小于30的整数');
+				return false;
+		   }
+		   if(opendata.length > 0){//当这个大于0时才有效
+				$('#showpstimeli').html('');
+		       var tempf = $('input[name="interval_minit"]').val();
+		      if(tempf > 0){
+                  for(var i = 0;i<opendata.length;i++){
+                      makedotime(tempf,opendata[i]);
+                  }
+                  bindlicktime();
+              }
+		   }
+	  }); 
+ 	 if($('#setmybangjing').html() != undefined){
+ 	   selectmybj();
+   } 	 
+ });
+ function loadpstime(){
+	if(opendata.length > 0){//当这个大于0时才有效
+			$('#showpstimeli').html('');
+		   var tempf = $('input[name="interval_minit"]').val();
+		   if(tempf > 0){
+               for(var i = 0;i<opendata.length;i++){
+                   makedotime(tempf,opendata[i]);
+               }
+               bindlicktime();
+           }
+		   //第一次加载完毕后设置已选时
+		$('.newpstime li').removeClass('on');
+		$('input[name="pstimecost[]"]').val('0'); 
+		$('.del').hide();
+		$('.addps').hide();
+		$('input[name="choiceps[]"]').val('0');
+		$('input[name="choiceps[]"]').hide(); 
+		$('.del').hide();
+		for(var i=0;i<pstimelist.length;i++){
+			var ttime = pstimelist[i].s;
+			var mtime = pstimelist[i].e;
+			var mcost =  pstimelist[i].cost;
+			for(var j=0;j < $('#showpstimeli li').length;j++){
+			      var checkstime = $('#showpstimeli li').eq(j).find('input[name="pstimestime[]"]').val();
+				  var checketime = $('#showpstimeli li').eq(j).find('input[name="pstimeetime[]"]').val();
+				  if(ttime == checkstime && mtime==checketime){
+						$('#showpstimeli li').eq(j).addClass('on'); 
+						$('input[name="choiceps[]"]').eq(j).val(1);
+						if(mcost > 0){ 
+							$('input[name="pstimecost[]"]').eq(j).val(mcost); 
+							$('.del').eq(j).show();
+							$('input[name="pstimecost[]"]').eq(j).show();
+							$('.addps').eq(j).hide();
+						}else{
+							$('.addps').eq(j).show();
+						}
+						//$(this).parent().find('.del').sh();
+				  }
+			}
+			  
+		}
+		
+		
+		   
+	}
+ }
+ function bindlicktime(){
+    $('.newpstime li').unbind();
+	$('.newpstime li').bind('click',function(e){
+			var tempc = $(this).hasClass('on');
+	        if(tempc == true){
+			    $(this).removeClass('on');
+				$(this).find('input[name="pstimecost[]"]').val('0');
+				$(this).find('input[name="pstimecost[]"]').hide();
+				$(this).parent().find('.del').hide();
+				$(this).find('.addps').hide();
+				$(this).find('input[name="choiceps[]"]').val(0);
+			}else{
+				$(this).addClass('on');
+				$(this).find('input[name="choiceps[]"]').val(1);
+				$(this).find('input[name="pstimecost[]"]').val('');
+				$(this).find('.addps').show();
+			}
+			 
+	  });
+	  $('.addps').unbind();
+	  $('.addps').bind('click',function(e){
+			$(this).parent().find('.addps').hide();
+			$(this).parent().find('.setpscost').show();
+			$(this).parent().find('.del').show();
+			$(this).parent().find('input[name="pstimecost[]"]').val('');
+			e.stopPropagation();
+	  });
+	   $('.del').unbind();
+	  $('.del').bind('click',function(e){
+			$(this).parent().find('.addps').show();
+			$(this).parent().find('.setpscost').hide();
+			$(this).parent().find('.del').hide();
+			$(this).parent().find('input[name="pstimecost[]"]').val('0');
+			e.stopPropagation();
+	  });
+	  $('input[name="pstimecost[]"]').unbind();
+	  $('input[name="pstimecost[]"]').bind('click',function(e){
+	         e.stopPropagation();
+	  });
+ }
+ function makedotime(intvaltime,openonedata){  
+	var temp_open_s = openonedata.stime;
+	var temp_open_e = openonedata.etime;
+	var tempa = temp_open_s.split(':');
+	temp_open_s = parseInt(tempa[0])*60+parseInt(tempa[1]);
+	
+	var tempb = temp_open_e.split(':');
+	temp_open_e = parseInt(tempb[0])*60+parseInt(tempb[1]);
+	var temp_interval_t = intvaltime; 
+	var checktime = temp_open_s;
+	//alert(temp_open_s+'---'+temp_open_e+'='+temp_interval_t);
+	while(checktime < temp_open_e){   
+		  var utem = checktime;
+	      var re_a = parseInt(utem/60);
+		  var re_b = parseInt(utem)%60; 
+		  re_a = re_a > 9?re_a:'0'+re_a;
+		  re_b = re_b > 9?re_b:'0'+re_b; 
+		  var showstime = re_a+':'+re_b; 
+		  var utem2 = checktime;
+		    utem2 = Number(utem)+Number(temp_interval_t);
+		  if(utem2 >= temp_open_e){
+			  var re_a1 = parseInt(Number(temp_open_e)/60);
+			  var re_b1 = Number(temp_open_e)%60;
+			  re_a1 = re_a1 > 9?re_a1:'0'+re_a1;
+			  re_b1 = re_b1 > 9?re_b1:'0'+re_b1;
+			  var showetime = re_a1+':'+re_b1; 
+			
+			  $('#showpstimeli').append('<li class="on">' 
+								+'<div>'+showstime+'-'+showetime+'</div>'
+								+'<div class="psdoset">'
+									+'<span class="addps" >增加配送费 ￥</span>'
+									+'<input type="text" name="pstimecost[]" class="setpscost" value="" style="width:60px;" placeholder="附加费">' 
+									+'<input type="hidden" name="choiceps[]" value="1"><input type="hidden" name="pstimestime[]" value="'+showstime+'">'
+									+'<input type="hidden" name="pstimeetime[]" value="'+showetime+'">'
+									+'<span class="del">X</span>'
+									+'<div class="dochoice">&nbsp;</div>'
+								+'</div>'
+							+'</li>');
+							
+		     break;
+		  } 
+		  var re_a1 =  parseInt(utem2/60);
+		  var re_b1 = parseInt(utem2)%60;
+		  re_a1 = re_a1 > 9?re_a1:'0'+re_a1;
+		  re_b1 = re_b1 > 9?re_b1:'0'+re_b1;
+		  var showetime = re_a1+':'+re_b1;  
+		   
+	      $('#showpstimeli').append('<li class="on">' 
+								+'<div>'+showstime+'-'+showetime+'</div>'
+								+'<div class="psdoset">'
+									+'<span class="addps" >增加配送费 ￥</span>'
+									+'<input type="text" name="pstimecost[]" class="setpscost" value="" style="width:60px;" placeholder="附加费">' 
+									+'<input type="hidden" name="choiceps[]" value="1"><input type="hidden" name="pstimestime[]" value="'+showstime+'">'
+									+'<input type="hidden" name="pstimeetime[]" value="'+showetime+'">'
+									+'<span class="del">X</span>'
+									+'<div class="dochoice">&nbsp;</div>'
+								+'</div>'
+							+'</li>');
+		checktime = parseInt(checktime)+parseInt(temp_interval_t);
+	     
+	} 
+ }
+ <{$shopvalues = $shopfast['pradiusvalue']|unserialize}>
+ function selectmybj(){
+ 	//setmybangjing
+ 	var bangjing = $('input[name="pradius"]').val();
+ 	var htmls = '';
+	var checkleng = Number(<{count($shopvalues)}>);
+	$('.doqianmi').remove();
+	for(var i=0;i<bangjing;i++){
+		var c = i+1; 
+		if(i < checkleng){
+			
+		<{foreach from=$shopvalues key=mykey item=items}>
+		  if(i == <{$mykey}>){
+	     	htmls += '<div class="serxuanze doqianmi"><div class="xuanze_left"> <span>'+i+'-'+c+'千米</span></div> <div class="xuanze_right">    <input type="text" name="radiusvalue'+i+'" value="<{$items}>" style=" background:#e0f5ff;width:55px; height:29px;"  >&nbsp;&nbsp;&nbsp;元</div> <div class="cl"></div> </div>';
+	    }
+		<{/foreach}>
+		
+	  }else{
+	  	htmls += '<div class="serxuanze doqianmi"><div class="xuanze_left"> <span>'+i+'-'+c+'千米</span></div> <div class="xuanze_right">   <input  type="text" style=" background:#e0f5ff;width:55px; height:29px;"  name="radiusvalue'+i+'" value=""    >&nbsp;&nbsp;&nbsp;元</div> <div class="cl"></div> </div>';
+	  }
+		
+	}
+	$('#setmybangjing').after(htmls); 
+ }
+    
+	function openfast(){
+	  if(confirm('确定开启外卖操作吗？')){
+	  	$("input[name='openshopfast']").attr("checked",false);
+	  	myajax('<{ofunc type=url link="/shopcenter/startshop/datatype/json"}>',{opentype:'shopfast'});
+	   }else{
+	   	$("input[name='openshopfast']").attr("checked",false);
+	  }
+	}
+	function closefast(){
+		if(confirm('确定关闭外卖操作吗？\n 对应商品数据将会清空')){
+	  	$("input[name='openshopfast']").attr("checked",true);
+	  	myajax('<{ofunc type=url link="/shopcenter/closeshop/datatype/json"}>',{opentype:'shopfast'})
+	   }else{
+	   	$("input[name='openshopfast']").attr("checked",true);
+	  }
+	}
+	$("input[name='is_orderbefore']").click(function(){
+		  var checkid =  $("input[name='is_orderbefore']:checked").val();
+		 //befortime
+		 if(checkid == 1){
+		 	$('#befortime').show();
+		 }else{
+		 	 $('#befortime').hide();
+		 	 $("input[name='befortime']").val('0');
+		 }
+		  
+	}); 
+	$('.hc_login_btn_div').click(function(){
+		$('#loginForm').submit(); 
+	}) 
+	function outtimelist(){
+	    var hourlist = '';
+		for(var i=0;i<24;i++){
+		     hourlist +='<option value="'+i+'">'+i+'点</option>';
+		}
+		var minilist = '';
+		for(var i=0;i<60;i++){
+		   minilist +='<option value="'+i+'">'+i+'分</option>';
+		}
+		var	htmls = '<form method="post" id="subyj" action="#" style="text-align:center;"><table>';
+		htmls += '<tbody><tr>';
+		htmls += '<td height="30px">从:</td>';
+		htmls += '<td><select name="starthour">'+hourlist+'</select><select name="startminit">'+minilist+'</select></td></tr>';
+		htmls += '<tr>';
+		htmls += '<td height="30px">至:</td>';
+		htmls += '<td><select name="endthour">'+hourlist+'</select><select name="endminit">'+minilist+'</select></td></tr>';
+		htmls += '<tr>';
+		htmls += '<td height="30px">说明</td>';
+		htmls += '<td><input type="text" name="instr" value=""></td></tr>';
+		htmls += '</tbody></table> ';
+		htmls += '<input type="hidden" value="" name="shopid"> ';
+		htmls += '<input type="button" value="确认提交" class="button" id="buttonsubyj" ></form>';
+		art.dialog({
+			id: 'testID1000',
+			title:'新增配送时间段',
+			content: htmls
+		});
+	}
+	$('#buttonsubyj').live('click',function(){ 
+		$.post('<{ofunc type=url link="/shopcenter/savepostdate/datatype/json"}>', $('#subyj').serialize() ,function (data, textStatus){  
+			if(data.error == false){
+				diasucces('操作成功','');
+			}else{
+				if(data.error == true)
+				{
+					diaerror(data.msg); 
+				}else{
+					diaerror(data); 
+				}
+			} 
+		}, 'json'); 
+	});
+	function detimelist(timeid){
+		if(confirm('确定删除该配送时间段吗？')){ 
+			myajax('<{ofunc type=url link="/shopcenter/delpostdate/datatype/json"}>',{id:timeid});
+		}else{
+		 
+		}
+	}
+</script> 
+ <{/block}>

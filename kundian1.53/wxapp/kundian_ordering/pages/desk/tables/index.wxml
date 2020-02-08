@@ -1,0 +1,12 @@
+<view>
+    <view class="table_containers">
+        <view bindtap="selectTable" class="table_item" data-id="{{item.id}}" data-status="{{item.status}}" wx:for="{{tables}}" wx:key="id">
+            <view class="table_logo">
+                <image class="logoImg" src="../../../img/table_logo.png"></image>
+            </view>
+            <view class="table_name">{{item.name}}</view>
+            <view class="table_state_true" wx:if="{{item.status==1}}">已开桌</view>
+            <view class="table_state_false" wx:else>未开桌</view>
+        </view>
+    </view>
+</view>

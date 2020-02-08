@@ -1,0 +1,46 @@
+<view class="page-reason">
+    <view class="weui-cells__title">
+        <block wx:if="{{type=='direct_transfer'}}">
+			选择配送员
+		</block>
+        <block wx:else>
+			{{type=='delivery_cancel'?'取消订单':'转单'}}理由
+		</block>
+    </view>
+    <view class="weui-cells weui-cells_after-title">
+        <radio-group bindchange="onChoose">
+            <block wx:if="{{type=='direct_transfer'}}">
+                <label class="weui-cell weui-check__label" wx:if="{{reasons}}" wx:for="{{reasons}}">
+                    <radio checked="{{checked==index?true:false}}" class="weui-check" value="{{index}}"></radio>
+                    <view class="weui-cell__bd">{{item.title}}</view>
+                    <view class="weui-cell__ft weui-cell__ft_in-radio">
+                        <icon class="weui-icon-radio" size="16" type="success_no_circle" wx:if="{{checked==index}}"></icon>
+                    </view>
+                </label>
+            </block>
+            <block wx:else>
+                <label class="weui-cell weui-check__label" wx:if="{{reasons}}" wx:for="{{reasons}}">
+                    <radio checked="{{checked==index?true:false}}" class="weui-check" value="{{index}}"></radio>
+                    <view class="weui-cell__bd">{{item}}</view>
+                    <view class="weui-cell__ft weui-cell__ft_in-radio">
+                        <icon class="weui-icon-radio" size="16" type="success_no_circle" wx:if="{{checked==index}}"></icon>
+                    </view>
+                </label>
+                <label class="weui-cell weui-check__label">
+                    <radio checked="{{checked==-1?true:false}}" class="weui-check" value="-1"></radio>
+                    <view class="weui-cell__bd">其他理由</view>
+                    <view class="weui-cell__ft weui-cell__ft_in-radio">
+                        <icon class="weui-icon-radio" size="16" type="success_no_circle" wx:if="{{checked==-1}}"></icon>
+                    </view>
+                </label>
+            </block>
+        </radio-group>
+        <view class="other-reason" wx:if="{{checked==-1}}">
+            <textarea bindinput="onNote" placeholder="请输入{{1>0?'转单':'取消订单'}}理由" value="{{note}}"></textarea>
+        </view>
+    </view>
+    <view bind:tap="onSubmit" class="save-btn">
+        <view>提交</view>
+    </view>
+</view>
+<include src="../public/footer.wxml"></include>

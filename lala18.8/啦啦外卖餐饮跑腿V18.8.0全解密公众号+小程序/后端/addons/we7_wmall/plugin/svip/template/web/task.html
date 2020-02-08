@@ -1,0 +1,491 @@
+{itemplate 'public/header'}
+<style xmlns="http://www.w3.org/1999/html">
+	.list-item .form-group{
+		border: 0;
+		margin: 10px 0;
+		padding: 0;
+	}
+	.list-item .form-items .item .category-container .category-item {
+		position: relative;
+		height: 80px;
+		border: 1px solid #eee;
+		margin-bottom: 10px;
+	}
+	.list-item .form-items .item .category-container .category-item img{
+		width: 100%;
+		height: 80px;
+	}
+	.list-item .form-items .item .category-container .category-item .title {
+		position: absolute;
+		height: 20px;
+		left: 0;
+		right: 0;
+		bottom: -1px;
+		background: rgba(0,0,0,0.5);
+		color: #fff;
+		text-align: center;
+		font-size: 12px;
+		line-height: 20px;
+		cursor: pointer;
+	}
+	.list-item .form-items .item .category-container .col-sm-3 {
+		padding-left: 0;
+	}
+	.list-item .form-items .item .btn-del:before {
+		content: "×";
+		position: absolute;
+		height: 16px;
+		width: 16px;
+		text-align: center;
+		line-height: 14px;
+		color: #fff;
+		cursor: pointer;
+		background: rgba(0,0,0,0.3);
+		border-radius: 16px;
+		top: -6px;
+		right: -6px;
+		z-index: 10;
+	}
+	.list-item .form-items .item .btn-del.btn-del-category:before {
+		right: 10px;
+	}
+</style>
+{if $op == 'list'}
+<form action="./index.php?" class="form-horizontal form-filter">
+	{php echo tpl_form_filter_hidden('svip/task/list');}
+	<input type="hidden" name="task_type" value="{$task_type}"/>
+	<input type="hidden" name="status" value="{$status}"/>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">任务类型</label>
+		<div class="col-sm-9 col-xs-12">
+			<div class="btn-group">
+				<a href="{php echo ifilter_url('task_type:'. '');}" class="btn {if $task_type == ''}btn-primary{else}btn-default{/if}">不限</a>
+				{loop $task_types $type}
+					<a href="{php echo ifilter_url('task_type:' . $type['type']);}" class="btn {if $type['type'] == $task_type}btn-primary{else}btn-default{/if}">{$type['title']}</a>
+				{/loop}
+			</div>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">任务状态</label>
+		<div class="col-sm-9 col-xs-12">
+			<div class="btn-group">
+				<a href="{php echo ifilter_url('status:-1');}" class="btn {if $status == -1}btn-primary{else}btn-default{/if}">不限</a>
+				<a href="{php echo ifilter_url('status:1');}" class="btn {if $status == 1}btn-primary{else}btn-default{/if}">进行中</a>
+				<a href="{php echo ifilter_url('status:0');}" class="btn {if $status == 0}btn-primary{else}btn-default{/if}">已结束</a>
+			</div>
+		</div>
+	</div>
+	<div class="form-group form-inline">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">其他</label>
+		<div class="col-sm-9 col-xs-12">
+			<input type="text" name="keyword" value="{$_GPC['keyword']}" class="form-control" placeholder="任务名称">
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+		<div class="col-sm-9 col-xs-12">
+			<button class="btn btn-primary">筛选</button>
+		</div>
+	</div>
+</form>
+<form action="" class="form-table form form-validate" method="post">
+	<div class="panel panel-table">
+		<div class="panel-heading">
+			<a href="{php echo iurl('svip/task/post');}" class="btn btn-primary btn-sm">添加任务</a>
+		</div>
+		<div class="panel-body table-responsive js-table">
+			{if empty($tasks)}
+				<div class="no-result">
+					<p>还没有相关数据</p>
+				</div>
+			{else}
+				<table class="table table-hover">
+					<thead class="navbar-inner">
+					<tr>
+						<th>ID</th>
+						<th width="100">排序</th>
+						<th width="200">任务名称</th>
+						<th>任务类型</th>
+						<th>开始时间/结束时间</th>
+						<th>状态</th>
+						<th style="width:150px; text-align:right;">操作</th>
+					</tr>
+					</thead>
+					<tbody>
+					{loop $tasks $task}
+						<tr>
+							<input type="hidden" name="ids[]" value="{$task['id']}">
+							<td>{$task['id']}</td>
+							<td>
+								<input type="text" name="displayorder[]" class="form-control width-100" value="{$task['displayorder']}">
+							</td>
+							<td>
+								<input type="text" name="title[]" class="form-control width-200" value="{$task['title']}">
+							</td>
+							<td>
+								<span class="{$task_types[$task['type']]['css']}">
+									{$task_types[$task['type']]['title']}
+								</span>
+							</td>
+							<td>
+								{php echo date('Y-m-d H:i', $task['starttime'])}</br>
+								{php echo date('Y-m-d H:i', $task['endtime'])}
+							</td>
+							<td>
+								<span class="{$status_all[$task['status']]['css']}">{$status_all[$task['status']]['text']}</span>
+							</td>
+							<td style="text-align:right;">
+								<a href="{php echo iurl('svip/task/post', array('id' => $task['id']))}" class="btn btn-default btn-sm">编辑</a>
+								<a href="{php echo iurl('svip/task/del', array('id' => $task['id']))}" class="btn btn-default btn-sm js-remove" data-confirm="确定删除该任务吗">删除</a>
+							</td>
+						</tr>
+					{/loop}
+					</tbody>
+				</table>
+				<div class="btn-region clearfix">
+					<div class="pull-left">
+						<input name="token" type="hidden" value="{$_W['token']}" />
+						<input type="submit" class="btn btn-primary btn-sm" name="submit" value="提交修改" />
+					</div>
+				</div>
+				{$pager}
+			{/if}
+		</div>
+	</div>
+</form>
+{/if}
+{if $op == 'post'}
+<div class="page clearfix">
+	<form class="form-horizontal form form-validate" id="form1" action="" method="post" enctype="multipart/form-data">
+		<div id="basic"></div>
+		<div class="form-group">
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<input type="button" value="提交" class="btn btn-primary btn-save">
+			</div>
+		</div>
+	</form>
+</div>
+<script type="text/html" id="tpl-basic">
+	<h3>任务设置</h3>
+	<div class="form-group item">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">任务类型</label>
+		<div class="col-sm-8">
+			<select name="activity_type" class="form-control diy-bind" data-bind="activity_type" data-bind-init="true">
+				<option value="">选择任务类型</option>
+				<(each activity_types as item)>
+					<option value="<(item.type)>" <(if activity_type==item.type)>selected="selected"<(/if)>><(item.title)></option>
+				<(/each)>
+			</select>
+		</div>
+	</div>
+	<div class="form-group item">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">任务名称</label>
+		<div class="col-sm-8">
+			<input type="text" name="title" class="form-control diy-bind" data-bind="title" value="<(title)>">
+		</div>
+	</div>
+	<div class="form-group item">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">任务说明</label>
+		<div class="col-sm-8">
+			<input type="text" name="content" class="form-control diy-bind" data-bind="content" value="<(content)>">
+		</div>
+	</div>
+	<div class="form-group item">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">任务图标</label>
+		<div class="col-sm-8">
+			<div class="input-group">
+				<input class="form-control diy-bind" data-bind="thumb" value="<(thumb)>" id="tomedia" />
+				<span data-input="#tomedia" data-element="#iconimg" class="input-group-addon btn btn-default js-selectImg">选择图片</span>
+			</div>
+			<div class="input-group"  style="margin-top:10px">
+				<img src="<(tomedia(thumb))>" onerror="this.src='../addons/we7_wmall/static/img/nopic.jpg';" class="img-responsive img-thumbnail" width="150" id="iconimg">
+				<span class="close" style="position:absolute; top: -10px; right: -14px;" title="移除图片" onclick="$('#tomedia').val('').trigger('change');$(this).prev().attr('src', '')">×</span>
+				<span class="help-block"></span>
+			</div>
+		</div>
+	</div>
+	<div class="form-group item">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">任务排序</label>
+		<div class="col-sm-8">
+			<input type="text" name="displayorder" class="form-control diy-bind" data-bind="displayorder" value="<(displayorder)>">
+			<div class="help-block">按数字由大到小排序，最大值255</div>
+		</div>
+	</div>
+	<div class="form-group datetimepicker item">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">活动开始时间</label>
+		<div class="col-sm-8">
+			<input type="text" name="activity_starttime" readonly class="form-control diy-bind" data-bind="activity_starttime" value="<(activity_starttime)>">
+		</div>
+	</div>
+	<div class="form-group datetimepicker item">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">活动结束时间</label>
+		<div class="col-sm-8">
+			<input type="text" name="activity_endtime" readonly class="form-control diy-bind" data-bind="activity_endtime" value="<(activity_endtime)>">
+		</div>
+	</div>
+	<div class="form-group item">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">任务需求</label>
+		<div class="col-sm-8">
+			<div class="input-group">
+				<(if activity_type == 'oneOrderFee')>
+					<span class="input-group-addon">外卖单笔满</span>
+				<(else if activity_type == 'oneChargeFee')>
+					<span class="input-group-addon">余额充值单笔满</span>
+				<(else if activity_type == 'oneErranderFee')>
+					<span class="input-group-addon">跑腿订单单笔满</span>
+				<(/if)>
+				<input type="text" name="condition" class="form-control diy-bind" data-bind="condition" value="<(condition)>">
+				<span class="input-group-addon">元</span>
+			</div>
+		</div>
+	</div>
+	<div class="form-group item">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">截止时间</label>
+		<div class="col-sm-8">
+			<div class="radio radio-inline">
+				<input type="radio" name="task_endtime_type" id="endtime_type-0" class="diy-bind" data-bind="task_endtime_type" value="0" data-bind-init="true" <(if task_endtime_type == '0' || !task_endtime_type)>checked<(/if)>>
+				<label for="endtime_type-0">无限制</label>
+			</div>
+			<div class="radio radio-inline">
+				<input type="radio" name="task_endtime_type" id="endtime_type-1" class="diy-bind" data-bind="task_endtime_type" value="1" data-bind-init="true" <(if task_endtime_type == '1')>checked<(/if)>>
+				<label for="endtime_type-1">按限时</label>
+			</div>
+			<div class="radio radio-inline">
+				<input type="radio" name="task_endtime_type" id="endtime_type-2" class="diy-bind" data-bind="task_endtime_type" value="2" data-bind-init="true" <(if task_endtime_type == '2')>checked<(/if)>>
+				<label for="endtime_type-2">按日期</label>
+			</div>
+			<div class="radio radio-inline">
+				<input type="radio" name="task_endtime_type" id="endtime_type-3" class="diy-bind" data-bind="task_endtime_type" value="3" data-bind-init="true" <(if task_endtime_type == '3')>checked<(/if)>>
+				<label for="endtime_type-3">按周期</label>
+			</div>
+			<(if task_endtime_type == '1' || task_endtime_type == '3')>
+				<div class="input-group" style="padding-top: 20px">
+					<(if task_endtime_type == '1')>
+					<span class="input-group-addon">自接任务起必须在</span>
+					<input type="text" name="task_endtime" class="form-control diy-bind" data-bind="task_endtime" value="<(task_endtime)>">
+					<span class="input-group-addon">小时内完成</span>
+					<(else if task_endtime_type == '3')>
+					<span class="input-group-addon">自接任务起必须在</span>
+					<select name="task_endtime" class="form-control diy-bind" data-bind="task_endtime">
+						<option value="today" <(if task_endtime=='today')>selected="selected"<(/if)>>本日</option>
+						<option value="week" <(if task_endtime=='week')>selected="selected"<(/if)>>本周</option>
+						<option value="month" <(if task_endtime=='month')>selected="selected"<(/if)>>本月</option>
+					</select>
+					<span class="input-group-addon">内完成</span>
+					<(/if)>
+				</div>
+				<div class="help-block">注意：选择后才能生效</div>
+			<(/if)>
+			<(if task_endtime_type == '2')>
+				<div class="input-group datetimepicker" style="padding-top: 20px">
+					<span class="input-group-addon">自接任务起必须在</span>
+					<input type="text" name="task_endtime" readonly class="form-control diy-bind" data-bind="task_endtime" value="<(task_endtime)>">
+					<span class="input-group-addon">前完成</span>
+				</div>
+			<(/if)>
+		</div>
+	</div>
+	<div class="form-group item">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">重复领取</label>
+		<div class="col-sm-8">
+			<div class="radio radio-inline">
+				<input type="radio" name="task_takepart_type" id="task_takepart_type-0" class="diy-bind" data-bind="task_takepart_type" value="0" data-bind-init="true" <(if task_takepart_type == '0' || !task_takepart_type)>checked<(/if)>>
+				<label for="task_takepart_type-0">无限制</label>
+			</div>
+			<div class="radio radio-inline">
+				<input type="radio" name="task_takepart_type" id="task_takepart_type-1" class="diy-bind" data-bind="task_takepart_type" value="1" data-bind-init="true" <(if task_takepart_type == '1')>checked<(/if)>>
+				<label for="task_takepart_type-1">不可重复</label>
+			</div>
+			<div class="radio radio-inline">
+				<input type="radio" name="task_takepart_type" id="task_takepart_type-2" class="diy-bind" data-bind="task_takepart_type" value="2" data-bind-init="true" <(if task_takepart_type == '2')>checked<(/if)>>
+				<label for="task_takepart_type-2">按间隔</label>
+			</div>
+			<div class="radio radio-inline">
+				<input type="radio" name="task_takepart_type" id="task_takepart_type-3" class="diy-bind" data-bind="task_takepart_type" value="3" data-bind-init="true" <(if task_takepart_type == '3')>checked<(/if)>>
+				<label for="task_takepart_type-3">按周期</label>
+			</div>
+			<(if task_takepart_type == '2')>
+				<div class="input-group" style="padding-top: 20px">
+					<span class="input-group-addon">自接完成任务或任务失败起，必须</span>
+					<input type="text" name="takepart_repeat_time" class="form-control diy-bind" data-bind="takepart_repeat_time" value="<(takepart_repeat_time)>">
+					<span class="input-group-addon">小时 后才能再领取此任务</span>
+				</div>
+			<(/if)>
+			<(if task_takepart_type == '3')>
+				<div class="input-group" style="padding-top: 20px">
+					<span class="input-group-addon">自接完成任务或任务失败起，必须</span>
+					<select name="takepart_repeat_time" class="form-control diy-bind" data-bind="takepart_repeat_time">
+						<option value="tomorrow" <(if takepart_repeat_time=='tomorrow')>selected="selected"<(/if)>>明日</option>
+						<option value="week" <(if takepart_repeat_time=='week')>selected="selected"<(/if)>>下周</option>
+						<option value="month" <(if takepart_repeat_time=='month')>selected="selected"<(/if)>>下月</option>
+					</select>
+					<span class="input-group-addon">才能再次领取此任务</span>
+				</div>
+				<div class="help-block">注意：选择后才能生效</div>
+			<(/if)>
+		</div>
+	</div>
+	<h3>完成奖励</h3>
+	<div class="form-group item">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">积分</label>
+		<div class="col-sm-8">
+			<div class="input-group">
+				<span class="input-group-addon">奖励</span>
+				<input type="number" name="credit1" value="<(award.credit1)>" class="form-control diy-bind" data-bind-child="award" data-bind="credit1">
+				<span class="input-group-addon">积分</span>
+			</div>
+		</div>
+	</div>
+	<div class="form-group item">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">余额</label>
+		<div class="col-sm-8">
+			<div class="input-group">
+				<span class="input-group-addon">奖励</span>
+				<input type="number" name="credit2" value="<(award.credit2)>" class="form-control diy-bind" data-bind-child="award" data-bind="credit2">
+				<span class="input-group-addon">余额</span>
+			</div>
+		</div>
+	</div>
+	<div class="form-group item">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">奖励金</label>
+		<div class="col-sm-8">
+			<div class="input-group">
+				<span class="input-group-addon">奖励</span>
+				<input type="number" name="svip_credit1" value="<(award.svip_credit1)>" class="form-control diy-bind" data-bind-child="award" data-bind="svip_credit1">
+				<span class="input-group-addon">奖励金</span>
+			</div>
+		</div>
+	</div>
+	<div class="form-group item">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">红包</label>
+		<div class="col-sm-8">
+			<div class="list-item">
+				<div class="form-items" data-min="0" data-max="1">
+					<div class="inner">
+						<(each award.redpackets as redpacket index)>
+						<div class="item" data-id="<(index)>" style="border: 1px solid #e7eaec; padding: 10px; margin-bottom: 10px;">
+							<span class="btn-del del-item btn-del-category" title="删除"></span>
+							<div class="item-body">
+								<div class="form-group">
+									<div class="col-sm-2 control-label">使用场景</div>
+									<div class="col-sm-10">
+										<div class="radio radio-inline">
+											<input type="radio" value="waimai" class="diy-bind" data-bind-child="award" data-bind-parent="redpackets" data-bind="<(index)>" data-bind-category="scene" data-bind-init="true" id="use-scene-<(index)>-0" <(if redpacket.scene == 'waimai')>checked<(/if)>>
+											<label for="use-scene-<(index)>-0">外卖</label>
+										</div>
+										 <div class="radio radio-inline">
+											<input type="radio" value="paotui" class="diy-bind" data-bind-child="award" data-bind-parent="redpackets" data-bind="<(index)>" data-bind-category="scene" data-bind-init="true" id="use-scene-<(index)>-1" <(if redpacket.scene == 'paotui')>checked<(/if)>>
+											<label for="use-scene-<(index)>-1">跑腿</label>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-sm-2 control-label">红包名称及金额</div>
+									<div class="col-sm-10">
+										<div class="input-group">
+											<span class="input-group-addon">名称</span>
+											<input class="form-control input-sm diy-bind" type="text" data-bind-child="award" data-bind-parent="redpackets" data-bind="<(index)>" data-bind-category="name" value="<(redpacket.name)>">
+											<span class="input-group-addon border-0-lr">金额</span>
+											<input class="form-control input-sm diy-bind" type="text" data-bind-child="award" data-bind-parent="redpackets" data-bind="<(index)>" data-bind-category="discount" value="<(redpacket.discount)>">
+											<span class="input-group-addon">元</span>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-sm-2 control-label">使用条件</div>
+									<div class="col-sm-10">
+										<div class="input-group">
+											<span class="input-group-addon">满多少元可用</span>
+											<input class="form-control input-sm diy-bind" type="text" data-bind-child="award" data-bind-parent="redpackets" data-bind="<(index)>" data-bind-category="condition" value="<(redpacket.condition)>">
+											<span class="input-group-addon">元</span>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-sm-2 control-label">使用期限</div>
+									<div class="col-sm-10">
+										<div class="input-group">
+											<span class="input-group-addon">领取后</span>
+											<input class="form-control input-sm diy-bind" type="text" data-bind-child="award" data-bind-parent="redpackets" data-bind="<(index)>" data-bind-category="grant_days_effect" value="<(redpacket.grant_days_effect)>">
+											<span class="input-group-addon border-0-lr">天后生效</span>
+											<span class="input-group-addon">有效期</span>
+											<input class="form-control input-sm diy-bind border-0-l" type="text" data-bind-child="award" data-bind-parent="redpackets" data-bind="<(index)>" data-bind-category="use_days_limit" value="<(redpacket.use_days_limit)>">
+											<span class="input-group-addon">天</span>
+										</div>
+										<div class="help-block">
+											如需红包发放后立即生效， 可设置为0
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-sm-2 control-label">使用时间段</div>
+									<div class="col-sm-10">
+										<a href="javascript:;" class="btn btn-default btn-sm hour-add"><i class="fa fa-plus-circle"></i> 添加时间段</a>
+									</div>
+								</div>
+								<div class="hour clockpicker">
+									<(each redpacket.times as time timeid)>
+									<div class="form-group">
+										<div class="col-sm-2 control-label"></div>
+										<div class="col-sm-9">
+											<div class="input-group">
+												<input type="text" readonly class="form-control input-sm diy-bind" data-bind-child="award" data-bind-parent="redpackets" data-bind="<(index)>" data-bind-category="times" data-bind-type="<(timeid)>" data-bind-one="start_hour" value="<(time.start_hour)>">
+												<span class="input-group-addon border-0-lr">至</span>
+												<input type="text" readonly class="form-control input-sm diy-bind" data-bind-child="award" data-bind-parent="redpackets" data-bind="<(index)>" data-bind-category="times" data-bind-type="<(timeid)>" data-bind-one="end_hour" value="<(time.end_hour)>">
+											</div>
+										</div>
+										<div class="col-sm-1">
+											<a href="javascript:;" class="btn-del hour-del" data-id="<(timeid)>"></a>
+										</div>
+									</div>
+									<(/each)>
+								</div>
+								<div class="form-group <(if redpacket.scene == 'paotui')>hide<(/if)>">
+									<div class="col-sm-2 control-label">使用分类</div>
+									<div class="col-sm-10">
+										<a href="javascript:;" class="btn btn-default btn-sm category-add"><i class="fa fa-plus-circle"></i> 选择分类</a>
+									</div>
+								</div>
+								<div class="category-container">
+									<div class="col-sm-2 control-label"></div>
+									<div class="col-sm-10">
+										<(each redpacket.categorys as category categoryid)>
+										<div class="col-sm-3">
+											<div class="category-item" id="category-<(categoryid)>">
+												<a href="javascript:;" class="btn-del category-del" data-id="<(categoryid)>"></a>
+												<img src="<(tomedia category.src)>" alt=""/>
+												<div class="title js-selectCategory" data-id-input="#id-<(categoryid)>" data-title-input="#title-<(categoryid)>" data-src-input="#src-<(categoryid)>" data-element="#category-<(categoryid)>"><(category.title)></div>
+												<input type="hidden" class="diy-bind" value="<(category.id)>" id="id-<(categoryid)>" data-bind-child="award" data-bind-parent="redpackets" data-bind="<(index)>" data-bind-category="categorys" data-bind-type="<(categoryid)>" data-bind-one="id">
+												<input type="hidden" class="diy-bind" value="<(category.title)>" id="title-<(categoryid)>" data-bind-child="award" data-bind-parent="redpackets" data-bind="<(index)>" data-bind-category="categorys" data-bind-type="<(categoryid)>" data-bind-one="title">
+												<input type="hidden" class="diy-bind" value="<(tomedia category.src)>" id="src-<(categoryid)>" data-bind-child="award" data-bind-parent="redpackets" data-bind="<(index)>" data-bind-category="categorys" data-bind-type="<(categoryid)>" data-bind-one="src">
+											</div>
+										</div>
+										<(/each)>
+									</div>
+									<div style="clear: both"></div>
+								</div>
+							</div>
+						</div>
+						<(/each)>
+					</div>
+					<div class="btn btn-default btn-block" id="addItem"><i class="icon icon-plus"></i> 添加一个</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</script>
+
+<script language="javascript">
+	var path = '../../plugin/svip/static/js/task';
+	irequire([path, 'tmodtpl'],function(task, tmodtpl){
+		task.init({
+			tmodtpl: tmodtpl,
+			id: '{php echo intval($_GPC["id"])}',
+			attachurl: "{$_W['attachurl']}",
+			data: {if !empty($data)}{php echo json_encode($data)}{else}null{/if}
+		});
+	});
+</script>
+{/if}
+{itemplate 'public/footer'}

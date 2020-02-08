@@ -1,0 +1,49 @@
+ <{extends file="<{$tempdir}>/public/admin.html"}> 
+ <{block name=extendjs}>
+ <script src="<{$siteurl}>/js/kindeditor/kindeditor.js" type="text/javascript" language="javascript"></script>
+ <script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/datepicker/WdatePicker.js" type="text/javascript" language="javascript"></script> 
+ <{/block}>
+ <{block name=controlname}>网站信息<{/block}>
+ <{block name=bodylist}> 
+  
+<div class="homePageMainCon">
+	<div class="homePageMainBox">
+		<div class="homePageMain">
+			<div class="homePageMainTop dlsxx_head_bg">
+				<h2>分站信息</h2>
+				<span>AGENT INFORMATION</span>
+			</div>
+			<div class="homePageMainBot">
+ 				<div class="homePageMainInfo" style="padding-top:40px;border:none;">
+					<h3><{$admininfo['stationname']}></h3>
+					<ul>
+						<li>城市：<{$admininfo['cityname']}> </li>
+ 						<li>负责人：<{$admininfo['stationusername']}> </li>
+						<li>电话：<{$admininfo['stationphone']}> </li>
+						<li>地址：<{$admininfo['stationaddress']}> </li>
+						<li>状态：<{if $admininfo['stationis_open'] == 0 }>开启中<{else if  $admininfo['stationis_open'] == 1  }>关闭中<{else}>未知<{/if}> </li>
+ 					</ul>
+				</div>
+			</div> 
+		</div>
+		<div class="homePageMain">
+			<div class="homePageMainTop sjtj_head_bg">
+				<h2>数据统计</h2>
+				<span>DATA STATISTICS</span>
+			</div>
+			<div class="homePageMainBot">
+				<div class="homePageMainOrd">
+					<ul>
+						<li><b class="fonCol_hoOr"><{$tjdata['dayallorder']}></b><span>今日总订单</span></li>
+						<li><b><{$tjdata['monthallorder']}></b><span>本月已完成订单</span></li>
+						<li><b><{$tjdata['allorder']}></b><span>已完成订单总量</span></li>
+						<li><b><{$tjdata['onlineshop']}></b><span>分站商家</span></li>
+						<li><b><{$tjdata['psymember']}></b><span>配送员数量</span></li>
+						<li><b><{$tjdata['marketg']}></b><span>商品数量</span></li>
+					</ul>
+				</div>
+			</div> 
+		</div>
+	</div>
+</div>  
+ <{/block}>

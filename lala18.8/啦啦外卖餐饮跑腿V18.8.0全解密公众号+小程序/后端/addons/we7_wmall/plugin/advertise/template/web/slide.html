@@ -1,0 +1,70 @@
+{itemplate 'public/header'}
+<div class="page clearfix">
+	<form class="form-horizontal form form-validate" id="form1" action="" method="post" enctype="multipart/form-data">
+		<h2>{$titles[$slide_type]['text']}广告位</h2>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span class="require"> 是否开启</span></label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="radio radio-inline">
+					<input type="radio" name="status" id="status-1" value="1" {if $config_slide['status'] == 1}checked{/if}>
+					<label for="status-1">开启</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" name="status" id="status-0" value="0" {if !$config_slide['status']}checked{/if}>
+					<label for="status-0">关闭</label>
+				</div>
+				<span class="help-block">开启后商家需要购买广告位后，才能在相应推广位展示商家</span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">广告位数量</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="text" class="form-control" name="num" required="true" value="{$config_slide['num']}">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label" style="margin-top: 10px"><span class="require">价目设置</span></label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="tpl">
+					{loop $config_slide['prices'] $prices}
+					<div class="input-group" style="margin-top: 10px">
+						<span class="input-group-addon">展示</span>
+						<input type="text" name="days[]" class="form-control" value="{$prices['day']}" placeholder="广告天数">
+						<span class="input-group-addon">天</span>
+						<input type="text" name="fees[]" class="form-control" value="{$prices['fee']}" placeholder="价格">
+						<span class="input-group-addon">元</span>
+						<span class="input-group-addon"><a href="javascript:;" class="delOptions"><i class="fa fa-times"></i></a></span>
+					</div>
+					{/loop}
+				</div>
+				<div style="margin-top: 10px">
+					<a href="javascript:;" class="addOptions" style="margin-top: 15px"><i class="fa fa-plus-circle"></i> 添加价目</a>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<input type="hidden" name="token" value="{$_W['token']}">
+				<input type="submit" value="提交" class="btn btn-primary">
+			</div>
+		</div>
+	</form>
+</div>
+<script type="text/javascript">
+	$('.addOptions').click(function(){
+		var html = '<div class="input-group" style="margin-top: 10px">'+
+			'<span class="input-group-addon">展示</span>'+
+			'<input type="text" name="days[]" class="form-control" placeholder="广告天数">'+
+			'<span class="input-group-addon">天</span>'+
+			'<input type="text" name="fees[]" class="form-control" placeholder="价格">'+
+			'<span class="input-group-addon">元</span>'+
+			'<span class="input-group-addon"><a href="javascript:;" class="" onclick="$(this).parent().parent().remove();"><i class="fa fa-times"></i></a></span>'+
+			'</div>';
+		$('.tpl').append(html);
+	});
+
+	$('.delOptions').click(function(){
+		$(this).parent().parent().remove();
+	});
+</script>
+{itemplate 'public/footer'}

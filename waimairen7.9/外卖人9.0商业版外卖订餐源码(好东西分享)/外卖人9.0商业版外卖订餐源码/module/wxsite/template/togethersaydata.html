@@ -1,0 +1,126 @@
+<{if !empty($togethersaycomlist)}>
+<{foreach $togethersaycomlist item=items }>
+<li class="wxusersay_<{$items['id']}>">
+	<div class="wxusercontent">
+		<div class="wxuserinfo">
+			<span><img class="userlogo" <{ofunc type=img link="<{$items['logo']|default:$userlogo}>" }> /></span>
+						<span style="margin-left:7px;display:block;">
+							<p class="wxusername <{if $items['sex'] == 1}> wxnan <{elseif $items['sex'] ==  2}> wxnv <{else}><{/if}>"><{$items['username']}></p>
+							<p class="wxuserxx"><{$items['streetname']}>&nbsp;&nbsp;&nbsp;<{$items['addtime']|date_format:"%m-%d %H:%M"}></p>
+						</span>
+		</div>
+		<div class="clear"></div>
+
+		<div  onclick="caozuousercont(<{$items['id']}>);" class="wxusercontdr"><img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/iconfont-chevron-down.png" /></div>
+		<div <{if $items['uid'] == $member['uid'] }>onclick="wxuserdel(<{$items['id']}>);"<{else}>onclick="wxuserjubao(<{$items['id']}>);"<{/if}> class="wxusercomfir wxusercomfir_<{$items['id']}>" style="display:none;">
+		<span panduanattr="<{if $items['uid'] == $member['uid'] }>shanchu<{else}>jubao<{/if}>"  class="jubaouser"><{if $items['uid'] == $member['uid'] }>删除<{else}>举报<{/if}></span>
+	</div>
+
+	<div class="yiqisayusercont">
+		<{$items['usercontent']|htmlspecialchars_decode}>
+	</div>
+	<{if $items['wxuserimgarr'][0] != '' }>
+	<div class="yiqisayuserimgs" style="height:205px; position:relative; overflow:hidden; margin-bottom:5px;" >
+
+		<img  class="previewImage" dataattr="<{$items['userimg']}>"  sayid="<{$items['id']}>" <{ofunc type=img  link="<{$items['wxuserimgarr'][0]}>"}> />
+
+		<div style="width:100%;background:#000; opacity:0.7;filter:alpha(opacity=70);  position:absolute; bottom:0px;right:0px; height:28px; line-height:28px; ">
+
+		</div>
+		<div style="position:absolute; color:#ffffff; right:15px; bottom:2px; font-size:14px; ">
+			共<{$items['wxuserimgarr']|@count}>张
+		</div>
+
+	</div>
+	<{/if}>
+	<div style="height:22px; ">
+		<div   onclick="dolink('<{ofunc type=url link="/wxsite/commentwxuser/id/<{$items['id']}>"}>');"  class="zzshuliang  zongmsg"><{$items['pingjiazongshu']}></div>
+	<{load_data assign="zanmuyou" table="wxpjzan" type="one" where="commentid=<{$items['id']}> and uid=<{$member['uid']}> " fileds="*" }>
+	<div   zanidattr="<{$items['id']}>" pingjiaattr="<{if $zanmuyou == '' }>0<{else}>1<{/if}>" class="zongzanshuliang zongzanshuliang_<{$items['id']}> zzshuliang <{if $zanmuyou == '' }> zongzanshu <{else}> zongzanshucur <{/if}>"><{$items['zongzanshu']}></div>
+	</div>
+
+	</div>
+</li>
+<{/foreach}>
+<{/if}>
+<{if !empty($togethersaylist)}>
+<{foreach $togethersaylist item=items }>
+<li class="wxusersay_<{$items['id']}>">
+	<div class="wxusercontent">
+		<div class="wxuserinfo">
+			<span><img class="userlogo"  <{ofunc type=img link="<{$items['logo']|default:$userlogo}>" }>  /></span>
+						<span style="margin-left:7px;display:block;">
+							<p class="wxusername <{if $items['sex'] == 1}> wxnan <{elseif $items['sex'] ==  2}> wxnv <{else}><{/if}>"><{$items['username']}></p>
+							<p class="wxuserxx"><{$items['streetname']}>&nbsp;&nbsp;&nbsp;<{$items['addtime']|date_format:"%m-%d %H:%M"}></p>
+						</span>
+		</div>
+		<div class="clear"></div>
+
+		<div  onclick="caozuousercont(<{$items['id']}>);" class="wxusercontdr"><img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/iconfont-chevron-down.png" /></div>
+		<div <{if $items['uid'] == $member['uid'] }>onclick="wxuserdel(<{$items['id']}>);"<{else}>onclick="wxuserjubao(<{$items['id']}>);"<{/if}> class="wxusercomfir wxusercomfir_<{$items['id']}>" style="display:none;">
+		<span panduanattr="<{if $items['uid'] == $member['uid'] }>shanchu<{else}>jubao<{/if}>"  class="jubaouser"><{if $items['uid'] == $member['uid'] }>删除<{else}>举报<{/if}></span>
+	</div>
+
+	<div class="yiqisayusercont">
+		<{$items['usercontent']|htmlspecialchars_decode}>
+	</div>
+	<{if $items['wxuserimgarr'][0] != '' }>
+	<div class="yiqisayuserimgs" style="height:205px; position:relative; overflow:hidden; margin-bottom:5px;" >
+
+		<img  class="previewImage" dataattr="<{$items['userimg']}>"  sayid="<{$items['id']}>" <{ofunc type=img  link="<{$items['wxuserimgarr'][0]}>"}>  />
+
+		<div style="width:100%;background:#000; opacity:0.7;filter:alpha(opacity=70);  position:absolute; bottom:0px;right:0px; height:28px; line-height:28px; ">
+
+		</div>
+		<div style="position:absolute; color:#ffffff; right:15px; bottom:2px; font-size:14px; ">
+			共<{$items['wxuserimgarr']|@count}>张
+		</div>
+
+	</div>
+	<{/if}>
+	<div style="height:22px; ">
+		<div   onclick="dolink('<{ofunc type=url link="/wxsite/commentwxuser/id/<{$items['id']}>"}>');"  class="zzshuliang  zongmsg"><{$items['pingjiazongshu']}></div>
+	<{load_data assign="zanmuyou" table="wxpjzan" type="one" where="commentid=<{$items['id']}> and uid=<{$member['uid']}> " fileds="*" }>
+	<div   zanidattr="<{$items['id']}>" pingjiaattr="<{if $zanmuyou == '' }>0<{else}>1<{/if}>" class="zongzanshuliang zongzanshuliang_<{$items['id']}> zzshuliang <{if $zanmuyou == '' }> zongzanshu <{else}> zongzanshucur <{/if}>"><{$items['zongzanshu']}></div>
+	</div>
+
+	</div>
+</li>
+<{/foreach}>
+<script>
+     wx.config({
+      debug: false,
+      appId: '<{$signPackage['appId']}>',
+      timestamp: '<{$signPackage['timestamp']}>',
+      nonceStr: '<{$signPackage['nonceStr']}>',
+      signature: '<{$signPackage['signature']}>',
+      jsApiList: [
+        'checkJsApi',
+        'previewImage'
+      ]
+  });
+  
+    // 5.2 图片预览
+  //document.querySelector('.previewImage').onclick = function () {
+$(".previewImage").click(function(){	
+ var sayid = $(this).attr('sayid');
+ <{if $WeChatType == 1}>
+ var userimgs = $(this).attr('dataattr');
+	//	 Tmsg(1);
+		var stringarray = userimgs.split("@");	
+		//console.log(stringarray);		
+		 wx.previewImage({
+		  current: $(this).attr('src'),
+		  urls: stringarray
+		});
+<{else}>
+	var gourl = '<{ofunc type=url link="/wxsite/commentwxuser/id/'+sayid+'"}>';
+	loadurl(gourl);
+<{/if}>		
+	});
+
+  //};
+  
+  
+   </script>
+ <{/if}>

@@ -1,0 +1,124 @@
+{itemplate 'public/header'}
+{if $op == 'index'}
+<div class="page clearfix">
+	<form class="form-horizontal form form-validate" id="form1" action="" method="post" enctype="multipart/form-data">
+		<h3>基本设置</h3>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">是否开启</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="radio radio-inline">
+					<input type="radio" value="1" name="status" id="status-1" {if $basic['status'] == 1}checked{/if} required>
+					<label for="status-1">开启</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" value="0" name="status" id="status-0" {if $basic['status'] == 0}checked{/if} required>
+					<label for="status-0">关闭</label>
+				</div>
+				<div class="help-block text-danger">如果是单店模式，用户进入时，不会显示门店列表，直接跳转到该门店的菜单页</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">自定义页面头部名称</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="text" class="form-control" name="setting_meta_title" value="{$basic['setting_meta_title']}" />
+				<div class="help-block">不填写为默认名称</div>
+			</div>
+		</div>
+		<h3>提现设置</h3>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span class="require">*</span>最低提现金额</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="input-group">
+					<input type="text" name="fee_getcash[get_cash_fee_limit]" digits="true" value="{$basic['fee_getcash']['get_cash_fee_limit']}" class="form-control"/>
+					<span class="input-group-addon">元</span>
+				</div>
+				<div class="help-block">只能填写整数，不填写为不限制</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span class="require">*</span>提现费率</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="input-group">
+					<input type="text" name="fee_getcash[get_cash_fee_rate]" required="true" value="{$basic['fee_getcash']['get_cash_fee_rate']}" class="form-control"/>
+					<span class="input-group-addon">%</span>
+				</div>
+				<div class="help-block">
+					店铺推广员申请提现时，每笔申请提现扣除的费用，默认为空，即提现不扣费，支持填写小数
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span class="require">*</span>提现费用</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="input-group">
+					<span class="input-group-addon">最低</span>
+					<input type="text" name="fee_getcash[get_cash_fee_min]" required="true" value="{$basic['fee_getcash']['get_cash_fee_min']}" class="form-control"/>
+					<span class="input-group-addon">元</span>
+				</div>
+				<br>
+				<div class="input-group">
+					<span class="input-group-addon">最高</span>
+					<input type="text" name="fee_getcash[get_cash_fee_max]" required="true" value="{$basic['fee_getcash']['get_cash_fee_max']}" class="form-control"/>
+					<span class="input-group-addon">元</span>
+				</div>
+				<div class="help-block">
+					<strong class="text-danger">最高金额设置为0， 表示不限制最高提现费用。</strong>
+					<br>
+					店铺推广员提现时，提现费用的上下限，最高为空时，表示不限制扣除的提现费用
+					<br>
+					例如：提现100元，费率5%，最低1元，最高2元，店铺推广员最终提现金额=100-2=98
+					<br>
+					例如：提现100元，费率5%，最低1元，最高10元，店铺推广员最终提现金额=100-100*5%=95
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">提现到账周期</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="radio radio-inline">
+					<input type="radio" value="0" name="fee_getcash[get_cash_period]" id="get_cash_period-0" {if empty($basic['fee_getcash']['get_cash_period'])}checked{/if}>
+					<label for="get_cash_period-0" class="toggle-role" data-target="get_cash_period-0">管理员审核</label>
+					<div class="help-block"></div>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" value="1" name="fee_getcash[get_cash_period]" id="get_cash_period-1" {if $basic['fee_getcash']['get_cash_period'] == 1}checked{/if}>
+					<label for= "get_cash_period-1" class="toggle-role" data-target="get_cash_period-1">极速到账</label>
+				</div>
+				<div class="help-block">
+					极速转账:不需要管理员审核直接转账
+				</div>
+			</div>
+		</div>
+		<div class="form-group col-sm-12">
+			<input type="submit" value="提交" class="btn btn-primary">
+			<input type="hidden" name="token" value="{$_W['token']}" />
+		</div>
+	</form>
+</div>
+{/if}
+{if $op == 'cover'}
+<div class="page clearfix">
+	<form class="form-horizontal form" id="form2" action="" method="post" enctype="multipart/form-data">
+		<h3 class="margin-t-0">店铺推广员入口</h3>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">直接URL</label>
+			<div class="col-sm-9 col-xs-12">
+				<p class="form-control-static"><a href="javascript: ;" class="js-clip" data-href="{php echo ivurl('/package/pages/storebd/index', array(), true);}">{php echo ivurl('/package/pages/storebd/index', array(), true);}</a></p>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">小程序URL</label>
+			<div class="col-sm-9 col-xs-12">
+				<p class="form-control-static"><a href="javascript: ;" class="js-clip" data-href="/package/pages/storebd/index">package/pages/storebd/index</a></p>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">访问二维码</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="qrcode-block js-qrcode" data-text="{$urls['index']}"></div>
+			</div>
+		</div>
+	</form>
+</div>
+{/if}
+{itemplate 'public/footer'}

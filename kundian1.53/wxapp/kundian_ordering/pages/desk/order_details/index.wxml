@@ -1,0 +1,86 @@
+<view>
+    <view class="dinner_Number">餐桌
+    <text class="cfFFD050 ml5">{{deskData.name}}</text>
+    </view>
+    <view class="orderDetail" style="height: {{height}}rpx">
+        <scroll-view class="order_container" scrollY="{{isShow?true:false}}">
+            <view class="containers">
+                <view class="orderState" wx:if="{{orderData.status==0}}">用餐中</view>
+                <view class="orderState" wx:if="{{orderData.status==1}}">订单已结束</view>
+                <view class="flexSb f30 mt10 addBorderBottom ptb20">
+                    <view class="projectNum">合计:{{projectNum}}项</view>
+                    <view bindtap="checkAll" class="flex">
+                        <view>订单详情</view>
+                        <view class="iconfont icon-xiangshang ml10 {{isShow?'transUp':'translDown'}}"></view>
+                    </view>
+                </view>
+                <view class="transform" style="height:{{isShow?'100%':'0'}}">
+                    <view>
+                        <view class="flexSb f30 ptb20 cf82 addBorderBottom">
+                            <view class="w110">桌号:{{deskData.name}}</view>
+                            <view>人数:{{orderData.person_count}}</view>
+                            <view class="w250">下单时间:{{orderData.create_time}}</view>
+                        </view>
+                    </view>
+                    <block wx:for="{{selectItem}}" wx:for-item="select">
+                        <view wx:if="{{select.uid==0}}">
+                            <view class="flex f30 ptb20 addBorderBottom cf4c">
+                                <view class="flex w110">
+                                    <image class="WaiterAvator" src="../../../img/moren.png"></image>
+                                    <view class="ml30">服务员</view>
+                                </view>
+                                <view class="ml60">{{select.goods_count}}份</view>
+                            </view>
+                            <view>
+                                <view class="flexSb f30 ptb20 addBorderBottom" wx:for="{{select.items}}" wx:for-item="order">
+                                    <view class="w110">{{order.goods_name}}</view>
+                                    <view>{{order.count}}份</view>
+                                    <view class="cffc0534 w250">￥{{order.price}}</view>
+                                </view>
+                            </view>
+                        </view>
+                        <view wx:else>
+                            <view>
+                                <view class="flexSb f30 ptb20 addBorderBottom">
+                                    <view class="flex w110">
+                                        <image class="avatorImg" src="{{select.userData.avatarurl}}"></image>
+                                        <view class="ml20 nickname">{{select.userData.nickname}}</view>
+                                    </view>
+                                    <view>{{select.goods_count}}份</view>
+                                    <view class="w250">{{item.orderTime}}</view>
+                                </view>
+                                <view class="flexSb f30 ptb20 addBorderBottom cf4c" wx:for="{{select.items}}" wx:for-item="order">
+                                    <view>{{order.goods_name}}  <text wx:if="{{order.status==2}}">(已退菜)</text>
+                                    </view>
+                                    <view class="flex p-c-style">
+                                        <view>X{{order.count}}</view>
+                                        <view class="ml20 w100">￥{{order.price}}</view>
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
+                    </block>
+                </view>
+                <view class="f30 addBorderBottom">
+                    <view class="flexSb ptb20" wx:if="{{orderInfo.consumptionAmount}}">
+                        <view>消费金额</view>
+                        <view>￥{{orderData.total_price-orderData.person_count*orderData.person_price}}</view>
+                    </view>
+                    <view class="flexSb ptb20" wx:if="{{orderInfo.serviceAmount}}">
+                        <view>餐位费</view>
+                        <view>￥{{orderData.person_count*orderData.person_price}}</view>
+                    </view>
+                </view>
+                <view class="flexSb ptb20 f34">
+                    <view>应付金额</view>
+                    <view class="cffc0534">￥{{orderData.total_price}}</view>
+                </view>
+            </view>
+        </scroll-view>
+    </view>
+    <view class="block100"></view>
+    <view class="footer flex" wx:if="{{orderData.status==0}}">
+        <view bindtap="goOnOrder" class="bgffd050">继续点餐</view>
+        <view bindtap="goPay" class="bgffe7a7" data-orderid="{{orderData.id}}">支付订单</view>
+    </view>
+</view>

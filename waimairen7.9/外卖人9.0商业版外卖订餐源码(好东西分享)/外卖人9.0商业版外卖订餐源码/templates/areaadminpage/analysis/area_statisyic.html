@@ -1,0 +1,109 @@
+ <{extends file="<{$tempdir}>/public/admin.html"}>
+   <{block name=extendjs}>
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/jquery.PrintArea.js" type="text/javascript" language="javascript"></script>
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/datepicker/WdatePicker.js" type="text/javascript" language="javascript"></script>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js"></script>
+  <script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/chart/highcharts.js"></script>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/chart/modules/exporting.js"></script>
+ <{/block}>
+ <{block name=controlname}>分站统计<{/block}>
+ <{block name=bodylist}>
+ <style>
+	body{color:#666;}
+	.selectcolor{color: #1783b2;font-size: 12px;padding: 2px;border: 1px solid #1783b2;margin: 0 0 0 10px;cursor:pointer;}
+	.noselectcolor{color: #666;font-size: 12px;padding: 2px;border: 1px solid #ccc;margin: 0 0 0 10px;cursor:pointer;}
+	.selectcolor a{color:#0076cf;}
+	.noselectcolor a{color:#666;}
+	.selectcolor a:link{color:#0076cf;}
+	.noselectcolor a:link{color:#666;}
+	.trade_title{height: 40px;line-height: 40px;padding:0 20px;text-align: left;}
+	.trade_title i{width: 4px;display: inherit;float: left; height: 16px; margin-top: 11px;background-color: rgba(22, 155, 213, 1);}
+	.trade_title span{color: #333;font-weight: 700; margin-left: 10px;}
+	.trade_title .delurl{line-height:24px;float:right;margin-top: 8px;padding: 0px 5px;font-size:12px;color:#0076cf;}
+ </style>
+  <div class="managShopCon">
+	<div class="managShopBox">
+		<div class="managShopMain">
+		<{include file="<{$tempdir}>/public/commentcate1.html"}>  
+			
+			<div class="addShopSingCon" style="padding:0;">
+   <div style="width:auto;overflow-x:hidden;overflow-y:auto">
+			<div class="search" style="height:60px;line-height: 60px;"> 
+            <div class="search_content">
+            	 
+            	 <form method="post" name="form1" action="<{ofunc type=url link="/areaadminpage/analysis/module/area_statisyic"}>">
+            	 	<label>订单类型：</label>
+            	 	<select name="ordertype">
+            	 		<option value="0">全部</option>
+            	 		<option value="1" <{if $ordertype == 1}>selected<{/if}>>外卖订单</option>
+            	 		<option value="2" <{if $ordertype == 2}>selected<{/if}>>跑腿订单</option>
+						<option value="3" <{if $ordertype == 3}>selected<{/if}>>闪惠订单</option>
+            	 	</select>
+				  时间：
+            	  <input class="Wdate datefmt" type="text" name="starttime" id="starttime" value="<{$starttime|date_format:"%Y-%m-%d"}>"  onFocus="WdatePicker({isShowClear:false,readOnly:true});" style="width:100;"  />  
+			   		 	  至<input class="Wdate datefmt" type="text" name="endtime" id="endtime" value="<{$endtime|date_format:"%Y-%m-%d"}>"  onFocus="WdatePicker({isShowClear:false,readOnly:true});" style="width:100;" />                    
+
+            	    <input type="submit" value="查询" class="button">  
+            	  <span class="<{if $datetype==1}>selectcolor<{else}>noselectcolor<{/if}>"><a href="<{ofunc type=url link="/areaadminpage/analysis/module/area_statisyic/datetype/1"}>">近7天</a></span><span data="2" class="<{if $datetype==2}>selectcolor<{else}>noselectcolor<{/if}>"><a href="<{ofunc type=url link="/areaadminpage/analysis/module/area_statisyic/datetype/2"}>">近30天</a></span>
+            	 </form>
+            </div>
+        
+      	</div>
+          <div class="tags">
+
+          <div id="tagscontent">
+            <div id="con_one_1">
+
+              <div class="table_td" style="margin-top:10px;">
+			<div class="trade_title">
+      			<i></i>
+      			<span>站点交易统计</span>
+				<a  href="<{$outlink}>" target="_blank" class="delurl">导出数据</a>
+      		</div>
+               <form method="post" action="" onsubmit="return remind();">
+                  <table border="0" cellspacing="2" cellpadding="4" class="list" name="table" id="table" width="100%">
+                    <thead>
+                      <tr>
+                        <th align="center">站点</th>
+						<th align="center">订单总数</th>
+						<th align="center">交易总金额</th>
+						<th align="center">有效订单数</th>
+						<th align="center">有效订单金额</th>
+						<th align="center">下单会员数</th>
+						<th align="center">单均价</th>
+                      </tr>
+                    </thead>
+                     <tbody>
+						<{if empty($areadatalist)}>
+							<tr><td align="center" colspan="8">暂无数据</td></tr>
+						<{/if}>
+                     	 <tr>
+							<td align="center"><{$areadatalist['name']}></td>
+							<td align="center"><{$areadatalist['ordernum']}></td>
+							<td align="center"><{$areadatalist['tradecost']}></td>
+							<td align="center"><{$areadatalist['useordnum']}></td>
+							<td align="center"><{$areadatalist['useordcost']}></td>
+							<td align="center"><{$areadatalist['memnum']}></td>
+							<td align="center"><{$areadatalist['singlecost']}></td>
+                      </tr>
+                    </tbody>
+                  </table>
+               </form>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+  </div>
+
+</div>
+		</div>
+		</div>
+		</div>
+		</div>
+<!--newmain 结束-->
+<{/block}>

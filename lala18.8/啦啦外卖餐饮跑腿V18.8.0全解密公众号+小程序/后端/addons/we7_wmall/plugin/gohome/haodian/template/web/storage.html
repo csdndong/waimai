@@ -1,0 +1,81 @@
+{itemplate 'public/header'}
+{if $op == 'list'}
+<form action="" class="form-table form" method="post">
+	<div class="panel panel-table">
+		<div class="panel-body table-responsive js-table">
+			{if empty($stores)}
+			<div class="no-result">
+				<p>还没有相关数据</p>
+			</div>
+			{else}
+			<table class="table table-hover">
+				<thead class="navbar-inner">
+				<tr>
+					<th>ID</th>
+					<th>门店logo</th>
+					<th>门店名称</th>
+					{if $_W['is_agent']}
+					<th>所属城市</th>
+					{/if}
+					<th>时间</th>
+					<th>删除时间</th>
+					<th>是否开启外卖</th>
+					<th class="text-right">操作</th>
+				</tr>
+				</thead>
+				<tbody>
+				{loop $stores $item}
+				<tr>
+					<td>
+						<strong>{$item['id']}</strong>
+					</td>
+					<td>
+						<img src="{$item['logo']}" alt="" style="width: 50px;">
+					</td>
+					<td>
+						{$item['title']}
+					</td>
+					{if $_W['is_agent']}
+					<td>{php echo toagent($item['agentid'])}</td>
+					{/if}
+					<td>
+						<span>入驻：{$item['haodian_starttime_cn']}</span><br>
+						{if $item['haodian_endtime'] != 0}
+						<span>到期：{$item['haodian_endtime_cn']}</span>
+						{else}
+						<span>到期：永久入驻</span>
+						{/if}
+					</td>
+					<td>
+						{php echo date('Y-m-d H:i', $item['deltime'])}
+					</td>
+					<td>
+						{if $item['is_waimai'] == 1}
+							<span class="label label-success">开启</span>
+						{else}
+							<span class="label label-default">未开启</span>
+						{/if}
+					</td>
+					<td style="text-align: right;">
+						<a href="{php echo iurl('haodian/storage/restore', array('id' => $item['id']))}" class="btn btn-default btn-sm js-post" data-confirm="确定恢复该门店吗?">恢复</a>
+						{if !$item['is_waimai']}
+						<a href="{php echo iurl('haodian/storage/del', array('id' => $item['id']))}" class="btn btn-danger btn-sm js-post" data-confirm="删除后将不可恢复，确定删除吗?">彻底删除</a>
+						{/if}
+					</td>
+				</tr>
+				{/loop}
+				</tbody>
+			</table>
+			<div class="btn-region clearfix">
+				<div class="pull-left">
+				</div>
+				<div class="pull-right">
+					{$pager}
+				</div>
+			</div>
+			{/if}
+		</div>
+	</div>
+</form>
+{/if}
+{itemplate 'public/footer'}

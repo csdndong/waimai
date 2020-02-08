@@ -1,0 +1,133 @@
+page {
+    font-size: 14px;
+}
+
+.page-rank .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+.page-rank .nav-tab {
+    height: 50px;
+    font-size: 14px;
+    background: #fff;
+}
+
+.page-rank .nav-tab .nav-item {
+    height: 100%;
+    width: 50%;
+    text-align: center;
+    line-height: 50px;
+    color: #333;
+    position: relative;
+}
+
+.page-rank .nav-tab .nav-item.active {
+    font-weight: bold;
+    color: #4FAE52;
+}
+
+.page-rank .nav-tab .nav-item.active:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 10%;
+    width: 80%;
+    height: 3px;
+    background-color: #4FAE52;
+}
+
+.page-rank .tabs {
+    box-sizing: border-box;
+    padding: 10px 15px;
+    background-color: #fff;
+}
+
+.page-rank .tabs .tab-item {
+    height: 30px;
+    width: 50%;
+    line-height: 30px;
+    text-align: center;
+    border-right: 1px solid #4FAE52;
+    border-top: 1px solid #4FAE52;
+    border-bottom: 1px solid #4FAE52;
+    box-sizing: border-box;
+}
+
+.page-rank .tabs .tab-item:first-child {
+    border-left: 1px solid #4FAE52;
+}
+
+.page-rank .tabs .tab-item.active {
+    background-color: #4FAE52;
+    color: #fff;
+}
+
+.page-rank .content {
+    margin-top: 100px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.page-rank .rank-list {
+    padding: 0 15px;
+}
+
+.page-rank .list-item {
+    padding: 15px;
+}
+
+.page-rank .list-item .ranking-num {
+    width: 30px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.page-rank .list-item .ranking-num image {
+    width: 30px;
+}
+
+.page-rank .list-item .rider {
+    width: 85%;
+}
+
+.page-rank .list-item .rider .info {
+    width: 80%;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+}
+
+.page-rank .list-item .rider .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 5px;
+    border: 1px solid #f5f5f5;
+}
+
+.page-rank .list-item .rider .avatar image {
+    width: 100%;
+    height: 100%;
+}
+
+.page-rank .list-item .rider .name {
+    width: 80%;
+}
+
+.page-rank .myself {
+    padding: 0px 15px;
+}
+
+.page-rank .myself .list-item {
+    border-radius: 200px;
+    background-color: #f5f5f5;
+    padding: 10px;
+}

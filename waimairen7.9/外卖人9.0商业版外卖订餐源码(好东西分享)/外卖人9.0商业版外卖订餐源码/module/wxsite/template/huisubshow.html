@@ -1,0 +1,302 @@
+<{extends file="<{$tempdir}>/public/wxsite.html"}>
+<{block name=extendcss}>
+<link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/checkindex.css">
+<link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/goshopping.css">
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/js/jquery.js"></script>
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/js/cart.js"></script>
+<{/block}>
+<{block name=myScrolljs}>
+<script>
+
+    var myScroll;
+    function loaded() {
+        myScroll = new iScroll('wrapper', {
+            useTransform: false,
+            onBeforeScrollStart: function (e) {
+                var target = e.target;
+                while (target.nodeType != 1) target = target.parentNode;
+
+                if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA')
+                    e.preventDefault();
+            }
+        });
+    }
+    document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
+    document.addEventListener('DOMContentLoaded', function () { setTimeout(loaded, 200); }, false);
+</script>
+<{/block}>
+<{block name=loadinghide}>
+<script>
+
+
+    var limittype = "<{$shophuiinfo['limittype']|default:0}>";  // limittype int(1)   否       1表示 不制定    2表示制定星期和具体时间段
+    var controltype = "<{$shophuiinfo['controltype']|default:0}>";	   // 闪惠类型  2 每满多少减多少   3 折扣
+    var mjlimitcost = "<{$shophuiinfo['mjlimitcost']|default:0}>";	//每满费用金额
+    var limitzhekoucost = "<{$shophuiinfo['limitzhekoucost']|default:0}>";//折扣限制金额
+    var controlcontent = "<{$shophuiinfo['controlcontent']|default:0}>";// 限制减费用金额  或者  折扣
+    var shopid = '<{$shopid|default:0}>';// 店铺ID
+    var huiid = "<{$shophuiinfo['id']|default:0}>";//闪慧ID
+    var is_shophui="<{$is_shophui}>";
+    var checknext = false;
+    function myyanchi(){
+
+        checknext = false;
+    }
+    $(function(){
+        $('#loading').hide();
+        $('.fa-angle-left').bind("click", function() {
+            history.back();
+        });
+//        $(".plaordpracR .but_03").bind("click",function(){
+//            var x = $(".plaordpracR .but_03").index(this);
+//            $(".plaordpracR .but_03").eq(x).toggleClass("but_04");
+//            if($(".plaordpracR .but_03").is(':checked')){
+//                alert($(".plaordpracR .but_03").val());
+//            }
+//        });
+
+        $(".plaordpracR .but_05").click(function(){
+            $(this).addClass("but_06");
+            $("#paytype").val($(this).attr('data'));
+        });
+        $(".plaordpracR .but_05").mousedown(function(){
+            $(".plaordpracR .but_05").removeClass("but_06");
+        });
+        $(".plaordpracR .but_05").eq(0).trigger("click");
+
+    });
+	function doshowacount(){
+	   var checknowcost = <{$member['cost']|default:'0'}>;
+	   if(checknowcost < Number($('#shifucost').text())){ 
+			$('#open_acount').hide(); 
+			if($('#paytype').val() == 3){
+				$('#open_acount').find('.but_05').removeClass('but_06');
+				$('#paytype').val(0);
+			}
+	   }else{
+			$('#open_acount').show(); 
+	   }
+	   
+	}
+    function subshopping(){
+	
+		if($('#paytype').val() == 0 || $('#paytype').val() == ''){
+			Tmsg('请选择支付方式');
+			return false;
+		}
+        if(checknext ==  false){
+            checknext = true;
+            showLoading();
+        url = siteurl+'/index.php?ctrl=wxsite&action=makeshophuiorder&datatype=json&random=@random@';
+        url = url.replace('@random@', 1+Math.round(Math.random()*1000));
+        $.ajax({
+            url: url.replace('@random@', 1+Math.round(Math.random()*1000)),
+            dataType: "json",
+            async:true,
+            data:{shopid:shopid,'xfcost':$("#consumptioncost").val(),'yhcost':$("#youhuicost").text(),'sjcost':$("#shifucost").text(),'huiid':huiid,'paytype':$("#paytype").val()},
+            success:function(content) {
+                if(content.error ==  false){
+					newhideLoading();
+                        window.location.href=  siteurl+'/index.php?ctrl=wxsite&action=subpayhui&orderid='+content.msg ;//.html?orderid='+datas.data;
+                }else{
+					newhideLoading();
+                    Tmsg(content.msg);
+                }              
+            },
+            error:function(){
+                newhideLoading();
+            }
+        });
+        }
+    }
+
+
+
+</script>
+<{/block}>
+<{block name=hearnav}>
+<div class="titCon">
+    <div class="titBox">
+        <div class="titL"><i class="fa fa-angle-left"></i></div>
+        <div class="titC">
+            <h2><{$shopinfo['shopname']}></h2>
+        </div>
+        <div class="titR"><i></i></div>
+    </div>
+</div>
+<{/block}>
+<{block name=sitetitle}><{$sitename}><{/block}>
+<{block name=blockcontent}>
+<div id="wrapper">
+    <div id="transition" style="width:100%;">
+
+        <div class="plaordconmCon">
+            <div class="plaordconmBox">
+                <div class="plaordconm"><span>消费总额：</span>
+                    <span style="display:none;" id="youhuicost"></span>
+                    <input type="text" value="" placeholder="询问服务员后输入" id="consumptioncost" onkeyup="huicost();">
+                </div>
+            </div>
+        </div>
+        <!--------优惠活动-------->
+        <div class="plaordpracCon">
+            <div class="plaordpracBox">
+                <ul>
+                    <{if $is_shophui==1}>
+                    <li class="borno">
+                        <div class="plaordpracL"><i class="icon-hd"></i><span><{$shophuiinfo['name']}></span></div>
+                        <div class="plaordpracR"><span><{if $shophuiinfo['limitzhekoucost'] > 0 && $shophuiinfo['controltype'] == 3}>最低消费<{$shophuiinfo['limitzhekoucost']}>元<{else}><{$shophuiinfo['name']}><{/if}></span>
+                            <input type="checkbox" class="plaordcheck but_04" value="<{$shophuiinfo['controltype']}>">
+                        </div>
+                    </li>
+                    <{else}>
+                    <li class="borno">
+                        <div class="plaordpracL"><i class="icon-hd"></i><span><{if !empty($shophuiinfo)}><{$shophuiinfo['name']}><{else}>在线支付<{/if}></span></div>
+                        <div class="plaordpracR"><span>在线支付</span>
+                            <input type="checkbox" class="plaordcheck but_03">
+                        </div>
+                    </li>
+                    <{/if}>
+                </ul>
+            </div>
+        </div>
+        <!--------实付金额-------->
+        <div class="plaordpaidCon">
+            <div class="plaordpaidBox">
+                <span>实付金额</span>
+                <span class="plaordpaidR foncol3">￥<span class="foncol3" id="shifucost">0</span></span>
+            </div>
+        </div>
+        <!--------支付方式-------->
+        <div class="plaordcho">选择支付方式</div>
+        <div class="plaordpracCon">
+            <div class="plaordpracBox">
+                <ul>
+                    <{foreach from=$paylist   item=items}>
+                    <{if  $items['loginname'] == 'weixin' && $WeChatType == 1 }>
+                    <li>
+                        <div class="plaordpracL"><i class="icon-wxzf"></i><span>微信支付</span></div>
+                        <div class="plaordpracR">
+                            <input type="radio" name="sex_pl" class="plaordradio but_05" data="1">
+                        </div>
+                    </li>
+                    <{/if}>
+                    <{/foreach}>
+                    <{foreach from=$paylist   item=items}>
+                    <{if  $items['loginname'] == 'alimobile'  && $WeChatType == 0}>
+                    <li>
+                        <div class="plaordpracL"><i class="icon-zfb"></i><span>支付宝支付</span></div>
+                        <div class="plaordpracR">
+                            <input type="radio" name="sex_pl" class="plaordradio but_05" data="2">
+                        </div>
+                    </li>
+                    <{/if}>
+                    <{/foreach}>
+                    <{foreach from=$paylist   item=items}>
+                    <{if  $items['loginname'] == 'open_acout' && $member['uid'] > 0  }>
+                    <li class="open_acount" id="open_acount" <{if $member['cost'] == 0}> style="display:none;"<{/if}>>
+                        <div class="plaordpracL"><i class="icon-yhk"></i><span>余额支付</span>&nbsp;&nbsp;<span style="color:#ccc;font-size:12px;"><{$member['cost']}>元</span></div>
+                        <div class="plaordpracR">
+                            <input type="radio" name="sex_pl" class="plaordradio but_05" data="3">
+                        </div>
+                    </li>
+                    <{/if}>
+                    <{/foreach}>
+                    <input type="hidden" id="paytype" value=""/>
+                </ul>
+            </div>
+        </div>
+        <!--------确认按钮-------->
+        <div class="confirmbuttonCon">
+            <div class="confirmbuttonBox">
+                <input type="button" value="确认买单" class="confirm" id="subbuyorder" style="display:none;background:#FF6E6E;" onclick="subshopping();">
+                <input type="button" value="确认买单" class="confirm" id="nosubbuyorder">
+            </div>
+        </div>
+
+    </div>
+</div>
+<script>
+    function huicost(){
+        var xiaofeiinput = $("#consumptioncost").val();
+        var defaultLength = 0;//线的最小长度是10
+        var length = $("#consumptioncost").val().length;
+        if(length > defaultLength){
+            if(is_shophui == 1){
+                if(controltype==2){
+                    if( Number(xiaofeiinput) >= Number(mjlimitcost) ){
+                        $("#nosubbuyorder").hide();
+                        $("#subbuyorder").show();
+                        var hownum =  Number( Math.floor(xiaofeiinput/mjlimitcost) );
+                        if( hownum > 0 ){
+                            $("#youhuicostbox").show();
+                            $("#noshophui_bg").hide();
+                            $("#shophui_bg").show();
+                            var youhuicost = Number(hownum)*Number(controlcontent);
+                            $("#youhuicost").text(youhuicost);
+                            $("#shifucost").text(xiaofeiinput-youhuicost);
+                            $("#submitcost").text(xiaofeiinput-youhuicost);
+                        }else{
+                            $("#youhuicostbox").hide();
+                            $("#noshophui_bg").show();
+                            $("#shophui_bg").hide();
+                            $("#shifucost").text(xiaofeiinput);
+                            $("#submitcost").text(xiaofeiinput);
+                        }
+                    }else{
+                        $("#nosubbuyorder").hide();
+                        $("#subbuyorder").show();
+                        $("#youhuicostbox").hide();
+                        $("#noshophui_bg").show();
+                        $("#shophui_bg").hide();
+                        $("#shifucost").text(xiaofeiinput);
+                        $("#submitcost").text(xiaofeiinput);
+                    }
+                    doshowacount();
+                }
+
+                if(controltype==3){
+                    if( Number(xiaofeiinput) >= Number(limitzhekoucost) ){
+                        $("#nosubbuyorder").hide();
+                        $("#subbuyorder").show();
+                        $("#youhuicostbox").show();
+                        $("#noshophui_bg").hide();
+                        $("#shophui_bg").show();
+                        var youhuicost = Number(xiaofeiinput)*(Number((100-controlcontent)/100));
+                        $("#youhuicost").text(youhuicost);
+                        $("#shifucost").text(xiaofeiinput-youhuicost);
+                        $("#submitcost").text(xiaofeiinput-youhuicost);
+                    }else{
+                        $("#nosubbuyorder").hide();
+                        $("#subbuyorder").show();
+                        $("#shifucost").text(xiaofeiinput);
+
+                    }
+                    doshowacount();
+                }
+                if(controltype == 4){
+                    $("#shifucost").text(xiaofeiinput);
+                    $("#submitcost").text(xiaofeiinput);
+                    $("#nosubbuyorder").hide();
+                    $("#subbuyorder").show();
+                    doshowacount();
+                }
+            }else{
+                $("#shifucost").text(xiaofeiinput);
+                $("#submitcost").text(xiaofeiinput);
+                $("#nosubbuyorder").hide();
+                $("#subbuyorder").show();
+                doshowacount();
+            }
+        }
+        if( length == 0 ){
+            $("#shifucost").text(0);
+            $("#youhuicostbox").hide();
+            $("#nosubbuyorder").show();
+            $("#subbuyorder").hide();
+
+        }
+    }
+    huicost();
+</script>
+<{/block}>

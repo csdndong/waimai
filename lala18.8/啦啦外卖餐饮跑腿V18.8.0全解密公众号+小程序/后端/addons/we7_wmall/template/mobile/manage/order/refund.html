@@ -1,0 +1,129 @@
+{itemplate 'public/header'}
+<div class="page page-refund" id="page-manage-refund">
+	<header class="bar bar-nav common-bar-nav">
+		<a class="icon pull-left icon icon-arrow-left back"></a>
+		<h1 class="title">部分退款</h1>
+		<a class="icon pull-right icon icon-refresh refresh"></a>
+	</header>
+	<div class="content">
+		<div class="cause">退款商品</div>
+		<div class="goods-refund">
+			<div class="goods-head">
+				<div class="store-img">
+					<img :src="store.logo">
+				</div>
+				<div class="store-title">{{store.title}}</div>
+				<div class="store-sign">{{store.delivery_title}}</div>
+			</div>
+		</div>
+		<div class="goods-list">
+			<div class="goods-item" v-for="(item, index) in goods">
+				<img :src="item.thumb" alt="">
+				<div class="goods-info">
+					<div class="goods-title">{{item.goods_title}}</div>
+					<div class="goods-nums">
+						<div class="number">x{{item.goods_num}}</div>
+						<div class="handle">
+							<div class="icon icon-minus" v-if="item.goods_num > 0" @click="onCalculate(item.id, '-')"></div>
+							<div class="count" v-if="refund_data && refund_data.refund_part && refund_data.refund_part[item.id]">{{refund_data.refund_part[item.id].total_num}}</div>
+							<div class="count" v-else>0</div>
+							<div class="icon icon-plus" @click="onCalculate(item.id, '+')"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="delivery-fee">
+			<div class="fee">
+				<span>配送费</span>
+				<span class="number">¥{$order['delivery_fee']}</span>
+			</div>
+			<div class="explain">部分退，配送费不退回</div>
+		</div>
+		<div class="refund-fee">
+			<div class="fee">
+				<div class="fee-title">退款金额<span>（包含餐盒费）</span></div>
+				<div class="number">{{refund_data.refund_total_fee}}</div>
+			</div>
+			<div class="explain">备注：单独商品的退款金额是在刨除配送费后按照优惠活动等比计算得出。如您选择全部商品则按照全部退款返还您支付的全部金额。</div>
+		</div>
+		<div class="cause">请选择退款原因</div>
+		<div class="list-block">
+			<ul class="border-1px-tb padding-15px-lr">
+				<li class="list-item" v-for="(item, index) in reasons">
+					<label class="label-checkbox item-content border-1px-t">
+						<input type="radio" name="reason" checked="" :value="index" v-model="reasonindex">
+						<div class="item-media"><i class="icon icon-form-checkbox"></i></div>
+						<div class="item-inner">
+							<div class="item-title-row">
+								<div class="item-title">{{item}}</div>
+							</div>
+						</div>
+					</label>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div class="submit-btn" @click="onSubmit">确认退款</div>
+</div>
+<script>
+	var id = {php echo $id};
+	var goods = {php echo json_encode($goods)};
+	var order = {php echo json_encode($order)};
+	var store = {php echo json_encode($store)};
+	var reasons = {php echo json_encode($reasons)};
+
+	var app = new Vue({
+		el: '#page-manage-refund',
+		data: {
+			goods: goods,
+			store: store,
+			reasons: reasons,
+			reasonindex: '',
+			refund_data: {}
+		},
+		methods:{
+			onLoad() {
+			},
+
+			onCalculate(stat_id, sign) {
+				var that = this;
+				var params = {
+					id: id,
+					stat_id: stat_id,
+					sign: sign,
+					refund_data: that.refund_data
+				};
+				$.post("{php echo imurl('manage/order/takeout1/refund_calculate')}", params, function(data){
+					var result = $.parseJSON(data);
+					if(result.message.errno != 0) {
+						$.toast(result.message.message);
+					} else {
+						that.refund_data = result.message.message.refund_data;
+					}
+				});
+			},
+
+			onSubmit() {
+				var params = {
+					id: id,
+					reason: this.reasonindex,
+					refund_data: this.refund_data,
+				};
+				$.post("{php echo imurl('manage/order/takeout1/refund')}", params, function(data){
+					var result = $.parseJSON(data);
+					if(result.message.errno != 0) {
+						$.toast(result.message.message);
+					} else {
+						$.toast(result.message.message);
+					}
+				});
+			}
+		},
+		mounted() {
+			this.onLoad();
+		},
+	})
+
+</script>
+{itemplate 'public/footer'}

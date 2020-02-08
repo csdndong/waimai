@@ -1,0 +1,254 @@
+ <{extends file="<{$tempdir}>/member/member.html"}>   
+ <{block name=membercenter}> 
+ <div class="box790">
+ 
+ 
+ 
+ 
+<{if $order['paytype'] ==1   && $order['paystatus'] == 1 && empty($order['is_reback'])}>
+<input type="hidden" name="orderid"  value="<{$order['id']}>">
+   <div class="box_set box_inline">
+			<div class="liwd30" style="width:10%;text-align:center;">
+				<img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/tuikuan_icon.png" style="width:20px; margin-top:11px;  " />
+			</div>
+		<div class="liwd30" style="width:90%; text-align:left; font-size:14px; color:#fec520;">
+			商家确认后，款项将自动退到您的支付账户中
+		</div>
+		 
+	</div>
+   <div class="cl"></div>
+	<div class="box_set box_inline" style="margin:20px 0px; width:100%; background:#fff;">
+		 
+				<div class="liwd30" style="width:30%;text-align:center;">
+					退款金额
+				</div>
+			<div class="liwd30"  style="width:70%; text-align:center; color:#fb4e44;">
+				<span id="allcost"><{$order['allcost']}></span> 元
+			</div>
+		 
+ 
+	</div>
+	
+	<div class="cl"></div>
+	
+	<div class="drawbackliyou">
+		<div class="box_inline drawbox" >
+				<div class="liwd90" style="width:100%;font-size:16px;" >
+					退款原因
+				</div>
+		 
+			 
+		</div>
+	<{if !empty($drawsmlist)}>
+                    	<{$list = $drawsmlist|unserialize}>
+                       <{foreach from=$list key=myid item=items}>	 
+                       <{if !empty($items)}>
+			<div class="box_inline drawbox" >
+				<div class="liwd90" style="width:10%;" >
+					<input type="radio"  name="drawreason" />
+				</div>
+				<div class="liwd90" >
+					<{$items}>
+				</div>
+			 
+		</div>
+		<div class="cl"></div>
+	  <{/if}>
+                    <{/foreach}>  
+                    <{/if}>
+	
+	</div>
+	<div class="cl"></div>
+	<div class="drawcontent">
+		<div class="box_inline" >
+				<div class="liwd90" style="width:100%;font-size:16px;" >
+					<textarea name="drawcontent" id="drawcontent"  type="text" placeholder="请详细描述您遇到的问题，有助于更快处理退款" ></textarea>
+				</div>
+		</div>
+	</div>
+	
+	
+	<div class="sqdraw" style="margin-bottom:20px;">
+		<div class="box_inline" >
+				<div class="liwd90" id="feedbackSubmit"  >
+					申请退款
+				</div>
+		 
+			 
+		</div>
+	</div>
+<{else}>
+	
+	<div class="box_set box_inline">
+			<div class="liwd30" style="width:10%;text-align:center;">
+				<img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/tuikuan_icon.png" style="width:20px; margin-top:11px;  " />
+			</div>
+		<div class="liwd30" style="width:90%; text-align:left; font-size:14px; color:#fec520;">
+			商家确认后，款项将自动退到您的支付账户中
+		</div>
+		 
+	</div>
+   <div class="cl"></div>
+	<div class="box_set box_inline" style="margin:20px 0px; width:100%; background:#fff;">
+		 
+				<div class="liwd30" style="width:30%;text-align:center;">
+					退款金额
+				</div>
+			<div class="liwd30"  style="width:70%; text-align:center; color:#fb4e44;">
+				<span id="allcost"><{$drawbacklog['cost']}></span> 元
+			</div>
+		 
+ 
+	</div>
+	<div class="cl"></div>
+ <div style="background:#ffffff; height:500px;">
+	<div class="drawbackliyou" style="margin:20px 0px;">
+			 
+		 
+		<div class="box_inline drawbox"  style="border:none;">
+				<div class="liwd90" style="width:100%;font-size:16px;" >
+					退款状态
+				</div>
+		 
+			 
+		</div>
+ 
+			<div class="box_inline drawbox" style="border:none;">
+			 
+				<div class="liwd90" style="width:100%;font-size:14px;  color:#fb4e44;color:red;height:auto; border-bottom:2px solid #ccc; font-weight:normal;">
+					<{if $drawbacklog['status'] == 0 }>待处理<{elseif $drawbacklog['status'] ==  1}>已退款，请在对应的支付账户中查看<{elseif $drawbacklog['status'] ==  2}>拒绝退款，如有疑问请联系商家<{/if}>
+				</div>
+			 
+		</div>
+		 
+	</div>
+	
+	<div class="cl"></div>
+	
+	<div class="drawbackliyou">
+		<div class="box_inline drawbox" style="border:none;">
+				<div class="liwd90" style="width:100%;font-size:16px;height:auto;   " >
+					退款原因
+				</div>
+		 
+			 
+		</div>
+ 
+			<div class="box_inline drawbox" style="border:none;">
+			 
+				<div class="liwd90" style="width:100%;font-size:14px; color:#6B450A; font-weight:normal;height:auto; border-bottom:2px solid #ccc; ">
+					<{$drawbacklog['reason']}>
+				</div>
+			 
+		</div>
+	 
+	
+	</div>
+		
+	
+	<div class="drawbackliyou" style="margin-top:20px;">
+		<div class="box_inline drawbox" style="border:none;">
+				<div class="liwd90" style="width:100%;font-size:16px;" >
+					退款详细说明
+				</div>
+		 
+			 
+		</div>
+ 
+			<div class="box_inline drawbox" style="border:none;" >
+			 
+				<div class="liwd90" style="width:100%;font-size:14px; color:#6B450A; font-weight:normal;height:auto; border-bottom:2px solid #ccc; ">
+					<{$drawbacklog['content']}>
+				</div>
+			 
+		</div>
+	 
+	
+	</div>
+</div>	 
+	<div class="sqdraw" style=" margin-bottom:20px;margin-top:20px;">
+		<div class="box_inline" >
+				<div class="liwd90 feedbackSubmit" style="width:30%; margin-left:30%; "   >
+					返回上一步
+				</div>
+		 
+			 
+		</div>
+	</div>
+	
+<{/if}>
+	
+	
+</div>
+</div>
+ <script> 
+$(function(){ 
+				$('.feedbackSubmit').click(function(){   
+			 
+					history.back();
+			   });
+	 
+});
+
+
+
+$('#feedbackSubmit').click(function(){   
+  	   	$('#loading').toggle(); 
+			var allcost = $("#allcost").text();
+			var reason = $("input[name='drawreason']:checked").parent().next().text();
+			var info = {'allcost':allcost,'reason':reason,'orderid': $("input[name='orderid']").val(),'typeid':0,'content':$('#drawcontent').val()};  
+		    var url =  siteurl+'/index.php?ctrl=order&action=savedrawbacklog&datatype=json&random=@random@';  
+		     $.ajax({ 
+             url: url.replace('@random@', 1+Math.round(Math.random()*1000)), 
+            dataType: "json", 
+            data:info, 
+            success:function(content) { 
+
+            	   $('#loading').toggle();
+            	   if(content.error ==  false){
+							alert('申请成功!');
+							 
+								window.location.reload();
+					 
+            	   }else{
+            	   	alert(content.msg);
+            	   }
+
+            },
+
+            error:function(){
+
+            	   $('#loading').toggle();
+
+            }
+
+         });  
+	 });
+
+</script> 
+ 
+ 
+ 
+ 
+		<div>
+	
+ <style>
+.page-app{ background:#f0f0f0;}
+body{background:#f0f0f0;
+}
+.liwd30{ float:left; width:10%; background:#fff; text-align:center; font-size:15px; line-height:45px;height:45px;color:#333333;font-weight:bold;  }
+.box_set{ padding:0px 0px; background:#fff; }
+.drawbackliyou{padding:0px 12px; background:#fff;}
+.drawbackliyou .liwd90{width:90%;text-align:left; font-size:15px; line-height:45px;height:45px;color:#333333;font-weight:bold; }
+.liwd90{float:left;}
+.cl{clear:both;}
+.liwd90 input{float:left; width:18px; height:18px; margin-top:14px; }
+.drawbox{ border-bottom:1px solid #f0f0f0;}
+.drawcontent{ padding:0px 12px; background:#fff; height:176px; margin-top:20px; margin-bottom:10px;}
+.drawcontent liwd90{  border:none;}
+.drawcontent textarea{ background:#fff; height:146px; padding:12px 0px ;  width:100%; border:none;  }
+.sqdraw{padding:0px 12px;}
+.sqdraw .liwd90{ width:100%;font-size:16px; background:#ffd300; color:#6b450a; text-align:center; height:42px; line-height:42px; font-weight:bold;border-radius:5px;}
+#feedbackSubmit,.feedbackSubmit{ cursor:pointer;}
+</style>
+<{/block}>

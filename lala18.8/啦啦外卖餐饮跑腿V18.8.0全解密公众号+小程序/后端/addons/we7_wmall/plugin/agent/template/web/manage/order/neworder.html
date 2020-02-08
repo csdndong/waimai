@@ -1,0 +1,1197 @@
+{itemplate 'public/header'}
+<style>
+.left-menu{
+	width:100%;
+}
+.left-menu a{
+	display:inline-block;
+	width:100%;
+	height:44px;
+	border-radius:0px;
+	background: #fff;
+	line-height:44px;
+	padding-left: 6%;
+}
+.cart-count{
+    position: absolute;
+    left: 26px;
+    background: #ff5a5a;
+    padding: 1px 8px;
+    border-radius: 9px;
+    color: #fff;
+    font-size: 12px;
+    top: 7px;
+}
+.left-menu>a{
+	display:inline-block;
+	width:100%;
+	height:44px;
+	border-radius:0px;
+	background: #fff;
+	line-height:44px;
+	padding-left: 6%;
+}
+.pic-goods{
+	float: left;
+	width: 250px;
+	height: 250px;
+	border-right: 1px dashed #e5e5e5;
+	border-bottom: 1px dashed #e5e5e5;
+	overflow: hidden;
+}
+.goods-avatar{
+    position: relative;
+    width: 100%;
+    padding:0 6%;
+	height: 130px;
+	margin: 20px auto 0;
+	overflow: hidden;
+}
+.goods-name{
+	width: 100%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	font-size: 14px;
+	color: #333;
+	font-weight: 700;
+	margin-top:12px;
+	padding:0 6%;
+}
+.goods-name>a{
+	color:#000;
+}
+.goods-description{
+	width: 100%;
+	padding:0 6%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	font-size: 12px;
+	color: #999;
+	margin:10px 0;
+}
+.goods-price{
+	font-size: 14px;
+	color: #ff5a5a;
+	font-weight: 700;
+	padding:0 5%;
+	width:100px;
+	height:30px;
+	float:left;
+	line-height:30px;
+}
+.goods-num{
+	width:100px;
+	float:right;
+	margin-right:5%;
+
+}
+.goods-num-del,.goods-num-add{
+	border-radius: 50%;
+	font-size:20px;
+	font-weight:600;
+}
+.goods-num-del{
+	color:#ccc;
+	border:1px solid #ccc;
+}
+.goods-num-add{
+	color:#f00;
+	border:1px solid #f00;
+}
+.goods-num>span{
+	display:inline-block;
+	float:right;
+	width: 24px;
+	height: 24px;
+	line-height:24px;
+	margin-top:4px;
+	cursor:pointer;
+	text-align: center;
+}
+.goods-num-number{
+	margin:0 5px;
+	font-size: 14px;
+}
+.goods-display{
+	width:100%;
+}
+.goods-display-item{
+	width:100%;
+	max-height:520px;
+	overflow-y:auto;
+	display: none;
+}
+.goods-display-item:first-child{
+	display:block;
+}
+.goods-display-item::-webkit-scrollbar-thumb{
+	background: #ccc;
+}
+.goods-item-num{
+	display:inline-block;
+	width:20px;
+	height:20px;
+	border-radius:50%;
+	line-height:20px;
+	text-align: center;
+	background:#f00;
+	color:#fff;
+	font-size:12px;
+	margin-left:5px;
+}
+/*左侧菜单点击时样式*/
+.left-menu-active{
+	border:1px solid #ccc;
+	border-right:0;
+	border-left:0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.left-menu-other{
+	border-right:1px solid #ccc;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.shop-list{
+	width:100%;
+	height:130px;
+	border-bottom:1px dashed #e5e5e5;
+	margin:20px 0;
+}
+.shop-select{
+	width:100%;
+	height:120px;
+	margin:0 80px 15px 0;
+	padding:10px;
+	border:1px solid #ccc;
+}
+.shop-info{
+	width:100%;
+	height:120px;
+	margin-bottom:15px;
+	border:1px solid #ccc;
+}
+.img-name{
+	width:412px;
+	float: left;
+}
+.shop-img{
+	margin-left: 20px;
+	margin-top: 16px;
+	width: 106px;
+	height: 80px;
+	line-height: 88px;
+	text-align: center;
+	overflow: hidden;
+	float: left;
+}
+.shop-name{
+	float: left;
+}
+.shop-item-name{
+	width: 260px;
+	margin-left: 16px;
+	padding-top: 38px;
+	line-height: 1;
+}
+.shop-item-name>a>span{
+	font-size: 14px;
+	color: #333;
+	display: inline-block;
+	max-width: 270px;
+	overflow: hidden;
+	font-weight: bold!important;
+}
+.shop-item-stars{
+	margin:14px 0 0 16px;
+}
+.star-ranking{
+	margin-top: 1px;
+	background-image: url(http://xs01.meituan.net/waimai_web/img/restaurant/star-gray.svg);
+	display: inline-block;
+	width: 75px;
+	height: 12px;
+	line-height: 12px;
+	overflow: hidden;
+	background-repeat: repeat-x;
+	background-size: 15px 12px;
+}
+.star-score{
+	display: inline-block;
+	width: 75px;
+	height: 12px;
+	line-height: 12px;
+	overflow: hidden;
+	background-image: url(http://xs01.meituan.net/waimai_web/img/restaurant/star-yellow.svg);
+	background-repeat: repeat-x;
+	background-size: 15px 12px;
+}
+.other-info{
+	color: #666;
+	padding-top: 31px;
+	float: right;
+}
+.fl{
+	float: left;
+	text-align: left;
+	margin-right: 100px;
+	color: #666;
+}
+.nu>strong{
+	margin-right: 3px;
+	font-family: microsoft yahei;
+	font-size: 28px;
+	font-weight: 900;
+	vertical-align: sub;
+}
+/*已售完样式*/
+.all-selled,.is-rest{
+	width: 60px;
+	height: 25px;
+	line-height: 25px;
+	text-align: center;
+	background-color: #b5b5b5;
+	color: #fff;
+	border-radius:2px;
+	margin-left:40px;
+}
+.order-list{
+	position:fixed;
+	z-index:10000;
+	width:306px;
+	bottom:0px;
+	right:132px;
+	background-color: #FFF;
+}
+.page{
+	position:relative;
+}
+.order-title{
+	color: #333;
+	background-color: #eee;
+	height: 45px;
+	line-height: 45px;
+	padding: 0 10px;
+	font-size: 14px;
+}
+.order-dishes{
+	float:right;
+}
+.clear-cart{
+	color: #333;
+}
+.order-goods-name{
+	float:left;
+	width: 148px;
+	margin: 16px 0 14px;
+	overflow: hidden;
+	text-overflow:ellipsis;
+	white-space: nowrap;
+}
+.order-modify{
+	float:left;
+	height:50px;
+	line-height:50px;
+}
+.order-modify a{
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	line-height:16px;
+	border: 1px solid #E5E5E5;
+	letter-spacing: 0;
+	color: #333;
+	text-align: center;
+}
+.txt-count{
+	width: 28px;
+	display: inline-block;
+	height: 16px;
+	padding: 0 3px;
+	line-height: 16px;
+	text-align: center;
+	border:1px solid #E5E5E5;
+	margin:0 -5px;
+}
+.order-pri{
+	color: #ffa735;
+	line-height: 49px;
+	width: 52px;
+	text-align: right;
+	float:right;
+}
+.order-list ul li{
+	margin:0px 10px;
+	border-bottom: 1px solid #E5E5E5;
+}
+.packing-cost{
+	height: 50px;
+	line-height: 50px;
+	border-bottom: 1px solid #e5e5e5;
+	margin: 0 10px;
+}
+.order-list .total{
+	height: 54px;
+	line-height: 54px;
+	text-align: right;
+	padding-right: 10px;
+}
+.order-list .total .totalnumber{
+	margin: 0 3px;
+	color: #fe4d3d;
+}
+.order-list .total .bill{
+	font-size: 28px;
+	font-weight: 700;
+	margin-right: 0;
+	color: #fe4d3d;
+}
+.order-footer{
+	background-color: #333;
+	cursor: pointer;
+	position: relative;
+	z-index: 1;
+	height: 50px;
+	margin-top: -1px;
+}
+.cart-logo{
+	float:left;
+	width: 25px;
+	height: 25px;
+	position: absolute;
+	top: 13px;
+	left: 10px;
+	background: url(http://xs01.meituan.net/waimai_web/img/restaurant/cart.svg) no-repeat;
+	background-size: 100% 100%;
+}
+.order-footer .cart-total{
+	display: inline-block;
+	position:absolute;
+	height:100%;
+	line-height:60px;
+	right:120px;
+	font-size: 28px;
+    font-weight: 700;
+    color: #fe4d3d;
+}
+.go-pay{
+	float:right;
+	color: #333;
+	background-color: #ffd161;
+	font-weight: 700;
+	padding: 0 23px;
+	border: 0;
+	cursor: pointer;
+	border-radius: 0;
+	height: 50px;
+	line-height: 50px;
+	font-size: 16px;
+	text-align: center;
+}
+.ready-pay{
+	float:right;
+	color: #fff;
+	background-color: #a0a0a0;
+	border: 0;
+	padding: 0 15px;
+	border-radius: 0;
+	height: 50px;
+	line-height: 50px;
+	font-size: 16px;
+	text-align: center;
+}
+.ready-pay:hover{
+	color:#fff;
+}
+.order-list-body{
+	width:100%;
+	background:#fff;
+	position: absolute;
+	top:-160px;
+	transition:top 1s;
+	border:1px solid #eee;
+}
+.buyer-info{
+	position: fixed;
+	bottom:0px;
+	left:230px;
+	width:100%;
+	height:105px;
+	background:#fff;
+	z-index:100;
+}
+.buyer-info-inner{
+	width:81%;
+	height:100%;
+	background:#fbfbfb;
+	padding-left:15px;
+}
+.buyer-info-item,.order-type{
+	margin-top:14px;
+	width:25%;
+}
+.buyer-info-item input{
+	display:inline-block;
+	height:30px;
+	outline:none;
+	box-shadow: none;
+}
+.left-container{
+	width:11%;
+	float:left;
+}
+.right-container{
+	width:89%;
+	float:left;
+	padding:0 5%;
+}
+.footer{
+	padding:35px 0;
+}
+
+/*选择规格按钮样式*/
+.choosespec-btn{
+	width: 60px;
+    height: 25px;
+    cursor:pointer;
+    line-height: 25px;
+    text-align: center;
+    background-color: #ffd161;
+    color: #333;
+    border-radius:2px;
+    margin-left:40px;
+}
+
+.choosespec-dlg{
+	position: fixed;
+	z-index:1000000;
+	width: 250px;
+	padding: 2px 0 12px 15px;
+	background-color: #fff;
+	-webkit-box-shadow: 1px 1px 5px #ccc;
+	border: 1px solid #ebebeb;
+	border-top: 2px solid #ffd161;
+	display:block;
+}
+.choosespec-item-left{
+	margin-top: 10px;
+	line-height: 20px;
+	float: left;
+	width: 40px;
+	color: #898989;
+	cursor: default;
+	/*border:1px solid red;*/
+	font-size:12px;
+}
+.choosespec-item-right{
+	float: left;
+	width: 192px;
+	/*border:1px solid red;*/
+}
+.choosespec-item-options{
+	float: left;
+	line-height: 20px;
+	min-width: 50px;
+	background-color: #f5f5f5;
+	color: #898989;
+	margin-top: 10px;
+	margin-right: 5px;
+	border-radius: 2px;
+	-webkit-border-radius: 2px;
+	text-align: center;
+	font-size:12px;
+	padding:0 3px;
+}
+.choosespec-item-options:hover{
+	background-color: #ffd161;
+	color: #333;
+}
+.choosespec-item-options.selected{
+	background-color: #ffd161;
+	color: #333;
+}
+.choosespec-price,.choosespec-item-num{
+	display:inline-block;
+	margin-top: 10px;
+	margin-left: 5px;
+	color: #434343;
+}
+.choosespec-item-minus,.choosespec-item-plus{
+	display:inline-block;
+	width:20px;
+	height:20px;
+	border:1px solid #eee;
+	text-align: center;
+	line-height: 20px;
+	color:red;
+	font-weight: normal;
+}
+.choosespec-item-number{
+	display:inline-block;
+	width: 30px;
+	text-align: center;
+	color: #434343;
+	line-height: 20px;
+}
+.ng-cloak{display:none}
+</style>
+<div class="page clearfix ng-cloak" ng-controller="shopInfo">
+	{if !check_plugin_exist('wxapp')}
+		<div class="alert alert-danger">
+			注意：代客下单目前仅对购买过"小程序"插件的客户开放。
+		</div>
+	{/if}
+	<div class="left-container">
+		<form action="./wagent.php?" class="form-horizontal form-filter" id="form1">
+			{php echo tpl_form_filter_hidden('order/neworder/index');}
+			<div class="shop-select">
+				<div class="form-group">
+					<label for="">请选择店铺</label>
+					<select name="sid" class="form-control select2 js-select2">
+						<option value="0">请选择店铺</option>
+						{loop $stores $store}
+							<option value="{$store['id']}"  {if $sid == $store['id']}selected{/if}>{$store['title']}</option>
+						{/loop}
+					</select>
+				</div>
+			</div>
+		</form>
+		<!-- 左侧菜单 -->
+		<div class="left-menu" ng-if="shopInfo.sid > 0">
+			<div ng-class="shopInfo.categorySelectedId == categoryItem.id ? 'left-menu-active' : 'left-menu-other'" ng-repeat="categoryItem in shopInfo.categoryAll" shopInfo-id="{{categoryItem.id}}" ng-click="shopInfo.onToggleCategory(categoryItem, $index)">
+				<a href="javascript:;">{{categoryItem.title}}</a>
+			</div>
+		</div>
+	</div>
+	<div class="right-container" ng-if="shopInfo.sid > 0">
+		<div class="shop-info">
+			<div class="img-name">
+				<div class="shop-img">
+					<img ng-src="{{shopInfo.store.logo}}" alt="" width="106px" height="79.5px">
+				</div>
+				<div class="shop-name">
+					<div class="shop-item-name">
+						<a href="javascript:;">
+							<span>{{shopInfo.store.title}}</span>
+						</a>
+					</div>
+					<div class="shop-item-stars">
+						<span class="star-ranking ">
+							<span class="star-score" style="width: 52px"></span>
+						</span>
+					</div>
+				</div>
+				<div style="clear:both"></div>
+			</div>
+			<div class="other-info">
+				<div class="fl">
+					<div class="desc">平均送餐时间</div>
+					<div class="nu">
+						<strong>{{shopInfo.store.delivery_time}}</strong>分钟
+					</div>
+				</div>
+				<div class="fl">
+					<div class="desc">起送</div>
+					<div class="nu">
+						<strong>{{shopInfo.store.send_price}}</strong>元
+					</div>
+				</div>
+				<div class="fl">
+					<div class="desc">配送费</div>
+					<div class="nu">
+						<strong>{{shopInfo.store.delivery_price}}</strong>元
+					</div>
+				</div>
+			</div>
+			<div style="clear:both"></div>
+		</div>
+		<!-- 右侧商品列表 -->
+		<div class="goods-display">
+			<ul>
+				<li class="goods-display-item">
+					<div class="pic-goods" ng-repeat="goodsItem in shopInfo.activeGoods">
+						<div class="goods-avatar">
+							<a href="javascript:;"><img ng-src="{{goodsItem.thumb}}" alt="" width="100%"></a>
+						</div>
+						<div class="goods-name">
+							<a href="javascript:;">{{goodsItem.title}}</a>
+						</div>
+						<div class="goods-description">
+							{{goodsItem.content}}
+						</div>
+						<div class="goods-price">
+							￥{{goodsItem.price}}
+						</div>
+						<div class="goods-num">
+							<div class="is-rest" ng-if="shopInfo.store.is_rest == 1">休息中</div>
+							<div ng-if="shopInfo.store.is_rest == 0">
+								<div ng-if="goodsItem.is_options == 0 && goodsItem.is_attrs == 0">
+									<div class="all-selled" ng-if="goodsItem.total == 0">已售完</div>
+									<div class="goods-num" ng-if="goodsItem.total != 0">
+										<span class="goods-num-add" ng-click="shopInfo.onPlus($index, 0, '', 'list')">+</span>
+										<span class="goods-num-number" ng-if="goodsItem.totalnum > 0">{{goodsItem.totalnum}}</span>
+										<span class="goods-num-del" ng-if="goodsItem.totalnum > 0" ng-click="shopInfo.onMinus($index, 0, '', 'list')">-</span>
+										<div style="clear:both"></div>
+									</div>
+								</div>
+								<div ng-if="goodsItem.is_options == 1 || goodsItem.is_attrs == 1">
+									<div class="goods-num choosespec-btn" ng-if="goodsItem.total" ng-click="shopInfo.onSelectOption($index,$event)">
+										选规格
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div style="clear:both"></div>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<form action="" ng-if="shopInfo.sid > 0">
+		<!-- 订单列表 -->
+		<div class="order-list">
+			<div class="order-list-body" ng-style="{top: shopInfo.cartShow ? ((shopInfo.cart.num > 0 ? -210 : 0) - shopInfo.cartDistinctNum * 50 + 'px') : 0}">
+				<div class="order-title">
+					<span class="buy-title">购物车</span>
+					<span class="order-dishes"><a href="javascript:;" class="clear-cart" ng-click="shopInfo.onTurncateCart()"><i class="glyphicon glyphicon-trash"></i> 清空购物车</a></span>
+				</div>
+				<ul class="order-list-ul">
+					<div ng-repeat="cartItem in shopInfo.cart.data">
+						<li class="clearfix order-list-item" ng-repeat="(optionId, cartOption) in cartItem" ng-if="cartOption.goods_id != 88888">
+							<div class="order-goods-name">{{cartOption.title}}</div>
+							<div class="order-modify">
+								<a href="javascript:;" ng-click="shopInfo.onMinus(cartOption.goods_id, optionId, cartOption.cid, 'cart')">-</a>
+								<span class="txt-count">{{cartOption.num}}</span>
+								<a href="javascript:;" ng-click="shopInfo.onPlus(cartOption.goods_id, optionId, cartOption.cid, 'cart')">+</a>
+							</div>
+							<div class="order-pri">
+								<span>¥{{cartOption.total_discount_price}}</span>
+							</div>
+						</li>
+					</div>
+				</ul>
+				<div class="clearfix packing-cost">
+					<span>餐盒费</span>
+					<span class="order-pri">¥{{shopInfo.cart.box_price}}</span>
+				</div>
+				<div class="clearfix packing-cost" ng-if="shopInfo.store.pack_price > 0">
+					<span>包装费</span>
+					<span class="order-pri">¥{{shopInfo.store.pack_price}}</span>
+				</div>
+				<div class="clearfix packing-cost" ng-if="shopInfo.store.extra_fee > 0">
+					<span>平台附加费</span>
+					<span class="order-pri">¥{{shopInfo.store.extra_fee}}</span>
+				</div>
+				<div class="clearfix packing-cost">
+					<span>配送费</span>
+					<span class="order-pri">¥{{shopInfo.extra.delivery_fee}}</span>
+				</div>
+				<div class="total">共<span class="totalnumber">{{shopInfo.cart.num}}</span>份，总计 <span class="bill">¥{{shopInfo.total_fee}}</span></div>
+			</div>
+			<div class="clearfix order-footer">
+				<div class="cart-logo" ng-click="shopInfo.onToggleCartShow()"></div>
+				<div class="cart-count" ng-click="shopInfo.onToggleCartShow()" ng-if="shopInfo.cart.num > 0">{{shopInfo.cart.num}}</div>
+				<a class="cart-total" href="">
+					¥{{shopInfo.total_fee}}
+				</a>
+				<a class="ready-pay borderradius-2" ng-if="!shopInfo.cart.num || shopInfo.cart.num <= 0" href="javascript:;">
+					<span class="margintominprice">{{shopInfo.store.send_price}}</span>元起送
+				</a>
+				<!-- 订单金额未满，无法配送 -->
+				<a class="ready-pay borderradius-2" ng-if="shopInfo.cart.num > 0 && shopInfo.store.send_condition > 0" href="javascript:;">
+					差<span class="margintominprice">{{shopInfo.store.send_condition}}</span>元起送
+				</a>
+				<!-- 可下单 -->
+				<a href="javascript:;" class="go-pay" ng-if="shopInfo.cart.num > 0 && shopInfo.store.send_condition <= 0" ng-click="shopInfo.onSubmit()">立即下单</a>
+			</div>
+		</div>
+		<!-- 买家信息 带默认值 -->
+		 <div class="buyer-info" ng-if="shopInfo.sid > 0">
+			<div class="buyer-info-inner">
+				<div class="form-inline">
+					<div class="form-group order-type">
+						<label>配送方式：</label>
+						<label class="radio-inline">
+							<input type="radio" name="inlineRadioOptions" ng-model="shopInfo.extra.order_type" value="1">店铺配送
+						</label>
+						<label class="radio-inline">
+							<input type="radio" name="inlineRadioOptions" ng-model="shopInfo.extra.order_type" value="2">自提
+						</label>
+					</div>
+					<div class="form-group buyer-info-item">
+						<label>备&nbsp;&nbsp;&nbsp;&nbsp;注：</label>
+						<input type="text" ng-model="shopInfo.extra.note" class="form-control" size="30">
+					</div>
+					<div class="form-group buyer-info-item" ng-if="shopInfo.extra.order_type == 1">
+						<label>配送费：</label>
+						<input type="text" ng-model="shopInfo.extra.delivery_fee" class="form-control">
+					</div>
+				</div>
+				<div class="form-inline" ng-if="shopInfo.extra.order_type == 1">
+					<div class="form-group buyer-info-item">
+						<label>姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名：</label>
+						<input type="text" ng-model="shopInfo.extra.username" class="form-control">
+					</div>
+					<div class="form-group buyer-info-item ">
+						<label>手机号：</label>
+						<input type="text" ng-model="shopInfo.extra.mobile" class="form-control">
+					</div>
+					<div class="form-group buyer-info-item ">
+						<label>配送地址：</label>
+						<input type="text" ng-model="shopInfo.extra.address" class="form-control" size="30">
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+
+	<!-- 商品规格弹出框 -->
+	<div class="choosespec-dlg" ng-if="shopInfo.modelSpecShow == true" ng-style="shopInfo.offset">
+		<div class="choosespec-item" ng-if="shopInfo.activeGoodsItem.is_options == 1">
+			<div class="choosespec-item-left">规格：</div>
+			<div class="choosespec-item-right">
+				<a href="javascript:;" class="choosespec-item-options" ng-class="shopInfo.activeGoodsItem.activeOptions.optionSelected == optionsItem.id ? 'selected' : ''" ng-click="shopInfo.onToggleOption('option', optionsItem.id, 0, 0)" ng-repeat="optionsItem in shopInfo.activeGoodsItem.options">{{optionsItem.name}}</a>
+			</div>
+			<div style="clear:both"></div>
+		</div>
+		<div class="choosespec-item" ng-if="shopInfo.activeGoodsItem.is_attrs == 1" ng-repeat="(attrIndex, attrItem) in shopInfo.activeGoodsItem.attrs">
+			<div class="choosespec-item-left">{{attrItem.name}}：</div>
+			<div class="choosespec-item-right">
+				<a href="javascript:;" ng-repeat="(labelIndex, labelItem) in attrItem.label" class="choosespec-item-options" ng-class="shopInfo.activeGoodsItem.activeOptions.attrsSelected[attrIndex] == labelIndex ? 'selected' : ''" ng-click="shopInfo.onToggleOption('attr', 0, attrIndex, labelIndex)">{{labelItem}}</a>
+			</div>
+			<div style="clear:both"></div>
+		</div>
+		<div class="choosespec-item">
+			<div class="choosespec-item-left">价格：</div>
+			<div class="choosespec-item-right">
+				<span class="choosespec-price">￥{{shopInfo.activeGoodsItem.activeOption.price}}</span>
+			</div>
+			<div style="clear:both"></div>
+		</div>
+		<div class="choosespec-item">
+			<div class="choosespec-item-left">数量：</div>
+			<div class="choosespec-item-right">
+				<div class="choosespec-item-num">
+					<span class="glyphicon glyphicon-minus choosespec-item-minus" ng-if="shopInfo.activeGoodsItem.activeOption.num >0" ng-click="shopInfo.onMinus(shopInfo.activeGoodsItem.id, 0, 0, 'selectOption')"></span>
+					<span class="choosespec-item-number" ng-if="shopInfo.activeGoodsItem.activeOption.num > 0">{{shopInfo.activeGoodsItem.activeOption.num}}</span>
+					<span class="glyphicon glyphicon-plus choosespec-item-plus" ng-click="shopInfo.onPlus(shopInfo.activeGoodsItem.id, 0, 0, 'selectOption')"></span>
+				</div>
+			</div>
+			<div style="clear:both"></div>
+		</div>
+	</div>
+	</div>
+<script>
+require(['angular', 'underscore'], function(angular, _) {
+	angular.module('app', []).controller('shopInfo', function($scope, $http) {
+		$scope.parseFloat = function(item){
+			return parseFloat(item);
+		};
+		$scope.shopInfo = {
+			sid: {$sid},
+			total_fee: 0,
+			goodsAll: [],
+			goodsItems: [],
+			activeCategoryItem: {},
+			categorySelectedId: 0,
+			categorySelectedIndex: 0,
+			activeGoods: {},
+			cartShow: false,
+			extra: {
+/*
+				delivery_fee: 0,
+				username: '测试',
+				mobile: '13456235623',
+				address: '北张住宅小区',
+				note: '加热',
+*/
+				order_type: 1,
+				delivery_fee: 0,
+				username: '',
+				mobile: '',
+				address: '',
+				note: '',
+			},
+
+			onToggleCartShow: function() {
+				$scope.shopInfo.cartShow = !$scope.shopInfo.cartShow;
+			},
+
+			onToggleCategory: function(categoryItem, index) {
+				$scope.shopInfo.activeCategoryItem = categoryItem;
+				$scope.shopInfo.categorySelectedId = categoryItem.id;
+				$scope.shopInfo.categorySelectedIndex = index;
+				$scope.shopInfo.onGetGoods(categoryItem.id);
+			},
+
+			onGetGoods: function(cid) {
+				$http.post("{php echo iurl('order/neworder/goods', array('sid' => $sid));}", {cid: cid, psize: 3000}).success(function(data) {
+					var result = data.message.message.goods;
+					$scope.shopInfo.goodsAll[$scope.shopInfo.categorySelectedIndex] = result;
+					$scope.shopInfo.activeGoods = result;
+				});
+			},
+
+			onToggleActiveOption: function(option_key) {
+				var activeGoodsItem = $scope.shopInfo.activeGoodsItem
+				if(!option_key) {
+					activeGoodsItem['activeOptionId'] = activeGoodsItem['activeOptions']['option'];
+					if(activeGoodsItem['activeOptions']['attrs'].length > 0) {
+						activeGoodsItem['activeOptionId'] = activeGoodsItem['activeOptionId'] + '_' + activeGoodsItem['activeOptions']['attrs'].join('v')
+					}
+				} else {
+					activeGoodsItem['activeOptionId'] = option_key;
+				}
+				activeGoodsItem['activeOption'] = activeGoodsItem['options_data'][activeGoodsItem['activeOptionId']];
+				$scope.shopInfo.activeGoodsItem = activeGoodsItem;
+			},
+
+			onTranfterId2Index: function(goodsId, cid) {
+				cid = cid.toString();
+				var category = _.findWhere($scope.shopInfo.categoryAll, {id: cid});
+				if(!category.id) {
+					return -1;
+				}
+				var c_index = _.indexOf($scope.shopInfo.categoryAll, category);
+				if(c_index == -1) {
+					return -1;
+				}
+				if(!$scope.shopInfo.goodsAll[c_index]) {
+					return -1;
+				}
+				goodsId = goodsId.toString();
+				var goods = _.findWhere($scope.shopInfo.goodsAll[c_index], {id: goodsId});
+				if(!goods.id) {
+					return -1;
+				}
+				var g_index = _.indexOf($scope.shopInfo.goodsAll[c_index], goods);
+				if(g_index == -1) {
+					return -1;
+				}
+				return {
+					'cindex': c_index,
+					'gindex': g_index
+				};
+			},
+
+			onToggleActiveGoods: function(goodsIndexOrId, option_key, cid, type) {
+				var goodsCindex = $scope.shopInfo.categorySelectedIndex;
+				var goodsIndex = goodsIndexOrId;
+				var type = type ? type : 'index';
+				if(type == 'goods_id') {
+					var goodsIndexs = $scope.shopInfo.onTranfterId2Index(goodsIndexOrId, cid);
+					if(goodsIndexs == -1) {
+						return false;
+					}
+					goodsCindex = goodsIndexs['cindex'];
+					goodsIndex = goodsIndexs['gindex'];
+				}
+				var activeGoodsItem = $scope.shopInfo.goodsAll[goodsCindex][goodsIndex];
+				activeGoodsItem.index = goodsIndex;
+				if(activeGoodsItem.is_options == 1 || activeGoodsItem.is_attrs == 1) {
+					if(!option_key) {
+						activeGoodsItem['activeOptions'] = {
+							option: 0,
+							attrs: [],
+							optionSelected: 0,
+							attrsSelected: []
+						};
+						if(activeGoodsItem.is_options == 1) {
+							activeGoodsItem['activeOptions']['option'] = activeGoodsItem.options[0]['id'];
+							activeGoodsItem['activeOptions']['optionSelected'] = activeGoodsItem.options[0]['id'];
+						}
+						if(activeGoodsItem.is_attrs == 1) {
+							for(var i = 0; i < activeGoodsItem.attrs.length; i++) {
+								activeGoodsItem['activeOptions']['attrs'].push(i + "s0");
+								activeGoodsItem['activeOptions']['attrsSelected'][i] = 0;
+							}
+						}
+					}
+					$scope.shopInfo.activeGoodsItem = activeGoodsItem;
+					this.onToggleActiveOption(option_key);
+				} else {
+					activeGoodsItem['activeOptionId'] = 0;
+				}
+				$scope.shopInfo.activeGoodsItem = activeGoodsItem;
+				return goodsIndex;
+			},
+
+			onSelectOption: function (goodsIndex,$event) {
+				this.onToggleActiveGoods(goodsIndex);
+				var offset=$($event.target).offset();
+				var cTop=offset.top;
+				var cLeft=offset.left;
+				cTop=cTop+24;
+				cLeft=cLeft-250+25+50;
+				console.log(cTop,cLeft);
+				$scope.shopInfo.offset={'top':cTop+'px','left':cLeft+'px'};
+				$scope.shopInfo.modelSpecShow = true;
+			},
+
+			onHideOption: function() {
+				$scope.shopInfo.modelSpecShow = false;
+			},
+
+			onPlus: function(goodsIndexOrId, optionId, cid, from) {
+				var goodsIndex = goodsIndexOrId;
+				if(from == 'list') {
+					$scope.shopInfo.modelSpecShow = false;
+					var status = $scope.shopInfo.onToggleActiveGoods(goodsIndexOrId);
+				} else if(from == 'cart') {
+					var goods_id = goodsIndexOrId;
+					var option_id = optionId;
+					var status = $scope.shopInfo.onToggleActiveGoods(goodsIndexOrId, optionId, cid, 'goods_id');
+					if(status !== false) {
+						goodsIndex = status;
+					}
+				}
+				if(status !== false) {
+					var activeGoodsItem = $scope.shopInfo.activeGoodsItem;
+					goods_id = activeGoodsItem['id'];
+					option_id = activeGoodsItem['activeOptionId'];
+					if(!activeGoodsItem.total) {
+						Notify.info('库存不足');
+						return false;
+					}
+				}
+				var params = {
+					sid: $scope.shopInfo.sid,
+					goods_id: goods_id,
+					option_id: option_id,
+					num: 1,
+					sign: '+'
+				};
+				$http.post("{php echo iurl('order/neworder/cart', array('sid' => $sid));}", params).success(function(result) {
+					var result = result.message;
+					if(result.errno) {
+						Notify.info(result.message);
+						return false;
+					}
+					if(result.message.msg) {
+						Notify.info(result.message.msg);
+					}
+					if(status !== false) {
+						var activeGoodsItem = $scope.shopInfo.activeGoodsItem;
+						activeGoodsItem.totalnum++;
+						if(!activeGoodsItem['options_data'][params.option_id]['num']) {
+							activeGoodsItem['options_data'][params.option_id]['num'] = 1;
+						} else {
+							activeGoodsItem['options_data'][params.option_id]['num']++;
+						}
+						if(activeGoodsItem['is_options'] == 1 || activeGoodsItem['is_attrs'] == 1) {
+							activeGoodsItem['activeOption']['num'] = activeGoodsItem['options_data'][params.option_id]['num'];
+						}
+						$scope.shopInfo.goodsAll[$scope.shopInfo.categorySelectedIndex][goodsIndex] = activeGoodsItem;
+						$scope.shopInfo.activeGoods = $scope.shopInfo.goodsAll[$scope.shopInfo.categorySelectedIndex];
+						$scope.shopInfo.activeGoodsItem = activeGoodsItem;
+					}
+					$scope.shopInfo.cart = result.message.cart;
+					$scope.shopInfo.onCalculate();
+				});
+			},
+
+			onMinus: function(goodsIndexOrId, optionId, cid, from) {
+				var goodsIndex = goodsIndexOrId;
+				if(from == 'list') {
+					$scope.shopInfo.modelSpecShow = false;
+					var status = $scope.shopInfo.onToggleActiveGoods(goodsIndexOrId);
+				} else if(from == 'cart') {
+					var goods_id = goodsIndexOrId;
+					var option_id = optionId;
+					var status = $scope.shopInfo.onToggleActiveGoods(goodsIndexOrId, optionId, cid, 'goods_id');
+					if(status !== false) {
+						goodsIndex = status;
+					}
+				}
+				if(status !== false) {
+					var goodsActive =  $scope.shopInfo.activeGoodsItem;
+					goods_id = goodsActive['id'];
+					option_id = goodsActive['activeOptionId'];
+				}
+				var params = {
+					sid:  $scope.shopInfo.sid,
+					goods_id: goods_id,
+					option_id: option_id,
+					num: 1,
+					sign: '-'
+				};
+				$http.post("{php echo iurl('order/neworder/cart', array('sid' => $sid));}", params).success(function(result) {
+					var result = result.message;
+					if(result.errno) {
+						Notify.info(result.message);
+						return false;
+					}
+					if(result.message.msg) {
+						Notify.info(result.message.msg);
+					}
+					if(status !== false) {
+						var activeGoodsItem = $scope.shopInfo.activeGoodsItem;
+						if(goodsActive.totalnum > 0) {
+							goodsActive.totalnum--;
+						}
+						if(!goodsActive['options_data'][params.option_id]['num']) {
+							goodsActive['options_data'][params.option_id]['num'] = 0;
+						} else {
+							goodsActive['options_data'][params.option_id]['num']--;
+						}
+						if(goodsActive['is_options'] == 1 || goodsActive['is_attrs'] == 1) {
+							goodsActive['activeOption']['num'] = goodsActive['options_data'][params.option_id]['num'];
+						}
+						$scope.shopInfo.goodsAll[$scope.shopInfo.categorySelectedIndex][goodsIndex] = activeGoodsItem;
+						$scope.shopInfo.activeGoods = $scope.shopInfo.goodsAll[$scope.shopInfo.categorySelectedIndex];
+						$scope.shopInfo.activeGoodsItem = activeGoodsItem;
+					}
+					$scope.shopInfo.cart = result.message.cart;
+					$scope.shopInfo.onCalculate();
+				});
+			},
+
+			onCalculate: function() {
+				if(!$scope.shopInfo.cart.num) {
+					$scope.shopInfo.store.send_condition = $scope.shopInfo.store.send_price;
+				} else {
+					$scope.shopInfo.store.send_condition = ($scope.shopInfo.store.send_price - $scope.shopInfo.cart.price - $scope.shopInfo.cart.box_price).toFixed(2);
+				}
+				$scope.shopInfo.total_fee = (parseFloat($scope.shopInfo.cart.price) + parseFloat($scope.shopInfo.cart.box_price) + parseFloat($scope.shopInfo.extra.delivery_fee) + parseFloat($scope.shopInfo.store.pack_price) + parseFloat($scope.shopInfo.store.extra_fee)).toFixed(2);
+				var cartDistinctNum = 0;
+				if($scope.shopInfo.store.pack_price > 0) {
+					cartDistinctNum++;
+				}
+				if($scope.shopInfo.store.extra_fee > 0) {
+					cartDistinctNum++;
+				}
+				for(var i in $scope.shopInfo.cart.data) {
+					for(var j in $scope.shopInfo.cart.data[i]) {
+						if($scope.shopInfo.cart.data[i][j]['num'] > 0) {
+							cartDistinctNum++;
+						}
+					}
+				}
+				$scope.shopInfo.cartDistinctNum = cartDistinctNum;
+			},
+
+			onToggleOption: function (type, id, attrIndex, labelIndex) {
+				var activeGoodsItem = $scope.shopInfo.activeGoodsItem;
+				if(type == 'option') {
+					activeGoodsItem['activeOptions']['option'] = id;
+					activeGoodsItem['activeOptions']['optionSelected'] = id;
+				} else {
+					id = attrIndex+'s'+labelIndex;
+					activeGoodsItem['activeOptions']['attrs'][attrIndex] = id;
+					activeGoodsItem['activeOptions']['attrsSelected'][attrIndex] = labelIndex;
+				}
+				$scope.shopInfo.activeGoodsItem = activeGoodsItem;
+				this.onToggleActiveOption();
+			},
+
+			onTurncateCart: function(confirm) {
+				var confirm = typeof confirm == 'undefined' ? true :confirm;
+				var handel = function() {
+					$http.post("{php echo iurl('order/neworder/truncate', array('sid' => $sid));}").success(function() {
+						var goodsActiveItem = $scope.shopInfo.activeGoodsItem;
+						if(goodsActiveItem) {
+							goodsActiveItem.totalnum = 0;
+							for(var i in goodsActiveItem['options_data']) {
+								goodsActiveItem['options_data'][i]['num'] = 0;
+							}
+						}
+						for(var i in $scope.shopInfo.goodsAll) {
+							for(var j in $scope.shopInfo.goodsAll[i]) {
+								$scope.shopInfo.goodsAll[i][j]['totalnum'] = 0;
+								for(var n in $scope.shopInfo.goodsAll[i][j]['options_data']) {
+									$scope.shopInfo.goodsAll[i][j]['options_data'][n]['num'] = 0;
+								}
+							}
+						}
+						$scope.shopInfo.activeGoods = $scope.shopInfo.goodsAll[$scope.shopInfo.categorySelectedIndex];
+						$scope.shopInfo.cart = {
+							num: 0,
+							box_price: 0,
+							price: 0
+						};
+						$scope.shopInfo.onCalculate();
+					});
+				};
+				if(confirm) {
+					Notify.confirm('确定清空购物车吗?', function(){
+						handel();
+					});
+				} else {
+					handel();
+				}
+			},
+
+			onSubmit: function() {
+				if($scope.shopInfo.extra.order_type == 1) {
+					if(!$scope.shopInfo.extra.username) {
+						Notify.info('请填写收货人姓名');
+						return false;
+					}
+					if(!$scope.shopInfo.extra.mobile) {
+						Notify.info('请填写收货人手机号');
+						return false;
+					}
+					var reg = /^[01][3456789][0-9]{9}/;
+					if(!reg.test($scope.shopInfo.extra.mobile)) {
+						Notify.info('手机号格式错误');
+						return false;
+					}
+					if(!$scope.shopInfo.extra.address) {
+						Notify.info('请填写收货地址');
+						return false;
+					}
+				}
+				var params = {
+					extra: $scope.shopInfo.extra
+				};
+				$http.post("{php echo iurl('order/neworder/create', array('sid' => $sid));}", params).success(function(res) {
+					var result = res.message;
+					if(result.errno) {
+						Notify.info(result.message);
+						return false;
+					}
+					$scope.shopInfo.onTurncateCart(false);
+					var info = "下单成功,订单号:#" + result.message.serial_sn
+					Notify.confirm(info, function(){
+						location.href = "{php echo iurl('order/takeout/list', array('filter_type' => 'process'));}";
+					}, function(){
+						location.reload();
+					}, '订单列表', '继续下单');
+				});
+			},
+
+			onInit: function() {
+				$http.post(location.href, {}).success(function(data) {
+					var result = data.message.message;
+					$scope.shopInfo.categorySelectedId = result.cid;
+					$scope.shopInfo.categorySelectedIndex = 0;
+					$scope.shopInfo.goodsAll[$scope.shopInfo.categorySelectedIndex] = result.goods;
+					$scope.shopInfo.activeGoods = result.goods;
+					$scope.shopInfo.store = result.store;
+					$scope.shopInfo.categoryAll = result.category;
+					$scope.shopInfo.cart = result.cart.message.cart;
+					$scope.shopInfo.onCalculate();
+
+					$('#app-inner').on('click', function(){
+						$scope.shopInfo.modelSpecShow = false;
+						$scope.$digest();
+					});
+					$('#app-inner').on('click', '.choosespec-btn, .choosespec-dlg', function(e){
+						e.stopPropagation();
+					});
+
+				}).error(function() {
+
+				});
+			}
+		};
+		$scope.shopInfo.onInit();
+	});
+	angular.bootstrap(document, ['app']);
+});
+</script>
+{itemplate 'public/footer'}

@@ -1,0 +1,130 @@
+<{extends file="<{$tempdir}>/public/admin.html"}>
+<{block name=extendjs}>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js"></script>
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/datepicker/WdatePicker.js" type="text/javascript" language="javascript"></script>
+<{/block}>
+ <{block name=controlname}>用户配送端<{/block}>
+ <{block name=bodylist}>
+
+      <div style="width:auto;overflow-x:hidden;overflow-y:auto">
+
+      	  <div class="search">
+
+
+            <div class="search_content">
+
+            	 <form method="post" name="form1" action="<{ofunc type=url link="/adminpage/app/module/psapp"}>"> 
+            	  <label>用户名：</label>
+            	   <input type="text" name="searchvalue" value="<{$searchvalue}>" style="width:100px;">
+            	  
+            	    <input type="submit" value="提交查询" class="button">
+            	 </form>
+            </div>
+
+      	</div>
+
+
+
+
+
+
+           <div class="tags">
+
+
+
+          <div id="tagscontent">
+
+            <div id="con_one_1">
+
+              <div class="table_td" style="margin-top:10px;">
+
+              <form method="post" action="" onsubmit="return remind();" id="delform">
+
+                  <table border="0" cellspacing="2" cellpadding="4" class="list" name="table" id="table" width="100%">
+
+                    <thead>
+
+                      <tr>
+
+                        <th width="60px"><input type="checkbox" id="chkall" name="chkall" onclick="checkall()"></th>
+
+                        <th align="center">用户名</th>
+                         
+                        <th align="center">通道号</th>
+                          <th align="center">最近更新时间</th>
+                        <th align="center">推送ID</th>
+                         
+                          <th align="center">发送消息</th>
+                        <th align="center">操作</th>
+
+                      </tr>
+
+                    </thead>
+
+                     <tbody>
+                   
+                      <{foreach from=$list item=items}>
+                      <tr class="s_out" onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                        <td align="center" ><input type="checkbox" name="id[]" value="<{$items['uid']}>"></td>
+                        <td align="center"><{$items['username']}></td>
+                        <td align="center"> <{$items['channelid']}> </td> 
+                        <td align="center" width="300px"><{$items['addtime']|date_format:"%Y-%m-%d %H:%M:%S"}></td>
+                        <td align="center"><{$items['userid']}><br><{$items['xmuserid']|default:''}></td>
+                        
+                        <td align="center"><a href="#" onclick="sendwxtouser('<{$items['uid']}>');">推送APP通知</td>
+                        <td align="center">
+                        	<a onclick="return remind(this);" href="<{ofunc type=url link="/adminpage/app/module/delappps/id/<{$items['uid']}>/datatype/json"}>"><img src="<{$siteurl}>/templates/<{$tempdir}>/public/images/admin/del.jpg"></a></td>
+                      </tr>
+                       <{/foreach}>
+
+                    </tbody>
+
+                  </table>
+
+                <div class="blank20"></div>
+
+                </form>
+
+                <div class="page_newc">
+                 	      <div class="select_page">
+                 	      	<a href="#" onclick="checkword(true);">全选</a>/<a href="#" onclick="checkword(false);">取消</a>
+                 	     <a onclick="return remindall(this);" href="<{ofunc type=url link="/adminpage/app/module/delappps/datatype/json"}>" class="delurl">删除</a> 
+                 	    
+                 	     </div>
+                       <div class="show_page"><ul><{$pagecontent}></ul></div>
+                 </div>
+
+                <div class="blank20"></div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+  </div>
+
+</div>
+<script>
+	  
+	  function sendwxtouser(uid){
+   var	htmls = '<form method="post" name="form1" action="<{ofunc type=url link="/adminpage/app/module/sendpsmsg/datatype/json"}>" onsubmit="return subform(\'\',this);"><table>';
+	htmls += '<tbody><tr>';
+	htmls += '<td height="50px">通知内容:</td>';
+	htmls += '<td> <textarea name="content"></textarea></td></tr>';
+	htmls += '</tbody></table> ';
+  htmls += '<input type="hidden" value="'+uid+'" name="uid"> ';
+	htmls += '<input type="submit" value="确认提交" class="button" id="dosetclosetime" ></form>';
+  art.dialog({
+    id: 'testID3',
+    title:'发送app通知',
+    content: htmls
+  });
+   }
+	</script>
+
+
+<{/block}>

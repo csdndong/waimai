@@ -1,0 +1,89 @@
+{template 'web/common/common'}
+{template 'web/giftToken/navbar'}
+<link rel="stylesheet" type="text/css" href="../addons/kundian_ordering/resource/css/style.css" />
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            礼品券>礼品券批次
+        </h3>
+    </div>
+    <div class="panel-body">
+        <form id="sign-form" class="form-horizontal" role="form" method="post" action="{url 'site/entry/giftToken',array('m'=>'kundian_ordering','op'=>'saveModel','version_id'=>$_GPC['version_id'])}" name="submit" style="padding: 20px 0;">
+            <div class="form-group">
+                <label for="title" class="col-sm-2 control-label">备注标题</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control"  name="title" id="title" value="<?php echo $list['title'];?>">
+                    <input type="hidden" name="id" value="{$list['id']}">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">礼品券等级选择</label>
+                <div class="col-sm-8">
+                    <select name="lid" id="lid" class="form-control">
+                        <?php foreach($giftLevel as $v){?>
+                        <option value="<?php echo $v['id'];?>" <?php if($list['lid']==$v['id']){echo 'selected';}?> ><?php echo $v['price']?>（元）</option>
+                        <?php } ?>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="title" class="col-sm-2 control-label">单价</label>
+                <div class="col-sm-8">
+                    <input type="text" placeholder="礼品券出售单价" class="form-control"  name="price" id="price" value="<?php echo $list['price'];?>">
+                    <input type="hidden" name="id" value="{$list['id']}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">生成数量</label>
+                <div class="col-sm-8">
+                    <?php if($list['is_create']==2){?>
+                    <input type="number" readonly class="form-control"  name="count" value="{$list['count']}">
+                    <?php }else{?>
+                    <input type="number" class="form-control"  name="count" value="{$list['count']}">
+                    <?php } ?>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">礼品券ID前缀</label>
+                <div class="col-sm-8">
+                    <?php if($list['is_create']==2){?>
+                    <input type="text" readonly class="form-control"  name="prefix" value="{$list['prefix']}">
+                    <?php }else{?>
+                    <input type="text"  class="form-control"  name="prefix" value="{$list['prefix']}">
+                    <?php } ?>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">是否启用</label>
+                <div class="col-sm-8">
+                    {if $list['status']==1}
+                    <input type="checkbox" checked class="js-switch" value="1" name="status">
+                    {else}
+                    <input type="checkbox" class="js-switch" name="status" value="1">
+                    {/if}
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">卡券过期时间</label>
+                <div class="col-sm-8">
+                    <input type="date" class="form-control"  name="expire_time" value="<?php echo date('Y-m-d',$list['expire_time'])?>">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">排序</label>
+                <div class="col-sm-8">
+                    <input type="number" class="form-control"  name="rank" value="{$list['rank']}">
+                </div>
+            </div>
+            <div class="form-group">
+
+                <div class="col-sm-offset-2 col-sm-10">
+                    <input type="submit" name="submit" class="btn btn-default">
+                    <a class="btn btn-default" href="{url 'site/entry/giftToken',array('m'=>'kundian_ordering')}">返回</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{template 'common/footer'}

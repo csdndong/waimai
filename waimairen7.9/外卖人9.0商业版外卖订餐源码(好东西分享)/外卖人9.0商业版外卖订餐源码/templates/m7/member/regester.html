@@ -1,0 +1,171 @@
+ <{extends file="<{$tempdir}>/public/site.html"}>   
+ <{block name=sitetitle}>用户注册<{/block}>
+ <{block name=extendcss}><{/block}>
+ <{block name=top2}><{/block}>
+ 
+  <{block name=extendjs}><script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/regestercode.js" type="text/javascript" language="javascript"></script> <{/block}>
+ <{block name=shophide}><{/block}>
+ <{block name=bodylist}>
+
+ <div class="registerCon">
+     <div class="registerBox">
+         <div class="registerMain">
+             <div class="registerTit"><h2>用户注册</h2></div>
+             <div class="register">
+                 <form id="regForm" method="post" action="<{ofunc type=url link="/member/saveregester/datatype/json"}>">
+                 <div class="registerL">
+                     <div class="registerLinp">
+                         <ul>
+                             <li><span>邮箱</span>
+                                 <input type="text" name="email" class="input1" placeholder="此邮箱用于找回密码"><i>*</i>
+                             </li>
+                             <li><span>账号</span>
+                                 <input type="text" name="tname" class="input1" placeholder="输入账号">
+                             </li>
+                             <li><span>手机号</span>
+                                 <input type="text"  name="phone" class="input1" id="phone" placeholder="输入手机号">
+                             </li>
+                            
+							 <{if $regestercode == 1}>
+							 <li id="showgetcode" style="display:none;" ><span>验证码</span>
+                                 <input type="text" name="phoneyan" id="phoneyan" class="veco input1" placeholder="输入验证码">
+                                 <input type="button" class="vecobut" value="获取验证码" onclick="clickyanzheng();" style="padding:0;font-size:12px;" class="inputgetcheck" time="0" id="dosendbtn">
+                             </li>
+                             <{/if}>
+							 <li><span>密码</span>
+                                 <input type="password" name="pwd" class="input1" placeholder="输入密码">
+                             </li>
+                             <li><span>重复密码</span>
+                                 <input type="password" name="pwd2" class="input1" placeholder="重复密码">
+                             </li>
+							
+							 <!-- 
+							   <{if $allowedcode == 1}>
+							   
+							     <li><span>验证码</span>
+									<input style="width:80px;" placeholder="验证码" name="Captcha"  class="input1 input2" value=""/>
+									<img style="float:left;" src="<{ofunc type=url link="/site/getCaptcha"}>"   id="captchaimg" />
+									<span class="span1"><a href="javascript:freshcode();">换一张</a></span>
+								 </li>
+	 
+						   	<{/if}> -->
+							 
+							 
+                         </ul>
+                     </div>
+                     <div class="registerLbutBox">
+                         <div class="registerLbut"><input type="button" class="login-button" value="同意协议并注册"></div>
+                         <div class="registerLbutChebox">
+                             <div class="registerLbutChe"><i></i><input name="reg[agree]" checked="checked" type="checkbox" ></div>
+                             <span>我接受<a target="_blank" href="<{ofunc type=url link="/site/single/show/xieyi"}>"><{$sitename}>服务协议</a></span>
+                         </div>
+                     </div>
+                 </div>
+                 </form>
+                 <div class="registerR">
+                     <div class="registerRprom"><span>已有<{$sitename}>账号？</span><b>请点击 </b><a href="<{ofunc type=url link="/member/login"}>">直接登录</a></div>
+                     <div class="registerRthpalo">
+                         <span>使用以下账户直接登录</span>
+                         <ul id="type_login">
+                             <{load_data assign="apiloginlist" table="otherlogin"  fileds="*"  limit="10" }>
+                             <{if count($apiloginlist['list']) > 0}>
+                             <{foreach from=$apiloginlist['list'] name=loop item=items}>
+                             <li>
+                                 <a href="<{ofunc type=url link="/member/linktest/logintype/<{$items['loginname']}>"}>">
+                                 <i class="<{if $smarty.foreach.loop.first}>icon_qq<{else}>icon_xl<{/if}>"></i>
+                                 </a>
+                             </li>
+                             <{/foreach}>
+                             <{/if}>
+                         </ul>
+                     </div>
+                 </div>
+             </div>
+         </div>
+     </div>
+ </div>
+ <script type="text/javascript">
+     var regestercode = '<{$regestercode}>';
+     $('.login-button').click(function(){
+
+         subform('<{ofunc type=url link="/member/base"}>',$('#regForm'));
+     })
+     $(".input1").change(function(j){
+
+         var v=$(this).val();
+         var p=$(this).attr("name");
+         switch(p){
+             case "email":
+                 var patrn= /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+                 if(!patrn.exec(v)){
+                     alert('邮箱格式错误');
+                 }else{
+                     $.ajax({
+                         type: "POST",
+                         url: "<{ofunc type=url link="/member/checkemail/datatype/json"}>",
+                         dataType: "json",
+                         data: "uname=" + v,
+                         success: function(msg){
+                             if(msg.error ==true){
+                                 $('[name="email"]').val();
+                                 alert('邮箱已经存在');
+                             }
+                         }
+                     });
+                 }
+                 break;
+             case "tname":
+                 var patrn=/[u4e00-u9fa5]/;
+                 if(v == '' ||v == null){
+                     alert('账号不能为空');
+                 }else{
+                     $.ajax({
+                         type: "POST",
+                         url: "<{ofunc type=url link="/member/checkname/datatype/json"}>",
+                         dataType: "json",
+                         data: "uname=" + v,
+                         success: function(msg){
+                             if(msg.error==true){
+                                 $('[name="tname"]').val('');
+                                 alert(msg.msg);
+                                  
+                             }
+                         }
+                     });
+                 }
+                 break;
+             case "phone":
+                 var patrn= /(.){4,16}/;
+                 if(!patrn.exec(v)){
+                     alert('手机格式错误');
+                 }
+                 break;
+             case "pwd":
+                 var patrn=/(.){4,16}/;
+                 if(!patrn.exec(v)){
+                     alert('密码是4-16位的字母、数字,区分大小写');
+                 }
+                 break;
+         }
+     });
+    /* $("#type_login li").eq(0).addClass("icon_qq");
+     $("#type_login li").eq(1).addClass("icon_xl");*/
+
+ </script>
+<style>
+.registerCon .registerBox .registerMain .registerR .registerRthpalo ul li{
+    float:left;
+    margin-right:30px;
+}
+.registerCon .registerBox .registerMain .registerR .registerRthpalo ul li {
+    width: 44px;
+    height: 44px;
+    display: block;
+    background-image: none;
+    cursor: pointer;
+}
+.registerLbutChe input {
+    opacity:1!important;
+	}
+</style>
+<{/block}>

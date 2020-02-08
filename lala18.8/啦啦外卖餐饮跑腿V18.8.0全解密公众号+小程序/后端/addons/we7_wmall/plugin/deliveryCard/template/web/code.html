@@ -1,0 +1,157 @@
+{itemplate 'public/header'}
+{if $op == 'list'}
+<form action="./index.php?" class="form-horizontal form-filter">
+	{php echo tpl_form_filter_hidden('deliveryCard/code/list');}
+	<input type="hidden" name="status" value="{$status}"/>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">兑换码状态</label>
+		<div class="col-sm-9 col-xs-12">
+			<div class="btn-group">
+				<a href="{php echo ifilter_url('status:0');}" class="btn {if $status == 0}btn-primary{else}btn-default{/if}">不限</a>
+				<a href="{php echo ifilter_url('status:1');}" class="btn {if $status == 1}btn-primary{else}btn-default{/if}">待兑换</a>
+				<a href="{php echo ifilter_url('status:2');}" class="btn {if $status == 2}btn-primary{else}btn-default{/if}">已兑换</a>
+				<a href="{php echo ifilter_url('status:3');}" class="btn {if $status == 3}btn-primary{else}btn-default{/if}">已过期</a>
+			</div>
+		</div>
+	</div>
+	<div class="form-group form-inline">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">其他</label>
+		<div class="col-sm-9 col-xs-12">
+			<div style="display: inline-block">
+				{php echo itpl_form_field_daterange('exchangetime', array('placeholder' => '兑换时间'));}
+			</div>
+			<input type="text" name="keyword" value="{$_GPC['keyword']}" class="form-control" placeholder="会员姓名/电话">
+			<input type="text" name="uid" value="{if !empty($_GPC['uid'])}{$_GPC['uid']}{/if}" class="form-control" placeholder="用户UID">
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+		<div class="col-sm-9 col-xs-12">
+			<button class="btn btn-primary">筛选</button>
+		</div>
+	</div>
+</form>
+<form action="" class="form-table form" method="post">
+	<div class="panel panel-table">
+		<div class="panel-heading">
+			<a href="{php echo iurl('deliveryCard/code/post');}" class="btn btn-primary btn-sm">批量创建</a>
+		</div>
+		<div class="panel-body table-responsive js-table">
+			{if empty($codes)}
+				<div class="no-result">
+					<p>还没有相关数据</p>
+				</div>
+			{else}
+				<table class="table table-hover">
+					<thead class="navbar-inner">
+					<tr>
+						<th>
+							<div class="checkbox checkbox-inline">
+								<input type="checkbox" name="ids[]"/>
+								<label></label>
+							</div>
+						</th>
+						<th>兑换码</th>
+						<th>顾客UID</th>
+						<th>顾客</th>
+						<th>兑换码状态</th>
+						<th>兑换码兑换配送会员卡天数</th>
+						<th>兑换截止日期</th>
+						<th>兑换时间</th>
+						<td align="right">操作</td>
+					</tr>
+					</thead>
+					<tbody>
+					{loop $codes $code}
+						<tr>
+							<td>
+								<div class="checkbox checkbox-inline">
+									<input type="checkbox" name="ids[]" value="{$code['id']}"/>
+									<label></label>
+								</div>
+							<td>{$code['code']}</td>
+							<td>
+								{if $code['uid'] > 0}
+									{$code['uid']}
+								{else}
+									未兑换
+								{/if}
+							</td>
+							<td>
+								{if $code['uid'] > 0}
+									<img src="{$code['avatar']}" alt="" width="50"/>
+									{$code['realname']}
+								{else}
+									未兑换
+								{/if}
+							</td>
+							<td>
+								{if $code['status'] == '1'}
+									<span class="label label-danger">待兑换</span>
+								{elseif $code['status'] == '2'}
+									<span class="label label-success">已兑换</span>
+								{elseif $code['status'] == '3'}
+									<span class="label label-default">已过期</span>
+								{/if}
+							</td>
+							<td>{$code['days']}天</td>
+							<td>限{$code['endtime_cn']}前兑换</td>
+							<td>{$code['exchangetime_cn']}</td>
+							<td align="right">
+								<a href="{php echo iurl('deliveryCard/code/del', array('id' => $code['id']))}" class="btn btn-danger btn-sm js-remove" data-confirm="确定删除该兑换码吗">删除</a>
+							</td>
+						</tr>
+					{/loop}
+					</tbody>
+				</table>
+				<div class="btn-region clearfix">
+					<div class="pull-left">
+						<a href="{php echo iurl('deliveryCard/code/del')}" class="btn btn-danger js-batch" data-batch="remove" data-confirm="删除后将不可恢复，确定删除吗">批量删除</a>
+					</div>
+					<div class="pull-right">
+						{$pager}
+					</div>
+				</div>
+			{/if}
+		</div>
+	</div>
+</form>
+{/if}
+
+{if $op == 'post'}
+<div class="page clearfix">
+	<form class="form-horizontal form form-validate" id="form1" action="" method="post" enctype="multipart/form-data">
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span class="require">* </span>套餐类型</label>
+			<div class="col-sm-6 col-xs-6">
+				<select name="meal_id" class="form-control" digits="true">
+					<option value="0">==套餐类型==</option>
+					{loop $meals $meal}
+						<option value="{$meal['id']}">{$meal['title']}</option>
+					{/loop}
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span class="require">* </span>兑换码数量</label>
+			<div class="col-sm-6 col-xs-6">
+				<input type="number" class="form-control" name="number" placeholder="请输入兑换码数量" required>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span class="require">* </span>兑换码兑换截止期</label>
+			<div class="col-sm-6 col-xs-6">
+				{php echo tpl_form_field_date('endtime')}
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+			<div class="col-sm-6 col-xs-6">
+				<input type="hidden" name="token" value="{$_W['token']}">
+				<input type="submit" value="生成兑换码" class="btn btn-primary">
+			</div>
+		</div>
+	</form>
+</div>
+{/if}
+{itemplate 'public/footer'}

@@ -1,0 +1,145 @@
+{itemplate 'public/header'}
+<link rel="stylesheet" href="../addons/we7_wmall/plugin/mealRedpacket/static/css/mobile.css" />
+<div class="page">
+	<header class="bar bar-nav common-bar-nav">
+		<a class="pull-left back" href="javascript:;"><i class="icon icon-arrow-left"></i></a>
+		<h1 class="title">套餐红包购买</h1>
+		<a class="pull-right" href="{php echo imurl('mealRedpacket/plus/plusOrder');}">购买记录</a>
+	</header>
+	<div class="page-body content">
+		<div class="meal-container ">
+			<div class="top">
+				<div class="name">选择套餐红包</div>
+				<div class="tip">
+					提示信息
+					<span>{$activity['data']['placeholder']}</span>
+				</div>
+			</div>
+			<input type="hidden" value="{$activity[id]}" id="activity_id">
+			<input type="hidden" value="" id="meal_id">
+			<input type="hidden" value="" id="final_fee">
+			{loop $activity['data']['redpackets'] $key $item}
+				<div class="meal-item" data-index="{$key}">
+					<div class="item-container">
+						<div class="left ">{$item['name']}</div>
+						<div class="right ">
+							<span class="old-price">¥<span>{$item['old_price']}</span></span>
+							<span class="price">¥<span>{$item['price']}</span></span>
+						</div>
+					</div>
+					<input type="hidden" value="{$key}" class="itemid">
+				</div>
+			{/loop}
+		</div>
+		{loop $activity['data']['redpackets'] $key $item}
+			<div class="redpacket-wrap hide " id="redpacket-wrap-{$key}">
+				<div class="redpacket-wrap-title ">{$item['name']}红包套餐内容</div>
+				{loop $item['data'] $redpack}
+					<div class="redpacket-item">
+						<div class="redpacket-item-body ">
+							<div class="item-body-price ">
+								￥
+								<span class="body-price-number"><strong>{$redpack['discount']}</strong></span>
+							</div>
+							<div class="item-body-name">
+								<div class="name-general">{$redpack['name']}</div>
+								<div class="name-reduction">满{$redpack['condition']}元可用</div>
+							</div>
+						</div>
+					</div>
+				{/loop}
+			</div>
+		{/loop}
+		<div class="meal-explain open-popup" data-popup=".popup-rules">
+			套餐规则
+			<span class="icon icon-question"></span>
+		</div>
+		<div style="width: 100%; height: 2.5rem;"></div>
+	</div>
+	<div class="submit-container">
+		<div class="final-price">
+			<div class="text">总价</div>
+			<div class="price">¥<span></span></div>
+			<div class="old-price">¥<span></span></div>
+		</div>
+		<div class="submit-button">立即购买</div>
+	</div>
+
+</div>
+<div class="popup popup-rules">
+	<header class="bar bar-nav common-bar-nav">
+		<a class="icon icon icon-arrow-left pull-left close-popup" href="javascript:;"></a>
+		<h1 class="title">套餐规则</h1>
+	</header>
+	<div class="content" style="background: #fff;">
+		<div class="content-padded">
+			{$activity['data']['rules']}
+		</div>
+	</div>
+</div>
+<script>
+	$(function(){
+		// 初始状态
+		$('.meal-item:first').find('.item-container').addClass('active');
+		$('.redpacket-wrap:first').removeClass('hide');
+		var old_price = $('.meal-item:first').find('.old-price').find('span').text();
+		var price = $('.meal-item:first').find('.price').find('span').text();
+		var meal_id = $('.meal-item:first').find('.itemid').val();
+		$('.final-price .price span').html(price);
+		$('.final-price .old-price span').html(old_price);
+		$('#meal_id').val(meal_id);
+		$('#final_fee').val(price);
+		//点击切换
+		$(document).on('click', '.meal-item', function(){
+			var index = $(this).data('index');
+			$(this).find('.item-container').addClass('active');
+			$(this).siblings('.meal-item').find('.item-container').removeClass('active');
+			$('#redpacket-wrap-'+index).removeClass('hide').siblings('.redpacket-wrap').addClass('hide');
+			var old_price = $(this).find('.old-price').find('span').text();
+			var price = $(this).find('.price').find('span').text();
+			$('.final-price .price span').html(price);
+			$('.final-price .old-price span').html(old_price);
+			var meal_id = $(this).find('.itemid').val()
+			$('#meal_id').val(meal_id);
+			$('#final_fee').val(price);
+		});
+		$(document).on('click', '.submit-button', function(){
+			var $this = $(this);
+			if($(this).hasClass('disabled')) {
+				return false;
+			}
+			$(this).addClass('disabled');
+			var meal_id = $('#meal_id').val();
+			var final_fee = $('#final_fee').val();
+			var sid = $('#activity_id').val();
+			if(!$('#meal_id').val()) {
+				$.toast('请选择套餐');
+				return false;
+			}
+			var params = {
+				sid: $('#activity_id').val(),
+				meal_id: $('#meal_id').val(),
+				final_fee: $('#final_fee').val(),
+			};
+			$.post("{php echo imurl('mealRedpacket/plus/submit');}", params, function(data){
+				var result = $.parseJSON(data);
+				if(result.message.errno != 0) {
+					if(result.message.errno == -1) {
+						$(this).addClass('bg-danger').removeClass('bg-grey');
+						$.toast(result.message.message);
+					} else {
+						$.alert(result.message.message, function(){
+							location.href = "{php echo imurl('mealRedpacket/plus');}";
+						});
+					}
+				} else {
+					var url = "{php echo imurl('system/paycenter/pay', array('order_type' => 'mealRedpacket_plus'));}&id=" + result.message.message;
+					$.toast('下单成功', url);
+				}
+				return false;
+			});
+		});
+
+	});
+</script>
+{itemplate 'public/footer'}

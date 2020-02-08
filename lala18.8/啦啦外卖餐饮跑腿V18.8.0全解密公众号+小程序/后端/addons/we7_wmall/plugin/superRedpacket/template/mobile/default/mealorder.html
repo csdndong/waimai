@@ -1,0 +1,51 @@
+{itemplate 'public/header'}
+<link rel="stylesheet" href="../addons/we7_wmall/plugin/superRedpacket/static/css/mobile.css" />
+<div class="page">
+	<header class="bar bar-nav common-bar-nav">
+		<a class="pull-left back" href="javascript:;"><i class="icon icon-arrow-left"></i></a>
+		<h1 class="title">套餐红包购买记录</h1>
+	</header>
+	<div class="content infinite-scroll js-infinite" data-href="{php echo imurl('superRedpacket/meal/mealorder');}" data-distance="50" data-min="{$min}" data-container=".page-body" data-tpl="tpl-order">
+		{if empty($datas)}
+			<div class="common-no-con">
+				<img src= "{WE7_WMALL_TPL_URL}static/img/order_no_con.png" alt="" />
+				<p>您还没有购买记录，赶紧购买吧！</p>
+				<div class="btn">
+					<a href="{php echo imurl('superRedpacket/meal');}">现在购买</a>
+				</div>
+			</div>
+		{else}
+			<div class="page-body">
+				{loop $datas $data}
+				<div class="order-item border-1px-b">
+					<div class="order-info">
+						<div class="name-time">
+							<div class="name">{$data['data']['meal']['name']}</div>
+							<div class="time">{$data['addtime']}</div>
+						</div>
+						<div class="price">¥{$data['final_fee']}</div>
+					</div>
+				</div>
+				{/loop}
+			</div>
+		{/if}
+		<div class="infinite-scroll-preloader hide">
+			<div class="preloader"></div>
+		</div>
+	</div>
+</div>
+
+<script id="tpl-order" type="text/html">
+	<{# for(var i = 0, len = d.length; i < len; i++){ }>
+		<div class="order-item border-1px-b">
+			<div class="order-info">
+				<div class="name-time">
+					<div class="name"><{d[i].data.meal.name}></div>
+					<div class="time"><{d[i].addtime}></div>
+				</div>
+				<div class="price">¥<{d[i].final_fee}></div>
+			</div>
+		</div>
+	<{# } }>
+</script>
+{itemplate 'public/footer'}

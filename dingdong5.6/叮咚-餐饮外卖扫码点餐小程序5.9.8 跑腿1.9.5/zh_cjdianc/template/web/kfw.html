@@ -1,0 +1,47 @@
+{template 'public/header'}
+{template 'public/comhead'}
+<link rel="stylesheet" type="text/css" href="../addons/zh_cjdianc/template/public/ygcss.css">
+<style type="text/css">
+    .ygmargin{margin-top: 10px;color: #999;}
+</style>
+<ul class="nav nav-tabs">
+    <span class="ygxian"></span>
+    <div class="ygdangq">当前位置:</div>    
+    <li class="active"><a href="javascript:void(0);">快服务</a></li>
+</ul>
+<div class="main">
+    <form action="" method="post" class="form-horizontal form" enctype="multipart/form-data" id="invitative">
+        <div class="panel panel-default ygdefault">
+            <div class="panel-heading wyheader">
+                快服务
+            </div> 
+            <div class="panel-body">
+            <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">开发者ID(app_id)</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="kfw_appid" class="form-control" value="{$info['kfw_appid']}" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">密钥(appkey)</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="kfw_appsecret" class="form-control" value="{$info['kfw_appsecret']}" />
+                    </div>
+                </div>              
+            </div>
+        </div>
+        <div class="form-group">
+            <input type="submit" name="submit" value="保存设置" class="btn col-lg-3" style="color: white;background-color: #44ABF7;" />
+            <input type="hidden" name="token" value="{$_W['token']}" />
+            <input type="hidden" name="id" value="{$info['id']}" />
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+    $(function(){
+        // $("#frame-14").addClass("in");
+        $("#frame-14").show();
+        $("#yframe-14").addClass("wyactive");
+    })
+</script>
+{template 'common/footer'}

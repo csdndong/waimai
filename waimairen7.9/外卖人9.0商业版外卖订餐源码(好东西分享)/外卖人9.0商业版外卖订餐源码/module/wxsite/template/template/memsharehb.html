@@ -1,0 +1,155 @@
+ <{extends file="<{$tempdir}>/public/wxsite.html"}>  
+<{block name=extendcss}> 
+ <link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/member_share_quan.css">  
+ 
+ <style>
+ body{   background:<{$shareinfo['color']}>!important;}
+ </style>
+<{/block}>
+ <{block name=extendjs}>  
+  <script> 
+ 
+</script>
+<{/block}>
+<{block name=sitetitle}><{$sitename}><{/block}>
+<{block name=hearnav}> 
+<{/block}>
+<{block name=footer}><{/block}>
+<{block name=myScrolljs}> 
+<{/block}>
+<{block name=blockcontent}> 
+ <div id=" " >
+	<div id=" ">
+	
+	<div class="shareBanCon" style="height:auto;">
+			<img <{ofunc type=img  link="<{$shareinfo['bigimg']}>"}>  />
+	</div>
+	
+	
+	
+	 <{if !empty($historyphone) && !empty($juanlist) &&  !empty($sharememberinfo) }>
+	<div class="shareCouCon">
+	<{foreach from=$juanlist item=items }> 
+	 <div class="shareCou">
+				<div class="shareCouL">
+					<span>优惠券</span>
+				</div>
+				<div class="shareCouR">
+					<h3 style="    height: 60px;
+    line-height: 60px; font-weight:bold;"><b>￥</b><{$items['cost']}></h3>
+					<span>
+					<{assign var=paytypearr value=","|explode:$items['paytype']}> 
+									<{if  in_array(1,$paytypearr ) &&  in_array(2,$paytypearr )  }>不限支付方式<{/if}>
+									<{if  in_array(1,$paytypearr ) &&  !(in_array(2,$paytypearr ))  }>仅限在线支付订单<{/if}>
+									<{if  in_array(2,$paytypearr ) &&  !(in_array(1,$paytypearr ))  }>仅限货到付款订单<{/if}>
+ 									满<{$items['limitcost']}>元可用
+					</span>
+				</div>
+			</div>
+	 <{/foreach}>
+	 <div class="shaCouP">
+				<p>优惠券已发送到账户！快去订餐吧，不要过期哦~</p>
+				<p>仅限<{$historyphone}>号码使用</p>
+			</div>
+			<input type="button" value="去订餐" id ="shaCouBtn"  class="shaCouBtn">
+	</div> 
+	  
+	 <{else}>
+	 	 <{if $checkinfosendjuan == 1  &&  !empty($sharememberinfo) }>
+	
+	
+	<div class="shareBtnCon">
+			<input type="text" style="border: 1px solid #ef2152!important;" placeholder="输入手机号" id="phone-input" maxlength="11" class="shareTex" />
+			<input type="text"  id="errorinput" style="height:0px;border:none;margin:0px;" value=""   class="shareTex" />
+			<input type="button" value="领取优惠券" class="shareBtn" id="shareBtn" />
+	</div>  
+	
+	 <{else}>
+			 <div class="shareBtnCon">
+					<input type="button"  style="background:#ccc;" value="红包已领取结束" class="shareBtn" />
+			</div>   
+			 <{/if}>
+	 <{/if}>	
+ 
+	 
+ 
+	 
+	<div class="shareRuleCon">
+			<div class="shareRule" style="background:<{$shareinfo['actcolor']}>!important;">
+				<h3><img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/share_tit.png" alt="活动规则" /></h3>
+				<div id="activerule" style="">
+						<{$shareinfo['avtrule']|htmlspecialchars_decode|default:'暂无说明'}>
+						 
+				</div>
+				 
+			</div>
+			<div class="shareRuleImg">
+				<img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/share_lh.png">
+			</div>
+		</div>
+
+   
+ 
+ <div style="height:20px;"></div>
+ 
+ </div> 
+ </div> 
+ <style>
+ .errorinput{height:18px!important;line-height:18px!important;margin: 0 auto 12px auto!important;color: #F00!important;}
+#activerule {
+padding: 15px 2.8571% 25px 2.8571%;
+}   
+ #activerule ul{    width: 100%!important;
+					margin: 0px!important; 
+					padding: 0px!important;}
+ #activerule img{ width:100%!important;}
+ </style>
+ 
+<script>
+ $("#shaCouBtn").bind('click',function(){
+	 url = siteurl+'/index.php?ctrl=wxsite&action=index';
+	 window.location.href=url;
+ });
+$("#shareBtn").bind('click',function(){
+	showLoading();
+	if(lockclick()){
+			
+			var phone = $("#phone-input").val();
+			
+ 			 var historyphone = phone; 
+			 $.cookie('historyphone', historyphone, { expires: 30, path: '/' }); 
+ 
+			url = siteurl+'/index.php?ctrl=wxsite&action=memsharelqjuan&datatype=json&random=@random@';
+			  url = url.replace('@random@', 1+Math.round(Math.random()*1000));
+			$.ajax({         //script定义
+					 url: url.replace('@random@', 1+Math.round(Math.random()*1000)),
+					 dataType: "json",
+					 async:true,
+					 data:{'phone':phone,'uid':'<{$uid|default:0}>'},
+					 success:function(content) { 
+						if(content.error ==  false){
+							newhideLoading();
+							window.location.reload();
+						}else{ 
+							$('#errorinput').val('');
+							$('#errorinput').addClass('errorinput');
+							$('#errorinput').val(content.msg);
+							newhideLoading();
+						}
+						 
+					 
+					 },
+					 error:function(){
+						$('#capture-tip').val('获取失败~');
+						newhideLoading();
+					 }
+			}); 
+	}
+	
+});
+</script>  
+ 
+  
+  
+ 
+<{/block}>

@@ -1,0 +1,52 @@
+<!--   time:2019-07-18 01:08:01 -->
+<view class="address-list">
+	<view style="margin-bottom: 32rpx">
+		<block wx:if="{{address_list.length==0}}" >
+			<view style="color: #888;text-align: center;padding: 32rpx 0;">暂无收货地址</view>
+		</block>
+		<block wx:else>
+			<view class="radio-group">
+				<block wx:for="{{address_list}}" wx:for-item="item" wx:for-index="index" >
+					<view bindtap="radioChange" data-id="{{item.id}}">
+						<view class="address-item" data-index="{{index}}">
+							<view class="userinfo flex-row">
+								<view class="flex-grow-1">收货人：{{item.user_name}}</view>
+								<view class="flex-grow-0">{{item.tel}}</view>
+							</view>
+							<view class="address-detail">收货地址：{{item.address}}</view>
+						</view>
+						<view class="weui-panel__ft">
+							<view class="weui-cell weui-cell_access">
+								<label class="weui-cell__bd">
+									<radio checked="{{item.is_default=='1'?true:false}}" color="{{color}}" value="{{item.id}}"></radio>
+									<block wx:if="{{item.is_default=='2'}}">
+										<text style="color:#999">设为默认</text>
+									</block>
+									<block wx:if="{{item.is_default=='1'}}">
+										<text style="color:{{color}}">已设为默认</text>
+									</block>
+								</label>
+								<view catchtap="bianji" class="weui-cell__ft" data-bjid="{{item.id}}">
+									<image src="../../img/icon/edit.png"></image>
+									<view class="jz">编辑</view>
+								</view>
+								<view catchtap="shanchu" class="weui-cell__ft" data-scid="{{item.id}}">
+									<image src="../../img/icon/delete.png"></image>
+									<view class="jz">删除</view>
+								</view>
+							</view>
+						</view>
+					</view>
+				</block>
+			</view>
+		</block>
+	</view>
+</view>
+<view class="flex-row tjdz">
+	<view class="flex-grow-1 px-24">
+		<navigator class="btn btn-red" style="background:{{color}}" url="bjdz">手动添加</navigator>
+	</view>
+	<view class="flex-grow-1 px-24">
+		<button bindtap="getWechatAddress" class="btn btn-green">微信添加</button>
+	</view>
+</view>

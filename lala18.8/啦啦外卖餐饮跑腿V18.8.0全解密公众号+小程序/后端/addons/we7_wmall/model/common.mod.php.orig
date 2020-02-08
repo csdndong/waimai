@@ -1,0 +1,1105 @@
+<?php
+
+defined('IN_IA') or exit('Access Denied');
+
+if(!function_exists('get_available_formid')) {
+	function get_available_formid($openid, $autodel = true) {
+		$form = pdo_fetch('select * from ' . tablename('tiny_wmall_wxapp_formid_log') . ' where openid = :openid and endtime > :endtime order by id asc', array(':openid' => $openid, ':endtime' => TIMESTAMP));
+		if(!empty($form)) {
+			if($autodel) {
+				pdo_delete('tiny_wmall_wxapp_formid_log', array('id' => $form['id']));
+			}
+			return $form['formid'];
+		}
+		return false;
+	}
+}
+/*
+ * $timelimit 单位:秒
+ * */
+function check_cache_status($key, $timelimit = 300) {
+	global $_W;
+	$cache = cache_read($key);
+	if(empty($cache) || ($cache['starttime'] > 0 && ($cache['starttime'] + $timelimit < TIMESTAMP))) {
+		return false;
+	}
+	return true;
+}
+
+function set_cache($key, $value) {
+	global $_W;
+	if(empty($value['starttime'])) {
+		$value['starttime'] = TIMESTAMP;
+	}
+	cache_write($key, $value);
+	return true;
+}
+
+function get_cache($key) {
+	global $_W;
+	$cache = cache_read($key);
+	if(empty($cache) || ($cache['starttime'] > 0 && ($cache['starttime'] + $timelimit < TIMESTAMP))) {
+		return false;
+	}
+	return $cache;
+}
+
+function set_system_config($key, $value) {
+	global $_W;
+	$sysset = get_system_config();
+	$keys = explode('.', $key);
+	$counts = count($keys);
+	if($counts == 1) {
+		$sysset[$keys[0]] = $value;
+	} elseif($counts == 2) {
+		if(!is_array($sysset[$keys[0]])) {
+			$sysset[$keys[0]] = array();
+		}
+		$sysset[$keys[0]][$keys[1]] = $value;
+	} elseif($counts == 3) {
+		if(!is_array($sysset[$keys[0]])) {
+			$sysset[$keys[0]] = array();
+		} elseif(!is_array($sysset[$keys[0]][$keys[1]])) {
+			$sysset[$keys[0]][$keys[1]] = array();
+		}
+		$sysset[$keys[0]][$keys[1]][$keys[2]] = $value;
+	}
+	pdo_update('tiny_wmall_config', array('sysset' => iserializer($sysset)), array('uniacid' => $_W['uniacid']));
+	return true;
+}
+
+if(!function_exists('get_system_config')) {
+	function get_system_config($key = '', $uniacid = -1) {
+		global $_W;
+		if($uniacid == -1) {
+			$uniacid = intval($_W['uniacid']);
+		}
+		$config = pdo_get('tiny_wmall_config', array('uniacid' => $uniacid), array('sysset', 'pluginset', 'id'));
+		if(empty($config['id'])) {
+			$init_config = array(
+				'uniacid' => $uniacid
+			);
+			pdo_insert('tiny_wmall_config', $init_config);
+			return array();
+		}
+		if(defined('IN_WXAPP') && $key == 'payment') {
+			$pluginset = iunserializer($config['pluginset']);
+			$config_wxapp = $pluginset['wxapp'];
+			return $config_wxapp['payment'];
+		}
+		$sysset = iunserializer($config['sysset']);
+		if(!is_array($sysset)) {
+			$sysset = array();
+		}
+		$pluginset = iunserializer($config['pluginset']);
+		if(!is_array($pluginset)) {
+			$pluginset = array();
+		}
+		$sysset['wxapp'] = $pluginset['wxapp'];
+		unset($sysset['wxapp']['menu'], $sysset['wxapp']['extPages']);
+		$_W['is_agentconfig'] = 0;
+		if($_W['agentid'] > 0) {
+			$sysset['manager_plateform'] = $sysset['manager'];
+			$sysset_agent = get_agent_system_config();
+			if(!empty($sysset_agent)) {
+				$sysset = multimerge($sysset, $sysset_agent);
+			}
+			$_W['is_agentconfig'] = $_W['agentid'];
+		}
+		if(empty($sysset['takeout']) || empty($sysset['takeout']['range']['map']['location_x'])) {
+			$sysset['takeout']['range']['map'] = array(
+				'location_x' => '39.908743',
+				'location_y' => '116.397573',
+			);
+		}
+		if(empty($sysset['sms']['verify'])) {
+			$sysset['sms']['verify'] = array(
+				'clerk_register' => 1,
+				'consumer_register' => 1
+			);
+		}
+		if(empty($sysset['store']['activity']['perm'])) {
+			$all_activity = store_all_activity();
+			$all_activity = array_keys($all_activity);
+			foreach($all_activity as $type) {
+				$sysset['store']['activity']['perm'][$type] = array(
+					'status' => 1,
+					'cancel_status' => 1
+				);
+			}
+		}
+		if(!empty($sysset['mall']['logo'])) {
+			$sysset['mall']['logo'] = tomedia($sysset['mall']['logo']);
+		}
+		if(empty($key)) {
+			return $sysset;
+		}
+		$keys = explode('.', $key);
+		$counts = count($keys);
+		if($counts == 1) {
+			return $sysset[$key];
+		} elseif($counts == 2) {
+			return $sysset[$keys[0]][$keys[1]];
+		} elseif($counts == 3) {
+			return $sysset[$keys[0]][$keys[1]][$keys[2]];
+		}
+	}
+}
+
+function set_global_config($key, $value) {
+	global $_W;
+	$_W['uniacid'] = 0;
+	$status = set_system_config($key, $value);
+	return $status;
+}
+
+function get_global_config($key = '') {
+	$result = get_system_config($key, 0);
+	return $result;
+}
+
+function get_available_payment($order_type = '', $sid = 0, $all = false, $orderType = 1) {
+	global $_W;
+	if(!defined('IN_WXAPP')) {
+		$payment = $_W['we7_wmall']['config']['payment'];
+	} else {
+		$payment = $_W['we7_wxapp']['config']['payment'];
+	}
+	if(empty($order_type)) {
+		$payment = $payment['weixin'];
+	} else {
+		if(is_wxapp()) {
+			$payment = $payment['wxapp'];
+		} elseif(is_weixin() || is_vue()) {
+			$payment = $payment['weixin'];
+			if(is_vue()) {
+				if(!is_weixin()) {
+					$index = array_search('peerpay', $payment);
+					if($index !== false) {
+						unset($payment[$index]);
+					}
+				}
+				$index = array_search('yimafu', $payment);
+				if($index !== false) {
+					unset($payment[$index]);
+				}
+			}
+		} elseif(is_h5app()) {
+			$payment = $payment['app'];
+		} elseif(is_qianfan() || is_majia()) {
+			$payment = $payment['weixin'];
+		} else {
+			$payment = $payment['wap'];
+		}
+		if(empty($payment)) {
+			return array();
+		}
+		if($order_type == 'takeout') {
+			if($orderType == 3) {
+				mload()->model('store');
+				$tangshi_payment = store_get_data($sid, 'tangshi.payment');
+				if(empty($tangshi_payment)) {
+					return array();
+				}
+				$payment[] = 'finishMeal';
+				$store_payment = $tangshi_payment;
+			} else {
+				$store = pdo_get('tiny_wmall_store', array('uniacid' => $_W['uniacid'], 'id' => $sid), array('payment'));
+				if(empty($store['payment'])) {
+					return array();
+				}
+				$store['payment'] = iunserializer($store['payment']);
+				$store_payment = $store['payment'];
+			}
+			foreach($payment as $key => $row) {
+				if(!in_array($row, $store_payment)) {
+					if($orderType == 1 && $row == 'peerpay') {
+						continue;
+					}
+					unset($payment[$key]);
+				}
+				if($orderType == 4 && $row == 'delivery') {
+					unset($payment[$key]);
+				}
+			}
+		} elseif($order_type == 'paybill') {
+			$store = pdo_get('tiny_wmall_store', array('uniacid' => $_W['uniacid'], 'id' => $sid), array('payment'));
+			if(empty($store['payment'])) {
+				return array();
+			}
+			$store['payment'] = iunserializer($store['payment']);
+			foreach($payment as $key => $row) {
+				if(!in_array($row, $store['payment']) || $row == 'delivery') {
+					unset($payment[$key]);
+				}
+			}
+		} elseif($order_type == 'recharge' || $order_type == 'recharge_vip') {
+			$index = array_search('delivery', $payment);
+			if($index !== false) {
+				unset($payment[$index]);
+			}
+			$index = array_search('credit', $payment);
+			if($index !== false) {
+				unset($payment[$index]);
+			}
+			$index = array_search('peerpay', $payment);
+			if($index !== false) {
+				unset($payment[$index]);
+			}
+		}  elseif($order_type == 'freelunch') {
+			$index = array_search('delivery', $payment);
+			if($index !== false) {
+				unset($payment[$index]);
+			}
+			$index = array_search('peerpay', $payment);
+			if($index !== false) {
+				unset($payment[$index]);
+			}
+		} elseif($order_type == 'mealRedpacket' || $order_type == 'mealRedpacket_plus') {
+			$index = array_search('delivery', $payment);
+			if($index !== false) {
+				unset($payment[$index]);
+			}
+			$index = array_search('peerpay', $payment);
+			if($index !== false) {
+				unset($payment[$index]);
+			}
+		} elseif($order_type == 'vip') {
+			$index = array_search('delivery', $payment);
+			if($index !== false) {
+				unset($payment[$index]);
+			}
+			$index = array_search('credit', $payment);
+			if($index !== false) {
+				unset($payment[$index]);
+			}
+			$index = array_search('peerpay', $payment);
+			if($index !== false) {
+				unset($payment[$index]);
+			}
+		} else {
+			$index = array_search('delivery', $payment);
+			if($index !== false) {
+				unset($payment[$index]);
+			}
+			$index = array_search('peerpay', $payment);
+			if($index !== false) {
+				unset($payment[$index]);
+			}
+		}
+	}
+	if($all) {
+		$routers = array(
+			'alipay' => array(
+				'title' => '支付宝',
+				'value' => 'alipay',
+			),
+			'wechat' => array(
+				'title' => '微信支付',
+				'value' => 'wechat',
+			),
+			'credit' => array(
+				'title' => '余额支付',
+				'value' => 'credit',
+			),
+			'delivery' => array(
+				'title' => '货到付款',
+				'value' => 'delivery',
+			),
+			'yimafu' => array(
+				'title' => '一码付',
+				'value' => 'yimafu',
+			),
+			'delivery' => array(
+				'title' => '货到付款',
+				'value' => 'delivery',
+			),
+			'finishMeal' => array(
+				'title' => '餐后付款',
+				'value' => 'finishMeal',
+			),
+			'peerpay' => array(
+				'title' => '找朋友代付',
+				'value' => 'peerpay',
+			),
+		);
+		$payments = array();
+		foreach($payment as $item) {
+			$payments[] = $routers[$item];
+		}
+		return $payments;
+	} else {
+		return $payment;
+	}
+}
+
+if(!function_exists('get_plugin_config')) {
+	function get_plugin_config($key = '') {
+		global $_W;
+		$_W['uniacid'] = intval($_W['uniacid']);
+		$config = pdo_get('tiny_wmall_config', array('uniacid' => $_W['uniacid']), array('pluginset'));
+		if(empty($config)) {
+			return array();
+		}
+		$pluginset = iunserializer($config['pluginset']);
+		if(!is_array($pluginset)) {
+			return array();
+		}
+		if($_W['agentid'] > 0) {
+			$plugin_agent = get_agent_plugin_config();
+			if(!empty($plugin_agent)) {
+				$pluginset = multimerge($pluginset, $plugin_agent);
+			}
+		}
+		if(empty($key)) {
+			return $pluginset;
+		}
+		$keys = explode('.', $key);
+		$plugin = $keys[0];
+		if(!empty($plugin)) {
+			$config_plugin = $pluginset[$plugin];
+			if(!is_array($config_plugin)) {
+				return array();
+			}
+			$count = count($keys);
+			if($count == 2) {
+				return $config_plugin[$keys[1]];
+			}
+			if($count == 3) {
+				return $config_plugin[$keys[1]][$keys[2]];
+			}
+			return $config_plugin;
+		}
+	}
+}
+
+function set_plugin_config($key, $value) {
+	global $_W;
+	$keys = explode('.', $key);
+	$counts = count($keys);
+	$pluginset = get_plugin_config();
+	$config_plugin = $pluginset[$keys[0]];
+	if($counts == 1) {
+		$config_plugin = $value;
+	} elseif($counts == 2) {
+		$config_plugin[$keys[1]] = $value;
+	} elseif($counts == 3) {
+		$config_plugin[$keys[1]][$keys[2]] = $value;
+	}
+	$pluginset[$keys[0]] = $config_plugin;
+	pdo_update('tiny_wmall_config', array('pluginset' => iserializer($pluginset)), array('uniacid' => $_W['uniacid']));
+	return true;
+}
+
+function set_config_text($title, $name, $value = '', $agentid = 0) {
+	global $_W;
+	$config = pdo_get('tiny_wmall_text', array('uniacid' => $_W['uniacid'], 'name' => $name, 'agentid' => $agentid));
+	if(empty($config)) {
+		$data = array(
+			'uniacid' => $_W['uniacid'],
+			'agentid' => $agentid,
+			'name' => $name,
+			'title' => $title,
+			'value' => is_array($value) ? iserializer($value) : $value,
+		);
+		pdo_insert('tiny_wmall_text', $data);
+	} else {
+		$data = array(
+			'uniacid' => $_W['uniacid'],
+			'title' => $title,
+			'value' => is_array($value) ? iserializer($value) : $value,
+		);
+		pdo_update('tiny_wmall_text', $data, array('uniacid' => $_W['uniacid'], 'name' => $name, 'agentid' => $agentid));
+	}
+	return true;
+}
+
+function get_config_text($name, $agentid = 0) {
+	global $_W;
+	$config = pdo_get('tiny_wmall_text', array('uniacid' => $_W['uniacid'], 'agentid' => $agentid, 'name' => $name));
+	if($name = 'takeout_delivery_time') {
+		$config['value'] = iunserializer($config['value']);
+	}
+	return $config['value'];
+}
+
+function get_account_perm($key = '', $uniacid = 0) {
+	global $_W;
+	if(empty($uniacid)) {
+		$uniacid = $_W['uniacid'];
+	}
+	$perm = pdo_get('tiny_wmall_perm_account', array('uniacid' => $uniacid));
+	if(empty($perm)) {
+		return false;
+	}
+	if(!empty($perm)) {
+		$perm['plugins'] = iunserializer($perm['plugins']);
+		if(!is_array($perm['plugins'])) {
+			$perm['plugins'] = array();
+		}
+		if(empty($perm['plugins'])) {
+			$perm['plugins'] = array('none');
+		}
+		if(!empty($key)) {
+			return $perm[$key];
+		}
+	}
+	return $perm;
+}
+
+function check_max_store_perm() {
+	global $_W;
+	$max_store = intval(get_account_perm('max_store'));
+	if(!$max_store) {
+		return true;
+	}
+	$now_store = pdo_fetchcolumn('select count(*) from ' . tablename('tiny_wmall_store') . ' where uniacid = :uniacid', array(':uniacid' => $_W['uniacid']));
+	$now_store = intval($now_store);
+	if($max_store <= $now_store) {
+		return false;
+	}
+	return true;
+}
+
+function get_mall_share() {
+	global $_W;
+	$config_share = $_W['we7_wmall']['config']['share'];
+	$_share = array(
+		'title' => $config_share['title'],
+		'desc' => $config_share['desc'],
+		'link' => !empty($config_share['link']) ? $config_share['link'] : imurl('wmall/home/index', array(), true),
+		'imgUrl' => tomedia($config_share['imgUrl'])
+	);
+	if(defined('IN_VUE')) {
+		$_share['link'] = ivurl('pages/home/index', array(), true);
+	}
+	return $_share;
+}
+
+function is_agent() {
+	$status = 0;
+	if(check_plugin_perm('agent') && get_plugin_config('agent.basic.status') == 1) {
+		$status = 1;
+	}
+	return $status;
+}
+
+function set_agent_system_config($key, $value, $agentid = 0) {
+	global $_W;
+	if(empty($agentid)) {
+		$agentid = $_W['agentid'];
+	}
+	$sysset = get_agent_system_config('', $agentid);
+	$keys = explode('.', $key);
+	$counts = count($keys);
+	if($counts == 1) {
+		$sysset[$keys[0]] = $value;
+	} elseif($counts == 2) {
+		$sysset[$keys[0]][$keys[1]] = $value;
+	} elseif($counts == 3) {
+		$sysset[$keys[0]][$keys[1]][$keys[2]] = $value;
+	}
+	pdo_update('tiny_wmall_agent', array('sysset' => iserializer($sysset)), array('uniacid' => $_W['uniacid'], 'id' => $agentid));
+	return true;
+}
+
+if(!function_exists('get_agent_system_config')) {
+	function get_agent_system_config($key = '', $agentid = 0) {
+		global $_W;
+		if(empty($agentid)) {
+			$agentid = $_W['agentid'];
+		}
+		$config = pdo_get('tiny_wmall_agent', array('uniacid' => $_W['uniacid'], 'id' => $agentid), array('sysset', 'id'));
+		if(empty($config)) {
+			return array();
+		}
+		$sysset = iunserializer($config['sysset']);
+		if(!is_array($sysset)) {
+			$sysset = array();
+		}
+		if(empty($sysset['app']) || empty($sysset['app']['deliveryer']['push_tags'])) {
+			$sysset['app']['deliveryer']['push_tags'] = array(
+				'all' => random(8),
+				'working' => random(8),
+				'rest' => random(8),
+			);
+			pdo_update('tiny_wmall_agent', array('sysset' => iserializer($sysset)), array('uniacid' => $_W['uniacid'], 'id' => $agentid));
+		}
+		if(empty($key)) {
+			return $sysset;
+		}
+		$keys = explode('.', $key);
+		$counts = count($keys);
+		if($counts == 1) {
+			return $sysset[$key];
+		} elseif($counts == 2) {
+			return $sysset[$keys[0]][$keys[1]];
+		} elseif($counts == 3) {
+			return $sysset[$keys[0]][$keys[1]][$keys[1]];
+		}
+	}
+}
+
+function set_agent_config_text($title, $key, $value = '') {
+	global $_W;
+	set_config_text($title, $key, $value, $_W['agentid']);
+	return true;
+}
+
+function get_agent_config_text($name) {
+	global $_W;
+	return get_config_text($name, $_W['agentid']);
+}
+if(!function_exists('get_agent_plugin_config')) {
+	function get_agent_plugin_config($key = '') {
+		global $_W;
+		$config = pdo_get('tiny_wmall_agent', array('uniacid' => $_W['uniacid'], 'id' => $_W['agentid']), array('pluginset'));
+		if(empty($config)) {
+			return array();
+		}
+		$pluginset = iunserializer($config['pluginset']);
+		if(!is_array($pluginset)) {
+			return array();
+		}
+		if(empty($key)) {
+			return $pluginset;
+		}
+		$keys = explode('.', $key);
+		$plugin = $keys[0];
+		if(!empty($plugin)) {
+			$config_plugin = $pluginset[$plugin];
+			if(!is_array($config_plugin)) {
+				return array();
+			}
+			if(!empty($keys[1])) {
+				return $config_plugin[$keys[1]];
+			}
+			return $config_plugin;
+		}
+	}
+}
+
+function set_agent_plugin_config($key, $value) {
+	global $_W;
+	$keys = explode('.', $key);
+	$counts = count($keys);
+	$pluginset = get_agent_plugin_config();
+	$config_plugin = $pluginset[$keys[0]];
+	if($counts == 1) {
+		$config_plugin = $value;
+	} elseif($counts == 2) {
+		$config_plugin[$keys[1]] = $value;
+	} elseif($counts == 3) {
+		$config_plugin[$keys[1]][$keys[2]] = $value;
+	}
+	$pluginset[$keys[0]] = $config_plugin;
+	pdo_update('tiny_wmall_agent', array('pluginset' => iserializer($pluginset)), array('uniacid' => $_W['uniacid'], 'id' => $_W['agentid']));
+	return true;
+}
+
+function get_agent_perm($key = '', $agentid = 0) {
+	global $_W;
+	if(empty($agentid)) {
+		$agentid = $_W['agentid'];
+	}
+	$agent = pdo_get('tiny_wmall_agent', array('uniacid' => $_W['uniacid'], 'id' => $agentid));
+	if(empty($agent)) {
+		return false;
+	}
+	$agent['plugins'] = array(
+		'errander', 'bargain', 'gohome',
+	);
+	if(!empty($key)) {
+		return $agent[$key];
+	}
+	return $agent;
+}
+
+function get_user($uid = 0) {
+	global $_W;
+	if(empty($uid)) {
+		$uid = $_W['uid'];
+	}
+	$user = pdo_fetch('select a.*,b.perms as perms_role from ' . tablename('tiny_wmall_perm_user') . ' as a left join ' . tablename('tiny_wmall_perm_role') . ' as b on a.roleid = b.id where a.uniacid = :uniacid and a.uid = :uid', array(':uid' => $uid, ':uniacid' => $_W['uniacid']));
+	if(empty($user)) {
+		return false;
+	}
+	$user['perms_role'] = explode(',', $user['perms_role']);
+	$user['perms'] = explode(',', $user['perms']);
+	$user['perms'] = array_merge($user['perms'], $user['perms_role']);
+	return $user;
+}
+
+function check_perm($perm, $redirct = false) {
+	global $_W;
+	$redircts = array('common', 'store');
+	if(in_array($_W['_controller'], $redircts)) {
+		return true;
+	}
+	if($_W['isfounder'] == 1 || $_W['perms'] == 'all') {
+		return true;
+	}
+	if(empty($_W['perms'])) {
+		return false;
+	}
+	if($perm == 'plugin.index') {
+		return true;
+	}
+	if(in_array($perm, $_W['perms'])) {
+		return true;
+	}
+	if(defined('IN_PLATEFORM')) {
+		$all_perms = array();
+		if($_W['plateformer']['usertype'] == 'agenter') {
+			$all_perms = get_agent_perms();
+		} else {
+			$all_perms = get_all_perms(true);
+		}
+		if(!in_array($perm, $all_perms)) {
+			return true;
+		}
+	}
+	if($redirct) {
+		$perms_init = array(
+			'dashboard.index',
+			'merchant.store',
+			'order.takeout',
+			'statcenter.takeout',
+			'paycenter.paybill',
+			'merchant.store',
+			'service.comment',
+			'deliveryer.account',
+			'clerk.account',
+			'member.index',
+			'config.mall',
+			'errander.index',
+			'bargain.index',
+			'deliveryCard.index',
+			'qianfanApp.index',
+			'majiaApp.index',
+			'shareRedpacket.index',
+			'freeLunch.index',
+			'diypage.index',
+			'ordergrant.index',
+			'superRedpacket.index',
+			'creditshop.index',
+			'agent.index',
+		);
+		if(in_array($perm, $perms_init)) {
+			$perm_arr = explode('.', $perm);
+			foreach($_W['perms'] as $row) {
+				if(strexists($row, "{$perm_arr[0]}.")) {
+					$perm = explode('.', $row);
+					header('location:' . iurl("{$perm['0']}/{$perm['1']}"));
+					die;
+				}
+			}
+			return false;
+		}
+	}
+	return false;
+}
+
+function get_all_perms($justkey = false) {
+	$all_perms = array(
+		'dashboard' => array(
+			'title' => '概括',
+			'perms' => array(
+				'dashboard.index' => '运营概况',
+				'dashboard.ad' => '全屏引导页',
+				'dashboard.slide' => '幻灯片',
+				'dashboard.nav' => '导航图标',
+				'dashboard.notice' => '公告',
+				'dashboard.cube' => '图片魔方'
+			)
+		),
+		'order' => array(
+			'title' => '订单',
+			'perms' => array(
+				'order.takeout' => '外卖',
+				'order.takeoutNew' => '未完成',
+				'order.distribute' => '订单分布',
+				'order.neworder' => '代客下单',
+				'order.dispatch' => '调度中心-待指派',
+				'order.records' => '调度中心-接单统计/接单记录',
+				'order.tangshi' => '店内',	
+			)
+		),
+		'paycenter' => array(
+			'title' => '当面付',
+			'perms' => array(
+				'paycenter.paybill' => '买单订单',
+			)
+		),
+		'statcenter' => array(
+			'title' => '数据',
+			'perms' => array(
+				'statcenter.takeout' => '外卖统计',
+				'statcenter.paytype' => '支付方式统计',
+				'statcenter.takeoutOrder' => '店铺订单统计',
+				'statcenter.takeoutOrderChannel' => '订单来源统计',
+				'statcenter.delivery' => '配送统计/配送详情',
+				'statcenter.hot' => '热门商品',
+				'statcenter.finance' => '财务统计',
+			)
+		),
+		'merchant' => array(
+			'title' => '商户',
+			'perms' => array(
+				'merchant.store' => '商户列表',
+				'merchant.account' => '商户账户',
+				'merchant.activity' => '商户活动/活动展示',
+				'merchant.getcash' => '申请提现',
+				'merchant.current' => '账户明细',
+				'merchant.settle' => '入驻',
+				'merchant.storage' => '商家回收站',
+				'merchant.newsCategory' => '资讯分类',
+				'merchant.news' => '资讯列表',
+				'merchant.ad' => '广告',
+				'merchant.notice' => '公告列表',
+				'merchant.report' => '投诉列表'
+			)
+		),
+		'service' => array(
+			'title' => '售后',
+			'perms' => array(
+				'service.comment' => '用户评价'
+			)
+		),
+		'deliveryer' => array(
+			'title' => '配送员',
+			'perms' => array(
+				'deliveryer.plateform' => '配送员',
+				'deliveryer.getcash' => '提现申请',
+				'deliveryer.current' => '账户明细',
+				'deliveryer.comment' => '配送评价',
+				'deliveryer.cover' => '注册&登录',
+			)
+		),
+		'clerk' => array(
+			'title' => '店员',
+			'perms' => array(
+				'clerk.account' => '店员列表',
+				'clerk.cover' => '注册&登录'
+			)
+		),
+		'member' => array(
+			'title' => '顾客',
+			'perms' => array(
+				'member.index' => '顾客概况',
+				'member.list' => '顾客列表',
+				'member.groups' => '顾客等级',
+				'member.address' => '顾客地址',
+				'member.coupon' => '顾客代金券',
+				'member.redpacket' => '顾客红包',
+				'member.recharge' => '充值明细',
+				'member.credit' => '积分明细/余额明细',
+			)
+		),
+		'config' => array(
+			'title' => '设置',
+			'perms' => array(
+				'config.mall' => '基础设置/分享及关注/平台状态/oAuth设置',
+				'config.trade' => '支付方式/支付回调/充值',
+				'config.notice' => '模板消息/短信消息',
+				'config.sms' => '短信接入/短信模板',
+				'config.takeout' => '服务范围/订单相关',
+				'config.store' => '配送模式/服务费率/商户入驻/其他批量操作',
+				'config.deliveryer' => '配送员申请/提成及提现',
+				'config.activity' => '新用户/红包到期通知/代金券',
+				'config.sensitive' => '敏感词过滤',
+				'config.member' => '顾客设置',
+				'config.label' => '商户标签/配送标签',
+				'config.report' => '商户举报类型',
+				'config.help' => '常见问题',
+				'config.cover' => '平台入口/商家管理入口/商家入驻入口/配送员入口',
+			)
+		)
+	);
+	if(check_plugin_perm('errander')) {
+		$all_perms['errander'] = array(
+			'title' => '跑腿',
+			'perms' => array(
+				'errander.order' => '订单',
+				'errander.statcenter' => '跑腿统计',
+				'errander.statDelivery' => '配送统计/配送详情',
+				'errander.category' => '跑腿分类',
+				'errander.diypage' => '首页设置/跑腿首页跑腿场景',
+				'errander.config' => '跑腿设置',
+				'errander.cover' => '入口设置',
+			)
+		);
+	}
+	if(check_plugin_perm('deliveryCard')) {
+		$all_perms['deliveryCard'] = array(
+			'title' => '配送会员卡',
+			'perms' => array(
+				'deliveryCard.order' => '订单',
+				'deliveryCard.setmeal' => '会员卡套餐',
+				'deliveryCard.config' => '会员卡设置',
+				'deliveryCard.cover' => '入口设置',
+			)
+		);
+	}
+	if(check_plugin_perm('qianfanApp')) {
+		$all_perms['qianfanApp'] = array(
+			'title' => '千帆APP整合',
+			'perms' => array(
+				'qianfanApp.config' => '设置',
+			)
+		);
+	}
+	if(check_plugin_perm('majiaApp')) {
+		$all_perms['majiaApp'] = array(
+			'title' => '马甲APP整合',
+			'perms' => array(
+				'majiaApp.config' => '设置',
+			)
+		);
+	}
+	if(check_plugin_perm('creditshop')) {
+		$all_perms['creditshop'] = array(
+			'title' => '积分兑换',
+			'perms' => array(
+				'creditshop.order' => '兑换记录',
+				'creditshop.goods' => '商品管理',
+				'creditshop.config' => '系统设置',
+				'creditshop.cover' => '入口设置'
+			)
+		);
+	}
+	if(check_plugin_perm('shareRedpacket')) {
+		$all_perms['shareRedpacket'] = array(
+			'title' => '分享有礼',
+			'perms' => array(
+				'shareRedpacket.activity' => '红包活动',
+				'shareRedpacket.cover' => '入口设置'
+			)
+		);
+	}
+	if(check_plugin_perm('freeLunch')) {
+		$all_perms['freeLunch'] = array(
+			'title' => '霸王餐',
+			'perms' => array(
+				'freeLunch.activity' => '霸王餐',
+				'freeLunch.cover' => '入口设置'
+			)
+		);
+	}
+	if(check_plugin_perm('bargain')) {
+		$all_perms['bargain'] = array(
+			'title' => '天天特价',
+			'perms' => array(
+				'bargain.index' => '活动设置',
+				'bargain.cover' => '入口设置',
+				'bargain.goods' => '活动商品'
+			)
+		);
+	}
+	if(check_plugin_perm('ordergrant')) {
+		$all_perms['ordergrant'] = array(
+			'title' => '下单有礼',
+			'perms' => array(
+				'ordergrant.config' => '活动设置',
+				'ordergrant.record' => '奖励记录',
+				'ordergrant.share' => '分享订单',
+				'ordergrant.cover' => '入口设置',
+			)
+		);
+	}
+	if(check_plugin_perm('superRedpacket')) {
+		$all_perms['superRedpacket'] = array(
+			'title' => '超级红包',
+			'perms' => array(
+				'superRedpacket.grant' => '发放红包',
+				'superRedpacket.share' => '分享红包',
+				'superRedpacket.gift' => '天降红包',
+				'superRedpacket.coupon' => '代金券设置/显示商家',
+			)
+		);
+	}
+	if(check_plugin_perm('diypage')) {
+		$all_perms['diypage'] = array(
+			'title' => '平台装修',
+			'perms' => array(
+				'diypage.menu' => '自定义菜单',
+				'diypage.mall' => '商城设置',
+				'diypage.danmu' => '订单弹幕',
+				'diypage.diy' => '页面管理',
+				'diypage.vuemenu' => '菜单列表',
+				'diypage.vuemall' => '菜单设置',
+				'diypage.diyPage' => '自定义DIY',
+				'diypage.vuediyShop' => '页面设置',
+				'diypage.template' => '模板管理'
+			)
+		);
+	}
+	if(check_plugin_perm('creditshop')) {
+		$all_perms['creditshop'] = array(
+			'title' => '积分商城',
+			'perms' => array(
+				//'creditshop.index' => '积分商城',
+				'creditshop.order' => '兑换记录',
+				'creditshop.goods' => '商品管理',
+				'creditshop.adv' => '幻灯片',
+				'creditshop.category' => '商品分类',
+				'creditshop.cover' => '入口设置',
+				// 'creditshop.config' => '系统设置',
+			)
+		);
+	}
+	if(check_plugin_perm('wheel')) {
+		$all_perms['wheel'] = array(
+			'title' => '幸运大转盘',
+			'perms' => array(
+				'wheel.activity' => '活动列表',
+				'wheel.record' => '参与记录',
+				'wheel.scene' => '使用场景',
+			)
+		);
+	}
+	if(check_plugin_perm('seckill')) {
+		$all_perms['seckill'] = array(
+			'title' => '限时抢购',
+			'perms' => array(
+				'seckill.goods_category' => '商品分类',
+				'seckill.goods' => '商品管理',
+				'seckill.orders' => '订单管理',
+				'seckill.slide' => '幻灯片管理',
+				'seckill.cover' => '入口设置',
+			)
+		);
+	}
+	if(check_plugin_perm('storebd')) {
+		$all_perms['storebd'] = array(
+			'title' => '店铺推广',
+			'perms' => array(
+				'storebd.account' => '店铺推广员',
+				'storebd.current' => '账户明细',
+				'storebd.getcash' => '提现申请',
+				'storebd.bind' => '店铺绑定',
+				'storebd.config' => '基本设置',
+			)
+		);
+	}
+	if(check_plugin_perm('cloudGoods')) {
+		$all_perms['cloudGoods'] = array(
+			'title' => '云商品库',
+			'perms' => array(
+				'cloudGoods.goods' => '商品库',
+				'cloudGoods.goodsCategory' => '商品分类',
+				'cloudGoods.menuCategory' => '菜单',
+				'cloudGoods.storeGoods' => '商户商品',
+				'cloudGoods.exportGoods' => '从Excel导入',
+			)
+		);
+	}
+	if(check_plugin_perm('spread')) {
+		$all_perms['spread'] = array(
+			'title' => '啦啦推广',
+			'perms' => array(
+				'spread.members' => '推广员',
+				'spread.user' => '推广关系',
+				'spread.groups' => '推广员等级',
+				'spread.getcash' => '提现记录',
+				'spread.current' => '账户明细',
+				'spread.config' => '基本设置',
+				'spread.postera' => '推广海报',
+				'spread.rank' => '排行榜设置',
+				'spread.cover' => '入口设置',
+			)
+		);
+	}
+	if(check_plugin_perm('mealRedpacket')) {
+		$all_perms['mealRedpacket'] = array(
+			'title' => '套餐红包',
+			'perms' => array(
+				'mealRedpacket.meal' => '套餐管理',
+				'mealRedpacket.mealorder' => '购买记录',
+				'mealRedpacket.plus' => '套餐红包Plus套餐管理',
+				'mealRedpacket.plusorder' => '套餐红包Plus购买记录',
+			)
+		);
+	}
+	if(check_plugin_perm('advertise')) {
+		$all_perms['advertise'] = array(
+			'title' => '店铺广告',
+			'perms' => array(
+				'advertise.trade' => '购买记录',
+				'advertise.config' => '基本设置/支付设置',
+				'advertise.advertise' => '为您优选推广/商家置顶推广',
+				'advertise.slide' => '首页顶部/会员中心/收银台/订单详情',
+			)
+		);
+	}
+	if(check_plugin_perm('gohome')) {
+		$all_perms['gohome'] = array(
+			'title' => '啦啦生活圈',
+			'perms' => array(
+				'gohome.order' => '订单列表',
+				'kanjia.category' => '砍价活动分类',
+				'kanjia.activity' => '砍价活动列表',
+				'pintuan.category' => '拼团活动分类',
+				'pintuan.activity' => '拼团活动列表',
+				'pintuan.basic' => '拼团活动设置',
+				'seckill.goods_category' => '抢购活动分类',
+				'seckill.goods' => '抢购活动列表',
+				'gohome.comment' => '订单评论',
+				'gohome.complain' => '投诉列表',
+				'gohome.memberBlack' => '黑名单',
+				'gohome.config' => '活动设置/费率设置',
+				'gohome.poster' => '活动海报',
+				'gohome.cover' => '活动入口',
+				'tongcheng.category' => '同城分类列表'
+			)
+		);
+	}
+
+	if($justkey) {
+		$perms = array();
+		foreach($all_perms as $key => $item) {
+			$perms[] = $key;
+			if(!empty($item['perms'])) {
+				foreach($item['perms'] as $key1 => $item1) {
+					$perms[] = $key1;
+				}
+			}
+		}
+		return $perms;
+	}
+	return $all_perms;
+}
+
+function format_wxapp_tpl($data) {
+	$send = array(
+		'keyword1' => array(
+			'value' => $data[0],
+			'color' => '#ff510'
+		),
+		'keyword2' => array(
+			'value' => $data[1],
+			'color' => '#ff510'
+		),
+		'keyword3' => array(
+			'value' => $data[2],
+			'color' => '#ff510'
+		),
+		'keyword4' => array(
+			'value' => $data[3],
+			'color' => '#ff510'
+		),
+		'keyword5' => array(
+			'value' => $data[4],
+			'color' => '#ff510'
+		),
+		'keyword6' => array(
+			'value' => $data[5],
+			'color' => '#ff510'
+		),
+		'keyword7' => array(
+			'value' => $data[6],
+			'color' => '#ff510'
+		)
+	);
+	return $send;
+}

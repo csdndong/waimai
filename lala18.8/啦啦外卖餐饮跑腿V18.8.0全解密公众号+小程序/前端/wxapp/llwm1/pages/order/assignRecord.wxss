@@ -1,0 +1,82 @@
+page {
+    font-size: 14px;
+    box-sizing: border-box;
+    width: 100%;
+    background-color: #F0EFF5;
+}
+
+::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    color: transparent;
+}
+
+.page-assignRecord .content .record-top {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 10px 15px;
+    background-color: #e5e5e5;
+    margin-bottom: 15px;
+}
+
+.page-assignRecord .content .record-top .record-header {
+    width: 22%;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: right;
+}
+
+.page-assignRecord .content .record-top .record-header:first-child {
+    width: 34%;
+    text-align: left;
+}
+
+.page-assignRecord .content .record-top .record-header:last-child {
+    color: #949494;
+}
+
+.page-assignRecord .content .record-list {
+    padding: 10px 15px;
+    border-top: 1px solid #e0e0e0;
+    background-color: #FFF;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.page-assignRecord .content .record-list .record-item {
+    font-size: 14px;
+    text-align: right;
+    color: #4A4A4A;
+}
+
+.page-assignRecord .content .record-list:last-child {
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.page-assignRecord .content .record-list .record-item:first-child {
+    width: 34%;
+    text-align: left;
+}
+
+.page-assignRecord .content .record-list .record-item:nth-child(2) {
+    width: 34%;
+    text-align: center;
+}
+
+.page-assignRecord .content .record-list .record-item:nth-child(3) {
+    width: 18%;
+    text-align: center;
+    color: #33aafc;
+}
+
+.page-assignRecord .content .record-list .record-item:last-child {
+    width: 13%;
+    text-align: right;
+}
+
+.page-assignRecord .content .record-list .record-item:last-child .icon {
+    font-size: 25px;
+    color: #9e9e9e;
+}

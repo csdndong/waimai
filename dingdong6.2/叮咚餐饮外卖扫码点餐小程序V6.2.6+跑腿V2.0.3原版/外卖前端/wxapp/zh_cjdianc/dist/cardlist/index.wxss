@@ -1,0 +1,21 @@
+.flex-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.flex-wrap {
+    flex-wrap: wrap;
+}
+
+.card-group-index {
+    background: white;
+}
+
+.cardimgv {
+    overflow: hidden;
+}
+
+.cardimg {
+    width: 100%;
+    height: 100%;
+}

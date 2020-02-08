@@ -1,0 +1,323 @@
+{template 'public/header'}
+
+{template 'public/comhead'}
+
+<link rel="stylesheet" type="text/css" href="../addons/zh_cjdianc/template/public/ygcss.css">
+
+<style>
+
+  .chongzhi{margin-bottom: 10px;height: 35px;padding: 0px;}
+
+  .ygminp,.man2,.man,.man3,.money,.money2{
+
+    float: left;
+
+    border:1px solid #eee;
+
+    height: 35px;
+
+    line-height: 35px;
+
+    margin-left: 0px;
+
+    margin-right: 0px;
+
+    background-color: white;
+
+  }
+
+  .man{
+
+    padding: 0px 12px;
+
+    text-align: center;
+
+    background-color: #f2f2f2;
+
+  }
+
+  .man3{
+
+    padding: 0px 5px;
+
+    width: 100px;
+
+    background-color: #f2f2f2;
+
+  }
+
+  .man3>span{float: right;}
+
+  .man2{
+
+    width: 130px;
+
+    padding: 0px 12px;
+
+    text-align: center;
+
+  }
+
+  .man4{
+
+    float: left;
+
+    height: 34px;
+
+    border-radius: 0px;
+
+    line-height: 20px;
+
+  }
+
+</style>
+
+<ul class="nav nav-tabs">
+
+    <span class="ygxian"></span>
+
+    <div class="ygdangq">当前位置:</div>   
+
+    <li><a href="{php echo $this->createWebUrl('qggoodall')}">商品管理</a></li>
+
+</ul>
+
+<div class="main">
+
+    <form action="" method="post" class="form-horizontal form" enctype="multipart/form-data">
+
+        <div class="panel panel-default ygdefault">
+
+            <div class="panel-heading wyheader">
+
+                内容编辑
+
+            </div>
+
+            <div class="panel-body">
+
+                <div class="form-group">
+
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">排序</label>
+
+                    <div class="col-sm-9">
+
+                        <input type="number" name="num" class="form-control" value="{$info['num']}" />
+
+                        <span class="help-block">*从小到大排序</span>
+
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">商品名称</label>
+
+                    <div class="col-sm-9">
+
+                        <input type="text" name="name" class="form-control" value="{$info['name']}" />
+
+                    </div>
+
+                </div>
+                 <div class="form-group">
+
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">商品简介</label>
+
+                    <div class="col-sm-9">
+
+                        <input type="text" name="content" class="form-control" value="{$info['content']}" />
+
+                    </div>
+
+                </div>
+
+                 <div class="form-group">
+
+                    <label for="inputEmail3" class="col-sm-2 control-label">商品分类</label>
+
+                    <div class="col-sm-10">
+
+                       <select class="form-control" name="type_id"> 
+
+                    {loop $type $key $item}
+
+                       {if $item['id']==$info['type_id']}
+
+                      <option value="{$item['id']}" selected="selected">{$item['name']}</option>
+
+                      {else}
+
+                      <option value="{$item['id']}" >{$item['name']}</option>
+
+                      {/if}
+
+                     {/loop}
+
+                    </select>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="form-group">
+
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">商品logo</label>
+
+                    <div class="col-sm-9">
+
+                        {php echo tpl_form_field_image('logo', $info['logo'])}
+
+                        <span class="help-block">* 建议尺寸大小:120*120px</span>
+
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">商品幻灯片</label>
+
+                    <div class="col-sm-9">
+
+                       {php echo tpl_form_field_multi_image('img',$img);}
+
+                       <span class="help-block">* 建议尺寸大小:450*450px</span>
+
+                    </div>
+
+                </div>
+
+                       <div class="form-group">
+
+                    <label for="inputEmail3" class="col-sm-2 control-label">价格</label>
+
+                    <div class="col-sm-10">
+
+                        <div class="col-md-10 chongzhi">
+
+                     
+
+                            <div class="man col-md-1"><span>售价</span></div>
+
+                            <input type="text" onkeyup="value=value.replace(/[^\d.]/g,'')" id="flshou" name="money" value="{$info['money']}" class="ygminp inp1
+
+                              col-md-2">
+
+                            <div class="man3 col-md-1">元 
+
+                              <span>原价</span>
+
+                           </div>
+
+                            <input type="text" onkeyup="value=value.replace(/[^\d.]/g,'')"  id="money2" name="price" value="{$info['price']}" class="ygminp inp1  col-md-2" id="flyuan">
+
+                            <div class="man3 col-md-1">元 
+
+                           </div>
+
+                       </div>
+
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">商品数量</label>
+
+                    <div class="col-sm-9">
+
+                        <input type="number" name="number" class="form-control" value="{$info['number']}" />
+
+                    </div>
+
+                </div>
+
+              <div class="form-group">
+
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">开始时间</label>
+
+                <div class="col-sm-10">
+
+                   {php echo tpl_form_field_date('start_time',$info['start_time'],$withtime = true)}
+
+                   <span class="help-block">*请设置限时抢购开始时间</span>
+
+                </div>
+
+              </div> 
+
+              <div class="form-group">
+
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">结束时间</label>
+
+                <div class="col-sm-10">
+
+                   {php echo tpl_form_field_date('end_time',$info['end_time'],$withtime = true)}
+
+                   <span class="help-block">*请设置限时抢购结束时间</span>
+
+                </div>
+
+              </div>  
+
+                <div class="form-group">
+
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">消费截止时间</label>
+
+                    <div class="col-sm-9">
+
+                        <input type="number" name="consumption_time" class="form-control" value="{$info['consumption_time']}" />
+
+                        <span class="help-block">*用户购买成功后几天后失效</span>
+
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+
+                  <label for="inputEmail3" class="col-sm-2 control-label">商品详情</label>
+
+                  <div class="col-sm-10">
+
+                      {php echo tpl_ueditor('details',$info['details']);}
+
+                  </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="form-group">
+
+            <input type="submit" name="submit" value="提交" class="btn col-lg-3" style="color: white;background-color: #44ABF7;"/>
+
+            <input type="hidden" name="token" value="{$_W['token']}" />
+
+            <input type="hidden" name="id" value="{$info['id']}" />
+
+        </div>
+
+    </form>
+
+</div>
+
+<script type="text/javascript">
+
+    $(function(){
+
+        $("#frame-19").show();
+
+        $("#yframe-19").addClass("wyactive");
+
+    })
+
+</script>
+{template 'common/footer'}

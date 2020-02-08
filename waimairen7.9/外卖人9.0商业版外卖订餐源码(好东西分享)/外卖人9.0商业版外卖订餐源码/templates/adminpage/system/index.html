@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title><{$sitename}></title>
+<meta name="Keywords" content="<{$keywords}>" />
+<meta name="description" content="<{$description}>" />  
+<link rel="stylesheet" href="<{$siteurl}>/templates/<{$tempdir}>/public/newshopcss/css/bootstrap.css" />
+<!--<link rel="stylesheet" href="css/bootstrap-responsive.css" />-->
+<link rel="stylesheet" href="<{$siteurl}>/templates/<{$tempdir}>/public/newshopcss/css/font-awesome.min.css" />
+<link rel="stylesheet" href="<{$siteurl}>/templates/<{$tempdir}>/public/newshopcss/css/normalize.css" />
+<link rel="stylesheet" href="<{$siteurl}>/templates/<{$tempdir}>/public/newshopcss/css/index.css" />
+<script type="text/javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/newshopcss/js/jquery.min.js" ></script>
+<script type="text/javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/jquery.cookie.js" ></script>
+<script type="text/javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/newshopcss/js/bootstrap.js" ></script>
+<script type="text/javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/newshopcss/js/index.js" ></script>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js"></script> 
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/artDialog.js?skin=wmrPopup"></script>
+<style>
+html,
+body{width: 100%;height: 100%;}
+.subnavaA a{color: #fe5722!important; }
+.admininfo{display: -webkit-box;height: 20px;float: right;margin-top: 18px;margin-right: 40px;color: #f0f0f0;font-size: 16px;}
+.usernfo img{width: 20px;margin-right: 10px;margin-bottom:4px}
+.changepwd img{width: 20px;margin-right: 10px;margin-bottom:4px}
+.tuichu img{width:20px;margin-right: 5px;}
+.admininfo a{color: #f0f0f0;font-size: 14px;text-decoration:none}
+</style>
+</head>
+<body>
+
+
+<!------------------------菜单导航开始------------------------>
+<div class="index_content">
+<div style='width: 100%;height: 56px;background: #1c2a3c;position: relative;top: 0;left: 0;z-index: 2;'>
+<img src='<{$adminlogo}>' style='padding-left: 20px;height: 40px;width: 230px;margin-top: 8px;'/>
+<div class='admininfo'>
+
+ <a href="<{$siteurl}>" target="_bank" >
+	<div class='usernfo' style="cursor:pointer;">
+	  <img  src='<{$siteurl}>/templates/<{$tempdir}>/public/newshopcss/images/icon_web_index.png'>网站首页
+	</div></a>
+<div style='border: 0.5px solid #333;margin:0 10px;'></div>
+
+<{if <{Mysite::$app->config['psbopen']}> == 1}>
+                 <a target="_blank" href="<{Mysite::$app->config['autopsblink']}>">
+		     <{else}>
+			 <a  target="_bank" href="<{ofunc type=url link="/adminpage/psuser/module/psymap"}>">
+		     <{/if}>
+	<div class='usernfo' style="cursor:pointer;">
+	  <img  src='<{$siteurl}>/templates/<{$tempdir}>/public/newshopcss/images/icon_order_dd.png'>调度系统
+	</div></a>
+	<div style='border: 0.5px solid #333;margin:0 10px;'></div>
+<a href="<{ofunc type=url link="/adminpage/order/module/ordertoday"}>" target="_bank" >
+	<div class='usernfo' style="cursor:pointer;">
+	  <img  src='<{$siteurl}>/templates/<{$tempdir}>/public/newshopcss/images/icon_order_today.png'>当天订单处理
+	</div></a>
+	
+	<div style='border: 0.5px solid #333;margin:0 10px;'></div>
+	<a href="<{ofunc type=url link="/adminpage/order/module/adminfastfoods"}>" target="_bank" >
+	<div class='usernfo' style="cursor:pointer;">
+	  <img  src='<{$siteurl}>/templates/<{$tempdir}>/public/newshopcss/images/icon_daiorder.png'>代客下单
+	</div></a>
+<div style='border: 0.5px solid #333;margin:0 10px;'></div>
+
+    <div class='usernfo'>
+	    <img  src='<{$siteurl}>/templates/<{$tempdir}>/public/newshopcss/images/adminuserlogo.png'><{$admininfo['username']}>
+	</div>
+	<div style='border: 0.5px solid #333;margin:0 10px;'></div>
+	<div class="changepwd" onclick="modifypwd();" style='font-size:14px;cursor:pointer' ><img  src='<{$siteurl}>/templates/<{$tempdir}>/public/newshopcss/images/icon_xgpwd.png'>修改密码</div>
+	<div style='border: 0.5px solid #333;margin:0 10px;'></div>
+    <a href="<{ofunc type=url link="/member/adminloginout"}>" class="out">
+		<div class='tuichu'>
+			<img  src='<{$siteurl}>/templates/<{$tempdir}>/public/newshopcss/images/adminloginout.png'>
+			退出
+		</div>
+	</a>
+</div>
+<script> 
+	var siteurl = "<{$siteurl}>"; 
+    var dialogs ;
+	 
+	function modifypwd(){		 
+		var	htmls = '<form method="post" id="subyj" action="#" style="text-align:center;"><table>';
+			htmls += '<div>原密码：<input style="height: 20px;border: 1px solid #999;border-radius: 3px;" type="password" name="oldpwd" value=""></div>';
+			htmls += '<div style="padding-top:10px;">新密码：<input style="height: 20px;border: 1px solid #999;border-radius: 3px;" type="password" name="pwd" value=""></div>'; 
+			htmls += '<input type="button" value="确认提交" class="button" onclick="sureModifypwd();" id="buttonsubyj"  style="font-size: 14px;border: 1px solid #1bbc9d;background: #1bbc9d;border-radius: 3px;margin-top:10px;color:#fff;"></form>';
+			art.dialog({
+			id: 'testID4',
+			title:'修改账号密码',
+			content: htmls
+	    });
+	} 
+	function sureModifypwd(){
+	 $.post('<{ofunc type=url link="/adminpage/member/module/adminmodify/datatype/json"}>', $('#subyj').serialize() ,function (data, textStatus){  
+		if(data.error == false){
+     	  	url = siteurl+'/index.php?ctrl=member&action=adminlogin';
+			alert('操作成功',url);
+			window.parent.location.href=url;
+			$('.aui_state_focus').hide();
+     	}else{
+     		if(data.error == true)
+     		{
+     			alert(data.msg); 
+     		}else{
+     			alert(data); 
+     		}
+     	} 
+	 }, 'json'); 
+	}	 
+    function diasucces(a,b){ 
+		document.getElementById('index_iframe').contentWindow.diasucces(a,b);		 
+	}
+    function diaerror(a){ 
+		document.getElementById('index_iframe').contentWindow.diaerror(a);		 
+	}	
+	function uploadsucessadmin(a,b,linkurl){ 
+		document.getElementById('index_iframe').contentWindow.uploadsucessadmin(a,b,linkurl);		 
+	}
+	function uploadgoods(a,b,linkurl){	 
+		document.getElementById('index_iframe').contentWindow.uploadgoods(a,b,linkurl);		 
+	}	
+	function uploadzkimga(a,b,linkurl){ 
+		document.getElementById('index_iframe').contentWindow.uploadzkimga(a,b,linkurl);		 
+	}
+	function uploadztimga(a,b,linkurl){	 
+		document.getElementById('index_iframe').contentWindow.uploadztimga(a,b,linkurl);		 
+	}	
+	function uploadzcimga(a,b,linkurl){ 
+		document.getElementById('index_iframe').contentWindow.uploadzcimga(a,b,linkurl);		 
+	}
+	function uploadpsimga(a,b,linkurl){	 
+		document.getElementById('index_iframe').contentWindow.uploadpsimga(a,b,linkurl);		 
+	}	
+	function uploadshoppsimga(a,b,linkurl){ 
+		document.getElementById('index_iframe').contentWindow.uploadshoppsimga(a,b,linkurl);		 
+	}
+	function uploadsucesptewm(a,b,linkurl){	 
+		document.getElementById('index_iframe').contentWindow.uploadsucesptewm(a,b,linkurl);		 
+	}	
+	function uploadsucesappewm(a,b,linkurl){ 
+		document.getElementById('index_iframe').contentWindow.uploadsucesappewm(a,b,linkurl);		 
+	}
+	function uploadsuceswxewm(a,b,linkurl){	 
+		document.getElementById('index_iframe').contentWindow.uploadsuceswxewm(a,b,linkurl);		 
+	}	
+	function uploadsuceswebc(a,b,linkurl){ 
+		document.getElementById('index_iframe').contentWindow.uploadsuceswebc(a,b,linkurl);		 
+	}
+	function uploadsucessk(a,b,linkurl){	 
+		document.getElementById('index_iframe').contentWindow.uploadsucessk(a,b,linkurl);		 
+	}	
+	function uploadsucessc(a,b,linkurl){ 
+		document.getElementById('index_iframe').contentWindow.uploadsucessc(a,b,linkurl);		 
+	}
+	function uploadsucesappshare(a,b,linkurl){	 
+		document.getElementById('index_iframe').contentWindow.uploadsucesappshare(a,b,linkurl);		 
+	}	
+	function uploadsucesregimg(a,b,linkurl){ 
+		document.getElementById('index_iframe').contentWindow.uploadsucesregimg(a,b,linkurl);		 
+	}
+	function uploadsucessm(a,b,linkurl){	 
+		document.getElementById('index_iframe').contentWindow.uploadsucessm(a,b,linkurl);		 
+	}	
+	function uploadsuceswxshare(a,b,linkurl){ 
+		document.getElementById('index_iframe').contentWindow.uploadsuceswxshare(a,b,linkurl);		 
+	}
+	function uploadsucess(a,b,linkurl){	 
+		document.getElementById('index_iframe').contentWindow.uploadsucess(a,b,linkurl);		 
+	}	
+	function uploadwxbglogos(a,b,linkurl){
+		document.getElementById('index_iframe').contentWindow.uploadwxbglogos(a,b,linkurl);
+	}
+	function uploadloginlogo(a,b,linkurl){ 
+		document.getElementById('index_iframe').contentWindow.uploadloginlogo(a,b,linkurl);		 
+	}
+	function uploaderror(msg){
+		document.getElementById('index_iframe').contentWindow.uploaderror(msg);		
+ 	}
+	function setarea(a,b){
+		document.getElementById('index_iframe').contentWindow.setarea(a,b);
+	}
+	function closemydo(){
+		document.getElementById('index_iframe').contentWindow.closemydo();
+	}
+	function refreshgoods(a){
+		document.getElementById('index_iframe').contentWindow.refreshgoods(a);
+	}
+	function uploadsucessadmin(flag,obj,linkurl){
+ 		document.getElementById('index_iframe').contentWindow.uploadsucessadmin(flag,obj,linkurl);
+ 	}
+    function uploadsuceswx(flag,obj,linkurl){
+ 		document.getElementById('index_iframe').contentWindow.uploadsuceswx(flag,obj,linkurl);
+ 	}
+	function uploadsuceswebc(flag,obj,linkurl){
+ 		document.getElementById('index_iframe').contentWindow.uploadsuceswebc(flag,obj,linkurl);
+ 	}
+	
+	
+</script>
+</div> 
+	<div class="index_left navbar navbar-inverse navbar-fixed-top" style='top:56px'>
+		<div class="index_nav col-sm-5">
+			 
+			<div class="navbar-collapse collapse">
+				<ul class="nav navbar-nav nav_top">					 
+					<li class="onebtn open" data='sindex' act='system'>
+						<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
+						<i class="icon_system"></i><div>系统管理</div></a> 
+		                <ul class="dropdown-menu">
+		                    <li class='subnavaA' data='sindex' act='system'><a href="javascript:;">网站信息</a></li>
+ 							<li data='siteset' act='system'><a href="javascript:;">网站设置</a></li>
+		                    <li data='logoset' act='system'><a href="javascript:;">logo设置</a></li>
+		                    <li data='otherset' act='system'><a href="javascript:;">网站限制</a></li>
+							<li data='colorset' act='system'><a href="javascript:;">色调管理</a></li>							
+							<li data='toplink' act='system'><a href="javascript:;">网站头部导航</a></li>
+							<li data='footinfo' act='system'><a href="javascript:;">网站底部导航</a></li>
+                            <li data='limitset' act='system'><a href="javascript:;">管理员权限</a></li>
+							<li data='limitset' act='system'><a href="http://www.baidu.com/hi12drekhjh1">在线升级</a></li>
+		                </ul>
+					</li>
+					
+					
+				 <li class='onebtn' data='adminlist' act='member' >
+						<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
+						<i class="icon_user"></i><div>用户管理</div></a>
+		                <ul class="dropdown-menu">
+						    <li class='subnavaA' data='adminlist' act='member'><a href="javascript:;">管理员列表</a></li>
+							<li data='addadmin' act='member'><a href="javascript:;">添加管理员</a></li>
+							<li data='memberstationlist' act='member'><a href="javascript:;">分站管理员列表</a></li>
+							<li data='memberlist' act='member'><a href="javascript:;">普通会员列表</a></li>
+							<li data='memberlistshop' act='member'><a href="javascript:;">商家会员列表</a></li>
+							<li data='addmember' act='member'><a href="javascript:;">添加会员</a></li>
+							<li data='grouplist' act='member'><a href="javascript:;">会员分组</a></li>
+							<li data='addgroup' act='member'><a href="javascript:;">添加会员分组</a></li>
+							<li data='memcostloglist' act='member'><a href="javascript:;">会员余额操作日志</a></li>
+						</ul>
+					</li>
+					
+					 
+					<li class='onebtn' data='adminshoplist' act='shop'>
+						<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
+						<i class="icon_shop"></i><div>店铺管理</div></a>
+		                <ul class="dropdown-menu">
+		                    <li  class='subnavaA' data='adminshoplist' act='shop'><a href="javascript:;">商家列表</a></li>
+							<li data='adminshopwati' act='shop'><a href="javascript:;">待审核商家</a></li>
+							<li data='addshop' act='shop'><a href="javascript:;">添加店铺</a></li>
+							<li data='shoptype' act='shop'><a href="javascript:;">店铺分类</a></li>
+							<li data='goodsattr' act='shop'><a href="javascript:;">商品单位</a></li>
+							<li data='goodsgg' act='shop'><a href="javascript:;">商品规格</a></li>
+							<li data='searchattr' act='shop'><a href="javascript:;">搜索关键词</a></li>
+							<li data='shopjsset' act='shop'><a href="javascript:;">结算设置</a></li>
+							<li data='openset' act='shop'><a href="javascript:;">一键开关店铺</a></li>
+							<li data='adminpsset' act='area'><a href="javascript:;">网站配送设置</a></li>
+							<li data='platformpsrange' act='area'><a href="javascript:;">平台地图配送范围</a></li>
+		                </ul>
+					</li>
+					
+			 
+			  
+ 					<li class='onebtn' data='orderlist' act='order'>
+						<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
+						<i class="icon_order"></i><div>订单管理</div></a>
+		                <ul class="dropdown-menu">
+		                    <li  class='subnavaA' data='orderlist' act='order'><a href="javascript:;">所有订单列表</a></li>
+							<li data='ordertoday' act='order'><a href="javascript:;">当天订单处理</a></li>
+							<li data='orderhistory' act='order'><a href="javascript:;">历史订单</a></li>
+							<li data='drawbacklog' act='order'><a href="javascript:;">退款申请处理</a></li>
+							<li data='drawsmlist' act='order'><a href="javascript:;">退款原因说明</a></li>
+							<li data='shophuiorder' act='order'><a href="javascript:;">闪惠订单列表</a></li>
+							<li data='beizhulist' act='order'><a href="javascript:;">订单备注设置</a></li>
+							<li data='ordercomment' act='order'><a href="javascript:;">订单评价列表</a></li>
+							<li data='handdoorder' act='order'><a href="javascript:;">手动操作订单</a></li>
+							<li data='shopjsadd' act='order'><a href="javascript:;">店铺结算处理</a></li>
+							<li data='shoptx' act='order'><a href="javascript:;">店铺提现记录</a></li>
+							<li data='shoptxtlog' act='order'><a href="javascript:;">店铺资金记录</a></li>
+							<li data='setpaotui' act='order'><a href="javascript:;">跑腿信息设置</a></li>
+							<li data='helpbuy' act='order'><a href="javascript:;">帮我买设置</a></li>
+							<li data='helpmove' act='order'><a href="javascript:;">帮我送设置</a></li>							
+		                </ul>
+					</li>
+				 
+					
+					<li class='onebtn' data='information' act='news'>
+						<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
+						<i class="icon_content"></i><div>内容管理</div></a>
+						<ul class="dropdown-menu">
+		                    <li  class='subnavaA' data='information' act='news'><a href="javascript:;">网站通知管理</a></li>
+							<li data='lifeassistant' act='news'><a href="javascript:;">生活服务管理</a></li>
+							<li data='newslist' act='news'><a href="javascript:;">网站新闻列表</a></li>
+							<li data='newstype' act='news'><a href="javascript:;">新闻分类列表</a></li>
+							<li data='yiqisaylist' act='news'><a href="javascript:;">一起说留言管理</a></li>
+							<li data='glywxmsg' act='news'><a href="javascript:;">一起说置顶留言</a></li>
+							<li data='asklist' act='ask'><a href="javascript:;">后台留言列表</a></li>
+							<li data='complreasonlist' act='ask'><a href="javascript:;">投诉原因列表</a></li>
+							<li data='complaintlist' act='ask'><a href="javascript:;">投诉管理列表</a></li>
+							<li data='singlelist' act='single'><a href="javascript:;">网站单页列表</a></li>
+							<li data='advlist' act='adv'><a href="javascript:;">网站广告列表</a></li>
+							<li data='advtype' act='adv'><a href="javascript:;">网站广告类型</a></li>
+		                </ul>
+					</li>
+					<li class='onebtn' data='cxruleset' act='card'>
+						<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
+						<i class="icon_marketing"></i><div>营销管理</div></a>
+		                <ul class="dropdown-menu">
+						    <li class='subnavaA' data='cxruleset' act='card'><a href="javascript:;">优惠活动设置</a></li>
+							<li data='cxrulelist' act='card'><a href="javascript:;">优惠活动列表</a></li>
+							<li data='followsjset' act='card'><a href="javascript:;">优惠券营销</a></li>
+							<li data='juanlist' act='card'><a href="javascript:;">优惠券列表</a></li>
+							<li data='specialpage' act='card'><a href="javascript:;">专题页管理</a></li>
+							<li data='scoreset' act='card'><a href="javascript:;">积分发放</a></li>
+							<li data='scoredx' act='card'><a href="javascript:;">积分抵现</a></li>
+							<li data='giftlist' act='card'><a href="javascript:;">积分兑换</a></li>
+							<li data='rechargezend' act='card'><a href="javascript:;">充值营销</a></li>
+						    <li data='cardlist' act='card'><a href="javascript:;">充值卡列表</a></li>
+							<li data='receivejuanlog' act='card'><a href="javascript:;">优惠券领用记录</a></li>
+							<li data='virtualinfo' act='card'><a href="javascript:;">店铺刷单</a></li>
+							<li data='distributionset' act='card'><a href="javascript:;">分销设置</a></li>
+							<li data='distributioncontent' act='card'><a href="javascript:;">分销说明</a></li>
+							<li data='fxtxlog' act='card'><a href="javascript:;">分销佣金提现记录</a></li>
+							<li data='wxnotice' act='card'><a href="javascript:;">微信消息通知</a></li>						
+						</ul>
+					</li> 
+					
+					 
+				  
+					<li class='onebtn' data='mapset' act='other'>
+						<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
+						<i class="icon_connector"></i><div>接口管理</div></a>
+		                <ul class="dropdown-menu">
+		                    <li  class='subnavaA' data='mapset' act='other'><a href="javascript:;">地图接口</a></li>
+							<li data='apiset' act='other'><a href="javascript:;">配送宝接口</a></li>
+							<li data='weatherapiset' act='other'><a href="javascript:;">天气接口</a></li>
+							<li data='imgset' act='other'><a href="javascript:;">图片接口</a></li>
+							<li data='auto_callphone' act='other'><a href="javascript:;">自动拨打电话接口</a></li>
+							<li data='paylist' act='other'><a href="javascript:;">支付接口</a></li>
+							<li data='loginlist' act='other'><a href="javascript:;">登录接口</a></li>
+							<li data='smsset' act='other'><a href="javascript:;">短信接口</a></li>		
+							<li data='othertpl' act='other'><a href="javascript:;">短信/邮件模板</a></li>
+							<li data='emailset' act='other'><a href="javascript:;">邮箱设置</a></li>
+							<li data='basedata' act='other'><a href="javascript:;">备份数据</a></li>
+							<li data='rebkdata' act='other'><a href="javascript:;">还原数据</a></li>
+							<li data='cleartpl' act='other'><a href="javascript:;">清理缓存</a></li>
+							<li data='errlog' act='other'><a href="javascript:;">错误日志</a></li>
+		                </ul>
+					</li> 
+				 
+				 
+				    <li class='onebtn' data='trade_statisyic' act='analysis'>
+						<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
+						<i class="icon_analysis"></i><div>数据统计</div></a>
+		                <ul class="dropdown-menu">
+		                    <li  class='subnavaA' data='trade_statisyic' act='analysis'><a href="javascript:;">交易统计</a></li>
+							<li data='area_statisyic' act='analysis'><a href="javascript:;">分站统计</a></li>
+							<li data='shop_statisyic' act='analysis'><a href="javascript:;">商家统计</a></li>
+							<li data='mem_statisyic' act='analysis'><a href="javascript:;">会员统计</a></li>
+							<li data='js_statisyic' act='analysis'><a href="javascript:;">结算统计</a></li>
+		                </ul>
+					</li> 
+					
+					<li class='onebtn' data='indexstyle' act='weixin'>
+						<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
+						<i class="icon_app"></i><div>移动端管理</div></a>
+		                <ul class="dropdown-menu">
+		                    <li  class='subnavaA' data='indexstyle' act='weixin'><a href="javascript:;">移动端首页设置</a></li>
+							<li data='wxset' act='weixin'><a href="javascript:;">微信基本设置</a></li>
+							<li data='wxmenu' act='weixin'><a href="javascript:;">微信菜单管理</a></li>
+							<li data='wxback' act='weixin'><a href="javascript:;">微信自动回复</a></li>
+							<li data='wxuser' act='weixin'><a href="javascript:;">微信用户列表</a></li>
+							<li data='wxkefu' act='weixin'><a href="javascript:;">微信客服设置</a></li>
+							<li data='appset' act='app'><a href="javascript:;">APP设置</a></li>
+							<li data='shopapp' act='app'><a href="javascript:;">APP商家端</a></li>
+							<li data='appletset' act='applet'><a href="javascript:;">小程序管理</a></li>
+		                </ul>
+					</li> 
+					
+					<li class='onebtn' data='stationlist' act='station'>
+						<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
+						<i class="icon_substation"></i><div>分站管理</div></a>
+		                <ul class="dropdown-menu">
+		                    <li  class='subnavaA' data='stationlist' act='station'><a href="javascript:;">分站列表</a></li>
+							<li data='managestation' act='station'><a href="javascript:;">添加分站</a></li>
+							<li data='stationorderlist' act='station'><a href="javascript:;">分站订单</a></li>
+							<li data='citylist' act='station'><a href="javascript:;">城市列表</a></li>
+							<li data='managecity' act='station'><a href="javascript:;">添加城市</a></li>
+							<li data='stationshoplist' act='station'><a href="javascript:;">分站商家</a></li>							 
+		                </ul>
+					</li> 
+				</ul>
+				 
+			</div>
+		</div>
+		<script>
+		$('.hidden-xs').hover(function() {
+			 $('.function_user_list').show();
+		}, function() {
+			 setTimeout('hidess()',3000);
+			 
+		});
+		function hidess(){
+		    $('.function_user_list').hide();
+		} 
+		</script>
+		<div class="index_navtit col-sm-7 hidden-xs">
+			<ul>			 
+				 
+			</ul>
+		</div>
+	</div>
+	<div class="visible-xs" style="height: 50px;"></div>
+	 
+	<div class="index_right left">
+		<iframe id="index_iframe" width="100%" height="100%" frameborder="no" border="0" src=""></iframe>
+	</div>
+</div>
+<!------------------------菜单导航结束------------------------>
+<div class="modal fade quitsignin" tabindex="-1" role="dialog" aria-labelledby="quitsignintit" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="quitsignintit">退出登录</h4>
+			</div>
+			<form class="form-horizontal" role="form">
+				<div class="modal-body text-center">
+					<h2>确定退出登录吗？</h2>
+					<small></small>
+				</div>
+				<div class="modal-footer">
+					<button type="button"  class="btn btn-primary">保存</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<script>
+    $('.btn-primary').click(function(){
+        window.location.href=siteurl+'/index.php?ctrl=member&action=loginout&type=shop';
+	})
+</script>
+
+
+<div class="modal fade modifypassword" tabindex="-1" role="dialog" aria-labelledby="modifypasswordtit" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="modifypasswordtit">修改密码</h4>
+			</div>
+			<form class="form-horizontal" role="form">
+				<div class="modal-body">
+					<div class="form-group">
+						<div class="col-sm-1 hidden-xs"></div>
+						<label class="col-sm-2 col-xs-4 control-label"><i>*</i>原密码:</label>
+						<div class="col-sm-7 col-xs-8">
+							<input class="form-control" type="text" placeholder="请输入现在使用的密码" />
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-1 hidden-xs"></div>
+						<label class="col-sm-2 col-xs-4 control-label"><i>*</i>设置新密码:</label>
+						<div class="col-sm-7 col-xs-8">
+							<input class="form-control" type="text" placeholder="6-20位数字或字母" />
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-1 hidden-xs"></div>
+						<label class="col-sm-2 col-xs-4 control-label"><i>*</i>确认新密码:</label>
+						<div class="col-sm-7 col-xs-8">
+							<input class="form-control" type="text" placeholder="请输入新密码" />
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary">保存</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+</body>
+</html>

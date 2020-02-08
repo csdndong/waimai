@@ -1,0 +1,294 @@
+<{extends file="<{$tempdir}>/public/admin.html"}> 
+<{block name=extendjs}>
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/jquery.PrintArea.js" type="text/javascript" language="javascript"></script>
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/datepicker/WdatePicker.js" type="text/javascript" language="javascript"></script>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js"></script>
+  <script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/chart/highcharts.js"></script>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/chart/modules/exporting.js"></script>
+<{/block}>
+
+ <{block name=bodylist}>
+  
+  <div class="managShopCon">
+	<div class="managShopBox">
+		<div class="managShopMain">
+		<{include file="<{$tempdir}>/public/commentcate1.html"}>  
+			
+			<div class="addShopSingCon" style="padding:0;">
+ 
+ 
+ 
+ 
+      <div style="width:100%;margin-top:-10px;"> 
+      	
+      	<div class="search" style="height:60px;line-height: 60px;"> 
+            <div class="search_content">
+            	 
+            	 <form method="post" name="form1" action="<{ofunc type=url link="/areaadminpage/analysis/module/trade_statisyic"}>">
+					<label>订单类型：</label>
+            	 	<select name="ordertype">
+            	 		<option value="0">全部</option>
+            	 		<option value="1" <{if $ordertype == 1}>selected<{/if}>>外卖订单</option>
+            	 		<option value="2" <{if $ordertype == 2}>selected<{/if}>>跑腿订单</option>
+						<option value="3" <{if $ordertype == 3}>selected<{/if}>>闪惠订单</option>
+            	 	</select>
+            	  <label>店铺：</label>
+            	  <input type="text" name="shopname" value="<{$shopname}>"> 
+				  时间：
+            	   <input class="Wdate datefmt" type="text" name="starttime" id="starttime" value="<{$starttime|date_format:"%Y-%m-%d"}>"  onFocus="WdatePicker({isShowClear:false,readOnly:true});" style="width:100;"  />  
+			   		 	  至<input class="Wdate datefmt" type="text" name="endtime" id="endtime" value="<{$endtime|date_format:"%Y-%m-%d"}>"  onFocus="WdatePicker({isShowClear:false,readOnly:true});" style="width:100;" />                  
+
+            	    <input type="submit" value="查询" class="button">  
+            	   <span class="<{if $datetype==1}>selectcolor<{else}>noselectcolor<{/if}>"><a href="<{ofunc type=url link="/areaadminpage/analysis/module/trade_statisyic/datetype/1"}>">近7天</a></span><span data="2" class="<{if $datetype==2}>selectcolor<{else}>noselectcolor<{/if}>"><a href="<{ofunc type=url link="/areaadminpage/analysis/module/trade_statisyic/datetype/2"}>">近30天</a></span>
+            	 </form>
+            </div>
+        
+      	</div>
+      	<style>
+      		 body{color:#666;}
+      		.trade_des{text-align: left;}
+      		.trade_title{height: 40px;line-height: 40px;padding:0 20px;text-align: left;}
+      		.trade_title i{width: 4px;display: inherit;float: left; height: 16px; margin-top: 11px;background-color: rgba(22, 155, 213, 1);}
+      		.trade_title .title{color: #333;font-weight: 700; margin-left: 10px;}
+			.trade_title .delurl{line-height:24px;float:right;margin-top: 8px;padding: 0px 5px;font-size:12px;color:#0076cf;}
+      		.firstul{padding: 0 20px 20px;}
+      		.firstli{padding: 20px 10px;background-color: rgba(250, 250, 250, 1);height: 90px;}
+      		.secondul{padding: 0 20px 0 10px;}
+      		.secondli{width: 25%;float: left;}
+      		.thirdul{border-right: 1px solid #ddd;width: 90%;}
+      		.thirdul .third_first{color:#666;}
+      		.third_first i{background-image: url(<{$siteurl}>/templates/<{$tempdir}>/public/images/admin/askicon.png);width: 11px;height: 11px;display: inline-block;border-radius: 50%;background-size: 12px 12px;margin-left: 4px;cursor: pointer;position:relative;}
+			.third_first i p{display: none;position: absolute;top: -20px;left: 20px;color: #000;width: 99px;background-color: #fff;padding: 5px;border-radius: 7px;border: 1px solid #ccc;font-size: 12px;font-style: normal;}
+      		.third_second span{color: #000;font-weight: bold;font-size: 18px; height: 40px;line-height: 40px;}
+      		.third_third div span{color:#999;}
+			.third_third div .uparrow{background-image: url(<{$siteurl}>/templates/<{$tempdir}>/public/images/admin/uparrow.png);width: 12px;height: 12px;display: inline-block;border-radius: 50%;background-size: 12px 12px;transform: rotateZ(180deg);}
+			.third_third div .downarrow{background-image: url(<{$siteurl}>/templates/<{$tempdir}>/public/images/admin/downarrow.png);width: 12px;height: 12px;display: inline-block;border-radius: 50%;background-size: 12px 12px;}
+			.third_third div .upcolor{color:#01CD88;}
+			.third_third div .downcolor{color:#FF7600;}
+			.selectcolor{color: #1783b2;font-size: 12px;padding: 2px;border: 1px solid #1783b2;margin: 0 0 0 10px;cursor:pointer;}
+ 			.noselectcolor{color: #666;font-size: 12px;padding: 2px;border: 1px solid #ccc;margin: 0 0 0 10px;cursor:pointer;}
+			.selectcolor a{color:#0076cf;}
+			.noselectcolor a{color:#666;}
+			.selectcolor a:link{color:#0076cf;}
+			.noselectcolor a:link{color:#666;}
+      	</style>
+      	<div class="trade_des">
+      		<div class="trade_title">
+      			<i></i>
+      			<span class="title">订单交易概况</span>
+				<a  href="<{$outlink}>" target="_blank" class="delurl">导出数据</a>
+      		</div>
+      		<ul class="firstul">
+      			<li class="firstli">
+      				<ul class="secondul">
+      					<li class="secondli">
+      						<ul class="thirdul">
+      							<li class="third_first"><span>订单总数</span><i onmouseover="mouseover(this)" onmouseout="mouseout(this)"><p>所有订单数量总和</p></i></li>
+      							<li class="third_second"><span><{$nowdata['ordernum']}></span></li>
+      							<li class="third_third">
+      								<div>
+      									<span>比前<{$beforeday}>日</span>
+      									<i class="<{if $ordnumbilitype ==1}>uparrow<{else}>downarrow<{/if}>"></i>
+      									<span class="<{if $ordnumbilitype ==1}>upcolor<{else}>downcolor<{/if}>"><{$ordnumbili}>%</span>
+      								</div>
+      							</li>
+      						</ul>
+      				    </li>
+      					<li class="secondli">
+      						<ul class="thirdul">
+      							<li class="third_first"><span>有效订单数</span><i onmouseover="mouseover(this)" onmouseout="mouseout(this)"><p>已完成的订单</p></i></li>
+      							<li class="third_second"><span><{$nowdata['useordnum']}></span></li>
+      							<li class="third_third">
+      								<div>
+      									<span>比前<{$beforeday}>日</span>
+      									<i class="<{if $usenumbilitype ==1}>uparrow<{else}>downarrow<{/if}>"></i>
+      									<span class="<{if $usenumbilitype ==1}>upcolor<{else}>downcolor<{/if}>"><{$usenumbili}>%</span>
+      								</div>
+      							</li>
+      						</ul>
+      					</li>
+      					<li class="secondli">
+      						<ul class="thirdul">
+      							<li class="third_first"><span>无效订单数</span><i onmouseover="mouseover(this)" onmouseout="mouseout(this)"><p>已取消的订单数量</p></i></li>
+      							<li class="third_second"><span><{$nowdata['nouseordnum']}></span></li>
+      							<li class="third_third">
+      								<div>
+      									<span>比前<{$beforeday}>日</span>
+      									<i class="<{if $nousebilitype ==1}>uparrow<{else}>downarrow<{/if}>"></i>
+      									<span class="<{if $nousebilitype ==1}>upcolor<{else}>downcolor<{/if}>"><{$nousebili}>%</span>
+      								</div>
+      							</li>
+      						</ul>
+      					</li>
+      					<li class="secondli">
+      						<ul class="thirdul" style="border:none;">
+      							<li class="third_first"><span>下单会员数</span><i onmouseover="mouseover(this)" onmouseout="mouseout(this)"><p>提交订单的会员总数，一人多次提交订单标记为一人</p></i></li>
+      							<li class="third_second"><span><{$nowdata['memnum']}></span></li>
+      							<li class="third_third">
+      								<div>
+      									<span>比前<{$beforeday}>日</span>
+      									<i class="<{if $membilitype ==1}>uparrow<{else}>downarrow<{/if}>"></i>
+      									<span class="<{if $membilitype ==1}>upcolor<{else}>downcolor<{/if}>"><{$membili}>%</span>
+      								</div>
+      							</li>
+      						</ul>
+      					</li>
+      				</ul>
+      			</li>
+      			<li class="firstli" style="margin-top:10px;">
+      				<ul class="secondul">
+      					<li class="secondli">
+      						<ul class="thirdul">
+      							<li class="third_first"><span>订单总金额</span><i onmouseover="mouseover(this)" onmouseout="mouseout(this)"><p>所有订单金额总和</p></i></li>
+      							<li class="third_second">￥<span><{$nowdata['ordcost']}></span></li>
+      							<li class="third_third">
+      								<div>
+      									<span>比前<{$beforeday}>日</span>
+      									<i class="<{if $ordcostbilitype ==1}>uparrow<{else}>downarrow<{/if}>"></i>
+      									<span class="<{if $ordcostbilitype ==1}>upcolor<{else}>downcolor<{/if}>"><{$ordcostbili}>%</span>
+      								</div>
+      							</li>
+      						</ul>
+      					</li>
+      					<li class="secondli">
+      						<ul class="thirdul">
+      							<li class="third_first"><span>有效订单总金额</span><i onmouseover="mouseover(this)" onmouseout="mouseout(this)"><p>已完成订单金额总和</p></i></li>
+      							<li class="third_second">￥<span><{$nowdata['useordcost']}></span></li>
+      							<li class="third_third">
+      								<div>
+      									<span>比前<{$beforeday}>日</span>
+      									<i class="<{if $useordbilitype ==1}>uparrow<{else}>downarrow<{/if}>"></i>
+      									<span class="<{if $useordbilitype ==1}>upcolor<{else}>downcolor<{/if}>"><{$useordbili}>%</span>
+      								</div>
+      							</li>
+      						</ul>
+      					</li>
+      					<li class="secondli">
+      						<ul class="thirdul">
+      							<li class="third_first"><span>退款总金额</span><i onmouseover="mouseover(this)" onmouseout="mouseout(this)"><p>所有退款成功的订单金额总和</p></i></li>
+      							<li class="third_second">￥<span><{$nowdata['drawcost']}></span></li>
+      							<li class="third_third">
+      								<div>
+      									<span>比前<{$beforeday}>日</span>
+      									<i class="<{if $drawbilitype ==1}>uparrow<{else}>downarrow<{/if}>"></i>
+      									<span class="<{if $drawbilitype ==1}>upcolor<{else}>downcolor<{/if}>"><{$drawbili}>%</span>
+      								</div>
+      							</li>
+      						</ul>
+      					</li>
+      					<li class="secondli">
+      						<ul class="thirdul" style="border:none;">
+      							<li class="third_first"><span>单均价</span><i onmouseover="mouseover(this)" onmouseout="mouseout(this)"><p>单均价=订单总金额÷订单总数量</p></i></li>
+      							<li class="third_second">￥<span><{$nowdata['singlecost']}></span></li>
+      							<li class="third_third">
+      								<div>
+      									<span>比前<{$beforeday}>日</span>
+      									<i class="<{if $singlebilitype ==1}>uparrow<{else}>downarrow<{/if}>"></i>
+      									<span class="<{if $singlebilitype ==1}>upcolor<{else}>downcolor<{/if}>"><{$singlebili}>%</span>
+      								</div>
+      							</li>
+      						</ul>
+      					</li>
+      				</ul>
+      			</li>
+      		</ul>
+      	</div>
+  		<div class="trade_showimg">
+  			<div class="trade_title">
+      			<i></i>
+      			<span class="title">交易趋势图</span>
+				<span class="<{if $daytype==7}>selectcolor<{else}>noselectcolor<{/if}>" style="cursor:not-allowed;">近7天</span><span class="<{if $daytype==30}>selectcolor<{else}>noselectcolor<{/if}>" style="cursor:not-allowed;">近30天</span>
+      		</div>
+      		 <div id="container" style="min-width:400px;height:400px"></div>
+  		</div>
+
+          </div>
+
+        </div>
+
+        
+  </div>
+  <div id="print_area" style="display:none;"></div>
+ </div>
+ 
+<script type="text/javascript">
+   function colorred(obj){
+   	$(obj).css('background','#eee'); 
+   }
+   function tcolorred(obj){
+   	$(obj).css('background','');
+   }
+   function mouseover(obj){
+		//console.log(1111);
+		$(obj).parent().find('p').css('display','block');
+   }
+   function mouseout(obj){
+		//console.log(2222);
+		$(obj).parent().find('p').css('display','none');
+   }
+ </script>
+ <script type="text/javascript">
+$(function () {
+    var chart;
+    $(document).ready(function() {
+        chart = new Highcharts.Chart({
+            chart: {
+                renderTo: 'container',
+                type: 'spline',
+                marginRight: 130,
+                marginBottom: 25
+            },
+            title: {
+                text: '订单统计',
+                x: 0 //center
+            },
+            subtitle: {
+                text: '<{$siteurl}>',
+                x:0
+            },
+            xAxis: {
+                categories: [<{$xstr}>],
+				offset:-30
+            },
+            yAxis: {
+                title: {
+                    text: '订单数量 / 订单金额'
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }]
+            },
+            tooltip: {
+                formatter: function() {
+                        return '<b>'+ this.series.name +'</b><br/>'+
+                        this.x +'号: '+ this.y;
+                }
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'top',
+                x: -10,
+                y: 100,
+                borderWidth: 0
+            },
+             series: [{
+		        name: '订单总数',
+		        data: [<{$ordnumstr}>]
+		    },
+		    {
+		        name: '订单总金额',		   
+		        data: [<{$ordcoststr}>]
+		    }]
+        });
+    });
+
+});
+		</script>
+		</div>
+		</div>
+		</div>
+		</div>
+<{/block}>

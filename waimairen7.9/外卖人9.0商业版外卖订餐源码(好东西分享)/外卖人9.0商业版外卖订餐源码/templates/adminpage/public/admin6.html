@@ -1,0 +1,109 @@
+﻿ <html xmlns="http://www.w3.org/1999/xhtml"><head> 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+<meta http-equiv="Content-Language" content="zh-CN"> 
+<meta content="all" name="robots"> 
+<meta name="description" content=""> 
+<meta content="" name="keywords"> 
+<title>后台管理中心 </title>  
+<link rel="stylesheet" type="text/css" href="<{$siteurl}>/templates/<{$tempdir}>/public/css/admin1.css?v=9.0"> 
+ <script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/jquery.js?v=9.0" type="text/javascript" language="javascript"></script>
+ <script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/public1.js?v=9.0" type="text/javascript" language="javascript"></script>
+ <script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/allj.js?v=9.0" type="text/javascript" language="javascript"></script>
+ <script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/artDialog.js?skin=wmrPopup"></script>
+ <script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/template.min.js?v=9.0" type="text/javascript" language="javascript"></script>
+<{block name=extendjs}><{/block}>
+<script>
+	var menu = null;
+	var siteurl = "<{$siteurl}>";
+	var is_static ="<{$is_static}>";
+	 
+</script> 
+</head> 
+
+<style>
+.showtop_t{
+   padding-top: 6px!important;
+   border: none;
+    padding: 0;
+}
+ .navs{
+	display: inline-block;
+	height: 30px;
+	width: 90px;
+	text-align: center; 
+	border-top-left-radius: 7px;   
+    border-top-right-radius: 7px;   	
+ }
+ .navon{
+	 background-color: #fff!important;
+ }
+</style>
+<body> 
+<div id="cat_zhe" class="cart_zhe" style="display:none;"></div>
+ 
+<div style="clear:both;"></div>
+<div class="newmain">
+	 
+   <div class="newmain_all">
+   	  
+ <div class="right_content">
+	<div class="show_content_m">
+   	        	 <div class="show_content_m_ti">
+   	        	 	   
+					   <div class="showtop_t" id="positionname">
+					       
+						  <div class="navs <{if $type==0 }> navon <{/if}>">
+						  <a href="<{ofunc type=url link="/adminpage/other/module/paylist/type/0"}>">支付宝</a>
+						  </div> 
+						  <div class="navs <{if $type==1 }> navon <{/if}>">
+						  <a href="<{ofunc type=url link="/adminpage/other/module/paylist/type/1"}>"> 微信支付</a>
+						  </div>	
+                          <div class="navs <{if $type==2 }> navon <{/if}>">
+						  <a href="<{ofunc type=url link="/adminpage/other/module/paylist/type/2"}>">余额支付</a>
+						  </div>						  
+						   <div class="navs <{if $type==3 }> navon <{/if}>" style="display:none;">
+						  <a href="<{ofunc type=url link="/adminpage/other/module/paylist/type/3"}>">paypal</a>
+						  </div>						  
+					   </div>
+					   
+   	        	 </div>
+   	        	 <div class="show_content_m_t2">
+   	        	 	
+   	        	 	<{block name=bodylist}><{/block}>
+   	        	 	
+               <div class="show_content_m_t3">
+   	        	 </div>
+   	        	 
+   	       </div>
+   	       <!-- show_content_m结束-->
+
+
+   	  </div>
+   	  <!-- right_content 结束-->
+   	  
+   </div>
+   <!-- newmain_all 结束-->
+</div>	
+	
+<!--newmain 结束-->
+
+<div style="clear:both;"></div>
+ 
+<script>
+$(function(){ 
+ $('.show_page a').wrap('<li></li>');
+ $('.show_page').find('.current').eq(0).parent().css({'background':'#f60'}); 
+});
+   function limitalert(){
+		diaerror("您暂无权限设置,如有疑问请联系QQ：375952873  Tel：18538930577");
+	}
+</script>
+ 
+
+</body>
+</html>
+
+
+
+
+

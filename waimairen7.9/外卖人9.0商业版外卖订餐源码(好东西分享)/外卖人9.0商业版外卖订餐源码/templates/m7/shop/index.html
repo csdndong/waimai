@@ -1,0 +1,565 @@
+ <{extends file="<{$tempdir}>/public/site.html"}>  
+ <{block name=sitetitle}><{$shopinfo['shopname']}><{/block}>
+<{block name=extendcss}>
+<link rel="stylesheet" type="text/css" href="<{$siteurl}>/templates/<{$tempdir}>/public/css/shop.css">
+<link rel="stylesheet" type="text/css" href="<{$siteurl}>/templates/<{$tempdir}>/public/css/outdiv.css">
+<link href="<{$siteurl}>/templates/<{$tempdir}>/public/mnew7/css/wmr_shop.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" href="<{$siteurl}>/templates/<{$tempdir}>/public/mnew7/css/base.css" />
+<{/block}>
+<{block name=extendjs}>  
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/bootstrap.min.js" type="text/javascript" language="javascript"></script>
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/hanwoshop.js" type="text/javascript" language="javascript"></script>
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/cart.js" type="text/javascript" language="javascript"></script>
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/outdiv.js" type="text/javascript" language="javascript"></script>
+<{/block}> 
+<{block name=shophide}><{/block}> 
+<{block name=top2}><{/block}> 
+<{block name=bodylist}>  
+<div class="aswm-shop-box">
+	<div class="aswm-sho-main">
+	<div class="aswm-shop-logo"><img <{ofunc type=img  link="<{$shopinfo['shoplogo']}>"}> /></div>
+    <div class="aswm-shop-name">
+	<p class="newshopname"><{$shopinfo['shopname']}><span class="newzongxiaol">总销量：<span style="color:#ff2d55;"><{$sellcount}></span></span></p>
+	<h2> <span style="color:#a6a6a6 ; font-size:14px;">营业时间：</span><span style="color:#a6a6a6; font-size:14px;"><{$shopinfo['starttime']}></span>
+		<span class="status service_status_0" id="status_resturant" style="color:#fff; background:#44c45a; padding:0px 8px; height:24px; line-height:24px; text-align:center;">
+
+						<{if $shopopeninfo['opentype'] ==2}>营业中
+                    <{elseif $shopopeninfo['opentype']==3}>休息中,但接受预定
+                    <{else}>休息中
+                    <{/if}>
+						
+						</span>
+						
+                     
+	</h2>
+		<h2 style="margin-top:4px;"> <span style="color:#a6a6a6 ; font-size:14px;">商家地址：</span><span style="color:#a6a6a6; font-size:14px;"><{$shopinfo['address']|default:'暂无地址'}></span>
+		             
+	</h2>
+		<p style="margin-top:4px;">	
+		 <span class="f-fl f-s4">
+                      <div class="hc_xinxin_div" style="margin:3px 3px 0 0;"> <span class="Star_g" original-title="<{$shopinfo['point']*20}>" style="margin:0px 0px 0px 0px;"> <span class="Star_y" style="width:<{$shopinfo['point']*20}>%;"></span> </span> </div>
+				
+                    </span>
+ 		<{foreach from=$mainattr item=itvv}>
+			
+						 <{foreach from=$shopattr item=itv}>
+							
+							 <{if $itv['firstattr'] == $itvv['id']}>
+							     <{if $itvv['type'] == 'checkbox'}>
+									<{$itv['value']}>
+								 <{/if}>
+							 <{/if}>
+							
+						 <{/foreach}>
+			  
+			       <{/foreach}></p>
+	</div>
+	<style>
+	.shoucang a p {
+    padding-top: 36px;
+}
+	</style>
+  <div class="aswm-shop-name aswm-shop-gzbox">
+	<!-- <b><{$shopinfo['limitcost']}></b>
+	<span>起送价（元）</span> -->
+	    
+                <div class="shoucang" onclick="favor()">
+                	
+                	
+                		<a href="javascript:void(0);" <{if !empty($collect)}> style="display:none;" <{/if}>  onclick="myFavorite2();" id="AddFavShop"  class="favor_0 l-shoucang" id="isFavor">
+						
+						<p class="f-13" id="favor">未收藏</p>
+						
+						</a>
+						
+						
+						<a href="javascript:void(0);" <{if empty($collect)}> style="display:none; " <{/if}> onclick="delFav();"   id="CancelFavShop"  class="favor_0 l-shoucang11" id="isFavor"><p class="f-13" id="favor">已收藏</p></a>
+                	
+                </div>
+</div>
+    <div class="aswm-shop-name aswm-shop-gzbox"><b><{$shopinfo['pscost']}> </b><span><{if $shopinfo['pscost'] =='' }>免运费<{else}>运费（元）<{/if}></span></div>
+    <div class="aswm-shop-name aswm-shop-gzbox"><b><{$shopinfo['limitcost']}></b><span>起送价（元）</span></div>
+    <div class="aswm-shop-name aswm-shop-gzbox"><b><{$shopinfo['arrivetime']}></b><span>送餐速度(分钟)</span></div>
+	<div class="aswm-shop-name aswm-shop-gzbox  aswm-shop-tsg"><b id="juli">0</b><span>距离</span></div>
+	
+	</div>
+</div>
+
+
+<script>
+
+	$(".spinfo").mouseover(function(){
+	
+		$(".spinfodrwo").show();
+		$(".spinfo").css("border-bottom","none");
+		
+	});
+		$(".spinfo").mouseout(function(){
+	
+		$(".spinfodrwo").hide();
+			$(".spinfo").css("border-bottom","2px #fedddd solid");
+		
+	});
+	$(function(){
+		$("#showgoodsmenu").click(function(){		 
+			$('.aswm-show-class-box').show();
+			$('.aswm-product-box').show();
+			$('#pingjialist').hide();
+			$(".aswm-show-class").css('border-bottom-width','2px');
+			$("#showshoppj").css('border-bottom','none');
+			$("#showgoodsmenu").css('border-bottom','2px solid #F00');
+		});
+		$("#showshoppj").click(function(){		 
+			$('.aswm-show-class-box').hide();
+			$('.aswm-product-box').hide();
+			$('#pingjialist').show();
+			$(".aswm-show-class").css('border-bottom-width','0'); 
+			$("#showgoodsmenu").css('border-bottom','none');
+			$("#showshoppj").css('border-bottom','2px solid #F00');
+		});
+		$(".openurlshowdet").click(function(){
+			var goodid = $(this).attr('dataid');
+			var url =  '<{ofunc type=url link="/shop/showgoods/id/'+goodid+'"}>';
+ 			location.href = url;
+		});
+		
+		function getPingjia(pagenum)
+		{  
+			 var url = siteurl+"/index.php?ctrl=order&action=commentshop&random=@random@"; 
+			 url = url.replace('@random@', 1+Math.round(Math.random()*1000));
+			   $.post(url, {'shopid':shopid,'type':'shop','page':pagenum},function (data, textStatus){  
+						$('#pingjialist').html(data);  
+			  }, 'html');  
+		}
+		
+	});
+	
+</script>
+
+<div class="aswm-show-body">
+
+	<div class="aswm-show-list">
+
+    	<div class="aswm-show-class">
+
+        	<h2 style="color:#3d3d3d;cursor:pointer;  ">
+				<span id="showgoodsmenu" style=" padding:0px 15px; border-bottom: 2px solid #F00;    padding-bottom: 10px;margin-right:60px;">美食分类</span>
+				<span id="showshoppj"  style=" padding:0px 15px;     padding-bottom: 10px;margin-right:60px;">&nbsp;&nbsp;评价&nbsp;&nbsp;</span>
+			</h2>
+
+            <div class="aswm-show-class-box">
+
+            	<ul>
+				   <{foreach from=$goodstype  item=items}>  
+				   	<li><a data-href="<{$items.id}>"><{$items.name}></a></li>
+			                            <{/foreach}> 
+				 </ul>
+
+                <div class="cer"></div>
+
+            </div>
+
+        </div>
+
+         <div class="aswm-shop-product">
+
+            	<!------>
+
+              <{foreach from=$goodstype key=cid item=items}>    
+
+                <div class="aswm-product-box"><a id="s<{$items['id']}>"></a>
+
+                	<div class="aswm-product-tt" id="astt">
+
+                    	<h2><{$items['name']}></h2>
+
+                        <div class="aswmpro"><span class="slt onbtn" data-name="li">缩略图</span><span class="lb" data-name="lis">列表</span></div>
+
+                    </div>
+			
+                   
+
+                    <div class="aswm-product-li_on aswm-product-li">
+	<{foreach from=$items['det'] item=itv}>
+                     
+                    	<div class="aswm-plis goodone_<{$itv['id']}>" >
+						
+ 						
+                        	<div class="aswm-plimg" ><a  href="<{ofunc type=url link="/shop/showgoods/id/<{$itv['id']}>"}>"  title="<{$itv['name']}>"><img <{ofunc type=img  link="<{$itv['img']}>"}> alt="<{$itv['name']}>"></a></div>
+                         	<div class="aswm-pltxt">
+
+                            <div    class="aswm-plt">
+								<a href="<{ofunc type=url link="/shop/showgoods/id/<{$itv['id']}>"}>" ><{$itv['name']}></a>
+							</div>
+
+                                <div class="aswm-plbtn">
+								<div class="onbuy">已售<{$itv['sellcount']}>件</div>
+									<div class="aswm-probtn">
+										 
+
+	<a style="border:none;color:#ff2d55;font-weight:normal;width:auto;position:absolute; right:58px; bottom:14px;" href="<{ofunc type=url link="/shop/showgoods/id/<{$itv['id']}>"}>" class="btnCart" >
+	￥<i style="font-size:20px;"><{$itv['cost']}></i><{if !empty($itv['goodattr'])}>/<{$itv['goodattr']}><{else}>/<{$shopinfo['goodattrdefault']}><{/if}>
+	 </a>
+	 
+	  	
+	 
+<{if $shopopeninfo['opentype'] ==2 || $shopopeninfo['opentype'] ==3 }>
+                                        <{if $itv['is_live'] == 1 }>
+	<{if $itv['count'] > 0 }>
+		 <{if $itv['have_det']==1}>
+			<div class="xuanguige openurlshowdet" dataid="<{$itv['id']}>">选规格</div></a>
+		 <{else}>	
+			 <div  onclick="addonedish(<{$itv['id']}>,<{$itv['shopid']}>,1,this);" class="newjiacart"><img src="<{$siteurl}>/templates/<{$tempdir}>/public/images/wmr_pc_jia.png" /></div>
+		 <{/if}>	
+	<{else}>
+		<div class="xuanguige" style="color:#ccc;">已售完</div>
+	<{/if}>
+                                        <{else}>
+                                        <div class="xuanguige" style="color:#ccc;">已下架</div>
+                                        <{/if}>
+<{else}>
+<div class="xuanguige" style="color:#ccc;">休息中</div>
+<{/if}>		
+
+	</div>
+	</div>
+
+                               
+  </div>
+  <{if $itv['is_cx'] == 1 }>
+  <div class="wmr_cx_info"><p style="margin-top:12px;"><{if $itv['cxnum']>0}>限购<{$itv['cxnum']}>个<{else}>限时特价<{/if}></p><p style="color:#ffff00;"><span style="font-size:24px;"><{$itv['zhekou']}></span>折</p></div>
+<{/if}>
+ 			
+                        </div>
+
+                           
+                    <{/foreach}>        <div class="cer"></div>
+
+                
+
+                    </div>
+ 
+
+                </div>
+
+               <{/foreach}>     
+ 
+                    <div id="flyItem" class="gonumfly">+</div>
+ 
+					<div id="pingjialist" style="display:none;">
+						
+					</div>
+					
+
+         </div>
+
+    </div>
+
+	<div class="aswm-show-ad">
+
+    <div class="aswm-shop-gg" style="top: 227px; position: absolute;">
+
+    	<h2>本店公告/买家必读</h2>
+
+        <div class="aswm-shop-gginfo">
+<{$shopinfo['notice_info']|htmlspecialchars_decode|default:<{Mysite::$app->config["shopnotice"]}>}>	
+
+        </div>
+
+        <div class="aswm-shop-ggicon">
+
+			
+        	<ul>
+	        <{foreach from=$cxlist item=items}>
+			
+			
+			<li style="background:url(<{$items['imgurl']}>) left center no-repeat; background-size:20px;" class="aswm-ico"><{$items['name']}></li>
+			
+	    	 <{/foreach}>
+            </ul>
+
+        </div>
+
+        <div class="gotop" onclick="gotop(0)" style="display: none;">返回顶部</div>
+		
+		<div class="shopmobileinfo">
+			<div class="showtitle">手机快速下单</div>
+			<div class="showewmrinfo">
+				<img  <{ofunc type=img  link="<{$wxewm}>"}> />
+			</div>
+		</div>
+
+    </div>
+<!-- 购物车 -->
+	<div id="cartlist" style="bottom: 100px;    z-index: 99999999999999;    position: fixed;">
+			
+			
+ 
+		
+	</div>	
+		
+    </div>
+
+    <div class="cer"></div>
+
+</div>
+
+
+
+<script type="text/javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/mnew7/js/nwaimai.js"></script>
+<script type="text/javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/mnew7/js/parabola.js"></script>
+<script type="text/javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/mnew7/js/layer.js"></script>
+
+<script type="text/javascript">
+ 
+
+(function($){
+    $.fn.capacityFixed = function(options) {
+        var opts = $.extend({},$.fn.capacityFixed.deflunt,options);
+        var FixedFun = function(element) {
+            var top = opts.top;
+            var right = ($(window).width()-opts.pageWidth)/2+opts.right;
+            element.css({
+                "right":right,
+                "top":top
+            });
+            $(window).resize(function(){
+                var right = ($(window).width()-opts.pageWidth)/2+opts.right;
+                element.css({
+                    "right":right
+                });
+            });
+            $(window).scroll(function() {
+                var scrolls = $(this).scrollTop();
+                if (scrolls > top) {
+
+                    if (window.XMLHttpRequest) {
+						$(".gotop").show();
+                        element.css({
+                            position: "fixed",
+                            top: 0							
+                        });
+                    } else {
+                        element.css({
+                            top: scrolls
+                        });
+                    }
+                }else {
+					$(".gotop").hide();
+                    element.css({
+                        position: "absolute",
+                        top: top
+                    });
+                }
+            });
+            element.find(".close-ico").click(function(event){
+                element.remove();
+                event.preventDefault();
+            })
+        };
+        return $(this).each(function() {
+            FixedFun($(this));
+        });
+    };
+    $.fn.capacityFixed.deflunt={
+        top:275	};
+})(jQuery);
+</script>
+<script  type="text/javascript"> 
+$(".aswm-shop-gg").capacityFixed();
+</script> 
+
+ 
+  
+ <script type="text/javascript"> 
+ $(".MealsList li:nth-child(even)").addClass('odd');//css({'border-left':'3px solid #f60','background-color':'#fffae7'});
+ 	var juanlist = <{$juanlist|json_encode}>;
+ 	var nowdate = '<{time()|date_format:"%Y-%m-%d"}>';
+	var starttime = '<{$shopinfo['starttime']}>';
+	var nowtime = '<{time()|date_format:"%Y-%m-%d %H:%M:%S"}>';
+ var shopid = <{$shopinfo['id']}>;   
+ var locationfalse  = false;
+ var submithtml = '<{ofunc type=url link="/shop/makeorder/datatype/json/random/@random@"}>';
+	  var orderhtml = '<{ofunc type=url link="/site/waitpay/orderid/@orderid@"}>';
+var memberid = <{$member['uid']}>;
+var allowedguestbuy = <{$allowedguestbuy|default:0}>;
+ 
+   <{if $locationtype == 1}> 
+ 	      <{if empty($lng)}>
+	      
+	       $('#temd_id1').remove();
+	     
+    	<{else}>
+		        $('#temd_id2').remove();
+     	<{/if}> 
+ 	     $.get("<{ofunc type=url link="/site/ceju/lat/<{$shopinfo['lat']}>/lng/<{$shopinfo['lng']}>/dlng/<{$lng}>/dlat/<{$lat}>/datatype/json"}>", function(result){
+ 	     	   $("#juli").text(result.msg);
+ 	        	if(result.error ==  false){
+                locationfalse = false;    
+           }else{
+           	 locationfalse = true;
+           	   artopen();
+           }
+       },'json'); 
+ 	  <{else}>
+ 	   
+ 	  	$(function(){
+		       var myaddressid = '<{$myaddress}>';
+		      if(myaddressid == null|| myaddressid==''){
+			           window.location.href= '<{ofunc type=url link="/site/guide"}>';
+	    	   }
+	    }); 
+ 	  <{/if}> 
+ 
+	
+ 
+  function artopen(){ 
+    art.dialog({
+       id: 'testID3',
+       lock: true,
+       background: '#666', // 背景色
+       opacity: 0.87,	// 透明度
+       title:'定位提示',
+       content: $('#temdiv_id').html()
+    });  
+  }
+	function closetout(){ 
+	  art.dialog({id: 'testID3'}).close();
+	}
+	
+	     
+//添加店铺收藏
+function myFavorite2()
+{ 
+  var url = siteurl+'/index.php?ctrl=shop&action=addcollect&datatype=json&collectid='+shopid+'&type=0'; 
+  var backinfo = ajaxback(url,{});
+  if(backinfo.flag == false){ 
+     		$('#AddFavShop').hide(); 
+     		$('#CancelFavShop').show();
+   }else{ 
+   	diaerror(backinfo.content); 
+  }  
+}  
+//删除店铺收藏
+function delFav()
+{ 
+	var url = siteurl+'/index.php?ctrl=shop&action=delcollect&datatype=json&collectid='+shopid+'&type=0'; 
+  var backinfo = ajaxback(url,{});
+  if(backinfo.flag == false){ 
+      $('#AddFavShop').show(); 
+      $('#CancelFavShop').hide();
+   }else{ 
+   	 diaerror(backinfo.content); 
+  }  
+}
+	
+	
+	
+</script>
+<script>
+ 
+
+
+</script>
+
+
+ 
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=<{$baidumapkey}>"></script>
+<script type="text/javascript">
+
+// 百度地图API功能
+/*初始化地图*/  
+var map = new BMap.Map("SearchAddmap");
+var point = new BMap.Point(<{$lng}>, <{$lat}>); 
+var myIcon1 = new BMap.Icon(siteurl+"/upload/map/pepole.png", new BMap.Size(30,50));  
+var point2 = new BMap.Point(<{$shopinfo['lng']}>, <{$shopinfo['lat']}>); 
+var myIcon2 = new BMap.Icon(siteurl+"/upload/map/shop.png", new BMap.Size(19,19));  
+var marker2 =  new BMap.Marker(point2,{icon:myIcon2}); 
+var marker = new BMap.Marker(point,{icon:myIcon1});
+var infoWindow = new BMap.InfoWindow('');  // 创建信息窗口对象 
+map.centerAndZoom(point2, 15);
+//加载缩放级别
+map.addControl(new BMap.NavigationControl());  //添加默认缩放平移控件
+map.addControl(new BMap.NavigationControl({anchor: BMAP_ANCHOR_TOP_RIGHT, type: BMAP_NAVIGATION_CONTROL_SMALL}));  //右上角，仅包含平移和缩放按钮
+map.addControl(new BMap.NavigationControl({anchor: BMAP_ANCHOR_BOTTOM_LEFT, type: BMAP_NAVIGATION_CONTROL_PAN}));  //左下角，仅包含平移按钮
+map.addControl(new BMap.NavigationControl({anchor: BMAP_ANCHOR_BOTTOM_RIGHT, type: BMAP_NAVIGATION_CONTROL_ZOOM}));  //右下角，仅包含缩放按钮
+
+ map.addOverlay(marker);
+ 
+   map.addOverlay(marker2);
+
+$(function(){
+
+		$(' .ordering_pic_orange').showBigPic({
+			src: 'bigsrc',   	  //图片地址
+			type:'click', //事件
+			content:''	  //显示的内容
+		})
+
+})
+ 
+ 
+ //刷新购物车
+function freshcart(){ 
+	
+	if($('#ShopCart').html() == undefined){
+	
+	    url = siteurl+'/index.php?ctrl=site&action=smallcat&shopid='+shopid+'&random=@random@';
+	    url = url.replace('@random@', 1+Math.round(Math.random()*1000)); 
+	    $.get(url, function(result){ 
+	   
+        $("#cartlist").html(result);
+         freachperson();
+         jifenduihuan();  
+       //  $('.new_cart_show').bind("hover", function() {   
+      //   	  $(this).addClass('hoveron').siblings().removeClass('hoveron');
+      //   });
+    //    $('#CMoney').text(allcost);
+     //   $('#waimaibtn').text(allcost);
+      });
+   }else{ 
+   	//调用  自动刷新购物车  
+
+      url = siteurl+'/index.php?ctrl=site&action=smallcat2&shopid='+shopid+'&random=@random@';
+	    url = url.replace('@random@', 1+Math.round(Math.random()*1000)); 
+	    $.get(url, function(result){  
+        $("#cartshow_c").html(result);  
+         if(Number($('#jifendkou').attr('data')) > 0){
+  	        $('#jifendkou').show();
+         } 
+          jifenduihuan();  
+      }); 
+     
+     
+   }  
+}
+ 
+</script>
+ 
+
+ <style>
+ 
+.sale-item-discount {
+    width: 46px;
+    height: 54px;
+    line-height: 24px;
+    text-align: center;
+    position: absolute;
+    padding: 20px 20px 12px;
+    right: 6px;
+    bottom: 14px;
+    display: block;
+    color: #fff;
+    font-size: 22px;
+    background:#FF4444;
+	border-radius:50%;
+    overflow: hidden;
+	position: absolute;
+    top: 70px;
+    right: 8px;
+}
+ </style>
+<div style="text-align:center;"></div>
+ 
+ 
+<{/block}>

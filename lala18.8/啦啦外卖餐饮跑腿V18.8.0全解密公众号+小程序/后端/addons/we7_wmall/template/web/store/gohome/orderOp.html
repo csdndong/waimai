@@ -1,0 +1,48 @@
+{if $ta == 'remark'}
+<form class="form-horizontal form-validate" action="{php echo iurl('store/gohome/order/remark');}" method="post" enctype="multipart/form-data">
+	<input type='hidden' name='id' value='{$id}' />
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button data-dismiss="modal" class="close" type="button">×</button>
+				<h4 class="modal-title">订单备注</h4>
+			</div>
+			<div class="modal-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">备注</label>
+					<div class="col-sm-9 col-xs-12">
+						<textarea name="remark" class="form-control" required="true">{$order['remark']}</textarea>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-primary" type="submit">提交</button>
+				<button data-dismiss="modal" class="btn btn-default" type="button">取消</button>
+			</div>
+		</div>
+	</div>
+</form>
+{elseif $ta == 'confirm'}
+	<form class="form-horizontal form-validate" action="{php echo iurl('store/gohome/order/confirm');}" method="post" enctype="multipart/form-data">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button data-dismiss="modal" class="close" type="button">×</button>
+					<h4 class="modal-title">订单核销</h4>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">核销码</label>
+						<div class="col-sm-9 col-xs-12">
+							<input type="text" name="code" class="form-control" placeholder="请输入6位核销码">
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary" type="submit">提交</button>
+					<button data-dismiss="modal" class="btn btn-default" type="button">取消</button>
+				</div>
+			</div>
+		</div>
+	</form>
+{/if}

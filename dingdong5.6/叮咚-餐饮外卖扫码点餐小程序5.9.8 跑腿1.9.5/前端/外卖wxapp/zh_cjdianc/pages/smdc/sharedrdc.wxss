@@ -1,0 +1,33 @@
+@import "drdc.wxss";
+
+.head {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.sjlogo {
+    width: 120rpx;
+    height: 120rpx;
+    border-radius: 5rpx;
+    margin-bottom: 10rpx;
+}
+
+.sjname {
+    font-size: 35rpx;
+    font-weight: bold;
+}
+
+.dcsm {
+    font-size: 22rpx;
+}
+
+.xgsp {
+    margin-top: 10rpx;
+    width: 450rpx;
+    height: 80rpx;
+    background: #38CA73;
+    line-height: 80rpx;
+    border-radius: 10rpx;
+}

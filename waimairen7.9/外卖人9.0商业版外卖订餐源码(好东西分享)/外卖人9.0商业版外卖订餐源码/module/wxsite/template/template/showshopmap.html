@@ -1,0 +1,128 @@
+ <{extends file="<{$tempdir}>/public/wxsite.html"}>  
+  <{block name=extendjs}> 
+  <script src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/js/template.min.js"></script>    
+  <link rel="stylesheet" href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/newshop/css/font-awesome.min.css" />
+<link rel="stylesheet" href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/newshop/css/index.css" />
+ <script src="<{$map_comment_link}>webapi.amap.com/maps?v=1.3&key=<{$map_javascript_key}>"></script>
+   <script> 
+		var myScroll;
+function loaded() {
+	myScroll = new iScroll('wrapper', {
+		useTransform: false,
+		onBeforeScrollStart: function (e) {
+			var target = e.target;
+			while (target.nodeType != 1) target = target.parentNode;
+
+			if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA')
+				e.preventDefault();
+		}
+	});
+}
+document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false); 
+document.addEventListener('DOMContentLoaded', function () { setTimeout(loaded, 200); }, false);
+</script>
+ <script>
+   	 
+
+   	  </script>
+  <{/block}>
+ <{block name=footer}> <{/block}>
+ <{block name=hearnav}> 
+ 
+ <div class="toptitCon">
+ <div class="toptitBox  " >
+ <div class="toptitL" ><i></i></div>
+  <div class="toptitC"><h3><{$shopinfo['shopname']}></div>
+  </div> 
+</div> 
+ 
+<{/block}>
+<{block name=sitetitle}><{$sitename}><{/block}>
+<{block name=blockcontent}> 
+
+ <div id="wrapper" style="top:43px;bottom:0px;">
+	<div id="scroller">
+		
+		
+		
+		
+  
+ </div>
+ </div>
+
+<script>
+
+
+var infowidth = $(window).width()*0.8;
+var infowidth2 = $(window).width()*0.8-20;
+
+<{if !empty($shopinfo['lng']) && !empty($shopinfo['lat'])     }>
+var map = new AMap.Map('wrapper', {
+        resizeEnable: true,
+        zoom:13,
+       center: [<{$shopinfo['lng']}>, <{$shopinfo['lat']}>]
+       //  center: [<{$shopinfo['userlng']}>, <{$shopinfo['userlat']}>]
+ });
+ 
+	map.plugin(["AMap.ToolBar"],function(){   //在地图中添加ToolBar插件      
+        toolBar = new AMap.ToolBar();  
+        map.addControl(toolBar);       
+    });   
+	 new AMap.Marker({
+        map: map,
+		position: [<{$shopinfo['lng']}>, <{$shopinfo['lat']}>],
+        icon: new AMap.Icon({            
+            size: new AMap.Size(32, 40),  //图标大小
+            image: "<{$siteurl}>/upload/map/order_sjwz.png",
+         //   imageOffset: new AMap.Pixel(0, -60)
+        })        	
+	});
+	
+	 
+	 
+	 content=[];
+			var contenthtml = '<div style="background:#4b4947;width:'+infowidth+'px;height:80px;color:#fff;font-size:11px;border-radius: 5px;position:relative;opacity: 0.9;" >';
+			 contenthtml += '<div style="float:left;"><p style="color:#fff;padding-left:15px;font-size:16px;height:40px;line-height:40px; width:'+infowidth+'px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><{$shopinfo['shopname']}></p>';
+			 contenthtml += '<p style="color:#fff;padding-left:15px;font-size:16px;height:40px;line-height:40px;overflow:hidden;width:'+infowidth2+'px;text-overflow:ellipsis;white-space:nowrap; "><{$shopinfo['address']}></p></div>';
+			 contenthtml += '<div style="float:right; color:#fff;position:absolute;right:10px;top:23px;">距您<{$shopinfo['juli']}></div>';
+			 contenthtml += '<img src="<{$siteurl}>/upload/map/down_icon.png" style="position:absolute;bottom:-17px;left:50%;margin-left:-6px;width: 25px;" />';
+			 contenthtml += '</div >';
+				   
+			content.push(contenthtml);
+ 		var infoWindow = new AMap.InfoWindow({
+			isCustom: true,  //使用自定义窗体
+			//content: createInfoWindow(title,content.join("<br>")),
+			 content: content.join("<br>")  ,
+			offset: new AMap.Pixel(0, -40)//-113, -140
+		}); 
+		var knightlnglat = "<{$shopinfo['lng']}>,<{$shopinfo['lat']}>";
+	//	var knightlnglat = "113.5097998046875,33.84320203993055";
+	 var temparray = knightlnglat.split(",");
+  //	 map.setCenter(temparray);
+	 infoWindow.open(map,temparray);
+	
+	 
+	 
+	 
+	
+	
+<{if !empty($shopinfo['userlng']) && !empty($shopinfo['userlat'])     }>	
+//添加点标记，并使用自己的icon
+    new AMap.Marker({
+        map: map,
+		position: [<{$shopinfo['userlng']}>, <{$shopinfo['userlat']}>],
+        icon: new AMap.Icon({            
+            size: new AMap.Size(32, 32),  //图标大小
+            image: "<{$siteurl}>/upload/map/order_dw.png",
+         //   imageOffset: new AMap.Pixel(0, -60)
+        })        	
+	});
+<{/if}>
+
+ //var newCenter = map.setFitView();
+
+
+<{/if}>
+</script>
+
+<{/block}>

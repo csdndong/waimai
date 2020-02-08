@@ -1,0 +1,139 @@
+{itemplate 'public/header'}
+<style>
+	.map .title{
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+	.map .input-card{
+		display: flex;
+		flex-direction: column;
+		min-width: 0;
+		word-wrap: break-word;
+		background-color: #fff;
+		background-clip: border-box;
+		border-radius: 5px;
+		width: 240px;
+		border-width: 0;
+		box-shadow: 0 2px 6px 0 rgba(114, 124, 245, .5);
+		position: fixed;
+		z-index: 1000;
+		top: 140px;
+		right: 30px;
+		-ms-flex: 1 1 auto;
+		flex: 1 1 auto;
+		padding: 15px;
+	}
+	.map .input-card .input-item {
+		position: relative;
+		display: -ms-flexbox;
+		display: flex;
+		-ms-flex-wrap: wrap;
+		flex-wrap: wrap;
+		-ms-flex-align: center;
+		align-items: center;
+		justify-content: space-between;
+		width: 100%;
+		height: 36px;
+		margin-top: 10px;
+	}
+	.map .input-card .btn{
+		width: 100px;
+	}
+</style>
+<div class="dispatch">
+	<div class="alert alert-warning">
+		<span>配送员轨迹为当日轨迹。</span>
+	</div>
+	<div class="clearfix distribute-container">
+		<div class="map">
+			<div id="allmap"></div>
+			<div class="input-card">
+				<div class="title">轨迹回放控制 <a href="{php echo iurl('deliveryer/path/index', array('deliveryer_id' => $deliveryer_id));}" class="btn btn-sm btn-danger js-post">更新轨迹</a></div>
+				<div class="input-item">
+					<input type="button" class="btn btn-sm btn-primary" value="开始动画" id="start" onclick="startAnimation()"/>
+					<input type="button" class="btn btn-sm btn-primary" value="暂停动画" id="pause" onclick="pauseAnimation()"/>
+				</div>
+				<div class="input-item">
+					<input type="button" class="btn btn-sm btn-primary" value="继续动画" id="resume" onclick="resumeAnimation()"/>
+					<input type="button" class="btn btn-sm btn-primary" value="停止动画" id="stop" onclick="stopAnimation()"/>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript"
+		src="https://webapi.amap.com/maps?v=1.4.12&key=550a3bf0cb6d96c3b43d330fb7d86950"></script>
+<script type="text/javascript">
+	var config = {php echo json_encode($_W['we7_wmall']['config']['takeout']['range']);};
+	var map = new AMap.Map('allmap', {
+		resizeEnable: true,
+		zoom: 16,
+		center: [config.map.location_y, config.map.location_x]
+	});
+	var paths = {php echo json_encode($paths);};
+	var lineArr = new Array();
+	$.each(paths, function(k, path) {
+		if(path.location_y && path.location_x) {
+			let temp = [path.location_y, path.location_x];
+			lineArr.push(temp)
+		}
+	});
+	console.dir(lineArr);
+	var start = lineArr[0];
+	var marker = new AMap.Marker({
+		map: map,
+		position: start,
+		icon: "https://webapi.amap.com/images/car.png",
+		offset: new AMap.Pixel(-26, -13),
+		autoRotation: true,
+		angle:-90,
+	});
+
+	// 绘制轨迹
+	var polyline = new AMap.Polyline({
+		map: map,
+		path: lineArr,
+		showDir:true,
+		strokeColor: "#28F",  //线颜色
+		// strokeOpacity: 1,     //线透明度
+		strokeWeight: 3,      //线宽
+		// strokeStyle: "solid"  //线样式
+	});
+
+	var passedPolyline = new AMap.Polyline({
+		map: map,
+		// path: lineArr,
+		strokeColor: "#AF5",  //线颜色
+		// strokeOpacity: 1,     //线透明度
+		strokeWeight: 6,      //线宽
+		// strokeStyle: "solid"  //线样式
+	});
+
+
+	marker.on('moving', function (e) {
+		passedPolyline.setPath(e.passedPath);
+	});
+
+	map.setFitView();
+
+	function startAnimation () {
+		marker.moveAlong(lineArr, 200);
+	}
+
+	function pauseAnimation () {
+		marker.pauseMove();
+	}
+
+	function resumeAnimation () {
+		marker.resumeMove();
+	}
+
+	function stopAnimation () {
+		marker.stopMove();
+	}
+
+</script>
+
+{itemplate 'public/footer'}

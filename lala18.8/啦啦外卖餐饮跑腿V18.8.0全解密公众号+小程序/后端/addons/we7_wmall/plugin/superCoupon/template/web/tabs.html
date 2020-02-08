@@ -1,0 +1,14 @@
+<div class="second-sidebar-title">{$_W['_plugin']['title']}</div>
+<div class="nav slimscroll">
+	<div class="menu-header">设置</div>
+	<ul class="menu-item">
+		{ifp 'superCoupon.config'}
+		<li {if $_W['_action'] == 'config'}class="active"{/if}>
+			<a href="{php echo iurl('superCoupon/config');}">基本设置</a>
+		</li>
+		<li {if $_W['_action'] == 'batch'}class="active"{/if}>
+			<a href="{php echo iurl('superCoupon/batch');}">商户管理超级代金券</a>
+		</li>
+		{/if}
+	</ul>
+</div>

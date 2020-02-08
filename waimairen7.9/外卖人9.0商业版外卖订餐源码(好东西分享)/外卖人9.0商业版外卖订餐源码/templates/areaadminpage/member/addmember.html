@@ -1,0 +1,63 @@
+ <{extends file="<{$tempdir}>/public/admin.html"}> 
+ 
+ <{block name=controlname}><{if $id > 0 }>编辑<{else}>添加<{/if}>会员<{/block}>
+ <{block name=bodylist}>
+   <{load_data assign="info" table="member" where="`uid`=$id"  type="one"}> 
+   
+   <div class="managShopCon">
+	<div class="managShopBox">
+		<div class="managShopMain">
+		<form method="post" name="form1" action="<{ofunc type=url link="/areaadminpage/member/module/savemember/datatype/json"}>" 
+			<{if $info['group']  == 2 }>
+			onsubmit="return subform('<{ofunc type=url link="/areaadminpage/psuser/module/memberlistps"}>',this);"
+		    <{else}>
+			onsubmit="return subform('<{ofunc type=url link="/areaadminpage/member/module/memberlistshop"}>',this);"
+			<{/if}>
+			>
+			<div class="managShopClas">
+				<ul>
+					<li class="maShClaA"><a href="javascript:;"><{if $id > 0 }>编辑<{else}>添加<{/if}>会员</a></li>
+				</ul>
+			</div>
+			<div class="addShopSingCon">
+				<div class="addShopSingL bor_no">
+					<ul>
+						<li><span>会员名称：</span><input type="text"  name="username" id="username" <{if !empty($info)}> readonly<{/if}> value="<{$info['username']}>" ></li>
+						<li><span>新密码：</span><input type="password"  name="password" id="password" value=""  ><b>不修改留空</b></li>
+						<li><span>联系电话：</span><input type="text"  name="phone" id="phone" value="<{$info['phone']}>"></li>
+						<li><span>联系地址：</span><input type="text"  name="address" id="address" value="<{$info['address']}>"></li>
+						<li><span>联系邮箱：</span><input type="text"  name="email" id="email" value="<{$info['email']}>" ></li>
+					</ul>
+					<div style="display:none;" >
+                      <select name="group">
+                       <{load_data assign="grouplist" table="group"    fileds="*"  limit="10" }>  
+                      	<{foreach from=$grouplist['list'] key=myid  item=items}>  
+                      	<{if $items['type'] == 'font'}>
+                      	   <option value="<{$items['id']}>" 
+							<{if !empty($info) }>
+								<{if $info['group'] == $items['id']}>selected<{/if}>
+							 <{else}> 
+								<{if $items['id'] ==3}>selected<{/if}> 
+							<{/if}>  
+						 
+							><{$items['name']}></option>
+                      	<{/if}>
+                      	<{/foreach}> 
+                      	</select> 
+                    </div>
+					<input type="hidden" name="uid" id="uid" value="<{$info['uid']}>"  >
+					<input type="hidden" name="tijiao" id="tijiao" value="do" class="skey" style="width:250px;">
+              <input type="hidden" name="saction" id="saction" value="siteset" class="skey" style="width:250px;">
+					<div class="addShopSingBut"><input type="submit" value="确认提交"></div>
+				</div>
+			</div>
+			</form>
+		</div>
+	</div>
+</div>
+   
+   
+ 
+      <div class="clear"></div>
+     
+<{/block}>

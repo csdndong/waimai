@@ -1,0 +1,215 @@
+{itemplate 'public/header'}
+{if $op == 'buy'}
+<div class="plugingrant-container">
+	<div class="clearfix panel-business">
+		<div class="content clearfix">
+			<div class="main-content">
+				{if !empty($slides)}
+					<div class="branner">
+						<div id="carousel" class="carousel slide" data-ride="carousel">
+							<ol class="carousel-indicators">
+								{loop $slides $key $slide}
+									<li data-target="#carousel" data-slide-to="{$key}" {if $key == 0}class="active"{/if}></li>
+								{/loop}
+							</ol>
+							<div class="carousel-inner" role="listbox">
+								{loop $slides $key $slide}
+									<div class="item {if $key == 0}active{/if}">
+										<a href="{$slide['link']}" target="_blank">
+											<img style="height: 300px" src="{php echo tomedia($slide['thumb'])}">
+										</a>
+									</div>
+								{/loop}
+							</div>
+							<a class="left carousel-control" href="#carousel" role="button" data-slide="prev">
+								<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+								<span class="sr-only">Previous</span>
+							</a>
+							<a class="right carousel-control" href="#carousel" role="button" data-slide="next">
+								<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+								<span class="sr-only">Next</span>
+							</a>
+						</div>
+					</div>
+				{/if}
+			</div>
+		</div>
+	</div>
+	{if !empty($packages)}
+		<div class="plugincenter-buy">
+			<div class="plugincenter-buy-header clearfix">
+				<span class="col-lg-2 col-md-2 col-sm-2 col-xs-2">超值套餐</span>
+			</div>
+			<div class="plugincenter-buy-list row">
+				{loop $packages $item}
+				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+					<div class="plugin-package">
+						<div class="package-title">{$item['title']}</div>
+						<div class="package-desc">{$item['content']}</div>
+						<div class="plugin-list clearfix">
+							{loop $item['plugins'] $da}
+								<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+									<div class="plugin-item-img clearfix">
+										<img src="{php echo tomedia($da['thumb'])}" alt="">
+									</div>
+								</div>
+							{/loop}
+						</div>
+						<div class="plugin-package-buy">
+							价格：<span class="plugin-package-price">¥{$item['data']['meal'][0]['price']}</span>
+							<a href="{php echo iurl('plugin/plugincenter/detail', array('id' => $item['id'], 'type' => 'package'))}">立即购买</a>
+						</div>
+					</div>
+				</div>
+				{/loop}
+			</div>
+		</div>
+	{/if}
+	{if !empty($plugins)}
+		<div class="plugincenter-buy">
+			<div class="plugincenter-buy-header clearfix">
+				<span class="col-lg-2 col-md-2 col-sm-2 col-xs-2">全部插件</span>
+				<span class="col-lg-10 col-md-10 col-sm-10 col-xs-10 plugincenter-buy-header-right">
+					<form action="./index.php?" class="form-horizontal form-filter">
+						{php echo tpl_form_filter_hidden('plugin/plugincenter/buy');}
+						排序：
+						<a class="{if $sort == 'id'}active{/if}" href="{php echo iurl('plugin/plugincenter/buy', array('sort' => 'id'));}">按时间</a>
+						<a class="{if $sort == 'sailed'}active{/if}" href="{php echo iurl('plugin/plugincenter/buy', array('sort' => 'sailed'));}">按销量</a>
+						<input class="form-control" name="keyword" value="{$keyword}" type="text">
+						<button class="glyphicon glyphicon-search"></button>
+					</form>
+				</span>
+			</div>
+			<div class="plugincenter-buy-list row">
+				{loop $plugins $item}
+					<div class="col-md-2 col-sm-4">
+						<a class="plugin-item {if $item['is_recommend']}active{/if}" href="{php echo iurl('plugin/plugincenter/detail', array('id' => $item['id'], 'type' => 'plugin'))}">
+							<div class="plugin-img">
+								<img src="{php echo tomedia($item['thumb'])}" alt="">
+							</div>
+							<div class="plugin-name">{$item['title']}</div>
+							<div class="plugin-price">
+								<span>¥{$item['data']['meal'][0]['price']}</span>
+								<span class="num">销量：{$item['sailed']}</span>
+							</div>
+							<div class="plugin-description hide">{$item['description']}</div>
+						</a>
+					</div>
+				{/loop}
+			</div>
+		</div>
+	{/if}
+</div>
+{/if}
+{if $op == 'detail'}
+<div class="plugingrant-container clearfix">
+	<input class="plugin-type" name="type" value="{$type}" type="hidden"/>
+	<div class="plugingrant-container-left col-sm-8">
+		<div class="plugingrant-header clearfix">
+			<div class="plugingrant-header-lfet">
+				<img src="{php echo tomedia($detail['thumb'])}" alt="">
+			</div>
+			<div class="plugingrant-header-right">
+				<div class="title">{$detail['title']}</div>
+				<div class="plugingrant-detail-body">
+					<div class="plugingrant-detail-body-info">
+						<div class="info-box-time">
+							<div class="time-title">开通时长：</div>
+							<div class="detail-price">
+								{loop $detail['data']['meal'] $index $item}
+									<div class="detail-price-item {if $index == 0}active{/if}" data-index="{$index}" data-price="{$item['price']}">
+										<a class="item-link" href="javascript: ;">
+											<div class="time">
+												<span>
+													{if empty($item['month'])}
+														永久
+													{else}
+														{$item['month']}个月
+													{/if}
+												</span>
+											</div>
+											<div class="price"><span>¥</span>{$item['price']}</div>
+										</a>
+										<span class="active-icon"></span>
+									</div>
+								{/loop}
+							</div>
+						</div>
+						<div class="info-box-paytype">
+							<div>支付方式：</div>
+							<div class="detail-paytype">
+								<div class="detail-paytype-item">
+									<img src="https://www.universityto.me/addons/ewei_shopv2/static/images/plugingrant/alipay.png" alt="">
+									<span class="active-icon"></span>
+								</div>
+								<div class="detail-paytype-item hide">
+									<img src="https://www.universityto.me/addons/ewei_shopv2/static/images/plugingrant/weixin.png" alt="">
+									<span class="active-icon"></span>
+								</div>
+							</div>
+						</div>
+						<div class="info-box-payfor">
+							<div>应付金额：</div>
+							<div class="payfor-price">
+								<span class="num select-meal-price">{$detail['data']['meal'][0]['price']}</span>
+								<span>元</span>
+							</div>
+						</div>
+					</div>
+					{if empty($log)}
+						<a class="grant-shop-btn" id="submit-pay" href="javascript: ;">立即购买</a>
+					{else}
+						<a class="grant-shop-btn" href="javascript: ;" style="background: #ccc">已购买此插件</a>
+					{/if}
+				</div>
+			</div>
+		</div>
+		<div class="plugingrant-description">{$detail['description']}</div>
+	</div>
+	<div class="plugingrant-container-right col-sm-4">
+		<div class="grant-detail-right-bot">
+			<div class="contact">联系方式</div>
+			<p>在线客服：<a href="http://wpa.qq.com/msgrd?v=3&uin={$config['contact']['customer']}&site=qq&menu=yes"><img src="http://wpa.qq.com/pa?p=2:736537559:51" alt=""></a></p>
+			{loop $config['contact']['meal'] $item}
+				<p>联系电话：<span>{$item['tel']}({$item['note']})</span></p>
+			{/loop}
+			<p>服务时间：<span>{$config['contact']['servertime']}</span></p>
+		</div>
+	</div>
+</div>
+<script>
+	$(function(){
+		$('.detail-price .detail-price-item').click(function(){
+			$(this).addClass("active").siblings().removeClass("active");
+			var price = $(".detail-price .detail-price-item.active").attr("data-price");
+			var index = $(".detail-price .detail-price-item.active").attr("data-index");
+			$(".select-meal-price").html(price);
+		});
+		/*$('.detail-paytype .detail-paytype-item').click(function(){
+			$(this).addClass("active").siblings().removeClass("active");
+		});*/
+		$('#submit-pay').click(function(){
+			var $this = $(this);
+			var price = $(".detail-price .detail-price-item.active").attr("data-price");
+			var index = $(".detail-price .detail-price-item.active").attr("data-index");
+			if(index < 0) {
+				Notify.error('请选择购买时长');
+				return false;
+			}
+			Notify.confirm('确定购买吗?', function(){
+				$.post("{php echo iurl('plugin/plugincenter/submit')}", {id: "{$id}", type: "{$type}", index: index}, function(data) {
+					var result = $.parseJSON(data);
+					if(result.message.errno != 0) {
+						Notify.error(result.message.message);
+						return false;
+					} else {
+						window.location.href = result.message.message.url;
+					}
+				});
+			});
+			e.stopPropagation();
+		});
+	});
+</script>
+{/if}
+{itemplate 'public/footer'}

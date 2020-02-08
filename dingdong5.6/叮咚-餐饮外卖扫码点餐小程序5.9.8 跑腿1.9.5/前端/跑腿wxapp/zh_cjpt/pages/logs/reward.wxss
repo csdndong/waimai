@@ -1,0 +1,7 @@
+page {
+    background: #fff;
+}
+
+view {
+    overflow-x: hidden;
+}

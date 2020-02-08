@@ -1,0 +1,32 @@
+<html xmlns="http://www.w3.org/1999/xhtml"><head> 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+<meta http-equiv="Content-Language" content="zh-CN"> 
+<meta content="all" name="robots"> 
+<meta name="description" content=""> 
+<meta content="" name="keywords"> 
+<title>设置支付方式</title> 
+<link rel="stylesheet" type="text/css" href="<{$siteurl}>/templates/<{$tempdir}>/public/css/admin.css">
+ 
+ <script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/jquery.js" type="text/javascript" language="javascript"></script>  
+ <script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/artDialog.js?skin=blue"></script>
+</head>
+<body style="background:none;height:450px;overflow:scroll;width:400px;">
+	 <form  method="post" name="upform" action="<{ofunc type=url link="/adminpage/station/module/savepaytypeset"}>" > 
+	  	
+		<div style='margin: 20px 0 10px 20px;font-weight: bold;font-size: 16px;'>分站支付方式设置</div>
+		<div style='margin-left:20px;'> <input type="checkbox" name="paytype[]" value="1" <{if in_array(1,$paytype )}>checked<{/if}>>是否开启在线支付（勾选开启）</div>
+	 	<div style='margin-left:20px;'> <input type="checkbox" name="paytype[]" value="2" <{if in_array(2,$paytype )}>checked<{/if}>>是否开启货到付款（勾选开启）</div> 	 	 			 
+      </div>
+     </div>
+	 	<br>
+	 	   
+	  <input type="hidden" value="<{$cityid}>" name="cityid"> 
+	 	<input type="submit" value="确认提交" class="button">  
+	 	
+	 	
+  </form>
+  <script>
+  	 
+  	</script>
+</body>
+</html>

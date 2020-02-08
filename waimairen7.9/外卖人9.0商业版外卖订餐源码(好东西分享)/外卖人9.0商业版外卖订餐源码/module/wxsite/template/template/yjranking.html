@@ -1,0 +1,98 @@
+<{extends file="<{$tempdir}>/public/diswxsite.html"}>  
+<{block name=extendcss}> 
+<link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/distribution.css">   
+<link href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<{/block}>
+ <{block name=extendjs}>  
+   <script src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/js/template.min.js"></script>    
+<{/block}>
+<{block name=myScrolljs}>
+<{/block}>
+<{block name=sitetitle}><{$sitename}><{/block}>
+<{block name=hearnav}>
+<div class="content">
+	<div class="toptitCon" style='position: fixed;top:0;left:0;z-index: 99999;'>
+		<div class="toptitBox">
+			<div class="toptitL"><i></i></div>
+			<div class="toptitC">
+				<h3>佣金排名</h3>
+			</div>
+			<div class="toptitR"></div>
+		</div>
+	</div>
+	<div class="commisionranking_content">
+		<div class="commisionranking_box">
+			<div class="commisionranking">
+				<div class="commisionranking_head"><img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/distribution/commision_ranking_head.png" /></div>
+				<div class="commision_ranking_content">
+					<div class="commision_ranking_box">
+						<div class="commision_ranking">
+							<div style="height: <{if $is_showself == 1}>70<{else}>25<{/if}>px;"></div>
+							<div class="commision_ranking_title_content">
+								<ul>
+									<li>排名</li>
+									<li>分销商</li>
+									<li>累计佣金</li>
+								</ul>
+							</div>
+							
+							<{if !empty($list)}>
+								<{if $is_showself == 1}>
+								<div class="commision_ranking_my_content">
+									<ul>
+										<li>
+											<div class="commision_ranking_my_left"><{$selfinfo['ranking']}></div>
+											<div class="commision_ranking_my_center">
+												<div class="commision_ranking_my_img"><img src="<{$member['logo']|default:$userlogo}>" /></div>
+												<span><{$selfinfo['username']}></span>
+											</div>
+											<div class="commision_ranking_my_right"><{$selfinfo['yjbcost']|default:'0.00'}></div>
+										</li>
+									</ul>
+								</div>
+								<{/if}>
+								<div class="commision_ranking_list_content">
+									<ul>
+										
+										<{foreach from=$list item=items}>
+										<li <{if $items['ranking'] == $selfranking}>style='background-color:#f0f0f0'<{/if}>>
+											<div class="commision_ranking_list_left">
+											<{if $items['ranking'] == 1}>
+											<img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/distribution/lab_num1.png" />
+											<{elseif $items['ranking'] == 2}>
+											<img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/distribution/lab_num2.png" />
+											<{elseif $items['ranking'] == 3}>
+											<img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/distribution/lab_num3.png" />
+											<{else}>
+											<{$items['ranking']}>
+											<{/if}>
+											</div>
+											<div class="commision_ranking_list_center">
+												<div class="commision_ranking_list_img"><img src="<{$items['logo']}>" /></div>
+												<span><{$items['username']}></span>
+											</div>
+											<div class="commision_ranking_list_right"><{$items['yjbcost']}></div>
+										</li> 
+										<{/foreach}>
+									</ul>
+								</div>
+							<{else}>
+								<div class="distribution_no">
+									<img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/distribution/distribution_no.png" />
+									<span>暂无记录~</span>
+								</div>
+							<{/if}>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+var hh = $('.commisionranking_head').css('height');
+$('.commision_ranking_content').css('top',hh);
+</script>  
+<{/block}>
+ 
+ 

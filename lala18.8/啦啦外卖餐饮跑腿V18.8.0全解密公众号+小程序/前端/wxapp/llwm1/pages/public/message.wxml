@@ -1,0 +1,21 @@
+<view class="message">
+    <view class="content">
+        <view class="container {{wuiMessage.type}}">
+            <view class="icon-area">
+                <view class="icon icon-icon"></view>
+            </view>
+            <view class="text-area">
+                <view class="msg-title">{{wuiMessage.title}}</view>
+                <view class="desc" wx:if="{{wuiMessage.message}}">{{wuiMessage.message}}</view>
+            </view>
+            <view class="btn-area">
+                <view>
+                    <navigator class="button" openType="{{wuiMessage.open_type}}" url="{{wuiMessage.url}}">{{wuiMessage.btn_text?wuiMessage.btn_text:'确定'}}</navigator>
+                </view>
+            </view>
+            <view class="extra-area">
+                <navigator openType="switchTab" url="/pages/home/index">返回首页</navigator>
+            </view>
+        </view>
+    </view>
+</view>

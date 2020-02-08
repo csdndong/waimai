@@ -1,0 +1,358 @@
+	
+ <{if  $statustype ==1 }>		<!-- 待审核 -->
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr bgcolor="#544e48">
+	<th>联系人</th>
+	<th>联系电话</th>
+	  <th>地址</th>
+    <th>IP地址</th>
+    <th>下单次数</th>
+    <th>订单价格</th>
+    <th>操作</th>
+  </tr>
+ <{foreach from=$list item=items}>
+	  <tr class="orLiheight" align="center" bgcolor="#6596a6">
+		<td><{$items['buyername']}></td>
+		<td><{$items['buyerphone']}></td>
+		<td><{if $items['is_goshop'] != 1}><{$items['buyeraddress']}><{else}><{if $items['allcost'] == 0}>订桌位<{else}>订桌位和菜品<{/if}> <{assign var=showother value=$items['othertext']|unserialize}>   
+		            		 		  	 <{foreach from=$showother key=mytest item=itc}>
+		            		 		  	  <{$mytest}>:<{$itc}>，
+		            		 		  	 <{/foreach}><{/if}></td>
+		<td><{$items['ipaddress']}></td>
+		<td><{$items['maijiagoumaishu']}></td>
+		<td><{$items['allcost']}></td>
+		
+		<td style=" color:#bceafe;  font-weight:bold;" class="buttd">
+		  	<{if $items['status'] == 0}> 
+		  	<{if $items['paytype'] == 0}>
+		  	<a class="passorder curbtn" onclick="return remind(this);" href="<{ofunc type=url link="/adminpage/order/module/ordercontrol/id/<{$items['id']}>/type/pass/datatype/json"}>">
+				   审核
+				</a>
+				<{/if}>
+				
+	     <a class=" curbtn"  onclick="unorder(<{$items['id']}>,<{$items['dno']}>);" href="#">
+	   	     取消
+	     	</a>
+	     	<{elseif $items['status'] == 1}>
+	     	    <{if $items['is_make'] == 0}>
+	     	    <span>
+                  待商家确认
+  	         </span>
+  	         
+	     	    <{elseif $items['is_make'] == 1}> 
+	     	   	 <a class="sendorder curbtn"  onclick="return remind(this);" href="<{ofunc type=url link="/adminpage/order/module/ordercontrol/id/<{$items['id']}>/type/send/datatype/json"}>">
+                  发货
+  	         </a> 
+  	         <{else}>
+  	          商品不制作该订单
+	     	   <{/if}> 
+	     	   <a class="sendorder curbtn"  onclick="unorder(<{$items['id']}>,<{$items['dno']}>);" href="#">
+                 取消
+  	         </a>
+	     	 <{elseif $items['status'] ==  2}>
+	     	     <a class="sendorder curbtn" onclick="return remind(this);" href="<{ofunc type=url link="/adminpage/order/module/ordercontrol/id/<{$items['id']}>/type/over/datatype/json"}>">
+                 完成
+  	         </a>
+  	         <a class="sendorder curbtn"  onclick="unorder(<{$items['id']}>,<{$items['dno']}>);" href="#">
+                 取消
+  	         </a>
+  	      <{elseif $items['status'] ==  3}>
+  	          
+  	     <{else}>
+  	        <a class="sendorder curbtn" onclick="return remind(this);" href="<{ofunc type=url link="/adminpage/order/module/ordercontrol/id/<{$items['id']}>/type/del/datatype/json"}>">
+                 删除
+  	         </a>
+	     	<{/if}>
+			<{if $items['pstype'] == 0}>
+	     	<{if $items['is_goshop'] == 1}>
+				到店
+	     	<{else}>
+			<{if !empty($items['psusername'])}><{$items['psusername']}><{else}><a onclick="psorder(<{$items['id']}>,<{$items['dno']}>)" href="javascript:void(0);">选择配送员</a>   <{/if}>
+	     	 <{/if}>
+	       <{else}>
+		     自配
+			 <{/if}>
+	   	
+		              
+		              
+	   	
+	   	  <span class="chakan curbtn" data="<{$items['id']}>">查看</span>	</td>
+	  </tr>
+	  <tr> 
+	  <td colspan=7">
+		<table class="xqOrderlist showdet_<{$items['id']}>" style="display:none;"  width="100%" align="center" border="" cellpadding="0" cellspacing="0" bordercolor="#6596a9" >
+			
+			  <{if $items['is_goshop'] == 1}>
+			   <tr align="center">
+              <td><div><span  style=" color:#bceafe; font-size:14px; ">支付方式: </span><span><{$paytypearr[$items['paytype']]|default:'未定义'}>(<{if $items['paystatus'] == 1}>已付<{else}>未付<{/if}>)<font color=red><{$backarray[$items['is_reback']]}></font></span></div></td>
+              <td><div><span  style=" color:#bceafe; font-size:14px; ">订单状态: </span><span><{$buyerstatus[$items['status']]}></span></div></td>
+              <td colspan="2"><div><span  style=" color:#bceafe; font-size:14px; ">消费时间:</span> <span><{$items['posttime']|date_format:"%Y-%m-%d %H:%M:%S"}></span></div></td>
+              
+            </tr>
+            <tr>
+                <td ><div><span  style=" color:#bceafe; font-size:14px; ">店铺: </span><span><{$items['shopname']}></span></div></td>
+			         <td colspan="3"><div><span  style=" color:#bceafe; font-size:14px; ">店铺联系电话: </span><span><{$items['shopphone']}></span></div></td>
+            </tr>
+            <tr>
+                <td ><div><span  style=" color:#bceafe; font-size:14px; ">订单备注: </span></div></td>
+			         <td colspan="3"><div><{$items['content']}></div></td>
+            </tr>
+			  <{else}>
+            <tr align="center">
+              <td><div><span  style=" color:#bceafe; font-size:14px; ">支付方式: </span><span><{$paytypearr[$items['paytype']]|default:'未定义'}>(<{if $items['paystatus'] == 1}>已付<{else}>未付<{/if}>)<font color=red><{$backarray[$items['is_reback']]}></font></span></div></td>
+              <td><div><span  style=" color:#bceafe; font-size:14px; ">订单状态: </span><span><{$buyerstatus[$items['status']]}></span></div></td>
+              <td colspan="2"><div><span  style=" color:#bceafe; font-size:14px; ">配送时间:</span> <span><{$items['posttime']|date_format:"%Y-%m-%d %H:%M:%S"}></span></div></td>
+              
+            </tr>
+            <tr>
+                <td ><div><span  style=" color:#bceafe; font-size:14px; ">店铺: </span><span><{$items['shopname']}></span></div></td>
+			         <td colspan="3"><div><span  style=" color:#bceafe; font-size:14px; ">店铺联系电话: </span><span><{$items['shopphone']}></span></div></td>
+            </tr>
+            <tr>
+                <td ><div><span  style=" color:#bceafe; font-size:14px; ">订单备注: </span><span><{$items['content']}></span></div></td>
+			         <td colspan="3"><div><span  style=" color:#bceafe; font-size:14px; ">配送: </span><span><{if $items['pstype'] == 0}>网站<{else}>店铺<{/if}></span></div></td>
+            </tr>
+       <{/if}>
+        <{if !empty($items['detlist'])}>
+		         	<tr><td colspan="4" style="height:20px;"></td></tr>
+		         	<tr>
+                <td style=" color:#bceafe; font-size:14px; font-weight:bold;">美食篮子</td>
+                <td style=" font-size:14px; color:#ffffff;font-family:'微软雅黑';"  align="center">单价</td>
+                  <td style=" font-size:14px; color:#ffffff; font-family:'微软雅黑';"  align="center" align="center">
+                数量
+                  </td>
+                  <td style=" font-size:14px; color:#ffffff; font-family:'微软雅黑';"  align="center" align="center">
+                总价
+                  </td>
+              </tr>
+              
+              <{foreach from=$items['detlist'] item=value}>   
+              <tr>
+                  <td  style=" color:#bceafe; font-size:14px; font-weight:bold;" ><{$value['goodsname']}><{if $value['is_send'] == 1}><font color=red>[赠品]</font><{/if}></td>
+                  <td style=" font-size:14px; color:#ffffff;  "  align="center"><{$value['goodscost']}></td>
+                  <td style=" font-size:14px; color:#ffffff;  "  align="center" align="center"> <{$value['goodscount']}> </td>
+                  <td style=" font-size:14px; color:#ffffff; "  align="center" align="center">  <{$value['goodscost']*$value['goodscount']}>  </td>
+              </tr> 
+             <{/foreach}>    
+             <{/if}>
+              <tr>
+                <td  colspan=" 4" >
+                	
+                	 <{if $items['shopcost'] > 0}>
+		            		   	<span style=" color:#bceafe; font-size:14px; font-weight:bold;" >商品总价：</span> <{$items['shopcost']}>   &nbsp;&nbsp;&nbsp;   
+		            		 		<{/if}>
+		            		 		 <{if $items['shopps'] > 0}>
+		            		   	<span style=" color:#bceafe; font-size:14px; font-weight:bold;" > 配送费：</span><{$items['shopps']}>  &nbsp;&nbsp;&nbsp;   
+		            		 		<{/if}> 
+		            		 		<{if $items['scoredown'] > 0}>
+		            		   	<span style=" color:#bceafe; font-size:14px; font-weight:bold;" >积分低扣：</span>-<{$items['scoredown']/$scoretocost}>&nbsp;&nbsp;&nbsp; 
+		            		 		<{/if}>
+		            		 		<{if $items['yhjcost'] > 0}>
+		            		   	<span style=" color:#bceafe; font-size:14px; font-weight:bold;" >优惠券低扣：</span>-<{$items['yhjcost']}>&nbsp;&nbsp;&nbsp; 
+		            		 		<{/if}>
+		            		 		<{if $items['cxcost'] > 0}>
+		            		   	<span style=" color:#bceafe; font-size:14px; font-weight:bold;" >店铺促销：</span>-<{$items['cxcost']}>&nbsp;&nbsp;&nbsp;
+		            		 		<{/if}>
+		            		 		<{if $items['bagcost'] > 0}>
+		            		   	<span style=" color:#bceafe; font-size:14px; font-weight:bold;" >打包费：</span><{$items['bagcost']}>&nbsp;&nbsp;&nbsp;
+		            		 		<{/if}>
+                	      <span style=" color:#bceafe; font-size:14px; font-weight:bold;" >应收金额：</span><{$items['allcost']}></td> 
+              </tr> 
+          </table>
+		 </td>
+	  </tr>
+	  <tr class="noord"><td colspan="7"></td></tr>
+	 <{/foreach}> 
+   </table>
+
+
+
+
+<{/if}>   	
+
+
+ <{if $statustype == 2 || $statustype == 3 || $statustype == 4}>		<!-- 待抢调度 -->
+	<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr bgcolor="#544e48">
+	<th>地址</th>
+	<th>联系电话</th>
+	  <th>下单时间</th>
+    <th>配送时间</th>
+    <th>操作</th>
+  </tr>
+ <{foreach from=$list item=items}>
+	  <tr class="orLiheight" align="center" bgcolor="#6596a6">
+		<td><{if $items['is_goshop'] != 1}><{$items['buyeraddress']}><{else}><{if $items['allcost'] == 0}>订桌位<{else}>订桌位和菜品<{/if}> <{assign var=showother value=$items['othertext']|unserialize}>   
+		            		 		  	 <{foreach from=$showother key=mytest item=itc}>
+		            		 		  	  <{$mytest}>:<{$itc}>，
+		            		 		  	 <{/foreach}><{/if}></td>
+		<td><{$items['buyerphone']}></td>
+
+		<td><{$items['addtime']|date_format:"%Y-%m-%d %H:%M:%S"}></td>
+		<td><{$items['posttime']|date_format:"%Y-%m-%d %H:%M:%S"}></td>
+
+		
+		<td style=" color:#bceafe;  font-weight:bold;" class="buttd">
+		  	<{if $items['status'] == 0}> 
+		  	<{if $items['paytype'] == 0}>
+		  	<a class="passorder curbtn" onclick="return remind(this);" href="<{ofunc type=url link="/adminpage/order/module/ordercontrol/id/<{$items['id']}>/type/pass/datatype/json"}>">
+				   审核
+				</a>
+				<{/if}>
+				
+	     <a class=" curbtn"  onclick="unorder(<{$items['id']}>,<{$items['dno']}>);" href="#">
+	   	     取消
+	     	</a>
+	     	<{elseif $items['status'] == 1}>
+	     	    <{if $items['is_make'] == 0}>
+	     	    <span>
+                  待商家确认
+  	         </span>
+  	         
+	     	    <{elseif $items['is_make'] == 1}> 
+	     	   	 <a class="sendorder curbtn"  onclick="return remind(this);" href="<{ofunc type=url link="/adminpage/order/module/ordercontrol/id/<{$items['id']}>/type/send/datatype/json"}>">
+                  发货
+  	         </a> 
+  	         <{else}>
+  	          商品不制作该订单
+	     	   <{/if}> 
+	     	   <a class="sendorder curbtn"  onclick="unorder(<{$items['id']}>,<{$items['dno']}>);" href="#">
+                 取消
+  	         </a>
+	     	 <{elseif $items['status'] ==  2}>
+	     	     <a class="sendorder curbtn" onclick="return remind(this);" href="<{ofunc type=url link="/adminpage/order/module/ordercontrol/id/<{$items['id']}>/type/over/datatype/json"}>">
+                 完成
+  	         </a>
+  	         <a class="sendorder curbtn"  onclick="unorder(<{$items['id']}>,<{$items['dno']}>);" href="#">
+                 取消
+  	         </a>
+  	      <{elseif $items['status'] ==  3}>
+  	          
+  	     <{else}>
+  	        <a class="sendorder curbtn" onclick="return remind(this);" href="<{ofunc type=url link="/adminpage/order/module/ordercontrol/id/<{$items['id']}>/type/del/datatype/json"}>">
+                 删除
+  	         </a>
+	     	<{/if}>
+	<{if $items['pstype'] == 0}>
+	     	<{if $items['is_goshop'] == 1}>
+				到店
+	     	<{else}>
+		 
+	    
+			
+	 
+						 <{if $statustype == 2}>	
+							
+						 
+								<{if !empty($items['psusername'])}><{$items['psusername']}><{else}><a onclick="psorder(<{$items['id']}>,<{$items['dno']}>)" href="javascript:void(0);">选择配送员<span style="color:red;">(此订单没人抢单)</span></a>   <{/if}>
+							
+						<{/if}>
+						 <{if $statustype == 3}>	
+						
+								<{if !empty($items['psusername'])}>此订单由<span style="color:#ffffff;"><{$items['psusername']}></span>进行配送中<{else}><a onclick="psorder(<{$items['id']}>,<{$items['dno']}>)" href="javascript:void(0);">选择配送员</a>   <{/if}>
+						
+						
+						<{/if}>
+							 <{if $statustype == 4}>	
+						
+								<{if !empty($items['psusername'])}> 此订单由<span style="color:#ffffff;"><{$items['psusername']}></span>进行配送完成<{else}><a onclick="psorder(<{$items['id']}>,<{$items['dno']}>)" href="javascript:void(0);">选择配送员</a>   <{/if}>
+						
+						<{/if}>
+	   	
+		              
+	             
+	   	 	 <{/if}>
+	       <{else}>
+		     自配
+			 <{/if}>
+	   	  <span class="chakan curbtn" data="<{$items['id']}>">查看</span>	</td>
+	  </tr>
+	  <tr> 
+	  <td colspan=7">
+		<table class="xqOrderlist showdet_<{$items['id']}>" style="display:none;"   width="100%" align="center" border="" cellpadding="0" cellspacing="0" bordercolor="#6596a9" >
+			
+			  <{if $items['is_goshop'] == 1}>
+			   <tr align="center">
+              <td><div><span  style=" color:#bceafe; font-size:14px; ">支付方式: </span><span><{$paytypearr[$items['paytype']]|default:'未定义'}>(<{if $items['paystatus'] == 1}>已付<{else}>未付<{/if}>)<font color=red><{$backarray[$items['is_reback']]}></font></span></div></td>
+              <td><div><span  style=" color:#bceafe; font-size:14px; ">订单状态: </span><span><{$buyerstatus[$items['status']]}></span></div></td>
+              <td colspan="2"><div><span  style=" color:#bceafe; font-size:14px; ">消费时间:</span> <span><{$items['posttime']|date_format:"%Y-%m-%d %H:%M:%S"}></span></div></td>
+              
+            </tr>
+            <tr>
+                <td ><div><span  style=" color:#bceafe; font-size:14px; ">店铺: </span><span><{$items['shopname']}></span></div></td>
+			         <td colspan="3"><div><span  style=" color:#bceafe; font-size:14px; ">店铺联系电话: </span><span><{$items['shopphone']}></span></div></td>
+            </tr>
+            <tr>
+                <td ><div><span  style=" color:#bceafe; font-size:14px; ">订单备注: </span></div></td>
+			         <td colspan="3"><div><{$items['content']}></div></td>
+            </tr>
+			  <{else}>
+            <tr align="center">
+              <td><div><span  style=" color:#bceafe; font-size:14px; ">支付方式: </span><span><{$paytypearr[$items['paytype']]|default:'未定义'}>(<{if $items['paystatus'] == 1}>已付<{else}>未付<{/if}>)<font color=red><{$backarray[$items['is_reback']]}></font></span></div></td>
+              <td><div><span  style=" color:#bceafe; font-size:14px; ">订单状态: </span><span><{$buyerstatus[$items['status']]}></span></div></td>
+              <td colspan="2"><div><span  style=" color:#bceafe; font-size:14px; ">配送时间:</span> <span><{$items['posttime']|date_format:"%Y-%m-%d %H:%M:%S"}></span></div></td>
+              
+            </tr>
+            <tr>
+                <td ><div><span  style=" color:#bceafe; font-size:14px; ">店铺: </span><span><{$items['shopname']}></span></div></td>
+			         <td colspan="3"><div><span  style=" color:#bceafe; font-size:14px; ">店铺联系电话: </span><span><{$items['shopphone']}></span></div></td>
+            </tr>
+            <tr>
+                <td ><div><span  style=" color:#bceafe; font-size:14px; ">订单备注: </span><span><{$items['content']}></span></div></td>
+			         <td colspan="3"><div><span  style=" color:#bceafe; font-size:14px; ">配送: </span><span><{if $items['pstype'] == 0}>网站<{else}>店铺<{/if}></span></div></td>
+            </tr>
+       <{/if}>
+        <{if !empty($items['detlist'])}>
+		         	<tr><td colspan="4" style="height:20px;"></td></tr>
+		         	<tr>
+                <td style=" color:#bceafe; font-size:14px; font-weight:bold;">美食篮子</td>
+                <td style=" font-size:14px; color:#ffffff;font-family:'微软雅黑';"  align="center">单价</td>
+                  <td style=" font-size:14px; color:#ffffff; font-family:'微软雅黑';"  align="center" align="center">
+                数量
+                  </td>
+                  <td style=" font-size:14px; color:#ffffff; font-family:'微软雅黑';"  align="center" align="center">
+                总价
+                  </td>
+              </tr>
+              
+              <{foreach from=$items['detlist'] item=value}>   
+              <tr>
+                  <td  style=" color:#bceafe; font-size:14px; font-weight:bold;" ><{$value['goodsname']}><{if $value['is_send'] == 1}><font color=red>[赠品]</font><{/if}></td>
+                  <td style=" font-size:14px; color:#ffffff;  "  align="center"><{$value['goodscost']}></td>
+                  <td style=" font-size:14px; color:#ffffff;  "  align="center" align="center"> <{$value['goodscount']}> </td>
+                  <td style=" font-size:14px; color:#ffffff; "  align="center" align="center">  <{$value['goodscost']*$value['goodscount']}>  </td>
+              </tr> 
+             <{/foreach}>    
+             <{/if}>
+              <tr>
+                <td  colspan=" 4" >
+                	
+                	 <{if $items['shopcost'] > 0}>
+		            		   	<span style=" color:#bceafe; font-size:14px; font-weight:bold;" >商品总价：</span> <{$items['shopcost']}>   &nbsp;&nbsp;&nbsp;   
+		            		 		<{/if}>
+		            		 		 <{if $items['shopps'] > 0}>
+		            		   	<span style=" color:#bceafe; font-size:14px; font-weight:bold;" > 配送费：</span><{$items['shopps']}>  &nbsp;&nbsp;&nbsp;   
+		            		 		<{/if}> 
+		            		 		<{if $items['scoredown'] > 0}>
+		            		   	<span style=" color:#bceafe; font-size:14px; font-weight:bold;" >积分低扣：</span>-<{$items['scoredown']/$scoretocost}>&nbsp;&nbsp;&nbsp; 
+		            		 		<{/if}>
+		            		 		<{if $items['yhjcost'] > 0}>
+		            		   	<span style=" color:#bceafe; font-size:14px; font-weight:bold;" >优惠券低扣：</span>-<{$items['yhjcost']}>&nbsp;&nbsp;&nbsp; 
+		            		 		<{/if}>
+		            		 		<{if $items['cxcost'] > 0}>
+		            		   	<span style=" color:#bceafe; font-size:14px; font-weight:bold;" >店铺促销：</span>-<{$items['cxcost']}>&nbsp;&nbsp;&nbsp;
+		            		 		<{/if}>
+		            		 		<{if $items['bagcost'] > 0}>
+		            		   	<span style=" color:#bceafe; font-size:14px; font-weight:bold;" >打包费：</span><{$items['bagcost']}>&nbsp;&nbsp;&nbsp;
+		            		 		<{/if}>
+                	      <span style=" color:#bceafe; font-size:14px; font-weight:bold;" >应收金额：</span><{$items['allcost']}></td> 
+              </tr> 
+          </table>
+		 </td>
+	  </tr>
+	  <tr class="noord"><td colspan="7"></td></tr>
+	 <{/foreach}> 
+   </table>
+		
+		 
+<{/if}>

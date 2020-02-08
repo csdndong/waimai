@@ -1,0 +1,64 @@
+{itemplate 'public/header'}
+<div class="page search-result search-corr">
+	<div class="bar bar-header-secondary">
+		<div class="searchbar">
+			<a class="searchbar-arrow back"><i class="icon icon-arrow-left"></i></a>
+			<a class="searchbar-cancel">搜索</a>
+			<div class="search-input">
+				<label class="icon icon-search" for="search"></label>
+				<input type="search" id='search' name="search" value="{$_GPC['key']}" placeholder='请输入商户或商品名称'/>
+			</div>
+		</div>
+	</div>
+	{php get_mall_menu();}
+	<div class="content">
+		{if empty($stores)}
+			<div class="search-noany">
+				<span></span>
+				<p>抱歉，没有找到合适的商户</p>
+			</div>
+		{else}
+			{loop $stores $store}
+				<div class="recommend-list">
+					<a href="{$store['url']}" class="recommend-item border-1px" style="background-image: url({php echo tomedia($store['logo'])})">
+						<div class="store-title">{$store['title']}</div>
+						<div class="store-description">{$store['content']}</div>
+						<div class="is-in-business"><span class="icon icon-rest"></span>{if $store['is_rest'] == 1}门店休息中{else}门店营业中{/if}</div>
+					</a>
+				</div>
+			{/loop}
+		{/if}
+		{if !empty($recommend_stores)}
+			<div class="recommend-list search-mar-top">
+				<div class="search-r-like">
+					<span><i class="icon icon-dianzan"></i>为您推荐</span>
+				</div>
+				{loop $recommend_stores $store}
+					<div class="list-item">
+						<a href="{$store['url']}" class="recommend-item border-1px" style="background-image: url({php echo tomedia($store['logo'])})">
+							<div class="store-title">{$store['title']}</div>
+							<div class="store-description">{$store['content']}</div>
+							<div class="is-in-business"><span class="icon icon-rest"></span>{if $store['is_rest'] == 1}门店休息中{else}门店营业中{/if}</div>
+						</a>
+					</div>
+				{/loop}
+			</div>
+		{/if}
+	</div>
+</div>
+<script>
+$(function(){
+	$(document).on('click', '.searchbar-cancel', function(){
+		var key = $('.search-input input').val();
+		if(!key) {
+			return false;
+		}
+		$.showIndicator();
+		$.post("{php echo imurl('wmall/home/hunt/search_data');}", {key: key}, function(data){
+			location.href = "{php echo imurl('wmall/home/hunt/search');}&key=" + key;
+		});
+		return false;
+	});
+});
+</script>
+{itemplate 'public/footer'}

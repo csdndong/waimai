@@ -1,0 +1,3 @@
+.weui-cell{ font-size: 26rpx; }
+.weui-cell__hd{ display: flex; justify-content: flex-start; align-items: center; }
+.weui-cell__hd image{ min-width: 80rpx; width: 80rpx; height: 80rpx; margin-right: 20rpx; border-radius: 50%; }

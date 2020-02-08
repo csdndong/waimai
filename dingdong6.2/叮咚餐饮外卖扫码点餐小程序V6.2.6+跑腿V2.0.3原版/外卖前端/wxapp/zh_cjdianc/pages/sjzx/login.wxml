@@ -1,0 +1,37 @@
+<!--   time:2019-07-18 01:03:21 -->
+<view class="main">
+	<image class="bgimg" src="../../../img/bj1@2x.png"></image>
+	<view class="headwz" style="color:{{color}}">{{xtxx.url_name}}</view>
+	<image class="hdimg ab" src="{{xtxx.link_logo}}"></image>
+	<view class="resite border1">
+		<view>帐号密码登录</view>
+		<view class="ab udlr">
+			<view class="resite_one">
+				<view class="text">
+					<view class="rel">
+						<image class="ab udlr" src="../../img/icon/account.png"></image>
+					</view>
+					<view>
+						<input bindblur="name" placeholder="请输入账号" placeholderStyle="font-size:30rpx;"></input>
+					</view>
+				</view>
+			</view>
+			<view class="resite_one">
+				<view class="text">
+					<view class="rel">
+						<image class="ab udlr" src="../../img/icon/password.png"></image>
+					</view>
+					<view>
+						<input bindblur="password" placeholder="请输入密码"></input>
+					</view>
+				</view>
+			</view>
+		</view>
+		<button bindtap="sign" style="background:{{color}}">登录</button>
+	</view>
+	<button bindtap="weixin" class="weui-btn">
+		<image src="../../img/icon/wxdl.png"></image>微信登录	</button>
+	<view bindtap="tel" class="ft">
+		<view>客服电话：{{xtxx.tel}}</view>
+	</view>
+</view>

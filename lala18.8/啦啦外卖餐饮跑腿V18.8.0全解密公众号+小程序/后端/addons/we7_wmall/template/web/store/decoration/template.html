@@ -1,0 +1,79 @@
+{itemplate 'public/header'}
+<div class="page clearfix">
+	<form class="form-horizontal form form-validate" id="form1" action="" method="post" enctype="multipart/form-data" style="max-width: 1480px;">
+		<h3>模板配置</h3>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">商品列表单列/双列/大图设置</label>
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<div style="width:200px; float:left; margin-right:20px;">
+					<a href="{php echo iurl('store/decoration/template/index', array('value' => 2, 'type' => 'template'));}" data-confirm="确定更换模块类型吗" class="js-post thumbnail {if $template == '2' || !$template}active{/if}" style="width:200px;border-width: 5px">
+						<img src="{WE7_WMALL_URL}static/img/purview/wxapp-store-single.png">
+					</a>
+					<div style="text-align: center">模板1</div>
+				</div>
+				<div style="width:200px; float:left; margin-right:20px;">
+					<a href="{php echo iurl('store/decoration/template/index', array('value' => 1, 'type' => 'template'));}" data-confirm="确定更换模块类型吗" class="js-post thumbnail {if $template == '1'}active{/if}" style="width:200px; float:left; margin-right:20px; border-width: 5px">
+						<img src="{WE7_WMALL_URL}static/img/purview/wxapp-store-double.png">
+					</a>
+					<div style="text-align: center">模板2</div>
+				</div>
+				<div style="width:200px; float:left; margin-right:20px;">
+					<a href="{php echo iurl('store/decoration/template/index', array('value' => 3, 'type' => 'template'));}" data-confirm="确定更换模块类型吗" class="js-post thumbnail {if $template == '3'}active{/if}" style="width:200px; float:left; margin-right:20px; border-width: 5px">
+						<img src="{WE7_WMALL_URL}static/img/purview/wxapp-store-datu.png">
+					</a>
+					<div style="text-align: center">模板3</div>
+				</div>
+				{if check_plugin_perm('diypage')}
+					<div style="width:200px; float:left; margin-right:20px;">
+						<a href="{php echo iurl('store/decoration/template/index', array('value' => 4, 'type' => 'template'));}" data-confirm="确定更换模块类型吗" class="js-post thumbnail {if $template == '4'}active{/if}" style="width:200px; float:left; margin-right:20px; border-width: 5px">
+							<img src="{WE7_WMALL_URL}static/img/purview/wxapp-store-4.png">
+						</a>
+						<div style="text-align: center">模板4</div>
+					</div>
+					<div style="width:200px; float:left; margin-right:20px;">
+						<a href="{php echo iurl('store/decoration/template/index', array('value' => 5, 'type' => 'template'));}" data-confirm="确定更换模块类型吗" class="js-post thumbnail {if $template == '5'}active{/if}" style="width:200px; float:left; margin-right:20px; border-width: 5px">
+							<img src="{WE7_WMALL_URL}static/img/purview/wxapp-store-5.png">
+						</a>
+						<div style="text-align: center">模板5</div>
+					</div>
+				{/if}
+				<div class="clearfix"></div>
+				<div class="help-block" style="margin-top: 10px;">
+					注意：模板4和模板5仅支持按分类加载商品。<br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;若设置为加载全部商品，则右侧一次性加载全部商品，且左侧一级分类会跟随右侧商品滚动联动，不支持二级分类展示；<br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;若设置为按分类加载，则右侧只显示当前分类下的商品，切换分类显示对应分类下的商品，不支持一级分类跟随商品滚动联动。
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">商品列表页风格 <br>(小程序)</label>
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<div class="radio radio-inline">
+					<input type="radio" value="0" name="template_page[wxapp]" id="template_page_wxapp-0" {if $template_page['wxapp'] === 0}checked{/if} required>
+					<label for="template_page_wxapp-0">加载全部商品</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" value="1" name="template_page[wxapp]" id="template_page_wxapp-1" {if $template_page['wxapp'] == 1 || $template_page['wxapp'] === null}checked{/if} required>
+					<label for="template_page_wxapp-1">按分类加载</label>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">商品列表页风格 <br>(公众号)</label>
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<div class="radio radio-inline">
+					<input type="radio" value="0" name="template_page[vue]" id="templte_page_vue-0" {if $template_page['vue'] == 0}checked{/if} required>
+					<label for="templte_page_vue-0">加载全部商品</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" value="1" name="template_page[vue]" id="templte_page_vue-1" {if $template_page['vue'] == 1}checked{/if} required>
+					<label for="templte_page_vue-1">按分类加载</label>
+				</div>
+
+			</div>
+		</div>
+		<input type="submit" value="提交" class="btn btn-primary">
+
+	</form>
+</div>
+{itemplate 'public/footer'}

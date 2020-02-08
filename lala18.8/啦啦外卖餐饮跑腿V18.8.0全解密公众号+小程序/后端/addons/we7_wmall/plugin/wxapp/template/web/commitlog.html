@@ -1,0 +1,40 @@
+{itemplate 'public/header'}
+{if $op == 'index'}
+<form action="" class="form-table form form-validate" method="post">
+	<div class="panel panel-table">
+		<div class="panel-body table-responsive js-table">
+			{if empty($logs)}
+				<div class="no-result">
+					<p>还没有相关数据</p>
+				</div>
+			{else}
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th>状态</th>
+							<th>小程序服务域名</th>
+							<th>版本</th>
+							<th>上传时间</th>
+						</tr>
+					</thead>
+					{loop $logs $item}
+						<tr>
+							<td>{$item['stauts_cn']}</td>
+							<td>
+								{if empty($item['siteurl'])}
+									模块授权域名
+								{else}
+									{$item['siteurl']}
+								{/if}
+							</td>
+							<td>{$item['user_version']}</td>
+							<td>{php echo date('Y-m-d H:i:s', $item['addtime'])}</td>
+						</tr>
+					{/loop}
+				</table>
+			{/if}
+		</div>
+	</div>
+</form>
+{/if}
+{itemplate 'public/footer'}

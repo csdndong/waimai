@@ -1,0 +1,236 @@
+{itemplate 'public/header'}
+<form action="./index.php" class="form-horizontal form-filter" id="form1">
+	{php echo tpl_form_filter_hidden('statcenter/paytype/index');}
+	<input type="hidden" name="days" value="{$days}"/>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">筛选时间</label>
+		<div class="col-sm-9 col-xs-12 js-daterange" data-form="#form1">
+			<div class="btn-group">
+				<a href="{php echo ifilter_url('days:0');}" class="btn {if !$days}btn-primary{else}btn-default{/if}">今天</a>
+				<a href="{php echo ifilter_url('days:7');}" class="btn {if $days == 7}btn-primary{else}btn-default{/if}">最近7天</a>
+				<a href="{php echo ifilter_url('days:30');}" class="btn {if $days == 30}btn-primary{else}btn-default{/if}">最近30天</a>
+				<a href="javascript:;" class="btn js-btn-custom {if $days == -1}btn-primary{else}btn-default{/if}">自定义</a>
+			</div>
+			<span class="btn-daterange js-btn-daterange {if $days != -1}hide{/if}">
+				{php echo tpl_form_field_daterange('stat_day', array('start' => $starttime, 'end' => $endtime));}
+			</span>
+		</div>
+	</div>
+	<div class="form-group clearfix form-inline">
+		<label class="col-xs-12 col-sm-2 col-md-1 control-label">其他</label>
+		<div class="col-sm-7 col-lg-8 col-xs-12">
+			<select name="sid" class="form-control select2 js-select2 width-130" id="select-sid">
+				<option value="0" {if !$sid}selected{/if}>全部门店</option>
+				{loop $stores $store}
+					<option value="{$store['id']}" {if $store['id'] == $sid}selected{/if}>{$store['title']}</option>
+				{/loop}
+			</select>
+		</div>
+	</div>
+</form>
+<div class="clearfix">
+	<div class="panel panel-stat">
+		<div class="panel-heading">
+			<h3>总览</h3>
+		</div>
+		<div class="panel-body">
+			<div class="col-md-2">
+				<div class="title">
+					总订单
+				</div>
+				<div class="num-wrapper">
+					<a class="num" href="javascript:;">
+						<span id="html-total-success-order">0</span>
+					</a>
+				</div>
+			</div>
+			{loop $paytypes $key $paytype}
+			<div class="col-md-2">
+				<div class="title">
+					总{$paytype}单数
+				</div>
+				<div class="num-wrapper">
+					<a class="num" href="javascript:;">
+						<span id="html-total-{$key}-order">0</span>
+					</a>
+					<span class="info" id="html-per-total-{$key}-order">占比：0%</span>
+				</div>
+			</div>
+			{/loop}
+		</div>
+	</div>
+</div>
+<div class="clearfix">
+	<div class="col-lg-12 padding-0">
+		<div class="panel panel-trend">
+			<div class="panel-heading">
+				<h3>支付方式百分比</h3>
+			</div>
+			<div class="panel-body">
+				<div id="chart-order-holder-pie" style="width: 100%;height:400px;"></div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="clearfix {if !$days}hide{/if}">
+	<div class="panel panel-trend">
+		<div class="panel-heading">
+			<h3>趋势图</h3>
+		</div>
+		<div class="panel-body">
+			<div id="chart-order-holder" style="width: 100%;height:400px;"></div>
+		</div>
+	</div>
+</div>
+<form action="" class="form-table form" method="post">
+	<div class="panel panel-table">
+		<div class="panel-body table-responsive">
+			<table class="table table-bordered table-hover text-center" style="background: #fff">
+			<thead class="navbar-inner">
+			<tr>
+				<th>账期</th>
+				<th>成交单数</th>
+				<th>货到付款单数/货到付款占比<br>成交金额</th>
+				<th>余额支付单数/余额支付占比<br>成交金额</th>
+				<th>微信支付单数/微信支付占比<br>成交金额</th>
+				<th>支付宝支付单数/支付宝支付占比<br>成交金额</th>
+			</tr>
+			</thead>
+			<tbody>
+			{loop $records $record}
+				<tr>
+					<td><strong>{$record['stat_day']}</strong></td>
+					<td><span class="text-danger">{$record['total_success_order']}</span></td>
+					<td><span class="text-danger">{$record['order_delivery']}/{$record['pre_order_delivery']}%<br>¥{$record['sum_delivery']}</span></td>
+					<td><span class="text-success">{$record['order_credit']}/{$record['pre_order_credit']}%<br>¥{$record['sum_credit']}</span></td>
+					<td><span class="text-danger">{$record['order_wechat']}/{$record['pre_order_wechat']}%<br>¥{$record['sum_wechat']}</span></td>
+					<td><span class="text-success">{$record['order_alipay']}/{$record['pre_order_alipay']}%<br>¥{$record['sum_alipay']}</span></td>
+				</tr>
+			{/loop}
+			</tbody>
+		</table>
+		</div>
+	</div>
+</form>
+<script type="text/javascript">
+irequire(['echarts'], function(echarts){
+	// 趋势图
+	var option = {
+		title: {
+			text: '支付方式趋势图'
+		},
+		tooltip : {
+			trigger: 'axis'
+		},
+		legend: {
+			data:[]
+		},
+		toolbox: {
+			feature: {
+				saveAsImage: {}
+			}
+		},
+		grid: {
+			left: '3%',
+			right: '4%',
+			bottom: '3%',
+			containLabel: true
+		},
+		xAxis : [{
+			type : 'category',
+			boundaryGap : false,
+			data :[1, 2, 3]
+		}],
+		yAxis : [
+			{
+				type : 'value'
+			}
+		],
+		series : []
+	};
+	// 饼图
+	var option1 = {
+		title : {
+			text: '订单来源百分比',
+			x:'center'
+		},
+		tooltip : {
+			trigger: 'item',
+			formatter: "{a} <br/>{b} : {c} ({d}%)"
+		},
+		legend: {
+			orient: 'vertical',
+			left: 'left',
+			data: []
+		},
+		series : [
+			{
+				name: '直接访问',
+				type: 'pie',
+				radius : '55%',
+				center: ['50%', '60%'],
+				data:[],
+				itemStyle: {
+					emphasis: {
+						shadowBlur: 10,
+						shadowOffsetX: 0,
+						shadowColor: 'rgba(0, 0, 0, 0.5)'
+					}
+				}
+			}
+		]
+	};
+	var myChart = echarts.init($('#chart-order-holder')[0]);
+	var myChartPie = echarts.init($('#chart-order-holder-pie')[0]);
+
+	// myChart.setOption(option);
+	// myChart.showLoading();
+	$.post(location.href, function(data){
+		// myChart.hideLoading();
+		var result = $.parseJSON(data);
+		// 趋势图
+		option.legend.data = result.message.message.titles;
+		var xAxis = {
+			type : 'category',
+			boundaryGap : false,
+			data : result.message.message.days
+		};
+		option.xAxis = xAxis;
+		$.each(result.message.message.fields, function(k, v){
+			var serie = {
+				name: result.message.message.titles[k],
+				type: 'line',
+				areaStyle: {normal: {}},
+				data: result.message.message[v]
+			};
+			option.series.push(serie);
+		});
+		myChart.setOption(option);
+		var stat = result.message.message.stat;
+		$('#html-total-success-order').html(stat.total_success_order);
+		$('#html-total-delivery-order').html(stat.total_delivery_order);
+		$('#html-per-total-delivery-order').html('占比：'+stat.per_total_delivery_order+'%');
+		$('#html-total-credit-order').html(stat.total_credit_order);
+		$('#html-per-total-credit-order').html('占比：'+stat.per_total_credit_order+'%');
+		$('#html-total-wechat-order').html(stat.total_wechat_order);
+		$('#html-per-total-wechat-order').html('占比：'+stat.per_total_wechat_order+'%');
+		$('#html-total-alipay-order').html(stat.total_alipay_order);
+		$('#html-per-total-alipay-order').html('占比：'+stat.per_total_alipay_order+'%');
+
+		// 饼图
+		pieData = result.message.message;
+		pieData.titles.shift();
+		option1.legend.data = pieData.titles;
+		var legendData=[
+			{value:pieData.stat.total_delivery_order, name:'货到付款订单'},
+			{value:pieData.stat.total_credit_order, name:'余额支付订单'},
+			{value:pieData.stat.total_wechat_order, name:'微信支付订单'},
+			{value:pieData.stat.total_alipay_order, name:'支付宝支付订单'},
+		];
+		option1.series[0].data = legendData;
+		myChartPie.setOption(option1);
+
+	});
+});
+</script>
+{itemplate 'public/footer'}

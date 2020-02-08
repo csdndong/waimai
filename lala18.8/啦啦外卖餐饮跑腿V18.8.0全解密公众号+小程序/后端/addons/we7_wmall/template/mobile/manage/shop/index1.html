@@ -1,0 +1,216 @@
+{itemplate 'public/header'}
+<div class="page" id="page-manage-home2">
+    <header class="bar bar-nav common-bar-nav" style="border-bottom: 0">
+        <h1 class="title">{$_W['we7_wmall']['store']['title']}</h1>
+    </header>
+    {itemplate 'public/nav'}
+    <div class="content">
+        <ul class="store-data">
+            <li>
+                <a href="javascript:;">
+                    <div class="store-data-sum">{$stat['total_order']}</div>
+                    <div class="store-data-info">今日有效订单</div>
+                </a>
+            </li>
+            <li>
+                <a href="javascript:;">
+                    <div class="store-data-sum">{$stat['total_fee']}</div>
+                    <div class="store-data-info">今日总营业额</div>
+                </a>
+            </li>
+            <li>
+                <a href="javascript:;">
+                    <div class="store-data-sum">{$stat['final_fee']}</div>
+                    <div class="store-data-info">今日总收入</div>
+                </a>
+            </li>
+        </ul>
+        <div class="list-block">
+            <ul>
+                <li>
+                    <a href="{php echo imurl('manage/shop/setting');}">
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-shop"></i></div>
+                            <div class="item-inner border-1px-b">
+                                <div class="item-title label">店铺管理</div>
+                                <div class="item-input">
+                                    <i class="icon icon-right"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="{php echo imurl('manage/order/takeout');}">
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-order"></i></div>
+                            <div class="item-inner border-1px-b">
+                                <div class="item-title label">订单管理</div>
+                                <div class="item-input">
+                                    <i class="icon icon-right"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="{php echo imurl('manage/order/takeout1');}">
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-order"></i></div>
+                            <div class="item-inner border-1px-b">
+                                <div class="item-title label">新版订单</div>
+                                <div class="item-input">
+                                    <i class="icon icon-right"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="{php echo imurl('manage/goods/index');}">
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-goods"></i></div>
+                            <div class="item-inner border-1px-b">
+                                <div class="item-title label">商品管理</div>
+                                <div class="item-input">
+                                    <i class="icon icon-right"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="{php echo imurl('manage/service/comment');}">
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-survey"></i></div>
+                            <div class="item-inner border-1px-b">
+                                <div class="item-title label">评论管理</div>
+                                <div class="item-input">
+                                    <i class="icon icon-right"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="{php echo imurl('manage/finance/index');}">
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-recharge"></i></div>
+                            <div class="item-inner border-1px-b">
+                                <div class="item-title label">资产</div>
+                                <div class="item-input">
+                                    <i class="icon icon-right"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="{php echo imurl('manage/activity/index');}">
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-activity"></i></div>
+                            <div class="item-inner border-1px-b">
+                                <div class="item-title label">店铺活动</div>
+                                <div class="item-input">
+                                    <i class="icon icon-right"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="{php echo imurl('manage/advertise/index');}">
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-medal"></i></div>
+                            <div class="item-inner border-1px-b">
+                                <div class="item-title label">店铺推广</div>
+                                <div class="item-input">
+                                    <i class="icon icon-right"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="{php echo imurl('manage/news/notice')}">
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-newshot"></i></div>
+                            <div class="item-inner border-1px-b">
+                                <div class="item-title label">公告</div>
+                                <div class="item-input">
+                                    <i class="icon icon-right"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="{php echo imurl('manage/paycenter/paybill/index', array('pay_type' => 'all'))}">
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-signboard"></i></div>
+                            <div class="item-inner border-1px-b">
+                                <div class="item-title label">买单</div>
+                                <div class="item-input">
+                                    <i class="icon icon-right"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="{php echo imurl('manage/order/table/index')}">
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-similar"></i></div>
+                            <div class="item-inner border-1px-b">
+                                <div class="item-title label">桌台管理</div>
+                                <div class="item-input">
+                                    <i class="icon icon-right"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="{php echo imurl('manage/poster/index/poster')}">
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-fukuanma"></i></div>
+                            <div class="item-inner border-1px-b">
+                                <div class="item-title label">商户海报</div>
+                                <div class="item-input">
+                                    <i class="icon icon-right"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="{php echo imurl('manage/order/assign')}">
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-friend_light"></i></div>
+                            <div class="item-inner border-1px-b">
+                                <div class="item-title label">排队</div>
+                                <div class="item-input">
+                                    <i class="icon icon-right"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="{php echo imurl('manage/statcenter/index')}">
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-rank"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">商户统计</div>
+                                <div class="item-input">
+                                    <i class="icon icon-right"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+{itemplate 'public/footer'}

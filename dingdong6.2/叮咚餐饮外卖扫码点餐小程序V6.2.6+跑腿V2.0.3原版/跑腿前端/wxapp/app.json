@@ -1,0 +1,51 @@
+{
+  "pages": [
+    "zh_cjpt/pages/mine/zhuce",
+    "zh_cjpt/pages/BLE/index",
+    "zh_cjpt/pages/logs/order_info",
+    "zh_cjpt/pages/index/index",
+    "zh_cjpt/pages/logs/tab",
+    "zh_cjpt/pages/logs/day_order",
+    "zh_cjpt/pages/logs/logs",
+    "zh_cjpt/pages/logs/zj",
+    "zh_cjpt/pages/mine/index",
+    "zh_cjpt/pages/distribution/core",
+    "zh_cjpt/pages/distribution/distribution",
+    "zh_cjpt/pages/Invitation/index",
+    "zh_cjpt/pages/logs/bill",
+    "zh_cjpt/pages/logs/reward",
+    "zh_cjpt/pages/logs/capital",
+    "zh_cjpt/pages/index/order_info",
+    "zh_cjpt/pages/index/info",
+    "zh_cjpt/pages/logs/xx",
+    "zh_cjpt/pages/tabbar/index",
+    "zh_cjpt/pages/logs/tixian",
+    "zh_cjpt/pages/distribution/downline",
+    "zh_cjpt/pages/distribution/ranking",
+    "zh_cjpt/pages/distribution/tixian",
+    "zh_cjpt/pages/distribution/detaulted",
+    "zh_cjpt/pages/distribution/detault",
+    "zh_cjpt/pages/Invitation/info",
+    "zh_cjpt/pages/mine/uppaword",
+    "zh_cjpt/pages/distribution/index",
+    "zh_cjpt/pages/mine/rz",
+    "zh_cjpt/pages/route/index",
+    "zh_cjpt/pages/logs/tx_info",
+    "zh_cjpt/pages/logs/zd_info",
+    "zh_cjpt/pages/logs/help",
+    "zh_cjpt/pages/logs/abnormal"
+  ],
+  "permission": {
+    "scope.userLocation": {
+      "desc": "你的位置信息将用于小程序位置接口的效果展示"
+    }
+  },
+  "window": {
+    "backgroundTextStyle": "dark",
+    "navigationBarTitleText": "",
+    "navigationBarTextStyle": "black",
+    "navigationStyle": "default",
+    "navigationBarBackgroundColor": "#34AAFF"
+  },
+  "sitemapLocation": "sitemap.json"
+}

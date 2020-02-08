@@ -1,0 +1,45 @@
+page {
+    font-size: 14px;
+    background-color: #f5f5f5;
+    padding-bottom: 15px;
+}
+
+.page-info .zan-panel {
+    margin-top: 0;
+}
+
+.page-info .zan-panel .zan-cell__bd {
+    min-width: 20%;
+}
+
+.page-info .zan-panel .zan-cell__ft {
+    word-break: break-all;
+}
+
+.page-info .tip {
+    height: 40px;
+    line-height: 40px;
+    padding-left: 15px;
+    background-color: #f5f5f5;
+    color: #535353;
+}
+
+.page-info .zan-cell {
+    min-height: 48px;
+    box-sizing: border-box;
+}
+
+.page-info .zan-cell.shop-logo {
+    height: 82px;
+}
+
+.page-info .zan-cell.shop-logo .zan-cell__ft {
+    font-size: 0px;
+}
+
+.page-info .zan-cell.shop-logo image {
+    width: 60px;
+    height: 60px;
+    border-radius: 4px;
+    margin-right: 5px;
+}

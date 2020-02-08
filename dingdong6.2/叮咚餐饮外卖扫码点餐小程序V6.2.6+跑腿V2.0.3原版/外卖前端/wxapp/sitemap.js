@@ -1,0 +1,2 @@
+// sitemap.js
+Page({data: {}})

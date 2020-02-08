@@ -1,0 +1,146 @@
+<{extends file="<{$tempdir}>/public/diswxsite.html"}>  
+<{block name=extendcss}> 
+<link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/distribution.css">   
+<link href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<{/block}>
+ <{block name=extendjs}>  
+   <script src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/js/template.min.js"></script>    
+<{/block}>
+<{block name=myScrolljs}>
+<{/block}>
+<{block name=sitetitle}><{$sitename}><{/block}>
+<{block name=hearnav}>
+<div class="content">
+	<div class="toptitCon">
+		<div class="toptitBox">
+			<div class="toptitL"><i></i></div>
+			<div class="toptitC">
+				<h3>分销中心</h3>
+			</div>
+			<div class="toptitR"></div>
+		</div>
+	</div>
+	<div class="distributioncore_head_content">
+		<div class="distributioncore_head_top">
+			<div class="distributioncore_head_info">
+				<div class="distributioncore_head_portrait"><img <{ofunc type=img  link="<{$userlogo}>"}>  /></div>
+				<div class="distributioncore_head_name">
+					<span><{$username}></span>
+					<small>邀请码：<{$invitecode}></small>
+				</div>
+			</div>
+			<div class="distributioncore_head_jump" onclick="dolink('<{ofunc type=url link="/wxsite/member"}>');">
+				<span>个人中心</span>
+				<i class="fa fa-angle-right"></i>
+			</div>
+		</div>
+		<div class="distributioncore_head_line"></div>
+		<div class="distributioncore_head_bottom">
+			<div class="distributioncore_head_money">
+				<span>可提现金额(元)</span>
+				<b><{$cost}></b>
+			</div>
+			<div class="distributioncore_head_btn" onclick="dolink('<{ofunc type=url link="/wxsite/distribution_yjtx"}>');">
+				<small>提现</small>
+			</div>
+		</div>
+	</div>
+	<div class="distributioncore_money_content">
+		<ul>
+			<li>
+				<span><{$allordercost}></span>
+				<small>累计销售(元)</small>
+			</li>
+			<li>
+				<span><{$allyjcost}></span>
+				<small>累计佣金(元)</small>
+			</li>
+		</ul>
+	</div>
+	<div class="h_10"></div>
+	<div class="distributioncore_list_content">
+		<ul>
+			<li>
+				<div class="distributioncore_list_left" onclick="dolink('<{ofunc type=url link="/wxsite/distribution_myyj"}>');">
+					<img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/distribution/icon_distributioncore_01.png" />
+					<span>我的佣金</span>
+				</div>
+				<div class="distributioncore_list_right">
+					<i class="fa fa-angle-right"></i>
+				</div>
+			</li>
+			<li>
+				<div class="distributioncore_list_left" onclick="dolink('<{ofunc type=url link="/wxsite/distribution_myjunior"}>');">
+					<img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/distribution/icon_distributioncore_02.png" />
+					<span>我的下级</span>
+				</div>
+				<div class="distributioncore_list_right">
+					<i class="fa fa-angle-right"></i>
+				</div>
+			</li>
+		</ul>
+	</div>
+	<div class="h_10"></div>
+	<div class="distributioncore_list_content">
+		<ul>
+			<li onclick="dolink('<{ofunc type=url link="/wxsite/yjranking"}>');">
+				<div class="distributioncore_list_left">
+					<img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/distribution/icon_distributioncore_03.png" />
+					<span>佣金排名</span>
+				</div>
+				<div class="distributioncore_list_right">
+					<i class="fa fa-angle-right"></i>
+				</div>
+			</li>
+			<li onclick="dolink('<{ofunc type=url link="/wxsite/fxcontent"}>');">
+				<div class="distributioncore_list_left">
+					<img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/distribution/icon_distributioncore_04.png" />
+					<span>分销说明</span>
+				</div>
+				<div class="distributioncore_list_right">
+					<i class="fa fa-angle-right"></i>
+				</div>
+			</li>
+		</ul>
+	</div>
+	<div class="h_10"></div>
+	<div class="distributioncore_list_content">
+		<ul onclick="dolink('<{ofunc type=url link="/wxsite/distribution_fxcode"}>');">
+			<li>
+				<div class="distributioncore_list_left">
+					<img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/distribution/icon_distributioncore_05.png" />
+					<span>分销二维码</span>
+				</div>
+				<div class="distributioncore_list_right">
+					<span class='codetext'>分享好友赚佣金</span>
+					<i class="fa fa-angle-right"></i>
+				</div>
+			</li>
+		</ul>
+	</div>
+</div> 
+<{if empty($member['fxcode'])}>
+	<script>
+	 $(function() {   	 
+		$.ajax({
+			type: 'post',
+			async:true,
+			data:{"uid":"<{$member['uid']}>"},
+			url: '<{ofunc type=url link="/wxsite/makefxcode/datatype/json"}>', 
+			dataType: 'json',success: function(content) {   
+				if(content.error == false){ 
+					$('.codetext').text('分享好友赚佣金');
+				}else{
+					$('.codetext').text('二维码生成失败'); 
+				} 
+			},
+			error: function(content) { 
+				$('.codetext').text('二维码生成失败');
+			}
+		});    
+	 });
+	</script> 
+<{/if}>
+<{/block}>
+ 
+ 

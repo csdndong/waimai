@@ -1,0 +1,79 @@
+.nav{background-color: #F5F7F9;font-size: 12px;}
+.nav-tabs>li>a:hover{
+    color: #fff;
+    border-color: #44ABF7;
+    background-color: #44ABF7;
+}
+.nav-tabs > li.active > a,.nav-tabs > li.active > a:hover{
+    background-color: #44ABF7;
+    color: #fff;
+    border-color: #44ABF7;
+}
+/*.nav-tabs>li>.orderbtn2:hover{
+
+    color: #fff;
+
+    border-color: #FF7F50;
+
+    background-color: #FF7F50;
+
+}
+
+.nav-tabs > li.orderbtn2 > a,.nav-tabs > li.orderbtn2 > a:hover{
+
+    background-color: #FF7F50;
+
+    color: #fff;
+
+    border-color: #FF7F50;
+
+}*/
+.nav-tabs>li{margin-right: 10px;}
+.nav>li>a{padding: 6px 20px;border-radius: 4px;border:1px solid #44ABF7;color: #44ABF7;}
+.nav.nav-tabs{border:none;margin-top: 30px;}
+.ygxian{width: 3px;height: 17px;float:left;background-color: #44ABF7;margin-top: 6px;border:none;}
+.ygdangq{margin-top: 6px;margin-left: 10px;float: left;margin-right: 10px;}
+
+.main{font-size: 12px;margin: 16px 0px 30px;}
+
+.btn{font-size: 12px;}
+.storegrey{color: #fff;background-color: grey;}
+.storegrey:hover{color: #fff;background-color: grey;}
+.storeblue{color: #fff;background-color: #44abf7;}
+.storeblue:hover{color: #fff;background-color: #44abf7;}
+.storered{color: #fff;background-color: #FF7F50;}
+.storered:hover{color: #fff;background-color: #FF7F50;}
+
+.storegrey3{color: grey;border:1px solid grey;}
+.storegrey3:hover{color: grey;border:1px solid grey;}
+
+.ygyouhui{color: #44abf7;border:1px solid #44abf7;}
+.ygyouhui:hover{color: #44abf7;border:1px solid #44abf7;}
+.ygshouqian{color: #FF7F50;border:1px solid #FF7F50;}
+.ygshouqian:hover{color: #FF7F50;border:1px solid #FF7F50;}
+.storeinfo{color: #31b0d5;border:1px solid #31b0d5;}
+.storewarning{color: #f0ad4e;border:1px solid #f0ad4e;}
+.storesuccess{color: #5cb85c;border:1px solid #5cb85c;}
+.storeinfo:hover{color: #31b0d5;border:1px solid #31b0d5;}
+.storewarning:hover{color: #f0ad4e;border:1px solid #f0ad4e;}
+.storesuccess:hover{color: #5cb85c;border:1px solid #5cb85c;}
+.storespan{font-size: 12px;color: #9d9d9d;border:1px solid #efefef;margin: 5px;position: relative;}
+.storespan:hover{background-color: #efefef;}
+.storespan:hover .bianji{display: block;}
+.bianji{position: absolute;left: -40%;bottom: 27px;display: none;background-color: #333;color: white;padding: 2px 7px;border-radius: 2px;font-size: 10px;}
+.arrowdown{width: 0;height: 0;border-bottom: 10px solid #333;  border-left: 10px solid transparent;transform: rotate(45deg);
+    position: absolute;left: 40%;top: 78%;
+}
+.ygshouqian2{color: #FF7F50;border:1px solid #FF7F50;background-color: rgba(0,0,0,0);}
+.ygshouqian2:hover{color: #fff;background-color: #FF7F50;}
+
+.ygyouhui2{color: #44abf7;border:1px solid #44abf7;background-color: rgba(0,0,0,0);}
+.ygyouhui2:hover{color: #fff;background-color:#44abf7;}
+.storeinf2{color: #31b0d5;border:1px solid #31b0d5;background-color: rgba(0,0,0,0);}
+.storewarning2{color: #f0ad4e;border:1px solid #f0ad4e;background-color: rgba(0,0,0,0);}
+.storesuccess2{color: #5cb85c;border:1px solid #5cb85c;background-color: rgba(0,0,0,0);}
+.storesuccess2:hover{color: #fff;background-color: #5cb85c;}
+.storeinfo2:hover{color: #fff;background-color: #31b0d5;}
+.storewarning2:hover{color: #fff;background-color:#f0ad4e;}
+.storegrey2{color: grey;border:1px solid grey;background-color: rgba(0,0,0,0);}
+.storegrey2:hover{color: #fff;background-color: grey;}

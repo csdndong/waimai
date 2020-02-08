@@ -1,0 +1,38 @@
+.detailed {
+    padding: 0 20rpx;
+    height: 100rpx;
+    font-size: 28rpx;
+    border-bottom: 2rpx solid #e5e5e5;
+    background: #fff;
+}
+
+.detailed>view {
+    display: inline-block;
+    vertical-align: middle;
+    line-height: 100rpx;
+}
+
+.detailed>view image {
+    width: 60rpx;
+    height: 60rpx;
+    display: block;
+    margin: 0 auto 0;
+}
+
+.detailed>view:nth-child(1) {
+    width: 45%;
+}
+
+.detailed>view:nth-child(2) {
+    width: 10%;
+}
+
+.detailed>view:nth-child(3) {
+    width: 15%;
+    text-align: center;
+}
+
+.detailed>view:nth-child(4) {
+    width: 30%;
+    text-align: right;
+}

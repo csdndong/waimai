@@ -1,0 +1,102 @@
+ <{extends file="<{$tempdir}>/public/admin.html"}> 
+   <{block name=extendjs}>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js"></script>
+ <{/block}>
+ <{block name=controlname}>商品规格<{/block}>
+ <{block name=bodylist}>
+  <div style="width:auto;overflow-x:hidden;overflow-y:auto"> 
+      	
+      	 
+      	
+           <div class="tags">
+ 
+
+          <div id="tagscontent">
+
+            <div id="con_one_1">
+
+              <div class="table_td" style="margin-top:10px;">
+
+              <form method="post" action="" onsubmit="return remind();"  id="delform">
+
+                  <table border="0" cellspacing="2" cellpadding="4" class="list" name="table" id="table" width="100%">
+
+                    <thead>
+
+                      <tr>
+
+                        <th width="60px"><input type="checkbox" id="chkall" name="chkall" onclick="checkall()"></th>
+
+                        <th align="center">ID</th>
+
+                        <th align="center">规格名称</th>  
+                        <th align="center">规格类型</th>
+                        <th align="center">规格值</th>  
+                        <th align="center">操作</th>
+
+                      </tr>
+
+                    </thead> 
+
+                     <tbody>
+                     
+                      <{foreach from=$gglist item=items}> 
+                      <tr class="s_out" onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff"> 
+                        <td align="center" ><input type="checkbox" name="id[]" value="<{$items['id']}>"></td> 
+                        <td align="center"><{$items['id']}></td> 
+                        <td align="center"> <{$items['name']}> </td> 
+                        <td align="center"> <{if $items['shoptype']==0}> 餐饮 <{else}>超市<{/if}> </td> 
+                        <td align="center">  
+						    <{foreach from=$items['det'] item=itk}>
+							   【<{$itk['name']}>】
+							<{/foreach}> 
+						</td>  
+                        
+                        <td align="center"><a href="<{ofunc type=url link="/adminpage/shop/module/editgoodsgg/id/<{$items['id']}>"}>"><img src="<{$siteurl}>/templates/<{$tempdir}>/public/images/admin/edit.jpg"></a> 
+                        	<a onclick="return remind(this);" href="<{ofunc type=url link="/adminpage/shop/module/delgoodsgg/id/<{$items['id']}>/datatype/json"}>"><img src="<{$siteurl}>/templates/<{$tempdir}>/public/images/admin/del.jpg"></a></td> 
+                      </tr> 
+                       <{/foreach}> 
+
+                    </tbody> 
+
+                  </table>
+
+                <div class="blank20"></div> 
+
+                </form>
+
+                <div class="page_newc">
+                 	     <div class="select_page">
+                 	     	<a href="#" onclick="checkword(true);">全选</a>/<a href="#" onclick="checkword(false);">取消</a>
+                 	     <a onclick="return remindall(this);" href="<{ofunc type=url link="/adminpage/shop/module/delgoodsgg/datatype/json"}>" class="delurl">删除</a> 
+                 	     <a  href="<{ofunc type=url link="/adminpage/shop/module/editgoodsgg"}>" class="delurl">添加规格</a> 
+                 	     	</div>
+                       <div class="show_page"><ul><{$pagecontent}></ul></div>
+                 </div>
+
+                <div class="blank20"></div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        
+  </div>
+ 
+
+
+
+
+
+
+
+
+
+
+</div> 
+<!--newmain 结束-->
+<{/block}>

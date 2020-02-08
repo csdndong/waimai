@@ -1,0 +1,165 @@
+.logo {
+    width: 100rpx;
+    height: 100rpx;
+    border-radius: 50%;
+}
+
+.icon {
+    width: 50rpx;
+    height: 50rpx;
+}
+
+.store_info {
+    height: 100rpx;
+}
+
+.store_info>view:nth-child(1) {
+    width: 20%;
+    height: 100%;
+}
+
+.store_info>view:nth-child(2) {
+    width: 50%;
+    height: 100%;
+}
+
+.store_info>view:nth-child(3) {
+    width: 30%;
+    height: 100%;
+}
+
+.info view {
+    width: 100%;
+}
+
+.progress {
+    height: 100rpx;
+    display: flex;
+}
+
+.process {
+    flex: 4;
+}
+
+.speed {
+    height: 10rpx;
+    width: 70%;
+    background: #e5e5e5;
+    top: 38rpx;
+}
+
+.speed>text:nth-child(1) {
+    height: 100%;
+    left: 0;
+    top: 0;
+    background: #26C541;
+    width: 0;
+    display: inline-block;
+}
+
+.map_box {
+    width: 100%;
+    height: 400rpx;
+}
+
+.map_box map {
+    width: 100%;
+    height: 100%;
+}
+
+@keyframes mymove {
+    0% {
+        width: 0;
+    }
+
+    10% {
+        width: 10%;
+    }
+
+    20% {
+        width: 20%;
+    }
+
+    30% {
+        width: 30%;
+    }
+
+    40% {
+        width: 40%;
+    }
+
+    50% {
+        width: 50%;
+    }
+
+    60% {
+        width: 60%;
+    }
+
+    70% {
+        width: 70%;
+    }
+
+    80% {
+        width: 80%;
+    }
+
+    90% {
+        width: 90%;
+    }
+
+    100% {
+        width: 100%;
+    }
+}
+
+.over_infos>view {
+    width: 50%;
+}
+
+.over_infos>view:nth-child(1) {
+    border-right: 2rpx solid #e5e5e5;
+    box-sizing: border-box;
+}
+
+.order_info>view:nth-child(1) {
+    width: 10%;
+}
+
+.order_info>view:nth-child(2) {
+    width: 65%;
+}
+
+.order_info>view:nth-child(3) {
+    width: 25%;
+}
+
+.order_info>view text {
+    width: 40rpx;
+    height: 40rpx;
+    border-radius: 50%;
+}
+
+.goods>text {
+    display: inline-block;
+}
+
+.goods>text:nth-child(1) {
+    width: 60%;
+}
+
+.goods>text:nth-child(2) {
+    width: 20%;
+}
+
+.goods>text:nth-child(3) {
+    width: 20%;
+}
+
+button {
+    width: 95%;
+}
+
+.bor_bottom {
+    border-bottom: 2rpx solid #f9f9f9;
+}

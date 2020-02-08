@@ -1,0 +1,54 @@
+{itemplate 'public/header'}
+<div class="page clearfix">
+	<form class="form-horizontal form form-validate" id="form1" action="" method="post" enctype="multipart/form-data">
+		<h3>提现方式</h3>
+		{if MODULE_FAMILY != 'wxapp' && check_plugin_perm('wxapp')}
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">微信提现渠道</label>
+				<div class="col-sm-9 col-xs-12">
+					<div class="radio radio-inline">
+						<input type="radio" value="wechat" name="getcash_channel[wechat]" id="getcash_channel_wechat-wechat" {if $getcash['channel']['wechat'] == 'wechat' || empty($getcash['channel']['wechat'])}checked{/if}>
+						<label for="getcash_channel_wechat-wechat">公众号</label>
+					</div>
+					<div class="radio radio-inline">
+						<input type="radio" value="wxapp" name="getcash_channel[wechat]" id="getcash_channel_wechat-wxapp" {if $getcash['channel']['wechat'] == 'wxapp'}checked{/if}>
+						<label for="getcash_channel_wechat-wxapp">小程序</label>
+					</div>
+				</div>
+			</div>
+		{/if}
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">开启提现到银行卡</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="radio radio-inline">
+					<input type="radio" value="1" name="getcash_type[bank]" id="getcash_type_bank-1" {if $getcash['type']['bank'] == '1'}checked{/if}>
+					<label for="getcash_type_bank-1">是</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" value="0" name="getcash_type[bank]" id="getcash_type_bank-0" {if $getcash['type']['bank'] == '0' || !$getcash['type']['bank']}checked{/if}>
+					<label for="getcash_type_bank-0">否</label>
+				</div>
+				<div class="help-block">微信官方收取手续费规则:每笔按付款金额收取手续费，按金额0.1%收取，最低1元，最高25元</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">开启提现到支付宝</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="radio radio-inline">
+					<input type="radio" value="1" name="getcash_type[alipay]" id="getcash_type_alipay-1" {if $getcash['type']['alipay'] == '1'}checked{/if}>
+					<label for="getcash_type_alipay-1">是</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" value="0" name="getcash_type[alipay]" id="getcash_type_alipay-0" {if $getcash['type']['alipay'] == '0' || !$getcash['type']['alipay']}checked{/if}>
+					<label for="getcash_type_alipay-0">否</label>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<input type="submit" value="提交" class="btn btn-primary">
+			</div>
+		</div>
+	</form>
+</div>
+{itemplate 'public/footer'}

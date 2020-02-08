@@ -1,0 +1,65 @@
+<form bindsubmit="formSubmit" reportSubmit="true">
+    <view class="font">
+        <view class="fukuan_header">
+            <image class="fukuan_img" src="{{storeinfo.store.logo}}"></image>
+            <view class="fukuan_seller">{{storeinfo.store.name}}</view>
+        </view>
+        <view class="fukuan_pay">
+            <view class="fukuan_money">
+                <input bindinput="money" class="fukuan_input" placeholder="消费金额" placeholderStyle="color:#ccc;" type="digit"></input>
+                <text class="money_text">询问店员后输入</text>
+            </view>
+            <view class="fukuan_flex">
+                <view class="fukuan_add">+</view>
+                <view class="youhui">不参与优惠金额</view>
+            </view>
+        </view>
+        <view class="footer">
+            <view class="footer_left" style="color:{{color}}">{{money}}元</view>
+            <button bindtap="xszz" class="footer_right" style="background:{{color}}">立即付款</button>
+        </view>
+    </view>
+    <view bindtap="yczz" class="drawer_screen" wx:if="{{showModal}}"></view>
+    <view class="drawer_box" wx:if="{{showModal}}">
+        <view class="drawer_title">请选择支付方式</view>
+        <view class="weui-cells weui-cells_after-title">
+            <radio-group bindchange="radioChange" class="radio-group" name="radiogroup">
+                <label>
+                    <view class="weui-cell">
+                        <view class="zfimg">
+                            <image src="../../img/weixin.png"></image>
+                        </view>
+                        <view class="weui-cell__bd">微信支付</view>
+                        <view class="weui-cell__ft">
+                            <radio checked="{{zffs==1}}" value="wxzf"></radio>
+                        </view>
+                    </view>
+                </label>
+                <label wx:if="{{kqyue}}">
+                    <view class="weui-cell" style="border-top:1rpx solid #e6e6e6;">
+                        <view class="zfimg">
+                            <image src="../../img/yeqb.png"></image>
+                        </view>
+                        <view class="weui-cell__bd">余额支付
+              <text class="yetext">您的余额 {{wallet}}</text>
+                        </view>
+                        <view class="weui-cell__ft">
+                            <radio checked="{{zffs==2}}" color="#FF9700" disabled="{{!kqyue}}" value="yezf"></radio>
+                        </view>
+                    </view>
+                </label>
+            </radio-group>
+        </view>
+        <view class="drawer_title1">您选择的{{zfwz}}
+      <text wx:if="{{zffs==3}}">({{jf_proportion}}积分可抵1元)</text>
+        </view>
+        <button class="{{btntype}}" disabled="{{zfz}}" formType="submit">
+            <view wx:if="{{!zfz}}">确定支付
+        <text class="zftext">￥{{money}}</text>
+            </view>
+            <view wx:if="{{zfz}}">
+                <text class="zfztext">支付中...</text>
+            </view>
+        </button>
+    </view>
+</form>

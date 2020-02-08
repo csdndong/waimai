@@ -1,0 +1,75 @@
+{itemplate 'public/header'}
+<div class="page clearfix">
+	<form class="form-horizontal form form-validate" id="form1" action="" method="post" enctype="multipart/form-data">
+		<h2>商家列表置顶位设置</h2>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span class="require"> 是否开启</span></label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="radio radio-inline">
+					<input type="radio" name="status" id="status-1" value="1" {if $config_stick['status'] == 1}checked{/if}>
+					<label for="status-1">开启</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" name="status" id="status-0" value="0" {if !$config_stick['status']}checked{/if}>
+					<label for="status-0">关闭</label>
+				</div>
+				<span class="help-block">开启后商家需要购买广告位后，才能在相应推广位展示商家</span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">置顶推广位数量</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="text" class="form-control" name="num" required="true" value="{$config_stick['num']}">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label" style="padding-top: 10px"><span class="require">价目设置</span></label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="tpl">
+					{if !empty($displayorder_fees)}
+						{loop $displayorder_fees $items}
+							<div class="input-group" style="padding-top: 10px">
+								<span class="input-group-addon">置顶排序</span>
+								<input type="text" name="displayorder[]" class="form-control" value="{$items['displayorder']}" placeholder="置顶位置">
+								<span class="input-group-addon">置顶价目</span>
+								<input type="text" name="prices[]" class="form-control" value="{$items['fees']}" placeholder="天-元,天-元">
+								<span class="input-group-addon">天-元</span>
+								<span class="input-group-addon"><a href="javascript:;" class="delOptions"><i class="fa fa-times"></i></a></span>
+							</div>
+						{/loop}
+					{/if}
+				</div>
+				<div style="margin-top: 10px">
+					<a href="javascript:;" class="addOptions" style="margin-top: 15px"><i class="fa fa-plus-circle"></i> 添加价目</a>
+				</div>
+				<div class="help-block">
+					同一个置顶位置可根据不同购买天数设置不同价格,格式：”天-元“用”,“分隔，例如”3-50,7-80“表示3天50元,7天80元。请按照规定格式设置不同价目，<strong>格式不对设置视为无效</strong>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<input type="hidden" name="token" value="{$_W['token']}">
+				<input type="submit" value="提交" class="btn btn-primary">
+			</div>
+		</div>
+	</form>
+</div>
+<script type="text/javascript">
+	$('.addOptions').click(function(){
+		var html = '<div class="input-group" style="padding-top: 10px">'+
+			'<span class="input-group-addon">置顶排序</span>'+
+			'<input type="text" name="displayorder[]" class="form-control" placeholder="置顶位置">'+
+			'<span class="input-group-addon">置顶价目</span>'+
+			'<input type="text" name="prices[]" class="form-control" placeholder="天-元，天-元">'+
+			'<span class="input-group-addon">天-元</span>'+
+			'<span class="input-group-addon"><a href="javascript:;" class="" onclick="$(this).parent().parent().remove();"><i class="fa fa-times"></i></a></span>'+
+			'</div>';
+		$('.tpl').append(html);
+	});
+
+	$('.delOptions').click(function(){
+		$(this).parent().parent().remove();
+	});
+</script>
+{itemplate 'public/footer'}

@@ -1,0 +1,17 @@
+{
+    "extEnable": true,
+    "extAppid": "wx021282db257f9a77",
+    "ext": {
+        "siteInfo": {
+            "uniacid": "1",
+            "acid": "1",
+            "siteroot": "https://1.duoxunwl.com/app/wxapp.php",
+            "sitebase": "https://1.duoxunwl.com/app",
+            "module": "we7_wmall_deliveryer",
+            "version": "1.6"
+        },
+        "diy": {
+            "home": 0
+        }
+    }
+}

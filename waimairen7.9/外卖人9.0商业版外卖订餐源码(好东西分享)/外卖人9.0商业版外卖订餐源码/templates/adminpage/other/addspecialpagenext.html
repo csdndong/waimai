@@ -1,0 +1,171 @@
+ <{extends file="<{$tempdir}>/public/admin.html"}>
+  <{block name=extendjs}>
+   <script src="<{$siteurl}>/js/kindeditor/kindeditor.js" type="text/javascript" language="javascript"></script>
+ <script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/datepicker/WdatePicker.js" type="text/javascript" language="javascript"></script>
+ <script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js"></script>
+
+ <script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/adminpage/public/js/colorpicker.js"></script>
+ <link rel="stylesheet" type="text/css" href="<{$siteurl}>/templates/adminpage/public/css/colorpicker.css">
+ <link rel="stylesheet" type="text/css" href="<{$siteurl}>/templates/adminpage/public/css/zty.css">
+ <script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/adminpage/public/js/ajaxfileupload.js"> </script>
+  <{/block}>
+ <{block name=controlname}>编辑/添加专题页<{/block}>
+ <{block name=bodylist}>
+ <script type="text/javascript" charset="utf-8">
+     $(document).ready(function() {
+         $('#demo').hide();
+         $('#picker').farbtastic('#color');
+     });
+ </script>
+ <style>
+     .ke-toolbar-outer{
+         display:none!important;
+     }
+ </style>
+ <div id="getcolor">
+     <form action="" style="width: 245px;">
+         <span id="close" onclick="CW(0);">x</span>
+         <div class="form-item"><label for="color">Color:</label><input type="text" id="color" name="color" value="<{$ztyinfo['color']|default:'#123456'}>"   style="width:61%;"/></div><div id="picker"> </div>
+     </form>
+ </div>
+ <div style="width:98%;overflow-y:auto;white-space:nowrap;height:660px;">
+     <div class="tags">
+        <div id="tagscontent" class="addzty_main">
+        <div id="addzty_left">
+            <div id="zty_main">
+                <div id="zty_adv"><img  <{if !empty($ztyinfo['specialimg']) }> <{ofunc type=img link="<{$ztyinfo['specialimg']|default:'/templates/adminpage/public/images/u3568.png'}>" }>  <{else}> src="/templates/adminpage/public/images/u3568.png"  <{/if}>  alt="" id="zty_top_img" ></div>
+                <div class="specialone_title">
+                    <h3><span>每日特惠　诚意满满<img src="/templates/adminpage/public/images/icon_jm.png" /></span></h3>
+                </div>
+                <div>
+                    <div class="cityshopCon">
+                        <ul>
+                            <li>
+                                <div class="cityshopImg"><img src="/templates/adminpage/public/images/001.png"></div>
+                                <div class="cityshopname">
+                                    <h3>虾类产品测试</h3>
+                                </div>
+                                <div class="cityshoprom">
+                                    <span>￥20.00</span>
+                                    <input type="button" value="立即抢购" />
+                                </div>
+                            </li>
+                            <li>
+                                <div class="cityshopImg"><img src="/templates/adminpage/public/images/001.png"></div>
+                                <div class="cityshopname">
+                                    <h3>虾类产品测试</h3>
+                                </div>
+                                <div class="cityshoprom">
+                                    <span>￥20.00</span>
+                                    <input type="button" value="立即抢购" />
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="specialone_load">
+                        <span>点击查看更多</span>
+                    </div>
+                    <div class="specialone_notice">
+                        <h3>活动规则</h3>
+                        <div class="specialone_noticebox">
+                            <p>暂无内容</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="addzty_right">
+            <div style="margin-top:7px;"><span>页面背景色：</span> <div id="is_rgb" onclick="CW(1);"></div> </div>
+            <div style="margin-top:7px;"><span style="vertical-align: top">&#12288;&#12288;广告图：</span>
+                <div id="advimg">
+                    <img  <{if !empty($ztyinfo['specialimg']) }> <{ofunc type=img link="<{$ztyinfo['specialimg']|default:'/templates/adminpage/public/images/u3568.png'}>" }>  <{else}> src="/templates/adminpage/public/images/u3568.png"  <{/if}>  alt="" id="showimg" style="width:150px;height:160px;">
+                    <input class="appfile" type="file" id="imgFile" name="imgFile" style=" width:152px;height:160px;"/>
+                    <input type="hidden" name="imginfo" value="<{$ztyinfo['specialimg']|default:'/templates/adminpage/public/images/u3568.png'}>"/>
+                </div>
+            </div>
+            <div style="margin-top:7px;">
+                <span style="vertical-align: top">&#12288;规则说明：</span>
+                <div style="display: inline-block;" ><script>KE.show({id:'content',allowFileManager : true,imageUploadJson:'<{ofunc type=url link="/other/saveupload/uploaddir/cs"}>',fileManagerJson:'<{ofunc type=url link="/other/saveupload"}>',items:['source','|', 'justifyleft', 'justifycenter', 'justifyright','justifyfull', 'insertorderedlist', 'insertunorderedlist', '|', 'fontname', 'fontsize', '|', 'textcolor', 'bgcolor', 'bold','italic', 'underline', 'removeformat', '|', 'image', 'advtable', 'hr','link', 'unlink']});</script><textarea name="content" id="content" style='width:550px; height:260px;'><{$ztyinfo['ruleintro']}></textarea></div>
+            </div>
+            <div id="next" style="margin-top:7px;" onclick="save();">保存</div>
+        </div>
+        <div class="blank20"></div>
+      </div>
+      <div class="clear"></div>
+    </div>
+</div>
+ <script>
+ var name="<{$name}>";
+ var opttype="<{$opttype}>";
+ var params="<{$params}>";
+ var shoptype="<{$shoptype}>";
+ var cxtype="<{$cxtype}>";
+ function CW(i){
+    if(i==1){
+        $("#getcolor").show();
+    }else{
+        $("#getcolor").hide();
+    }
+}
+function setIndexColor(c){
+    $("#zty_main").css("backgroundColor",c);
+    $("#is_rgb").css("backgroundColor",c);
+}
+$("#imgFile").live("change",function(){
+    ajaxFileUpload();
+    $("#upload").replaceWith($("#upload").clone(true));
+});
+function ajaxFileUpload(){
+    $.ajaxFileUpload
+    (
+            {
+                url:'<{$siteurl}>/index.php?ctrl=adminpage&action=weixin&module=uploadapp&uploaddir=cx&datatype=json',
+                secureuri:false,
+                fileElementId:'imgFile',
+                dataType: 'json',
+                data:'',
+                success: function(data,status){
+                    if(typeof(data.error) != 'undefined'){
+                        if(data.error == false){
+                            console.log(data.msg);
+                            $('input[name="imginfo"]').val(data.msg);
+                            $("#showimg").attr("src",data.msg);
+                            $("#zty_adv img").attr("src",data.msg);
+                            $("#zty_adv img").show();
+                        }else{
+                            alert(data.msg);
+                        }
+                    }else{
+                        alert(data);
+                    }
+                },
+                error: function(data, status, e){
+                    alert(e);
+                }
+            }
+    )
+    return false;
+}
+function save(){
+    var ztyid = "<{$oriid}>";
+     var color = $("input[name = 'color']").val();
+     var img = $("input[name = 'imginfo']").val();
+     var content = $(".ke-iframe").contents().find(".ke-content").html();
+    var url = siteurl+"/index.php?ctrl=adminpage&action=card&module=savezty&datatype=json";
+    $.post(url,{'name':name,'opttype':opttype,'params':params,'color':color,'img':img,'content':content,'cxtype':cxtype,'ztyid':ztyid},function(content){
+        if(content.error == false){
+            alert('保存成功');
+            window.location.href="<{$siteurl}>/index.php?ctrl=adminpage&action=card&module=specialpage";
+        }else{
+             alert(content.msg);
+        }
+    },'json')
+}
+
+$(document).click(function(){
+    $(".ke-iframe").contents().find(".ke-content").keyup(function(){
+        $(".specialone_noticebox p").html($(".ke-iframe").contents().find(".ke-content").html())
+    });
+})
+</script>
+<{/block}>

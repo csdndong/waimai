@@ -1,0 +1,387 @@
+{itemplate 'public/header'}
+{if $op == 'list'}
+<form action="./wagent.php?" class="form-horizontal form-filter" id="form-gohome">
+	{php echo tpl_form_filter_hidden('tongcheng/information');}
+	<input type="hidden" name="status" value="{$_GPC['status']}"/>
+	<input type="hidden" name="is_stick" value="{$is_stick}"/>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">帖子状态</label>
+		<div class="col-sm-9 col-xs-12">
+			<div class="btn-group">
+				<div class="btn-group">
+					<a href="{php echo ifilter_url('status: 0');}" class="btn {if $_GPC['status'] == 0}btn-primary{else}btn-default{/if}">不限</a>
+					<a href="{php echo ifilter_url('status: 1');}" class="btn {if $_GPC['status'] == 1}btn-primary{else}btn-default{/if}">待支付</a>
+					<a href="{php echo ifilter_url('status: 2');}" class="btn {if $_GPC['status'] == 2}btn-primary{else}btn-default{/if}">审核中</a>
+					<a href="{php echo ifilter_url('status: 3');}" class="btn {if $_GPC['status'] == 3}btn-primary{else}btn-default{/if}">显示</a>
+					<a href="{php echo ifilter_url('status: 4');}" class="btn {if $_GPC['status'] == 4}btn-primary{else}btn-default{/if}">未通过</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	{if $_GPC['status'] == 3}
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">置顶状态</label>
+		<div class="col-sm-9 col-xs-12">
+			<div class="btn-group">
+				<div class="btn-group">
+					<a href="{php echo ifilter_url('is_stick: -1');}" class="btn {if $is_stick == -1}btn-primary{else}btn-default{/if}">不限</a>
+					<a href="{php echo ifilter_url('is_stick: 1');}" class="btn {if $is_stick == 1}btn-primary{else}btn-default{/if}">置顶</a>
+					<a href="{php echo ifilter_url('is_stick: 0');}" class="btn {if $is_stick == 0}btn-primary{else}btn-default{/if}">未置顶</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	{/if}
+	<div class="form-group form-inline">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">其他</label>
+		<div class="col-sm-9 col-xs-12">
+			<select name="cid" id="cid" class="form-control select2" style="width: 200px;">
+				<option value="">帖子分类</option>
+				{loop $categorys $li}
+					{if empty($li['child'])}
+						<option value="{$li['id']}" {if $li['id'] == $_GPC['cid']}selected{/if}>{$li['title']}</option>
+					{else}
+						<option value="{$li['id']}" {if $li['id'] == $_GPC['cid']}selected{/if}>{$li['title']}</option>
+						{loop $li['child'] $child}
+							<option value="{$li['id']}:{$child['id']}" {if $li['id'].':'.$child['id'] == $_GPC['cid']}selected{/if}>&nbsp;&nbsp;&nbsp;{$li['title']}-{$child['title']}</option>
+						{/loop}
+					{/if}
+				{/loop}
+			</select>
+			<div style="display: inline-block">
+				{php echo tpl_form_field_daterange('addtime', array('start' => date('Y-m-d H:i', $starttime), 'end' => date('Y-m-d H:i', $endtime)));}
+			</div>
+			<input type="text" name="keyword" value="{$_GPC['keyword']}" class="form-control" placeholder="请输入关键字/发帖人/手机号">
+			<input type="text" name="uid" value="{if !empty($_GPC['uid'])}{$_GPC['uid']}{/if}" class="form-control" placeholder="用户UID">
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+		<div class="col-sm-9 col-xs-12">
+			<button class="btn btn-primary">筛选</button>
+		</div>
+	</div>
+</form>
+<form action="" class="form-table form form-validate" method="post">
+	<div class="panel panel-table">
+		<div class="panel-body table-responsive js-table">
+			{if empty($information)}
+			<div class="no-result">
+				<p>还没有相关数据</p>
+			</div>
+			{else}
+			<table class="table table-hover">
+				<thead class="navbar-inner">
+				<tr>
+					<th width="30">
+						<div class="checkbox checkbox-inline">
+							<input type="checkbox">
+							<label></label>
+						</div>
+					</th>
+					<th style="max-width: 200px;">帖子内容</th>
+					<th>帖子分类</th>
+					{if $_W['is_agent']}
+						<th>所属城市</th>
+					{/if}
+					<th>帖子信息</th>
+					<th>发帖时间</th>
+					<th>发帖人</th>
+					<th>帖子状态</th>
+					<th style="text-align:right;">操作</th>
+				</tr>
+				</thead>
+				<tbody>
+			{loop $information $item}
+				<tr>
+					<td>
+						<input type="hidden" name="ids[]" value="{$item['id']}">
+						<div class="checkbox checkbox-inline">
+							<input type="checkbox" name="id[]" value="{$item['id']}">
+							<label></label>
+						</div>
+					</td>
+					<td style="max-width: 200px;">
+						{$item['content']}
+					</td>
+					<td>
+						{if empty($item['parentid']) && empty($item['childid'])}
+							暂无分类
+						{else}
+							{if $item['parentid'] && empty($item['childid'])}
+								<img src="{php echo tomedia($item['category']['thumb'])}" alt="" width="50">
+								{$item['category']['title']}
+							{else}
+								<img src="{php echo tomedia($item['category']['thumb'])}" alt="" width="50">
+								{$item['category']['title']}
+							{/if}
+						{/if}
+					</td>
+					{if $_W['is_agent']}
+						<td>{php echo toagent($item['agentid'])}</td>
+					{/if}
+					<td>
+						<div>分享：{$item['sharenum']}</div>
+						<div style="padding-top: 10px;">点赞：{$item['likenum']}</div>
+						<div style="padding-top: 10px;">浏览：{$item['looknum']}</div>
+					</td>
+					<td>
+						{$item['addtime_cn']}
+					</td>
+					<td>
+						<img src="{$item['ft_avatar']}" alt="" width="50" height="50">
+						<div style="display:inline-block;">{$item['ft_mobile']}<br>{$item['ft_realname']}</div>
+					</td>
+					<td>
+						<span class="{$item['status_all']['css']}">{$item['status_all']['text']}</span>
+					</td>
+					<td style="text-align:right;">
+						{if $item['status'] == 2}
+							<a href="{php echo iurl('tongcheng/information/status', array('id' => $item['id'], 'status' => 3))}" class="btn btn-danger btn-sm js-post" data-confirm="确定该帖子审核通过吗?">审核通过</a>
+						{/if}
+						{if $item['status'] == 2 || $item['status'] == 3}
+							<a href="{php echo iurl('tongcheng/information/status', array('id' => $item['id'], 'status' => 4))}" class="btn btn-danger btn-sm js-post" data-confirm="确定不通过该帖子吗?">不通过</a>
+						{/if}
+						<a href="{php echo iurl('tongcheng/information/toblack', array('uid' => $item['uid']))}" class="btn btn-default btn-sm js-post" data-confirm="确定将该发帖人加入黑名单吗?">加入黑名单</a>
+						<a href="{php echo iurl('tongcheng/information/detail', array('id' => $item['id']))}" class="btn btn-default btn-sm">查看详情</a>
+					</td>
+				</tr>
+			{/loop}
+				</tbody>
+			</table>
+			<div class="btn-region clearfix">
+				<div class="pull-left">
+					<a href="{php echo iurl('tongcheng/information/del')}" class="btn btn-danger btn-sm js-batch" data-batch="remove" data-confirm="确定删除选中的帖子吗?">批量删除</a>
+					<a href="{php echo iurl('tongcheng/information/status', array('status' => 3))}" class="btn btn-info btn-sm js-batch" data-confirm="确定显示选中的帖子吗?">批量显示</a>
+					<a href="{php echo iurl('tongcheng/information/status', array('status' => 4))}" class="btn btn-warning btn-sm js-batch" data-confirm="确定禁用选中的帖子吗?">批量不通过</a>
+				</div>
+				<div class="pull-right">
+					{$pager}
+				</div>
+			</div>
+			{/if}
+		</div>
+	</div>
+</form>
+{/if}
+{if $op == 'detail'}
+<div class="page clearfix">
+	<form class="form-horizontal form form-validate" id="form1" action="" method="post" enctype="multipart/form-data" style="max-width: 950px;">
+		<div class="tab-content">
+			<div class="tab-pane active">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">手机号</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="number" class="form-control" name="mobile" value="{$information['mobile']}" required>
+					</div>
+				</div>
+			</div>
+			<div class="tab-pane active">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">发布时间</label>
+					<div class="col-sm-9 col-xs-12">
+						{$information['addtime_cn']}
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">帖子分类</label>
+				<div class="col-sm-9 col-xs-12">
+					{php echo tpl_form_field_tiny_category_2level('category', $categorys['parent'], $categorys['child'], $information['parentid'], $information['childid'])}
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">内容</label>
+				<div class="col-sm-9 col-xs-12">
+					<textarea style="height: 250px;" name="content" class="form-control">{$information['content']}</textarea>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">帖子图片</label>
+				<div class="col-sm-9 col-xs-12">
+					{php echo tpl_form_field_multi_image('thumbs', $information['thumbs']);}
+					<div class="help-block">推荐大小: 640*230, 最多不能超过4张图片</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">帖子数据</label>
+				<div class="col-sm-9 col-xs-12">
+					<div class="input-group">
+						<span class="input-group-addon">查看数</span>
+						<input type="number" class="form-control" name="looknum" value="{$information['looknum']}">
+						<span class="input-group-addon">次</span>
+						<span class="input-group-addon">点赞数</span>
+						<input type="number" class="form-control" name="likenum" value="{$information['likenum']}">
+						<span class="input-group-addon">个</span>
+						<span class="input-group-addon">分享数</span>
+						<input type="number" class="form-control" name="sharenum" value="{$information['sharenum']}">
+						<span class="input-group-addon">次</span>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">是否置顶</label>
+				<div class="col-sm-9 col-xs-12">
+					<div class="radio radio-inline">
+						<input type="radio" name="is_stick" id="is-stick-1" value="1" {if $information['is_stick'] == 1}checked{/if} onclick="$('#is_stick').show();">
+						<label for="is-stick-1">是</label>
+					</div>
+					<div class="radio radio-inline">
+						<input type="radio" name="is_stick" id="is-stick-0" value="0" {if $information['is_stick'] == 0 || !$information['is_stick']}checked{/if} onclick="$('#is_stick').hide();">
+						<label for="is-stick-0">否</label>
+					</div>
+				</div>
+			</div>
+			<div id="is_stick" {if $information['is_stick'] == 1}style="display: block;"{else}style="display: none;"{/if}>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">置顶结束时间</label>
+					<div class="col-sm-9 col-xs-12">
+						{php echo tpl_form_field_date('overtime', $information['overtime'], true);}
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">状态</label>
+				<div class="col-sm-9 col-xs-12">
+					<div class="radio radio-inline">
+						<input type="radio" name="status" id="information-status-3" value="3" {if $information['status'] == 3}checked{/if}>
+						<label for="information-status-3">显示</label>
+					</div>
+					<div class="radio radio-inline">
+						<input type="radio" name="status" id="information-status-4" value="4" {if $information['status'] == 4}checked{/if}>
+						<label for="information-status-4">不通过</label>
+					</div>
+					<div class="radio radio-inline">
+						<input type="radio" name="status" id="information-status-2" value="2" {if $information['status'] == 2}checked{/if}>
+						<label for="information-status-2">审核中</label>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-9 col-xs-9 col-md-9">
+					<input type="hidden" name="token" value="{$_W['token']}">
+					<input type="submit" value="提交" class="btn btn-primary">
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+{/if}
+{if $op == 'order_list'}
+<form action="./wagent.php?" class="form-horizontal form-filter" id="form-gohome">
+	{php echo tpl_form_filter_hidden('tongcheng/information/order_list');}
+	<input type="hidden" name="ta" value="order_list"/>
+	<input type="hidden" name="type" value="{$_GPC['type']}"/>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">支付类型</label>
+		<div class="col-sm-9 col-xs-12">
+			<div class="btn-group">
+				<div class="btn-group">
+					<a href="{php echo ifilter_url('type: -1');}" class="btn {if $type == -1}btn-primary{else}btn-default{/if}">不限</a>
+					<a href="{php echo ifilter_url('type: 1');}" class="btn {if $type == 1}btn-primary{else}btn-default{/if}">置顶</a>
+					<a href="{php echo ifilter_url('type: 0');}" class="btn {if $type == 0}btn-primary{else}btn-default{/if}">未置顶</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="form-group form-inline">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">其他</label>
+		<div class="col-sm-9 col-xs-12">
+			<div style="display: inline-block">
+				{php echo tpl_form_field_daterange('addtime', array('start' => date('Y-m-d H:i', $starttime), 'end' => date('Y-m-d H:i', $endtime)));}
+			</div>
+			<input type="text" name="tid" value="{$_GPC['tid']}" class="form-control" placeholder="帖子ID">
+			<input type="text" name="uid" value="{if !empty($_GPC['uid'])}{$_GPC['uid']}{/if}" class="form-control" placeholder="用户UID">
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+		<div class="col-sm-9 col-xs-12">
+			<button class="btn btn-primary">筛选</button>
+		</div>
+	</div>
+</form>
+<form action="" class="form-table form form-validate" method="post">
+	<div class="panel panel-table">
+		<div class="panel-body table-responsive js-table">
+			{if empty($orders)}
+				<div class="no-result">
+					<p>还没有相关数据</p>
+				</div>
+			{else}
+				<table class="table table-hover">
+					<thead class="navbar-inner">
+					<tr>
+						<th width="30">
+							<div class="checkbox checkbox-inline">
+								<input type="checkbox">
+								<label></label>
+							</div>
+						</th>
+						<th>帖子ID</th>
+						<th>发帖人</th>
+						{if $_W['is_agent']}
+							<th>所属城市</th>
+						{/if}
+						<th>置顶信息</th>
+						<th>支付详情</th>
+						<th>支付状态</th>
+						<th>发帖时间</th>
+						<th style="text-align:right;">操作</th>
+					</tr>
+					</thead>
+					<tbody>
+					{loop $orders $item}
+					<tr>
+						<td>
+							<input type="hidden" name="ids[]" value="{$item['id']}">
+							<div class="checkbox checkbox-inline">
+								<input type="checkbox" name="id[]" value="{$item['id']}">
+								<label></label>
+							</div>
+						</td>
+						<td>{$item['tid']}</td>
+						<td>
+							<img src="{php echo tomedia($item['ft_avatar'])}" alt="" width="50" height="50">
+							<div style="display:inline-block;">{$item['ft_mobile']}<br>{$item['ft_realname']}</div>
+						</td>
+						{if $_W['is_agent']}
+							<td>{php echo toagent($item['agentid'])}</td>
+						{/if}
+						<td>
+							{if $item['days'] > 0}
+								置顶时长：{$item['days']}天</br>
+								开始/结束：{php echo date('Y-m-d H:i:s', $item['paytime'])}-{php echo date('Y-m-d H:i:s', $item['endtime'])}
+							{else}
+								<span class="label label-warning">未置顶</span>
+							{/if}
+						</td>
+						<td>
+							实付金额： ￥{$item['final_fee']}</br>
+							发帖费用： ￥{$item['price']}</br>
+							置顶费用： ￥{$item['stick_price']}
+						</td>
+						<td>
+							<span class="{$item['pay_type_cn']['css']}">{$item['pay_type_cn']['text']}</span>
+						</td>
+						<td>
+							{php echo date('Y-m-d H:i:s', $item['addtime'])}
+						</td>
+						<td style="text-align:right;">
+							<a href="{php echo iurl('tongcheng/information/detail', array('id' => $item['tid']))}" class="btn btn-default btn-sm">查看详情</a>
+						</td>
+					</tr>
+					{/loop}
+					</tbody>
+				</table>
+				<div class="btn-region clearfix">
+					<div class="pull-right">
+						{$pager}
+					</div>
+				</div>
+			{/if}
+		</div>
+	</div>
+</form>
+{/if}
+{itemplate 'public/footer'}

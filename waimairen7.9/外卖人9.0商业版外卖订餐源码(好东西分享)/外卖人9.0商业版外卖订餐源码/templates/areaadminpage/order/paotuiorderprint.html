@@ -1,0 +1,80 @@
+<html xmlns="http://www.w3.org/1999/xhtml"><head> 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+<meta http-equiv="Content-Language" content="zh-CN"> 
+<meta content="all" name="robots"> 
+<meta name="description" content=""> 
+<meta content="" name="keywords"> 
+<title>打印</title>  
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/jquery.js" type="text/javascript" language="javascript"></script>   
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/jquery.PrintArea.js" type="text/javascript" language="javascript"></script>
+<{if $printtype == 1}>
+ <link type="text/css" rel="stylesheet" href="<{$siteurl}>/templates/<{$tempdir}>/public/css/print_1.css" media="print">
+ <{else}>
+ <link type="text/css" rel="stylesheet" href="<{$siteurl}>/templates/<{$tempdir}>/public/css/print_0.css" media="print">
+ <{/if}>
+</head>
+<script>
+  
+</script>
+<body>
+<div id="ordercontrol" style="width:100%;height:40px;background-color:gray;text-align:center;font-size:30px;font-weight:bold;color:#fff;line-height:40px;cursor:pointer;" onclick="printorder();">立即打印</div>
+<div id="ordercontent">
+
+
+<{if $printtype == 1}>
+<table class="table table-bordered" width=95% style="font-size:10px;margin-top:5px;text-align:left;"   >
+     <tr>
+		 	<td  style="font-size:8px;">单号：<{$orderinfo['dno']}><font color=red>跑腿</font></td> 
+	 </tr>
+	 <tr> <td>创建时: <{$orderinfo['addtime']|date_format:"%Y-%m-%d %H:%M:%S"}></td>  </tr>
+	 <tr> <td>订单状态: <font color=blue><{if $orderinfo['status'] == 1}>已审核<{else if $orderinfo['status'] == 2}>已完成<{else if $orderinfo['status'] == 3}>已关闭订单<{else}>待处理<{/if}></font></td>  </tr>
+	 <tr> <td>联系人：<{$orderinfo['buyername']}></td>  </tr>
+  <tr> <td>地址: <{$orderinfo['buyeraddress']}></td>  </tr>
+  <tr> <td>店铺电话:<{$orderinfo['buyerphone']}></td>  </tr>
+
+	<tr> <td>下单来源: <{$ordertypearr[$orderinfo['ordertype']]}></td>  </tr>
+	<tr> <td>跑腿需求: <{$orderinfo['content']}></td>  </tr>
+	
+	
+</table> 
+
+<{else}>
+	<table class="table table-bordered" width=95% style="font-size:12px;margin-top:5px;text-align:left;margin-left:20px;"   >
+		          
+		       		  <tr>
+		             	<td colspan="2" style="text-align:left;">单号：<{$orderinfo['dno']}><font color=red>跑腿订单</font></td>
+		             	<td colspan="2" style="text-align:left;">创建时间：<{$orderinfo['addtime']|date_format:"%Y-%m-%d %H:%M:%S"}></td>
+		             	<td colspan="2" style="text-align:left;">订单状态: <font color=blue>
+						<{if $orderinfo['status'] == 1}>已审核<{else if $orderinfo['status'] == 2}>已完成<{else if $orderinfo['status'] == 3}>已关闭订单<{else}>待处理<{/if}>
+                    
+						</font></td>
+		            </tr>
+		             <tr style="height:20px;line-height:20px;">
+		             	<td colspan="2" style="text-align:left;">联系人：<{$orderinfo['buyername']}></td>
+		             	<td colspan="2" style="text-align:left;">地址：<{$orderinfo['buyeraddress']}></td>
+		             	<td colspan="2" style="text-align:left;">店铺电话: <{$orderinfo['buyerphone']}></td> 
+		            </tr>
+		        
+		            <tr style="height:20px;line-height:20px;">
+		             	   	<td colspan="2" style="text-align:left;">下单来源: <{$ordertypearr[$orderinfo['ordertype']]}></td>
+		             	<td colspan="2" style="text-align:left;">订单类型：跑腿订单</td>   
+		             	<td colspan="2" style="text-align:left;">ip信息：<{$orderinfo['ipaddress']}></td> 
+		            </tr>
+                <tr style="height:20px;line-height:20px;">
+		              
+		             	<td colspan="6" style="text-align:left;">跑腿需求：<{$orderinfo['content']}></td> 
+		            </tr>
+		            </table> 
+<{/if}>
+
+</div>
+ 
+<div id="print_area" style="display:none;font-size:40px;"></div> 
+<script>
+	function printorder(){
+		 
+		$("#ordercontent").printArea(); 
+	}
+</script>
+</body>
+</html>

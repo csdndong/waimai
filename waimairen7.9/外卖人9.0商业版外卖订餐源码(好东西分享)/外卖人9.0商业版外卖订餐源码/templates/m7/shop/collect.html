@@ -1,0 +1,100 @@
+ <{extends file="<{$tempdir}>/member/member.html"}>   
+ <{block name=extendcss}>
+ <link rel="stylesheet" type="text/css" href="<{$siteurl}>/templates/<{$tempdir}>/public/css/memberCenter.css"> 
+<link rel="stylesheet" type="text/css" href="<{$siteurl}>/templates/<{$tempdir}>/public/css/superMarket.css"> 
+<link rel="stylesheet" type="text/css" href="<{$siteurl}>/templates/<{$tempdir}>/public/css/mem.css"> 
+<{/block}>
+ <{block name=membercenter}> 
+ <style>
+ .fl{float:left;}
+ .fr{float:right;}
+ </style>
+ <div class="mc-right box790"><!--mc-right-->
+					<div class="manageBox margin_bottom"><!--manageBox-->
+						<div class="title"><!--title-->
+							<p class="yleft"><span class="colortip"></span>
+							<span class="title_name"><b>我的收藏</b></span></p>
+						</div><!--title end-->
+
+				
+								<div class="mem-dplist" style="margin-top:0px;">
+		
+						<ul class="dp">
+						
+						<{foreach from=$list key=myid item=items}> 
+						
+								<li style="height:226px;">
+					<div class="hbg"></div>
+					<a href="javascript:void(0)" onclick="delfavte(<{$items['collectid']}>)" class="sc ed" style="background: url(<{$siteurl}>/templates/<{$tempdir}>/public/images/iconfont-shanchu.png) no-repeat;" title="取消收藏"></a>
+					<div class="c">
+						
+						<a href="<{ofunc type=url link="/shop/gotocollect/collectid/<{$items['collectid']}>"}>" target="_blank"><img <{ofunc type=img  link="<{$items['shoplogo']}>"}> class="p"></a>
+						<div class="t" title="<{$items['shopname']}>"><a style="color: #333;" href="<{ofunc type=url link="/shop/gotocollect/collectid/<{$items['collectid']}>"}>" target="_blank"><{$items['shopname']}></a><!-- <i class="dai"></i>  --></div>
+				
+						<div class="t3">
+							<b class="fl bd_r_dd"><span>¥<{$items['limitcost']}></span> 起送</b>
+														<b style="width:82px;" class="fr"><span>¥<{$items['personcost']}></span> 配送费</b>
+													</div>
+					</div>
+				</li>
+				
+				<{/foreach}>
+							</ul>
+					</div>
+						
+
+					</div><!--mc-right end-->
+				</div>
+	
+<script type="text/javascript">
+ 
+  function delfavte(collectid){ 
+  if( confirm("确定删除此收藏的商家吗？") ){
+		var url = siteurl+'/index.php?ctrl=shop&action=delcollect&collectid='+collectid+'&type=0'+'&datatype=json&random=@random@'; 
+		$.ajax({
+		 type: 'post',
+		 async:true, 
+		 url: url.replace('@random@', 1+Math.round(Math.random()*1000)), 
+		 dataType: 'json',success: function(content) {   
+			if(content.error == false){ 
+			   window.location.reload();
+			}else{
+				if(content.error == true)
+				{
+					diaerror(content.msg); 
+				}else{
+					diaerror(content); 
+				}
+			} 
+			},
+		error: function(content) { 
+			diaerror('数据获取失败'); 
+		  }
+	   });    
+	  }
+ } 
+ function paxfav(collectid){ 
+	var url = siteurl+'/index.php?ctrl=shop&action=savepxmyF&collectid='+collectid+'&type=0&pxid='+$('#paixu'+collectid).val()+'&datatype=json&random=&@random@'; 
+	$.ajax({
+     type: 'post',
+     async:true, 
+     url: url.replace('@random@', 1+Math.round(Math.random()*1000)), 
+     dataType: 'json',success: function(content) {   
+     	if(content.error == false){ 
+           window.location.reload();
+     	}else{
+     		if(content.error == true)
+     		{
+     			diaerror(content.msg); 
+     		}else{
+     			diaerror(content); 
+     		}
+     	} 
+		},
+    error: function(content) { 
+    	diaerror('数据获取失败'); 
+	  }
+   });    
+ }
+</script>
+<{/block}>

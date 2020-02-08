@@ -1,0 +1,32 @@
+page{ background-color: #f5f5f5; }
+.xxts{ font-size: 25rpx; color: #999; text-align: center; }
+.head{ height: 170rpx; background: #569ee8; box-sizing: border-box; padding: 7% 7% 0rpx; }
+.container-rl { padding: 0 20rpx; overflow: hidden; border-bottom-left-radius: 50rpx; border-bottom-right-radius: 50rpx; margin: 0 7%; z-index: 999; background: #fff; }
+.qdflex { display: -webkit-flex; display: flex; -webkit-flex-wrap: wrap; flex-wrap: wrap; }
+.date-display { height: 130rpx; line-height: 130rpx; align-items: center; color: #fff; background: #34aaff; box-sizing: border-box; border-top-left-radius: 50rpx; border-top-right-radius: 50rpx; }
+.lxqd{ background: #fff; padding: 20rpx; color: #999; font-size: 30rpx; text-align: center; }
+.lxqd text{ color: #F44336; margin: 0 10rpx; }
+.week-cell { display: table-cell; width: 14.28%; text-align: center; height: 70rpx; line-height: 70rpx; }
+.selected-date { text-align: center; font-size: 37rpx; }
+.next-prev { flex: 1; text-align: center; }
+.arrow { height: 45rpx; width: 45rpx; border: solid #fff; border-width: 0 8rpx 8rpx 0; margin: 22.5rpx auto; }
+.prev { transform: rotate(135deg); }
+.next { transform: rotate(-45deg) }
+.date-picker { background-color: #fff; }
+.week-display { background: #fff; font-size: 30rpx; width: 100%; }
+.date-cell { display: table-cell; width: 14.28%; text-align: center; height: 70rpx; font-size: 35rpx; z-index: 1; }
+.date-bg { width: 27px; height: 27px; margin: auto; margin-top: 8rpx; border-radius: 50%; line-height: 27px; }
+.weekend { color: #BDBDBD; }
+.selected { color: white; background-color: black; }
+.today { color: #F44336; }
+.xz{ color: white; background-color: #d5d5d5; }
+.today-selected { color: white; background-color: #ff6e6e; }
+.weui-btn-area{ margin:30rpx; }
+button{ font-size: 35rpx; }
+.ckpm{ font-size: 28rpx; text-align: center; padding: 20rpx 0; color: #ff6e6e; }
+.jfgz1{ padding: 20rpx 20rpx 0; display: flex; flex-direction: row; justify-content: flex-start; align-items: center; font-size: 30rpx; color: #353535; }
+.wjx{ width: 30rpx; height: 30rpx; margin-right: 10rpx; }
+.jfgz2{ padding: 0 50rpx; display: flex; flex-direction: row; justify-content: flex-start; align-items: flex-start; }
+.jlgz{ flex: 1; margin-left: 10rpx; display: flex; flex-direction: column; }
+.jlgz text{ font-size:26rpx; color: #999; }
+.jfjl{ width: 270rpx; height: 180rpx; margin-bottom: 30rpx; }

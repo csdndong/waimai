@@ -1,0 +1,116 @@
+<!--   time:2019-07-18 01:03:21 -->
+<form bindreset="formReset" bindsubmit="formSubmit">
+	<view class="head" style="background:{{color}}">
+		<navigator class="text" openType="redirect" url="txmx">提现明细</navigator>
+		<view class="headmoney">{{commission}}</view>
+		<view class="headwz">当前可提现金额(元)</view>
+	</view>
+	<view bindtap="tradeinfo" class="list flex-bet">
+		<view class="flex-center trade">
+			<view class="">用户须知</view>
+		</view>
+		<view class="czhd">
+			<swiper autoplay="true" circular="true" duration="500" interval="2000" style="height:90rpx;width:70vw;" vertical="true">
+				<swiper-item>
+					<view>请仔细填写账号信息，如果由于您填写错误导致资金流失，平台概不负责</view>
+				</swiper-item>
+				<swiper-item>
+					<view>注意：当前账户余额满<text>{{fxset.tx_zdmoney}}元</text>后才能申请提现					</view>
+				</swiper-item>
+			</swiper>
+		</view>
+		<image class="addright {{open?'show':''}}" src="../../../img/huise@2x.png"></image>
+	</view>
+	<view class="czhd1" hidden="{{!open}}">
+		<view>请仔细填写账号信息，如果由于您填写错误导致资金流失，平台概不负责</view>
+		<view>注意：当前账户余额满<text>{{fxset.tx_zdmoney}}元</text>后才能申请提现		</view>
+	</view>
+	<view class="weui-cells__title">提现方式</view>
+	<view class="weui-cells weui-cells_after-title" style="margin-top:0;">
+		<radio-group bindchange="radioChange" class="radio-group" name="radiogroup">
+			<block wx:if="{{iswx=='1'}}">
+				<label>
+					<view class="weui-cell">
+						<view class="weui-cell__hd">
+							<image src="../../../img/weixin.png"></image>
+						</view>
+						<view class="weui-cell__bd">提现到微信</view>
+						<view class="weui-cell__ft">
+							<radio checked="{{txtype==2}}" color="{{color}}" value="wxtx"></radio>
+						</view>
+					</view>
+				</label>
+			</block>
+			<block wx:if="{{isyhk=='1'}}">
+				<label>
+					<view class="weui-cell" style="border-top:1rpx solid #e6e6e6;">
+						<view class="weui-cell__hd">
+							<image src="../../../img/yeqb.png"></image>
+						</view>
+						<view class="weui-cell__bd">提现到银行卡</view>
+						<view class="weui-cell__ft">
+							<radio checked="{{txtype==3}}" color="{{color}}" value="yhktx"></radio>
+						</view>
+					</view>
+				</label>
+			</block>
+		</radio-group>
+	</view>
+	<view class="txbd">
+		<view class="weui-cells weui-cells_after-title" style="margin-top:0;">
+			<view class="weui-cell weui-cell_input">
+				<view class="weui-cell__hd">
+					<view class="weui-label">收款人</view>
+				</view>
+				<view class="weui-cell__bd">
+					<input class="weui-input" name="name" placeholder="请输入姓名"></input>
+				</view>
+			</view>
+			<view class="weui-cell weui-cell_input">
+				<view class="weui-cell__hd">
+					<view class="weui-label">提现金额</view>
+				</view>
+				<view class="weui-cell__bd">
+					<input class="weui-input" name="je" placeholder="请输入提现金额" type="digit"></input>
+				</view>
+			</view>
+			<block wx:if="{{txtype==3}}">
+				<view class="weui-cell weui-cell_input">
+					<view class="weui-cell__hd">
+						<view class="weui-label">手机号</view>
+					</view>
+					<view class="weui-cell__bd">
+						<input class="weui-input" name="sjh" placeholder="请输入手机号" type="number"></input>
+					</view>
+				</view>
+				<view class="weui-cell weui-cell_input">
+					<view class="weui-cell__hd">
+						<view class="weui-label">银行卡号</view>
+					</view>
+					<view class="weui-cell__bd">
+						<input class="weui-input" name="yhkh" placeholder="请输入银行卡号"></input>
+					</view>
+				</view>
+				<view class="weui-cell weui-cell_input">
+					<view class="weui-cell__hd">
+						<view class="weui-label">开户行信息</view>
+					</view>
+					<view class="weui-cell__bd">
+						<input class="weui-input" name="khxx" placeholder="请输入开户行信息"></input>
+					</view>
+				</view>
+			</block>
+		</view>
+	</view>
+	<view class="weui-btn-area">
+		<button class="weui-btn" disabled="{{disabled}}" formType="submit" style="background:{{disabled?'#e5e5e5':color}};" type="primary">{{logintext}}</button>
+	</view>
+</form>
+<view class="zhezhao" hidden="{{fwxy}}"></view>
+<view class="kcrzxy" hidden="{{fwxy}}">
+	<view class="kcrzxyhd">商家提现协议</view>
+	<scroll-view scrollY class="kcrzxybd" style="height: 600rpx;">
+		<rich-text nodes="{{fxset.tx_details}}"></rich-text>
+	</scroll-view>
+	<view bindtap="queren" class="queren">确定</view>
+</view>

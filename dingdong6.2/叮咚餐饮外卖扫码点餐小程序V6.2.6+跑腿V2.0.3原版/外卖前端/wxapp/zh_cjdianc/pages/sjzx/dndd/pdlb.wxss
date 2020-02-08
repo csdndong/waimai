@@ -1,0 +1,11 @@
+@import"/zh_cjdianc/pages/sjzx/dndd/dnddlb.wxss";
+.blbanner {padding: 10rpx 20rpx;}
+.ddlb{ display: flex; flex-direction: row; background: #fff; padding: 30rpx 0;border-top: 1rpx solid #F0F0F0;border-bottom: 1rpx solid #F0F0F0; }
+.ddlb>view{ flex: 1; display:flex; flex-direction:column; justify-content:space-between; align-items:center;padding: 0 20rpx; }
+.tjlb,.wmlb{ padding: 30rpx 20rpx; display: flex; flex-direction: row; flex-wrap: nowrap; justify-content: flex-end; margin-bottom: 30rpx; background: #fff; }
+.tjlb>view{ background: #fff;font-size: 22rpx; padding: 12rpx 20rpx; margin: 0rpx 15rpx; display:flex; border: 1rpx solid #d9d9d9;border-radius: 10rpx; flex-direction:row; justify-content:space-around; align-items:center; }
+.image{ width: 30rpx; height: 30rpx;margin-right: 10rpx; }
+.num{ font-size: 26rpx;margin-top: 30rpx;font-weight: bold; }
+.text{ font-size: 26rpx; color: #999; }
+.qhsx{padding: 10rpx 30rpx;border-radius:10rpx;color: #fff;text-align: center}
+.qhsx>view:nth-child(1){ margin-bottom: 10rpx; }

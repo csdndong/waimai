@@ -1,0 +1,81 @@
+ <{extends file="<{$tempdir}>/public/wxsite.html"}> 
+<{block name=footer}> <{/block}> 
+<{block name=extendcss}>  
+ <style>
+
+	.prer03 li p {
+
+width: 90%;
+
+border-bottom: 1px solid #dcdcdc;
+
+margin: 0px auto;
+
+padding: 15px;
+
+line-height: 20px;
+
+position: relative;
+
+}
+
+.ftnBd {
+
+font-weight: bold;
+
+}
+
+ 
+
+.city-select {
+
+background: url(../images/li_selected.png) right no-repeat;
+
+background-size: 18px 18px;
+
+} 
+#scroller {
+position:absolute; 
+	z-index:1;
+	display:block;   
+	overflow:auto; 
+	width:100%;
+}
+</style>
+<{/block}>
+ <{block name=myScrolljs}>
+<script> 
+		var myScroll;
+function loaded() {
+	myScroll = new iScroll('wrapper', {
+		useTransform: false,
+		onBeforeScrollStart: function (e) {
+			var target = e.target;
+			while (target.nodeType != 1) target = target.parentNode;
+
+			if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA')
+				e.preventDefault();
+		}
+	});
+}
+document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false); 
+document.addEventListener('DOMContentLoaded', function () { setTimeout(loaded, 200); }, false);
+</script>
+<{/block}>
+<{block name=hearnav}><header style="position: fixed;display:block;" id="header"><div class="return"></div>使用说明</header><{/block}>
+<{block name=sitetitle}><{$sitename}><{/block}>
+<{block name=blockcontent}>  
+ <div id="wrapper" style="bottom:0px;">
+	<div id="scroller" style="background:#fff;width:100%;margin-top:10px;">
+ <section> 
+     <div style="width:100%; margin:0  auto; height:auto; ">
+		<h1 style="width:90%; margin:0  auto; height:45px; line-height:45px; border-bottom:1px solid #e6e6e6; font-size:16px; color:#333333;">使用说明</h1>
+		<div style="width:90%; margin:10px  auto;   font-size:16px; color:#333333;">
+					<{load_data assign="ptIntroduc" table="single" type="one" where="code='ptIntroduc'" fileds="*" }>  
+			         <{$ptIntroduc['content']|htmlspecialchars_decode}>
+		</div>
+	 </div>
+    </section>
+  </div>
+</div> 
+<{/block}>

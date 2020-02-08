@@ -1,0 +1,86 @@
+{itemplate 'public/header'}
+<form action="./index.php" class="form-horizontal form-filter" xmlns="http://www.w3.org/1999/html">
+	{php echo tpl_form_filter_hidden('wheel/activity/list');}
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">搜索</label>
+		<div class="col-sm-4 col-xs-4">
+			<input type="text" name="keyword" value="{$keyword}" class="form-control" placeholder="请输入活动标题搜索">
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+		<div class="col-sm-4 col-xs-4">
+			<input type="submit" value="筛选" class="btn btn-primary">
+		</div>
+	</div>
+</form>
+<form action="" class="form-table form" method="post">
+	<div class="panel panel-table">
+		<div class="panel-heading">
+			<a href="{php echo iurl('wheel/activity/post');}" class="btn btn-primary btn-sm">新建抽奖活动</a>
+		</div>
+		<div class="panel-body table-responsive js-table">
+			{if empty($wheels)}
+				<div class="no-result">
+					<p>还没有相关数据</p>
+				</div>
+			{else}
+				<table class="table table-hover">
+					<thead class="navbar-inner">
+					<tr>
+						<th width="40">
+							<div class="checkbox checkbox-inline">
+								<input type="checkbox" name="ids[]"/>
+								<label></label>
+							</div>
+						</th>
+						<th>活动名称</th>
+						<th>活动状态</th>
+						<th>开始时间/结束时间</th>
+						<th>奖项总数</th>
+						<th style="width:350px; text-align:right;">操作</th>
+					</tr>
+					</thead>
+					<tbody>
+						{loop $wheels $item}
+							<tr>
+								<td>
+									<div class="checkbox checkbox-inline">
+										<input type="checkbox" name="ids[]" value="{$item['id']}"/>
+										<label></label>
+									</div>
+								</td>
+								<td>{$item['title']}</td>
+								<td>
+									<input type="checkbox" class="js-checkbox" data-href="{php echo iurl('wheel/activity/status', array('id' => $item['id'], 'value' => $item['status']));}" value="1" {if $item['status'] == 1}checked{/if}>
+								</td>
+								<td>
+									{php echo date('Y-m-d H:i:s', $item['starttime'])}
+									</br>
+									{php echo date('Y-m-d H:i:s', $item['endtime'])}
+								</td>
+								<td>{$item['total']}</td>
+								<td style="text-align:right; width: 500px">
+									<a href="javascript:;" class="btn btn-default btn-sm js-clip" data-href="{php echo ivurl('/plugin/pages/wheel/index', array('id' => $item['id']), true)}">公众号链接</a>
+									<a href="javascript:;" class="btn btn-default btn-sm js-clip" data-href="plugin/pages/wheel/index?id={$item['id']}">小程序链接</a>
+									<a href="{php echo iurl('wheel/record/index', array('wid' => $item['id']))}" class="btn btn-default btn-sm">查看</a>
+									<a href="{php echo iurl('wheel/activity/post', array('id' => $item['id']))}" class="btn btn-default btn-sm">编辑</a>
+									<a href="{php echo iurl('wheel/activity/del', array('id' => $item['id']))}" class="btn btn-default btn-sm js-remove" data-confirm="删除后将不可恢复，确定删除吗">删除</a>
+								</td>
+							</tr>
+						{/loop}
+					</tbody>
+				</table>
+				<div class="btn-region clearfix">
+					<div class="pull-left">
+						<a href="{php echo iurl('wheel/activity/del')}" class="btn btn-primary btn-danger js-batch" data-batch="remove" data-confirm="删除后将不可恢复，确定删除吗">删除</a>
+					</div>
+					<div class="pull-right">
+						{$pager}
+					</div>
+				</div>
+			{/if}
+		</div>
+	</div>
+</form>
+{itemplate 'public/footer'}

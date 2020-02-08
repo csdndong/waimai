@@ -1,0 +1,39 @@
+page {
+    font-size: 14px;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    background-color: #F5F5F5;
+}
+
+.content .activity-nav {
+    background-color: #33aafc;
+    color: #fff;
+}
+
+.content .activity-nav .remainder {
+    padding: 30px 0 20px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.content .activity-nav .center {
+    font-size: 30px;
+    padding-bottom: 30px;
+    text-align: center;
+}
+
+.content .zan-panel .icon-account {
+    font-size: 15px;
+    padding-right: 5px;
+}
+
+.content .zan-panel .icon-refund {
+    font-size: 18px;
+    padding-right: 5px;
+}
+
+.content .zan-panel .icon-text1 {
+    font-size: 17px;
+    padding-right: 5px;
+}

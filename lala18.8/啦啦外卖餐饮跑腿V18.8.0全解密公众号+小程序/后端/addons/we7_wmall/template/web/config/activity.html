@@ -1,0 +1,155 @@
+{itemplate 'public/header'}
+{if $op == 'notice'}
+	<div class="page clearfix page-config-store-delivery">
+		<h2>红包优惠券到期通知</h2>
+		<form class="form-horizontal form form-validate" id="form1" action="" method="post" enctype="multipart/form-data">
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">是否通知</label>
+				<div class="col-sm-9 col-xs-12">
+					<div class="radio radio-inline">
+						<input type="radio" value="1" name="status" id="status-1" {if $notice['status'] == '1'}checked{/if}>
+						<label for="status-1">通知</label>
+					</div>
+					<div class="radio radio-inline">
+						<input type="radio" value="0" name="status" id="status-0" {if $notice['status'] == '0'}checked{/if}>
+						<label for="status-0">不通知</label>
+					</div>
+					<span class="help-block"></span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">限制时间段</label>
+				<div class="col-sm-9 col-xs-12">
+					<div class="radio radio-inline">
+						<input type="radio" value="0" name="timelimit_status" id="time-0" {if $time_limit['status'] == 0}checked{/if} onclick="$('#is_showtime').hide();">
+						<label for="time-0">不限制</label>
+					</div>
+					<div class="radio radio-inline">
+						<input type="radio" value="1" name="timelimit_status" id="time-1" {if $time_limit['status'] == 1}checked{/if} onclick="$('#is_showtime').show();">
+						<label for="time-1">限制</label>
+					</div>
+					<div class="help-block">请合理设置发送时间，例如早上9:00，确保顾客收到有效提示</div>
+				</div>
+			</div>
+			<div id="is_showtime" {if $time_limit['status'] == 1}style = "display: block;"{else}style = "display: none"{/if}>
+				{if !empty($time_limit['timedata'])}
+					{loop $time_limit['timedata'] $item}
+						<div id="showtime">
+							<div class="clockpicker">
+								<div class="form-group hour-item">
+									<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+									<div class="col-sm-9 col-xs-12">
+										<label class="col-xs-12 col-sm-3 col-md-2 control-label">可发送时间段</label>
+										<div class="col-sm-9 col-xs-4 col-md-9">
+											<div class="input-group">
+												<input type="text" readonly name="time_start[]" class="form-control" placeholder="" value="{$item['start']}">
+												<span class="input-group-addon">至</span>
+												<input type="text" readonly name="time_end[]" class="form-control" placeholder="" value="{$item['end']}">
+											</div>
+										</div>
+										<div class="col-sm-9 col-xs-4 col-md-1" style="padding-top: 6px;">
+											<a href="javascript:;" id="remove-time">
+												<i class="fa fa-times-circle" title="删除时间段"></i>
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					{/loop}
+				{else}
+					<div id="showtime">
+						<div class="clockpicker">
+							<div class="form-group hour-item">
+								<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+								<div class="col-sm-9 col-xs-12">
+									<label class="col-xs-12 col-sm-3 col-md-2 control-label">可发送时间段</label>
+									<div class="col-sm-9 col-xs-4 col-md-9">
+										<div class="input-group">
+											<input type="text" readonly name="time_start[]" class="form-control" placeholder="" value="">
+											<span class="input-group-addon">至</span>
+											<input type="text" readonly name="time_end[]" class="form-control" placeholder="" value="">
+										</div>
+									</div>
+									<div class="col-sm-9 col-xs-4 col-md-1" style="padding-top: 6px;">
+										<a href="javascript:;" id="remove-time">
+											<i class="fa fa-times-circle" title="删除时间段"></i>
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				{/if}
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-9 col-xs-12">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+						<div class="col-sm-9 col-xs-12">
+							<a href="javascript:;" id="add-timelimit"><i class="fa fa-plus-circle"></i>添加可发送时间段</a>
+							<div class="help-block">可发送时间段最多只能添加四个</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">通知时间间隔</label>
+				<div class="col-sm-9 col-xs-12">
+					<div class="input-group">
+						<input type="text" class="form-control" name="notice_period" value="{$notice['notice_period']}">
+						<div class="input-group-addon">天</div>
+					</div>
+					<span class="help-block">例如设置3天，则同一顾客接受模板消息的最短时间间隔为3天，请设置1-5天</span>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-9 col-xs-9 col-md-9">
+					<input type="submit" value="提交" class="btn btn-primary col-lg-1">
+				</div>
+			</div>
+		</form>
+	</div>
+	<script type="text/javascript">
+		require(['clockpicker'], function($){
+			$('.clockpicker :text').clockpicker({autoclose: true});
+
+			$('#remove-time').click(function(){
+				$("input[name='time_start']").val("");
+				$("input[name='time_end']").val("");
+			});
+		});
+		$(document).on('click', '#add-timelimit', function() {
+			var length = $('.clockpicker').length;
+			if(length >= 4) {
+				Notify.info('最多可添加4个时间段');
+				return false;
+			}
+			var html = '<div class="clockpicker">'+
+					'		<div class="form-group hour-item">'+
+					'			<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>'+
+					'			<div class="col-sm-9 col-xs-12">'+
+					'			<label class="col-xs-12 col-sm-3 col-md-2 control-label">可发送时间段</label>'+
+					'				<div class="col-sm-9 col-xs-4 col-md-9">'+
+					'					<div class="input-group">'+
+					'						<input type="text" readonly name="time_start[]" class="form-control" placeholder="" value="">'+
+					'					<span class="input-group-addon">至</span>'+
+					'						<input type="text" readonly name="time_end[]" class="form-control" placeholder="" value="">'+
+					'				</div>'+
+					'				</div>'+
+					'				<div class="col-sm-9 col-xs-4 col-md-1" style="padding-top: 6px;">'+
+					'					<a href="javascript:;" id="remove-time">'+
+					'						<i class="fa fa-times-circle" title="删除时间段"></i>'+
+					'					</a>'+
+					'				</div>'+
+					'			</div>'+
+					'		</div>'+
+					'	</div>';
+			$('#showtime').append(html);
+			$('.clockpicker :text').clockpicker({autoclose: true});
+		});
+		$(document).on('click', '.fa-times-circle', function() {
+			$(this).parent().parent().parent().parent().parent().remove();
+		});
+	</script>
+{/if}
+{itemplate 'public/footer'}

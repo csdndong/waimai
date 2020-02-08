@@ -1,0 +1,93 @@
+{itemplate 'public/header'}
+{if $op == 'list'}
+<form action="./index.php" class="form-horizontal form-filter">
+	{php echo tpl_form_filter_hidden('deliveryer/location/list');}
+	<div class="form-group form-inline">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">筛选时间</label>
+		<div class="col-sm-9 col-xs-12 js-daterange">
+			<div style="display: inline-block">
+				{php echo tpl_form_field_daterange('addtime', array('start' => date('Y-m-d H:i', $starttime), 'end' => date('Y-m-d H:i', $endtime)));}
+			</div>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">搜索</label>
+		<div class="col-sm-4 col-xs-4">
+			<select name="deliveryer_id" class="form-control select1" style="width: 160px">
+				<option value="0" {if !$sid}selected{/if}>==选择配送员==</option>
+				{loop $deliveryers $deliveryer}
+					<option value="{$deliveryer['id']}" {if $deliveryer_id == $deliveryer['id']}selected{/if}>{$deliveryer['title']}</option>
+				{/loop}
+			</select>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+		<div class="col-sm-4 col-xs-4">
+			<input type="submit" value="筛选" class="btn btn-primary">
+		</div>
+	</div>
+</form>
+<form action="" class="form-table form" method="post">
+	<div class="panel panel-table">
+		<div class="panel-body table-responsive js-table">
+			{if empty($records)}
+				<div class="no-result">
+					<p>还没有相关数据</p>
+				</div>
+			{else}
+				<table class="table table-hover">
+					<thead class="navbar-inner">
+					<tr>
+						<th width="40">
+							<div class="checkbox checkbox-inline">
+								<input type="checkbox" name="ids[]" value="{$item['id']}"/>
+								<label></label>
+							</div>
+						</th>
+						<th>配送员编号</th>
+						<th>配送员信息</th>
+						<th>位置坐标</th>
+						<th>添加时间</th>
+					</tr>
+					</thead>
+					<tbody>
+					{loop $records $item}
+					<tr>
+						<td>
+							<div class="checkbox checkbox-inline">
+								<input type="checkbox" name="ids[]" value="{$item['id']}"/>
+								<label></label>
+							</div>
+						</td>
+						<td>#{$item['delivery_id']}</td>
+						<td>
+							<img src="{php echo tomedia($item['avatar']);}" width="48"> {$item['title']}
+						</td>
+						<td>
+							<span class="label label-success">
+								经度: {$item['location_x']}
+							</span>
+							<br>
+							<span class="label label-info label-br">
+								纬度: {$item['location_y']}
+							</span>
+						</td>
+						<td>
+							{php echo date('Y-m-d H:i:s', $item['addtime'])}
+						</td>
+					</tr>
+					{/loop}
+					</tbody>
+				</table>
+				<div class="btn-region clearfix">
+					<div class="pull-right">
+						{$pager}
+					</div>
+				</div>
+			{/if}
+		</div>
+	</div>
+</form>
+{/if}
+{itemplate 'public/footer'}

@@ -1,0 +1,73 @@
+page {
+    background: #efeff4;
+}
+
+.weui-cell:before {
+    border-top: none;
+}
+
+.video {
+    padding: 15rpx 10px;
+    background: #fff;
+}
+
+.video video {
+    width: 100%;
+    height: 350rpx;
+}
+
+.fwxq {
+    font-size: 30rpx;
+    margin-bottom: 10px;
+}
+
+.fwxq .title {
+    color: #333;
+    text-align: center;
+    background: #fff;
+    width: 100%;
+    height: auto;
+    padding: 5px 15px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.hx {
+    height: 1px;
+    background: #d5d5d5;
+    width: 120rpx;
+}
+
+.hxwz {
+    margin: 0 15rpx;
+    font-size: 30rpx;
+}
+
+.xztpul {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+    background: white;
+}
+
+.scimg-box {
+    width: 33.3%;
+    margin-right: 0px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 0 15px;
+    box-sizing: border-box;
+}
+
+.scimg {
+    width: 220rpx;
+    height: 220rpx;
+    margin: 0 auto;
+    border-radius: 6px;
+}

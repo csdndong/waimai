@@ -1,0 +1,282 @@
+ <{extends file="<{$tempdir}>/public/admin.html"}> 
+ <{block name=extendjs}>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js"></script>
+ <style>
+	 #showmodule li {
+		 height: 800px;
+		 width: 300px;
+		 margin-right: 100px;
+		 float: left;
+		 text-align: left;
+		 margin-left: 30px;
+		 margin-top: 30px;
+	 }
+ </style>
+ <{/block}>
+ <{block name=controlname}>分类设置<{/block}>
+ <{block name=bodylist}> 
+	
+	   <div style="width:auto;overflow-x:hidden;overflow-y:auto"> 
+         
+ 
+		  
+<script>
+
+var click_button = false; 
+function doubleclick(){
+	click_button = false;
+}
+function mobilechangemodule(obj){
+	var url = siteurl+'/index.php?ctrl=adminpage&action=system&module=savemobiletempset&mobilemodule='+$(obj).val()+'&datatype=json&random=@random@';
+	$.ajax({
+		type: 'post',
+		async:false,
+		url: url.replace('@random@', 1+Math.round(Math.random()*1000)),
+		dataType: 'json',success: function(content) {
+			if(content.error == false){
+//				window.location.reload();
+			}else{
+				if(content.error == true)
+				{
+					diaerror(content.msg);
+				}else{
+					diaerror(content);
+				}
+			}
+		},
+		error: function(content) {
+			diaerror('数据获取失败');
+		}
+	});
+}
+function lockclick(){
+	 if(click_button == false){
+			click_button = true;
+			setTimeout("doubleclick()", 1000); 
+			return true;
+	 }else{
+		 return false;
+	 }
+}
+var dialogs ;
+function uploads(modulename){
+ 	  dialogs = art.dialog.open('<{ofunc type=url link="/adminpage/other/module/uploadapp/obj/'+modulename+'/func/uploadsucess"}>');
+ 	  dialogs.title('上传图片');
+}
+function uploadsucess(flag,obj,linkurl){
+	if(flag == true){
+ 		alert(linkurl);
+		dialogs.close();
+		uploads(obj);
+	}else{
+		dialogs.close(); 
+		//提交数据并返回显示 
+			$.post('<{ofunc type=url link="/adminpage/app/module/appmdimg/datatype/json"}>', {'mudulename':obj,'imgurl':linkurl} ,function (data, textStatus){  
+			if(data.error == false){
+				$('#module_'+obj).attr('src',linkurl);
+				$('#module_'+obj).show();
+			}else{
+				if(data.error == true)
+				{
+					diaerror(data.msg); 
+				}else{
+					diaerror(data); 
+				}
+			} 
+		}, 'json');  
+	}
+ }
+ 
+
+</script>
+		  
+		  <{if !empty($default_cityid) && !empty($default_cityinfo)  }>
+		  
+		   <div style="height:40px;line-height:40px;text-align:left;font-weight:bold;font-size:20px;border:none;padding-left:30px;margin-top:10px;background-color:#fff;color:#F00;">分类（<{$default_cityinfo['name']}>）</div>
+		    <div id="tagscontent">
+           
+              <div>
+                 <table border="0" cellspacing="2" cellpadding="4" class="list" name="table" id="table" width="100%">
+
+                    <thead>
+
+                      <tr>
+                        <th align="center">名称</th>  
+							<th align="center">图片</th>
+                        <th align="center">上传</th> 
+                        <th align="center">跳转界面</th>
+                        <th align="center">排序</th>
+                         
+							<th align="center">操作</th> 
+                       </tr>
+ 
+                    </thead> 
+                     <tbody>
+                    <{foreach from=$appadvlist item=items}>
+					    <{if $items['type'] == 2}>
+                      <tr class="s_out" onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff"> 
+                      
+                        <td align="center">
+							<input type="hidden" name="input_gid<{$items['id']}>" value="<{$items['id']}>">
+							<input type="text" name="input_gname<{$items['id']}>" id="input_gname<{$items['id']}>" value="<{$items['name']}>" style="width:100px;"></td> 
+							<td align="center"><input type="hidden" name="input_gimg<{$items['id']}>" id="input_gimg<{$items['id']}>"  value="<{$items['img']}>"><img src="<{$items['img']}>" id="gimg<{$items['id']}>"   style="width:100px;height:100px;"></td> 
+                        <td align="center"> <span style="cursor:pointer;" onclick="upload_gudings('gimg<{$items['id']}>');">上传图片</span></td> 
+                        <td align="center"><select name="input_gselect<{$items['id']}>">
+							 <{foreach from=$catlist item=itv}>
+								 <option value="<{$itv['id']}>" <{if $items['param'] == $itv['id']}> selected <{/if}> ><{$catarr[$itv['cattype']]}>-<{$itv['name']}></option>
+							 <{/foreach}> 
+		 <option value="lifehelp" <{if $items['activity'] ==  'lifehelp' }> selected <{/if}> >生活服务</option>
+                            <option value="shophui" <{if $items['activity'] ==  'shophui' }> selected <{/if}> >到店消费</option>
+							 </select></td>   
+						<td align="center" ><input type="text" name="input_gorderid<{$items['id']}>" id="input_gorderid<{$items['id']}>" value="<{$items['orderid']}>" style="width:60px;"></td>
+                        <td align="center"><a href="#"><a onclick="javascript:dogdsave('<{$items['id']}>');" href="#" class="delurl">提交更新</a> 
+							<a onclick="return remind(this);" href="<{ofunc type=url link="/adminpage/app/module/delappadv/id/<{$items['id']}>/datatype/json"}>"><img src="<{$siteurl}>/templates/<{$tempdir}>/public/images/admin/del.jpg"></a></td>  
+                      </tr> 
+							<{/if}>
+					  <{/foreach}>
+                      <tr class="s_out" onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff"> 
+                       
+                        <td align="center"><input type="hidden" name="input_gid" value=""><input type="text" name="input_gname" id="input_gname" value="" style="width:100px;"></td> 
+						    <td align="center"><input type="hidden" name="input_gimg" id="input_gimg"  value=""><img src="" id="gimg"   style="width:100px;height:100px;display:none;"></td> 
+                        <td align="center"><span style="cursor:pointer;" onclick="upload_gudings('gimg');">上传图片</span></td> 
+                        <td align="center"><select name="input_gselect">
+													<{foreach from=$catlist item=items}>
+													<option value="<{$items['id']}>"><{$catarr[$items['cattype']]}>-<{$items['name']}></option>
+													<{/foreach}> 
+									 <option value="lifehelp"   >生活服务</option>
+                            <option value="shophui">到店消费</option>
+
+												</select>
+							</td>  
+                         <td align="center" ><input type="text" name="input_gorderid" id="input_gorderid" value="" placeholder="排序" style="width:60px;"></td>
+                        <td align="center"><a onclick="javascript:dogdsave('');" href="#" class="delurl">提交</a></td> 
+                      </tr> 
+                    </tbody> 
+
+                  </table>
+              </div>  
+          </div> 
+		 <{else}>
+
+		 <div style="height:40px;line-height:40px;text-align:left;font-weight:bold;font-size:20px;border:none;padding-left:30px;margin-top:10px;background-color:#fff;color:#F00;">网站未设置默认自营城市，请设置后添加分类或者到分站总后进行设置分类</div>
+
+		<{/if}>
+		  
+		  
+<script> 
+function upload_gudings(modulename){
+ 	  dialogs = art.dialog.open('<{ofunc type=url link="/adminpage/other/module/uploadapp/obj/'+modulename+'/func/uploadgsucess"}>');
+ 	  dialogs.title('上传图片');
+}
+function uploadgsucess(flag,obj,linkurl){
+	if(flag == true){
+ 		alert(linkurl);
+		dialogs.close();
+		upload_gudings(obj);
+	}else{
+		dialogs.close(); 
+		//提交数据并返回显示 
+			$('#'+obj).attr('src',linkurl);
+			$('#'+obj).show();
+		  $('#input_'+obj).val(linkurl); 
+	}
+ }
+ function dogdsave(gdid){
+	 if(lockclick()){
+			var checkname =   $('#input_gname'+gdid).val();
+			
+			if(checkname == ''){
+				alert('录入的名称不能为空');
+				return false;
+			}
+			var checkimg = $('#input_gimg'+gdid).val();
+			var orderid = $('#input_gorderid'+gdid).val();
+			if(checkimg == ''){
+			   alert('未选择图片');
+			   return false; 
+			} 	
+					
+			var typeid = $("select[name='input_gselect"+gdid+"']").find("option:selected").val(); //$(this).input_gselect
+			$.post('<{ofunc type=url link="/adminpage/app/module/addgd/datatype/json"}>', {'imgurl':checkimg,'orderid':orderid,'typeid':typeid,'name':checkname,'appposition':2,'id':gdid} ,function (data, textStatus){  
+					if(data.error == false){
+						diasucces('操作成功','');
+					}else{
+						if(data.error == true)
+						{
+							diaerror(data.msg); 
+						}else{
+							diaerror(data); 
+						}
+					} 
+			}, 'json'); 
+	}
+ }  
+ function dosaveadv(gdid){
+	  if(lockclick()){
+		var checkname =   $('#input_aname'+gdid).val();
+		if(checkname == ''){
+			alert('录入的名称不能为空');
+			return false;
+		}
+		var checkimg = $('#input_aimg'+gdid).val();
+		if(checkimg == ''){
+		   alert('未选择图片');
+		   return false; 
+		} 	
+				
+		 
+		$.post('<{ofunc type=url link="/adminpage/app/module/addad/datatype/json"}>', {'imgurl':checkimg,'typeid':0,'name':checkname,'appposition':1,'id':gdid} ,function (data, textStatus){  
+				if(data.error == false){
+					diasucces('操作成功','');
+				}else{
+					if(data.error == true)
+					{
+						diaerror(data.msg); 
+					}else{
+						diaerror(data); 
+					}
+				} 
+		}, 'json'); 
+		}
+ }
+ function dosaveanadv(gdid){
+  if(lockclick()){
+	var checkname =   $('#input_anname'+gdid).val();
+	if(checkname == ''){
+	    alert('录入的名称不能为空');
+		return false;
+	}
+	var checkimg = $('#input_animg'+gdid).val();
+	if(checkimg == ''){
+	   alert('未选择图片');
+	   return false; 
+	} 	
+	 		
+	 
+    $.post('<{ofunc type=url link="/adminpage/app/module/addad/datatype/json"}>', {'imgurl':checkimg,'typeid':0,'name':checkname,'appposition':3,'id':gdid} ,function (data, textStatus){  
+			if(data.error == false){
+				diasucces('操作成功','');
+			}else{
+				if(data.error == true)
+				{
+					diaerror(data.msg); 
+				}else{
+					diaerror(data); 
+				}
+			} 
+	}, 'json');
+	}
+ }
+</script>
+		  
+		    
+		  
+		   
+		  
+		  
+        </div> 
+        
+        
+   
+    </div>   
+ <{/block}>

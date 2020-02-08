@@ -1,0 +1,861 @@
+{itemplate 'public/header'}
+<style>
+	.page-huodong{line-height: 1; background-color: #83dc61;}
+	.page-huodong .diy-banner{width: 100%; overflow: hidden; display: block; padding: .8rem; position: relative;}
+	.page-huodong .diy-banner img{display: block; width: 100%; height: 100%;}
+	.page-huodong .diy-banner .swiper-container{padding-bottom: 0;}
+	.page-huodong .diy-img-card{width: 100%; display: block;}
+	.page-huodong .diy-img-card img{display: block; width: 100%;}
+	.page-huodong .diy-waimai-food-list-onerow-box{margin: .8rem; overflow: hidden;}
+	.page-huodong .diy-waimai-food-list-onerow-box .item-list{border-radius: .1rem; background-color: #fff;}
+	.page-huodong .diy-waimai-food-list-onerow-box .item-list .goods-item{padding: .6rem; overflow: hidden; position: relative; box-sizing: border-box;}
+	.page-huodong .diy-waimai-food-list-onerow-box .item-list .goods-item:first-child{border: 0px;}
+	.page-huodong .diy-waimai-food-list-onerow-box .item-list .goods-img{height: 4.5rem; position: relative;}
+	.page-huodong .diy-waimai-food-list-onerow-box .item-list .goods-img .diy-discount{position: absolute; top: .2rem; left: .2rem; max-width: 1.6rem; max-height: 1.6rem;}
+	.page-huodong .diy-waimai-food-list-onerow-box .item-list .goods-img .discount{position: absolute; left: 0px; top: .2rem; padding: 0 .4rem 0 .2rem;  height: .8rem; line-height: .9rem; color: #fff; background: url({WE7_WMALL_TPL_URL}static/img/activity/1f32004bfcf39de32e62db2c754d81d5485.png); background-size: 100% 100%; font-size: .4rem; text-align: center;}
+	.page-huodong .diy-waimai-food-list-onerow-box .item-list .goods-img img{display: block; width: 100%; height: 100%;}
+	.page-huodong .diy-waimai-food-list-onerow-box .item-list .goods-name{width: 100%; color: #333; font-size: .8rem; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-weight: bold; line-height: 20px;}
+	.page-huodong .diy-waimai-food-list-onerow-box .item-list .sale-num{width: 100%; padding-top: .4rem; font-size: .5rem; color: #999; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
+	.page-huodong .diy-waimai-food-list-onerow-box .item-list .store-num{max-width: 94%; padding-top: .4rem; font-size: .5rem; color: #999; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; line-height: .8rem;}
+	.page-huodong .diy-waimai-food-list-onerow-box .item-list .price-buybtn{width: 100%; padding-top: .5rem;}
+	.page-huodong .diy-waimai-food-list-onerow-box .item-list .price-buybtn .price-wrap{width:52%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
+	.page-huodong .diy-waimai-food-list-onerow-box .item-list .price-buybtn .price-wrap .price{font-size: .9rem; font-weight: 500; color: #fb4e44;}
+	.page-huodong .diy-waimai-food-list-onerow-box .item-list .price-buybtn .price-wrap .old-price{font-size: .6rem; color: #999; text-decoration: line-through;}
+	.page-huodong .diy-waimai-food-list-onerow-box .item-list .price-buybtn .buy-btn{position: absolute; right: .8rem; bottom:.8rem; text-align: center; width: 3.5rem; height: 1.4rem; background-color: #fb4e44; color: #fff; border-radius: .1rem; font-size: .7rem; line-height: 1.4rem;}
+	.page-huodong .diy-waimai-goods-list-box{padding-bottom: 1px; margin: .8rem;}
+	.page-huodong .diy-waimai-goods-list-box .box-item:nth-child(even){margin-left: 4%;}
+	.page-huodong .diy-waimai-goods-list-box .box-item{width: 48%; height: 11.8rem; margin-bottom: .6rem; position: relative; border-radius: .1rem; float: left; background-color: #fff; box-sizing: border-box;}
+	.page-huodong .diy-waimai-goods-list-box .discount{position: absolute; left: 0px; top: .3rem; padding: 0 .6rem 0 .4rem;  height: 1rem; line-height: 1rem; color: #fff; background: url({WE7_WMALL_TPL_URL}static/img/activity/1f32004bfcf39de32e62db2c754d81d5485.png); background-size: 100% 100%; font-size: .4rem; text-align: center;}
+	.page-huodong .diy-waimai-goods-list-box .diy-discount{position: absolute; left: .2rem; top: .2rem; max-width: 1.8rem; max-height: 1.8rem;}
+	.page-huodong .diy-waimai-goods-list-box .goods-image{width: 100%; height: 6rem;}
+	.page-huodong .diy-waimai-goods-list-box .goods-image img{display: block; width: 100%; height: 100%;}
+	.page-huodong .diy-waimai-goods-list-box .goods-name{width: 93%; margin-left: .4rem; padding-top: .4rem; color: #333; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-size: .7rem;}
+	.page-huodong .diy-waimai-goods-list-box .discount-soldnum{max-width: 93%; white-space: nowrap; text-overflow: ellipsis; overflow: hidden; margin-left: .4rem; padding-top: .4rem; font-size: .6rem; color: #999;}
+	.page-huodong .diy-waimai-goods-list-box .discount-soldnum .praise{margin-left: .07rem;}
+	.page-huodong .diy-waimai-goods-list-box .store-name{max-width: 93%; font-size: .6rem; padding-top: .4rem; margin-left: .4rem; color: #999; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;}
+	.page-huodong .diy-waimai-goods-list-box .price-buybtn{position: relative; padding-top: .05rem; margin: .5rem 0 .4rem .4rem;}
+	.page-huodong .diy-waimai-goods-list-box .price-buybtn .price{width: 45%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-size: .8rem; font-weight: 600; color: #FB4E44;}
+	.page-huodong .diy-waimai-goods-list-box .price-buybtn .price .old-price{font-size: .6rem; margin-top: .02rem; margin-left: .04rem; font-weight: normal; text-decoration: line-through; color: #999;}
+	.page-huodong .diy-waimai-goods-list-box .price-buybtn .buy-btn{position: absolute; right: 0; top: .1rem; text-align: center; width: 40%; height: 1.46rem; background-color: #FB4E44; color: #fff; margin-right: .4rem; border-radius: .1rem; line-height: 1.46rem; font-size: .7rem; }
+	.page-huodong .diy-waimai-goods-list-box .clear{clear: both;}
+	.page-huodong .diy-waimai-goods-list-box .load-more{text-align: center; background-color: #fff; border-radius: .1rem; box-sizing: border-box;}
+	.page-huodong .diy-waimai-goods-list-box .load-more span{display: inline-block; margin: .4rem 0; font-size: .7rem;}
+	.page-huodong .diy-waimai-store-box{margin: .8rem; background-color: #fff;}
+	.page-huodong .diy-waimai-store-box .waimai-store-item-list{border-radius: .1rem;}
+	.page-huodong .diy-waimai-store-box .waimai-store-item-list a{color: #999;}
+	.page-huodong .diy-waimai-store-box .waimai-store-item{padding: .6rem; box-sizing: border-box; position: relative;}
+	.page-huodong .diy-waimai-store-box .waimai-store-item .clear{clear: both;}
+	.page-huodong .diy-waimai-store-box .waimai-store-item .content-left{float: left; width: 25%; height: 3rem; margin-right: 3%; position: relative;}
+	.page-huodong .diy-waimai-store-box .waimai-store-item .content-left img{display: block; width: 100%; height:100%;}
+	.page-huodong .diy-waimai-store-box .waimai-store-item .content-left .label{position: absolute; top: 0; left: 0; padding: 0 .2rem; background-color: #F28683; font-size: .4rem; color: #fff; height: .7rem; line-height: .8rem; text-align: center; max-width: 100%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;}
+	.page-huodong .diy-waimai-store-box .waimai-store-item .content-left div{position: absolute; bottom: 0; left: 0; width: 100%; height: .7rem; font-size: .4rem; background-color: #ccc; color: #fff; text-align: center; line-height: .8rem; opacity: .9;}
+	.page-huodong .diy-waimai-store-box .waimai-store-item .content-right{float: left; width: 72%; position: relative;}
+	.page-huodong .diy-waimai-store-box .waimai-store-item .content-right .item-name-wrap{position: relative; margin-top: .1rem;}
+	.page-huodong .diy-waimai-store-box .waimai-store-item .content-right .item-name{overflow: hidden; white-space: nowrap; text-overflow: ellipsis; width: 100%; font-size: .8rem; font-weight: 700; color: #333;}
+	.page-huodong .diy-waimai-store-box .waimai-store-item .content-right .item-score-sale{position: relative; height: .8rem;overflow: hidden; margin-top: .5rem; }
+	.page-huodong .diy-waimai-store-box .waimai-store-item .content-right .item-star-box{display: inline-block; float: left; position: relative; margin-top: -.1rem;}
+	.page-huodong .diy-waimai-store-box .waimai-store-item .content-right .item-star-box .icon-favor_light{color: #999;}
+	.page-huodong .diy-waimai-store-box .waimai-store-item .content-right .item-star-box .stars-bg{position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; white-space: nowrap; color: #ffaa0c;}
+	.page-huodong .diy-waimai-store-box .waimai-store-item .content-right .item-sale{max-width: 25%;white-space: nowrap; overflow: hidden; text-overflow: ellipsis; float: left; font-size: .5rem; color: #666; margin-left: .2rem; line-height: .8rem;}
+	.page-huodong .diy-waimai-store-box .waimai-store-item .content-right .time-distance{max-width: 33%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; position: absolute; right: 0; bottom: .1rem; font-size: .5rem; float: right; height: .8rem; line-height: .8rem;}
+	.page-huodong .diy-waimai-store-box .waimai-store-item .content-right .time-distance .avg_graphic_time{display: inline-block; max-width: 50%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
+	.page-huodong .diy-waimai-store-box .waimai-store-item .content-right .time-distance .item-distance{display: inline-block; max-width: 50%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
+	.page-huodong .diy-waimai-store-box .waimai-store-item .content-right .time-distance .line{display: inline-block; margin: 0 .06rem; color: #e4e4e4; font-size: .1rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;} 
+	.page-huodong .diy-waimai-store-box .waimai-store-item .content-right .item-min-delivery{font-size: .5rem; color: #666; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; position: relative; height: .9rem; line-height: 1.2rem;}
+	.page-huodong .diy-waimai-store-box .waimai-store-item .content-right .item-min-delivery>div{display: inline-block; position: absolute; right: 0; bottom: 0;  height: .7rem; line-height: .8rem; text-align: center; background-color: #FFD96A; color: #333; border-radius: .4rem 0 .4rem 0;  text-overflow: ellipsis; overflow: hidden; white-space: nowrap; max-width: 25%; padding: 0 .3rem;}
+	.page-huodong .diy-waimai-store-box .waimai-store-item .content-right .line{position: relative; top: -0.03rem; margin-left: .06rem; margin-right: .06rem; color: #e4e4e4; font-size: .1rem;}
+	.page-huodong .diy-waimai-store-box .waimai-store-item .content-right .discount-box{position: relative;}
+	.page-huodong .diy-waimai-store-box .waimai-store-item .content-right .single-line{max-width: 94%; padding-top: .2rem; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; line-height: .6rem;}
+	.page-huodong .diy-waimai-store-box .waimai-store-item .content-right .discount-icon{display: inline-block; width: .6rem; height: .6rem;}
+	.page-huodong .diy-waimai-store-box .waimai-store-item .content-right .discount-box span{color: #999; font-size: .5rem; vertical-align: 0.1rem;}
+	.page-huodong .diy-waimai-store-box .waimai-store-item .content-right .discount-box>i{display: block; color: #999; position: absolute; right: 0; top: .33rem;}
+	.page-huodong .diy-waimai-store-box .waimai-store-item .content-right .hot-box{width: 100%; height: 4.5rem; overflow: hidden; margin-top: .3rem;}
+	.page-huodong .diy-waimai-store-box .waimai-store-item .hot-box .hot-box-item{display: inline-block; width: 31%; height: 4.5rem;}
+	.page-huodong .diy-waimai-store-box .waimai-store-item .hot-box .hot-box-item .hot-t{width: 100%; height:55%; position: relative; margin-bottom: 3%;}
+	.page-huodong .diy-waimai-store-box .waimai-store-item .hot-box .hot-box-item .hot-t img{display: inline-block; width: 100%; height: 100%;}
+	.page-huodong .diy-waimai-store-box .waimai-store-item .hot-box .hot-box-item .hot-b{width: 100%; height:40%;}
+	.page-huodong .diy-waimai-store-box .waimai-store-item .hot-box .hot-box-item .hot-t>div{position: absolute; top: 0; left: 0; padding: 0 .1rem; background-color: #F28683; font-size: .4rem; color: #fff; height: .6rem; line-height: .7rem; text-align: center;}
+	.page-huodong .diy-waimai-store-box .waimai-store-item .hot-box .hot-box-item .hot-b>div{width: 100%; height: 50%; font-size: .5rem;}
+	.page-huodong .diy-waimai-store-box .waimai-store-item .hot-box .hot-box-item .shop-name{text-align: center; line-height: .8rem; color: #333; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;}
+	.page-huodong .diy-waimai-store-box .waimai-store-item .hot-box .hot-box-item .shop-price{text-align: center; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
+	.page-huodong .diy-waimai-store-box .waimai-store-item .hot-box .hot-box-item .price{line-height: .8rem; color: #FB544B;}
+	.page-huodong .diy-waimai-store-box .waimai-store-item .hot-box .hot-box-item .old-price{line-height: .8rem; font-size: .3rem;}
+	.page-huodong .diy-waimai-store-box .waimai-load-more{background-color: #fff; text-align: center; border-radius: .1rem; box-sizing: border-box; font-size: .7rem;}
+	.page-huodong .diy-waimai-store-box .waimai-load-more span{display: inline-block; margin: .4rem 0; font-size: .7rem;}
+	.page-huodong .activity-rule{margin: .6rem; background-color: #fff; border-radius: .1rem;}
+	.page-huodong .activity-rule .activity-rule-title{height: 1.8rem; line-height: 1.8rem; font-size: .8rem; color: #333; text-align: center; font-weight: bold;}
+	.page-huodong .activity-rule .activity-rule-content{padding: .8rem; line-height: 1rem; font-size: .7rem; color: #333;}
+	.page-huodong .diy-cube{width: 100%; margin: 0; position: relative; padding-bottom: 50%;}
+	.page-huodong .diy-cube .diy-cube-left{width: 50%; height: 100%; position: absolute; left: 0; top: 0;}
+	.page-huodong .diy img{width: 100%; height: 100%;}
+	.page-huodong .diy-cube .diy-cube-right{width: 50%; height: 100%; position: absolute; right: 0; top: 0;}
+	.page-huodong .diy-cube .diy-cube-right .diy-cube-right1{width: 100%; height: 50%; position: absolute; top:0; left:0;}
+	.page-huodong .diy-cube .diy-cube-right .diy-cube-right2{width: 100%; height: 50%; position: absolute; top: 50%; left:0;} 
+	.page-huodong .diy-cube .diy-cube-right .diy-cube-right2 .left{width: 50%; height: 100%; position: absolute; top:0; left:0;}
+	.page-huodong .diy-cube .diy-cube-right .diy-cube-right2 .right{width: 50%; height: 100%; position: absolute; top:0; left: 50%;}
+	.page-huodong .diy{position: relative;}
+	.page-huodong .btn-edit-del{position: absolute; height: 1rem; right:0; bottom: 0;}
+	.page-huodong .btn-edit-del>div{width: 2rem; height: 100%; line-height: 1rem; text-align: center; display: inline-block; font-size: .4rem; color: #fff; background: rgba(0,0,0,.4); z-index: 11;}
+	.page-huodong .diy-picturew{height: auto; display: block; overflow: hidden;}
+	.page-huodong .diy-picturew .item{height: auto; width: 100%; display: block; float: left;}
+	.page-huodong .diy-picturew.row-2 .item{width: 50%;}
+	.page-huodong .diy-picturew.row-3 .item{width: 33.33%;}
+	.page-huodong .diy-picturew.row-4 .item{width: 25%;}
+	.page-huodong .diy-navs{position: relative; overflow: hidden; background-color: #fff;}
+	.page-huodong .diy-navs.col-4 .diy-nav-col{width: 25%;}
+	.page-huodong .diy-navs.col-3 .diy-nav-col{width: 33.33%;}
+	.page-huodong .diy-navs.col-5 .diy-nav-col{width: 20%;}
+	.page-huodong .diy-navs .diy-nav-col{width: 25%; height: auto; position: relative; padding: 0; margin: .4rem 0; text-align: center; float: left;}
+	.page-huodong .diy-navs .diy-nav-col .nav-icon{margin: auto; text-align: center; height: 2rem; line-height: 2.2rem;}
+	.page-huodong .diy-navs .diy-nav-col img{display: inline-block; width: 2rem; max-width: 2rem; height: 2rem; max-height: 100%;}
+	.page-huodong .diy-navs.radius img{border-radius: .5rem;}
+	.page-huodong .diy-navs.circle img{border-radius: 100%;}
+	.page-huodong .diy-navs .clear{clear: both;}
+	.page-huodong .diy-navs .diy-nav-col .nav-text{font-size: .6rem; text-align: center; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; padding: .3rem; color: #333;}
+	.page-huodong .diy-navs .diy-nav-page{text-align: center;}
+	.page-huodong .diy-navs .diy-nav-page span{width: .5rem; height: .5rem; border-radius: 100%; background-color: #ccc; display: inline-block;}
+	.page-huodong .diy-notice{height: auto; font-size: .6rem; padding: .4rem; overflow: hidden; position: relative; border-top: 1px solid #e2e2e2; border-bottom: 1px solid #e2e2e2;}
+	.page-huodong .diy-notice .diy-notice-container{background-color: #fff;}
+	.page-huodong .diy-notice .image{width: auto; height: 1rem; position: relative; float: left; padding-right: .2rem;}
+	.page-huodong .diy-notice .image img{height: 100%; max-width: 100px;}
+	.page-huodong .diy-notice .icon{float: left; height: 1rem; padding-left: .2rem; color: #fd5454; line-height: 1.1rem; font-size: .7rem;}
+	.page-huodong .diy-notice .notice-text{height: 1rem; padding-left: .2rem; font-size: .6rem; line-height: 1rem; overflow: hidden;}
+	.page-huodong .diy-notice .notice-text div{display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
+	.page-huodong .diy-graphic{width: 100%;}
+	.page-huodong .diy-graphic .diy-graphic-list{width: 23%; background-color: #fff; float: left; margin-bottom:.4rem;}
+	.page-huodong .diy-graphic .diy-graphic-list:nth-child(odd){margin-right: 2.65%;}
+	.page-huodong .diy-graphic .diy-graphic-list:nth-child(even){margin-right: 2.65%;}
+	.page-huodong .diy-graphic .diy-graphic-list:nth-child(4n+0){margin-right: 0;}
+	.page-huodong .diy-graphic .diy-graphic-list .main-title{font-size: .7rem; color: #333; text-align: center; margin-top: .4rem; width: 100%; height: 1rem; line-height: 1rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
+	.page-huodong .diy-graphic .diy-graphic-list .subhead{font-size: .6rem; color: #606060; text-align: center; width: 100%; height: .9rem; line-height: .9rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
+	.page-huodong .diy-graphic .diy-graphic-list .img{text-align: center; margin-top: .1rem; margin-bottom: .2rem; height: 2.8rem;}
+	.page-huodong .diy-graphic .diy-graphic-list .img img{display: inline-block; width: 2.8rem; height: 100%;}
+</style>
+
+<div class="page page-huodong">
+	<div class="content">
+		<div class="diy-banner">
+			<img src="{WE7_WMALL_TPL_URL}static/img/activity/ef8b47c170e8849976b41b3074e69319133895.jpg.webp" alt="">
+		</div>
+		<div class='diy-img-card'>
+			<img src="{WE7_WMALL_TPL_URL}static/img/activity/0bd4e045bb0a04502f20582d439b417611772.jpg.webp" alt="">
+		</div>
+		<div class="diy-waimai-food-list-onerow-box">
+			<div class="item-list">
+				<div class="goods-item border-1px-t">
+					<div class="row item-wrapper">
+						<div class="col-40 goods-img">
+							<img src="{WE7_WMALL_TPL_URL}static/img/activity/c017af62821b17abf2531d8355994a45303283.jpg.webp" alt="">
+							<span class='diy-discount'>
+								<img src="{WE7_WMALL_TPL_URL}static/img/activity/goodsicon-recommand.png" alt="">
+							</span>
+						</div>
+						<div class="col-60">
+							<div class="goods-name">【甄•果】西瓜果切</div>
+							<div class="sale-num">月售:16 好评率:0%</div>
+							<div class="store-num">
+								<i class="icon icon-shop"></i>
+								<span>甄果（体育路店）</span>
+							</div>
+							<div class="price-buybtn">
+								<div class="price-wrap">
+									<span class='price'>¥0.99</span>
+									<span class='old-price'>¥5.67</span>
+								</div>
+								<a href="javascript:;" class="buy-btn">立即抢购</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="goods-item border-1px-t">
+					<div class="row item-wrapper">
+						<div class="col-40 goods-img">
+							<img src="{WE7_WMALL_TPL_URL}static/img/activity/c017af62821b17abf2531d8355994a45303283.jpg.webp" alt="">
+							<span class='discount'>7.0折</span>
+						</div>
+						<div class="col-60">
+							<div class="goods-name">【甄•果】西瓜果切</div>
+							<div class="sale-num">月售:16 好评率:0%</div>
+							<div class="store-num">
+								<i class="icon icon-shop"></i>
+								<span>阳光果叔（大马店）</span>
+							</div>
+							<div class="price-buybtn">
+								<div class="price-wrap">
+									<span class='price'>¥0.99</span>
+									<span class='old-price'>¥5.67</span>
+								</div>
+								<a href="javascript:;" class="buy-btn">立即抢购</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="diy-img-card">
+			<img src="{WE7_WMALL_TPL_URL}static/img/activity/cbcf34ad46a78c37ade6ac3bedc84d9d11881.jpg.webp" alt="">
+		</div>
+		<div class="diy-waimai-food-list-onerow-box">
+			<div class="item-list">
+				<div class="goods-item border-1px-t">
+					<div class="row item-wrapper">
+						<div class="col-40 goods-img">
+							<img src="{WE7_WMALL_TPL_URL}static/img/activity/c017af62821b17abf2531d8355994a45303283.jpg.webp" alt="">
+						</div>
+						<div class="col-60">
+							<div class="goods-name">【甄•果】西瓜果切</div>
+							<div class="sale-num">月售:16 好评率:0%</div>
+							<div class="store-num">
+								<i class="icon icon-shop"></i>
+								<span>甄果（体育路店）</span>
+							</div>
+							<div class="price-buybtn">
+								<div class="price-wrap">
+									<span class='price'>¥0.99</span>
+									<span class='old-price'>¥5.67</span>
+								</div>
+								<a href="javascript:;" class="buy-btn">立即抢购</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="goods-item border-1px-t">
+					<div class="row item-wrapper">
+						<div class="col-40 goods-img">
+							<img src="{WE7_WMALL_TPL_URL}static/img/activity/c017af62821b17abf2531d8355994a45303283.jpg.webp" alt="">
+						</div>
+						<div class="col-60">
+							<div class="goods-name">【甄•果】西瓜果切</div>
+							<div class="sale-num">月售:16 好评率:0%</div>
+							<div class="store-num">
+								<i class="icon icon-shop"></i>
+								<span>阳光果叔（大马店）</span>
+							</div>
+							<div class="price-buybtn">
+								<div class="price-wrap">
+									<span class='price'>¥0.99</span>
+									<span class='old-price'>¥5.67</span>
+								</div>
+								<a href="javascript:;" class="buy-btn">立即抢购</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="goods-item border-1px-t">
+					<div class="row item-wrapper">
+						<div class="col-40 goods-img">
+							<img src="{WE7_WMALL_TPL_URL}static/img/activity/c017af62821b17abf2531d8355994a45303283.jpg.webp" alt="">
+						</div>
+						<div class="col-60">
+							<div class="goods-name">【甄•果】西瓜果切</div>
+							<div class="sale-num">月售:16 好评率:0%</div>
+							<div class="store-num">
+								<i class="icon icon-shop"></i>
+								<span>甄果（体育路店）</span>
+							</div>
+							<div class="price-buybtn">
+								<div class="price-wrap">
+									<span class='price'>¥0.99</span>
+									<span class='old-price'>¥5.67</span>
+								</div>
+								<a href="javascript:;" class="buy-btn">立即抢购</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="goods-item border-1px-t">
+					<div class="row item-wrapper">
+						<div class="col-40 goods-img">
+							<img src="{WE7_WMALL_TPL_URL}static/img/activity/c017af62821b17abf2531d8355994a45303283.jpg.webp" alt="">
+						</div>
+						<div class="col-60">
+							<div class="goods-name">【甄•果】西瓜果切</div>
+							<div class="sale-num">月售:16 好评率:0%</div>
+							<div class="store-num">
+								<i class="icon icon-shop"></i>
+								<span>阳光果叔（大马店）</span>
+							</div>
+							<div class="price-buybtn">
+								<div class="price-wrap">
+									<span class='price'>¥0.99</span>
+									<span class='old-price'>¥5.67</span>
+								</div>
+								<a href="javascript:;" class="buy-btn">立即抢购</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="diy-banner">
+			<div class="swiper-container" data-space-between='10' data-pagination='.swiper-pagination' data-autoplay="1000">
+			  <div class="swiper-wrapper">
+			    <div class="swiper-slide"><img src="{WE7_WMALL_TPL_URL}static/img/activity/971dc04eac01e5533b7c1292af52cdfd25365.jpg.webp" alt=""></div>
+			    <div class="swiper-slide"><img src="{WE7_WMALL_TPL_URL}static/img/activity/971dc04eac01e5533b7c1292af52cdfd25365.jpg.webp" alt=""></div>
+			    <div class="swiper-slide"><img src="{WE7_WMALL_TPL_URL}static/img/activity/971dc04eac01e5533b7c1292af52cdfd25365.jpg.webp" alt=""></div>
+			  </div>
+			  <div class="swiper-pagination swiper-slide-pagination"></div>
+			</div>
+		</div>
+		<div class="diy-img-card">
+			<img src="{WE7_WMALL_TPL_URL}static/img/activity/e704e5480e26f4d3ba4ed339ec88472813464.jpg.webp" alt="">
+		</div>
+		<div class="diy-waimai-goods-list-box">
+			<div class="box-list">
+				<div class="box-item">
+					<div class="main-content-box">
+						<span class='diy-discount'>
+							<img src="{WE7_WMALL_TPL_URL}static/img/activity/goodsicon-recommand.png" alt="">
+						</span>
+						<div class="goods-image">
+							<img src="{WE7_WMALL_TPL_URL}static/img/activity/d045f0a3bdae8341f468930f6c524a62114189.jpg.webp" alt="">
+						</div>
+						<div class="goods-name">北美鲜蓝莓1盒装</div>
+						<div class="discount-soldnum">
+							<span class='sold-num'>月售8份</span>
+							<span class='praise'>好评率0%</span>
+						</div>
+						<div class="store-name">
+							<i class="icon icon-shop"></i>
+							果骑士水果店
+						</div>
+						<div class="price-buybtn">
+							<div class="price">
+								￥111.8
+								<div class="old-price">￥16.8</div>
+							</div>
+							<a href="javascript:;" class='buy-btn'>来一份</a>
+						</div>
+					</div>
+				</div>
+				<div class="box-item">
+					<div class="main-content-box">
+						<span class='discount'>7.0折</span>
+						<div class="goods-image">
+							<img src="{WE7_WMALL_TPL_URL}static/img/activity/d045f0a3bdae8341f468930f6c524a62114189.jpg.webp" alt="">
+						</div>
+						<div class="goods-name">北美鲜蓝莓1盒装</div>
+						<div class="discount-soldnum">
+							<span class='sold-num'>月售8份</span>
+							<span class='praise'>好评率0%</span>
+						</div>
+						<div class="store-name">
+							<i class="icon icon-shop"></i>
+							果骑士水果店
+						</div>
+						<div class="price-buybtn">
+							<div class="price">
+								￥111.8
+								<div class="old-price">￥16.8</div>
+							</div>
+							<a href="javascript:;" class='buy-btn'>来一份</a>
+						</div>
+					</div>
+				</div>
+				<div class="box-item">
+					<div class="main-content-box">
+						<span class='discount'>7.0折</span>
+						<div class="goods-image">
+							<img src="{WE7_WMALL_TPL_URL}static/img/activity/d045f0a3bdae8341f468930f6c524a62114189.jpg.webp" alt="">
+						</div>
+						<div class="goods-name">北美鲜蓝莓1盒装</div>
+						<div class="discount-soldnum">
+							<span class='sold-num'>月售8份</span>
+							<span class='praise'>好评率0%</span>
+						</div>
+						<div class="store-name">
+							<i class="icon icon-shop"></i>
+							果骑士水果店
+						</div>
+						<div class="price-buybtn">
+							<div class="price">
+								￥111.8
+								<div class="old-price">￥16.8</div>
+							</div>
+							<a href="javascript:;" class='buy-btn'>来一份</a>
+						</div>
+					</div>
+				</div>
+				<div class="box-item">
+					<div class="main-content-box">
+						<span class='discount'>7.0折</span>
+						<div class="goods-image">
+							<img src="{WE7_WMALL_TPL_URL}static/img/activity/d045f0a3bdae8341f468930f6c524a62114189.jpg.webp" alt="">
+						</div>
+						<div class="goods-name">北美鲜蓝莓1盒装</div>
+						<div class="discount-soldnum">
+							<span class='sold-num'>月售8份</span>
+							<span class='praise'>好评率0%</span>
+						</div>
+						<div class="store-name">
+							<i class="icon icon-shop"></i>
+							果骑士水果店
+						</div>
+						<div class="price-buybtn">
+							<div class="price">
+								￥111.8
+								<div class="old-price">￥16.8</div>
+							</div>
+							<a href="javascript:;" class='buy-btn'>来一份</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="clear"></div>
+			<div class="load-more">
+				<span>点击查看更多</span>
+			</div>
+		</div>
+		<div class="diy-img-card">
+			<img src="{WE7_WMALL_TPL_URL}static/img/activity/31ff4ecfb56a2240dede61cca96e328610188.jpg.webp" alt="">
+		</div>
+		<div class="diy-waimai-store-box">
+			<div class="waimai-store-item-list">
+				<div class="waimai-store-item border-1px-b">
+					<div class="mian-content-box">
+						<div class="content-left border-1px">
+							<a href="">
+								<img src="{WE7_WMALL_TPL_URL}static/img/activity/3f795061e055a631afac2d201ce00bb732768.jpg.webp" alt="">
+							</a>
+							<span class="label">热卖</span>
+							<div>店铺休息中</div>
+						</div>
+						<div class="content-right">
+							<a href="">
+								<div class="item-name-wrap">
+									<div class="item-name">鲜果飘香水果店</div>
+								</div>
+								<div class="item-score-sale">
+									<div class="item-star-box">
+										<div class="stars">
+											<i class='icon icon-favor_light'></i><i class='icon icon-favor_light'></i><i class='icon icon-favor_light'></i><i class='icon icon-favor_light'></i><i class='icon icon-favor_light'></i>
+										</div>
+										<div class="stars-bg">
+											<i class='icon icon-favor_fill_light'></i><i class='icon icon-favor_fill_light'></i><i class='icon icon-favor_fill_light'></i><i class='icon icon-favor_fill_light'></i><i class='icon icon-favor_fill_light'></i>
+										</div>
+									</div>
+									<div class="item-sale">月售63单</div>
+									<div class="time-distance">
+										<div class="avg_graphic_time">46分钟</div>
+										<span class='line'>|</span>
+										<div class="item-distance">914m</div>
+									</div>
+								</div>
+								<div class="item-min-delivery">
+									<span>起送价￥20</span>
+									<span class='line'>|</span>
+									<span>配送费￥0</span>
+									<div>美团专送</div>
+								</div>
+							</a>
+							<div class="discount-box">
+								<i class="icon icon-unfold"></i>
+								<div class="single-line">
+									<img class="discount-icon" src="{WE7_WMALL_TPL_URL}static/img/activity/f8bc8dffdbc805878aa3801a33f563cd1001.png" alt="">
+									<span>满35减12;满60减20(在线支付专享)</span>
+								</div>
+								<div class="single-line">
+									<img class="discount-icon" src="{WE7_WMALL_TPL_URL}static/img/activity/f8bc8dffdbc805878aa3801a33f563cd1001.png" alt="">
+									<span>满35减12;满60减20(在线支付专享)</span>
+								</div>
+								<div class="single-line">
+									<img class="discount-icon" src="{WE7_WMALL_TPL_URL}static/img/activity/f8bc8dffdbc805878aa3801a33f563cd1001.png" alt="">
+									<span>满35减12;满60减20(在线支付专享)</span>
+								</div>
+							</div>
+							<div class="hot-box">
+								<a href="">
+									<div class="hot-box-item">
+										<div class="hot-t border-1px">
+											<img src="{WE7_WMALL_TPL_URL}static/img/activity/3f795061e055a631afac2d201ce00bb732768.jpg.webp" alt="">
+											<div>省36%</div>
+										</div>
+										<div class="hot-b">
+											<div class="shop-name">巨峰拼盘</div>
+											<div class="shop-price">
+												<span class="price">¥4.99</span>
+												<span class="old-price">¥7.8</span>
+											</div>
+										</div>
+									</div>
+								</a>
+								<a href="">
+									<div class="hot-box-item">
+										<div class="hot-t border-1px">
+											<img src="{WE7_WMALL_TPL_URL}static/img/activity/3f795061e055a631afac2d201ce00bb732768.jpg.webp" alt="">
+											<div>省36%</div>
+										</div>
+										<div class="hot-b">
+											<div class="shop-name">巨峰拼盘</div>
+											<div class="shop-price">
+												<span class="price">¥4.99</span>
+												<span class="old-price">¥7.8</span>
+											</div>
+										</div>
+									</div>
+								</a>
+								<a href="">
+									<div class="hot-box-item">
+										<div class="hot-t border-1px">
+											<img src="{WE7_WMALL_TPL_URL}static/img/activity/3f795061e055a631afac2d201ce00bb732768.jpg.webp" alt="">
+											<div>折扣</div>
+										</div>
+										<div class="hot-b">
+											<div class="shop-name">火龙果切</div>
+											<div class="shop-price">
+												<span class="price">¥4.99</span>
+												<span class="old-price">¥7.8</span>
+											</div>
+										</div>
+									</div>
+								</a>
+							</div>
+						</div>
+						<div class="clear"></div>
+					</div>
+				</div>
+				<div class="waimai-store-item border-1px-b">
+					<div class="mian-content-box">
+						<div class="content-left border-1px">
+							<a href="">
+								<img src="{WE7_WMALL_TPL_URL}static/img/activity/3f795061e055a631afac2d201ce00bb732768.jpg.webp" alt="">
+							</a>
+							<span class="label">热卖</span>
+							<div>店铺休息中</div>
+						</div>
+						<div class="content-right">
+							<a href="">
+								<div class="item-name-wrap">
+									<div class="item-name">鲜果飘香水果店</div>
+								</div>
+								<div class="item-score-sale">
+									<div class="item-star-box">
+										<div class="stars">
+											<i class='icon icon-favor_light'></i><i class='icon icon-favor_light'></i><i class='icon icon-favor_light'></i><i class='icon icon-favor_light'></i><i class='icon icon-favor_light'></i>
+										</div>
+										<div class="stars-bg">
+											<i class='icon icon-favor_fill_light'></i><i class='icon icon-favor_fill_light'></i><i class='icon icon-favor_fill_light'></i><i class='icon icon-favor_fill_light'></i><i class='icon icon-favor_fill_light'></i>
+										</div>
+									</div>
+									<div class="item-sale">月售63单</div>
+									<div class="time-distance">
+										<div class="avg_graphic_time">46分钟</div>
+										<span class='line'>|</span>
+										<div class="item-distance">914m</div>
+									</div>
+								</div>
+								<div class="item-min-delivery">
+									<span>起送价￥20</span>
+									<span class='line'>|</span>
+									<span>配送费￥0</span>
+									<div>美团专送</div>
+								</div>
+							</a>
+							<div class="discount-box">
+								<i class="icon icon-unfold"></i>
+								<div class="single-line">
+									<img class="discount-icon" src="{WE7_WMALL_TPL_URL}static/img/activity/f8bc8dffdbc805878aa3801a33f563cd1001.png" alt="">
+									<span>满35减12;满60减20(在线支付专享)</span>
+								</div>
+								<div class="single-line">
+									<img class="discount-icon" src="{WE7_WMALL_TPL_URL}static/img/activity/f8bc8dffdbc805878aa3801a33f563cd1001.png" alt="">
+									<span>满35减12;满60减20(在线支付专享)</span>
+								</div>
+								<div class="single-line">
+									<img class="discount-icon" src="{WE7_WMALL_TPL_URL}static/img/activity/f8bc8dffdbc805878aa3801a33f563cd1001.png" alt="">
+									<span>满35减12;满60减20(在线支付专享)</span>
+								</div>
+							</div>
+							<div class="hot-box">
+								<a href="">
+									<div class="hot-box-item">
+										<div class="hot-t border-1px">
+											<img src="{WE7_WMALL_TPL_URL}static/img/activity/3f795061e055a631afac2d201ce00bb732768.jpg.webp" alt="">
+											<div>省36%</div>
+										</div>
+										<div class="hot-b">
+											<div class="shop-name">巨峰拼盘</div>
+											<div class="shop-price">
+												<span class="price">¥4.99</span>
+												<span class="old-price">¥7.8</span>
+											</div>
+										</div>
+									</div>
+								</a>
+								<a href="">
+									<div class="hot-box-item">
+										<div class="hot-t border-1px">
+											<img src="{WE7_WMALL_TPL_URL}static/img/activity/3f795061e055a631afac2d201ce00bb732768.jpg.webp" alt="">
+											<div>省36%</div>
+										</div>
+										<div class="hot-b">
+											<div class="shop-name">巨峰拼盘</div>
+											<div class="shop-price">
+												<span class="price">¥4.99</span>
+												<span class="old-price">¥7.8</span>
+											</div>
+										</div>
+									</div>
+								</a>
+								<a href="">
+									<div class="hot-box-item">
+										<div class="hot-t border-1px">
+											<img src="{WE7_WMALL_TPL_URL}static/img/activity/3f795061e055a631afac2d201ce00bb732768.jpg.webp" alt="">
+											<div>折扣</div>
+										</div>
+										<div class="hot-b">
+											<div class="shop-name">火龙果切</div>
+											<div class="shop-price">
+												<span class="price">¥4.99</span>
+												<span class="old-price">¥7.8</span>
+											</div>
+										</div>
+									</div>
+								</a>
+							</div>
+						</div>
+						<div class="clear"></div>
+					</div>
+				</div>
+				<div class="waimai-store-item border-1px-b">
+					<div class="mian-content-box">
+						<div class="content-left border-1px">
+							<a href="">
+								<img src="{WE7_WMALL_TPL_URL}static/img/activity/3f795061e055a631afac2d201ce00bb732768.jpg.webp" alt="">
+							</a>
+							<span class="label">热卖</span>
+							<div>店铺休息中</div>
+						</div>
+						<div class="content-right">
+							<a href="">
+								<div class="item-name-wrap">
+									<div class="item-name">鲜果飘香水果店</div>
+								</div>
+								<div class="item-score-sale">
+									<div class="item-star-box">
+										<div class="stars">
+											<i class='icon icon-favor_light'></i><i class='icon icon-favor_light'></i><i class='icon icon-favor_light'></i><i class='icon icon-favor_light'></i><i class='icon icon-favor_light'></i>
+										</div>
+										<div class="stars-bg">
+											<i class='icon icon-favor_fill_light'></i><i class='icon icon-favor_fill_light'></i><i class='icon icon-favor_fill_light'></i><i class='icon icon-favor_fill_light'></i><i class='icon icon-favor_fill_light'></i>
+										</div>
+									</div>
+									<div class="item-sale">月售63单</div>
+									<div class="time-distance">
+										<div class="avg_graphic_time">46分钟</div>
+										<span class='line'>|</span>
+										<div class="item-distance">914m</div>
+									</div>
+								</div>
+								<div class="item-min-delivery">
+									<span>起送价￥20</span>
+									<span class='line'>|</span>
+									<span>配送费￥0</span>
+									<div>美团专送</div>
+								</div>
+							</a>
+							<div class="discount-box">
+								<i class="icon icon-unfold"></i>
+								<div class="single-line">
+									<img class="discount-icon" src="{WE7_WMALL_TPL_URL}static/img/activity/f8bc8dffdbc805878aa3801a33f563cd1001.png" alt="">
+									<span>满35减12;满60减20(在线支付专享)</span>
+								</div>
+								<div class="single-line">
+									<img class="discount-icon" src="{WE7_WMALL_TPL_URL}static/img/activity/f8bc8dffdbc805878aa3801a33f563cd1001.png" alt="">
+									<span>满35减12;满60减20(在线支付专享)</span>
+								</div>
+								<div class="single-line">
+									<img class="discount-icon" src="{WE7_WMALL_TPL_URL}static/img/activity/f8bc8dffdbc805878aa3801a33f563cd1001.png" alt="">
+									<span>满35减12;满60减20(在线支付专享)</span>
+								</div>
+							</div>
+							<div class="hot-box">
+								<a href="">
+									<div class="hot-box-item">
+										<div class="hot-t border-1px">
+											<img src="{WE7_WMALL_TPL_URL}static/img/activity/3f795061e055a631afac2d201ce00bb732768.jpg.webp" alt="">
+											<div>省36%</div>
+										</div>
+										<div class="hot-b">
+											<div class="shop-name">巨峰拼盘</div>
+											<div class="shop-price">
+												<span class="price">¥4.99</span>
+												<span class="old-price">¥7.8</span>
+											</div>
+										</div>
+									</div>
+								</a>
+								<a href="">
+									<div class="hot-box-item">
+										<div class="hot-t border-1px">
+											<img src="{WE7_WMALL_TPL_URL}static/img/activity/3f795061e055a631afac2d201ce00bb732768.jpg.webp" alt="">
+											<div>省36%</div>
+										</div>
+										<div class="hot-b">
+											<div class="shop-name">巨峰拼盘</div>
+											<div class="shop-price">
+												<span class="price">¥4.99</span>
+												<span class="old-price">¥7.8</span>
+											</div>
+										</div>
+									</div>
+								</a>
+								<a href="">
+									<div class="hot-box-item">
+										<div class="hot-t border-1px">
+											<img src="{WE7_WMALL_TPL_URL}static/img/activity/3f795061e055a631afac2d201ce00bb732768.jpg.webp" alt="">
+											<div>折扣</div>
+										</div>
+										<div class="hot-b">
+											<div class="shop-name">火龙果切</div>
+											<div class="shop-price">
+												<span class="price">¥4.99</span>
+												<span class="old-price">¥7.8</span>
+											</div>
+										</div>
+									</div>
+								</a>
+							</div>
+						</div>
+						<div class="clear"></div>
+					</div>
+				</div>
+			</div>
+			<div class="waimai-load-more">
+				<span>点击查看更多</span>
+			</div>
+		</div>
+		<div class="diy-banner">
+			<img src="{WE7_WMALL_TPL_URL}static/img/activity/1245c90a6aad23dde416cedee124d94f14935.png.webp" alt="">
+		</div>
+		<div class="activity-rule">
+			<div class="activity-rule-title border-1px-b">活动规则</div>
+			<div class="activity-rule-content">
+				1.活动时间：7月12日－7月16日
+				<br>
+				2.活动范围：所覆盖城市
+				<br>
+				3.活动内容：西瓜0.99元起，无活动品供给地区以实际价格为准
+				<br>
+				4.优惠仅限美团外卖及美团App下单且选择在线支付的订单享受
+			</div>
+		</div>
+		<div class="diy">
+			<div class="diy-cube">
+				<div class="diy-cube-left">
+					<img src="{WE7_WMALL_TPL_URL}static/img/activity/3f795061e055a631afac2d201ce00bb732768.jpg.webp" alt="">
+				</div>
+				<div class="diy-cube-right">
+					<div class="diy-cube-right1">
+						<img src="{WE7_WMALL_TPL_URL}static/img/activity/3f795061e055a631afac2d201ce00bb732768.jpg.webp" alt="">
+					</div>
+					<div class="diy-cube-right2">
+						<div class="left">
+							<img src="{WE7_WMALL_TPL_URL}static/img/activity/3f795061e055a631afac2d201ce00bb732768.jpg.webp" alt="">
+						</div>
+						<div class="right">
+							<img src="{WE7_WMALL_TPL_URL}static/img/activity/3f795061e055a631afac2d201ce00bb732768.jpg.webp" alt="">
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- <div class="diy-picturew row-2">
+				<div class="item">
+					<img src="{WE7_WMALL_TPL_URL}static/img/activity/3f795061e055a631afac2d201ce00bb732768.jpg.webp" alt="">
+				</div>
+				<div class="item">
+					<img src="{WE7_WMALL_TPL_URL}static/img/activity/3f795061e055a631afac2d201ce00bb732768.jpg.webp" alt="">
+				</div>
+				<div class="item">
+					<img src="{WE7_WMALL_TPL_URL}static/img/activity/3f795061e055a631afac2d201ce00bb732768.jpg.webp" alt="">
+				</div>
+				<div class="item">
+					<img src="{WE7_WMALL_TPL_URL}static/img/activity/3f795061e055a631afac2d201ce00bb732768.jpg.webp" alt="">
+				</div>
+			</div> -->
+			<div class="btn-edit-del">
+				<div class="btn-edit">编辑</div>
+				<div class="btn-del">删除</div>
+			</div>
+		</div>
+		<div class="diy-navs col-4">
+			<div class="diy-nav-col">
+				<a href="">
+					<div class="nav-icon">
+						<img src="{WE7_WMALL_TPL_URL}static/img/activity/ef8b47c170e8849976b41b3074e69319133895.jpg.webp" alt="">
+					</div>
+					<div class="nav-text">现金红包</div>
+				</a>
+			</div>
+			<div class="diy-nav-col">
+				<div class="nav-icon">
+					<img src="{WE7_WMALL_TPL_URL}static/img/activity/7186eb54169a1355a702416058f58863.png" alt="">
+				</div>
+				<div class="nav-text">精美实物</div>
+			</div>
+			<div class="diy-nav-col">
+				<div class="nav-icon">
+					<img src="{WE7_WMALL_TPL_URL}static/img/activity/f4c4efe61032b4a97eca035c7e725068.png" alt="">
+				</div>
+				<div class="nav-text">优惠卷</div>
+			</div>
+			<div class="diy-nav-col">
+				<div class="nav-icon">
+					<img src="{WE7_WMALL_TPL_URL}static/img/activity/7186eb54169a1355a702416058f58863.png" alt="">
+				</div>
+				<div class="nav-text">精美实物</div>
+			</div>
+			<div class="clear"></div>
+			<div class="diy-nav-page">
+				<span></span>
+				<span></span>
+			</div>
+		</div>
+		<div class="diy-notice">
+			<div class="diy-notice-container">
+				<div class="image border-1px-r">
+					<img src="{WE7_WMALL_TPL_URL}static/img/activity/hotdot.jpg" alt="">
+				</div>
+				<div class="icon">
+					<i class='icon icon-notification'></i>
+				</div>
+				<div class="notice-text">
+					<div>这里是第一条公告的标题</div>
+					<div>这里是第一条公告的标题</div>
+					<div>这里是第一条公告的标题</div>
+				</div>
+			</div>
+		</div>
+		<div class="diy-graphic">
+			<div class="diy-graphic-container clearfix">
+				<a href="javascript:;" class="diy-graphic-list">
+					<div class="main-title">来包香烟</div>
+					<div class="subhead">25分钟送达</div>
+					<div class="img">
+						<img src="{WE7_WMALL_TPL_URL}static/img/activity/c017af62821b17abf2531d8355994a45303283.jpg.webp" alt="">
+					</div>
+				</a>
+				<a href="javascript:;" class="diy-graphic-list">
+					<div class="main-title">来包香烟</div>
+					<div class="subhead">25分钟送达</div>
+					<div class="img">
+						<img src="{WE7_WMALL_TPL_URL}static/img/activity/c017af62821b17abf2531d8355994a45303283.jpg.webp" alt="">
+					</div>
+				</a><a href="javascript:;" class="diy-graphic-list">
+					<div class="main-title">来包香烟</div>
+					<div class="subhead">25分钟送达</div>
+					<div class="img">
+						<img src="{WE7_WMALL_TPL_URL}static/img/activity/c017af62821b17abf2531d8355994a45303283.jpg.webp" alt="">
+					</div>
+				</a><a href="javascript:;" class="diy-graphic-list">
+					<div class="main-title">来包香烟</div>
+					<div class="subhead">25分钟送达</div>
+					<div class="img">
+						<img src="{WE7_WMALL_TPL_URL}static/img/activity/c017af62821b17abf2531d8355994a45303283.jpg.webp" alt="">
+					</div>
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
+{itemplate 'public/footer'}

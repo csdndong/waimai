@@ -1,0 +1,49 @@
+<view class="page-index">
+    <view class="buttons-tab border-1px-b">
+        <view bind:tap="onChangeType" class="tabs {{pay_type=='all'?'active':''}}" data-type="all">所有</view>
+        <view bind:tap="onChangeType" class="tabs {{pay_type=='wechat'?'active':''}}" data-type="wechat">微信</view>
+        <view bind:tap="onChangeType" class="tabs {{pay_type=='alipay'?'active':''}}" data-type="alipay">支付宝</view>
+        <view bind:tap="onChangeType" class="tabs {{pay_type=='credit'?'active':''}}" data-type="credit">余额</view>
+    </view>
+    <view class="content" wx:if="{{!orders.empty}}">
+        <view bind:tap="onJsEvent" class="order" data-event-type="jsUrl" data-url="pages/paybill/detail?id={{item.id}}" wx:for="{{orders.data}}">
+            <view class="order-header border-1px-b">
+                <view class="number">#{{item.serial_sn}}</view>
+                <view class="payfor {{item.pay_type_css}}">{{item.pay_type_cn}}</view>
+            </view>
+            <view class="order-content border-1px-b">
+                <view class="member-info">
+                    <image class="header-img" src="{{item.avatar}}"></image>
+                    <view class="name">{{item.nickname}}</view>
+                </view>
+                <view class="price">
+                    <view>顾客支付：¥{{item.final_fee}}</view>
+                    <view>最终收入：¥{{item.store_final_fee}}</view>
+                </view>
+            </view>
+            <view class="order-footer">
+                <view class="order-number">
+                    <view>订单编号：</view>
+                    <view>{{item.order_sn}}</view>
+                </view>
+                <view class="order-addtime">
+                    <view>下单时间：</view>
+                    <view>{{item.addtime_cn}}</view>
+                </view>
+            </view>
+        </view>
+        <view class="wui-loadmore wui-loadmore-nomore" wx:if="{{orders.loaded}}">
+            <view class="wui-loadmore-tips">我是有底线的</view>
+            <view class="wui-loadmore-line"></view>
+        </view>
+        <view class="wui-loadmore" wx:else>
+            <view class="wui-loading"></view>
+            <view class="wui-loadmore-tips">正在加载中</view>
+        </view>
+    </view>
+    <view class="no-data" wx:else>
+        <image src="/static/img/no_order.png"></image>
+        <view>没有任何记录哦～</view>
+    </view>
+</view>
+<include src="../public/footer.wxml"></include>

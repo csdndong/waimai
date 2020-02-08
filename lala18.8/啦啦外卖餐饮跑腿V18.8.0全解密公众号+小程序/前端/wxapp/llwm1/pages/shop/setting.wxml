@@ -1,0 +1,107 @@
+<view class="page-shopsetting">
+    <view class="header">
+        <view class="logo">
+            <image src="{{store.logo}}"></image>
+        </view>
+        <view class="title ellipsis">{{store.title}}</view>
+    </view>
+    <view class="zan-panel" style="margin-top: 0;">
+        <view bind:tap="onJsEvent" class="zan-cell zan-cell--access" data-event-type="jsUrl" data-url="pages/shop/select">
+            <view class="zan-cell__bd zan-cell_title">
+                <view class="img">
+                    <image mode="widthFix" src="/static/img/cut_shop.png"></image>
+                </view>
+				切换门店
+			</view>
+            <view class="zan-cell__ft"></view>
+        </view>
+    </view>
+    <view class="zan-panel">
+        <view bind:tap="onJsEvent" class="zan-cell zan-cell--access" data-event-type="jsUrl" data-url="pages/shop/info">
+            <view class="zan-cell__bd zan-cell_title">
+                <view class="img">
+                    <image mode="widthFix" src="/static/img/shop_info.png"></image>
+                </view>
+				门店信息
+			</view>
+            <view class="zan-cell__ft"></view>
+        </view>
+        <view class="zan-cell zan-cell--switch zan-field">
+            <view class="zan-cell__bd zan-cell_title">
+                <view class="img">
+                    <image mode="widthFix" src="/static/img/shop_status.png"></image>
+                </view>
+				营业状态
+			</view>
+            <view class="zan-cell__ft">
+                <switch bindchange="onChangeSwitch" checked="{{store.is_in_business==1?true:false}}" color="#33aafc" data-type="is_in_business"></switch>
+            </view>
+        </view>
+        <view class="zan-cell zan-cell--switch zan-field">
+            <view class="zan-cell__bd zan-cell_title">
+                <view class="img">
+                    <image mode="widthFix" src="/static/img/auto_takeOrder.png"></image>
+                </view>
+				自动接单
+			</view>
+            <view class="zan-cell__ft">
+                <switch bindchange="onChangeSwitch" checked="{{store.auto_handel_order==1?true:false}}" color="#33aafc" data-type="auto_handel_order"></switch>
+            </view>
+        </view>
+        <view class="zan-cell zan-cell--switch zan-field">
+            <view class="zan-cell__bd zan-cell_title">
+                <view class="img">
+                    <image mode="widthFix" src="/static/img/auto_deliveryOrder.png"></image>
+                </view>
+				自动通知配送员抢单
+			</view>
+            <view class="zan-cell__ft">
+                <switch bindchange="onChangeSwitch" checked="{{store.auto_notice_deliveryer==1?true:false}}" color="#33aafc" data-type="auto_notice_deliveryer"></switch>
+            </view>
+        </view>
+        <view class="zan-cell zan-cell--switch zan-field">
+            <view class="zan-cell__bd zan-cell_title">
+                <view class="img">
+                    <image mode="widthFix" src="/static/img/wx_templateNews.png"></image>
+                </view>
+				微信模板消息提醒
+			</view>
+            <view class="zan-cell__ft">
+                <switch bindchange="onChangeSwitch" checked="{{manager.extra.accept_wechat_notice==1?true:false}}" color="#33aafc" data-type="accept_wechat_notice"></switch>
+            </view>
+        </view>
+        <view class="zan-cell zan-cell--switch zan-field">
+            <view class="zan-cell__bd zan-cell_title">
+                <view class="img">
+                    <image mode="widthFix" src="/static/img/tel_remind.png"></image>
+                </view>
+				语音电话提醒
+			</view>
+            <view class="zan-cell__ft">
+                <switch bindchange="onChangeSwitch" checked="{{manager.extra.accept_voice_notice==1?true:false}}" color="#33aafc" data-type="accept_voice_notice"></switch>
+            </view>
+        </view>
+        <view class="zan-cell zan-cell--access">
+            <view class="zan-cell__bd zan-cell_title">
+                <view class="img">
+                    <image mode="widthFix" src="/static/img/open_hours.png"></image>
+                </view>
+				营业时间
+			</view>
+            <view bind:tap="onJsEvent" class="zan-cell__ft" data-event-type="jsUrl" data-url="pages/shop/part/textarea?type=business_hours">{{store.business_hours_cn}}</view>
+        </view>
+    </view>
+    <view class="zan-panel">
+        <view bind:tap="onJsEvent" class="zan-cell zan-cell--access" data-event-type="jsUrl" data-url="pages/more/password">
+            <view class="zan-cell__bd zan-cell_title">
+                <view class="img">
+                    <image mode="widthFix" src="/static/img/account_password.png"></image>
+                </view>
+				账户密码
+			</view>
+            <view class="zan-cell__ft"></view>
+        </view>
+    </view>
+    <button bind:tap="onLoginout" class="weui-btn" type="primary">退出</button>
+</view>
+<include src="../public/footer.wxml"></include>

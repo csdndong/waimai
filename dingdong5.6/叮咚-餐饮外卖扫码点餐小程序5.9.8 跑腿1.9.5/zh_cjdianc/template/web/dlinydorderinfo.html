@@ -1,0 +1,281 @@
+{template 'public/header'}
+{template 'public/comhead'}
+<style type="text/css">
+    .info{padding: 30px;}
+    .progress{height: 5px;}
+    .infoul>li{padding: 0px;position: relative;}
+    .infoul>li>div:nth-child(1){margin-bottom: 15px;margin-left: -15px;}
+    .info_gou{width: 20px;height: 20px;color: white;border-radius: 50%;text-align: center;line-height: 20px;position: absolute;top: 27px;left: 0px;}
+    .info_grey{background-color: #e6e6e6;}
+    .info_green{background-color: #44ABF7;}
+    .progress-bar-yg{background-color: #44ABF7;}
+    .info_left{border-right: 1px solid #ccc;}
+    .info_right{padding: 15px;}
+    .info_left_title{font-size: 14px;font-weight: bold;}
+    .info_left_content>p>span:nth-child(1),.info_left_content2>p>span:nth-child(1){color: #999999;margin-right: 10px;}
+    .info_left_content{border-bottom: 1px dashed #ccc;padding-left: 100px;padding-top: 15px;}
+    .info_left_content2{padding-left: 100px;padding-top: 15px;padding-bottom: 5px;}
+    .info_right_top{border-bottom: 1px dashed #ccc;height: 200px;}
+    .info_right_type{font-size: 14px;font-weight: bold;margin-left: 15px;}
+    .info_right_type>span{font-size: 18px;}
+    .gantan{color: #0077DD;border: 1px solid #0077DD;width: 30px;height: 30px;border-radius: 50%;text-align: center;line-height: 30px;font-size: 22px;font-weight: bold;}
+    .info1{height: 32px;}
+    .info1>div{float: left;}
+    .font1{color: #FF6600;font-size: 16px;font-weight: bold;}
+    .beizhu{margin: 10px 0px;}
+    .content1>div{float: left;}
+    .content1>div:nth-child(1){width: 90px;text-align: right;color: #999;margin-right: 10px;}
+    .content_inp{width: 122px;height: 32px;border:1px solid #ccc;padding: 0px 10px;}
+    .info_right_bot{padding: 10px 0px;}
+    .content_font{text-align: right;color: #999;}
+    .store_td1{height: 45px;}
+    .store_list_img{width: 60px;height: 60px;}
+    .yg5_tabel{border-color: #e5e5e5;outline: 1px solid #e5e5e5;text-align: center;}
+    .yg5_tr2>td{padding: 15px;border: 1px solid #e5e5e5;}
+    .yg5_tr1>td{
+        border: 1px solid #e5e5e5;
+        padding-left: 15px;
+        background-color: #FAFAFA;
+        font-weight: bold;
+    }
+    .yg5_tr3>td{font-weight: bold;height: 45px;}
+    .yg5_tr3>td:nth-child(1){text-align: right;padding-right: 50px;}
+    .rizhi{margin-top: 20px;}
+    .rizhi>li{width: 100%;border-top: 1px solid #ccc;height: 80px;padding:15px 20px 10px 20px;}
+    .rizhip{font-size: 13px;font-weight: bold;}
+    .rizhip>span:nth-child(1){margin-right: 10px;}
+    .rizhip2{margin-left: 20px;}
+    .label-orderinfo{background-color: #44ABF7;color: white;}
+    .ygmain{font-size: 12px;}
+</style>
+<div class="main ygmain">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <a class="btn label-orderinfo" href="{php echo $this->createWebUrl2('dlinydorder');}"><i class="fa fa-refresh"></i>返回订单管理</a>
+            <div class="right">
+            {if $item['state']==1}
+                <td style="width: 105px;">
+                 <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModalb">确认订单</button>
+                 <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModalb">拒绝订单</button>
+                </td> 
+            {/if} 
+                  <div class="modal fade" id="myModalb" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel" style="font-size: 20px;">提示</h4>
+                        </div>
+                        <div class="modal-body" style="font-size: 20px">
+                            是否要确认订单？
+                        </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                            <a href="{php echo $this->createWebUrl2('dlinydorder',array('op'=>'ok','id'=>$item['id']));}" type="button" class="btn btn-info" >确定</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="myModalc" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel" style="font-size: 20px;">提示</h4>
+                        </div>
+                        <div class="modal-body" style="font-size: 20px">
+                            是否要拒绝订单？
+                        </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                            <a href="{php echo $this->createWebUrl2('dlinydorder',array('op'=>'tg','id'=>$item['id']));}" type="button" class="btn btn-info" >确定</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            订单号：{$item['order_num']}
+        </div>
+        <div class="panel-body" style="padding: 0px 15px;">
+            <div class="row info">
+                <!-- 一种状态开始 -->
+                {if $item['yy_state']==2}
+                <ul class="col-md-9 col-md-push-2 infoul">
+                    <li class="col-md-5">
+                        <div style="color: #44ABF7;">买家下单</div>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-yg" role="progressbar" aria-valuenow="60" 
+                                aria-valuemin="0" aria-valuemax="100" style="width: 50%;">
+                            </div>
+                        </div>
+                        <div class="info_gou info_green">
+                            <span class="fa fa-check"></span>
+                        </div>
+                    </li>
+                    <li class="col-md-5">
+                        <div style="color: #999;">已确认</div>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-yg" role="progressbar" aria-valuenow="60" 
+                                aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+                            </div>
+                        </div>
+                        <div class="info_gou info_grey">
+                            <span class="fa fa-check"></span>
+                        </div>
+                    </li>
+                    <li class="col-md-2">
+                        <div style="color: #999;">已拒绝</div>                        
+                        <div class="info_gou info_grey">
+                            <span class="fa fa-check"></span>
+                        </div>
+                    </li>
+                </ul>
+                {/if}
+                <!-- 一种状态结束 -->
+                <!-- 二种状态开始 -->
+                {if $item['yy_state']==3}
+                <ul class="col-md-9 col-md-push-2 infoul">
+                    <li class="col-md-5">
+                        <div style="color: #44ABF7;">买家下单</div>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-yg" role="progressbar" aria-valuenow="60" 
+                                aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
+                            </div>
+                        </div>
+                        <div class="info_gou info_green">
+                            <span class="fa fa-check"></span>
+                        </div>
+                    </li>
+                    <li class="col-md-5">
+                        <div style="color: #44ABF7;">已确认</div>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-yg" role="progressbar" aria-valuenow="60" 
+                                aria-valuemin="0" aria-valuemax="100" style="width: 50%;">
+                            </div>
+                        </div>
+                        <div class="info_gou info_green">
+                            <span class="fa fa-check"></span>
+                        </div>
+                    </li>
+                    <li class="col-md-2">
+                        <div style="color: #999;">已拒绝</div>                        
+                        <div class="info_gou info_grey">
+                            <span class="fa fa-check"></span>
+                        </div>
+                    </li>
+                </ul>
+                {/if}
+                <!-- 二种状态结束 -->
+                <!-- 三种状态结束 -->
+                {if $item['yy_state']==4}
+                <ul class="col-md-9 col-md-push-2 infoul">
+                    <li class="col-md-5">
+                        <div style="color: #44ABF7;">买家下单</div>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-yg" role="progressbar" aria-valuenow="60" 
+                                aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
+                            </div>
+                        </div>
+                        <div class="info_gou info_green">
+                            <span class="fa fa-check"></span>
+                        </div>
+                    </li>
+                    <li class="col-md-5">
+                        <div style="color: #44ABF7;">已确认</div>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-yg" role="progressbar" aria-valuenow="60" 
+                                aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
+                            </div>
+                        </div>
+                        <div class="info_gou info_green">
+                            <span class="fa fa-check"></span>
+                        </div>
+                    </li>
+                    <li class="col-md-2">
+                        <div style="color: #44ABF7;">已拒绝</div>                        
+                        <div class="info_gou info_green">
+                            <span class="fa fa-check"></span>
+                        </div>
+                    </li>
+                </ul>
+                {/if}
+                <!-- 三种状态结束 -->
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">        
+        <div class="panel-body" style="padding: 15px 30px;">
+            <div class="row">
+                <div class="col-md-6 info_left">
+                    <div class="info_left_title">订单信息</div>
+                    <div class="info_left_content">
+                        <p><span>订单编号：</span>{$item['order_num']}</p>
+                        <p><span>支付流水：</span>{$item['code']}</p>
+                        <p>
+                            <span>订单类型：</span>
+                            <span class="font1">预订</span>
+                        </p>
+                        <p><span>付款类型</span>{if $item['pay_type']==1}<span class="label label-orderinfo"> 微信支付</span>{elseif $item['pay_type']==2}<span class="label label-orderinfo"> 余额支付</span>{elseif $item['pay_type']==3}<span class="label label-orderinfo"> 积分支付</span>{/if}</p>
+                    </div>
+                    <div class="info_left_content">
+                        <p><span>预定时间：</span>{$item['time']}</p>
+                         {php $zz=pdo_get('cjdc_table_type',array('id'=>$item['table_id']))}
+                        <p><span>预定信息：</span>{$item['name']}--{$item['tel']}--{$zz['name']}</p>
+                        <p><span>预计到店时间：</span>{$item['delivery_time']}</p>
+                    </div>
+                    
+                    <div class="info_left_content2">
+                        <p><span>买家留言：</span>{if $item['note']}{$item['note']}{else}无{/if}</p>
+                    </div>
+                </div>
+                <div class="col-md-6 info_right">
+                    <div class="info_right_top">
+                        <div class="col-md-12 info1">
+                            <div class="gantan"><span class="fa fa-exclamation"></span></div>
+                            <div class="info_right_type">订单状态：{if $item['yy_state']==2}
+               
+                <span style="color:red"> 待确认</span>
+               
+               
+                {elseif $item['yy_state']==3}
+              
+                <span style="color:green">已确认</span>
+               
+                
+                 {elseif $item['yy_state']==4}
+               
+                <span style="color:red">已拒绝</span>
+               
+                
+
+                 {/if} </div>
+                        </div>
+                       <!--  <div class="col-md-12 beizhu">【备注】</div> -->
+                        <div class="content1 col-md-12">
+                            <div>总金额：</div>
+                            <div class="font1">¥{$item['money']}</div>
+                        </div>
+                       
+                    
+                    </div>
+                 
+                </div>
+            </div>
+        </div>
+    </div>
+   
+    
+    {$pager}
+</div>
+<script type="text/javascript">
+    $(function(){
+        // $("#frame-1").addClass("in");
+        $("#frame-1").show();
+        $("#yframe-1").addClass("wyactive");
+    })
+</script>
+{template 'common/footer'}

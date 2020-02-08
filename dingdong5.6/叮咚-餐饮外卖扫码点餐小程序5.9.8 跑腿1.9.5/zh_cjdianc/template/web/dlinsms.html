@@ -1,0 +1,174 @@
+{template 'public/header'}
+{template 'public/comhead'}
+<link rel="stylesheet" type="text/css" href="../addons/zh_cjdianc/template/public/ygcss.css">
+<style type="text/css">
+    input[type="radio"] + label::before {
+        content: "\a0"; /*不换行空格*/
+        display: inline-block;
+        vertical-align: middle;
+        font-size: 16px;
+        width: 1em;
+        height: 1em;
+        margin-right: .4em;
+        border-radius: 50%;
+        border: 2px solid #ddd;
+        text-indent: .15em;
+        line-height: 1; 
+    }
+    input[type="radio"]:checked + label::before {
+        background-color: #44ABF7;
+        background-clip: content-box;
+        padding: .1em;
+        border: 2px solid #44ABF7;
+    }
+    input[type="radio"] {
+        position: absolute;
+        clip: rect(0, 0, 0, 0);
+    }
+    .navback{width: 0}
+    .main{margin: 16px 0px 30px 45px;}
+    .nav_box{
+        left: 150px;
+        top: 48px;
+        bottom: 0;
+        color: #333;
+        border-right: 1px solid #efefef;
+        text-align: center;
+        position: fixed;
+        background: #fff;
+        z-index: 99;   
+        padding:0;     
+    }
+    .left_nav{
+        padding-top: 20px
+    }
+    .left_nav li{
+        line-height: 45px;
+    }
+    .left_nav li.active{
+        color: #00aeff;
+        background: #edf6ff
+    }
+    .left_nav li:hover{
+        background: #edf6ff;
+    }
+    .left_nav li:hover a{
+        color: #00aeff;
+    }
+    
+</style>
+<div class="nav_box col-md-1">
+    <ul class="left_nav">
+    <!--     <span class="ygxian"></span>
+        <div class="ygdangq">当前位置:</div>  -->   
+        <li class="active"><a href="javascript:void(0);">短信设置</a></li>
+    </ul>
+</div>
+<!-- <ul class="nav nav-tabs">
+    <span class="ygxian"></span>
+    <div class="ygdangq">当前位置:</div>    
+    <li class="active"><a href="javascript:void(0);">短信设置</a></li>
+</ul> -->
+<div class="main">
+    <form action="" method="post" class="form-horizontal form" enctype="multipart/form-data" id="invitative">
+        <div class="panel panel-default ygdefault">
+            <div class="panel-heading wyheader">
+                短信设置（聚合短信服务，短信申请地址： <a href="https://www.juhe.cn/">https://www.juhe.cn/</a>）
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">应用key：</label>
+                    <div class="col-sm-5">
+                        <input type="text" name="appkey" value="{$item['appkey']}" id="web_name" class="form-control" />
+                        <div class="help-block">
+                        * 请输入聚合短信的AppKey
+                        </div>
+                    </div>
+                </div>
+                 <div class="form-group">
+                    <label class="col-md-2 control-label">外卖提醒通知：</label>
+                    <div class="col-md-4">
+                        <input type="number" name="wm_tid" value="{$item['wm_tid']}" id="web_name" class="form-control" />
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="radio-inline">
+                            <input type="radio" id="emailwy1" name="is_wm" value="1" {if $item['is_wm']==1}checked{/if} />
+                            <label for="emailwy1">启用</label>
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" id="emailwy2" name="is_wm" value="2" {if $item['is_wm']==2 || empty($item['is_wm'])}checked{/if} />
+                            <label for="emailwy2">禁用</label>
+                        </label>
+                        <!-- <div class="help-block">
+                        * 选择不开启，用户下单商家则收不到短信提醒
+                        </div> -->    
+                    </div>
+                    <div class="help-block col-md-8 col-md-offset-2">
+                        * 请输入短信模板ID
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label">店内提醒通知：</label>
+                    <div class="col-md-4">
+                        <input type="number" name="dn_tid" value="{$item['dn_tid']}" id="web_name" class="form-control" />                        
+                    </div>
+                    <div class="col-md-6">
+                        <label class="radio-inline">
+                            <input type="radio" id="emailwy5" name="is_dn" value="1" {if $item['is_dn']==1}checked{/if} />
+                            <label for="emailwy5">启用</label>
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" id="emailwy6" name="is_dn" value="2" {if $item['is_dn']==2  || empty($item['is_dn'])}checked{/if} />
+                            <label for="emailwy6">禁用</label>
+                        </label>
+                           
+                    </div>
+                    <div class="help-block col-md-8 col-md-offset-2">
+                        *  请输入短信模板ID
+                    </div> 
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label">预定提醒通知：</label>
+                    <div class="col-md-4">
+                        <input type="number" name="yy_tid" value="{$item['yy_tid']}" id="web_name" class="form-control" />                        
+                    </div>
+                    <div class="col-md-6">
+                        <label class="radio-inline">
+                            <input type="radio" id="emailwy3" name="is_yy" value="1" {if $item['is_yy']==1 || empty($item['is_yy'])}checked{/if} />
+                            <label for="emailwy3">启用</label>
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" id="emailwy4" name="is_yy" value="2" {if $item['is_yy']==2}checked{/if} />
+                            <label for="emailwy4">禁用</label>
+                        </label>
+                    </div>
+                    <div class="help-block col-md-8 col-md-offset-2">
+                        * 请输入短信模板ID
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">接收人手机号：</label>
+                    <div class="col-sm-5">
+                        <input type="text" name="tel" value="{$item['tel']}" id="web_name" class="form-control" />
+                        <div class="help-block">
+                            * 请绑定接收人手机号，有新订单会发送短信到此手机号
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <input type="submit" name="submit" value="保存设置" class="btn col-lg-3" style="color: white;background-color: #44ABF7;" />
+            <input type="hidden" name="token" value="{$_W['token']}" />
+            <input type="hidden" name="id" value="{$item['id']}" />
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+    $(function(){
+        $("#frame-4").show();
+        $("#yframe-4").addClass("wyactive");
+    })
+</script>
+{template 'common/footer'}

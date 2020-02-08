@@ -1,0 +1,187 @@
+ <{extends file="<{$tempdir}>/public/wxsite.html"}>  
+<{block name=extendcss}> 
+ <link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/gift.css">
+<{/block}>
+ <{block name=extendjs}> 
+  <script src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/js/template.min.js"></script>    
+<{/block}>
+<{block name=myScrolljs}>
+<script> 
+		var myScroll;
+function loaded() {
+	myScroll = new iScroll('wrapper', {
+		useTransform: false,
+		onBeforeScrollStart: function (e) {
+			var target = e.target;
+			while (target.nodeType != 1) target = target.parentNode;
+
+			if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA')
+				e.preventDefault();
+		}
+	});
+}
+document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false); 
+document.addEventListener('DOMContentLoaded', function () { setTimeout(loaded, 200); }, false);
+</script>
+
+ <script>
+ 	$(function(){
+ 	$('#loginbtn').click(function(){ 
+	 
+ 		var uid = $('#uid').val();
+ 	        var password = $('#password').val();
+
+  	 	showLoading();
+  	  	var info = {'uid':uid,'password':password}; 
+  	 	  var  url = siteurl+'/index.php?ctrl=wxsite&action=floginaddpwd&datatype=json&random=@random@' 
+  	 	   $.ajax({ 
+             url: url.replace('@random@', 1+Math.round(Math.random()*1000)), 
+            dataType: "json", 
+            data:info, 
+            success:function(content) {         
+            	if(content.error ==  false){
+					newhideLoading();
+                    window.location.href= siteurl+'/index.php?ctrl=wxsite&action=member';
+            	}else{ 
+					newhideLoading();
+            	   Tmsg(content.msg);
+              }
+            	
+            }, 
+            error:function(){
+            	newhideLoading();
+            } 
+         });  
+  
+		  
+	 }); 
+	});
+
+ </script>
+<{/block}>
+ <{block name=hearnav}>
+<div class="toptitCon">
+ <div class="toptitBox">
+  <div class="toptitL"><i></i></div>
+  <div class="toptitC"><h3>设置密码登录</h3><span onclick="dolink('<{ofunc type=url link="/wxsite/member"}>');"  style='color:#fff;position: absolute;top: 9px;right: 10px;font-size:80%'>跳过</span></div>
+ </div>
+</div>
+<{/block}>
+<{block name=sitetitle}><{$sitename}><{/block}>
+<{block name=blockcontent}> 
+ <div id="wrapper" style="top:40px;">
+	<div id="scroller">
+
+<!-------------------手机快捷登录输入密码----------------------->
+<div style='margin:15px 10px;font-size: 14px' >设置登录密码后,您可以通过账号+密码登录,请牢记密码</div>
+<div class="signininput fastlogin">
+ <ul>
+  <li><i class="signinpho"></i>
+      <input type="password" id="password" value="" placeholder="请输入密码">
+      <input type="hidden" id="uid" value="<{$userinfo['uid']}>" >
+
+  </li>
+ </ul>
+</div>
+<div style='margin:15px 10px;font-size: 14px' >密码长度限制6到20个字符</div>
+
+<div class="fastlogin" style='margin-top:15px; ' >
+    <input type="button" value="完成" style='border-radius: 5px;background-color:#cccccc;width: 94%;line-height: 35px;margin-left:3%;color: #fff; border-radius: 3px;font-size: 14px;' disabled="disabled" id ="loginbtn" class="intexbg1 intexbg1fastlogin">
+    
+</div>
+<script>
+
+        document.getElementById("password").oninput = function () {
+                 checkfastlogin();
+         }
+
+	function  checkfastlogin(){
+		var password = $("#password").val();
+		var colorset = '<{$color}>';
+		if(colorset == 'yellow'){
+		    color = '#ff7600';
+		}else if(colorset == 'green'){
+		    color = '#00cd85';
+		}else{
+		    color = '#ff6e6e';
+		}
+		if( password.length == 0){  
+			$("#loginbtn").css('background-color',"#ccc"); 
+			$('#loginbtn').attr('disabled',"true");
+		}else{
+			$('#loginbtn').removeAttr("disabled");
+			$("#loginbtn").css("background-color",color); 
+		}
+	}	 
+		 
+		 
+</script>
+<!-------------------手机快捷登录输入密码----------------------->
+		 <div style="height:10px;"></div>
+        <style>
+            .signinFast {
+                width: 100%;
+                padding-top:100px;
+                text-align: center;
+            }
+            .signinFast .xL {
+                width: 90px;
+                height: 2px;
+                background-color: #edecec;
+                display: block;
+                float: left;
+                margin-top: 9px;
+            }
+            .signinFast .xR {
+                width: 90px;
+                height: 2px;
+                background-color: #edecec;
+                display: block;
+                float: right;
+                margin-top: 9px;
+            }
+            .signinFast span {
+                line-height: 22px;
+                margin-right: 10px;
+                font-size: 14px;
+                color: #333333;
+            }
+            .signinFast span {
+                line-height: 22px;
+                margin-right: 10px;
+                font-size: 14px;
+                color: #333333;
+            }
+            .signinFast span {
+                line-height: 22px;
+                margin-right: 10px;
+                font-size: 14px;
+                color: #333333;
+            }
+            #logintype li{
+                float:left;
+                margin-left:20px;
+            }
+            #morelogin img{
+                width:60px;
+                height:60px;
+            }
+            #morelogin a{
+                margin-left:10px;
+            }
+			 
+.signininput ul li {
+    border-bottom: 1px solid #f5f5f5!important;     
+}
+ 
+        </style>
+
+	</div>
+</div>
+
+
+
+
+
+
+ <{/block}>

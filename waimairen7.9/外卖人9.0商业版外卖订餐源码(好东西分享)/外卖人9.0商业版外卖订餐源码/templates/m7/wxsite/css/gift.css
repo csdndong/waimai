@@ -1,0 +1,393 @@
+@charset "utf-8";
+ 
+.liststyle1 {
+background: #ffffff;
+border-bottom: 1px solid #e5e5e5;
+border-top: 1px solid #e5e5e5!important;
+margin-bottom: 10px;
+margin-top:10px;
+}
+.liststyle1 li.topheader{
+background-color:#f60;
+}
+.liststyle1 li.list{
+margin-left: 5px;
+margin-right: 5px; 
+border-bottom: 1px solid #e5e5e5; 
+padding-top: 5px;
+padding-bottom: 5px; 
+}
+.liststyle1 li.listb{
+	margin-left: 5px;
+margin-right: 5px; 
+border-bottom: 1px solid #e5e5e5; 
+padding-top: 5px;
+padding-bottom: 5px;
+padding-left:100px;
+}
+.imgdiv{
+position:absolute;
+left:8px;
+}
+.liststyle1 li:nth-last-of-type(1) {
+border-bottom: none;
+}
+.liststyle1 li .colomn{
+	text-align:center;
+	color:#fff; 
+	height:30px;
+line-height:30px;
+} 
+.leftarry { 
+background: url('../images/leftarr.png') no-repeat center;
+height: 15px;
+width: 15px;
+background-size: 100%;
+}
+.cart_tj {
+position: fixed;
+bottom: 0px; 
+height: 40px;
+width: 100%;
+background-color: rgba(0,0,0,0.8);
+display: -webkit-box;
+display: -moz-box;
+display: -o-box;
+display: box;
+-webkit-box-align: center;
+-moz-box-align: center;
+-o-box-align: center;
+box-align: center;
+color:#fff;
+}
+#total_count{
+  color:#c30814;
+  font-weight:bold;
+  font-size:15px;
+}
+.costtext {
+color: #c30814;
+font-weight: bold;
+}
+.btn{
+padding:5px 10px 5px 10px;
+background-color:#f60;
+color:#fff;
+margin-top:10px;
+}
+.loglist {
+background: #ffffff;
+border-bottom: 1px solid #e5e5e5;
+border-top: 1px solid #e5e5e5!important;
+margin-bottom: 10px;
+margin-top: 10px;
+}
+.loglist li:nth-last-of-type(1) {
+border-bottom: none;
+}
+.loglist .putong{
+margin-left: 5px;
+margin-right: 5px; 
+border-bottom: 1px solid #e5e5e5; 
+padding-top: 5px;
+padding-bottom: 5px; 
+}
+.f60{
+padding-left: 5px;
+background-color:#f60;
+color:#fff;
+text-align:center;
+}
+.tabEven {
+background-color: #ccc;
+}
+
+
+
+/*--------------------------------------------------------------兑换商品列表开始-----------------------------------------------------------*/
+
+
+/*-------------------------兑换签到开始-------------------------*/
+
+.exchaSignCon{
+	padding: 14px 2.7777% 15px 2.7777%;
+	display: -webkit-box;
+	display: -moz-box;
+	background: url(../images/exchaSign_bg.png) 100% 100%;
+}
+
+.exchaSignCon .exchaSignL{
+	text-align: left;
+	-moz-box-flex: 1;
+	-webkit-box-flex: 1;
+	box-flex: 1;
+}
+
+.exchaSignCon .exchaSignL h3{
+	margin-bottom: 8px;
+	font-size: 14px;
+	color: #ffffff;
+	font-weight: normal;
+}
+
+.exchaSignCon .exchaSignL span{
+	font-size: 10px;
+	color: #e5e5e5;
+}
+
+.exchaSignCon .exchaSignR{
+	text-align: right;
+	-moz-box-flex: 1;
+	-webkit-box-flex: 1;
+	box-flex: 1;
+}
+
+.exchaSignCon .exchaSignR span{
+	line-height: 28px;
+	margin-bottom: 10px;
+	padding: 0 11px;
+	font-size: 12px;
+	color: #ffffff;
+	float: right;
+	background: #f2be0a;
+	border-radius: 50px;
+	display: block;
+}
+
+.exchaSignCon .exchaSignR b{
+	font-size: 10px;
+	color: #cccccc;
+	font-weight: normal;
+	clear: both;
+	display: block;
+}
+
+.exchaSignCon .exchaSignR b i{
+	margin-left: 4px;
+	font-size: 10px;
+	color: #cccccc;
+}
+
+/*-------------------------兑换签到结束-------------------------*/
+
+
+.intexchshopCon {
+	padding: 10px 1.3888% 0 1.3888%;
+	overflow: hidden;
+}
+
+.intexchshopCon ul li {
+	width: 41.4285%;
+	padding: 7px 2.8571%;
+	margin: 0 1.4285% 10px 1.4285%;
+	float: left;
+	background-color: #fff;
+	border-radius: 4px;
+}
+
+.intexchshopCon ul li .intexchshopImg {
+	width: 100%;
+	height: 110px;
+	overflow: hidden;
+}
+
+.intexchshopCon ul li .intexchshopImg img {
+	width: 100%;
+	height: 100%;
+}
+
+.intexchshopCon ul li .intexchshopName {
+	width: 100%;
+	height: 34px;
+	line-height: 17px;
+	padding: 7px 0;
+	overflow: hidden;
+}
+
+.intexchshopCon ul li .intexchshopName h3 {
+	font-size: 14px;
+	color: #333333;
+	font-weight: normal;
+}
+
+.intexchshopCon ul li .intexchshoprom {
+	width: 100%;
+	overflow: hidden;
+}
+
+.intexchshopCon ul li .intexchshoprom span {
+	line-height: 25px;
+	font-size: 14px;
+	color: #fa4c0f;
+	float: left;
+}
+
+.intexchshopCon ul li .intexchshoprom input {
+	width: 44.8275%;
+	height: 25px;
+	font-size: 12px;
+	color: #ffffff;
+	border-radius: 4px;
+	float: right;
+}
+
+.intexchshopCon ul li .intexchshoprom .inbg01 {
+	background-color: #fa4c0f;
+}
+
+.intexchshopCon ul li .intexchshoprom .inbg02 {
+	background-color: #cccccc;
+}
+
+/*--------------------------------------------------------------兑换商品列表结束-----------------------------------------------------------*/
+
+
+
+/*-----------------------------------------------------------积分兑换详情开始------------------------------------------------------------*/
+
+
+/*--------兑换图片--------*/
+
+.poiExcTopImg {
+	width: 100%;
+	height: 255px;
+	position: relative;
+	overflow: hidden;
+}
+
+.poiExcTopImg img {
+	width: 100%;
+	height: 100%;
+}
+
+.poiExcTopImg p {
+	width: 94.4444%;
+	line-height: 40px;
+	padding: 0 2.7777%;
+	font-size: 14px;
+	color: #ffffff;
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	background: rgba(0, 0, 0, 0.4);
+}
+
+
+/*--------兑换图片--------*/
+
+.poiExcInfoCon {
+	padding: 5px 2.7777%;
+	background: #fff;
+	overflow: hidden;
+}
+
+.poiExcInfoCon .poiExcInfo {
+	line-height: 40px;
+	float: left;
+}
+
+.poiExcInfoCon .poiExcInfo i {
+	width: 14px;
+	height: 15px;
+	display: inline-block;
+	vertical-align: -2px;
+	margin-right: 7px;
+}
+
+.poiExcInfoCon .poiExcInfo span {
+	font-size:18px;
+	color: #fa4c0f;
+}
+
+.poiExcInfoCon input {
+	width: 100px;
+	height: 40px;
+	font-size: 14px;
+	color: #fff;
+	border-radius: 4px;
+	background: #cccccc;
+	float: right;
+}
+
+.poiExcInfoCon .poiExcInp {
+	background: #fe9500;
+}
+
+
+/*--------兑换说明--------*/
+
+.poiExcExpCon {
+	width: 100%;
+	margin-top: 10px;
+	background: #fff;
+	overflow: hidden;
+}
+
+.poiExcExpCon .poiExcExp {
+	padding: 0 2.7777% 0 2.7777%;
+	border-bottom: 1px solid #ccc;
+	overflow: hidden;
+}
+
+.poiExcExpCon .poiExcExp h3 {
+	line-height: 33px;
+	font-size: 16px;
+	color: #999999;
+	font-weight: normal;
+}
+
+.poiExcExpCon .poiExcExp p,
+.poiExcExpCon .poiExcExp ol li {
+	line-height: 23px;
+	font-size: 1.4rem;
+	color: #333333;
+	text-align: justify;
+}
+
+.poiExcExpCon .poiExcExp ol {
+	padding-left: 20px;
+}
+
+.poiExcExpCon .poiExcExp ol li {
+	list-style: decimal;
+}
+
+.poiExcExpCon .poiExcSpe{
+	padding: 5px 2.7777%;
+}
+
+.poiExcExpCon .poiExcSpe ul li{
+	line-height: 23px;
+	font-size: 1.4rem;
+	color: #333333;
+}
+
+.poiExcExpCon .poiExctiIn{
+	height: 13px;
+	margin: 0 2.7777%;
+	border-bottom: 1px dashed #717171;
+}
+
+.poiExcExpCon .poiExctiIn h3{
+	line-height: 14px;
+	padding: 0 7px;
+	font-size: 1.2rem;
+	color: #fff;
+	font-weight: normal;
+	background: #fc7a92;
+	float: left;
+}
+
+.poiExcExpCon .poiExctiInImg{
+	padding: 10px 2.7777%;
+}
+
+.poiExcExpCon .poiExctiInImg img{
+	width: 100%;
+	display: block;
+}
+.icon-qianbi {
+	background-image: url(../images/icon-qianbi.png);
+	background-size: 100%;
+}
+/*-----------------------------------------------积分兑换详情结束------------------------------------------------------------*/

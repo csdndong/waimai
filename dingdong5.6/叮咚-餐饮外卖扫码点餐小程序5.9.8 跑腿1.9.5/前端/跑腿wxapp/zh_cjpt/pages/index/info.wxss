@@ -1,0 +1,68 @@
+.flex-style {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+}
+
+.flex-item {
+    height: 35px;
+    line-height: 35px;
+    text-align: center;
+    -webkit-box-flex: 1;
+    flex: 1;
+}
+
+.flex-item.active {
+    color: #0091ff;
+}
+
+.map_box {
+    position: absolute;
+    top: 0;
+    bottom: 50px;
+    left: 0px;
+    right: 0px;
+}
+
+#navi_map {
+    width: 100%;
+    height: 100%;
+}
+
+.text_box {
+    position: absolute;
+    height: 90px;
+    bottom: -43px;
+    width: 100%;
+}
+
+.text_box>view {
+    width: 50%;
+    height: 100%;
+    line-height: 90rpx;
+}
+
+.text_box>view text {
+    border-radius: 8rpx;
+    padding: 10rpx 30rpx;
+    margin-right: 40rpx;
+}
+
+.text_box1 {
+    position: absolute;
+    height: 90px;
+    bottom: -143px;
+    width: 100%;
+}
+
+.text_box1>view {
+    width: 50%;
+    height: 100%;
+    line-height: 90rpx;
+}
+
+.text_box1>view text {
+    border-radius: 8rpx;
+    padding: 10rpx 30rpx;
+    margin-right: 40rpx;
+}

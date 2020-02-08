@@ -1,0 +1,36 @@
+<html xmlns="http://www.w3.org/1999/xhtml"><head> 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+<meta http-equiv="Content-Language" content="zh-CN"> 
+<meta content="all" name="robots"> 
+<meta name="description" content=""> 
+<meta content="" name="keywords"> 
+<title>绑定所属城市</title>
+<link rel="stylesheet" type="text/css" href="<{$siteurl}>/templates/<{$tempdir}>/public/css/admin.css">
+ 
+ <script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/jquery.js" type="text/javascript" language="javascript"></script>  
+ <script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/artDialog.js?skin=blue"></script>
+</head>
+<body style="background:none;height:300px;">
+	 <form  method="post" name="upform" action="<{ofunc type=url link="/adminpage/area/module/savesetshoparea"}>" style="text-align:center;">
+		<input type="hidden" name="shopid" value="<{$shopid}>">
+   <div style="width:250px;float:left;height:150px;OVERFLOW-Y: auto;OVERFLOW-X: hidden;margin-top:20px;" id="arealist">
+	 	<table>
+	 	 <tr> <td>所属城市</td>
+			 <td>
+	 	 	<select name="admin_id">
+	 	 		 <option value="0">请选择城市</option>
+	 	 		 <{foreach from=$citylist item=itv}>
+	 	 		     <option value="<{$itv['adcode']}>"><{$itv['name']}></option>
+	 	 		 <{/foreach}>
+			</select>
+	 	 	</td>
+		 </tr>
+	 		</table>   
+			<div style="height:30px;text-align:right;margin-top:-30px;"> 	<input type="submit" value="确认提交" class="button">  </div>
+	 	</div>
+  </form>
+<script>
+
+</script>
+</body>
+</html>

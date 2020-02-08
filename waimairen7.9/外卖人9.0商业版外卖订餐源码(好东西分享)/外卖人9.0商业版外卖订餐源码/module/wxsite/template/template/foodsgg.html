@@ -1,0 +1,587 @@
+<{block name=extendjs}> 
+
+<script>
+    function detfreshproduct(){
+		var foodid = <{$foodshow['id']}>;
+		var obj = $('.productinfobox .attrson');
+		var tarray = new Array();
+		var liarray = new Array();
+		$.each(obj, function(i, newobj){
+			if ($(newobj).find('.curattr').eq(0).html() != undefined){
+				 tarray.push($(newobj).find('.curattr').eq(0).attr('childid'));
+			} else{
+				 liarray.push($(newobj).attr('data'));
+			}
+		});
+		var shopid = $('input[name="product_shopid"]').val();
+		var goodsid = $('input[name="product_goodsid"]').val();
+		var ggdetids = tarray.join(',');
+		if (tarray.length == $(obj).length){
+			var url = siteurl + '/index.php?ctrl=site&action=doselectproduct&goods_id=' + goodsid + '&shopid=' + shopid + '&ggdetids=' + ggdetids + '&type=1&datatype=json&random=@random@';
+			url = url.replace('@random@', 1 + Math.round(Math.random() * 1000));
+			var bk = ajaxback(url, '');
+			if (bk.flag == false){ //需获取出当前商品的productid 并获取相关库存 已在购物中的数量
+				var productinfo = bk.content;
+			    $('input[name="selectproductid"]').val(productinfo.id);
+				//$("#gshu_" + foodid).val(productinfo.goodcartnum);
+				$('#product_s_cost').text("￥" + productinfo.cost);
+				if (productinfo.is_cx == 1){
+					$('#product_s_oldcost').show();
+					$('#product_s_oldcost').text("￥" + productinfo.oldcost);
+				}
+				if (productinfo.stock < 1){
+				     Tmsg('商品库存不足');
+				}  
+					
+					if (productinfo.goodcartnum > 0){
+						//alert(productinfo.goodcartnum);
+						$(".righ_l_b_btn_moren1").hide();
+						$(".righ_l_b_btn_hover1").show();
+						$("#gshu_" +foodid).val(productinfo.goodcartnum);
+					} else{
+						$(".righ_l_b_btn_moren1").show();
+						$(".righ_l_b_btn_hover1").hide();
+						$("#gshu_" + foodid).val(0);
+					}
+				 
+			} else{
+			   $('input[name="selectproductid"]').val('');
+			   Tmsg(bk.content);
+			}
+		} else{
+			//构造未选择完刷新提交数据
+			$(".righ_l_b_btn_moren1").show();
+			$(".righ_l_b_btn_hover1").hide();
+			$("#gshu_" + foodid).val(0);
+			$('input[name="selectproductid"]').val('');
+			var url = siteurl + '/index.php?ctrl=site&action=doselectproduct&goods_id=' + goodsid + '&shopid=' + shopid + '&ggdetids=' + ggdetids + '&datatype=json&random=@random@';
+			url = url.replace('@random@', 1 + Math.round(Math.random() * 1000));
+			var bk = ajaxback(url, '');
+			if (bk.flag == false){
+				var tempids = bk.content;
+				var checkarray = tempids.split(',');
+				for (var i = 0; i < liarray.length; i++){
+					var tempobj = $('#productggli_' + liarray[i]);
+					var liboj = $(tempobj).find('li');
+					$.each(liboj, function(j, newobj){
+						if ($.inArray($(newobj).attr('pid'), checkarray) >= 0){
+						    $(newobj).removeClass('disable');
+						} else{
+						    $(newobj).addClass('disable');
+						}
+					});
+				}
+			}
+		}
+
+    }
+    var shopid = <{$shopinfo['id']}> ;
+    var checknext = false;
+    var shoplimitcost = '<{$shopdet['limitcost']}>';
+    var zuocart = '<{$siteurl}>/index.php?ctrl=wxsite&action=gowei&id=<{$id}>';
+    var page = 1;
+    var can_show = true; //控制是否翻页
+    $(function(){
+		can_show = false;
+		if (shoplimitcost == 0){
+		    $("#addShopping").show();
+		} else{
+		    $("#showlimit").show();
+		}
+		<{if $foodshow['have_det'] == 1 }>
+				detfreshproduct();
+		<{/if}>
+
+		$('.righ_l_b_btn_moren1').bind("click", function() {
+			if (lockclick()){
+				if ($(this).attr('have_det') == 1){
+					detproducttocart($(this).attr('data-id'), $(this).attr('data-shopid'), 1,$(this).attr('typeid'));
+				} else{
+					addonedish($(this).attr('data-id'), $(this).attr('data-shopid'), 1, this);
+				}
+			}
+		});
+		$('.right_l_btn_left1').bind("click", function() {
+			var sumcount=$('.ordenabotR').text();
+			if(sumcount>0){
+				$('#total_count').show();
+			}else{
+				$('#total_count').show();
+			}
+			if (lockclick()){
+				if ($(this).attr('have_det') == 1){
+				    
+					detdeloneproduct($(this).attr('data-id'), $(this).attr('data-shopid'), 1,$(this).attr('typeid'));
+				} else{
+				    removeonedish($(this).attr('data-id'), $(this).attr('data-shopid'), 1);
+				}
+			}
+		});
+		$('.right_l_btn_right1').bind("click", function() {
+		var sumcount=$('.ordenabotR').text();
+		if(sumcount>0){
+			$('#total_count').show();
+		}else{
+			$('#total_count').show();
+		}
+		if (lockclick()){
+			if ($(this).attr('have_det') == 1){
+			    detproducttocart($(this).attr('data-id'), $(this).attr('data-shopid'), 1,$(this).attr('typeid'));
+			} else{
+			    addonedish($(this).attr('data-id'), $(this).attr('data-shopid'), 1, this);
+			}
+		}
+
+		});
+		/*初始化样式*/
+		url = siteurl + '/index.php?ctrl=wxsite&action=cart&shopid=' + shopid + '&datatype=json&random=@random@';
+		url = url.replace('@random@', 1 + Math.round(Math.random() * 1000));
+		var bk = ajaxback(url, '');
+		initshop(bk);
+    });
+    function myyanchi(){
+        checknext = false;
+    }
+    function sortitemclick(doid, obj){
+		var defaultheight = 0;
+		var listobj = $('.right_list_box');
+		for (var i = 0; i < $(listobj).length; i++){
+			if ($(listobj).eq(i).attr('data') == doid){
+			    break;
+			}else{
+			    defaultheight = Number(defaultheight) + Number($(listobj).eq(i).height());
+			}
+		}
+		$(obj).addClass('on').siblings().removeClass('on');
+		scroll2.scrollTo(0, Number(defaultheight) * - 1, 200, false);
+    }
+    
+ 
+    
+    function checkcartifempty(){    //检查购物车是否为空
+		var colorset = '<{$color}>'; 
+		if ($('#total_count').html() == 0){
+			$("#total_count").hide();     
+			$(".emptycartBg").show();
+			$(".ordeilpaymen").hide();
+			$(".emptyordeilpaymen").show();
+			$('.wmr_botcar_numbox').css('background-color','#cccccc')
+		}else{
+			$("#total_count").show();
+			$(".ordeilpaymenshop").show();
+			$(".emptycartBg").hide();
+			$(".ordeilpaymen").show();
+			$(".emptyordeilpaymen").hide();
+			if(colorset == 'yellow'){
+				$('.wmr_botcar_numbox').css('background-color','#ff7600')
+			}else if(colorset == 'green'){
+				$('.wmr_botcar_numbox').css('background-color','#00cd85')
+			}else{
+				$('.wmr_botcar_numbox').css('background-color','#ff6e6e')
+			}
+		}
+    }
+    var defaultSwiper; //默认的滚动控件名
+    var holdPosition = 0;
+    var maxposition = 0;
+    var page = 1;
+    var pageend = false;
+    var html5_config = {'showheader':true, 'showfooter':true, 'bodyscller':true, 'Canfresh':true, 'CanloadMore':true, 'titilename':'外卖频道'};
+//加载页面函数
+
+</script>
+<{/block}>
+<{block name=myScrolljs}>
+<script>
+    var baoshifu = false;
+    var scroll5;
+    function loaded() {
+    scroll5 = new iScroll('showorderdet', {hScrollbar:false, vScrollbar:false, bounce:false});
+    }
+    document.addEventListener('DOMContentLoaded', function () { setTimeout(loaded, 200); }, false);</script>
+<{/block}>
+<{block name=hearnav}>
+<{/block}>
+<{block name=sitetitle}><{$sitename}><{/block}>
+<{block name=blockcontent}>
+<div id="scroller" style="top:25%">
+    <{load_data assign="list" table="goodsimg"    fileds="*"  limit="10" where="goodsid=$goodsid" }>
+    <{if !empty($foodshow['img']) || !empty($list['list'])}>
+    <!--图片-->
+    <div class="bannerCon" style="margin-top:0px;">
+        <section id="slider" class="swipe" style="visibility: visible;">
+            <div class="swipe-wrap">
+                <div class="wrap" ></div>
+                <div class="wrap" ></div>
+            </div>
+            <div class="bgboxgo">
+                <div class="botton-box mBxCm" id="abdcd">
+                    <{if !empty($foodshow['img'])}>
+                    <span class="on"></span>
+                    <{/if}>
+                    <{if count($list['list'])  > 0 }>
+                    <{foreach from=$list['list'] item=items}>
+                    <span></span>
+                    <{/foreach}>
+                    <{/if}>
+                </div>
+            </div>
+        </section>
+    </div>
+
+<script>
+	$(function(){
+		var bullets = document.getElementById('abdcd').getElementsByTagName('span');
+		var slider = Swipe(document.getElementById('slider'), {
+			continuous: true,
+			callback: function(pos) {
+				var i = bullets.length;
+				while (i--) {
+				    bullets[i].className = ' ';
+				}
+				    bullets[pos].className = 'on';
+			}
+		});
+	});
+</script>
+    <{/if}>
+    <!--名称-->
+<style>
+.ordeilnamet{
+	text-align: center;
+}
+.ordeilnameCon { width: 78%; }
+.moreattset .attrson li{
+	float: left;
+	color: black;
+	border-radius: 13px!important;
+	font-size: 12px;
+	margin-bottom: 6px;
+	padding: 0px 15px;
+	margin-right: 8px;
+	background-color: #f2f2f2;
+}
+.offgg{position: absolute;right: 0;color: black!important;}
+
+
+</style>
+    <div class="ordeilnameCon goodsli"   goodname="<{$foodshow['name']}>"   id="gidli_<{$foodshow['id']}>" typeid="<{$foodshow['typeid']}>" data-price="<{$foodshow['cost']}>" >
+        <div  style="border-bottom:1px solid #ccc;height: 42px;line-height: 12px;text-align: center;">
+            <div class="ordeilnameBox">
+                <ul class="ordeilnamet">
+                    <li><h3 style="font-size: 14px;"><{$foodshow['name']}><span class="offgg">X</span></h3></li>
+                    <{if $foodshow['have_det'] ==  0}>
+                    <li><b>￥<i><{$foodshow['cost']}><{if !empty($foodshow['goodattr'])}>/<{$foodshow['goodattr']}><{else}><{if !empty($shopinfo['goodattrdefault'])}>/<{$shopinfo['goodattrdefault']}><{/if}><{/if}></i></b>
+                        <{if $foodshow['is_cx'] == 1 }><del style=" color: #999999;text-decoration: line-through;"><{$foodshow['cost']/($foodshow['zhekou']/10)}>元</del><{if $foodshow['cxnum']>0}><span style=" color: #ff6e6e;border-radius:6px;border:1px solid #ff6e6e;line-height:16px;padding: 1px 1px;margin-left:5px;"> 每单限购<{$foodshow['cxnum']}></span><{/if}><{/if}>
+                    </li>
+                    <{/if}>
+                </ul>
+                <{if $foodshow['have_det'] != 1 }>
+                <ul class="ordeilnameb">
+                    <{if $opentype != 2 && $opentype != 3}>
+                    <span class="shopdayangstatus">休息中</span>
+                    <{else}>
+						<{if $foodshow['is_live'] == 1 }>
+							<{if $foodshow['count'] > 0 }>
+							<div class="righ_l_b_btn" >
+								<div class="righ_l_b_btn_moren1"    data-id="<{$foodshow['id']}>" data-shopid="<{$foodshow['shopid']}>" id="gid_<{$foodshow['id']}>" have_det="<{$foodshow['have_det']}>" data-price="<{$foodshow['cost']}>" typeid="<{$foodshow['typeid']}>">
+									<li><i class="ordenabotR"></i></li>
+								</div>
+								<div class="righ_l_b_btn_hover1" style="display:none;">
+									<span class="right_l_btn_left1"   data-id="<{$foodshow['id']}>" data-shopid="<{$foodshow['shopid']}>" typeid="<{$foodshow['typeid']}>" have_det="<{$foodshow['have_det']}>">
+										<li><i class="ordenabotL"></i></li>
+									</span>
+									<li><input class="right_l_btn_nub" readonly id="gshu_<{$foodshow['id']}>" type="text" value="<{$carnum}>"></li>
+									<span class="right_l_btn_right1"   id="gid_<{$foodshow['id']}>" data-price="<{$foodshow['cost']}>" typeid="<{$foodshow['typeid']}>" data-id="<{$foodshow['id']}>" data-shopid="<{$foodshow['shopid']}>" have_det="<{$foodshow['have_det']}>">
+										<li><i class="ordenabotR"></i></li>
+									</span></div>
+							</div>
+							<{else}>
+							<li style="color:#cccccc;"   class="moreguige">售完</li>
+
+							<{/if}>
+						<{else}>
+						<li style="color:#cccccc;"   class="moreguige">已下架</li>
+						<{/if}>
+                    <{/if}>
+                </ul>
+                <{/if}>
+
+            </div>
+<style>
+	.moreattset{width: 94.4444%;margin: 12px auto 0px; position: relative;}
+	.attrname{width:20%;font-size:12px; color:#000000; margin-bottom:8px;}
+	.productinfobox{ border-bottom:1px dotted #e5e5e5;}
+	.curattr{ border:1px solid #ff6e6e; color:#000000;background-color: #fdb5b5;}
+	#product_s_cost{width: 35%}
+	.attrson ul{font-size: 12px;}
+	.zdy{display: flex;flex-direction: row;flex-wrap: wrap;}
+	.gg_box_inline {display: block!important;}
+</style>
+        </div>
+        <{if $foodshow['have_det'] == 1 && count($productinfo) > 0}>
+        <div class="productinfobox">
+            <{foreach from=$productinfo  item=items}>
+            <div class="moreattset gg_box_inline">
+                <div class="liwd30 attrname" >
+                    <{$items['name']}>：
+                </div>
+                <div  class="liwd30 attrson" id="productggli_<{$items['id']}>" data="<{$items['id']}>" style="width:100%; text-align:left;">
+                    <ul class="zdy" >
+                        <{foreach from=$items['det'] key=keys  item=itk}>
+                        <li  class="product_li_det  <{if empty($attrids) && $keys==0}>curattr<{/if}>   <{if in_array($itk['id'],$attrids)}>curattr<{/if}> " mainid="<{$items['id']}>"  childid="<{$itk['id']}>" pid="<{$itk['id']}>"><{$itk['name']}></li>
+                        <{/foreach}>
+                    </ul>
+                </div>
+            </div>
+            <{/foreach}>
+        </div>
+        <input type="hidden" name="selectproductid" value="<{$nowselect['id']|default:'0'}>">
+        <input type="hidden" name="product_shopid" value="<{$foodshow['shopid']}>">
+        <input type="hidden" name="product_goodsid" value="<{$foodshow['id']}>">
+        <div class="moreattset box_inline" style="padding-bottom:10px;">
+            <div class="liwd30"  id="product_s_cost" style="color:#ff0000;">
+                <{if empty($nowselect)}>请选择规格<{else}>￥<span><{$nowselect['cost']|default:'0'}></span><{/if}>
+            </div>
+            <div class="liwd30"  id="product_s_oldcost" style="display:none;text-decoration:line-through;color:#cccccc;">
+                ￥<{$nowselect['cost']|default:'0'}>
+            </div>
+            <div class="liwd30 cart_pro_all" style="width:80%; text-align:right;">
+                <ul class="ordisordR" style="position: absolute;right: 10px;top: 0px;">
+                    <{if $foodshow['is_live'] == 1 }>
+						<{if $foodshow['count'] > 0 }>
+						<div class="righ_l_b_btn" >
+							<div class="righ_l_b_btn_moren1"    data-id="<{$items['id']}>" data-shopid="<{$foodshow['shopid']}>" id="gid_<{$foodshow['id']}>" have_det="<{$foodshow['have_det']}>" data-price="<{$foodshow['cost']}>" typeid="<{$foodshow['typeid']}>">
+								<li><i class="ordenabotR"></i></li>
+							</div>
+							<div class="righ_l_b_btn_hover1" style="display:none;">
+								<span class="right_l_btn_left1"   data-id="<{$foodshow['id']}>" data-shopid="<{$foodshow['shopid']}>" typeid="<{$foodshow['typeid']}>" have_det="<{$foodshow['have_det']}>">
+									<li><i class="ordenabotL"></i></li>
+								</span>
+								<li><input class="right_l_btn_nub" readonly id="gshu_<{$foodshow['id']}>" type="text" value="<{$nowselect['count']}>"></li>
+								<span class="right_l_btn_right1"   id="gid_<{$foodshow['id']}>" data-price="<{$foodshow['cost']}>" typeid="<{$foodshow['typeid']}>" data-id="<{$foodshow['id']}>" data-shopid="<{$foodshow['shopid']}>" have_det="<{$foodshow['have_det']}>">
+									<li><i class="ordenabotR"></i></li>
+								</span></div>
+						</div>
+						<{else}>
+						<li style="color:#cccccc;"   class="moreguige">售完</li>
+						<{/if}>
+                    <{else}>
+                    <li style="color:#cccccc;"   class="moreguige">已下架</li>
+                    <{/if}>
+                </ul>
+            </div>
+        </div>
+        <{else}>
+        <{/if}>
+    </div>
+
+
+
+
+</div>
+<script>
+    $(".offgg").bind('click', function(){
+		$(".shopping_popup_content").hide();
+		$(".shopping_popup_box").hide();
+		 
+    });
+</script>
+<script>
+    var foodid = <{$foodshow['id']}>;
+
+    var click_button = false;
+    function doubleclick(){
+        click_button = false;
+    }
+    function lockclick(){
+		if (click_button == false){
+			click_button = true;
+			setTimeout("doubleclick()", 300);
+			return true;
+		} else{
+		    return false;
+		}
+    }
+
+    var is_open = false;
+    $(function(){
+		if (lockclick()){
+		    detbindclcikattr();
+		}
+
+		$(".ordeilpaymenshop").bind('click', function(){
+			$('#zhezhao').toggle();
+			$("#showorderdet").toggle();
+			freshowdetcart();
+	    });
+		/* 点击展示购物车详情  */
+		$(".ordeilpaymenshop").bind('click', function(){
+			$('#zhezhao').toggle();
+			$("#showorderdet").toggle();
+			freshowdetcart();
+		});
+		$("#zhezhao").bind('click', function(){
+			$(this).toggle();
+			$("#showorderdet").toggle();
+	 });
+    });
+    function detbindclcikattr(){
+		$('.attrson li').bind("click", function() {
+			if (lockclick()){
+				var obj = $('.productinfobox .attrson');
+				var tarray = new Array();
+				var liarray = new Array();
+				$.each(obj, function(i, newobj){
+					if ($(newobj).find('.curattr').eq(0).html() != undefined){
+					    tarray.push($(newobj).find('.curattr').eq(0).attr('childid'));
+					} else{
+					    liarray.push($(newobj).attr('data'));
+					}
+				});
+				$(this).addClass('curattr').siblings().removeClass('curattr');
+				detfreshproduct();
+			}
+		});
+    }
+
+
+    function detproducttocart(gid, tshopid, num,typeid){
+		//alert(typeid);
+         detuponeproduct($('input[name="selectproductid"]').val(), $('input[name="product_shopid"]').val(), 1,typeid);
+    }
+    function detdeloneproduct(gid, tshopid, num,typeid){
+	    
+        detremoveoneproduct($('input[name="selectproductid"]').val(), $('input[name="product_shopid"]').val(), 1,typeid);
+    }
+    function detuponeproduct(gid, tshopid, num,typeid){
+		var url = siteurl + '/index.php?ctrl=site&action=addcart&goods_id=' + gid + '&shopid=' + tshopid + '&num=1&gdtype=2&datatype=json&random=@random@';
+		url = url.replace('@random@', 1 + Math.round(Math.random() * 1000));
+		var bk = ajaxback(url, '');
+		if (bk.flag == false){
+			 
+			var typegoodcount = Number($('.typeid_'+typeid).text()) + 1;
+		   $('.typeid_'+typeid).text(typegoodcount);
+		   if(typegoodcount > 0){
+			   $('.typeid_'+typeid).show()
+		   }else{
+			   $('.typeid_'+typeid).hide()
+		   }
+			detfreshproduct();
+			freshcart();
+		} else{
+		    Tmsg(bk.content);
+		}
+    }
+    function detremoveoneproduct(gid, tshopid, num,typeid){
+		 
+		url = siteurl + '/index.php?ctrl=site&action=downcart&goods_id=' + gid + '&shopid=' + tshopid + '&num=1&gdtype=2&datatype=json&random=@random@';
+		url = url.replace('@random@', 1 + Math.round(Math.random() * 1000));
+		var bk = ajaxback(url, '');
+		if (bk.flag == false){ 		
+		var typegoodcount = Number($('.typeid_'+typeid).text()) -1;
+	 
+		   $('.typeid_'+typeid).text(typegoodcount);
+		   if(typegoodcount > 0){
+			   $('.typeid_'+typeid).show()
+		   }else{
+			   $('.typeid_'+typeid).hide()
+		   }
+			freshcart();
+			detfreshproduct();
+		} else{
+		    Tmsg(bk.content);
+		}
+    }
+    function freshowdetcart(){             
+		url = siteurl + '/index.php?ctrl=wxsite&action=cart&shopid=' + shopid + '&datatype=json&random=@random@';
+		url = url.replace('@random@', 1 + Math.round(Math.random() * 1000));
+		var bk = ajaxback(url, '');
+		if ($('#showorderdet .showorderListss').html() == undefined){
+		}else{
+		    showcartdet(bk);
+		}
+    }
+    function showcartdet(datas){ 
+ 	   $('#showorderdet .showorderListss').html('');
+ 	   if(datas.flag == false){    
+		   
+		   var temp_htmls = '';
+		   $('#showorderdet .showorderListss').append(temp_htmls);
+			  $.each(datas.content.list, function(i,val){   
+				   var list = val;
+				   var html = '';
+				   html +=' <div class="box_inline goodsli" style="padding:5px 5px 5px 8px;border-top: 1px solid #cccccc; "    id="gidli_'+list.id+'"  >  ';
+				   html +=' <div class="liwd30 detcart"  style="width:50%; text-align:left;">  ';
+				   html +='  '+val.name+' ';
+				   if( list.have_det==1 ){
+						 html +=' <font style="color:#ccc;font-size:10px;">'+list.gg.attrname+'</font> ';
+				   }
+					html +='  	</div> ';
+					html +=' <div class="liwd30 detcart" style="width:20%; text-align:left;"> ';
+					html +='	￥'+list.cost+' ';
+					html +='	</div> ';
+					html +='	<div class="liwd30 detcart" style="width:30%; text-align:center;"> ';
+					html +='	<div style="width:90px; height:38px; line-height:38px;"> ';
+					if( list.have_det==1 ){
+						html +=' <span class="addbtn" have_det="'+list.have_det+'"    product_id="'+list.gg.id+'"  data-id="'+list.id+'" data-shopid="'+list.shopid+'"><img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/<{if $color == "green"}>grjia.png<{else if $color == "yellow"}>yejia.png<{else}>redjia.png<{/if}>" /></span>   ';
+						
+					}else{
+						html +=' <span class="addbtn" have_det="'+list.have_det+'"     data-id="'+list.id+'" data-shopid="'+list.shopid+'"><img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/<{if $color == "green"}>grjia.png<{else if $color == "yellow"}>yejia.png<{else}>redjia.png<{/if}>" /></span>   ';
+						
+					}
+					html +='	<span class="shuliang gdhd">'+list.count+'</span> ';
+					if( list.have_det==1 ){
+						html +='   <span class="downdbtn " have_det="'+list.have_det+'"  product_id="'+list.gg.id+'"     data-id="'+list.gg.id+'" data-shopid="'+list.shopid+'"><img   src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/<{if $color == "green"}>add_01_1.png<{else if $color == "yellow"}>add_01_2.png<{else}>add_01.png<{/if}>" /></span> ';
+						
+					}else{
+						html +='   <span class="downdbtn " have_det="'+list.have_det+'"   data-id="'+list.id+'"   data-shopid="'+list.shopid+'"><img   src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/<{if $color == "green"}>add_01_1.png<{else if $color == "yellow"}>add_01_2.png<{else}>add_01.png<{/if}>" /></span> ';
+						
+					}
+					html +='  	</div> ';
+					html +='  	</div> ';
+					html +='  </div> '; 
+				  $('#showorderdet .showorderListss').append(html);
+			}); 
+			   $('.addbtn').bind("click", function() {    
+					if(checknext ==  false){ 
+						checknext = true;
+						var checkhavedet = $(this).attr('have_det');
+						if(checkhavedet == 1){					 
+							  uponeproduct($(this).attr('product_id'),$(this).attr('data-shopid'),1,$(this).attr('typeid'));
+							 freshowdetcart();
+						}else{					 
+							addonedish($(this).attr('data-id'),$(this).attr('data-shopid'),1,this);
+							freshowdetcart();						
+					   }				  
+					   setTimeout("myyanchi()", 500 );
+				  }     	 	
+			  }); 
+			   $('.downdbtn').bind("click", function() {   
+				  if(checknext ==  false){ 
+						checknext = true;
+						var checkhavedet = $(this).attr('have_det');
+						if(checkhavedet == 1){
+							 removeoneproduct($(this).attr('product_id'),$(this).attr('data-shopid'),1,$(this).attr('typeid'));
+							 freshowdetcart();				 
+						}else{					
+							removeonedish($(this).attr('data-id'),$(this).attr('data-shopid'),1,this);
+							freshowdetcart();
+							 freshcart();					 
+					   }				  
+					   setTimeout("myyanchi()", 500 );
+				  }      	 	
+			  });
+			   $('.showorderListss').css('height',$('#showorderdet').find('.box_inline').length*49); 	  
+    }else{ 		 
+          $('#cartlist').hide();      
+    }
+} 
+    /* 点击展示购物车详情   end*/
+</script>
+
+
+<div id="zhezhao" style=""></div>
+<{/block}>
+<{block name=footer}> 
+<{/block}>

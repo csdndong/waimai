@@ -1,0 +1,4 @@
+<view class="yz_code rel"></view>
+<button bindtap="add_market" style="background:{{color}}">
+  确认核销
+</button>

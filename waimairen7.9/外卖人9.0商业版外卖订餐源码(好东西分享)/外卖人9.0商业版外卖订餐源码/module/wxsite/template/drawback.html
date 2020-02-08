@@ -1,0 +1,135 @@
+ <{extends file="<{$tempdir}>/public/wxsite.html"}>  
+ <{block name=extendcss}> 
+<link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/public1.css">   
+ <{/block}>
+<{block name=myScrolljs}> <!-- 
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/js/newweixin.js"></script> --> 
+<script> 
+		var myScroll;
+function loaded() {
+	myScroll = new iScroll('wrapper', {
+		useTransform: false,
+		onBeforeScrollStart: function (e) {
+			var target = e.target;
+			while (target.nodeType != 1) target = target.parentNode;
+
+			if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA')
+				e.preventDefault();
+		}
+	});
+}
+document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false); 
+document.addEventListener('DOMContentLoaded', function () { setTimeout(loaded, 200); }, false);
+</script>
+<{/block}>
+<{block name=hearnav}>
+<div class="toptitCon">
+ <div class="toptitBox">
+  <div class="toptitL"><i></i></div>
+  <div class="toptitC"><h3>申请退款</h3></div>
+ </div>
+</div><{/block}>
+<{block name=sitetitle}><{$sitename}><{/block}>
+<{block name=blockcontent}>  
+<style>
+.page-app{ background:#f0f0f0;}
+ body{background:#f0f0f0;}
+.liwd30{ width:10%; background:#fff; text-align:center; font-size:15px; line-height:45px;height:45px;color:#333333;font-weight:bold;  }
+.box_set{ padding:0px 12px; background:#fff; }
+.drawbackliyou{padding:0px 12px; background:#fff;}
+.drawbackliyou .liwd90{width:100%;text-align:left; font-size:14px; line-height:35px;height:30px;color:#999;}
+.liwd90 input{ width:25px; height:25px; margin-top:14px; }
+.drawcontent{ padding:0px 12px; background:#fff; height:100px; margin-top:20px; margin-bottom:10px;}
+.drawcontent liwd90{  border:none;}
+.drawcontent textarea{ background:#fff; height:76px; padding:12px 0px ;  width:100%; border:none;  }
+.sqdraw{position: fixed;bottom: 0;left: 0;width: 100%;background: #fff;}
+.sqdraw .liwd90{ width:94%;font-size:14px; background:#ff6e6e; color:#fff; margin: 8px auto; text-align:center; height:37px; line-height:37px;border-radius: 3px;}
+.refundmon ul li{display:block;color:#999;font-size:12px!important;}
+.refundmon ul li span{margin-left:15px}
+.refundmon{line-height:25px;padding:5px 0;margin:0}
+
+</style>
+<div id="wrapper" style="top:42px; bottom:0px;">
+ <div id="scroller">
+	
+<!--提示-->
+<div class="refundprompt"><i></i><span>商家和管理员确认后，款项将会原路退回</span></div>
+<!--退款金额-->
+<div class="refundmon">
+ <ul>
+  <li>退款金额 <span>￥<span  id="allcost" style="color:#ff0000;margin:0"><{$order['allcost']}></span></span> </li>
+ </ul>
+</div>
+<!--退款原因-->
+<div class="refundreacon">
+ <div class="refundreatit"><span>退款原因</span><b>(须选一项)</b></div>
+ <div class="refundrea">
+  <ul>
+  	<{if !empty($drawsmlist)}>
+	   <{$list = $drawsmlist|unserialize}>
+	   <{foreach from=$list key=myid item=items}>	 
+		   <{if !empty($items)}>
+			   <li>
+			       <i></i>
+			       <input  type="radio"  name="drawreason"  >
+			       <span><{$items}></span>
+			   </li>
+		   <{/if}>
+       <{/foreach}>  
+    <{/if}>
+   
+  </ul>
+ </div>
+</div>
+<!--问题描述-->
+<div class="refunddesc"><textarea  name="drawcontent" id="drawcontent"   placeholder="详细描述您遇到的问题，有助于更快处理退款"></textarea></div>
+
+<input type="hidden" name="orderid"  value="<{$order['id']}>">
+
+<div class="intexchabutt"><input type="button" value="申请退款" id="feedbackSubmit"  class="intexbg1"></div>
+	<div style="height:20px;"></div>	
+ 
+
+	</div>
+</div>
+ <script>
+ 
+ $(".refundrea li").click(function(){
+	$(".refundrea li i").removeClass('refunaA');
+	$(this).find('i').addClass('refunaA');
+ 
+ });
+ 
+ 
+$('#feedbackSubmit').click(function(){   
+	showLoading();
+	var allcost = $("#allcost").text();
+	var reason = $(".refundrea li i.refunaA").parent().find('span').text(); 
+	var info = {'allcost':allcost,'reason':reason,'orderid': $("input[name='orderid']").val(),'typeid':0,'content':$('#drawcontent').val()};  
+	var url =  siteurl+'/index.php?ctrl=wxsite&action=savedrawbacklog&datatype=json&random=@random@';  
+	$.ajax({ 
+	url: url.replace('@random@', 1+Math.round(Math.random()*1000)), 
+	dataType: "json", 
+	data:info, 
+	success:function(content) { 
+	   if(content.error ==  false){
+	   newhideLoading();
+		Tmsg('申请成功!');
+		    if(<{$order['shoptype']}> == 100){
+			    window.location.href=  siteurl+'/index.php?ctrl=wxsite&action=paotuidetail&orderid=<{$order['id']}>' ;		
+			}else{
+			    window.location.href=  siteurl+'/index.php?ctrl=wxsite&action=ordershow&orderid=<{$order['id']}>' ;		
+			}	 
+	   }else{
+	   newhideLoading();
+		    Tmsg(content.msg);
+	   }
+	},
+	error:function(){
+	   newhideLoading();
+	}
+	});  
+ });
+ </script>
+<{/block}>
+<{block name=footer}> <{/block}>

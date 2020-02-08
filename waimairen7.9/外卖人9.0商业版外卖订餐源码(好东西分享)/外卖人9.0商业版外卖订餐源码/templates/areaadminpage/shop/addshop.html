@@ -1,0 +1,77 @@
+ <{extends file="<{$tempdir}>/public/admin.html"}> 
+   <{block name=extendjs}>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js"></script>
+ <{/block}>
+ <{block name=controlname}><{/block}>
+ <{block name=bodylist}> 
+  
+ 
+<div class="managShopCon">
+	<div class="managShopBox">
+		<div class="managShopMain">
+			<div class="managShopClas">
+				<ul>
+					<li class="maShClaA"><a href="<{ofunc type=url link="/areaadminpage/shop/module/addshop"}>">单个添加</a></li>
+					<li><a href="<{ofunc type=url link="/areaadminpage/shop/module/moreaddshop"}>">批量添加</a></li>
+				</ul>
+			</div>
+			<div class="addShopSingCon">
+			
+			
+				<div class="addShopSingL bor_no">
+<form method="post" name="form1" action="<{ofunc type=url link="/areaadminpage/shop/module/saveshop/datatype/json"}>" onsubmit="return subform('<{ofunc type=url link="/areaadminpage/shop/module/adminshopwati"}>',this);">
+
+					<h3>已存在会员新建店铺在此用户下</h3>
+					<ul>
+						<li><span>店铺名称：</span><input type="text" name="shopname" id="shopname"  value=""></li>
+						<li><span>会员名称：</span><input type="text" name="username" id="username" value=""></li>
+						<li><span>店铺类型：</span>
+							<select name="shoptype">
+ 								<{foreach from=$catlist item=itv}>
+						<option value="<{$itv['cattype']}>_<{$itv['id']}>"   ><{$catarr[$itv['cattype']]}>-<{$itv['name']}></option>
+								<{/foreach}>
+							</select>
+						</li>
+					</ul>
+					<div class="addShopSingBut">
+					<input type="hidden" name="subtype" value="1">
+					<input type="submit" value="确认提交"></div>
+					</form>
+				</div>
+				
+				
+				<div class="addShopSingL">
+            <form method="post" name="form1" action="<{ofunc type=url link="/areaadminpage/shop/module/saveshop/datatype/json"}>" onsubmit="return subform('<{ofunc type=url link="/areaadminpage/shop/module/adminshoplist"}>',this);">
+					<h3>直接创建会员和店铺</h3>
+					<ul>
+						<li><span>店铺名称：</span><input name="shopname" id="shopname"  type="text" value=""></li>
+						<li><span>会员名称：</span><input name="username" id="username" type="text" value=""></li>
+						<li><span>会员邮箱：</span><input name="email" id="email"  type="text" value=""></li>
+						<li><span>联系电话：</span><input name="maphone" id="maphone"  type="text" value=""></li>
+						<li><span>登录密码：</span><input name="password" id="password"  type="text" value=""></li>
+						<li><span>确认密码：</span><input name="password2" id="password2"  type="text" value=""></li>
+						<li><span>店铺类型：</span>
+							<select name="shoptype">
+							<{foreach from=$catlist item=itv}>
+								 <option value="<{$itv['cattype']}>_<{$itv['id']}>"   ><{$catarr[$itv['cattype']]}>-<{$itv['name']}></option>
+							<{/foreach}>							</select>
+						</li>
+					</ul>
+					<div class="addShopSingBut">
+					<input type="hidden" name="subtype" value="2">
+					<input type="submit" value="确认提交"></div>
+					</form>
+				</div>
+				
+				
+				
+				 
+			</div>
+		</div>
+	</div>
+</div>
+
+ <div class="clear"></div>
+    
+  
+<{/block}>

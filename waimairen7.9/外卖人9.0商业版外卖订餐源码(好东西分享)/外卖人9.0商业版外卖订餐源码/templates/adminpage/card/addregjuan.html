@@ -1,0 +1,72 @@
+<{extends file="<{$tempdir}>/public/admin.html"}>
+<{block name=extendjs}>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js"></script>
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/datepicker/WdatePicker.js" type="text/javascript" language="javascript"></script>
+
+<{/block}>
+ <{block name=controlname}>添加注册赠送优惠券<{/block}>
+ <{block name=bodylist}>
+   <div style="width:98%;overflow-y:auto;white-space:nowrap;">
+
+          <div class="tags">
+          <div id="tagscontent">
+            <form method="post" name="form1" action="<{ofunc type=url link="/adminpage/card/module/saveregsendjuan/datatype/json"}>" onsubmit="return subform('<{ofunc type=url link="/adminpage/card/module/prensentjuan"}>',this);">
+              <div>
+                <table border="0" cellspacing="2" cellpadding="4" class="list" name="table" id="table" width="100%">
+                  <tbody>
+                  	 <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <td class="left">优惠劵名称</td>
+                      <td><input type="text" name="name" id="name" value="<{$regjuan['name']}>" class="skey" style="width:150px;" ></td>
+                    </tr> 
+                   <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <td class="left" valign="top">最低消费使用金额</td>
+                      <td>
+                      	 <input type="text" name="limitcost" id="limitcost" value="<{$regjuan['limitcost']}>" class="skey" style="width:150px;" >购物车总金额低于此设置不可使用购物卷
+                      	</td>
+                    </tr>
+                     <tr class="show_1" onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <td class="left">优惠金额</td>
+                      <td><input type="text" name="jiancost" id="jiancost" value="<{$regjuan['jiancost']}>" class="skey" style="width:150px;" ></td>
+                    </tr>
+                    <tr class="show_1" onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <td class="left">有效起止时间</td>
+                      <td>
+					  
+					   从<input class="Wdate datefmt" type="text" name="starttime" id="starttime" value="<{$regjuan['starttime']|date_format:"%Y-%m-%d"}>"  onFocus="WdatePicker({isShowClear:false,readOnly:true});" />  
+			   		 	  到<input class="Wdate datefmt" type="text" name="endtime" id="endtime" value="<{$regjuan['endtime']|date_format:"%Y-%m-%d"}>"  onFocus="WdatePicker({isShowClear:false,readOnly:true});" />                  
+
+					  
+					  
+					  </td>
+                    </tr>
+		<tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <td class="left" valign="top">是否开启</td>
+                      <td>
+                      	 <input type="radio" name="is_open" value="0" <{if $regjuan['is_open']  == 0 }>  checked  <{/if}> >开启 <input type="radio" name="is_open" value="1" <{if $regjuan['is_open']  == 1 }>  checked  <{/if}> >关闭
+                      	</td>
+                    </tr> 
+                  </tbody>
+                </table>
+              </div>
+              <div class="blank20"></div>
+               <input type="hidden" value="<{$regjuan['id']}>" name="id" >
+               <input type="submit" value="确认提交" class="button">
+            </form>
+          </div>
+        </div>
+		
+		
+		
+		
+        <div class="blank20"></div>
+
+      </div>
+      <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+
+
+
+
+</div>
+<{/block}>

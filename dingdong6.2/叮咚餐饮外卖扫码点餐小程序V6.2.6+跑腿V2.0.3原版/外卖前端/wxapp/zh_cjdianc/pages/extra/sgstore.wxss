@@ -1,0 +1,5 @@
+@import"/wxss/f3_0.wxss";
+.mainlist {background: #fff;margin: 20rpx;border-radius: 25rpx;padding:20rpx 20rpx 10rpx;}
+.sjlb{border-bottom: none;padding:0rpx;}
+.xsqg{padding: 20rpx 0 0;}
+.main{padding-bottom:115rpx;}

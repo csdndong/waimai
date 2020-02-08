@@ -1,0 +1,137 @@
+{template 'web/common/common'}
+{template 'web/about/navbar'}
+<link rel="stylesheet" type="text/css" href="../addons/kundian_ordering/resource/css/layui.css" />
+<link rel="stylesheet" type="text/css" href="../addons/kundian_ordering/resource/css/style.css" />
+<div class="layui-content">
+    <div class="panel-body">
+        <form id="sign-form" class="form-horizontal" role="form" method="post" action="{url 'site/entry/about',array('m'=>'kundian_ordering','op'=>'saveModel','version_id'=>$_GPC['version_id'])}" name="submit" style="padding: 20px 0;">
+            <div class="form-group">
+                <label for="merchant_name" class="col-sm-2 control-label">公司名称</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control"  name="merchant_name" id="merchant_name" value="{$list['merchant_name']}">
+                    <input type="hidden" name="id" value="{$list['id']}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">logo</label>
+                <div class="col-sm-8">
+                    {php echo tpl_form_field_image('logo_img',$list['logo_img']);}
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">微信</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control"  name="wxchat" value="{$list['wxchat']}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">联系电话</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control"  name="phone" value="{$list['phone']}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">营业时间</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control"  name="in_time" value="{$list['in_time']}">
+                    <span style="color: gray;">营业时间格式：9:00-21:00</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">地址</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control"  name="address" value="{$list['address']}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">地址经度</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control"  name="longitude" value="{$list['longitude']}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">地址纬度</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control"  name="latitude" value="{$list['latitude']}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label"></label>
+                <div class="col-sm-8">
+                    <span style="color: gray;">经纬度获取地址：http://lbs.qq.com/tool/getpoint/</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">起送价</label>
+                <div class="col-sm-8">
+                    <input type="number" class="form-control"  name="begin_price" value="{$list['begin_price']}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">配送费</label>
+                <div class="col-sm-8">
+                    <input type="number" class="form-control"  name="send_price" value="{$list['send_price']}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">打包费</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" maxlength="4"  name="package_price" value="{$list['package_price']}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">预计送达时间（分钟）</label>
+                <div class="col-sm-8">
+                    <input type="number" class="form-control"  name="send_time" value="{$list['send_time']}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">配送提醒</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control"  name="tags" value="{$list['tags']}">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">是否开启满减配送费</label>
+                <div class="col-sm-8">
+                    {if $list['is_jian_send_price']==1}
+                    <input type="checkbox" checked class="js-switch" value="1" name="is_jian_send_price">
+                    {else}
+                    <input type="checkbox" class="js-switch" name="is_jian_send_price" value="1">
+                    {/if}
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">满减配送费（满多少减）</label>
+                <div class="col-sm-8">
+                    <input type="number" class="form-control"  name="man_price" value="{$list['man_price']}">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">个人中心顶部banner</label>
+                <div class="col-sm-8">
+                    {php echo tpl_form_field_image('center_banner',$list['center_banner']);}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">预定页面提示语</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control"  name="ordering_title" value="{$list['ordering_title']}">
+                </div>
+            </div>
+
+
+            <div class="form-group">
+
+                <div class="col-sm-offset-2 col-sm-10">
+                    <input type="submit" name="submit" class="btn btn-default">
+                    <!--<a class="btn btn-default" href="{url 'site/entry/inform',array('m'=>'kundian_ordering')}">返回</a>-->
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{template 'common/footer'}

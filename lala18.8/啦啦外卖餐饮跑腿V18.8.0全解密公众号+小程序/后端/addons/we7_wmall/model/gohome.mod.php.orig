@@ -1,0 +1,882 @@
+<?php
+
+defined('IN_IA') or exit('Access Denied');
+function gohome_goods_sync($type = 'kanjia') {
+	global $_W;
+	$routers = array(
+		'kanjia' => 'tiny_wmall_kanjia',
+		'pintuan' => 'tiny_wmall_pintuan_goods',
+		'seckill' => 'tiny_wmall_seckill_goods',
+	);
+	$table = $routers[$type];
+	pdo_query('update ' . tablename($table) . ' status = 1 where uniacid = :uniacid and status > 0 and starttime < :starttime and endtime > :endtime', array(':uniacid' => $_W['uniacid'], ':starttime' => TIMESTAMP, ':endtime' => TIMESTAMP));
+	pdo_query('update ' . tablename($table) . ' status = 2 where uniacid = :uniacid and status > 0 and starttime > :starttime', array(':uniacid' => $_W['uniacid'], ':starttime' => TIMESTAMP));
+	pdo_query('update ' . tablename($table) . ' status = 3 where uniacid = :uniacid and status > 0 and starttime < :endtime', array(':uniacid' => $_W['uniacid'], ':endtime' => TIMESTAMP));
+	return true;
+}
+
+function gohome_order_fetch($id, $oauth = false) {
+	global $_W;
+	$id = intval($id);
+	$condition = ' where uniacid = :uniacid and id = :id';
+	$params = array(
+		':uniacid' => $_W['uniacid'],
+		':id' => $id,
+	);
+	if($oauth) {
+		$condition .= ' and uid = :uid';
+		$params[':uid'] = $_W['member']['uid'];
+	}
+	$order = pdo_fetch('select * from ' . tablename('tiny_wmall_gohome_order') . $condition, $params);
+	if(empty($order)) {
+		return false;
+	}
+	$order['addtime_cn'] = date('Y-m-d H:i:s', $order['addtime']);
+	$order['paytime_cn'] = date('Y-m-d H:i:s', $order['paytime']);
+	$pay_types = order_pay_types();
+	if(empty($order['is_pay'])) {
+		$order['pay_type_cn'] = '未支付';
+	} else {
+		$order['pay_type_cn'] = !empty($pay_types[$order['pay_type']]['text']) ? $pay_types[$order['pay_type']]['text'] : '其他支付方式';
+	}
+	$order['order_type_all'] = gohome_order_types($order['order_type'], 'all');
+	$order['order_type_cn'] = $order['order_type_all']['text'];
+	$order['status_cn'] = gohome_order_status($order['status'], 'text');
+	$order['goods'] = gohome_order_goods($order['goods_id'], $order['order_type']);
+	$order['store'] = store_fetch($order['sid'], array('title', 'logo', 'telephone', 'address'));
+	return $order;
+}
+
+function gohome_order_goods($goods_id, $order_type) {
+	global $_W;
+	if(!in_array($order_type, array('kanjia', 'pintuan', 'seckill'))) {
+		return false;
+	}
+	$goods_id = intval($goods_id);
+	$table = array(
+		'kanjia' => 'tiny_wmall_kanjia',
+		'pintuan' => 'tiny_wmall_pintuan_goods',
+		'seckill' => 'tiny_wmall_seckill_goods',
+	);
+	$tablename = $table[$order_type];
+	$goods = pdo_get($tablename, array('uniacid' => $_W['uniacid'], 'agentid' => $_W['agentid'], 'id' => $goods_id));
+	if(!empty($goods)) {
+		$goods['thumb'] = tomedia($goods['thumb']);
+		$serializer = array('thumbs', 'rules', 'share');
+		foreach($serializer as $ser) {
+			if(!empty($goods[$ser])) {
+				$goods[$ser] = iunserializer($goods[$ser]);
+			}
+		}
+		$float = array('oldprice', 'price', 'vipprice', 'submitmoneylimit', 'alongprice', 'grouptime');
+		foreach($float as $flo) {
+			if(!empty($goods[$flo])) {
+				$goods[$flo] = floatval($goods[$flo]);
+			}
+		}
+		$goods['starttime_cn'] = date('Y-m-d H:i:s', $goods['starttime']);
+		$goods['endtime_cn'] = date('Y-m-d H:i:s', $goods['endtime']);
+	}
+	return $goods;
+}
+
+function gohome_goods_fetchall() {
+	global $_W;
+	$goods_all = array();
+	$table = array(
+		'kanjia' => 'tiny_wmall_kanjia',
+		'pintuan' => 'tiny_wmall_pintuan_goods',
+		'seckill' => 'tiny_wmall_seckill_goods',
+	);
+	$serializer = array('thumbs', 'rules', 'share');
+	$float = array('oldprice', 'price', 'vipprice', 'submitmoneylimit', 'alongprice', 'grouptime');
+	$condition = ' where uniacid = :uniacid and agentid = :agentid';
+	$params = array(
+		':uniacid' => $_W['uniacid'],
+		':agentid' => $_W['agentid']
+	);
+	foreach($table as $key => $value) {
+		$data = pdo_fetchall('select * from ' . tablename($value) . $condition, $params, 'id');
+		if(!empty($data)) {
+			foreach($data as &$goods) {
+				$goods['thumb'] = tomedia($goods['thumb']);
+				foreach($serializer as $ser) {
+					if(!empty($goods[$ser])) {
+						$goods[$ser] = iunserializer($goods[$ser]);
+					}
+				}
+				foreach($float as $flo) {
+					if(!empty($goods[$flo])) {
+						$goods[$flo] = floatval($goods[$flo]);
+					}
+				}
+				$goods['starttime_cn'] = date('Y-m-d H:i:s', $goods['starttime']);
+				$goods['endtime_cn'] = date('Y-m-d H:i:s', $goods['endtime']);
+			}
+		}
+		$goods_all[$key] = $data;
+	}
+	return $goods_all;
+}
+
+function gohome_order_fetchall($filter = array()) {
+	global $_W, $_GPC;
+	if(empty($filter)) {
+		$filter = $_GPC;
+	}
+	$condition = ' where uniacid = :uniacid and agentid = :agentid';
+	$params = array(
+		':uniacid' => $_W['uniacid'],
+		':agentid' => $_W['agentid']
+	);
+	$sid = intval($filter['sid']);
+	if($sid > 0) {
+		$condition .= ' and sid = :sid';
+		$params[':sid'] = $sid;
+	}
+	$uid = intval($filter['uid']);
+	if($uid > 0) {
+		$condition .= ' and uid = :uid';
+		$params[':uid'] = $uid;
+	}
+	$order_type = trim($filter['order_type']);
+	if(in_array($order_type, array('kanjia', 'pintuan', 'seckill'))) {
+		$condition .= ' and order_type = :order_type';
+		$params[':order_type'] = $order_type;
+	}
+	$is_pay = isset($filter['is_pay']) ? intval($filter['is_pay']) : -1;
+	if($is_pay > -1) {
+		$condition .= " and is_pay = :is_pay";
+		$params[':is_pay'] = $is_pay;
+	}
+	$pay_type = trim($filter['pay_type']);
+	if(!empty($pay_type)) {
+		$condition .= ' and pay_type = :pay_type';
+		$params[':pay_type'] = $pay_type;
+	}
+	$status = intval($filter['status']);
+	if($status > 0) {
+		$condition .= " and status = :status";
+		$params[':status'] = $status;
+	}
+	if(!empty($filter['starttime']) && !empty($filter['endtime'])) {
+		$condition .= " AND addtime > :start AND addtime < :end";
+		$params[':start'] = $filter['starttime'];
+		$params[':end'] = $filter['endtime'];
+	}
+	$keyword = trim($filter['keyword']);
+	if(!empty($keyword)) {
+		$condition .= ' and (mobile like :keyword or username like :keyword or ordersn like :keyword)';
+		$params[':keyword'] = "%{$keyword}%";
+	}
+	$page = max(1, intval($_GPC['page']));
+	$psize = intval($_GPC['psize']) ? intval($_GPC['psize']) : 15;
+	$total = pdo_fetchcolumn('select count(*) from ' . tablename('tiny_wmall_gohome_order') . $condition, $params);
+	$orders = pdo_fetchall('select * from ' . tablename('tiny_wmall_gohome_order') . $condition . ' order by id desc limit ' . ($page - 1) * $psize . ',' . $psize, $params);
+	if(!empty($orders)) {
+		$stores = store_fetchall(array('id', 'title', 'logo', 'telephone', 'address'));
+		foreach($orders as &$order) {
+			$order['addtime_cn'] = date('Y-m-d H:i:s', $order['addtime']);
+			$order['paytime_cn'] = date('Y-m-d H:i:s', $order['paytime']);
+			if(empty($order['is_pay'])) {
+				$order['pay_type_all'] = array(
+					'text' => '未支付',
+					'css' => 'label label-default'
+				);
+			} else {
+				$order['pay_type_all'] = to_paytype($order['pay_type'], 'all');
+			}
+			$order['order_type_all'] = gohome_order_types($order['order_type'], 'all');
+			$order['status_all'] = gohome_order_status($order['status'], 'all');
+			$order['goods'] = gohome_order_goods($order['goods_id'], $order['order_type']);
+			$order['store'] = $stores[$order['sid']];
+		}
+	}
+	$pager = pagination($total, $page, $psize);
+	return array(
+		'orders' => $orders,
+		'total' => $total,
+		'pager' => $pager
+	);
+}
+
+function gohome_order_types($type, $key = 'all') {
+	$data = array(
+		'kanjia' => array(
+			'text' => '砍价',
+			'css' => 'label label-danger'
+		),
+		'pintuan' => array(
+			'text' => '拼团',
+			'css' => 'label label-info'
+		),
+		'seckill' => array(
+			'text' => '抢购',
+			'css' => 'label label-warning'
+		)
+	);
+	if($key == 'all') {
+		return $data[$type];
+	} elseif($key == 'text') {
+		return $data[$type]['text'];
+	} elseif($key == 'css') {
+		return $data[$type]['css'];
+	}
+}
+
+function gohome_order_status($type, $key = 'all') {
+	$data = array(
+		'1' => array(
+			'text' => '待付款',
+			'css' => 'label label-warning',
+		),
+		'2' => array(
+			'text' => '待生效',
+			'css' => 'label label-warning',
+		),
+		'3' => array(
+			'text' => '待使用', // 待使用||待发货
+			'css' => 'label label-danger',
+		),
+		'4' => array(
+			'text' => '待收货',
+			'css' => 'label label-danger',
+		),
+		'5' => array(
+			'text' => '待评价',
+			'css' => 'label label-danger',
+		),
+		'6' => array(
+			'text' => '已完成',
+			'css' => 'label label-success',
+		),
+		'7' => array(
+			'text' => '已取消',
+			'css' => 'label label-default',
+		),
+	);
+	if(empty($type)) {
+		return $data;
+	}
+	if($key == 'all') {
+		return $data[$type];
+	} elseif($key == 'text') {
+		return $data[$type]['text'];
+	} elseif($key == 'css') {
+		return $data[$type]['css'];
+	}
+}
+
+function gohome_order_update($orderOrId, $type, $extra = array()) {
+	global $_W;
+	$order = $orderOrId;
+	if(!is_array($order)) {
+		$order = gohome_order_fetch($order);
+	}
+	if(empty($order)) {
+		return error(-1, '订单不存在！');
+	}
+	if($order['order_type'] == 'kanjia') {
+		mload()->model('plugin');
+		pload()->model('kanjia');
+		return kanjia_order_update($order, $type, $extra);
+	} elseif($order['order_type'] == 'pintuan') {
+		mload()->model('plugin');
+		pload()->model('pintuan');
+		pintuan_order_update($order, $type, $extra);
+	} elseif($order['order_type'] == 'seckill') {
+		mload()->model('plugin');
+		pload()->model('seckill');
+		return seckill_order_update($order, $type, $extra);
+	}
+}
+
+function gohome_update_activity_flow($activity_type, $goods_id, $type) {
+	global $_W;
+	if(!in_array($type, array('looknum', 'sharenum'))) {
+		return false;
+	}
+	$routers = array(
+		'pintuan' => array(
+			'table' => 'tiny_wmall_pintuan_goods'
+		),
+		'kanjia' => array(
+			'table' => 'tiny_wmall_kanjia'
+		),
+		'seckill' => array(
+			'table' => 'tiny_wmall_seckill_goods'
+		),
+	);
+	$router = $routers[$activity_type];
+	pdo_query('UPDATE ' . tablename($router['table']) . " set {$type} = {$type} + 1 WHERE uniacid = :uniacid AND id = :id", array(':uniacid' => $_W['uniacid'], ':id' => $goods_id));
+	return true;
+}
+
+function gohome_goods_favorite($goods_id, $type) {
+	global $_W;
+	if(empty($goods_id) || !in_array($type, array('kanjia', 'pintuan', 'seckill'))) {
+		return error(-1, '参数错误');
+	}
+	mload()->model('plugin');
+	pload()->model($type);
+	$goods = array();
+	if($type == 'kanjia') {
+		$goods = kanjia_get_activity($goods_id);
+	} elseif($type == 'pintuan') {
+		$goods = pintuan_get_activity($goods_id);
+	} elseif($type == 'seckill') {
+		$goods = seckill_goods($goods_id);
+	}
+	if(empty($goods)) {
+		return error(-1, '商品不存在');
+	}
+	$is_favor = gohome_goods_favorite_check($goods_id, $type);
+	if(empty($is_favor)) {
+		//收藏
+		$insert = array(
+			'uniacid' => $_W['uniacid'],
+			'uid' => $_W['member']['uid'],
+			'sid' => $goods['sid'],
+			'goods_id' => $goods_id,
+			'type' => $type,
+			'addtime' => TIMESTAMP
+		);
+		pdo_insert('tiny_wmall_gohome_favorite', $insert);
+		return error(0, '收藏成功');
+	} else {
+		//取消收藏
+		pdo_delete('tiny_wmall_gohome_favorite', array('uniacid' => $_W['uniacid'], 'uid' => $_W['member']['uid'], 'goods_id' => $goods_id, 'type' => $type));
+		return error(0, '已取消收藏');
+	}
+}
+
+function gohome_goods_favorite_check($goods_id, $type) {
+	global $_W;
+	$favor = pdo_get('tiny_wmall_gohome_favorite', array('uniacid' => $_W['uniacid'], 'uid' => $_W['member']['uid'], 'goods_id' => $goods_id, 'type' => $type));
+	if(!empty($favor)) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+function gohome_favor_fetchall($filter = array()) {
+	global $_W, $_GPC;
+	if(empty($filter)) {
+		$filter = $_GPC;
+	}
+	$condition = ' where uniacid = :uniacid';
+	$params = array(
+		':uniacid' => $_W['uniacid'],
+	);
+	$uid = intval($filter['uid']);
+	if($uid > 0) {
+		$condition .= " and uid = :uid";
+		$params[':uid'] = $uid;
+	}
+	$sid = intval($filter['sid']);
+	if($sid > 0) {
+		$condition .= ' and sid = :sid';
+		$params[':sid'] = $sid;
+	}
+	$type = trim($filter['type']);
+	if(in_array($type, array('kanjia', 'pintuan', 'seckill'))) {
+		$condition .= ' and type = :type';
+		$params[':type'] = $type;
+	}
+	$page = max(1, intval($_GPC['page']));
+	$psize = intval($_GPC['psize']) ? intval($_GPC['psize']) : 15;
+	$favors = pdo_fetchall('select * from ' . tablename('tiny_wmall_gohome_favorite') . $condition . ' order by id desc limit ' . ($page - 1) * $psize . ',' . $psize, $params);
+	if(!empty($favors)) {
+		$stores = store_fetchall(array('id', 'title', 'logo', 'telephone', 'address'));
+		foreach($favors as &$favor) {
+			$favor['addtime_cn'] = date('Y-m-d H:i:s', $favor['addtime']);
+			$favor['goods'] = gohome_order_goods($favor['goods_id'], $favor['type']);
+			$favor['store'] = $stores[$favor['sid']];
+			$favor['type_all'] = gohome_order_types($favor['type'], 'all');
+		}
+	}
+	return $favors;
+}
+
+function gohome_order_begin_refund($orderOrid) {
+	global $_W;
+	$order = $orderOrid;
+	if(!is_array($order)) {
+		$order = gohome_order_fetch($order);
+	}
+	if(empty($order)) {
+		return error(-1, '订单不存在或已删除');
+	}
+	if($order['refund_status'] == 2) {
+		return error(-1, '退款进行中， 请勿重复操作');
+	}
+	if($order['refund_status'] == 3) {
+		return error(-1, '退款已成功, 不能发起退款');
+	}
+	if($order['pay_type'] == 'credit') {
+		if($order['uid'] > 0) {
+			$log = array(
+				$order['uid'],
+				"{$order['order_type_cn']}订单退款, 订单号:{$order['id']}, 退款金额:{$order['final_fee']}元",
+				'we7_wmall'
+			);
+			mload()->model('member');
+			member_credit_update($order['uid'], 'credit2', $order['final_fee'], $log);
+			$update = array(
+				'refund_status' => 3,
+				'refund_success_time' => TIMESTAMP,
+				'refund_account' => '支付用户的平台余额',
+				'refund_channel' => 'ORIGINAL'
+			);
+			pdo_update('tiny_wmall_gohome_order', $update, array('uniacid' => $_W['uniacid'], 'id' => $order['id']));
+			//模板消息通知
+		}
+		return error(0, '退款成功,支付金额已退款至顾客的平台余额');
+	} elseif($order['pay_type'] == 'wechat') {
+		mload()->classs('wxpay');
+		$pay = new WxPay($order['order_channel']);
+		$params = array(
+			'total_fee' => $order['final_fee'] * 100,
+			'refund_fee' => $order['final_fee'] * 100,
+			'out_trade_no' => $order['out_trade_no'],
+			'out_refund_no' => $order['refund_out_no'],
+		);
+		$response = $pay->payRefund_build($params);
+		if(is_error($response)) {
+			return error(-1, $response['message']);
+		}
+		$update = array(
+			'refund_status' => 2,
+		);
+		pdo_update('tiny_wmall_gohome_order', $update, array('uniacid' => $_W['uniacid'], 'id' => $order['id']));
+		return true;
+	} elseif($order['pay_type'] == 'alipay') {
+		mload()->classs('alipay');
+		$pay = new AliPay($order['order_channel']);
+		$params = array(
+			'refund_fee' => $order['final_fee'],
+			'out_trade_no' => $order['out_trade_no'],
+		);
+		$response = $pay->payRefund_build($params);
+		if(is_error($response)) {
+			return error(-1, $response['message']);
+		}
+		$update = array(
+			'refund_status' => 3,
+			'refund_success_time' => TIMESTAMP,
+			'refund_account' => '支付用户的平台余额',
+			'refund_channel' => 'ORIGINAL'
+		);
+		pdo_update('tiny_wmall_gohome_order', $update, array('uniacid' => $_W['uniacid'], 'id' => $order['id']));
+		//模板消息通知
+
+		return error(0, "退款成功,支付金额已退款至顾客的支付宝账户:{$response['buyer_logon_id']}");
+	} elseif($order['pay_type'] == 'yimafu') {
+		$orderno = number_format($order['transaction_id'],0,'','');
+		mload()->classs('yimafu');
+		$pay = new YiMaFu();
+		$response = $pay->payRefund_build($orderno);
+		if(is_error($response)) {
+			return error(-1,  '退款失败');
+		}
+		$update = array(
+			'refund_status' => 3,
+			'refund_success_time' => TIMESTAMP,
+			'refund_account' => '支付用户的平台余额',
+			'refund_channel' => 'ORIGINAL'
+		);
+		pdo_update('tiny_wmall_gohome_order', $update, array('uniacid' => $_W['uniacid'], 'id' => $order['id']));
+		//模板消息通知
+
+		return error(0, "退款成功,支付金额已退款至顾客一码付账户");
+	} elseif($order['pay_type'] == 'qianfan') {
+		$member = pdo_get('tiny_wmall_members', array('uid' => $order['uid']));
+		if(empty($member['uid_qianfan'])) {
+			return error(-1, "获取用户uid失败");
+		}
+		mload()->model('plugin');
+		pload()->model('qianfanApp');
+		$status = qianfan_user_credit_add($member['uid_qianfan'], $order['final_fee']);
+		if(is_error($status)) {
+			return error(-1, "退款失败:{$status['message']}");
+		}
+		$update = array(
+			'refund_status' => 3,
+			'refund_success_time' => TIMESTAMP,
+			'refund_account' => '支付用户的平台余额',
+			'refund_channel' => 'ORIGINAL'
+		);
+		pdo_update('tiny_wmall_gohome_order', $update, array('uniacid' => $_W['uniacid'], 'id' => $order['id']));
+		//模板消息通知
+
+		return error(0, '退款成功,支付金额已退款至顾客的APP账户余额');
+	}
+}
+
+function gohome_order_status_notice($orderOrId, $type, $extra = array()) {
+	global $_W;
+	$types = array(
+		'pay', //支付
+		'cancel', //取消
+		'confirm' //核销
+	);
+	if(!in_array($type, $types)) {
+		return error(-1, '参数错误');
+	}
+	$order = $orderOrId;
+	if(!is_array($order)) {
+		$order = gohome_order_fetch($order);
+	}
+	if(empty($order)) {
+		return error(-1, '订单不存在');
+	}
+	$store = $order['store'];
+	$goods = $order['goods'];
+
+	$config_wxapp_basic = $_W['we7_wmall']['config']['wxapp']['basic'];
+	$order_channel = $order['order_channel'];
+	if($order_channel == 'wxapp') {
+		if($config_wxapp_basic['wxapp_consumer_notice_channel'] == 'wechat') {
+			mload()->model('member');
+			$order['openid'] = member_wxapp2openid($order['openid']);
+			if(!empty($order['openid'])) {
+				$order_channel = 'wechat';
+			}
+		}
+	}
+	$acc = TyAccount::create($order['uniacid'], $order_channel);
+	if($order_channel == 'wechat') {
+		if($type == 'pay') {
+			$title = '您的订单已付款';
+			$remark = array(
+				"门店名称: {$store['title']}",
+				"支付方式: {$order['pay_type_cn']}",
+				"支付时间: {$order['paytime_cn']}",
+				"购买商品: {$goods['name']} X {$order['num']}",
+			);
+			$order['status_cn'] = '待使用';
+			$end_remark = "您已下单成功，及时到店核销";
+		} elseif($type == 'confirm') {
+			$title = '订单已核销';
+			$remark = array(
+				"门店名称: {$store['title']}",
+				"订单类型: {$order['order_type_cn']}订单",
+				"完成时间: " . date('Y-m-d H:i', $order['endtime']),
+			);
+			$order['status_cn'] = '待评价';
+			$end_remark = "您的订单已核销, 如对商品有不满意或投诉请联系客服:{$_W['we7_wmall']['config']['mobile']},欢迎您下次光临.戳这里记得给我们的服务评价.";
+		} elseif($type == 'cancel') {
+			$title = '订单已取消';
+			$remark = array(
+				"门店名称: {$store['title']}",
+				"订单类型: {$order['order_type_cn']}订单",
+				"取消时间: " . date('Y-m-d H:i', TIMESTAMP),
+			);
+			$order['status_cn'] = '已取消';
+		} elseif($type == 'team_success') {
+			$title = "【{$goods['name']}】拼团成功了";
+			$remark = array(
+				"门店名称: {$store['title']}",
+				"订单类型: {$order['order_type_cn']}订单",
+				"商品名称: {$goods['name']}",
+			);
+			$order['status_cn'] = '拼团成功';
+		}
+		$note = trim($extra['note']);
+		if(!empty($note)) {
+			$remark[] = implode("\n", $extra['note']);
+		}
+		if(!empty($end_remark)) {
+			$remark[] = $end_remark;
+		}
+		$remark = implode("\n", $remark);
+		$url = ivurl('package/pages/gohome/order/detail', array('id' => $order['id']), true);
+		$miniprogram = '';
+		if($config_wxapp_basic['tpl_consumer_url'] == 'wxapp') {
+			$miniprogram = array(
+				'appid' => $config_wxapp_basic['key'],
+				'pagepath'=> "package/pages/gohome/order/detail?id={$order['id']}",
+			);
+		}
+		$send = tpl_format($title, $order['ordersn'], $order['status_cn'], $remark);
+		$status = $acc->sendTplNotice($order['openid'], $_W['we7_wmall']['config']['notice']['wechat']['public_tpl'], $send, $url, $miniprogram);
+	} elseif($order['order_channel'] == 'wxapp') {
+		$send = array(
+			'keyword1' => array(
+				'value' => "#{$order['serial_sn']}",
+				'color' => '#ff510'
+			),
+			'keyword2' => array(
+				'value' => "{$order['order_type_cn']}",
+				'color' => '#ff510'
+			),
+			'keyword3' => array(
+				'value' => $order['status_cn'],
+				'color' => '#ff510'
+			),
+			'keyword4' => array(
+				'value' => $order['username'],
+				'color' => '#ff510'
+			),
+			'keyword5' => array(
+				'value' => $order['mobile'],
+				'color' => '#ff510'
+			),
+			'keyword6' => array(
+				'value' => $order['final_fee'],
+				'color' => '#ff510'
+			),
+			'keyword7' => array(
+				'value' => date('Y-m-d H:i'),
+				'color' => '#ff510'
+			),
+			'keyword8' => array(
+				'value' => $order['ordersn'],
+				'color' => '#ff510'
+			),
+		);
+		$public_tpl = $_W['we7_wmall']['config']['wxapp']['wxtemplate']['public_tpl'];
+		$status = $acc->sendTplNotice($order['openid'], $public_tpl, $send, "pages/order/detail?id={$order['id']}");
+	}
+	if(is_error($status)) {
+		slog('wxtplNotice', "gohome订单状态改变微信通知顾客-order_id:{$order['id']}", $send, $status['message']);
+	}
+	return true;
+}
+
+function gohome_comment_tags($type) {
+	$data = array(
+		'goods' => array(
+			'1' => array(
+				'title' => '很差',
+				'tags' => array(
+					'0' => array(
+						'id' => 0,
+						'title' => '味道差',
+						'active' => 0,
+					),
+					'1' => array(
+						'id' => 1,
+						'title' => '服务不好',
+						'active' => 0,
+					),
+					'2' => array(
+						'id' => 2,
+						'title' => '质量差',
+						'active' => 0,
+					),
+					'3' => array(
+						'id' => 3,
+						'title' => '包装差',
+						'active' => 0,
+					),
+					'4' => array(
+						'id' => 4,
+						'title' => '环境差',
+						'active' => 0,
+					),
+					'5' => array(
+						'id' => 5,
+						'title' => '卫生差',
+						'active' => 0,
+					),
+				)
+			),
+			'2' => array(
+				'title' => '一般',
+				'tags' => array(
+					'0' => array(
+						'id' => 0,
+						'title' => '味道一般',
+						'active' => 0,
+					),
+					'1' => array(
+						'id' => 1,
+						'title' => '服务一般',
+						'active' => 0,
+					),
+					'2' => array(
+						'id' => 2,
+						'title' => '质量一般',
+						'active' => 0,
+					),
+					'3' => array(
+						'id' => 3,
+						'title' => '包装一般',
+						'active' => 0,
+					),
+					'4' => array(
+						'id' => 4,
+						'title' => '环境一般',
+						'active' => 0,
+					),
+					'5' => array(
+						'id' => 5,
+						'title' => '卫生一般',
+						'active' => 0,
+					),
+				)
+			),
+			'3' => array(
+				'title' => '满意',
+				'tags' => array(
+					'0' => array(
+						'id' => 0,
+						'title' => '味道还行',
+						'active' => 0,
+					),
+					'1' => array(
+						'id' => 1,
+						'title' => '服务还行',
+						'active' => 0,
+					),
+					'2' => array(
+						'id' => 2,
+						'title' => '质量还行',
+						'active' => 0,
+					),
+					'3' => array(
+						'id' => 3,
+						'title' => '包装还行',
+						'active' => 0,
+					),
+					'4' => array(
+						'id' => 4,
+						'title' => '环境还行',
+						'active' => 0,
+					),
+					'5' => array(
+						'id' => 5,
+						'title' => '卫生还行',
+						'active' => 0,
+					),
+				)
+			),
+			'4' => array(
+				'title' => '非常满意',
+				'tags' => array(
+					'0' => array(
+						'id' => 0,
+						'title' => '味道很好',
+						'active' => 0,
+					),
+					'1' => array(
+						'id' => 1,
+						'title' => '服务很好',
+						'active' => 0,
+					),
+					'2' => array(
+						'id' => 2,
+						'title' => '质量很好',
+						'active' => 0,
+					),
+					'3' => array(
+						'id' => 3,
+						'title' => '包装很好',
+						'active' => 0,
+					),
+					'4' => array(
+						'id' => 4,
+						'title' => '环境很好',
+						'active' => 0,
+					),
+					'5' => array(
+						'id' => 5,
+						'title' => '卫生很好',
+						'active' => 0,
+					),
+				)
+			),
+			'5' => array(
+				'title' => '无可挑剔',
+				'tags' => array(
+					'0' => array(
+						'id' => 0,
+						'title' => '菜品美味',
+						'active' => 0,
+					),
+					'1' => array(
+						'id' => 1,
+						'title' => '服务周到',
+						'active' => 0,
+					),
+					'2' => array(
+						'id' => 2,
+						'title' => '干净卫生',
+						'active' => 0,
+					),
+					'3' => array(
+						'id' => 3,
+						'title' => '态度很好',
+						'active' => 0,
+					),
+					'4' => array(
+						'id' => 4,
+						'title' => '价格便宜',
+						'active' => 0,
+					),
+					'5' => array(
+						'id' => 5,
+						'title' => '货品完好',
+						'active' => 0,
+					),
+				)
+			),
+		),
+		'deliveryer' => array(
+
+		),
+	);
+	if(!empty($type)) {
+		return $data[$type];
+	} else {
+		return $data;
+	}
+}
+
+function gohome_get_goods_comment($goods_id, $goods_type){
+	global $_W, $_GPC;
+	if(empty($goods_id) || empty($goods_type)) {
+		return false;
+	}
+	$condition = ' where a.uniacid = :uniacid and a.agentid = :agentid and a.goods_id = :goods_id and a.goods_type = :goods_type and a.status = 0';
+	$params = array(
+		':uniacid' => $_W['uniacid'],
+		':agentid' => $_W['agentid'],
+		':goods_id' => $goods_id,
+		':goods_type' => $goods_type,
+	);
+	$page = max(1, intval($_GPC['page']));
+	$psize = intval($_GPC['psize']) ? intval($_GPC['psize']) : 15;
+	$total = pdo_fetchcolumn('select count(*) from ' . tablename('tiny_wmall_gohome_comment') . ' as a left join ' . tablename('tiny_wmall_members') . " as b on a.uid = b.uid {$condition}", $params);
+	$data = pdo_fetchall('select a.*, b.nickname, b.avatar from ' . tablename('tiny_wmall_gohome_comment') . ' as a left join ' . tablename('tiny_wmall_members') . " as b on a.uid = b.uid {$condition} order by a.id desc limit " . ($page - 1) * $psize.','.$psize, $params);
+	if(!empty($data)) {
+		$tag_goods = gohome_comment_tags('goods');
+		foreach($data as &$value) {
+			$value['thumbs'] = iunserializer($value['thumbs']);
+			if(!empty($value['thumbs'])) {
+				foreach($value['thumbs'] as &$thumb) {
+					$thumb = tomedia($thumb);
+				}
+			}
+			$value['data'] = iunserializer($value['data']);
+			if(!empty($value['data']['tag_goods'])) {
+				$tags = array();
+				$tags_keys = explode('|', $value['data']['tag_goods']);
+				if(!empty($tags_keys)) {
+					foreach($tags_keys as $keys) {
+						$tags[] = $tag_goods[$value['goods_quality']]['tags'][$keys];
+					}
+				}
+			}
+			$value['tag_goods'] = $tags;
+		}
+	}
+	$pager = pagination($total, $page, $psize);
+	return array(
+		'comment' => $data,
+		'total' => $total,
+		'pager' => $pager
+	);
+}

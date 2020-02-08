@@ -1,0 +1,354 @@
+ <{extends file="<{$tempdir}>/public/shopcenter.html"}>   
+<{block name=extendjs}>
+ <script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js"></script> 
+ <script>
+  	  var mynomenu='setshophui';
+  </script> 
+<{/block}>
+ <{block name=bodylist}>
+ 
+ 
+ 
+  <!---content right start---> 
+        <div class="conWaiSet fr">
+        
+            <div class="shopSetTop">
+            	<span>闪惠设置（只能开启一个规则使用）<{if $shopdata['is_hui'] == 0 }><font color=red size="1">(注意：您还未开启闪惠功能，暂时无法使用，如需开启，请联系管理员)</font><{/if}></span>
+				
+				                  <span style=" float:right; margin-right:10px;"><a style="color:lime; font-weight:bold;" href="<{ofunc type=url link="/shopcenter/shophuitotal"}>">闪惠订单统计</a></span>
+				                  <span style=" float:right; margin-right:5px;"><a style="color:lime; font-weight:bold;" href="<{ofunc type=url link="/shopcenter/shophuiorder"}>">闪惠订单</a></span>
+
+            </div>
+              
+			 
+ <{if $shopdata['is_hui'] == 1  &&  $shopdata['is_shophui'] == 1  }>
+   <div class="cxruleset"  style="height:310px;padding-top:10px; ">
+   <div style=" height:310px;width:420px; margin:0px auto; background-color:#ffffff;">
+	   <div style="padding-left:10px;padding-top:10px;">
+		<div  id="shopcode"  style="text-align:center;" >
+				<img src="" style="width:160px;height:160px;margin-left:15px;display:none;"></img> 
+		</div>
+		<div style="width:400px;text-align:center;line-height:30px;height:30px;" id="weixinstr">微信闪惠店铺关注二维码</div>
+		<div style="width:400px;text-align:center;line-height:30px;height:30px;color:red; font-size:12px;"  >制作二维码链接</div>
+		<div style="width:400px;text-align:center;line-height:30px;height:30px;"  ><input style="width:330px;" type="text" name="dolinkes" id="dolinkes" value="<{$shopinfo['wxhui_ewmurl']|default:''}>"></div>
+		<div style="width:400px;text-align:center;line-height:30px;height:30px;cursor:pointer;color:#F00;" onclick="resethui();" >重新生成二维码</div>
+		
+		</div>
+	</div>
+	</div>
+	 
+<{/if}>				
+			
+            <div class="cxruleset" style="height:170px;">
+				<div class="cxrule_btn" onclick="setshophuiinfo(1);">                 
+						<div style="width:124px; height:38px; line-height:38px; text-align:center; <{if $shopdata['is_shophui'] == 1}>background:#26b594;<{else}>background:#BFB6A5; <{/if}> cursor:pointer;color:#fff;">开启闪惠</div>
+				 </div>	
+				<div class="cxrule_btn" style="left:200px;" onclick="setshophuiinfo(0);">                 
+					<div style="width:124px; height:38px; line-height:38px; text-align:center; <{if $shopdata['is_shophui'] == 1}>background:#BFB6A5;<{else}>background:#26b594; <{/if}>  cursor:pointer;color:#fff;">关闭闪惠</div>
+                </div>
+            	<div class="" style="right:50px; position:absolute;top:25px;right:50px;">
+                 
+                    <div class="cxruleButton" onclick="openlink('<{ofunc type=url link="/shopcenter/addshophui"}>');">添加规则</div>
+                </div>
+                
+                  <div class="cl"></div>
+				  
+				  
+		<{if $adminuid >  0 }>		  
+				<div class="shgiftset">
+                    	<div class="shgift_left">
+                        	<span>消费送积分设置</span>
+                        </div>
+                        <div class="shgift_right">
+                           <input type="radio" name="is_shgift" value="1" <{if $shopdata['is_shgift'] == 1 }> checked <{/if}> >开启 
+                           <input type="radio" name="is_shgift" value="0" <{if $shopdata['is_shgift'] == 0 }> checked <{/if}> >关闭
+                        </div>
+						 <div class="shgift_end">
+                           <input style="width:50px;"  type="text" name="sendgift" value="<{if $shopdata['sendgift'] != 0 }><{$shopdata['sendgift']}><{/if}>" checked=""> 元赠送1积分
+                        </div>
+						 <div class="shgift_but">
+                           <span>保存</span>
+                        </div>
+                        <div class="cl"></div>
+                    </div>
+				  <style>
+				  .shgiftset{ position:absolute; top:100px; left:50px; color:#ffffff; height: 38px; line-height: 38px; }
+				  .shgiftset .shgift_left{ float:left; height: 38px;  padding:0px 10px;  line-height: 38px;    text-align: center;  margin-right:10px;  background: #26b594;}
+				  .shgiftset .shgift_right{ float:left;margin-right:20px; }
+				  .shgiftset .shgift_end{ float:left;margin-right:20px; }
+				  .shgiftset .shgift_but{ float:left; height: 38px; cursor:pointer;  padding:0px 20px;  line-height: 38px;    text-align: center;  margin-right:10px;  background: #27a9e3;}
+				  </style>
+				  
+	<{/if}>			  
+				  
+				  
+            </div>
+             <div class="cl"></div>
+                       
+                <form action="" method="post">
+                 <div class="caidanSet">
+        			
+                    
+                
+                	<div class="div_orderList">
+                    	
+                        <div class="cxrule_show">
+                    
+                        <div class="cxrule_show_goodli">
+                            <div class="cxrule_goodname" style="  width: 30%!important;">
+                                <span>闪惠名称</span>
+                            </div>
+                            <div class="cxrule_shuoming"  style="  width: 30%!important;">
+                                 <span>规则说明</span>
+                            </div>
+                            <div class="cxrule_pri"  style="  width: 10%!important;">
+                                 <span>开始时间</span>
+                            </div>
+                            <div class="cxrule_d"  style="  width: 10%!important;">
+                                 <span>结束时间</span>
+                            </div>
+                            <div class="cxrule_day_num"  style="  width:9%!important;">
+                                 <span>状态</span>
+                            </div>
+                             <div class="cxrule_cz"  style="  width: 10%!important;">
+                                 <span>操作</span>
+                            </div>
+                        </div>
+                        
+                        <div class="cl"></div>
+                        
+                        
+                    	<div class="cxrule_list	">
+                       		 
+                          	 <{load_data assign="list" table="shophui"   fileds="*" limit="100" where="shopid = <{$shopinfo['id']}>"}> 
+                <{foreach from=$list['list'] key=myid item=items}>  
+                          
+                          <div class="cxrule_goodlist">
+                            <div class="cxrule_name"  style="  width: 30%!important;">
+                                <span><{$items['name']}></span>
+                            </div>
+                            <div class="cxrule_sm"  style="  width: 30%!important;">
+                                 <span style="font-size:12px; line-height:25px;" id="showrule_<{$items['id']}>" data=""></span>
+                            </div>
+                            <div class="cxrule_price"  style="  width: 10%!important;">
+                                 <span><{$items['starttime']|date_format:"%Y-%m-%d"}></span>
+                            </div>
+                            <div class="cxrule_dbf"  style="  width: 10%!important;">
+                                 <span><{$items['endtime']|date_format:"%Y-%m-%d"}></span>
+                            </div>
+                            <div class="cxrule_dayNum"  style="  width: 9%!important;">
+                                 <span> <{if $items['status'] == 1}><font color=red>开启中</font><{else}>未开启<{/if}></span>
+                            </div>
+                             <div class="cxrule_caozuo"  style="  width: 10%!important;">
+                                 <span style=" background:#27a9e3; padding:8px; color:#fff;"><a href="<{ofunc type=url link="/shopcenter/addshophui/id/<{$items['id']}>"}>">编辑</a></span>
+                                  <span style=" background:#26b594; padding:8px; color:#fff;"><a onclick="return remind(this);"href="<{ofunc type=url link="/shopcenter/delshophui/cxid/<{$items['id']}>/datatype/json"}>"> 删除</a></span>
+                            </div>
+                          </div>
+                    
+                        
+                        
+                     <{/foreach}> 
+                      
+                      
+                    </div>
+                        <div class="cl"></div>
+                        
+                        
+                    </div>
+                    	
+                        
+                        
+                        
+                    </div>
+                    
+       			 </div>
+                 
+                 
+              </form>  
+                
+                
+        </div>
+        <div class="cl"></div>
+        
+        
+       
+        
+        
+        <!---content right end---> 
+ 
+ 
+ 
+
+ 
+ <script>
+  <{if $shopdata['is_hui'] == 1  &&  $shopdata['is_shophui'] == 1  }>
+  
+  <{if empty($shopinfo['wxhui_ewmurl'])}>
+ $(function(){
+     $('#weixinstr').text('生成店铺二维码中..');
+	 $.ajax({
+		type: 'post',
+		async:true,
+		data:{shopid:<{$shopinfo['id']}>},
+		url: '<{ofunc type=url link="/shopcenter/makeerwei/datatype/json"}>', 
+		dataType: 'json',success: function(content) {   
+     	if(content.error == false){ 
+$('#shopcode').find('img').eq(0).show();
+ $('#shopcode').find('img').eq(0).attr('src',siteurl+"/plug/pay/weixin/qrcode.php?data="+content.msg);//.hide(); 
+$('#weixinstr').text("二维码生成成功");  
+     	}else{
+     		
+     		if(content.error == true)
+     		{
+     			$('#weixinstr').text(content.msg); 
+     		}else{
+     			$('#weixinstr').text(content); 
+				$('#dolinkes').val(content);
+     		}
+     	} 
+		},
+		error: function(content) { 
+    	 $('#weixinstr').text('生成二维码数据失败');  
+	  }
+	});   
+ });
+ <{else}>
+  $(function(){
+	$('#shopcode').find('img').eq(0).show();
+	$('#shopcode').find('img').eq(0).attr('src',siteurl+"/plug/pay/weixin/qrcode.php?data=<{$shopinfo['wxhui_ewmurl']}>");//.hide(); 
+ });
+ //重置优惠买单链接
+ function resethui(){
+	$('#weixinstr').text('生成店铺二维码中..');
+	$.ajax({
+		type: 'post',
+		async:true,
+		data:{shopid:<{$shopinfo['id']}>},
+		url: '<{ofunc type=url link="/shopcenter/makeerwei/datatype/json"}>', 
+		dataType: 'json',success: function(content) {   
+     	if(content.error == false){ 
+$('#shopcode').find('img').eq(0).show();
+ $('#shopcode').find('img').eq(0).attr('src',siteurl+"/plug/pay/weixin/qrcode.php?data="+content.msg);//.hide(); 	
+$('#weixinstr').text("二维码生成成功");  
+     	}else{
+     		
+     		if(content.error == true)
+     		{
+     			$('#weixinstr').text(content.msg); 
+     		}else{
+     			$('#weixinstr').text(content); 
+				$('#dolinkes').val(content);
+     		}
+     	} 
+		},
+		error: function(content) { 
+    	 $('#weixinstr').text('生成二维码数据失败');  
+	  }
+	}); 
+ 
+ }
+<{/if}>	
+ 
+ 
+ <{/if}>	
+ </script>
+ 
+  
+<script>
+$('.shgift_but').click(function(){   
+  	    var is_shgift = $("input[name='is_shgift']:checked").val();
+  	    var sendgift = $("input[name='sendgift']").val();
+		
+  	    var info = {'is_shgift':is_shgift,'sendgift':sendgift}; 
+		    var url =  siteurl+'/index.php?ctrl=shopcenter&action=saveshanhuigift&datatype=json&random=@random@';  
+		     $.ajax({ 
+             url: url.replace('@random@', 1+Math.round(Math.random()*1000)), 
+            dataType: "json", 
+            data:info, 
+            success:function(content) { 
+
+            	   if(content.error ==  false){
+            	   	alert('操作成功');
+            	   	location.reload();  
+            	   }else{
+            	   	alert(content.msg);
+            	   }
+
+            },
+
+            error:function(){
+
+            	
+
+            }
+
+         });  
+	 });
+function setshophuiinfo(is_shophui){
+		 
+		url = siteurl+'/index.php?ctrl=shopcenter&action=saveshanhui&datatype=json&random=@random@';
+     	  url = url.replace('@random@', 1+Math.round(Math.random()*1000));
+        $.ajax({         //script定义
+                 url: url.replace('@random@', 1+Math.round(Math.random()*1000)),
+                 dataType: "json",
+                 async:true,
+                 data:{'is_shophui':is_shophui},
+                 success:function(content) { 
+                 	if(content.error ==  false){
+					
+						window.location.reload();
+					
+						
+							
+                 	}else{
+                 		alert(content.msg);
+                 	}
+                  	$('#loading').toggle();
+                 
+                 },
+                 error:function(){
+                  $('#loading').toggle();
+                 }
+        }); 
+}
+
+	var alllist = <{$list['list']|@json_encode}>;
+$(function(){  
+	$.each(alllist,function(i,field){ 
+		var showcontent = '';
+		
+		if(field.limitcontent > 0){
+			showcontent += '订单总价大于'+field.limitcontent+'元';
+		}else{
+			showcontent +='所有订单';
+		} 
+		if(field.limittype ==  2){
+			showcontent ='每周(星期'+field.limitweek+'),每在天('+field.limittimes+')时间段,'+showcontent;
+		} 
+		if(field.limittype == 3){
+		   showcontent ='每周(星期'+field.limitweek+'),每在天('+field.limittimes+')时间段,'+showcontent;
+		//	showcontent ='每天在'+field.limittimes+'时间段，'+showcontent;
+		}
+		
+		if(field.controltype ==  2){
+			showcontent +='每满'+field.mjlimitcost+'元减'+field.controlcontent+'元';
+		}
+		if(field.controltype ==  3){
+			var times = field.controlcontent*0.1;
+			showcontent +='满'+field.limitzhekoucost+'元打'+times+'折';
+		}
+		
+		 
+		
+		 $('#showrule_'+field.id).text(showcontent);
+	});
+	
+});
+	
+	
+	
+	
+	
+	
+</script>
+<{/block}>

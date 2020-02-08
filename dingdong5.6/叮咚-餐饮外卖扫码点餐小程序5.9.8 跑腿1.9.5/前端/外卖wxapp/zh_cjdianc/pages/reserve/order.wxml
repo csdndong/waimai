@@ -1,0 +1,85 @@
+<include src="/zh_cjdianc/pages/commons/navbar/navbar.wxml"></include>
+<navigator class="return-index-btn" openType="redirect" url="/pages/index/index" wx:if="{{show_index}}">
+    <image src="/images/nav-icon-index.png" style="width: 50rpx;height: 50rpx"></image>
+</navigator>
+<view class="flex-row tab-bar">
+    <view class="flex-grow-1">
+        <navigator class="{{status==1?'active':''}}" openType="redirect" url="order?status=1">
+            <text style="color:{{status==1?color:''}};border-bottom:{{status==1?2:0}}rpx solid {{color}}">待确认</text>
+        </navigator>
+    </view>
+    <view class="flex-grow-1">
+        <navigator class="{{status==2?'active':''}}" openType="redirect" url="order?status=2">
+            <text style="color:{{status==2?color:''}};border-bottom:{{status==2?2:0}}rpx solid {{color}}">已通过</text>
+        </navigator>
+    </view>
+    <view class="flex-grow-1">
+        <navigator class="{{status==3?'active':''}}" openType="redirect" url="order?status=3">
+            <text style="color:{{status==3?color:''}};border-bottom:{{status==3?2:0}}rpx solid {{color}}">已拒绝</text>
+        </navigator>
+    </view>
+</view>
+<view class="order-list">
+    <view class="no-data-tip zwdd" wx:if="{{order_list.length==0&&mygd}}">
+        <image mode="aspectFit" src="../../img/list.png"></image>
+        <view>您暂无相关订单哦~</view>
+    </view>
+    <view class="order-item" wx:for="{{order_list}}" wx:for-item="oitem">
+        <navigator url="reserveinfo?oid={{oitem.order.id}}">
+            <view class="flex-row order-info">
+                <view class="flex-grow-1">订单号:{{oitem.order.order_num}}</view>
+                <view class="flex-grow-0" wx:if="{{oitem.order.type=='3'}}">{{System.yd_name}}订单</view>
+            </view>
+            <view class="flex-row zysp flex-y-center">
+                <image src="{{oitem.order.logo}}"></image>
+                <view class="flex-grow-1 flex-col">
+                    <view class="mdname">
+              {{oitem.order.store_name}}
+            </view>
+                    <view class="mdtime">
+              {{oitem.order.time}}
+            </view>
+                </view>
+                <view class="flex-grow-0">
+                    <image src="../../img/blackjt.png" style="width:40rpx;height:40rpx;"></image>
+                </view>
+            </view>
+            <view class="goods-list">
+                <view class="goods-item flex-row">
+                    <view class="flex-grow-0 flex-row flex-y-center" style="overflow: visible">
+                        <image class="goods-pic" mode="aspectFill" src=""></image>
+                    </view>
+                    <view class="flex-grow-1 flex-col">
+                        <view class="flex-grow-1 flex-row flex-y-center">
+                            <view class="flex-grow-1">{{oitem.good[0].name}}
+                  <text style="margin-left:10rpx;" wx:if="{{oitem.num>1}}">等{{oitem.num}}件商品</text>
+                            </view>
+                            <view class="flex-grow-0 sfmoney">实付：￥{{oitem.order.money}}</view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </navigator>
+        <view class="flex-row">
+            <view class="flex-grow-1 flex-y-center flex-row dbbtn">
+                <view class="" wx:if="{{oitem.order.yy_state==2||oitem.order.yy_state==3}}">
+                    <button bindtap="txsj" class="ddbtn" data-tel="{{oitem.order.store_tel}}">提醒商家</button>
+                </view>
+                <view class="" wx:if="{{oitem.order.yy_state=='4'}}">
+                    <button bindtap="orderRevoke" class="ddbtn ddbtn3" data-id="{{oitem.order.id}}">删除 
+
+              </button>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view class="jzz" hidden="{{mygd}}">
+        <image class="Rotation" src="../../img/jzz.png"></image>
+        <view>加载中...</view>
+    </view>
+    <view class="jzwb" wx:if="{{mygd}}">
+        <view class="hx"></view>
+        <view class="wz">加载完毕</view>
+        <view class="hx"></view>
+    </view>
+</view>

@@ -1,0 +1,5998 @@
+@charset "utf-8";
+
+/* CSS Document */
+
+
+/*---------------------------------------------------酒店预定-酒店列表----------------------------------------------------*/
+
+#content {
+	width: 100%;
+	height: auto;
+	margin: 0 auto;
+}
+
+#content div {
+	width: 100%;
+	height: 868px;
+	margin: 0 auto;
+}
+
+#content div#item1 {
+	background-color: #00ff00
+}
+
+#content div#item2 {
+	background-color: #279756
+}
+
+#content div#item3 {
+	background-color: #2ce3e5
+}
+
+#content div#item4 {
+	background-color: #5e57e7
+}
+
+#content div#item5 {
+	background-color: #ca61ae
+}
+
+#content div h1 {
+	font-size: 36px;
+	color: #fff;
+}
+
+#menu {
+	width: 88px;
+	height: auto;
+	position: fixed;
+	top: 50%;
+	right: 15px;
+	margin-top: -135px;
+}
+
+#menu ul {
+	display: block;
+	list-style: none
+}
+
+#menu ul li a {
+	width: 88px;
+	height: 54px;
+	line-height: 54px;
+	text-align: center;
+	background-color: #fff;
+	color: #32c96a;
+	display: block
+}
+
+#menu ul li a:hover,
+#menu ul li a.cur {
+	background-color: #32c92a;
+	color: #fff;
+}
+
+
+/*top*/
+
+.logintopContainer {
+	width: 100%;
+	overflow: hidden;
+	padding: 4px 0;
+}
+
+.logintopBox {
+	width: 1200px;
+	margin: 0 auto;
+	padding: 36px 0;
+	overflow: hidden;
+}
+
+.logintopLeft {
+	float: left;
+}
+
+.logintopRight {
+	float: left;
+	border-left: 1px solid #e6e6e6;
+	margin: 0 0 0 40px;
+}
+
+.logintopRight img {
+	margin-left: 138px;
+}
+
+.logintopRight .hoteltopr {
+	overflow: hidden;
+	padding-bottom: 10px;
+}
+
+.logintopRight .hoteltopr li {
+	width: 310px;
+	float: left;
+	font-size: 14px;
+	text-align: center;
+}
+
+
+/*End*/
+
+
+/*banner*/
+
+.banner {
+	width: 100%;
+	height: 240px;
+	background-image: url(../images/hotlbanner.png);
+	background-position: center;
+	background-repeat: no-repeat;
+	min-width: 1200px;
+}
+
+.bannerBox {
+	width: 1200px;
+	margin: 0 auto;
+}
+
+.bannerBox h2 {
+	text-align: center;
+	color: #FFF;
+	font-size: 48px;
+	line-height: 90px;
+	text-shadow: 1px 1px 10px #000;
+	padding-top: 23px;
+	font-family: '方正粗活意简体'
+}
+
+.bannerBox .bannertit {
+	width: 436px;
+	overflow: hidden;
+	margin: 0 auto;
+}
+
+.bannerBox .bannertit ul li {
+	float: left;
+	padding: 0 19px;
+	line-height: 34px;
+	color: #FFF;
+	font-size: 14px;
+	text-shadow: 1px 1px 3px #000;
+}
+
+.timeContaner {
+	width: 100%;
+	padding: 15px 0;
+}
+
+.timeBox {
+	width: 1160px;
+	margin: 0 auto;
+	background-color: #fafafa;
+	padding: 10px 20px;
+}
+
+.timeBox .orderingtimeContainer {
+	width: 987px;
+	height: 60px;
+	position: relative;
+}
+
+.timeBox .addchoice {
+	position: absolute;
+	left: 400px;
+	top: 18px;
+	z-index: 99;
+	height: 28px;
+	color: #656362;
+	font-size: 16px;
+	border-right: 1px solid #e1dddb;
+	padding-right: 10px;
+}
+
+.bannerBox .orderingtimeContainer {
+	width: 987px;
+	height: 60px;
+	background-image: url(../images/orderingbg.png);
+	background-repeat: no-repeat;
+	margin: 0 auto;
+	padding: 10px 0;
+	position: relative;
+}
+
+.orderingtimeBox {
+	width: 966px;
+	height: 28px;
+	background-image: url(../images/orderingbg1.png);
+	background-repeat: no-repeat;
+	margin: 0 auto;
+	overflow: hidden;
+	padding: 16px 0;
+	position: relative;
+}
+
+.orderingtimeBox ul li {
+	float: left;
+	border-right: 1px solid #e1dddb;
+	padding: 0 12px;
+}
+
+.orderingtimeBox select {
+	border: 0px;
+	background-color: transparent;
+	color: #656362;
+	font-size: 16px;
+	height: 28px;
+}
+
+.orderingtimeBox .ordsearchbox {
+	width: 158px;
+	height: 28px;
+	border: 0px;
+	background-color: transparent;
+	color: #656362;
+	font-size: 14px;
+	background-image: url(../images/ordersousuo.png);
+	background-repeat: no-repeat;
+	background-position: left center;
+	padding-left: 22px;
+}
+
+.orderingtimeBox .ordsearchbutton {
+	border: 1px solid #d0d0cf;
+	font-size: 16px;
+	color: #FFF;
+	background-color: #57c846;
+	float: right;
+	width: 141px;
+	height: 58px;
+	cursor: pointer;
+	position: absolute;
+	top: 1px;
+	right: 0px;
+}
+
+.cuisine {
+	margin-left: 150px;
+}
+
+.bannerBox .addchoice {
+	position: absolute;
+	left: 400px;
+	top: 28px;
+	z-index: 99;
+	height: 28px;
+	color: #656362;
+	font-size: 16px;
+	border-right: 1px solid #e1dddb;
+	padding-right: 10px;
+}
+
+.addchoice span {
+	display: block;
+	cursor: pointer;
+	background-image: url(../images/orderjt.png);
+	background-repeat: no-repeat;
+	padding-right: 30px;
+	background-position: right center;
+}
+
+.addchoiceLeft {
+	width: 100px;
+	height: 354px;
+	float: left;
+	margin-top: 20px;
+	background: rgba(255, 255, 255, 0.9) none scroll repeat 0% 0% !important;
+	filter: Alpha(opacity=90);
+	background: #fff;
+	border-right: 1px solid #ccc;
+	overflow-x: hidden;
+	overflow-y: scroll;
+	display: none;
+}
+
+.addchoiceLeft ul li {
+	line-height: 34px;
+	border-bottom: 1px dotted #CCC;
+	padding: 0 5px;
+}
+
+.addchoiceLeft ul li a {
+	color: #656362;
+	font-size: 16px;
+	position: relative;
+}
+
+.addchoiceRight {
+	height: 354px;
+	float: left;
+	margin-top: 20px;
+	background: rgba(255, 255, 255, 0.9) none scroll repeat 0% 0% !important;
+	filter: Alpha(opacity=90);
+	background: #fff;
+	overflow-x: hidden;
+	overflow-y: scroll;
+	display: none;
+}
+
+.addchoiceRight ul li {
+	line-height: 34px;
+	border-bottom: 1px dotted #CCC;
+	overflow: hidden;
+}
+
+.addchoiceRight ul li a {
+	display: block;
+	width: 100px;
+	float: left;
+	color: #656362;
+	font-size: 16px;
+	text-align: center;
+	position: relative;
+}
+
+.addchoiceRight ul li a:hover {
+	background: rgba(0, 0, 0, 0.3) none scroll repeat 0% 0% !important;
+	filter: Alpha(opacity=30);
+	background: #000;
+	color: #FFF;
+}
+
+.hide {
+	display: none;
+}
+
+
+/*End*/
+
+
+/*价格、分类*/
+
+.hotelpraonCon {
+	width: 100%;
+	background-color: #fbfbfb;
+	padding: 14px 0;
+}
+
+.hotelpraonBox {
+	width: 1200px;
+	margin: 0 auto;
+	overflow: hidden;
+	line-height: 52px;
+}
+
+.hotelpraonBox i {
+	display: block;
+	margin-right: 6px;
+	float: left;
+	background-image: url(../images/icon_base.png);
+}
+
+.hotelpraonBox h3 {
+	float: left;
+	color: #4c4c4c;
+	font-size: 14px;
+}
+
+.hotelpraonBox ul {
+	float: left;
+}
+
+.hotelpraonBox ul li {
+	float: left;
+	font-size: 14px;
+	color: #cccccc;
+}
+
+.hotelpraonBox ul li a {
+	color: #4c4c4c;
+	padding: 4px 10px;
+	margin: 0 7px;
+	cursor: pointer;
+	-webkit-writing-mode: tb-rl;
+}
+
+.hotelpraonBox ul .hotelaA {}
+
+.hotelpraonBox ul .hotelaA a {
+	background-color: #55c644;
+	color: #fff;
+}
+
+.hotelpraont {
+	overflow: hidden;
+	border-bottom: 1px dotted #d6d6d6;
+}
+
+.hotelpraont .proje {
+	width: 14px;
+	height: 14px;
+	margin-top: 18px;
+	background-position: 0px 0px;
+}
+
+.hotelpraonb {
+	overflow: hidden;
+}
+
+.hotelpraonb .profl {
+	width: 12px;
+	height: 12px;
+	margin: 19px 7px 0 1px;
+	background-position: -24px -1px;
+}
+
+
+/*End*/
+
+
+/*酒店首页*/
+
+.hotTopCon{
+	width: 100%;
+	padding: 21px 0;
+	overflow: hidden;
+}
+
+.hotTopCon .hotTopBox {
+	width: 1200px;
+	margin: 0 auto;
+}
+
+.hotTopCon .hotTopBox .hotTopLeft{
+	float: left;
+}
+
+.hotTopCon .hotTopBox .hotTopLeft img{
+	margin-right: 10px;
+}
+
+.hotTopCon .hotTopBox .hotTopRight{
+	padding-top: 8px;
+	float: right;
+}
+
+.hotTopCon .hotTopBox .hotTopRight ul li{
+	height: 36px;
+	margin-left: 28px;
+	float: left;
+}
+
+.hotTopCon .hotTopBox .hotTopRight .jdyd{
+	width: 154px;
+	background: url(../images/073.png);
+}
+
+.hotTopCon .hotTopBox .hotTopRight .jdtg{
+	width: 133px;
+	background: url(../images/074.png);
+}
+
+.hotelCon_bg{
+	background-color: #359be3;
+}
+
+.hotelBanCon{
+	width: 100%;
+	height: 230px;
+	background: url(../images/070.png) no-repeat 100%;
+}
+
+.hotelBanCon .hotelBanBox{
+	width: 1200px;
+	margin: 0 auto;
+}
+
+.hotelBanCon .hotelBanBox .hotelBanTop{
+	width: 100%;
+	padding-top: 44px;
+	font-size: 0;
+	text-align: center;
+}
+
+.hotelBanCon .hotelBanBox .hotelBanBot{
+	width: 966px;
+	height: 90px;
+	padding: 10px;
+	margin: 0 auto;
+	background: url(../images/rgba_fff.png);
+	overflow: hidden;
+}
+
+.hotelBanCon .hotelBanBox .hotelBanBot .hotelBanL{
+	width: 812px;
+	height: 28px;
+	padding: 15px 0 15px 10px;
+	border-top: 1px solid #c4c6c8;
+	border-left: 1px solid #c4c6c8;
+	border-bottom: 1px solid #c4c6c8;
+	background-color: #f4f6f8;
+	float: left;
+	overflow: hidden;
+}
+
+.hotelBanCon .hotelBanBox .hotelBanBot .hotelBanL .hotelBan{
+	height: 28px;
+	line-height: 28px;
+	padding: 0 10px;
+	border-right: 1px solid #dcdcdd;
+	float: left;
+}
+
+.hotelBanCon .hotelBanBox .hotelBanBot .hotelBanL .hotelBan span{
+	font-size: 16px;
+	color: #5c5c5c;
+}
+
+.hotelBanCon .hotelBanBox .hotelBanBot .hotelBanL .hotelBan .seWid{
+	width: 120px;
+}
+
+.hotelBanCon .hotelBanBox .hotelBanBot .hotelBanL .hotelBan select{
+	width: 100px;
+	font-size: 16px;
+	color: #5c5c5c;
+	border: none;
+	background-color: transparent;
+	outline: none;
+}
+
+.hotelBanCon .hotelBanBox .hotelBanBot .hotelBanL .hotelBan input{
+	width: 294px;
+	height: 28px;
+	line-height: 28px;
+	padding: 0 10px;
+	font-size: 16px;
+	color: #5c5c5c;
+	background-color: transparent;
+}
+
+.hotelBanCon .hotelBanBox .hotelBanBot .hotelBanR{
+	width: 142px;
+	height: 60px;
+	float: left;
+}
+
+.hotelBanCon .hotelBanBox .hotelBanBot .hotelBanR input{
+	width: 100%;
+	height: 60px;
+	background-color: #ff9500;
+	font-size: 16px;
+	color: #ffffff;
+	cursor: pointer;
+}
+
+/*特色酒店*/
+
+.hotelchartiCon {
+	width: 100%;
+	padding: 18px 0 26px 0;
+	overflow: hidden;
+}
+
+.hotelchartiBox {
+	width: 1200px;
+	margin: 0 auto;
+}
+
+.hoteltit {
+	border-bottom: 1px solid #e6e6e6;
+	line-height: 38px;
+	margin-bottom: 10px;
+}
+
+.hoteltit h2 {
+	font-size: 20px;
+	color: #333333;
+}
+
+.hotelpicturelist {
+	width: 1200px;
+}
+
+.hotelpicturelist ul {
+	overflow: hidden;
+}
+
+.hotelpicturelist ul li {
+	width: 200px;
+	height: 240px;
+	float: left;
+	position: relative;
+	text-align: center;
+	cursor: pointer;
+}
+
+.hotelpicturelist ul li span {
+	width: 200px;
+	height: 240px;
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	background: rgba(0, 0, 0, 0.3) none repeat scroll 0 0 !important;
+	filter: Alpha(opacity=30);
+	background: #000;
+}
+
+.hotelpicturelist ul li span b {
+	position: relative;
+	font-size: 26px;
+	color: #fff;
+	width: 26px;
+	display: block;
+	margin: 44px auto 0 auto;
+}
+
+
+/*End*/
+
+
+/*热门推荐*/
+
+.hotelrendCon {
+	width: 100%;
+	padding: 0 0 108px 0;
+	overflow: hidden;
+}
+
+.hotelrendBox {
+	width: 1210px;
+	margin: 0 auto;
+	overflow: hidden;
+}
+
+.hotelrendl {
+	width: 900px;
+	float: left;
+}
+
+.hotelrendlscng {
+	width: 898px;
+	background-color: #fbfbfb;
+	border: 1px solid #e6e6e6;
+}
+
+.hotelrendlscng ul {
+	overflow: hidden;
+}
+
+.hotelrendlscng ul li {
+	float: left;
+	padding: 0 18px;
+	line-height: 38px;
+}
+
+.hotelrendlscng ul li a {
+	font-size: 14px;
+	color: #999999;
+	cursor: pointer;
+}
+
+.hotelrendlscng ul li i {
+	font-size: 14px;
+	color: #999999;
+	padding-left: 6px;
+}
+
+.hotelrendlscng ul .hotelraA a {
+	color: #ff7e00;
+}
+
+.hotelLastCon{
+	width: 900px;
+}
+
+.hotelLastCon ul li{
+	width: 858px;
+	margin-top: 10px;
+	padding: 20px;
+	border: 1px solid #e6e6e6;
+}
+
+.hotelLastCon ul li:hover{
+	border: 1px solid #2cba1a;
+}
+
+.hotelLastCon ul li:hover .hotelLastTop .hotelLastR .hotelDetaBtn a{
+	color: #fff;
+	background-color: #2cba1a;
+}
+
+.hotelLastCon ul li .hotelLastTop{
+	width: 100%;
+	display: table;
+}
+
+.hotelLastCon ul li .hotelLastTop .hotelLastL{
+	width: 552px;
+	height: 70px;
+	padding-right: 20px;
+	float: left;
+}
+
+.hotelLastCon ul li .hotelLastTop .hotelLastL .hotelLastName{
+	width: 100%;
+}
+
+.hotelLastCon ul li .hotelLastTop .hotelLastL .hotelLastName h3{
+	margin-right: 2px;
+	font-size: 16px;
+	float: left;
+}
+
+.hotelLastCon ul li .hotelLastTop .hotelLastL .hotelLastName h3 a{
+	color: #333333;
+}
+
+.hotelLastCon ul li .hotelLastTop .hotelLastL .hotelLastName h3 a:hover{
+	color: #2cba1a;
+}
+
+.hotelLastCon ul li .hotelLastTop .hotelLastL .hotelLastName i{
+	width: 18px;
+	height: 18px;
+	margin: 2px 0 0 8px;
+	background-image: url(../images/icon_base.png);
+	display: block;
+	float: left;
+}
+
+.hotelLastCon ul li .hotelLastTop .hotelLastL .hotelLastName .icon_yd{
+	background-position: -30px -218px;
+}
+
+.hotelLastCon ul li .hotelLastTop .hotelLastL .hotelLastName .icon_tg{
+	background-position: -58px -218px;
+}
+
+.hotelLastCon ul li .hotelLastTop .hotelLastL .hotelLastName .icon_fq{
+	background-position: -86px -218px;
+}
+
+.hotelLastCon ul li .hotelLastTop .hotelLastL .hotelLastAdd{
+	width: 100%;
+	padding-top: 8px;
+	clear: both;
+}
+
+.hotelLastCon ul li .hotelLastTop .hotelLastL .hotelLastAdd p{
+	width: 100%;
+	font-size: 14px;
+	color: #666666;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
+.hotelLastCon ul li .hotelLastTop .hotelLastL .hotelLastFun{
+	width: 100%;
+	padding-top: 4px;
+}
+
+.hotelLastCon ul li .hotelLastTop .hotelLastL .hotelLastFun span{
+	margin-right: 20px;
+	font-size: 14px;
+	color: #999999;
+	overflow: hidden;
+}
+
+.hotelLastCon ul li .hotelLastTop .hotelLastL .hotelLastFun span i{
+	width: 14px;
+	height: 14px;
+	margin-right: 6px;
+	background-image: url(../images/icon_base.png);
+	display: inline-block;
+	vertical-align: -2px;
+}
+
+.hotelLastCon ul li .hotelLastTop .hotelLastL .hotelLastFun span .icon_wifi{
+	background-position: -70px -1px;
+}
+
+.hotelLastCon ul li .hotelLastTop .hotelLastL .hotelLastFun span .icon_tc{
+	background-position: -46px -0px;
+}
+
+.hotelLastCon ul li .hotelLastTop .hotelLastC{
+	width: 155px;
+	height: 70px;
+	text-align: center;
+	float: left;
+	border-left: 1px solid #e6e6e6;
+}
+
+.hotelLastCon ul li .hotelLastTop .hotelLastC .hotelLastEval{
+	width: 100%;
+	padding-top: 10px;
+}
+
+.hotelLastCon ul li .hotelLastTop .hotelLastC .hotelLastEval span{
+	font-size: 14px;
+	color: #179f2e;
+}
+
+.hotelLastCon ul li .hotelLastTop .hotelLastC .hotelLastScor{
+	width: 100%;
+	padding-top: 8px;
+}
+
+.hotelLastCon ul li .hotelLastTop .hotelLastC .hotelLastScor i{
+	text-indent: -3px;
+	font-size: 14px;
+	color: #fcb200;
+}
+
+.hotelLastCon ul li .hotelLastTop .hotelLastC .hotelLastScor span{
+	margin-left: 6px;
+	font-size: 14px;
+	color: #999999;
+}
+
+.hotelLastCon ul li .hotelLastTop .hotelLastR{
+	width: 129px;
+	height: 70px;
+	text-align: right;
+	float: left;
+	border-left: 1px solid #e6e6e6;
+}
+
+.hotelLastCon ul li .hotelLastTop .hotelLastR .hotelLastPric{
+	width: 100%;
+	margin-top: -5px;
+}
+
+.hotelLastCon ul li .hotelLastTop .hotelLastR .hotelLastPric span{
+	font-size: 28px;
+	color: #ff5730;
+}
+
+.hotelLastCon ul li .hotelLastTop .hotelLastR .hotelLastPric span i{
+	font-size: 18px;
+	font-style: normal;
+}
+
+.hotelLastCon ul li .hotelLastTop .hotelLastR .hotelLastPric b{
+	font-size: 14px;
+	color: #666666;
+	font-weight: normal;
+}
+
+.hotelLastCon ul li .hotelLastTop .hotelLastR .hotelDetaBtn{
+	width: 100%;
+	padding-top: 8px;
+}
+
+.hotelLastCon ul li .hotelLastTop .hotelLastR .hotelDetaBtn a{
+	width: 86px;
+	height: 28px;
+	line-height: 28px;
+	text-align: center;
+	font-size: 12px;
+	color: #2cba1a;
+	border: 1px solid #2cba1a;
+	border-radius: 4px;
+	display: inline-block;
+}
+
+.hotelLastCon ul li .hotelLastBot{
+	width: 870px;
+	padding-top: 20px;
+	overflow: hidden;
+}
+
+.hotelLastCon ul li .hotelLastBot img{
+	width: 164px;
+	height: 114px;
+	margin-right: 10px;
+	float: left;
+	display: block;
+}
+
+.hotelrendr {
+	width: 280px;
+	float: right;
+}
+
+.hotelrendradd ul li {
+	margin-bottom: 10px;
+}
+
+.hotelrendrlike {
+	width: 256px;
+	padding: 8px 12px 0 12px;
+	background-color: #fbfbfb;
+}
+
+.hotelrendrlike h3 {
+	font-weight: normal;
+	border-bottom: 1px solid #e6e6e6;
+	font-size: 16px;
+	line-height: 34px;
+	color: #4c4c4c;
+}
+
+.hotelrendrlikebox {
+	overflow: hidden;
+	padding: 22px 0;
+	border-bottom: 1px dotted #d8d8d8;
+}
+
+.hotelrendrlikebox li {
+	float: left;
+}
+
+.hotelrendrlikebox li ul {
+	padding: 0 0 0 8px;
+}
+
+.hotelrendrlikebox li ul li {
+	clear: both;
+}
+
+.hotelrendrlikebox li ul li a {
+	font-size: 14px;
+	color: #333333;
+}
+
+.hotelrendrlikebox li ul li span {
+	font-size: 12px;
+	color: #808080;
+}
+
+.hotelrendrlikebox li ul li b {
+	font-weight: normal;
+	font-size: 20px;
+	color: #ff5730;
+	display: block;
+	margin-top: 6px;
+}
+
+.hotelrendrlikebox li ul li b i {
+	font-style: normal;
+	font-size: 12px;
+	color: #666666;
+	margin-left: 3px;
+}
+
+
+/*End*/
+
+
+/*---------------------------------------------------酒店预定-酒店列表结束---------------------------------------------------*/
+
+
+/*----------------------------------------------------酒店预定-酒店详情----------------------------------------------------*/
+
+
+/*左侧内容*/
+
+.hotelmaintit {
+	width: 900px;
+	margin-bottom: 20px;
+	overflow: hidden;
+}
+
+.hotelmaintit .hotelmaintitl {
+	float: left;
+}
+
+.hotelmaintit .hotelmaintitl li {
+	overflow: hidden;
+}
+
+.hotelmaintit .hotelmaintitl li h3 {
+	float: left;
+	font-weight: normal;
+	color: #179505;
+	font-size: 24px;
+	line-height: 48px;
+}
+
+.hotelmaintit .hotelmaintitl li span {
+	display: block;
+	float: left;
+	margin: 18px 0 0 20px;
+}
+
+.hotelmaintit .hotelmaintitl li span i {
+	font-size: 12px;
+	color: #fcb200;
+	margin-left: -4px;
+}
+
+.hotelmaintit .hotelmaintitl li span a {
+	font-size: 12px;
+	color: #999999;
+	margin-left: 4px;
+}
+
+.hotelmaintit .hotelmaintitl li p {
+	line-height: 38px;
+	font-size: 14px;
+	color: #4c4c4c;
+}
+
+.hotelmaintit .hotelmaintitl li ul {
+	overflow: hidden;
+}
+
+.hotelmaintit .hotelmaintitl li ul li {
+	overflow: hidden;
+	float: left;
+	margin-right: 20px;
+}
+
+.hotelmaintit .hotelmaintitl li ul li i {
+	display: block;
+	float: left;
+	background-image: url(../images/icon_base.png);
+	margin-right: 6px;
+}
+
+.hotelmaintit .hotelmaintitl li ul li .hotelwifi {
+	width: 14px;
+	height: 10px;
+	background-position: -118px -2px;
+	margin-top: 5px;
+}
+
+.hotelmaintit .hotelmaintitl li ul li .hoteltc {
+	width: 14px;
+	height: 14px;
+	background-position: -94px 0px;
+	margin-top: 4px;
+}
+
+.hotelmaintit .hotelmaintitl li ul li .hoteljj {
+	width: 16px;
+	height: 16px;
+	background-position: 0px -24px;
+	margin-top: 2px;
+}
+
+.hotelmaintit .hotelmaintitl li ul li span {
+	float: left;
+	margin: 0px;
+	font-size: 14px;
+	color: #5e709c;
+}
+
+.hotelmaintit .hotelmaintitr {
+	width: 110px;
+	float: right;
+}
+
+.hotelmaintit .hotelmaintitr li {
+	color: 666666;
+	font-size: 14px;
+	text-align: center;
+}
+
+.hotelmaintit .hotelmaintitr li span {
+	color: #ff5730;
+	font-size: 24px;
+	line-height: 65px;
+}
+
+.hotelmaintit .hotelmaintitr li input {
+	width: 110px;
+	height: 40px;
+	background-color: #ff5730;
+	font-size: 16px;
+	color: #fff;
+	cursor: pointer;
+}
+
+.hotelcarouse {
+	width: 900px;
+	margin-bottom: 10px;
+	overflow: hidden;
+}
+
+.hotelcarouseL {
+	width: 500px;
+	float: left;
+}
+
+.hotelcarouseR {
+	width: 400px;
+	float: left;
+}
+
+.hotelcarouseR ul {
+	overflow: hidden;
+}
+
+.hotelcarouseR ul li {
+	float: left;
+	margin: 0 0 8px 8px;
+}
+
+.hotelcarouseR ul .hotecaroimg1 {
+	width: 192px;
+	height: 140px;
+	overflow: hidden;
+}
+
+.hotelcarouseR ul .hotecaroimg2 {
+	width: 125px;
+	height: 130px;
+	overflow: hidden;
+}
+
+.hotelmenuBox {
+	width: 900px;
+	height: 40px;
+	position: relative;
+	z-index: 3px;
+}
+
+.hotelmenu {
+	width: 900px;
+	background-color: #f0f0f0;
+}
+
+.hotelmenu ul {
+	overflow: hidden;
+}
+
+.hotelmenu ul li {
+	width: 120px;
+	float: left;
+	line-height: 40px;
+	text-align: center;
+}
+
+.hotelmenu ul li a {
+	font-size: 14px;
+	color: #4c4c4c;
+}
+
+.hotelmenu ul .hotelmenuaA {
+	background-color: #3cb92a;
+}
+
+.hotelmenu ul .hotelmenuaA a {
+	color: #fff;
+}
+
+.hotelselecdate {
+	width: 902px;
+	border: 1px solid #e6e6e6;
+	margin: 6px 0 12px 0;
+}
+
+.hotelselecdate ul {
+	overflow: hidden;
+	padding-left: 20px;
+}
+
+.hotelselecdate ul li {
+	float: left;
+	line-height: 38px;
+	font-size: 14px;
+	color: #5c5c5c;
+	padding-left: 10px;
+}
+
+.hotelselecdate ul li .hotelseda {
+	width: 84px;
+	text-align: center;
+}
+
+.hotelselecdate ul li i {
+	color: #92b0d7;
+	padding: 0 10px 0 0;
+	border-right: 1px solid #e3e3e3;
+}
+
+.hotelselecdate ul li .hotelbudat {
+	width: 84px;
+	height: 28px;
+	color: #fff;
+	background-color: #ff7430;
+	cursor: pointer;
+}
+
+.hoteltypeBox {
+	width: 900px;
+}
+
+.hoteltypetit {
+	width: 900px;
+}
+
+.hoteltypetit table {
+	width: 900px;
+	text-align: center;
+	line-height: 32px;
+	font-size: 14px;
+	color: #4c4c4c;
+}
+
+.hoteltypetit table thead {
+	background-color: #f5f5f5;
+	border-bottom: 1px solid #e6e6e6;
+}
+
+.hoteltypecon {
+	margin-top: 20px;
+}
+
+.hoteltypecon h4 {
+	font-size: 14px;
+	color: #4c4c4c;
+	line-height: 24px;
+}
+
+.hoteltypecon .hotelroomtype {
+	width: 900px;
+}
+
+.hoteltypecon .hotelroomtype thead {
+	font-size: 14px;
+	color: #4c4c4c;
+	text-align: center;
+	line-height: 26px;
+	background-color: #fbfbfb;
+	border-top: 1px solid #dbdbdb;
+	border-bottom: 1px dotted #e6e6e6;
+}
+
+.hoteltypecon .hotelroomtype thead i {
+	color: #2dbb19;
+	cursor: pointer;
+}
+
+.hoteltypecon .hotelroomtype thead b {
+	color: #ff5730;
+}
+
+.hoteltypecon .hotelroomtype thead tr td {
+	padding: 8px 0;
+}
+
+.hoteltypecon .hotelroomtype thead tr td .hotelreserve {
+	display: block;
+	width: 70px;
+	height: 26px;
+	text-align: center;
+	margin: 0 auto;
+	font-size: 12px;
+	color: #fff;
+	background-color: #2dbb19;
+	cursor: pointer;
+}
+
+.hoteltypecon .hotelroomtype thead tr td .hotroomname {
+	text-align: left;
+	border-right: 1px solid #e6e6e6;
+	margin-top: -6px;
+}
+
+.hoteltypecon .hotelroomtype thead tr td .hotroomname li {
+	line-height: 24px;
+}
+
+.hoteltypecon .hotelroomtype thead tr td .hotroomname li h3 {
+	font-weight: normal;
+	font-size: 14px;
+	color: #333333;
+}
+
+.hoteltypecon .hotelroomtype thead tr td .hotroomname li a {
+	font-size: 14px;
+	color: #999999;
+}
+
+.hoteltypecon .hotelroomtype thead tr td .hotroomname li a i {
+	padding-left: 5px;
+}
+
+.hoteltypecon .hotelroomtype thead tr td .hotelsign {
+	text-align: left;
+	overflow: hidden;
+}
+
+.hoteltypecon .hotelroomtype thead tr td .hotelsign li {
+	float: left;
+}
+
+.hoteltypecon .hotelroomtype thead tr td .hotelsign li i {
+	display: block;
+	margin: 6px 6px 0 0;
+	background-image: url(../images/icon_base.png);
+}
+
+.hoteltypecon .hotelroomtype thead tr td .hotelsign li .hoteltg {
+	width: 16px;
+	height: 16px;
+	background-position: -24px -24px;
+}
+
+.hoteltypecon .hotelroomtype thead tr td .hotelsign li .hotelyh {
+	width: 16px;
+	height: 16px;
+	background-position: -46px -24px;
+}
+
+.hoteltypecon .hotelroomtype thead tr td .hotelmfqx {
+	color: #2dbb19;
+}
+
+.hoteltypecon .hotelroomtype thead tr td .hotelbkqx {
+	color: #999999;
+}
+
+.hoteltypecon .hotelroomtype tbody tr td .hotelroomdeils {
+	background-color: #fdf9ec;
+	padding: 14px 10px;
+	overflow: hidden;
+	position: relative;
+}
+
+.hoteltypecon .hotelroomtype tbody tr td .hotelroomdeils .hotelroomdeilsl {
+	width: 420px;
+	float: left;
+}
+
+.hoteltypecon .hotelroomtype tbody tr td .hotelroomdeils .hotelroomdeilsl ul {
+	overflow: hidden;
+}
+
+.hoteltypecon .hotelroomtype tbody tr td .hotelroomdeils .hotelroomdeilsl ul li {
+	float: left;
+	margin-right: 10px;
+}
+
+.hoteltypecon .hotelroomtype tbody tr td .hotelroomdeils .hotelroomdeilsr {
+	width: 436px;
+	float: left;
+	margin-left: 4px;
+}
+
+.hoteltypecon .hotelroomtype tbody tr td .hotelroomdeils .hotelroomdeilsr ul {
+	overflow: hidden;
+}
+
+.hoteltypecon .hotelroomtype tbody tr td .hotelroomdeils .hotelroomdeilsr ul li {
+	float: left;
+	font-size: 12px;
+	color: #666666;
+	padding-right: 16px;
+	line-height: 26px;
+}
+
+.hoteltypecon .hotelroomtype tbody tr td .hotelroomdeils .hotelcutout {
+	font-size: 12px;
+	color: #666666;
+	position: absolute;
+	bottom: 14px;
+	right: 34px;
+	cursor: pointer;
+}
+
+.hoteltypecon .hotelroomtype tbody tr td .hotelroomdeils .hotelcutout i {
+	font-size: 14px;
+	color: #2dbb19;
+	margin-left: 8px;
+}
+
+.hoteltypecon .hotelallchamber {
+	font-size: 12px;
+	line-height: 42px;
+	color: #666666;
+	float: right;
+	cursor: pointer;
+}
+
+.hoteltypecon .hotelallchamber i {
+	font-size: 14px;
+	color: #2dbb19;
+}
+
+.hotelcontion {
+	width: 910px;
+	overflow: hidden;
+	background-color: #fff;
+}
+
+.hotelcontit {
+	width: 910px;
+	margin: 30px 0 10px 0;
+}
+
+.hotelcontit ul {
+	height: 43px;
+	border-bottom: 1px solid #e6e6e6;
+}
+
+.hotelcontit ul li {
+	width: 110px;
+	line-height: 40px;
+	text-align: center;
+	border-bottom: 3px solid #57c947;
+}
+
+.hotelcontit ul li h3 {
+	font-weight: normal;
+	font-size: 20px;
+	color: #4c4c4c;
+}
+
+.hotelcontibox {
+	width: 900px;
+}
+
+.hotelcontibox ul li {
+	overflow: hidden;
+	line-height: 50px;
+	position: relative;
+}
+
+.hotelcontibox ul li i {
+	float: left;
+	display: block;
+	background-image: url(../images/icon_base.png);
+	margin: 16px 10px 0 10px;
+}
+
+.hotelcontibox ul li .hoteljddh {
+	width: 18px;
+	height: 18px;
+	background-position: 0px -50px;
+}
+
+.hotelcontibox ul li .hotelwlfw {
+	width: 16px;
+	height: 18px;
+	background-position: -24px -50px;
+}
+
+.hotelcontibox ul li .hoteljdss {
+	width: 16px;
+	height: 16px;
+	background-position: -46px -51px;
+}
+
+.hotelcontibox ul li .hotelkysj {
+	width: 14px;
+	height: 17px;
+	background-position: -70px -50px;
+}
+
+.hotelcontibox ul li .hoteljdjj {
+	width: 14px;
+	height: 17px;
+	background-position: -94px -50px;
+}
+
+.hotelcontibox ul li a {
+	float: left;
+	font-size: 16px;
+	color: #4c4c4c;
+}
+
+.hotelcontibox ul li span {
+	float: left;
+	margin: 0 18px;
+	font-size: 16px;
+	color: #808080;
+}
+
+.hotelcontibox ul li p {
+	float: left;
+	width: 756px;
+	line-height: 28px;
+	margin: 12px 0 18px 20px;
+	font-size: 16px;
+	color: #808080;
+	text-align: justify;
+	text-justify: inter-ideograph;
+}
+
+.hotelcontibox ul li p b {
+	font-weight: normal;
+	display: none;
+}
+
+.hotelcontibox ul li .hotleqb {
+	position: absolute;
+	right: 16px;
+	bottom: 15px;
+	color: #25ad12;
+	cursor: pointer;
+}
+
+.hotelcontibox ul li .hotleqb i {
+	background-image: none;
+	font-size: 14px;
+	margin: 0 0 0 4px;
+}
+
+.hotelcontibox ul li .hotleqb span {
+	font-size: 14px;
+	margin: 0px;
+	color: #25ad12;
+	line-height: 14px;
+}
+
+.hotelmapBox {
+	width: 910px;
+	overflow: hidden;
+	background-color: #fff;
+}
+
+.hotelevalmesBox {
+	width: 910px;
+	overflow: hidden;
+	background-color: #fff;
+}
+
+.hotelluatmes {
+	width: 910px;
+	padding: 10px 0 20px 0;
+	overflow: hidden;
+}
+
+.hotelluatmesl {
+	height: 88px;
+	float: left;
+	padding: 0 8px;
+	border-right: 1px solid #e6e6e6;
+}
+
+.hotelluatmesl h4 {
+	font-size: 14px;
+	color: #333333;
+}
+
+.hotelluatmesl ul {
+	margin-top: 10px;
+}
+
+.hotelluatmesl ul li {
+	width: 126px;
+	text-align: center;
+}
+
+.hotelluatmesl ul li span {
+	font-size: 24px;
+	color: #ff7430;
+}
+
+.hotelluatmesl ul li b {
+	font-size: 14px;
+	color: #666666;
+	font-weight: normal;
+}
+
+.hotelluatmesl ul li i {
+	font-size: 14px;
+	color: #fcb200;
+	margin: 0 -2px;
+}
+
+.hotelluatmesc {
+	height: 88px;
+	float: left;
+	border-right: 1px solid #e6e6e6;
+	padding: 0 28px 0 20px;
+	overflow: hidden;
+}
+
+.hotelluatmesc h4 {
+	font-size: 14px;
+	font-weight: normal;
+	color: #333333;
+	float: left;
+}
+
+.hotelluatmesc ul {
+	width: 446px;
+	float: left;
+	overflow: hidden;
+}
+
+.hotelluatmesc ul li {
+	width: 90px;
+	height: 24px;
+	line-height: 24px;
+	border: 1px solid #e6e6e6;
+	border-radius: 2px;
+	margin: 0 8px 18px 8px;
+	float: left;
+	text-align: center;
+	font-size: 12px;
+	color: #666666;
+	overflow: hidden;
+}
+
+.hotelluatmesc ul li span {
+	color: #2dbb19;
+}
+
+.hotelluatmesr {
+	height: 88px;
+	float: left;
+}
+
+.hotelluatmesr ul {
+	padding: 10px 41px 0 41px;
+}
+
+.hotelluatmesr ul li {
+	text-align: center;
+}
+
+.hotelluatmesr ul li a {
+	display: inline-block;
+	width: 110px;
+	height: 36px;
+	line-height: 36px;
+	text-align: center;
+	background-color: #2dbb19;
+	color: #fff;
+	font-size: 16px;
+	cursor: pointer;
+	margin-bottom: 14px;
+}
+
+.hotelluatmesr ul li span {
+	color: #999999;
+	font-size: 14px;
+}
+
+.hotelpltit {
+	width: 900px;
+	background-color: #fafafa;
+	margin-top: 6px;
+}
+
+.hotelpltit ul {
+	overflow: hidden;
+}
+
+.hotelpltit ul li {
+	float: left;
+	padding: 0 16px;
+	line-height: 34px;
+}
+
+.hotelpltit ul li a {
+	font-size: 12px;
+	color: #666666;
+}
+
+.hotelpltit ul .hotelplaA a {
+	color: #01b075;
+}
+
+.hotelplCon {
+	width: 900px;
+}
+
+.hotelplBox {
+	width: 900px;
+	overflow: hidden;
+	background-color: #fff;
+}
+
+.hotelplBox .hotelplimg {
+	width: 26px;
+	height: 26px;
+	float: left;
+	overflow: hidden;
+	margin: 26px 6px 0 6px;
+}
+
+.hotelplBox ul {
+	border-bottom: 1px solid #e6e6e6;
+	padding: 26px 0;
+	overflow: hidden;
+}
+
+.hotelplBox ul li {
+	float: left;
+}
+
+.hotelplBox ul li .hotelpL {
+	border-bottom: 0px;
+	border-right: 1px solid #e6e6e6;
+	padding: 0 20px;
+	min-height: 120px;
+}
+
+.hotelplBox ul li .hotelpL li {
+	clear: both;
+	font-size: 14px;
+	color: #999999;
+	text-align: center;
+	padding-bottom: 6px;
+}
+
+.hotelplBox ul li .hotelpL li a {
+	font-size: 14px;
+	color: #2dbb19;
+}
+
+.hotelplBox ul li .hotelpR {
+	width: 710px;
+	border-bottom: 0px;
+	padding: 0 0 0 26px;
+	min-height: 120px;
+	overflow: hidden;
+}
+
+.hotelplBox ul li .hotelpR li {
+	font-size: 14px;
+	color: #999999;
+	float: left;
+}
+
+.hotelplBox ul li .hotelpR li p {
+	width: 726px;
+	line-height: 24px;
+}
+
+.hotelplBox ul li .hotelpR li img {
+	margin: 10px 10px 0 0;
+}
+
+
+/*右侧内容*/
+
+.hotelscoreBox {
+	padding: 15px 0;
+	background-color: #fafafa;
+	margin: 0 0 20px 0;
+	overflow: hidden;
+}
+
+.hotelscorel {
+	width: 102px;
+	float: left;
+	text-align: center;
+	border-right: 1px solid #e6e6e6;
+}
+
+.hotelscorel li {
+	font-size: 12px;
+	color: #999999;
+	line-height: 30px;
+}
+
+.hotelscorel li span {
+	font-size: 20px;
+	color: #ff7430;
+}
+
+.hotelscorer {
+	width: 160px;
+	float: left;
+}
+
+.hotelscorer li p {
+	width: 140px;
+	padding-left: 26px;
+	color: #999999;
+	line-height: 20px;
+	font-size: 12px;
+	position: relative;
+}
+
+.hotelscorer li p b {
+	font-family: '方正黑体简体';
+	font-size: 24px;
+}
+
+.hotelscorer li p .sub1 {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+}
+
+.hotelscorer li p .sub2 {
+	position: absolute;
+	right: 6px;
+	bottom: -10px;
+}
+
+.hotelscorer li a {
+	float: right;
+	margin-top: 6px;
+	font-size: 12px;
+	color: #35af24;
+}
+
+.hotelscorer li a i {
+	font-size: 16px;
+	margin-left: 4px;
+}
+
+.hotelsmallmap {
+	width: 280px;
+	height: 280px;
+	margin: 0 0 20px 0;
+	position: relative;
+}
+
+.hotelsmallmap .mapmar {
+	display: block;
+	width: 110px;
+	height: 34px;
+	line-height: 34px;
+	text-align: center;
+	color: #fff;
+	font-size: 14px;
+	background: rgba(0, 0, 0, 0.5) none repeat scroll 0 0 !important;
+	filter: Alpha(opacity=50);
+	background: #000;
+	position: absolute;
+	right: 0px;
+	bottom: 0px;
+}
+
+.hotelsmallmap .mapmar i {
+	padding-right: 6px;
+}
+
+
+/*----------------------------------------------------酒店预定-酒店详情结束----------------------------------------------------*/
+
+
+/*-------------------------------------------------------酒店下单开始-------------------------------------------------------*/
+
+
+/*-------------------------酒店下单-填写信息-------------------------*/
+
+.hotelreserveCon {
+	width: 100%;
+	padding-bottom: 110px;
+	overflow: hidden;
+}
+
+.hotelreserveBox {
+	width: 1200px;
+	margin: 0 auto;
+	overflow: hidden;
+}
+
+.hotelreservel {
+	width: 328px;
+	float: left;
+	border-top: 4px solid #35b14c;
+	border-left: 1px solid #e6e6e6;
+	border-right: 1px solid #e6e6e6;
+	border-bottom: 1px solid #e6e6e6;
+	min-height: 717px;
+}
+
+.hotelreservel .hotelreservet {
+	padding: 12px 16px;
+	border-bottom: 1px dotted #d6d6d6;
+}
+
+.hotelreservel .hotelreservet .hotelreservemain {
+	border-bottom: 1px dotted #d6d6d6;
+	padding-bottom: 12px;
+}
+
+.hotelreservel .hotelreservet .hotelreservemain ul li h3 {
+	font-weight: normal;
+	color: #666666;
+	font-size: 20px;
+	margin-top: 10px;
+}
+
+.hotelreservel .hotelreservet .hotelreservemain ul li i {
+	font-size: 14px;
+	color: #fcb200;
+	margin-right: -2px;
+}
+
+.hotelreservel .hotelreservet .hotelreservemain ul li span {
+	font-size: 14px;
+	margin-left: 6px;
+	color: 999999;
+	line-height: 26px;
+}
+
+.hotelreservel .hotelreservet .hotelreservemain ul li p {
+	font-size: 13px;
+	line-height: 24px;
+	color: #999999;
+}
+
+.hotelreservel .hotelreservet .hotelreservexq {
+	padding: 8px 0 10px 0;
+}
+
+.hotelreservel .hotelreservet .hotelreservexq h4 {
+	font-size: 16px;
+	line-height: 36px;
+	color: #4c4c4c;
+}
+
+.hotelreservel .hotelreservet .hotelreservexq ul {
+	overflow: hidden;
+}
+
+.hotelreservel .hotelreservet .hotelreservexq ul li {
+	width: 148px;
+	float: left;
+	line-height: 32px;
+}
+
+.hotelreservel .hotelreservet .hotelreservexq ul li a {
+	font-size: 14px;
+	color: #4c4c4c;
+}
+
+.hotelreservel .hotelreserveb {
+	padding: 10px 16px;
+	background-color: #fafafa;
+}
+
+.hotelreservel .hotelreserveb ul li {
+	line-height: 34px;
+}
+
+.hotelreservel .hotelreserveb ul li a {
+	color: #3d3d3d;
+	font-size: 14px;
+}
+
+.hotelreservel .hotelreserveb ul li b {
+	font-size: 15px;
+	color: #3d3d3d;
+}
+
+.hotelreservel .hotelreserveb ul li span {
+	font-size: 26px;
+	color: #ff6a30;
+}
+
+.hotelreserver {
+	width: 788px;
+	float: right;
+	border: 1px solid #d9d9d9;
+	padding: 0 34px;
+	min-height: 720px;
+}
+
+.hotelreserver .hotelrmessage {
+	padding: 26px 0 0 0;
+}
+
+.hotelreserver .hotelrmessage .hotelrmesstit {
+	overflow: hidden;
+}
+
+.hotelreserver .hotelrmessage .hotelrmesstit ul {
+	border-bottom: 1px solid #e6e6e6;
+	height: 32px;
+}
+
+.hotelreserver .hotelrmessage .hotelrmesstit ul li {
+	float: left;
+	padding: 0 10px;
+	line-height: 32px;
+	border-bottom: 1px solid #35b14c;
+}
+
+.hotelreserver .hotelrmessage .hotelrmessagecon {
+	padding: 8px 0;
+}
+
+.hotelreserver .hotelrmessage .hotelrmessagecon ul li {
+	line-height: 43px;
+	color: #333333;
+	font-size: 14px;
+	overflow: hidden;
+}
+
+.hotelreserver .hotelrmessage .hotelrmessagecon ul li a {
+	float: left;
+	width: 98px;
+	margin-right: 10px;
+	text-align: right;
+	font-size: 14px;
+	color: #333333;
+}
+
+.hotelreserver .hotelrmessage .hotelrmessagecon ul li i {
+	font-style: normal;
+	color: #ff5c30;
+}
+
+.hotelreserver .hotelrmessage .hotelrmessagecon ul li b {
+	color: #666666;
+}
+
+.hotelreserver .hotelrmessage .hotelrmessagecon ul li span {
+	color: #808080;
+}
+
+.hotelreserver .hotelrmessage .hotelrmessagecon ul li .hotelrdate {
+	width: 60px;
+	height: 22px;
+	border: 1px solid #cccccc;
+}
+
+.hotelreserver .hotelrmessage .hotelrmessagecon ul li .ktvxddate {
+	width: 70px;
+	height: 22px;
+	border: 1px solid #cccccc;
+}
+
+.hotelreserver .hotelrmessage .hotelrmessagecon ul li ul {
+	float: left;
+	overflow: hidden;
+}
+
+.hotelreserver .hotelrmessage .hotelrmessagecon ul li ul li {
+	float: left;
+}
+
+.hotelreserver .hotelrmessage .hotelrmessagecon ul li ul li p {
+	margin-left: 100px;
+}
+
+.hotelreserver .hotelrmessage .hotelrmessagecon ul li ul li .hotelrtext1 {
+	width: 108px;
+	height: 32px;
+	line-height: 32px;
+	border: 1px solid #d9d9d9;
+	padding: 0 5px;
+	margin-right: 10px;
+}
+
+.hotelreserver .hotelrmessage .hotelrmessagecon ul li .hotelrtext2 {
+	width: 238px;
+	height: 32px;
+	line-height: 32px;
+	border: 1px solid #d9d9d9;
+	padding: 0 5px;
+	float: left;
+	margin-top: 4px;
+}
+
+.hotelreserver .hotelrmessage .hotelrmessagecon ul li p {
+	color: #999999;
+	font-size: 12px;
+}
+
+.hotelreserver .hotelrmessage .hotelrmessagecon ul li p i {
+	margin: 0 5px 0 10px;
+}
+
+.hotelreserver .hotelroderbutton {
+	border-top: 1px solid #e6e6e6;
+	margin-top: 43px;
+	padding-top: 18px;
+}
+
+.hotelreserver .hotelroderbutton .hotelroderbut {
+	width: 144px;
+	margin: 0 auto;
+}
+
+.hotelreserver .hotelroderbutton .hotelroderbut input {
+	width: 144px;
+	height: 46px;
+	background-color: #3fc959;
+	color: #fff;
+	font-size: 16px;
+	cursor: pointer;
+}
+
+.hotelreserver .hotelreturn {
+	display: inline-block;
+	font-size: 14px;
+	color: #666666;
+	margin-top: 38px;
+}
+
+.hotelreserver .hotelreturn i {
+	font-size: 18px;
+	color: #35b14c;
+	padding-right: 10px;
+}
+
+
+/*-------------------------酒店下单-在线支付-------------------------*/
+
+
+/*信息展示*/
+
+.hotelpaywayCon {
+	width: 100%;
+	margin-bottom: 20px;
+	overflow: hidden;
+}
+
+.hotelpaywayBox {
+	width: 1136px;
+	margin: 0 auto;
+	padding: 0 32px;
+	background-color: #f7f7f7;
+}
+
+.hotelpaywayinfot {
+	padding: 10px 0;
+	border-bottom: 1px solid #e6e6e6;
+	overflow: hidden;
+}
+
+.hotelpaywayinfot .hotelpaywayinfol {
+	float: left;
+}
+
+.hotelpaywayinfot .hotelpaywayinfol ul li {
+	overflow: hidden;
+	line-height: 36px;
+}
+
+.hotelpaywayinfot .hotelpaywayinfol ul li h3 {
+	float: left;
+	font-size: 18px;
+	color: #333333;
+}
+
+.hotelpaywayinfot .hotelpaywayinfol ul li span {
+	float: left;
+	font-size: 14px;
+	color: #999999;
+	margin-left: 16px;
+}
+
+.hotelpaywayinfot .hotelpaywayinfol ul li p {
+	font-size: 14px;
+	color: #666666;
+}
+
+.hotelpaywayinfot .hotelpaywayinfor {
+	float: right;
+	line-height: 70px;
+}
+
+.hotelpaywayinfot .hotelpaywayinfor b {
+	font-size: 14px;
+	color: #666666;
+}
+
+.hotelpaywayinfot .hotelpaywayinfor span {
+	font-size: 20px;
+	color: #ff5c30;
+}
+
+.hotelpaywayinfob {}
+
+.hotelpaywayinfob ul {
+	overflow: hidden;
+}
+
+.hotelpaywayinfob ul li {
+	float: left;
+	font-size: 12px;
+	line-height: 46px;
+	color: #808080;
+}
+
+.hotelpaywayinfob ul li a {
+	font-size: 14px;
+	color: #333333;
+}
+
+.hotelpaywayinfob ul li span {
+	color: #ff5c30;
+}
+
+
+/*支付方式*/
+
+.hotelpaymentmethod {
+	width: 100%;
+	padding-bottom: 110px;
+	overflow: hidden;
+}
+
+.hotelpaymentme {
+	width: 1200px;
+	margin: 0 auto;
+}
+
+.hotelpaymentit {
+	border-bottom: 1px solid #cccccc;
+}
+
+.hotelpaymentit ul li {
+	line-height: 40px;
+	padding: 0 10px;
+}
+
+.hotelpaybutton {
+	width: 1200px;
+	margin: 47px 0 200px 0;
+}
+
+.hotelpaybutton ul {
+	float: right;
+	overflow: hidden;
+}
+
+.hotelpaybutton ul li {
+	float: left;
+	font-size: 12px;
+	margin: 0 15px;
+	position: relative;
+}
+
+.hotelpaybutton ul li span {
+	color: #666666;
+	margin-right: 10px;
+	display: inline-block;
+	margin-top: 33px;
+}
+
+.hotelpaybutton ul li a {
+	color: #36b269;
+	display: inline-block;
+}
+
+.hotelpaybutton ul li input {
+	width: 138px;
+	height: 50px;
+	color: #fff;
+	background-color: #ff5c30;
+	font-size: 14px;
+	cursor: pointer;
+}
+
+
+/*-------------------------酒店下单-预订成功-------------------------*/
+
+.hotelbookcompCon {
+	width: 100%;
+}
+
+.hotelbookcompBox {
+	width: 832px;
+	height:450px;
+	margin: 0 auto;
+	padding: 50px 184px;
+	background-color: #fcfcfc;
+}
+
+.hotelbookcompt {
+	border-bottom: 1px dotted #d0d0d0;
+	overflow: hidden;
+}
+
+.hotelbookcompt .hotelbookimg {
+	width: 50px;
+	height: 50px;
+	background-image: url(../images/hotelwc.png);
+	background-repeat: no-repeat;
+	float: left;
+	margin: 18px 0 0 4px;
+}
+
+.hotelbookcompt ul {
+	float: left;
+	padding: 5px 0 5px 24px;
+}
+
+.hotelbookcompt ul li {
+	font-size: 14px;
+	color: #808080;
+	line-height: 30px;
+}
+
+.hotelbookcompt ul li b {
+	font-size: 30px;
+	color: #35b14c;
+	line-height: 42px;
+}
+
+.hotelbookcompt ul li span {
+	font-size: 16px;
+}
+
+.hotelbookcompt h3 {
+	float: left;
+	line-height: 87px;
+	margin-left: 20px;
+	font-size: 32px;
+	color: #FF6E6E;
+}
+
+.hotelbookcompb {
+	padding-left: 4px;
+}
+
+.hotelbookcompb .hotelbookcompbh {
+	padding: 10px 0;
+}
+
+.hotelbookcompb .hotelbookcompbh li {
+	font-size: 14px;
+	color: #666666;
+	line-height: 30px;
+}
+
+.hotelbookcompb .hotelbookcompbh li span {
+	font-size: 16px;
+	color: #ff4200;
+}
+
+.hotelbookcompb .hotelbookcompbh li b {
+	font-size: 12px;
+	color: #b2b2b2;
+	font-weight: normal;
+}
+
+.hotelbookcompb .hotelbookcompxq {
+	overflow: hidden;
+}
+
+.hotelbookcompb .hotelbookcompxq li {
+	line-height: 30px;
+	float: left;
+	font-size: 14px;
+	color: #666666;
+}
+
+.hotelbookcompb .hotelbookcompxq li .bookwc {
+	color: #36b269;
+}
+
+.hotelbookcompb .hotelbookcompxq li a {
+	font-size: 14px;
+	color: #408ab5;
+	padding: 0 10px;
+}
+
+
+/*-------------------------------------------------------酒店下单结束-------------------------------------------------------*/
+
+
+/*-------------------------------------------------------外卖下单开始-------------------------------------------------------*/
+
+
+/*-------------------------外卖下单-填写信息-------------------------*/
+
+.takeorderCon {
+	width: 100%;
+	padding-bottom: 86px;
+}
+
+.takeorderBox {
+	width: 1200px;
+	margin: 0 auto;
+	overflow: hidden;
+}
+
+.takeorderL {
+	width: 318px;
+	float: left;
+	border-top: 4px solid #35b14c;
+	border-left: 1px solid #e6e6e6;
+	border-right: 1px solid #e6e6e6;
+	background-image: url(../images/takelbg.png);
+	background-repeat: repeat-x;
+	background-position: left bottom;
+	padding: 0 20px 56px 20px;
+}
+
+.takeorderL .takeorderLtit {
+	width: 100%;
+	padding: 16px 0;
+}
+
+.takeorderL .takeorderLtit ul li h3 {
+	font-size: 20px;
+	color: #4c4c4c;
+	line-height: 36px;
+}
+
+.takeorderL .takeorderLtit ul li ul {
+	overflow: hidden;
+}
+
+.takeorderL .takeorderLtit ul li ul li {
+	float: left;
+	font-size: 14px;
+	color: #a6a6a6;
+	margin-right: 16px;
+}
+
+.takeorderL .takeorderLtit ul li ul li span {
+	color: #666666;
+	margin-left: 6px;
+}
+
+.takeorderL .takeorderLt {
+	width: 100%;
+}
+
+.takeorderL .takeorderLt table {
+	width: 100%;
+	font-size: 14px;
+	text-align: center;
+}
+
+.takeorderL .takeorderLt table thead {
+	line-height: 27px;
+	border-bottom: 1px solid #e6e6e6;
+}
+
+.takeorderL .takeorderLt table thead tr td {
+	color: #999999;
+}
+
+.takeorderL .takeorderLt table tbody tr {
+	border-bottom: 1px dotted #c8c8c8;
+}
+
+.takeorderL .takeorderLt table tbody tr td {
+	line-height: 42px;
+	color: #666666;
+}
+
+.takeorderL .takeorderLt table .takeoneron tr td .takeonetit {
+	width: 126px;
+	height: 14px;
+	line-height: 14px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.takeorderL .takeorderLt table .takeoneron tr td .takenum {
+	margin-left: 18px;
+	overflow: hidden;
+}
+
+.takeorderL .takeorderLt table .takeoneron tr td .takenum li {
+	float: left;
+}
+
+.takeorderL .takeorderLt table .takeoneron tr td .takenum li i {
+	display: block;
+	width: 16px;
+	height: 16px;
+	background-image: url(../images/base.png);
+	margin-top: 14px;
+}
+
+.takeorderL .takeorderLt table .takeoneron tr td .takenum li .takenumL {
+	background-position: -165px -138px;
+}
+
+.takeorderL .takeorderLt table .takeoneron tr td .takenum li .takenumR {
+	background-position: -183px -138px;
+}
+
+.takeorderL .takeorderLt table .takeoneron tr td .takenum li input {
+	width: 28px;
+	text-align: center;
+}
+
+.takeorderL .takeltex {
+	text-align: left;
+}
+
+.takeorderL .takeorderLdis {
+	padding-right: 18px;
+	background-color: #fafafa;
+}
+
+.takeorderL .takeorderLdis ul {
+	text-align: right;
+	padding-bottom: 6px;
+}
+
+.takeorderL .takeorderLdis ul li {
+	color: #666666;
+	font-size: 14px;
+	padding: 6px 0;
+}
+
+.takeorderL .takeorderLdis ul li b {
+	font-size: 14px;
+}
+
+.takeorderL .takeorderLdis ul li span {
+	font-size: 24px;
+	color: #ff2d55;
+}
+
+.takeorderL .takeorderts {
+	margin-top: 14px;
+}
+
+.takeorderL .takeorderts ul li {
+	line-height: 26px;
+	font-size: 14px;
+}
+
+.takeorderL .takeorderts ul li p {
+	color: #999999;
+	text-align: inherit;
+	text-align: justify;
+}
+
+.takeorderL .takeorderts ul li a {
+	color: #ff5c30;
+	text-decoration: underline;
+}
+
+.takeorderR {
+	width: 780px;
+	float: right;
+	background-color: #fbfbfb;
+	padding: 0 36px 56px 14px;
+}
+
+.takeorderR .takeorderRcon {
+	padding: 22px 0 28px 0;
+	border-bottom: 1px solid #e6e6e6;
+}
+
+.takeorderR .takeorderRcon .takeorderRtit {
+	margin-bottom: 10px;
+	overflow: hidden;
+}
+
+.takeorderR .takeorderRcon .takeorderRtit ul {
+	height: 32px;
+	border-bottom: 1px solid #e6e6e6;
+}
+
+.takeorderR .takeorderRcon .takeorderRtit ul li {
+	float: left;
+	line-height: 32px;
+	border-bottom: 1px solid #51d068;
+	font-size: 16px;
+	color: #4c4c4c;
+	padding: 0 10px;
+}
+
+.takeorderR .takeorderRcon .takeorderRintion ul {
+	padding: 0 36px;
+}
+
+.takeorderR .takeorderRcon .takeorderRintion ul li {
+	padding: 10px 0;
+	line-height: 42px;
+	overflow: hidden;
+}
+
+.takeorderR .takeorderRcon .takeorderRintion ul li i {
+	font-style: normal;
+	color: #F00;
+	margin-left: 10px;
+}
+
+.takeorderR .takeorderRcon .takeorderRintion ul li a {
+	font-size: 14px;
+	margin-right: 20px;
+}
+
+.takeorderR .takeorderRcon .takeorderRintion ul li input {
+	height: 40px;
+	line-height: 40px;
+	border: 1px solid #e4e4e4;
+	padding: 0 10px;
+}
+
+.takeorderR .takeorderRcon .takeorderRintion ul li .w398 {
+	width: 398px;
+}
+
+.takeorderR .takeorderRcon .takeorderRintion ul li .w578 {
+	width: 578px;
+}
+
+.takeorderR .takeorderRcon .takeorderRintion ul li .takeorderRsex {
+	padding-left: 76px;
+	overflow: hidden;
+}
+
+.takeorderR .takeorderRcon .takeorderRintion ul li .takeorderRsex li {
+	float: left;
+	padding-right: 22px;
+	line-height: 24px;
+	position: relative;
+}
+
+.takeorderR .takeorderRcon .takeorderRintion ul li .takeorderRsex li input {
+	width: 16px;
+	height: 16px;
+	border: 0px;
+	cursor: pointer;
+	position: absolute;
+	left: 0px;
+	top: 15px;
+	z-index: 1;
+	opacity: 0;
+	filter: Alpha(opacity=0);
+	padding: 0px;
+}
+
+.takeorderR .takeorderRcon .takeorderRintion ul li .takeorderRsex li i {
+	display: inline-block;
+	width: 14px;
+	height: 14px;
+	background-image: url(../images/base.png);
+	background-position: -328px -44px;
+	position: absolute;
+	left: 0px;
+	top: 15px;
+	z-index: 0;
+	margin: 0px;
+}
+
+.takeorderR .takeorderRcon .takeorderRintion ul li .takeorderRsex li .takexs {
+	background-position: -304px -44px;
+}
+
+.takeorderR .takeorderRcon .takeorderRintion ul li .takeorderRsex li span {
+	margin-left: 20px;
+}
+
+.takeorderR .takeorderRcon .takeorderRintion ul li .takeorderRpaym {
+	padding: 0px;
+	display: inline-block;
+}
+
+.takeorderR .takeorderRcon .takeorderRintion ul li .takeorderRpaym li {
+	display: inline-block;
+	margin-right: 20px;
+	margin-bottom: -14px;
+	background-color: #fff;
+	padding: 0 20px;
+	font-size: 14px;
+	color: #ff6a30;
+	border: 1px solid #dbdbdb;
+	line-height: 38px;
+	cursor: pointer;
+	background-image: url(../images/takesj1.png);
+	background-position: right bottom;
+	background-repeat: no-repeat;
+}
+
+.takeorderR .takeorderRcon .takeorderRintion ul li .takeorderRpaym .takepaym {
+	border: 1px solid #ff6000;
+	background-image: url(../images/takesj2.png);
+	background-position: right bottom;
+	background-repeat: no-repeat;
+}
+
+.takeorderR .takeorderRcon .takeorderRintion ul li select {
+	padding: 9px 12px;
+	height: 38px;
+	border: 1px solid #d6d6d6;
+	margin-right: 6px;
+}
+
+.takeorderR .takeorderRbut {
+	width: 144px;
+	margin: 0 auto;
+	padding: 26px 0 0 0;
+}
+
+.takeorderR .takeorderRbut input {
+	width: 144px;
+	height: 46px;
+	background-color: #ff6000;
+	color: #fff;
+	font-size: 14px;
+	cursor: pointer;
+}
+
+
+/*-------------------------外卖下单-在线支付-------------------------*/
+
+.hotelpaywaytake {
+	line-height: 68px;
+	overflow: hidden;
+}
+
+.hotelpaywaytake h3 {
+	float: left;
+}
+
+.hotelpaywaytake ul {
+	float: right;
+	overflow: hidden;
+}
+
+.hotelpaywaytake ul li {
+	float: left;
+	font-size: 16px;
+	color: #666666;
+}
+
+.hotelpaywaytake ul li b {
+	font-size: 26px;
+	color: #ff5c30;
+	font-weight: normal;
+}
+
+
+/*-------------------------------------------------------外卖下单结束-------------------------------------------------------*/
+
+
+/*支付提示框*/
+
+.paymentpromptBox {
+	width: 402px;
+	height: 246px;
+	border-bottom: 2px solid #ff6a30;
+	background-color: #FFF;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	margin: -123px 0 0 -201px;
+	z-index: 999;
+}
+
+.payprotit {
+	padding: 0 18px;
+	line-height: 34px;
+	background-color: #ff6a30;
+}
+
+.payprotit h3 {
+	color: #fff;
+	font-size: 16px;
+}
+
+.paymentprompt {
+	width: 322px;
+	margin: 0 auto;
+	padding-top: 30px;
+	overflow: hidden;
+}
+
+.paymentprompt i {
+	float: left;
+	font-size: 60px;
+	color: #dcdcdc;
+}
+
+.paymentprompt ul {
+	float: right;
+}
+
+.paymentprompt ul li {
+	line-height: 28px;
+	color: #4c4c4c;
+	font-size: 14px;
+	position: relative;
+}
+
+.paymentprompt ul li h4 {
+	font-size: 20px;
+	color: #333333;
+	line-height: 34px;
+}
+
+.paymentprompt ul li input {
+	width: 120px;
+	height: 40px;
+	margin-top: 20px;
+	background-color: #2dbb19;
+	color: #fff;
+	font-size: 14px;
+	border-radius: 3px;
+	cursor: pointer;
+}
+
+.paymentprompt ul li span {
+	position: absolute;
+	left: 140px;
+	bottom: -8px;
+}
+
+.paymentprompt ul li span a {
+	font-size: 14px;
+	color: #ff6a30;
+	line-height: 0px;
+}
+
+.paymentprompt ul li a {
+	color: #6e90e6;
+	font-size: 14px;
+	line-height: 48px;
+}
+
+.masklayer {
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.3) none repeat scroll 0 0 !important;
+	filter: Alpha(opacity=30);
+	background: #000;
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	z-index: 998;
+}
+
+
+/*-------------------------------------------------------团购下单-------------------------------------------------------*/
+
+
+/*-------------------------确认订单-无地址时-------------------------*/
+
+.orderprodetacon {
+	width: 100%;
+	overflow: hidden;
+}
+
+.orderprodetabox {
+	width: 1200px;
+	margin: 0 auto;
+}
+
+.orderprodetabox table {
+	width: 100%;
+	border: 1px solid #e6e6e6;
+	border-bottom: 0px;
+	text-align: center;
+}
+
+.orderprodetabox table thead {
+	line-height: 42px;
+	background-color: #f5f5f5;
+	border-bottom: 1px dotted #d7d7d7;
+}
+
+.orderprodetabox table thead tr td {
+	color: #666666;
+	font-size: 14px;
+}
+
+.orderprodetabox table tbody tr {
+	border-bottom: 1px solid #e6e6e6;
+}
+
+.orderprodetabox table tbody tr td {
+	padding: 10px 0;
+	color: #666666;
+	font-size: 16px;
+}
+
+.orderprodetabox table tbody tr .tboyfonleft {
+	text-align: left;
+}
+
+.orderprodetabox table tbody tr td img {
+	width: 90px;
+	height: 90px;
+	border: 1px solid #f0f0f0;
+}
+
+.orderprodetabox table tbody tr td ul li {
+	font-size: 14px;
+	color: #999999;
+}
+
+.orderprodetabox table tbody tr td ul li h3 {
+	font-size: 16px;
+	color: #666666;
+}
+
+.orderprodetabox table tbody tr td span {
+	color: #ff3b30;
+}
+
+.orderprodetabox table tbody tr td .reinte {
+	width: 100px;
+	margin: 0 auto;
+}
+
+.orderprodetabox table tbody tr td input {
+	width: 28px;
+	height: 32px;
+	background-color: #fcfcfc;
+	border: 1px solid #cfcfcf;
+	color: #cccccc;
+	font-size: 20px;
+	float: left;
+}
+
+.orderprodetabox table tbody tr td .text_box {
+	width: 40px;
+	height: 30px;
+	border-left: 0px;
+	border-right: 0px;
+	font-size: 16px;
+	background-color: #fff;
+	color: #000;
+	line-height: 30px;
+}
+
+.orderprodetabox table tbody tr td .reduce {
+	cursor: pointer;
+}
+
+.orderprodetabox table tbody tr td .increase {
+	cursor: pointer;
+}
+
+.payablemoney {
+	width: 100%;
+}
+
+.payablemoney ul {
+	border-bottom: 1px dotted #d5d5d5;
+	text-align: right;
+	line-height: 70px;
+}
+
+.payablemoney ul li {
+	display: inline-block;
+	font-size: 14px;
+	color: #666666;
+	margin-right: 66px;
+}
+
+.payablemoney ul li span {
+	color: #999999;
+	font-weight: bold;
+}
+
+.payablemoney ul li b {
+	font-size: 20px;
+	color: #ff5c30;
+}
+
+.receivadd {
+	width: 1200px;
+	background-color: #f5f5f5;
+	border-top: 1px solid #e6e6e6;
+	margin-top: 42px;
+	line-height: 40px;
+	overflow: hidden;
+}
+
+.receivadd ul li {
+	float: left;
+	margin-left: 20px;
+}
+
+.receivadd ul li h4 {
+	font-size: 16px;
+	color: #666666;
+}
+
+.receivadd ul li a {
+	font-size: 13px;
+	color: #36b269;
+}
+
+
+/*-------------------------确认订单-支付方式-------------------------*/
+
+.ordersetlist {
+	width: 880px;
+	overflow: hidden;
+	float: left;
+}
+
+.ordersetlist b {
+	float: left;
+	font-size: 14px;
+	color: #666666;
+}
+
+.ordersetlist ul {
+	float: left;
+	margin-top: 18px;
+	padding-bottom: 18px;
+}
+
+.ordersetlist ul li {
+	font-size: 14px;
+	font-size: #666666;
+	clear: both;
+	line-height: 30px;
+}
+
+.ordersetlist ul li span {
+	margin-left: 80px;
+}
+
+
+/*------------------------------感兴趣------------------------------*/
+
+.interestedincon {
+	width: 100%;
+	padding-top: 34px;
+	overflow: hidden;
+}
+
+.interestedinbox {
+	width: 1200px;
+	margin: 0 auto;
+}
+
+.interestedintit {
+	border-bottom: 1px solid #cccccc;
+	line-height: 35px;
+}
+
+.interestedintit h3 {
+	font-size: 16px;
+	color: #4c4c4c;
+}
+
+.interestedin {
+	width: 1238px;
+}
+
+.interestedin ul {
+	padding: 10px 0;
+	overflow: hidden;
+}
+
+.interestedin ul li {
+	width: 210px;
+	float: left;
+	margin-right: 37.5px;
+	line-height: 22px;
+	font-size: 12px;
+	color: #999999;
+	overflow: hidden;
+}
+
+.interestedin ul li .interinimg {
+	width: 210px;
+	height: 140px;
+	overflow: hidden;
+}
+
+.interestedin ul li .interinimg img {
+	width: 100%;
+	height: 100%;
+	display: block;
+}
+
+.interestedin ul li .interinname {
+	color: #4c4c4c;
+	font-size: 12px;
+	padding-top: 8px;
+}
+
+.interestedin ul li .interinprice {
+	overflow: hidden;
+}
+
+.interestedin ul li .interinL {
+	float: left;
+	font-size: 16px;
+	color: #ff4200;
+}
+
+.interestedin ul li .interinL del {
+	font-size: 12px;
+	margin-left: 5px;
+	color: #999999;
+}
+
+.interestedin ul li .interinR {
+	float: right;
+}
+
+
+/*-------------------------------------------------------团购下单结束-------------------------------------------------------*/
+
+
+/*-------------------------------------------------------KTV-------------------------------------------------------*/
+
+
+/*-----------------------------ktv首页-----------------------------*/
+
+
+/*banner*/
+
+.bannerCon {
+	width: 100%;
+	height: 366px;
+	background-image: url(../images/019.png);
+	background-position: center;
+	background-repeat: no-repeat;
+	min-width: 1200px;
+	overflow: hidden;
+}
+
+.ktvreseaCon {
+	width: 640px;
+	height: 300px;
+	padding: 10px;
+	background: rgba(255, 255, 255, 0.3) none repeat scroll 0 0 !important;
+	filter: Alpha(opacity=30);
+	background: #fff;
+	margin-top: 22px;
+}
+
+.ktvreseaBox {
+	width: 600px;
+	height: 300px;
+	padding: 0 20px;
+	background: rgba(255, 255, 255, 0.8) none repeat scroll 0 0 !important;
+	filter: Alpha(opacity=80);
+	background: #fff;
+	position: relative;
+}
+
+.ktvresea {
+	position: relative;
+	padding: 18px 0 0 0;
+}
+
+.ktvresea .ktvreseatit {
+	color: #333333;
+	font-size: 16px;
+	line-height: 35px;
+	border-bottom: 1px dotted #cccccc;
+}
+
+.ktvresea .ktvreseamain {
+	padding: 6px 0 0 0;
+}
+
+.ktvresea .ktvreseamain ul {
+	overflow: hidden;
+}
+
+.ktvresea .ktvreseamain ul li {
+	float: left;
+}
+
+.ktvresea .ktvreseamain ul li span {
+	color: #999999;
+	font-size: 14px;
+	width: 58px;
+	padding: 0 6px;
+	line-height: 34px;
+	border: 1px solid #cccccc;
+	border-right: 0px;
+	background-color: #FFF;
+}
+
+.ktvresea .ktvreseamain ul li select {
+	color: #333333;
+	height: 36px;
+	padding: 8px 0;
+	border: 1px solid #cccccc;
+	border-left: 0px;
+	background-color: #FFF;
+	font-size: 14px;
+}
+
+.ktvresea .ktvreseamain .ktvreseaclass {
+	overflow: hidden;
+}
+
+.ktvresea .ktvreseamain .ktvreseaclass li {
+	padding-right: 22px;
+	font-size: 14px;
+	color: #666666;
+	line-height: 34px;
+	position: relative;
+}
+
+.ktvresea .ktvreseamain .ktvreseaclass li i {
+	display: block;
+	width: 10px;
+	height: 10px;
+	background-image: url(../images/base.png);
+	background-position: -231px -146px;
+	position: absolute;
+	top: 13px;
+	left: 0px;
+	z-index: 1;
+}
+
+.ktvresea .ktvreseamain .ktvreseaclass li input {
+	width: 10px;
+	height: 10px;
+	position: absolute;
+	top: 13px;
+	left: 0px;
+	z-index: 2;
+	opacity: 0;
+	filter: Alpha(opacity=0);
+	cursor: pointer;
+}
+
+.ktvresea .ktvreseamain .ktvreseaclass li span {
+	margin-left: 15px;
+	padding: 0px;
+	border: 0px;
+	background-color: transparent;
+}
+
+.ktvresea .ktvreseamain .ktvreseaclass .ktvreseaA i {
+	background-position: -231px -136px;
+}
+
+.ktvresea .ktvreseamain .ktvreseaclass .ktvreseaA span {
+	color: #ff6a30;
+}
+
+.ktvresea .ktvreseamain .ktvresearch {
+	padding: 10px 0;
+}
+
+.ktvresea .ktvreseamain .ktvresearch span {
+	display: block;
+}
+
+.ktvresea .ktvreseamain .ktvresearch select {
+	width: 107px;
+}
+
+.ktvresea .ktvreseamain .ktvresearch input {
+	width: 400px;
+	height: 34px;
+	line-height: 34px;
+	margin-left: 10px;
+	border: 1px solid #cccccc;
+}
+
+.ktvresea .ktvreseamain .ktvreseatime {
+	padding: 10px 0;
+}
+
+.ktvresea .ktvreseamain .ktvreseatime span {
+	display: block;
+}
+
+.ktvresea .ktvreseamain .ktvreseatime select {
+	width: 210px;
+}
+
+.ktvresea .ktvreseamain .ktvreseatime b {
+	font-weight: normal;
+	color: #333333;
+	line-height: 34px;
+	margin: 0 10px;
+}
+
+.ktvresea .ktvreseamain .ktrresebutton {
+	width: 242px;
+	margin: 0 auto;
+	padding-top: 20px;
+}
+
+.ktvresea .ktvreseamain .ktrresebutton input {
+	width: 242px;
+	height: 38px;
+	background-color: #fe8b25;
+	border-radius: 3px;
+	color: #fff;
+	cursor: pointer;
+}
+
+
+/*ktv包厢预订*/
+
+.ktvbalcbookCon {
+	width: 100%;
+	background-color: #eeeeee;
+	overflow: hidden;
+}
+
+.ktvbalcbookBox {
+	width: 1200px;
+	margin: 0 auto;
+	padding-top: 12px;
+}
+
+.ktvbalclass {
+	width: 1180px;
+	padding: 0 10px;
+	margin: 8px 0;
+	background-color: #fff;
+	line-height: 40px;
+}
+
+.ktvbalclass ul {
+	overflow: hidden;
+}
+
+.ktvbalclass ul li {
+	float: left;
+	font-size: 14px;
+	color: #999999;
+}
+
+.ktvbalclass ul li a {
+	padding: 0 16px;
+	color: #666666;
+	cursor: pointer;
+}
+
+.ktvbalclass ul li i {
+	margin-left: 8px;
+	color: #808080;
+	font-size: 13px;
+}
+
+.ktvbalclass ul .ktvbaclaA a {
+	color: #fe8b25;
+}
+
+.ktvbalcbook {
+	width: 1228px;
+}
+
+.ktvbalcbook ul {
+	overflow: hidden;
+}
+
+.ktvbalcbook ul li {
+	width: 552px;
+	float: left;
+	padding: 20px 16px;
+	border: 1px solid #e6e6e6;
+	background-color: #fff;
+	margin: 0 28px 8px 0;
+}
+
+.ktvbalcbook ul li .ktvbalcimg {
+	width: 172px;
+	height: 132px;
+	overflow: hidden;
+	float: left;
+}
+
+.ktvbalcbook ul li .ktvbalcimg img {
+	width: 100%;
+	height: 100%;
+}
+
+.ktvbalcbook ul li .ktvbalcevaltel {
+	width: 222px;
+	padding-left: 16px;
+	float: left;
+}
+
+.ktvbalcbook ul li .ktvbalcevaltel .ktvbalcname h3 {
+	font-size: 16px;
+	color: #666666;
+	line-height: 24px;
+}
+
+.ktvbalcbook ul li .ktvbalcevaltel .ktvbalceval {
+	font-size: 13px;
+	line-height: 28px;
+}
+
+.ktvbalcbook ul li .ktvbalcevaltel .ktvbalceval i {
+	color: #fcb200;
+}
+
+.ktvbalcbook ul li .ktvbalcevaltel .ktvbalceval b {
+	font-weight: normal;
+	color: #999999;
+	margin: 0 15px 0 10px;
+}
+
+.ktvbalcbook ul li .ktvbalcevaltel .ktvbalceval span {
+	color: #666666;
+	padding: 3px 0;
+}
+
+.ktvbalcbook ul li .ktvbalcevaltel .ktvbalcadd p {
+	font-size: 14px;
+	color: #666666;
+	line-height: 20px;
+}
+
+.ktvbalcbook ul li .ktvbalcevaltel .ktvbalctel {
+	padding-top: 14px;
+}
+
+.ktvbalcbook ul li .ktvbalcevaltel .ktvbalctel i {
+	float: left;
+	width: 23px;
+	height: 23px;
+	background-image: url(../images/base.png);
+	background-position: -321px -134px;
+}
+
+.ktvbalcbook ul li .ktvbalcevaltel .ktvbalctel span {
+	float: left;
+	font-size: 18px;
+	color: #f6552f;
+	margin-left: 10px;
+}
+
+.ktvbalcbook ul li .ktvbalcrese {
+	padding-top: 16px;
+	float: right;
+}
+
+.ktvbalcbook ul li .ktvbalcrese span {
+	display: block;
+	font-size: 14px;
+	color: #666666;
+}
+
+.ktvbalcbook ul li .ktvbalcrese span b {
+	font-size: 30px;
+	color: #fc5808;
+}
+
+.ktvbalcbook ul li .ktvbalcrese span i {
+	display: inline-block;
+	padding-left: 8px;
+	font-style: normal;
+	width: 52px;
+	height: 18px;
+	background-image: url(../images/base.png);
+	background-position: -251px -137px;
+	color: #fff;
+	font-size: 12px;
+	vertical-align: -4px;
+	margin-left: 2px;
+}
+
+.ktvbalcbook ul li .ktvbalcrese input {
+	width: 124px;
+	height: 38px;
+	border: 1px solid #e9e9e9;
+	background-color: #fafafa;
+	color: #666666;
+	font-size: 14px;
+	margin-top: 20px;
+	cursor: pointer;
+}
+
+
+/*-----------------------------ktv详情-----------------------------*/
+
+
+/*基本信息*/
+
+.ktvinfopresbox {
+	width: 870px;
+	padding: 20px;
+	background-color: #fff;
+	overflow: hidden;
+}
+
+.ktvinfopresL {
+	width: 400px;
+	height: 334px;
+	float: left;
+	overflow: hidden;
+}
+
+.ktvinfopresR {
+	width: 450px;
+	float: right;
+}
+
+.ktvinfopresR .ktvinfoName{
+	width: 100%;
+}
+
+.ktvinfopresR .ktvinfoName h3{
+	font-size: 24px;
+	color: #333;
+}
+
+.ktvinfopresR .ktvinfoPric{
+	width: 100%;
+	padding-top: 6px;
+}
+
+.ktvinfopresR .ktvinfoPric span{
+	font-size: 30px;
+	color: #ff3300;
+}
+
+.ktvinfopresR .ktvinfoPric span i{
+	font-size: 18px;
+	font-style: normal;
+}
+
+.ktvinfopresR .ktvinfoPric b{
+	font-size: 14px;
+	color: #666666;
+	font-weight: normal;
+}
+
+.ktvinfopresR .ktvinfoEval{
+	margin-left: 4px;
+	padding-top: 14px;
+}
+
+.ktvinfopresR .ktvinfoEval i{
+	font-size: 14px;
+	color: #fcb200;
+	text-indent: -4px;
+}
+
+.ktvinfopresR .ktvinfoEval span{
+	margin-left: 6px;
+	font-size: 14px;
+	color: #b5b5b5;
+}
+
+.ktvinfopresR .ktvinfoEval b{
+	margin-left: 18px;
+	font-size: 14px;
+	color: #999999;
+	font-weight: normal;
+}
+
+.ktvinfopresR .ktvinfoAdd{
+	width: 100%;
+}
+
+.ktvinfopresR .ktvinfoAdd ul li{
+	margin-top: 12px;
+	overflow: hidden;
+}
+
+.ktvinfopresR .ktvinfoAdd ul li span,
+.ktvinfopresR .ktvinfoAdd ul li p{
+	margin-top: 3px;
+	font-size: 14px;
+	color: #666666;
+	float: left;
+}
+
+.ktvinfopresR .ktvinfoAdd ul li b{
+	font-size: 20px;
+	color: #2dbb19;
+	font-weight: normal;
+	float: left;
+}
+
+.ktvinfopresR .ktvinfoAdd ul li p{
+	width: 89%;
+}
+
+/*在线预订*/
+
+.ktvonliboing {
+	width: 870px;
+	padding: 6px 20px;
+	margin: 12px 0;
+	background-color: #fff;
+}
+
+.ktvonlitit {
+	border-bottom: 1px solid #cccccc;
+	line-height: 53px;
+}
+
+.ktvonlitit h3 {
+	font-weight: normal;
+	color: #000000;
+	font-size: 18px;
+}
+
+.ktvonliboingT {
+	width: 870px;
+	font-size: 13px;
+	color: #666666;
+	border-bottom: 1px solid #d2d2d2;
+}
+
+.ktvonliboingT h4 {
+	width: 68px;
+	font-weight: normal;
+	line-height: 52px;
+	float: left;
+}
+
+.ktvonliboingT ul {
+	float: left;
+	overflow: hidden;
+}
+
+.ktvonliboingT ul li {
+	float: left;
+	line-height: 52px;
+	margin: 0 12px;
+}
+
+.ktvonliboingT ul li a {
+	padding: 5px 12px;
+	cursor: pointer;
+}
+
+.ktvonliboingT ul .ktvonlboaA a {
+	background-color: #55c644;
+	border-radius: 3px;
+	color: #fff;
+}
+
+.ktvonliboingT .ktvonliboingTt {
+	border-bottom: 1px dashed #d5d5d5;
+	overflow: hidden;
+}
+
+.ktvonliboingT .ktvonliboingTc {
+	border-bottom: 1px dashed #d5d5d5;
+	overflow: hidden;
+}
+
+.ktvonliboingT .ktvonliboingTb {
+	overflow: hidden;
+}
+
+.ktvonliboingB {
+	width: 870px;
+}
+
+.ktvonliboingB ul li{
+	width: 100%;
+	padding: 20px 0;
+	border-bottom: 1px dashed #d1d1d1;
+	overflow: hidden;
+}
+
+.ktvonliboingB ul li .ktvonliboingBt{
+	width: 594px;
+	padding-right: 20px;
+	float: left;
+}
+
+.ktvonliboingB ul li .ktvonliboingBt h3{
+	font-size: 16px;
+	color: #333333;
+}
+
+.ktvonliboingB ul li .ktvonliboingBt p{
+	width: 100%;
+	margin-top: 18px;
+	font-size: 14px;
+	color: #999999;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
+.ktvonliboingB ul li .ktvonliboingBc{
+	width: 156px;
+	line-height: 53px;
+	float: left;
+}
+
+.ktvonliboingB ul li .ktvonliboingBc span{
+	font-size: 28px;
+	color: #ff4200;
+}
+
+.ktvonliboingB ul li .ktvonliboingBc span i{
+	font-size: 24px;
+	font-style: normal;
+}
+
+.ktvonliboingB ul li .ktvonliboingBc b{
+	font-size: 14px;
+	color: #666666;
+	font-weight: normal;
+}
+
+.ktvonliboingB ul li .ktvonliboingBb{
+	width: 100px;
+	padding-top: 10px;
+	float: left;
+}
+
+.ktvonliboingB ul li .ktvonliboingBb a{
+	width: 100px;
+	height: 34px;
+	line-height: 34px;
+	text-align: center;
+	font-size: 14px;
+	color: #ffffff;
+	background-color: #55c644;
+	border-radius: 4px;
+	display: inline-block;
+}
+
+/*正在团购*/
+
+.ktvorderbox {
+	width: 860px;
+}
+
+.ktvorderbox table {
+	text-align: center;
+	font-size: 14px;
+}
+
+.ktvorderbox table tr {
+	border-bottom: 1px dashed #d5d5d5;
+}
+
+.ktvorderbox table tr td {
+	padding: 18px 0;
+}
+
+.ktvorderbox table tr td img {
+	width: 110px;
+	height: 74px;
+}
+
+.ktvorderbox table tr td ul {
+	padding-left: 22px;
+	text-align: left;
+	line-height: 22px;
+}
+
+.ktvorderbox table tr td ul li span {
+	font-size: 14px;
+	color: #000000;
+}
+
+.ktvorderbox table tr td ul li b {
+	color: #666666;
+	font-weight: normal;
+}
+
+.ktvorderbox table tr td ul li i {
+	display: block;
+	width: 20px;
+	height: 20px;
+	background-image: url(../images/base.png);
+	margin-top: 6px;
+}
+
+.ktvorderbox table tr td ul li .ktvorder {
+	background-position: -382px -41px;
+}
+
+.ktvorderbox table tr td span {
+	font-size: 28px;
+	color: #ff3300;
+}
+
+.ktvorderbox table tr td del {
+	font-size: 16px;
+	color: #999999;
+}
+
+.ktvorderbox table tbody tr td input {
+	width: 104px;
+	height: 34px;
+	color: #fff;
+	background-color: #ff7800;
+	border-radius: 3px;
+	cursor: pointer;
+}
+
+
+/*--------------------------------------------------------KTV结束-------------------------------------------------------*/
+
+
+/*-------------------------------------------------------优惠券开始-------------------------------------------------------*/
+
+.couponClassCon {
+	width: 100%;
+	background: #fafafa;
+}
+
+.couponClassCon .couponClassBox {
+	width: 1200px;
+	margin: 0 auto;
+	padding: 20px 0 30px 0;
+}
+
+.couponClass {
+	width: 1150px;
+	padding: 0 24px;
+	margin-bottom: 10px;
+	background: #fff;
+	border: 1px solid #e6e6e6;
+	overflow: hidden;
+}
+
+.couponClass .couponClassTop,
+.couponClass .couponClassBot {
+	width: 100%;
+	padding: 22px 0;
+	overflow: hidden;
+}
+
+.couponClass .couponClassTop {
+	border-bottom: 1px dashed #dbdbdb;
+}
+
+.couponClass .couponClassTit {
+	width: 66px;
+	line-height: 18px;
+	text-align: center;
+	font-size: 12px;
+	color: #333333;
+	border-right: 1px solid #cccccc;
+	float: left;
+	position: relative;
+	overflow: hidden;
+}
+
+.couponClass .couponClassTit i {
+	position: absolute;
+	left: 0px;
+	background: url(../images/icon_base.png);
+}
+
+.couponClass .couponClassTit .icon-fl {
+	width: 12px;
+	height: 12px;
+	top: 4px;
+	background-position: -38px -104px;
+}
+
+.couponClass .couponClassTit .icon-dx {
+	width: 13px;
+	height: 18px;
+	top: 0px;
+	background-position: 0px -156px;
+}
+
+.couponClass .couponClassF,
+.couponClass .couponClassD {
+	line-height: 18px;
+	float: left;
+	overflow: hidden;
+}
+
+.couponClass .couponClassF ul li,
+.couponClass .couponClassD ul li {
+	margin-left: 20px;
+	float: left;
+}
+
+.couponClass .couponClassF ul li a,
+.couponClass .couponClassD ul li a {
+	font-size: 12px;
+	color: #666666;
+}
+
+.couponClass .couponClassF ul li:hover a,
+.couponClass .couponClassD ul li:hover a {
+	color: #2dbb19;
+}
+
+.couponClass .couponClassF ul .couClaaA a,
+.couponClass .couponClassD ul .couClaaA a {
+	color: #2dbb19;
+}
+
+.couponClassCon .couponClassBox .couponSortCon {
+	width: 1198px;
+	padding: 10px 0;
+	margin-bottom: 10px;
+	background: #fff;
+	border: 1px solid #e6e6e6;
+	overflow: hidden;
+}
+
+.couponClassCon .couponClassBox .couponSortCon ul {
+	margin-left: -1px;
+}
+
+.couponClassCon .couponClassBox .couponSortCon ul li {
+	padding: 0 20px;
+	line-height: 16px;
+	border-left: 1px solid #cccccc;
+	float: left;
+}
+
+.couponClassCon .couponClassBox .couponSortCon ul li a {
+	font-size: 12px;
+	color: #333333;
+}
+
+.couponClassCon .couponClassBox .couponSortCon ul li:hover a {
+	color: #2dbb19;
+}
+
+.couponClassCon .couponClassBox .couponSortCon ul .couSoaA a {
+	color: #2dbb19;
+}
+
+.couponMainCon {
+	width: 100%;
+	padding: 0 0 90px 0;
+	background: #fafafa;
+	overflow: hidden;
+}
+
+.couponMainCon .couponMainBox {
+	width: 1200px;
+	margin: 0 auto;
+}
+
+.couponMainCon .couponMainBox .couponMain {
+	width: 1222px;
+}
+
+.couponMainCon .couponMainBox .couponMain ul li {
+	padding: 8px;
+	margin: 0 22px 20px 0;
+	float: left;
+	border: 1px solid #e6e6e6;
+	background: #ffffff;
+	overflow: hidden;
+}
+
+.couponMainCon .couponMainBox .couponMain ul li:hover {
+	background: #ECECEC;
+	border: 1px solid #ECECEC;
+}
+
+.couponMainCon .couponMainBox .couponMain ul li .couponMainM {
+	width: 364px;
+	height: 160px;
+	border: 1px dashed #e6e6e6;
+	overflow: hidden;
+}
+
+.couponMainCon .couponMainBox .couponMain ul li .couponMainM .couponMainL {
+	width: 152px;
+	height: 160px;
+	text-align: center;
+	float: left;
+	background: url(../images/coupon_bg.png);
+}
+
+.couponMainCon .couponMainBox .couponMain ul li .couponMainM .couponMainL img {
+	width: 115px;
+	height: 100px;
+	margin: 16px auto 0 auto;
+}
+
+.couponMainCon .couponMainBox .couponMain ul li .couponMainM .couponMainL span {
+	line-height: 38px;
+	font-size: 14px;
+	color: #4c4c4c;
+	display: block;
+}
+
+.couponMainCon .couponMainBox .couponMain ul li .couponMainM .couponMainR {
+	width: 198px;
+	height: 160px;
+	padding-left: 14px;
+	background: #fff;
+	float: left;
+	position: relative;
+}
+
+.couponMainCon .couponMainBox .couponMain ul li .couponMainM .couponMainR h2 {
+	font-size: 36px;
+	color: #fb4809;
+	font-weight: normal;
+	margin: 10px 0 10px 0;
+}
+
+.couponMainCon .couponMainBox .couponMain ul li .couponMainM .couponMainR .couponMaints {
+	padding: 0 12px;
+	line-height: 22px;
+	font-size: 14px;
+	color: #fb4809;
+	border: 1px solid #dbdbdb;
+	border-radius: 50px;
+}
+
+.couponMainCon .couponMainBox .couponMain ul li .couponMainM .couponMainR .couponMainrq {
+	line-height: 36px;
+	font-size: 14px;
+	color: #666666;
+	display: block;
+}
+
+.couponMainCon .couponMainBox .couponMain ul li .couponMainM .couponMainR .couponMainrq b {
+	color: #999999;
+	font-weight: normal;
+}
+
+.couponMainCon .couponMainBox .couponMain ul li .couponMainM .couponMainR .couponMainBut {
+	width: 110px;
+	height: 30px;
+	border-radius: 3px;
+	font-size: 14px;
+	color: #ffffff;
+	background: #cccccc;
+}
+
+.couponMainCon .couponMainBox .couponMain ul li .couponMainM .couponMainR .couMaBu_bg01 {
+	background: #2DBB19;
+	cursor: pointer;
+}
+
+.couponMainCon .couponMainBox .couponMain ul li .couponMainM .couponMainR .couMaBu_bg02 {
+	background: #96DD8C;
+}
+
+.couponMainCon .couponMainBox .couponMain ul li .couponMainM .couponMainR i {
+	width: 65px;
+	height: 65px;
+	position: absolute;
+	right: 6px;
+	top: 6px;
+	background: url(../images/icon-end.png);
+}
+
+
+/*-------------------------------------------------------优惠券结束-------------------------------------------------------*/
+
+
+/*-------------------------------------------------------限时抢购开始-------------------------------------------------------*/
+
+.setTimeBanCon {
+	width: 100%;
+	height: 184px;
+	background: url(../images/setTimeBan.png) center;
+	overflow: hidden;
+}
+
+.setTimeBanCon .setTimeBanBox {
+	padding-top: 102px;
+}
+
+.setTimeBanCon .setTimeBanBox .setTimeBanTit {
+	width: 100%;
+	text-align: center;
+}
+
+.setTimeBanCon .setTimeBanBox .setTimeBanTit h3 {
+	font-size: 15px;
+	color: #f4e7e7;
+	font-weight: normal;
+	text-shadow: 2px 2px 2px #6b6b6b;
+}
+
+.setTimeBanCon .setTimeBanBox .setTimeBanner {
+	width: 100%;
+	text-align: center;
+	margin-top: 12px;
+}
+
+.setTimeBanCon .setTimeBanBox .setTimeBanner span {
+	width: 29px;
+	height: 38px;
+	line-height: 38px;
+	display: inline-block;
+	font-size: 32px;
+	color: #f24853;
+	background: url(../images/setTimeBg_01.png);
+	vertical-align: -8px;
+}
+
+.setTimeBanCon .setTimeBanBox .setTimeBanner b {
+	display: inline-block;
+	font-size: 15px;
+	color: #f3f3f3;
+	font-weight: normal;
+}
+
+.setTimeCon {
+	width: 100%;
+	overflow: hidden;
+}
+
+.setTimeCon .setTimeBox {
+	width: 1200px;
+	margin: 0 auto;
+}
+
+.setTimeCon .setTimeBox .setTimeTit {
+	width: 100%;
+	padding: 28px 0 14px 0;
+	border-bottom: 1px solid #e6e6e6;
+	text-align: center;
+	overflow: hidden;
+}
+
+.setTimeCon .setTimeBox .setTimeTit h2 {
+	font-size: 24px;
+	color: #ff6e41;
+	font-weight: normal;
+}
+
+.setTimeCon .setTimeBox .setTimeTit h2 i {
+	width: 32px;
+	height: 32px;
+	margin-right: 10px;
+	display: inline-block;
+	vertical-align: -8px;
+	background: url(../images/icon_base.png) 0px -179px;
+}
+
+.setTimeCon .setTimeBox .setTime {
+	width: 1213px;
+	overflow: hidden;
+}
+
+.setTimeCon .setTimeBox .setTime ul li {
+	width: 288px;
+	margin: 15px 13px 15px 0;
+	float: left;
+	border: 1px solid #e6e6e6;
+	overflow: hidden;
+}
+
+.setTimeCon .setTimeBox .setTime ul li .setTimeImg {
+	width: 100%;
+	height: 194px;
+	overflow: hidden;
+}
+
+.setTimeCon .setTimeBox .setTime ul li .setTimeImg img {
+	width: 100%;
+	height: 100%;
+}
+
+.setTimeCon .setTimeBox .setTime ul li .setTimeSur {
+	width: 100%;
+	height: 36px;
+	line-height: 36px;
+	text-align: center;
+	background: #fafafa;
+}
+
+.setTimeCon .setTimeBox .setTime ul li .setTimeSur i {
+	width: 20px;
+	height: 20px;
+	display: inline-block;
+	vertical-align: -4px;
+	background: url(../images/icon_base.png) -18px -155px;
+}
+
+.setTimeCon .setTimeBox .setTime ul li .setTimeSur span {
+	font-size: 14px;
+	color: #ff501a;
+}
+
+.setTimeCon .setTimeBox .setTime ul li .setTimeName {
+	padding: 14px 22px 0 22px;
+}
+
+.setTimeCon .setTimeBox .setTime ul li .setTimeName h3 {
+	width: 100%;
+	font-size: 15px;
+	color: #666666;
+	font-weight: normal;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
+.setTimeCon .setTimeBox .setTime ul li .setTimePric {
+	padding: 20px 22px 0 22px;
+	position: relative;
+}
+
+.setTimeCon .setTimeBox .setTime ul li .setTimePric .setTimePricL {
+	font-size: 30px;
+	color: #fb4809;
+}
+
+.setTimeCon .setTimeBox .setTime ul li .setTimePric del {
+	font-size: 14px;
+	color: #999999;
+}
+
+.setTimeCon .setTimeBox .setTime ul li .setTimePric .setTimePricR {
+	font-size: 14px;
+	color: #999999;
+	position: absolute;
+	right: 0px;
+	bottom: 5px;
+}
+
+.setTimeCon .setTimeBox .setTime ul li .setTimePric .setTimePricR b {
+	color: #e86321;
+	font-weight: normal;
+}
+
+.setTimeCon .setTimeBox .setTime ul li .setTimeBut {
+	padding: 0 22px;
+	margin: 18px 0 16px 0;
+}
+
+.setTimeCon .setTimeBox .setTime ul li .setTimeBut input {
+	width: 100%;
+	height: 38px;
+	color: #fc5604;
+	font-size: 16px;
+	color: #fff;
+	background: #ccc;
+}
+
+.setTimeCon .setTimeBox .setTime ul li .setTimeBut .setTimeBut_bg01 {
+	background: #fc5604;
+	cursor: pointer;
+}
+
+
+/*-------------------------------------------------------限时抢购结束-------------------------------------------------------*/
+
+/*-------------------------------------------------------同城餐饮开始-------------------------------------------------------*/
+
+/*-------------------------面包屑-------------------------*/
+
+.crumbsCon{
+	width: 100%;
+	height: 50px;
+	line-height: 50px;
+}
+
+.crumbsCon .crumbsBox{
+	width: 1200px;
+	margin: 0 auto;
+}
+
+.crumbsCon .crumbsBox ul{
+	margin-left: -5px;
+}
+
+.crumbsCon .crumbsBox ul li{
+	font-size: 13px;
+	color: #999999;
+	float: left;
+}
+
+.crumbsCon .crumbsBox ul li a{
+	padding: 0 5px;
+	color: #999999;
+}
+
+.crumbsCon .crumbsBox ul .cruaA a{
+	color: #cccccc;
+}
+
+
+
+.ciCaInfoCon{
+	width: 100%;
+	background: #f5f5f5;
+}
+
+.ciCaInfoCon .ciCaInfoBox{
+	width: 1160px;
+	height: 262px;
+	padding: 20px;
+	margin: 0 auto;
+	background: #ffffff;
+}
+
+.ciCaInfoCon .ciCaInfoBox .ciCaInfoCafiCon{
+	width: 320px;
+	height: 262px;
+	float: left;
+	overflow: hidden;
+}
+
+.ciCaInfoCon .ciCaInfoBox .ciCaInfoMain{
+	width: 810px;
+	float: right;
+}
+
+.ciCaInfoCon .ciCaInfoBox .ciCaInfoMain .ciCaInfoTop{
+	width: 100%;
+}
+
+.ciCaInfoCon .ciCaInfoBox .ciCaInfoMain .ciCaInfoTop .ciCaInfoTopL{
+	width: 604px;
+	float: left;
+}
+
+.ciCaInfoCon .ciCaInfoBox .ciCaInfoMain .ciCaInfoTop .ciCaInfoTopL .ciCaInfot{
+	width: 100%;
+}
+
+.ciCaInfoCon .ciCaInfoBox .ciCaInfoMain .ciCaInfoTop .ciCaInfoTopL .ciCaInfot .ciCaInfoName{
+	width: 100%;
+	overflow: hidden;
+}
+
+.ciCaInfoCon .ciCaInfoBox .ciCaInfoMain .ciCaInfoTop .ciCaInfoTopL .ciCaInfot .ciCaInfoName h2{
+	margin: -4px 12px 0 0;
+	font-size: 28px;
+	color: #333333;
+	float: left;
+	font-weight: normal;
+}
+
+.ciCaInfoCon .ciCaInfoBox .ciCaInfoMain .ciCaInfoTop .ciCaInfoTopL .ciCaInfot .ciCaInfoName .ciCaInfoLab{
+	margin-top: 4px;
+	float: left;
+	overflow: hidden;
+}
+
+.ciCaInfoCon .ciCaInfoBox .ciCaInfoMain .ciCaInfoTop .ciCaInfoTopL .ciCaInfot .ciCaInfoName .ciCaInfoLab i{
+	width: 20px;
+	height: 20px;
+	float: left;
+	background: url(../images/icon_base.png) -0px -216px;
+}
+
+.ciCaInfoCon .ciCaInfoBox .ciCaInfoMain .ciCaInfoTop .ciCaInfoTopL .ciCaInfot .ciCaInfoName .ciCaInfoLab span{
+	line-height: 20px;
+	padding: 0 6px;
+	margin-left: 4px;
+	font-size: 12px;
+	color: #ffffff;
+	background: #01b075;
+	float: left;
+}
+
+.ciCaInfoCon .ciCaInfoBox .ciCaInfoMain .ciCaInfoTop .ciCaInfoTopL .ciCaInfot .ciCaInfoCom{
+	width: 100%;
+	line-height: 34px;
+}
+
+.ciCaInfoCon .ciCaInfoBox .ciCaInfoMain .ciCaInfoTop .ciCaInfoTopL .ciCaInfot .ciCaInfoCom .ciCaInfoComL{
+	margin-right: 18px;
+	float: left;
+}
+
+.ciCaInfoCon .ciCaInfoBox .ciCaInfoMain .ciCaInfoTop .ciCaInfoTopL .ciCaInfot .ciCaInfoCom .ciCaInfoComL i{
+	margin-right: -2px;
+	font-size: 14px;
+	color: #fcb200;
+}
+
+.ciCaInfoCon .ciCaInfoBox .ciCaInfoMain .ciCaInfoTop .ciCaInfoTopL .ciCaInfot .ciCaInfoCom .ciCaInfoComL span{
+	margin-left: 10px;
+	font-size: 12px;
+	color: #999999;
+	vertical-align: 1px;
+}
+
+.ciCaInfoCon .ciCaInfoBox .ciCaInfoMain .ciCaInfoTop .ciCaInfoTopL .ciCaInfot .ciCaInfoCom .ciCaInfoComC{
+	margin-right: 17px;
+	float: left;
+}
+
+.ciCaInfoCon .ciCaInfoBox .ciCaInfoMain .ciCaInfoTop .ciCaInfoTopL .ciCaInfot .ciCaInfoCom .ciCaInfoComC span{
+	font-size: 13px;
+	color: #33b022;
+}
+
+.ciCaInfoCon .ciCaInfoBox .ciCaInfoMain .ciCaInfoTop .ciCaInfoTopL .ciCaInfot .ciCaInfoCom .ciCaInfoComR{
+	margin-right: 17px;
+	float: left;
+	position: relative;
+}
+
+.ciCaInfoCon .ciCaInfoBox .ciCaInfoMain .ciCaInfoTop .ciCaInfoTopL .ciCaInfot .ciCaInfoCom .ciCaInfoComR .ciCaInfoSpan{
+	cursor: pointer;
+}
+
+.ciCaInfoCon .ciCaInfoBox .ciCaInfoMain .ciCaInfoTop .ciCaInfoTopL .ciCaInfot .ciCaInfoCom .ciCaInfoComR .ciCaInfoSpan span,
+.ciCaInfoCon .ciCaInfoBox .ciCaInfoMain .ciCaInfoTop .ciCaInfoTopL .ciCaInfot .ciCaInfoCom .ciCaInfoComR .ciCaInfoSpan i{
+	font-size: 13px;
+	color: #666666;
+}
+
+.ciCaInfoCon .ciCaInfoBox .ciCaInfoMain .ciCaInfoTop .ciCaInfoTopL .ciCaInfot .ciCaInfoCom .ciCaInfoComR .ciCaInfoFd{
+	width: 410px;
+	display: none;
+	border-top: 1px solid #ebebeb;
+	border-left: 1px solid #ebebeb;
+	border-right: 1px solid #ebebeb;
+	box-shadow: 2px 2px 5px #ccc;
+	position: absolute;
+	top: 32px;
+	left: 0px;
+	z-index: 1;
+	background: #fff;
+	overflow: hidden;
+}
+
+.ciCaInfoCon .ciCaInfoBox .ciCaInfoMain .ciCaInfoTop .ciCaInfoTopL .ciCaInfot .ciCaInfoCom .ciCaInfoComR .ciCaInfoFd ul li{
+	padding: 22px 20px 6px 20px;
+	border-bottom: 1px solid #ebebeb;
+	overflow: hidden;
+}
+
+.ciCaInfoCon .ciCaInfoBox .ciCaInfoMain .ciCaInfoTop .ciCaInfoTopL .ciCaInfot .ciCaInfoCom .ciCaInfoComR .ciCaInfoFd ul li .ciCaInfoFdt{
+	width: 100%;
+	line-height: 0px;
+	margin-bottom: 10px;
+}
+
+.ciCaInfoCon .ciCaInfoBox .ciCaInfoMain .ciCaInfoTop .ciCaInfoTopL .ciCaInfot .ciCaInfoCom .ciCaInfoComR .ciCaInfoFd ul li .ciCaInfoFdt a{
+	font-size: 14px;
+	color: #282828;
+}
+
+.ciCaInfoCon .ciCaInfoBox .ciCaInfoMain .ciCaInfoTop .ciCaInfoTopL .ciCaInfot .ciCaInfoCom .ciCaInfoComR .ciCaInfoFd ul li .ciCaInfoFdt a:hover{
+	color: #33b022;
+}
+
+.ciCaInfoCon .ciCaInfoBox .ciCaInfoMain .ciCaInfoTop .ciCaInfoTopL .ciCaInfot .ciCaInfoCom .ciCaInfoComR .ciCaInfoFd ul li .ciCaInfoFdt span{
+	font-size: 12px;
+	color: #999999;
+}
+
+.ciCaInfoCon .ciCaInfoBox .ciCaInfoMain .ciCaInfoTop .ciCaInfoTopL .ciCaInfot .ciCaInfoCom .ciCaInfoComR .ciCaInfoFd ul li .ciCaInfoFdb{
+	width: 100%;
+}
+
+.ciCaInfoCon .ciCaInfoBox .ciCaInfoMain .ciCaInfoTop .ciCaInfoTopL .ciCaInfot .ciCaInfoCom .ciCaInfoComR .ciCaInfoFd ul li .ciCaInfoFdb i{
+	margin-right: -2px;
+	font-size: 14px;
+	color: #f7af00;
+}
+
+.ciCaInfoCon .ciCaInfoBox .ciCaInfoMain .ciCaInfoTop .ciCaInfoTopL .ciCaInfot .ciCaInfoCom .ciCaInfoComR .ciCaInfoFd ul li .ciCaInfoFdb span{
+	margin-left: 8px;
+	font-size: 14px;
+	color: #999999;
+}
+
+.ciCaInfoCon .ciCaInfoBox .ciCaInfoMain .ciCaInfoTop .ciCaInfoTopL .ciCaInfoc{
+	width: 100%;
+	margin-top: 10px;
+	border-top: 1px dashed #d6d6d6;
+	clear: both;
+}
+
+.ciCaInfoCon .ciCaInfoBox .ciCaInfoMain .ciCaInfoTop .ciCaInfoTopL .ciCaInfoc p{
+	margin-top: 13px;
+	font-size: 14px;
+	color: #666666;
+}
+
+.ciCaInfoCon .ciCaInfoBox .ciCaInfoMain .ciCaInfoTop .ciCaInfoTopL .ciCaInfoc ul{
+	margin-top: 16px;
+}
+
+.ciCaInfoCon .ciCaInfoBox .ciCaInfoMain .ciCaInfoTop .ciCaInfoTopL .ciCaInfoc ul li{
+	margin-right: 34px;
+	font-size: 16px;
+	color: #666666;
+	float: left;
+}
+
+.ciCaInfoCon .ciCaInfoBox .ciCaInfoMain .ciCaInfoTop .ciCaInfoTopL .ciCaInfoc ul li i{
+	width: 18px;
+	height: 18px;
+	margin-right: 10px;
+	display: inline-block;
+	background-image: url(../images/icon_base.png);
+	vertical-align: -3px;
+}
+
+.ciCaInfoCon .ciCaInfoBox .ciCaInfoMain .ciCaInfoTop .ciCaInfoTopL .ciCaInfoc ul li .icon_tel{
+	background-position: -118px -50px;
+}
+
+.ciCaInfoCon .ciCaInfoBox .ciCaInfoMain .ciCaInfoTop .ciCaInfoTopL .ciCaInfoc ul li .icon_qq{
+	background-position: -146px -50px;
+}
+
+.ciCaInfoCon .ciCaInfoBox .ciCaInfoMain .ciCaInfoTop .ciCaInfoTopL .ciCaInfoc ul li .icon_time{
+	background-position: -174px -50px;
+}
+
+.ciCaInfoCon .ciCaInfoBox .ciCaInfoMain .ciCaInfoTop .ciCaInfoTopL .ciCaInfotb{
+	width: 100%;
+	padding: 22px 0 10px 0;
+	overflow: hidden;
+}
+
+.ciCaInfoCon .ciCaInfoBox .ciCaInfoMain .ciCaInfoTop .ciCaInfoTopR{
+	width: 126px;
+	text-align: center;
+	float: right;
+}
+
+.ciCaInfoCon .ciCaInfoBox .ciCaInfoMain .ciCaInfoTop .ciCaInfoTopR .ciCaInfoTopRcode{
+	width: 110px;
+	height: 110px;
+	padding: 6px;
+	border: 1px solid #e6e6e6;
+}
+
+.ciCaInfoCon .ciCaInfoBox .ciCaInfoMain .ciCaInfoTop .ciCaInfoTopR span{
+	line-height: 32px;
+	font-size: 13px;
+	color: #999999;
+}
+
+.ciCaInfoCon .ciCaInfoBox .ciCaInfoMain .ciCaInfoTop .ciCaInfoTopR .ciCaInfoTopRcode img{
+	width: 100%;
+	height: 100%;
+}
+
+.ciCaInfoCon .ciCaInfoBox .ciCaInfoMain .ciCaInfoBot{
+	width: 100%;
+	padding-top: 18px;
+	border-top: 1px solid #d6d6d6;
+	overflow: hidden;
+}
+
+.ciCaInfoCon .ciCaInfoBox .ciCaInfoMain .ciCaInfoBot ul li{
+	width: 140px;
+	height: 56px;
+	line-height: 56px;
+	text-align: center;
+	margin-right: 14px;
+	border-radius: 4px;
+	float: left;
+}
+
+.ciCaInfoCon .ciCaInfoBox .ciCaInfoMain .ciCaInfoBot ul li a{
+	font-size: 18px;
+	color: #ffffff;
+	display: block;
+	border-radius: 4px;
+}
+
+.ciCaInfoCon .ciCaInfoBox .ciCaInfoMain .ciCaInfoBot ul li a i{
+	margin-right: 8px;
+	vertical-align: -6px;
+	background-image: url(../images/icon_base.png);
+	display: inline-block;
+}
+
+.ciCaInfoCon .ciCaInfoBox .ciCaInfoMain .ciCaInfoBot ul .org_bg{
+	background: #ff9500;
+}
+
+.ciCaInfoCon .ciCaInfoBox .ciCaInfoMain .ciCaInfoBot ul .gre_bg{
+	background: #01b075;
+}
+
+.ciCaInfoCon .ciCaInfoBox .ciCaInfoMain .ciCaInfoBot ul .vio_bg{
+	background: #715ccb;
+}
+
+.ciCaInfoCon .ciCaInfoBox .ciCaInfoMain .ciCaInfoBot ul .org_bg i{
+	width: 32px;
+	height: 24px;
+	background-position: -0px -242px;
+}
+
+.ciCaInfoCon .ciCaInfoBox .ciCaInfoMain .ciCaInfoBot ul .gre_bg i{
+	width: 26px;
+	height: 25px;
+	background-position: -42px -242px;
+}
+
+.ciCaInfoCon .ciCaInfoBox .ciCaInfoMain .ciCaInfoBot ul .vio_bg i{
+	width: 31px;
+	height: 23px;
+	background-position: -78px -242px;
+}
+
+
+
+.ciCaCon{
+	width: 100%;
+	padding-bottom: 76px;
+	background: #f5f5f5;
+	overflow: hidden;
+}
+
+.ciCaCon .ciCaBox{
+	width: 1200px;
+	margin: 0 auto;
+}
+
+.ciCaCon .ciCaBox .ciCaL{
+	width: 900px;
+	float: left;
+}
+
+.ciCaCon .ciCaBox .ciCaL .ciCaLmain{
+	margin-top: 18px;
+	padding: 0 20px 30px 20px;
+	background: #fff;
+}
+
+.ciCaCon .ciCaBox .ciCaL .ciCaLmain .ciCaLmainTit{
+	width: 100%;
+	line-height: 48px;
+	border-bottom: 1px solid #d6d6d6;
+}
+
+.ciCaCon .ciCaBox .ciCaL .ciCaLmain .ciCaLmainTit h3{
+	font-size: 18px;
+	color: #333333;
+	font-weight: normal;
+}
+
+.ciCaCon .ciCaBox .ciCaL .ciCaLmain .ciCaOrdCon{
+	width:100%;
+}
+
+.ciCaCon .ciCaBox .ciCaL .ciCaLmain .ciCaOrdCon table{
+	width:100%;
+}
+
+.ciCaCon .ciCaBox .ciCaL .ciCaLmain .ciCaOrdCon table tbody tr{
+	border-bottom: 1px solid #ccc;
+}
+
+.ciCaCon .ciCaBox .ciCaL .ciCaLmain .ciCaOrdCon table tbody tr td{
+	padding: 16px 0;
+}
+
+.ciCaCon .ciCaBox .ciCaL .ciCaLmain .ciCaOrdCon table tbody tr td .ciCaOrdImg{
+	width: 116px;
+	height: 76px;
+	position: relative;
+	overflow: hidden;
+}
+
+.ciCaCon .ciCaBox .ciCaL .ciCaLmain .ciCaOrdCon table tbody tr td .ciCaOrdImg img{
+	width: 100%;
+}
+
+.ciCaCon .ciCaBox .ciCaL .ciCaLmain .ciCaOrdCon table tbody tr td .ciCaOrdImg i{
+	width: 27px;
+	height: 23px;
+	background: url(../images/icon_tg.png);
+	position: absolute;
+	top: 0px;
+	left: 6px;
+}
+
+.ciCaCon .ciCaBox .ciCaL .ciCaLmain .ciCaOrdCon table tbody tr td .ciCaOrdInfo{
+	margin-left: 20px;
+}
+
+.ciCaCon .ciCaBox .ciCaL .ciCaLmain .ciCaOrdCon table tbody tr td .ciCaOrdInfo ul li{
+	line-height: 28px;
+}
+
+.ciCaCon .ciCaBox .ciCaL .ciCaLmain .ciCaOrdCon table tbody tr td .ciCaOrdInfo ul li h3{
+	font-size: 16px;
+	color: #333333;
+	font-weight: normal;
+}
+
+.ciCaCon .ciCaBox .ciCaL .ciCaLmain .ciCaOrdCon table tbody tr td .ciCaOrdInfo ul li span,
+.ciCaCon .ciCaBox .ciCaL .ciCaLmain .ciCaOrdCon table tbody tr td .ciCaOrdInfo ul li p {
+	font-size: 13px;
+	color: #999999;
+}
+
+.ciCaCon .ciCaBox .ciCaL .ciCaLmain .ciCaOrdCon table tbody tr td .ciCaOrdInfo ul li b{
+	font-size: 13px;
+	color: #01b075;
+	font-weight: normal;
+}
+
+.ciCaCon .ciCaBox .ciCaL .ciCaLmain .ciCaOrdCon table tbody tr td .ciCaOrdPric{
+	width: 100%;
+	text-align: center;
+}
+
+.ciCaCon .ciCaBox .ciCaL .ciCaLmain .ciCaOrdCon table tbody tr td .ciCaOrdPric h3{
+	width: 100%;
+	font-size: 24px;
+	color: #eb2115;
+	font-weight: normal;
+}
+
+.ciCaCon .ciCaBox .ciCaL .ciCaLmain .ciCaOrdCon table tbody tr td .ciCaOrdPric h3 b{
+	font-size: 14px;
+	color: #eb2115;
+	font-weight: normal;
+}
+
+.ciCaCon .ciCaBox .ciCaL .ciCaLmain .ciCaOrdCon table tbody tr td .ciCaOrdPric span{
+	font-size: 13px;
+	color: #999999;
+}
+
+.ciCaCon .ciCaBox .ciCaL .ciCaLmain .ciCaOrdCon table tbody tr td .ciCaOrdBtn{
+	width: 100%;
+	text-align: right;
+}
+
+.ciCaCon .ciCaBox .ciCaL .ciCaLmain .ciCaOrdCon table tbody tr td .ciCaOrdBtn ul li a{
+	width: 90px;
+	height: 38px;
+	line-height: 38px;
+	text-align: center;
+	font-size: 14px;
+	color: #ffffff;
+	background: #01b075;
+	border-bottom: 1px solid #46987d;
+	border-radius: 2px;
+	float: right;
+	display: block;
+}
+
+.ciCaCon .ciCaBox .ciCaL .ciCaLmain .ciCaBudeCon{
+	width: 100%;
+	text-align: center;
+	padding: 12px 0 25px 0;
+	font-size: 0px;
+	overflow: hidden;
+}
+
+.ciCaCon .ciCaBox .ciCaL .ciCaLmain .ciCaBudeCon p{
+	margin-bottom: 36px;
+	line-height: 29px;
+	font-size: 15px;
+	color: #666666;
+	text-align: justify;
+}
+
+.ciCaCon .ciCaBox .ciCaL .ciCaLmain .ciCaBudeCon img{
+	max-width: 100%;
+	margin-bottom: 5px;
+}
+
+.ciCaCon .ciCaBox .ciCaL .ciCaEvalCon{
+	width: 100%;
+	overflow: hidden;
+}
+
+.ciCaCon .ciCaBox .ciCaL .ciCaEvalCon .ciCaEvalTit{
+	width: 100%;
+	height: 34px;
+	background: #fafafa;
+}
+
+.ciCaCon .ciCaBox .ciCaL .ciCaEvalCon .ciCaEvalTit ul li{
+	line-height: 34px;
+	font-size: 14px;
+	color: #cccccc;
+	float: left;
+}
+
+.ciCaCon .ciCaBox .ciCaL .ciCaEvalCon .ciCaEvalTit ul li a{
+	width: 107px;
+	height: 37px;
+	text-align: center;
+	font-size: 12px;
+	color: #666666;
+	display: inline-block;
+}
+
+.ciCaCon .ciCaBox .ciCaL .ciCaEvalCon .ciCaEvalTit ul .ciEvaA a{
+	color: #01b075;
+	background: url(../images/011.png) no-repeat 2px 31px;
+}
+
+.ciCaCon .ciCaBox .ciCaL .ciCaEvalCon .ciCaEvalBox{
+	margin-top: 16px;
+}
+
+.ciCaCon .ciCaBox .ciCaL .ciCaEvalCon .ciCaEvalBox ul li{
+	width: 100%;
+	padding: 20px 0;
+	border-bottom: 1px dotted #d2d2d2;
+	overflow: hidden;
+}
+
+.ciCaCon .ciCaBox .ciCaL .ciCaEvalCon .ciCaEvalBox ul li .ciCaEvalName{
+	width: 100px;
+	padding-top: 8px;
+	text-align: center;
+	float: left;
+}
+
+.ciCaCon .ciCaBox .ciCaL .ciCaEvalCon .ciCaEvalBox ul li .ciCaEvalName .ciCaEvalNaIm{
+	width: 54px;
+	height: 54px;
+	margin: 0 auto;
+	border-radius: 100px;
+}
+
+.ciCaCon .ciCaBox .ciCaL .ciCaEvalCon .ciCaEvalBox ul li .ciCaEvalName .ciCaEvalNaIm img{
+	width: 100%;
+	height: 100%;
+}
+
+.ciCaCon .ciCaBox .ciCaL .ciCaEvalCon .ciCaEvalBox ul li .ciCaEvalName span{
+	line-height: 34px;
+	font-size: 12px;
+	color: #666666;
+}
+
+.ciCaCon .ciCaBox .ciCaL .ciCaEvalCon .ciCaEvalBox ul li .ciCaEval{
+	width: 744px;
+	padding-left: 16px;
+	float: left;
+}
+
+.ciCaCon .ciCaBox .ciCaL .ciCaEvalCon .ciCaEvalBox ul li .ciCaEval .ciCaEvalTop{
+	width: 100%;
+}
+
+.ciCaCon .ciCaBox .ciCaL .ciCaEvalCon .ciCaEvalBox ul li .ciCaEval .ciCaEvalTop i{
+	margin-right: -4px;
+	font-size: 12px;
+	color: #fd861a;
+}
+
+.ciCaCon .ciCaBox .ciCaL .ciCaEvalCon .ciCaEvalBox ul li .ciCaEval .ciCaEvalTop span{
+	margin-left: 10px;
+	font-size: 12px;
+	color: #999999;
+}
+
+.ciCaCon .ciCaBox .ciCaL .ciCaEvalCon .ciCaEvalBox ul li .ciCaEvalCen{
+	width: 100%;
+	margin-top: 10px;
+}
+
+.ciCaCon .ciCaBox .ciCaL .ciCaEvalCon .ciCaEvalBox ul li .ciCaEvalCen p{
+	width: 100%;
+	line-height: 24px;
+	font-size: 14px;
+	color: #666666;
+	text-align: justify;
+}
+
+.ciCaCon .ciCaBox .ciCaL .ciCaEvalCon .ciCaEvalBox ul li .ciCaEvalImg{
+	width: 100%;
+}
+
+.ciCaCon .ciCaBox .ciCaL .ciCaEvalCon .ciCaEvalBox ul li .ciCaEvalImg img{
+	width: 116px;
+	height: 116px;
+	margin: 14px 14px 0 0;
+	float: left;
+}
+
+.flipPageCon{
+	width: 100%;
+	padding: 28px 0;
+	text-align: center;
+}
+
+.flipPageCon span,.flipPageCon ul,.flipPageCon ul li{
+	height: 24px;
+	line-height: 24px;
+	text-align: center;
+	display: inline-block;
+	border-radius: 2px;
+	cursor: pointer;
+}
+
+.flipPageCon span{
+	width: 60px;
+	font-size: 12px;
+	color: #565656;
+	border: 1px solid #e5e5e5;
+}
+
+.flipPageCon .fliLsp i{
+	margin-right: 6px;
+}
+
+.flipPageCon .fliRsp i{
+	margin-left: 6px;
+}
+
+.flipPageCon span i{
+	color: #bfbfbf;
+}
+
+.flipPageCon ul li{
+	width: 24px;
+	font-size: 12px;
+	border: 1px solid #e5e5e5;
+}
+
+.flipPageCon ul li a{
+	display: block;
+}
+
+.flipPageCon ul li:hover{
+	background: #ff7e00;
+}
+
+.flipPageCon ul li:hover a{
+	color: #fff;
+}
+
+.flipPageCon ul li a{
+	color: #565656;
+}
+
+.flipPageCon ul .flipaA{
+	background: #ff7e00;
+}
+
+.flipPageCon ul .flipaA a{
+	color: #fff;
+}
+
+.ciCaCon .ciCaBox .ciCaR{
+	width: 290px;
+	float: right;
+}
+
+.ciCaCon .ciCaBox .ciCaR .ciCaRbox{
+	padding: 8px 20px 0 20px;
+	margin-top: 18px;
+	background: #fff;
+	overflow: hidden;
+}
+
+.ciCaCon .ciCaBox .ciCaR .ciCaRbox .ciCaRtit{
+	width: 100%;
+}
+
+.ciCaCon .ciCaBox .ciCaR .ciCaRbox .ciCaRtit h3{
+	line-height: 46px;
+	font-size: 18px;
+	color: #4c4c4c;
+	font-weight: normal;
+}
+
+.ciCaCon .ciCaBox .ciCaR .ciCaRbox .ciCaRmapCon{
+	width: 100%;
+}
+
+.ciCaCon .ciCaBox .ciCaR .ciCaRbox .ciCaRmapCon .ciCaRmap{
+	width: 100%;
+	height: 196px;
+	position: relative;
+	overflow: hidden;
+}
+
+.ciCaCon .ciCaBox .ciCaR .ciCaRbox .ciCaRmapCon .ciCaRmap img{
+	width: 100%;
+	height: 100%;
+}
+
+.ciCaCon .ciCaBox .ciCaR .ciCaRbox .ciCaRmapCon .ciCaRmap a{
+	width: 100px;
+	line-height: 28px;
+	font-size: 14px;
+	color: #ffffff;
+	background: #01b075;
+	text-align: center;
+	border-radius: 50px 0 0 50px;
+	position: absolute;
+	right: 0px;
+	bottom: 10px;
+}
+
+.ciCaCon .ciCaBox .ciCaR .ciCaRbox .ciCaRmapCon .ciCaRmap a i{
+	width: 18px;
+	height: 20px;
+	margin-right: 10px;
+	background: url(../images/icon_base.png) -48px -155px;
+	vertical-align: -5px;
+	display: inline-block;
+}
+
+.ciCaCon .ciCaBox .ciCaR .ciCaRbox .ciCaRmapCon .ciCaRbus{
+	width: 100%;
+	padding: 6px 0 8px 0;
+	line-height: 26px;
+}
+
+.ciCaCon .ciCaBox .ciCaR .ciCaRbox .ciCaRmapCon .ciCaRbus h4{
+	font-size: 14px;
+	color: #333333;
+	font-weight: normal;
+}
+
+.ciCaCon .ciCaBox .ciCaR .ciCaRbox .ciCaRmapCon .ciCaRbus p{
+	font-size: 13px;
+	color: #808080;
+}
+
+.ciCaCon .ciCaBox .ciCaR .ciCaRbox .ciCaRrebuCon{
+	width: 100%;
+	border-top: 1px solid #cccccc;
+	overflow: hidden;
+} 
+
+.ciCaCon .ciCaBox .ciCaR .ciCaRbox .ciCaRrebuCon ul li{
+	width: 100%;
+	padding: 20px 0;
+	border-bottom: 1px solid #e6e6e6;
+	overflow: hidden;
+}
+
+.ciCaCon .ciCaBox .ciCaR .ciCaRbox .ciCaRrebuCon ul li .ciCaRrebuImg{
+	width: 100px;
+	height: 70px;
+	float: left;
+}
+
+.ciCaCon .ciCaBox .ciCaR .ciCaRbox .ciCaRrebuCon ul li .ciCaRrebuImg img{
+	width: 100%;
+}
+
+.ciCaCon .ciCaBox .ciCaR .ciCaRbox .ciCaRrebuCon ul li .ciCaRrebuBox{
+	width: 140px;
+	padding-left: 10px;
+	float: left;
+}
+
+.ciCaCon .ciCaBox .ciCaR .ciCaRbox .ciCaRrebuCon ul li .ciCaRrebuBox .ciCaRrebuName{
+	width: 100%;
+}
+
+.ciCaCon .ciCaBox .ciCaR .ciCaRbox .ciCaRrebuCon ul li .ciCaRrebuBox .ciCaRrebuName h3{
+	width: 100%;
+	line-height: 25px;
+	font-size: 15px;
+	font-weight: normal;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
+.ciCaCon .ciCaBox .ciCaR .ciCaRbox .ciCaRrebuCon ul li .ciCaRrebuBox .ciCaRrebuName h3 a{
+	width: 100%;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	color: #333333;
+	display: block;
+	overflow: hidden;
+}
+
+.ciCaCon .ciCaBox .ciCaR .ciCaRbox .ciCaRrebuCon ul li .ciCaRrebuBox .ciCaRrebuProm{
+	width: 100%;
+}
+
+.ciCaCon .ciCaBox .ciCaR .ciCaRbox .ciCaRrebuCon ul li .ciCaRrebuBox .ciCaRrebuProm i{
+	margin-right: -3px;
+	font-size: 14px;
+	color: #fcb200;
+}
+
+.ciCaCon .ciCaBox .ciCaR .ciCaRbox .ciCaRrebuCon ul li .ciCaRrebuBox .ciCaRrebuProm span{
+	margin-left: 10px;
+	font-size: 13px;
+	color: #999999;
+}
+
+.ciCaCon .ciCaBox .ciCaR .ciCaRbox .ciCaRrebuCon ul li .ciCaRrebuBox .ciCaRrebuPric{
+	width: 100%;
+}
+
+.ciCaCon .ciCaBox .ciCaR .ciCaRbox .ciCaRrebuCon ul li .ciCaRrebuBox .ciCaRrebuPric span{
+	font-size: 12px;
+	color: #33b022;
+}
+
+/*-------------------------------------------------------同城餐饮结束-------------------------------------------------------*/
+
+/*-------------------------------------------------------同城列表开始-------------------------------------------------------*/
+
+
+.ciCaListCon{
+	width: 100%;
+	margin-top: 10px;
+}
+
+.ciCaListCon .ciCaListBox{
+	width: 1200px;
+	margin: 0 auto;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight{
+	width:100%;
+	overflow: hidden;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaListRegCon{
+	width: 1158px;
+	padding: 0 20px;
+	border: 1px solid #f0f0f0;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaListRegCon .ciCaListClasT,
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaListRegCon .ciCaListClasB{
+	width: 100%;
+	padding-top: 20px;
+	overflow: hidden;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaListRegCon .ciCaListClasT{
+	border-bottom: 1px solid #f0f0f0;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaListRegCon .ciCaListClasT h4,
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaListRegCon .ciCaListClasB h4{
+	margin-top: 3px;
+	font-size: 14px;
+	color: #333333;
+	float: left;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaListRegCon .ciCaListClasT ul,
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaListRegCon .ciCaListClasB ul{
+	width: 1098px;
+	margin-left: 10px;
+	float: left;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaListRegCon .ciCaListClasT ul li,
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaListRegCon .ciCaListClasB ul li{
+	margin: 0 20px 20px 0;
+	font-size: 14px;
+	float: left;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaListRegCon .ciCaListClasT ul li a,
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaListRegCon .ciCaListClasB ul li a{
+	padding: 3px 8px;
+	color: #666666;
+	border-radius: 4px;
+	display: block;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaListRegCon .ciCaListClasT ul .cicaClaA a,
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaListRegCon .ciCaListClasB ul .cicaClaA a{
+	color: #fff;
+	background-color: #ff9500;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon{
+	width: 100%;
+	margin-top: 10px;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopL{
+	width: 900px;
+	float: left;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopL .ciCaShopLtop{
+	width: 898px;
+	height: 38px;
+	line-height: 38px;
+	border: 1px solid #e6e6e6;
+	background: #f5f5f5;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopL .ciCaShopLtop .ciCaShopLtopL{
+	margin-left: 13px;
+	float: left;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopL .ciCaShopLtop .ciCaShopLtopL ul li{
+	padding: 0 13px;
+	float:left;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopL .ciCaShopLtop .ciCaShopLtopL ul li a{
+	font-size: 14px;
+	color: #808080;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopL .ciCaShopLtop .ciCaShopLtopL ul .ciCatopaA a{
+	color: #f36f47;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopL .ciCaShopLtop .ciCaShopLtopL ul li a i{
+	margin-left: 8px;
+	display: inline-block;
+	vertical-align: -2px;
+	background-image: url(../images/icon_base.png);
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopL .ciCaShopLtop .ciCaShopLtopL ul li a .icon_xjt1{
+	width: 7px;
+	height: 11px;
+	background-position: -0px -140px;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopL .ciCaShopLtop .ciCaShopLtopL ul li a .icon_xjt2{
+	width: 7px;
+	height: 11px;
+	background-position: -0px -140px;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopL .ciCaShopLtop .ciCaShopLtopL ul li a .icon_sxjt{
+	width: 8px;
+	height: 12px;
+	background-position: -24px -139px;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopL .ciCaShopLtop .ciCaShopLtopR{
+	margin-right: 14px;
+	float: right;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopL .ciCaShopLtop .ciCaShopLtopR span{
+	margin-right: 10px;
+	font-size: 14px;
+	color: #666666;
+	float: left;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopL .ciCaShopLtop .ciCaShopLtopR .ciCaShopLtopInp{
+	width: 198px;
+	height: 16px;
+	padding: 5px 0;
+	margin-top: 5px;
+	background: #fff;
+	border: 1px solid #e6e6e6;
+	float: left;
+	overflow: hidden;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopL .ciCaShopLtop .ciCaShopLtopR .ciCaShopLtopInp input{
+	background: transparent;
+	float: left;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopL .ciCaShopLtop .ciCaShopLtopR .ciCaShopLtopInp .ciCaSinp{
+	width: 148px;
+	padding: 0 6px;
+	border-right: 1px solid #dbdbdb;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopL .ciCaShopLtop .ciCaShopLtopR .ciCaShopLtopInp .ciCaSbtn{
+	width: 37px;
+	height: 16px;
+	background: url(../images/icon_base.png) -93px -78px;
+	cursor: pointer;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopL .ciCaShopLbot{
+	padding: 0 20px;
+	border: 1px solid #e6e6e6;
+	border-top: none;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopL .ciCaShopLbot ul li{
+	width: 100%;
+	height: 110px;
+	padding: 16px 0;
+	border-bottom: 1px solid #e6e6e6;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopL .ciCaShopLbot ul li:last-child{
+	border-bottom: none;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopL .ciCaShopLbot ul li .ciCaShopLbotImg{
+	width: 160px;
+	height: 110px;
+	float: left;
+	overflow: hidden;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopL .ciCaShopLbot ul li .ciCaShopLbotImg img{
+	width: 100%;
+	height: 100%;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopL .ciCaShopLbot ul li .ciCaShopLbotInfo{
+	width: 540px;
+	padding-left: 16px;
+	float: left;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopL .ciCaShopLbot ul li .ciCaShopLbotInfo .ciCaShopLbotName{
+	width: 100%;
+	overflow: hidden;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopL .ciCaShopLbot ul li .ciCaShopLbotInfo .ciCaShopLbotName h3{
+	margin-right: 10px;
+	font-size: 16px;
+	color: #333333;
+	float: left;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopL .ciCaShopLbot ul li .ciCaShopLbotInfo .ciCaShopLbotName i{
+	width: 16px;
+	height: 16px;
+	margin: 4px 6px 0 0;
+	float: left;
+	background-image: url(../images/icon_base.png);
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopL .ciCaShopLbot ul li .ciCaShopLbotInfo .ciCaShopLbotName .icon_tuan{
+	background-position: -24px -24px;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopL .ciCaShopLbot ul li .ciCaShopLbotInfo .ciCaShopLbotName .icon_wai{
+	background-position: -67px -24px;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopL .ciCaShopLbot ul li .ciCaShopLbotInfo .ciCaShopLbotName .icon_ding{
+	background-position: -88px -24px;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopL .ciCaShopLbot ul li .ciCaShopLbotInfo .ciCaShopLbotName .icon_shang{
+	background-position: -109px -24px;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopL .ciCaShopLbot ul li .ciCaShopLbotInfo .ciCaShopLbotPric{
+	width: 100%;
+	padding-top: 16px;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopL .ciCaShopLbot ul li .ciCaShopLbotInfo .ciCaShopLbotPric .ciCaShopLbotEval{
+	margin-right: 14px;
+	float: left;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopL .ciCaShopLbot ul li .ciCaShopLbotInfo .ciCaShopLbotPric .ciCaShopLbotEval i{
+	margin-right: -3px;
+	font-size: 14px;
+	color: #fcb200;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopL .ciCaShopLbot ul li .ciCaShopLbotInfo .ciCaShopLbotPric .ciCaShopLbotEval span{
+	margin-left: 10px;
+	font-size: 14px;
+	color: #999999;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopL .ciCaShopLbot ul li .ciCaShopLbotInfo .ciCaShopLbotPric .ciCaShopLbotNum{
+	margin-right: 14px;
+	float: left;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopL .ciCaShopLbot ul li .ciCaShopLbotInfo .ciCaShopLbotPric .ciCaShopLbotNum span{
+	font-size: 14px;
+	color: #33b022;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopL .ciCaShopLbot ul li .ciCaShopLbotInfo .ciCaShopLbotPric .ciCaShopLbotFd{
+	float: left;
+	position: relative;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopL .ciCaShopLbot ul li .ciCaShopLbotInfo .ciCaShopLbotPric .ciCaShopLbotFd .ciCaShopLbotFdT{
+	cursor: pointer;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopL .ciCaShopLbot ul li .ciCaShopLbotInfo .ciCaShopLbotPric .ciCaShopLbotFd .ciCaShopLbotFdT span{
+	font-size: 14px;
+	color: #666666;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopL .ciCaShopLbot ul li .ciCaShopLbotInfo .ciCaShopLbotPric .ciCaShopLbotFd .ciCaShopLbotFdN{
+	width: 410px;
+	display: none;
+	border-top: 1px solid #ebebeb;
+	border-left: 1px solid #ebebeb;
+	border-right: 1px solid #ebebeb;
+	box-shadow: 2px 2px 5px #ccc;
+	position: absolute;
+	top: 24px;
+	left: 0px;
+	z-index: 3;
+	background: #fff;
+	overflow: hidden;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopL .ciCaShopLbot ul li .ciCaShopLbotInfo .ciCaShopLbotPric .ciCaShopLbotFd .ciCaShopLbotFdN ul li{
+	height: 46px;
+	padding: 22px 20px 0 20px;
+	border-bottom: 1px solid #ebebeb;
+	overflow: hidden;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopL .ciCaShopLbot ul li .ciCaShopLbotInfo .ciCaShopLbotPric .ciCaShopLbotFd .ciCaShopLbotFdN ul li .ciCaShopLbotFdNa{
+	width: 100%;
+	line-height: 0px;
+	margin-bottom: 10px;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopL .ciCaShopLbot ul li .ciCaShopLbotInfo .ciCaShopLbotPric .ciCaShopLbotFd .ciCaShopLbotFdN ul li .ciCaShopLbotFdNa a{
+	font-size: 14px;
+	color: #282828;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopL .ciCaShopLbot ul li .ciCaShopLbotInfo .ciCaShopLbotPric .ciCaShopLbotFd .ciCaShopLbotFdN ul li .ciCaShopLbotFdNa a:hover{
+	color: #33b022;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopL .ciCaShopLbot ul li .ciCaShopLbotInfo .ciCaShopLbotPric .ciCaShopLbotFd .ciCaShopLbotFdN ul li .ciCaShopLbotFdNa span{
+	font-size: 12px;
+	color: #999999;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopL .ciCaShopLbot ul li .ciCaShopLbotInfo .ciCaShopLbotPric .ciCaShopLbotFd .ciCaShopLbotFdN ul li .ciCaShopLbotFdAdd{
+	width: 100%;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopL .ciCaShopLbot ul li .ciCaShopLbotInfo .ciCaShopLbotPric .ciCaShopLbotFd .ciCaShopLbotFdN ul li .ciCaShopLbotFdAdd i{
+	margin-right: -2px;
+	font-size: 14px;
+	color: #f7af00;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopL .ciCaShopLbot ul li .ciCaShopLbotInfo .ciCaShopLbotPric .ciCaShopLbotFd .ciCaShopLbotFdN ul li .ciCaShopLbotFdAdd span{
+	margin-left: 8px;
+	font-size: 14px;
+	color: #999999;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopL .ciCaShopLbot ul li .ciCaShopLbotInfo .ciCaShopLbotAdd{
+	width: 100%;
+	padding: 6px 0 0 0;
+	clear: both;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopL .ciCaShopLbot ul li .ciCaShopLbotInfo .ciCaShopLbotAdd p{
+	width: 100%;
+	line-height: 22px;
+	text-align: justify;
+	font-size: 14px;
+	color: #999999;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopL .ciCaShopLbot ul li .ciCaShopLbotInfo .ciCaShopLbotLab{
+	width: 100%;
+	padding: 6px 0 0 0;
+	margin-left: -10px;
+	font-size: 14px;
+	color: #d6d6d6;
+	clear: both;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopL .ciCaShopLbot ul li .ciCaShopLbotInfo .ciCaShopLbotLab span{
+	padding: 0 10px;
+	font-size: 14px;
+	color: #999999;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopL .ciCaShopLbot ul li .ciCaShopLbotLink{
+	line-height: 110px;
+	float: right;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopL .ciCaShopLbot ul li .ciCaShopLbotLink a{
+	width: 114px;
+	height: 36px;
+	line-height: 36px;
+	text-align: center;
+	font-size: 14px;
+	color: #ffffff;
+	background: #34c091;
+	border-radius: 4px;
+	display: inline-block;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopR{
+	width: 280px;
+	float: right;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopR .ciCaShopRcar{
+	width: 100%;
+	height: 240px;
+	position: relative;
+	overflow: hidden;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopR .ciCaShopRcar .ciCaShopRcarImg{
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	z-index: 1;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopR .ciCaShopRcar .ciCaShopRcarImg ul li{
+	width: 100%;
+	height: 100%;
+	display: none;
+	position: absolute;
+	left: 0px;
+	top:0px
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopR .ciCaShopRcar .ciCaShopRcarImg ul li img{
+	width: 100%;
+	height: 100%;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopR .ciCaShopRcar .ciCaShopRcarLab{
+	position: absolute;
+	right: 0px;
+	bottom:0px;
+	z-index: 2;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopR .ciCaShopRcar .ciCaShopRcarLab ul li{
+	width: 20px;
+	height: 20px;
+	line-height: 20px;
+	margin: 0 6px 6px 0;
+	text-align: center;
+	font-size: 12px;
+	color: #fff;
+	background: #593527;
+	float: left;
+	cursor: pointer;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopR .ciCaShopRcar .ciCaShopRcarLab ul li:hover{
+	background: #ff5700;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopR .ciCaShopRcar .ciCaShopRcarLab ul .ciCaLabaA{
+	background: #ff5700;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopR .ciCaShopRmainCon{
+	width: 100%;
+	margin-top: 12px;
+	overflow: hidden;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopR .ciCaShopRmainCon .ciCaShopRtit{
+	line-height: 36px;
+	padding: 0 10px;
+	background: #f0f0f0;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopR .ciCaShopRmainCon .ciCaShopRtit h3{
+	font-size: 14px;
+	color: #333333;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopR .ciCaShopRmainCon .ciCaShopRtit h3 i{
+	margin-right: 10px;
+	display: inline-block;
+	vertical-align: -2px;
+	background-image: url(../images/icon_base.png);
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopR .ciCaShopRmainCon .ciCaShopRtit h3 .icon_hot{
+	width: 14px;
+	height: 16px;
+	background-position: -74px -78px;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopR .ciCaShopRmainCon .ciCaShopRmain{
+	width: 258px;
+	padding: 0 10px;
+	border: 1px solid #f0f0f0;
+	border-top: none;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopR .ciCaShopRmainCon .ciCaShopRmain ul li{
+	width: 100%;
+	padding: 12px 0;
+	border-bottom: 1px dotted #cccccc;
+	overflow: hidden;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopR .ciCaShopRmainCon .ciCaShopRmain ul li:last-child{
+	border-bottom: none;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopR .ciCaShopRmainCon .ciCaShopRmain ul li .ciCaShopRimg{
+	width: 110px;
+	height: 70px;
+	float: left;
+	overflow: hidden;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopR .ciCaShopRmainCon .ciCaShopRmain ul li .ciCaShopRimg img{
+	width: 100%;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopR .ciCaShopRmainCon .ciCaShopRmain ul li .ciCaShopRinfo{
+	width: 128px;
+	padding-left: 14px;
+	float: left;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopR .ciCaShopRmainCon .ciCaShopRmain ul li .ciCaShopRinfo .ciCaShopRname{
+	width: 100%;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopR .ciCaShopRmainCon .ciCaShopRmain ul li .ciCaShopRinfo .ciCaShopRname h4 a{
+	width: 100%;
+	display: block;
+	font-size: 14px;
+	color: #333333;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	font-weight: normal;
+	overflow: hidden;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopR .ciCaShopRmainCon .ciCaShopRmain ul li .ciCaShopRinfo .ciCaShopReval{
+	width: 100%;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopR .ciCaShopRmainCon .ciCaShopRmain ul li .ciCaShopRinfo .ciCaShopReval i{
+	margin-right: -3px;
+	font-size: 13px;
+	color: #fcb200;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopR .ciCaShopRmainCon .ciCaShopRmain ul li .ciCaShopRinfo .ciCaShopReval span{
+	margin-left: 10px;
+	font-size: 13px;
+	color: #999999;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopR .ciCaShopRmainCon .ciCaShopRmain ul li .ciCaShopRinfo .ciCaShopReval b{
+	font-size: 14px;
+	color: #f41323;
+	font-weight: normal;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopR .ciCaShopRmainCon .ciCaShopRmain ul li .ciCaShopRinfo .ciCaShopReval del{
+	font-size: 12px;
+	color: #b3b3b3;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopR .ciCaShopRmainCon .ciCaShopRmain ul li .ciCaShopRinfo .ciCaShopRnum{
+	width: 100%;
+}
+
+.ciCaListCon .ciCaListBox .ciCaListRight .ciCaShopCon .ciCaShopR .ciCaShopRmainCon .ciCaShopRmain ul li .ciCaShopRinfo .ciCaShopRnum span{
+	font-size: 12px;
+	color: #33b022;
+}
+
+.ciShCoLiRFlipCon {
+	width: 100%;
+	padding: 50px 0 60px 0;
+	text-align: center;
+	overflow: hidden;
+}
+
+.ciShCoLiRFlipCon .ciShCoLiRFlipL {
+	display: inline-block;
+	overflow: hidden;
+}
+
+.ciShCoLiRFlipCon .ciShCoLiRFlipL span {
+	width: 66px;
+	height: 30px;
+	line-height: 30px;
+	font-size: 14px;
+	color: #999999;
+	border: 1px solid #e6e6e6;
+	margin: 0 3px;
+	float: left;
+	cursor: pointer;
+}
+
+.ciShCoLiRFlipCon .ciShCoLiRFlipL span:hover {
+	background-color: #45c06f;
+	border: 1px solid #45c06f;
+	color: #fff;
+}
+
+.ciShCoLiRFlipCon .ciShCoLiRFlipL ul {
+	float: left;
+}
+
+.ciShCoLiRFlipCon .ciShCoLiRFlipL ul li {
+	width: 30px;
+	height: 30px;
+	line-height: 30px;
+	border: 1px solid #e6e6e6;
+	margin: 0 3px;
+	float: left;
+	cursor: pointer;
+}
+
+.ciShCoLiRFlipCon .ciShCoLiRFlipL ul li a {
+	font-size: 14px;
+	color: #999999;
+	display: block;
+}
+
+.ciShCoLiRFlipCon .ciShCoLiRFlipL ul .ciShaA {
+	background-color: #45c06f;
+	border: 1px solid #45c06f;
+}
+
+.ciShCoLiRFlipCon .ciShCoLiRFlipL ul .ciShaA a {
+	color: #fff;
+}
+
+.ciShCoLiRFlipCon .ciShCoLiRFlipL ul li:hover {
+	background-color: #45c06f;
+	border: 1px solid #45c06f;
+}
+
+.ciShCoLiRFlipCon .ciShCoLiRFlipL ul li:hover a {
+	color: #fff;
+}
+
+.ciShCoLiRFlipCon .ciShCoLiRFlipR {
+	display: inline-block;
+	overflow: hidden;
+}
+
+.ciShCoLiRFlipCon .ciShCoLiRFlipR span {
+	height: 30px;
+	line-height: 30px;
+	font-size: 13px;
+	color: #999999;
+	float: left;
+	margin: 0 9px;
+}
+
+.ciShCoLiRFlipCon .ciShCoLiRFlipR input {
+	width: 40px;
+	height: 30px;
+	font-size: 13px;
+	color: #999999;
+	text-align: center;
+	border: 1px solid #e6e6e6;
+	background-color: transparent;
+	outline: none;
+	float: left;
+	cursor: pointer;
+}
+
+.ciShCoLiRFlipCon .ciShCoLiRFlipR .ciShCoLiRFlipBut {
+	background-image: url(../images/fl_go.png);
+	background-repeat: no-repeat;
+}
+/*-------------------------------------------------------同城列表结束-------------------------------------------------------*/
+
+
+
+/*----------------------------活动和公告开始----------------------------*/
+
+.actAnnCon{
+	width: 100%;
+	padding-top: 20px;
+}
+
+.actAnnCon .actAnnBox{
+	width: 1200px;
+	margin: 0 auto;
+} 
+
+.actAnnCon .actAnnBox .actAnnTit{
+	width: 100%;
+	height: 44px;
+}
+
+.actAnnCon .actAnnBox .actAnnTit ul{
+	height: 44px;
+	padding: 0 8px;
+	border-bottom: 1px solid #36b269;
+}
+
+.actAnnCon .actAnnBox .actAnnTit ul li{
+	width: 118px;
+	height: 44px;
+	line-height: 44px;
+	text-align: center;
+	font-size: 16px;
+	float: left;
+}
+
+.actAnnCon .actAnnBox .actAnnTit ul li a{
+	color: #666666;
+}
+
+.actAnnCon .actAnnBox .actAnnTit ul .acantitaA{
+	border-top: 1px solid #36b269;
+	border-left: 1px solid #36b269;
+	border-right: 1px solid #36b269;
+	background-color: #fff;
+}
+
+.actAnnCon .actAnnBox .actAnnTit ul .acantitaA a{
+	color: #01b075;
+}
+
+.actAnnCon .actAnnBox .actAnnCrumb{
+	width: 100%;
+	padding-top: 30px;
+	overflow: hidden;
+}
+
+.actAnnCon .actAnnBox .actAnnCrumb ul{
+	margin-left: -6px;
+}
+
+.actAnnCon .actAnnBox .actAnnCrumb ul li{
+	font-size: 14px;
+	color: #333333;
+	float: left;
+}
+
+.actAnnCon .actAnnBox .actAnnCrumb ul li a{
+	padding: 0 6px;
+	color: #333333;
+}
+
+.actAnnCon .actAnnBox .actAnnCrumb ul li:last-child a{
+	color: #999999;
+}
+
+.actAnnCon .actAnnBox .actAnnMain{
+	width: 998px;
+	margin-top: 14px;
+	padding: 0 100px 106px 100px;
+	border-top: 6px solid #01b075;
+	border-left: 1px solid #e6e6e6;
+	border-right: 1px solid #e6e6e6;
+	border-bottom: 1px solid #e6e6e6;
+}
+
+.actAnnCon .actAnnBox .actAnnMain .actAnnList{
+	width: 100%;
+}
+
+.actAnnCon .actAnnBox .actAnnMain .actAnnList ul li{
+	padding: 20px 0;
+	border-bottom: 1px dashed #e0e0e0;
+	overflow: hidden;
+}
+
+.actAnnCon .actAnnBox .actAnnMain .actAnnList ul li .actAnnListL{
+	width: 706px;
+	float: left;
+}
+
+.actAnnCon .actAnnBox .actAnnMain .actAnnList ul li .actAnnListL h3{
+	font-size: 14px;
+	color: #333333;
+}
+
+.actAnnCon .actAnnBox .actAnnMain .actAnnList ul li .actAnnListL p{
+	width: 100%;
+	margin-top: 8px;
+	font-size: 12px;
+	color: #999999;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
+.actAnnCon .actAnnBox .actAnnMain .actAnnList ul li .actAnnListR{
+	width: 100px;
+	float: right;
+}
+
+.actAnnCon .actAnnBox .actAnnMain .actAnnList ul li .actAnnListR a{
+	width: 98px;
+	height: 30px;
+	line-height: 30px;
+	margin-top: 6px;
+	text-align: center;
+	font-size: 14px;
+	color: #333333;
+	display: block;
+	border-radius: 4px;
+	border: 1px solid #e6e6e6;
+}
+
+.actAnnCon .actAnnBox .actAnnMain .actAnnList ul li .actAnnListR a:hover{
+	color: #ff000;
+}
+
+.actAnnCon .actAnnBox .actAnnMain .actAnnDetaCon{
+	width: 100%;
+}
+
+.actAnnCon .actAnnBox .actAnnMain .actAnnDetaCon .actAnnDetaTit{
+	width: 100%;
+	padding-top: 30px;
+	text-align: center;
+}
+
+.actAnnCon .actAnnBox .actAnnMain .actAnnDetaCon .actAnnDetaTit h2{
+	font-size: 26px;
+	color: #333333;
+	font-weight: normal;
+}
+
+.actAnnCon .actAnnBox .actAnnMain .actAnnDetaCon .actAnnDeta{
+	width: 100%;
+	padding-top: 38px;
+}
+
+.actAnnCon .actAnnBox .actAnnMain .actAnnDetaCon .actAnnDeta ul li{
+	width: 100%;
+	padding-top: 10px;
+}
+
+.actAnnCon .actAnnBox .actAnnMain .actAnnDetaCon .actAnnDeta ul li h3{
+	font-size: 14px;
+	color: #333333;
+	font-weight: normal;
+}
+
+.actAnnCon .actAnnBox .actAnnMain .actAnnDetaCon .actAnnDeta ul li p{
+	line-height: 26px;
+	font-size: 12px;
+	color: #666666;
+	text-align: justify;
+}
+
+/*----------------------------活动和公告结束----------------------------*/

@@ -1,0 +1,781 @@
+{itemplate 'public/header'}
+<div class="page clearfix page-config-store-delivery">
+	<h2>订单相关</h2>
+	<form class="form-horizontal form form-validate" id="form1" action="" method="post" enctype="multipart/form-data" style="max-width: 90%">
+		<h3>订单设置</h3>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">通知店员规则</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="input-group" style="margin-bottom: 10px;">
+					<div class="input-group-addon">下单后</div>
+					<input type="text" class="form-control" name="clerk[notify_delay]" value="{$order['notify_rule_clerk']['notify_delay']}">
+					<div class="input-group-addon">分钟之内未接单,则微信模板消息/商家APP语音通知</div>
+				</div>
+				<div class="input-group">
+					<div class="input-group-addon">通知频率为每</div>
+					<input type="text" class="form-control" name="clerk[notify_frequency]" value="{$order['notify_rule_clerk']['notify_frequency']}">
+					<div class="input-group-addon">分钟通知一次,总共通知</div>
+					<input type="text" class="form-control" name="clerk[notify_total]" value="{$order['notify_rule_clerk']['notify_total']}">
+					<div class="input-group-addon">次</div>
+				</div>
+				<span class="help-block">
+					规则为:下单后几分钟之内未接单,通知店员,通知过第一次之后几分钟之后仍未接单,则通知第二次,以此类推 <br>
+					<span class="text-danger">如需下单后立即通知店员接单，可设置为0; 注意：商家设置了自动接单后，只会通知一次; 注意:通知频率最低为1分钟</span>
+					<span class="text-danger">如果一个订单只需要通知一次，需要将总通知次数设置为1</span>
+				</span>
+				<div class="input-group">
+					<div class="input-group-addon">微信模板消息/商家APP语音通知第</div>
+					<input type="text" class="form-control" name="clerk[notify_phonecall_time]" value="{$order['notify_rule_clerk']['notify_phonecall_time']}">
+					<div class="input-group-addon">次时,同时电话通知</div>
+				</div>
+				<span class="help-block">
+					规则为:例如设置为微信模板消息/商家APP语音通知3(不能超过微信模板消息/商家APP语音通知的总次数)次时，同时电话通知，即微信模板消息/商家APP语音通知2次后仍未接单，则微信模板消息/商家APP语音继续通知商家，同时电话通知店员 <br>
+					<span class="text-danger">如需下单后立即电话通知店员接单，可设置为0</span>
+				</span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">通知配送员规则</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="input-group" style="margin-bottom: 10px;">
+					<div class="input-group-addon">商户通知配送员接单后</div>
+					<input type="text" class="form-control" name="deliveryer[notify_delay]" value="{$order['notify_rule_deliveryer']['notify_delay']}">
+					<div class="input-group-addon">分钟之内未接单,则微信模板消息/配送员APP语音通知</div>
+				</div>
+				<div class="input-group">
+					<div class="input-group-addon">通知频率为每</div>
+					<input type="text" class="form-control" name="deliveryer[notify_frequency]" value="{$order['notify_rule_deliveryer']['notify_frequency']}">
+					<div class="input-group-addon">分钟通知一次,总共通知</div>
+					<input type="text" class="form-control" name="deliveryer[notify_total]" value="{$order['notify_rule_deliveryer']['notify_total']}">
+					<div class="input-group-addon">次</div>
+				</div>
+				<span class="help-block">规则为:商户通知配送员接单后几分钟之内未接单,通知配送员,通知过第一次之后几分钟之后仍未接单,则通知第二次,以此类推</span>
+				<span class="text-danger">注意:该规则仅适用外卖单派单模式为"配送员抢单",其他模式不会生效。如需商家在通知配送员接单后立即通知配送员抢单，可设置为0; 注意:通知频率最低为1分钟。</span>
+				<span class="text-danger">如果一个订单只需要通知一次，需要将总通知次数设置为1</span>
+				<div class="input-group">
+					<div class="input-group-addon">微信模板消息/配送员APP语音通知</div>
+					<input type="text" class="form-control" name="deliveryer[notify_phonecall_time]" value="{$order['notify_rule_deliveryer']['notify_phonecall_time']}">
+					<div class="input-group-addon">次时，同时电话通知</div>
+				</div>
+				<span class="help-block">
+					规则为:例如设置为微信模板消息/配送员APP语音通知3(不能超过微信模板消息/配送员APP语音通知的总次数)次时，同时电话通知，即微信模板消息/配送员APP语音通知2次后配送员仍未接单，则继续微信模板消息/配送员APP语音通知，同时电话通知配送员 <br>
+					<span class="text-danger">如需下单后立即电话通知配送员接单，可设置为0</span>
+				</span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span class="require"> </span>支付时间限制</label>
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<div class="input-group">
+					<input type="text" class="form-control" name="pay_time_limit" digits="true" value="{$order['pay_time_limit']}">
+					<span class="input-group-addon">分钟</span>
+				</div>
+				<span class="help-block">例如:设置为15分钟,那么用户在提交订单后15分钟内未支付,系统会自动取消该订单。如果没有支付时间限制,请设置为0</span>
+				<span class="help-block">该设置仅对"外卖订单"有效.店内订单不受此设置影响</span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span class="require"> </span>未支付提醒</label>
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<div class="input-group">
+					<input type="text" class="form-control" name="pay_time_notice" digits="true" value="{$order['pay_time_notice']}">
+					<span class="input-group-addon">分钟</span>
+				</div>
+				<span class="help-block">例如:设置为5分钟,那么用户在提交订单后5分钟内未支付,系统会自动发送微信模板消息提醒顾客。如果没有待支付提醒,请设置为0</span>
+				<span class="help-block">该设置仅对"外卖订单"有效.店内订单不受此设置影响</span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span class="require"> </span>商家接单时间限制</label>
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<div class="input-group">
+					<input type="text" class="form-control" name="handle_time_limit" digits="true" value="{$order['handle_time_limit']}">
+					<span class="input-group-addon">分钟</span>
+				</div>
+				<span class="help-block">例如:设置为15分钟,那么用户支付后,商家在15分钟内未接单,系统会自动取消该订单.如果没有接单时间限制,请设置为0</span>
+				<span class="help-block">该设置仅对"外卖订单"有效.店内订单不受此设置影响</span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span class="require"> </span>配送员接单时间限制</label>
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<div class="input-group">
+					<input type="text" class="form-control" name="deliveryer_collect_time_limit" digits="true" value="{$order['deliveryer_collect_time_limit']}">
+					<span class="input-group-addon">分钟</span>
+				</div>
+				<span class="help-block">例如:设置为10分钟,那么商家通知配送员接单后,配送员在10分钟内未接单,系统会自动取消该订单.如果没有接单时间限制,请设置为0</span>
+				<span class="help-block">该设置仅对"外卖订单"有效.店内订单不受此设置影响</span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">外卖订单自动完成（仅限商家已接单的订单）</label>
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<div class="input-group">
+					<input type="text" class="form-control" name="auto_success_hours" digits="true" value="{$order['auto_success_hours']}">
+					<span class="input-group-addon">小时</span>
+				</div>
+				<span class="help-block">只有被商家接单后的订单在超过设置的时间才会被自动设置为完成. </span>
+				<span class="help-block">自动完成时间只能是整数, 如果你不需要自动完成, 可以设置为0. </span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">店内订单自动完成（仅限商家已接单的订单）</label>
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<div class="input-group">
+					<input type="text" class="form-control" name="tangshi_auto_success_hours" digits="true" value="{$order['tangshi_auto_success_hours']}">
+					<span class="input-group-addon">小时</span>
+				</div>
+				<span class="help-block">只有被商家接单后的订单在超过设置的时间才会被自动设置为完成. </span>
+				<span class="help-block">自动完成时间只能是整数, 如果你不需要自动完成, 可以设置为0. </span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">是否允许顾客删除订单列表中的历史订单</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="radio radio-inline">
+					<input type="radio" value="1" name="customer_delete_order" id="customer_delete_order-1" {if $order['customer_delete_order'] == '1'}checked{/if}>
+					<label for="customer_delete_order-1">是</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" value="0" name="customer_delete_order" id="customer_delete_order-2" {if $order['customer_delete_order'] == '0' || !$order['customer_delete_order']}checked{/if}>
+					<label for="customer_delete_order-2">否</label>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">支付后是否允许顾客取消订单</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="radio radio-inline" onclick="$('.customer_cancel_timelimit').show();">
+					<input type="radio" value="1" name="customer_cancel_status" id="customer_cancel_status-1" {if $order['customer_cancel_status'] == '1'}checked{/if}>
+					<label for="customer_cancel_status-1">是</label>
+				</div>
+				<div class="radio radio-inline" onclick="$('.customer_cancel_timelimit').hide();">
+					<input type="radio" value="0" name="customer_cancel_status" id="customer_cancel_status-0" {if $order['customer_cancel_status'] == '0' || !$order['customer_cancel_status']}checked{/if}>
+					<label for="customer_cancel_status-0">否</label>
+				</div>
+				<div class="help-block">设置为'是'，则只要商户未接单，顾客随时可取消订单。</div>
+			</div>
+		</div>
+		<div class="form-group customer_cancel_timelimit" {if !$order['customer_cancel_status']}style="display:none"{/if}>
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">商家接单后顾客取消订单时间限制</label>
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<div class="input-group">
+					<input type="text" class="form-control" name="customer_cancel_timelimit" digits="true" value="{$order['customer_cancel_timelimit']}">
+					<span class="input-group-addon">分钟</span>
+				</div>
+				<span class="help-block">商家接单后多少分钟，顾客仍然可以取消订单；设置为0，则商家接单后顾客不可以取消订单. </span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">商家接单后是否允许商户取消订单</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="radio radio-inline">
+					<input type="radio" value="1" name="cancel_after_handle" id="cancel_after_handle-2" {if $order['cancel_after_handle'] == '1'}checked{/if}>
+					<label for="cancel_after_handle-2">是</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" value="0" name="cancel_after_handle" id="cancel_after_handle-1" {if $order['cancel_after_handle'] == '0' || !$order['cancel_after_handle']}checked{/if}>
+					<label for="cancel_after_handle-1">否</label>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">商家或系统或顾客取消订单是否自动退款</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="radio radio-inline">
+					<input type="radio" value="1" name="auto_refund_cancel_order" id="auto_refund_cancel_order-1" {if $order['auto_refund_cancel_order'] == '1'}checked{/if}>
+					<label for="auto_refund_cancel_order-1">是</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" value="0" name="auto_refund_cancel_order" id="auto_refund_cancel_order-0" {if $order['auto_refund_cancel_order'] == '0' || !$order['auto_refund_cancel_order']}checked{/if}>
+					<label for="auto_refund_cancel_order-0">否</label>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">未支付的订单是否在待接单列表中显示</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="radio radio-inline">
+					<input type="radio" value="0" name="show_no_pay" id="show_no_pay-1" {if $order['show_no_pay'] == '0'}checked{/if}>
+					<label for="show_no_pay-1">显示</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" value="1" name="show_no_pay" id="show_no_pay-2" {if $order['show_no_pay'] == '1'}checked{/if}>
+					<label for="show_no_pay-2">隐藏</label>
+				</div>
+				<span class="help-block">此开关仅对微信端以及APP端有效</span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">商户自配送订单是否可以手动完成订单</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="radio radio-inline">
+					<input type="radio" value="1" name="clerk_endorder_when_zipeisong" id="clerk_endorder_when_zipeisong-1" {if $order['clerk_endorder_when_zipeisong'] == '1'}checked{/if}>
+					<label for="clerk_endorder_when_zipeisong-1">是</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" value="0" name="clerk_endorder_when_zipeisong" id="clerk_endorder_when_zipeisong-2" {if $order['clerk_endorder_when_zipeisong'] == '0' || !$order['clerk_endorder_when_zipeisong']}checked{/if}>
+					<label for="clerk_endorder_when_zipeisong-2">否</label>
+				</div>
+				<span class="help-block">开启后商户可以在平台后台和商户管理端手动完成商户自配送订单</span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">配送员外卖订单是否开启自动刷新</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="radio radio-inline">
+					<input type="radio" value="1" name="auto_refresh" id="auto-refresh-1" {if $order['auto_refresh'] == '1'}checked{/if}>
+					<label for="auto-refresh-1">是</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" value="2" name="auto_refresh" id="auto-refresh-2" {if $order['auto_refresh'] == '2'}checked{/if}>
+					<label for="auto-refresh-2">否</label>
+				</div>
+				<div class="help-block">注意: 此项仅对配送员公众号端有效,对配送员APP和配送员小程序无效</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">预订单是否自动通知配送员</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="radio radio-inline">
+					<input type="radio" value="1" name="reserve_order_auto_notice_deliveryer" id="reserve-order-1" {if $order['reserve_order_auto_notice_deliveryer'] == '1'}checked{/if}>
+					<label for="reserve-order-1">是</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" value="0" name="reserve_order_auto_notice_deliveryer" id="reserve-order-0" {if $order['reserve_order_auto_notice_deliveryer'] == '0' || empty($order['reserve_order_auto_notice_deliveryer'])}checked{/if}>
+					<label for="reserve-order-0">否</label>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">配送员接单后是否通知商户</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="radio radio-inline">
+					<input type="radio" value="1" name="deliveryer_collect_notify_clerk" id="deliveryer-collect-notify-clerk-1" {if $order['deliveryer_collect_notify_clerk'] == 1}checked{/if}>
+					<label for="deliveryer-collect-notify-clerk-1">通知</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" value="0" name="deliveryer_collect_notify_clerk" id="deliveryer-collect-notify-clerk-0" {if !$order['deliveryer_collect_notify_clerk']}checked{/if}>
+					<label for="deliveryer-collect-notify-clerk-0">不通知</label>
+				</div>
+				<div>此项设置配送员接单后,是否通知商户。通知方式为:微信模板消息和打印机打印(如果门店配置了打印机的话)</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">外卖单派单模式</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="radio radio-inline">
+					<input type="radio" value="1" name="dispatch_mode" id="dispatch-mode-1" {if $order['dispatch_mode'] == '1'}checked{/if}>
+					<label for="dispatch-mode-1">抢单模式</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" value="2" name="dispatch_mode" id="dispatch-mode-2" {if $order['dispatch_mode'] == '2'}checked{/if}>
+					<label for="dispatch-mode-2">管理员派单</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" value="3" name="dispatch_mode" id="dispatch-mode-3" {if $order['dispatch_mode'] == '3'}checked{/if}>
+					<label for="dispatch-mode-3">系统分配</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" value="4" name="dispatch_mode" id="dispatch-mode-4" {if $order['dispatch_mode'] == '4'}checked{/if}>
+					<label for="dispatch-mode-4">系统分配优化（此版本为测试版本,有问题反馈给客服）</label>
+				</div>
+				<div class="help-block">
+					系统分配算法需要配送员使用app接单,如果你没有授权配送员app,请不要选择该模式<br>
+					系统分配算法：系统自动派单将根据配送员到店铺的距离自动选择最优配送员<br>
+					注意：以上都会在配送员端显示待配送的订单，在“管理员派单”和“系统分配”的模式下，不会通知所有的配送员抢单，但是配送员可以自己在订单列表里抢单<br>
+					注意：外卖单派单模式仅对平台配送订单有效，对店内配送单无效
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">管理员派单/系统分配是否允许配送员抢单</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="radio radio-inline">
+					<input type="radio" value="1" name="can_collect_order" id="can_collect_order-1" {if $order['can_collect_order'] == '1'}checked{/if}>
+					<label for="can_collect_order-1">是</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" value="0" name="can_collect_order" id="can_collect_order-0" {if !$order['can_collect_order']}checked{/if}>
+					<label for="can_collect_order-0">否</label>
+				</div>
+				<div class="help-block">
+					设置不允许配送员抢单，则派单模式为管理员派单/系统分配时，配送员不可以进行抢单操作。抢单模式不受此设置限制。
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">门店销量统计方式</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="radio radio-inline">
+					<input type="radio" value="order" name="store_sailed_type" id="store_sailed_type-order" {if !$order['store_sailed_type'] || $order['store_sailed_type'] == 'order'}checked{/if}>
+					<label for="store_sailed_type-order">按订单数（推荐使用）</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" value="goods" name="store_sailed_type" id="store_sailed_type-goods" {if $order['store_sailed_type'] == 'goods'}checked{/if}>
+					<label for="store_sailed_type-goods">按商品数</label>
+				</div>
+				<div class="help-block">
+					按订单数（推荐使用）: 每单只统计一次。按商品数：例如一单有10份商品，则统计10次。设置后请慎重更改。
+				</div>
+			</div>
+		</div>
+		<!--<div style="display: none">
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">配送员同时最多可抢</label>
+				<div class="col-sm-9 col-xs-12">
+					<div class="input-group">
+						<input type="text" class="form-control" name="deliveryer_collect_max" digits="true" value="{$order['deliveryer_collect_max']}">
+						<span class="input-group-addon">单</span>
+					</div>
+					<div class="help-block">
+						设置配送员同一时间最多可抢几单,超出后将不能在抢。0为不限制
+						<br>
+						<strong class="text-danger">注意：管理员派单不受此数量限制，抢单/系统分配受限制</strong>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">超出最多可抢单后,是否还通知配送员</label>
+				<div class="col-sm-9 col-xs-12">
+					<div class="radio radio-inline">
+						<input type="radio" value="1" name="over_collect_max_notify" id="over-collect-max-notify-1" {if $order['over_collect_max_notify'] == 1}checked{/if}>
+						<label for="over-collect-max-notify-1">通知</label>
+					</div>
+					<div class="radio radio-inline">
+						<input type="radio" value="0" name="over_collect_max_notify" id="over-collect-max-notify-0" {if !$order['over_collect_max_notify']}checked{/if}>
+						<label for="over-collect-max-notify-0">不通知</label>
+					</div>
+					<span class="help-block">设置当配送员已抢单数超过最多可抢单数后,是否继续通知配送员有新的待配送订单</span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">是否允许配送员转单</label>
+				<div class="col-sm-9 col-xs-12">
+					<div class="radio radio-inline">
+						<input type="radio" value="1" name="deliveryer_transfer_status" id="deliveryer-transfer-status-1" {if $order['deliveryer_transfer_status'] == '1'}checked{/if}>
+						<label for="deliveryer-transfer-status-1">允许</label>
+					</div>
+					<div class="radio radio-inline">
+						<input type="radio" value="0" name="deliveryer_transfer_status" id="deliveryer-transfer-status-0" {if $order['deliveryer_transfer_status'] == '0'}checked{/if}>
+						<label for="deliveryer-transfer-status-0">禁止</label>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">配送员每天最多可转</label>
+				<div class="col-sm-9 col-xs-12">
+					<div class="input-group">
+						<input type="text" class="form-control" name="deliveryer_transfer_max" value="{$order['deliveryer_transfer_max']}" digits="true">
+						<span class="input-group-addon">单</span>
+					</div>
+					<div class="help-block">配送员在遇到特殊情况下可申请转单，设置每天最多可转几次单。0为不限制</div>
+				</div>
+			</div>
+		</div>-->
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">货到付款订单是否自动扣除配送员账户余额</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="radio radio-inline">
+					<input type="radio" value="1" name="deliveryPay_update_deliveryerAccount" id="deliveryPay_update_deliveryerAccount-1" {if $order['store_sailed_type'] == '1'}checked{/if}>
+					<label for="deliveryPay_update_deliveryerAccount-1">是</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" value="0" name="deliveryPay_update_deliveryerAccount" id="deliveryPay_update_deliveryerAccount-0" {if $order['deliveryPay_update_deliveryerAccount'] == '0' || !$order['deliveryPay_update_deliveryerAccount']}checked{/if}>
+					<label for="deliveryPay_update_deliveryerAccount-0">否</label>
+				</div>
+				<div class="help-block">
+					<span class="text-danger">注意：设置后请不要随意更改，否则造成平台入账与配送员账户问题。</span>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">转单理由</label>
+			<div class="col-sm-9 col-xs-12">
+				<textarea name="deliveryer_transfer_reason" cols="30" rows="7" class="form-control">{$order['deliveryer_transfer_reason']}</textarea>
+				<div class="help-block">可设置多个转单理由.每行一个</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">配送员取消订单理由</label>
+			<div class="col-sm-9 col-xs-12">
+				<textarea name="deliveryer_cancel_reason" cols="30" rows="7" class="form-control">{$order['deliveryer_cancel_reason']}</textarea>
+				<div class="help-block">可设置多个取消订单理由.每行一个</div>
+			</div>
+		</div>
+		<h3>订单提交设置</h3>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">提交订单页面是否默认收货地址</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="radio radio-inline">
+					<input type="radio" value="1" name="use_default_accept_address" id="use_default_accept_address-1" {if $order['use_default_accept_address'] == '1' || !$order['use_default_accept_address']}checked{/if}>
+					<label for="use_default_accept_address-1">是</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" value="2" name="use_default_accept_address" id="use_default_accept_address-2" {if $order['use_default_accept_address'] == 2}checked{/if}>
+					<label for="use_default_accept_address-2">否</label>
+				</div>
+				<span class="help-block">进入订单提交页面，系统会默认一个收货地址，如果不需要请设置为否，则顾客每次进入需要手动选择收货地址。</span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">提交订单是否需要确认收货信息</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="radio radio-inline">
+					<input type="radio" value="1" name="audit_accept_address" id="audit_accept_address-1" {if $order['audit_accept_address'] == '1'}checked{/if}>
+					<label for="audit_accept_address-1">是</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" value="0" name="audit_accept_address" id="audit_accept_address-0" {if !$order['audit_accept_address']}checked{/if}>
+					<label for="audit_accept_address-0">否</label>
+				</div>
+				<span class="help-block">如果设置为是，订单提交时，会先弹出提示框让顾客检查收货信息，确认后才提交订单。</span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">防客户拖定位降配送费</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="radio radio-inline">
+					<input type="radio" value="0" name="check_member_drag_address" id="check_member_drag_address-0"{if $order['check_member_drag_address'] == '0' || !$order['check_member_drag_address']}checked{/if}>
+					<label for="check_member_drag_address-0">关闭</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" value="1" name="check_member_drag_address" id="check_member_drag_address-1"{if $order['check_member_drag_address'] == '1'}checked{/if}>
+					<label for="check_member_drag_address-1">开启</label>
+				</div>
+				<div class="help-block">此设置只对配送费设置为按距离收取有效。<span class="text-danger">开启此功能可能导致配送费计算偏差较大，不建议开启。</span></div>
+			</div>
+		</div>
+		{if check_plugin_perm('svip')}
+		<h3>订单信息修改设置</h3>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">订单支付后是否允许顾客修改收货地址</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="radio radio-inline">
+					<input type="radio" value="1" name="order_update[status]" class="order-update-status" id="order-update-status-1"{if $order['order_update']['status'] == 1}checked{/if}>
+					<label for="order-update-status-1">是</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" value="0" name="order_update[status]"  class="order-update-status" id="order-update-status-0"{if $order['order_update']['status'] == 0}checked{/if}>
+					<label for="order-update-status-0">否</label>
+				</div>
+			</div>
+		</div>
+		<div class="form-group order-update-setting {if $order['order_update']['status'] == 0} hide {/if}">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">地址修改次数及地址范围</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="input-group">
+					<span class="input-group-addon">允许修改地址次数</span>
+					<input type="text" class="form-control" name="order_update[address_update_num]" value="{$order['order_update']['address_update_num']}">
+					<span class="input-group-addon">次, 新地址需在原地址的</span>
+					<input type="text" class="form-control" name="order_update[newaddress_distance]" value="{$order['order_update']['newaddress_distance']}">
+					<span class="input-group-addon">km内</span>
+				</div>
+				<div class="help-block "><span class="text-danger">说明：设置为允许顾客修改收货地址时，顾客可在订单（仅限已支付的订单）详情页修改收货地址，修改次数不能大于允许修改地址次数，且新地址必须在门店的配送范围内，且新地址与旧地址的距离必须小于设置的距离。</span></div>
+			</div>
+		</div>
+		{/if}
+		<h3>积分赠送</h3>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">积分赠送状态</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="radio radio-inline">
+					<input type="radio" value="1" name="credit1[status]" id="credit1-status-1"{if $order['grant_credit']['credit1']['status'] == 1}checked{/if}>
+					<label for="credit1-status-1">开启</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" value="0" name="credit1[status]" id="credit1-status-0"{if $order['grant_credit']['credit1']['status'] == 0}checked{/if}>
+					<label for="credit1-status-0">关闭</label>
+				</div>
+				<div class="help-block text-danger">开启后,平台会在"订单完成后"给下单人赠送积分</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">积分赠送模式</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="input-group">
+					<label class="input-group-addon">
+						<input type="radio" name="credit1[grant_type]" value="1" {if $order['grant_credit']['credit1']['grant_type'] == 1 || !$config['credit']['credit1']['grant_type']}checked{/if}>
+					</label>
+					<span class="input-group-addon">每单固定</span>
+					<input type="text" class="form-control" name="credit1[grant_num_1]" {if $order['grant_credit']['credit1']['grant_type'] == 1}value="{$order['grant_credit']['credit1']['grant_num']}"{/if}>
+					<span class="input-group-addon">积分</span>
+				</div>
+				<br>
+				<div class="input-group">
+					<label class="input-group-addon">
+						<input type="radio" name="credit1[grant_type]" value="2" {if $order['grant_credit']['credit1']['grant_type'] == 2}checked{/if}>
+					</label>
+					<span class="input-group-addon">按1元赠送</span>
+					<input type="text" class="form-control" name="credit1[grant_num_2]" {if $order['grant_credit']['credit1']['grant_type'] == 2}value="{$order['grant_credit']['credit1']['grant_num']}"{/if}>
+					<span class="input-group-addon">积分的比例赠送</span>
+				</div>
+				<div class="help-block">例如:设置赠送比例为1元赠送10积分.订单总额为:20元, 那本订单工赠送:20*10=200积分</div>
+			</div>
+		</div>
+		<h3>配送设置</h3>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">订单调度页配送员排序</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="radio radio-inline">
+					<input type="radio" value="deliveryer_id" name="dispatch_sort" id="dispatch_sort-1"{if $order['dispatch_sort'] == 'deliveryer_id'}checked{/if}>
+					<label for="dispatch_sort-1">配送员编号倒序</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" value="store2deliveryer_distance" name="dispatch_sort" id="dispatch_sort-0"{if $order['dispatch_sort'] == 'store2deliveryer_distance' || !$order['dispatch_sort']}checked{/if}>
+					<label for="dispatch_sort-0">配送员距离门店的距离排序</label>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">待抢订单列表是否显示收货地址</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="radio radio-inline">
+					<input type="radio" value="1" name="show_acceptaddress_when_firstdelivery" id="show_acceptaddress_when_firstdelivery-1"{if $order['show_acceptaddress_when_firstdelivery'] == 1}checked{/if}>
+					<label for="show_acceptaddress_when_firstdelivery-1">是</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" value="0" name="show_acceptaddress_when_firstdelivery" id="show_acceptaddress_when_firstdelivery-0"{if $order['show_acceptaddress_when_firstdelivery'] == 0 || !$order['show_acceptaddress_when_firstdelivery']}checked{/if}>
+					<label for="show_acceptaddress_when_firstdelivery-0">否</label>
+				</div>
+				<div class="help-block">此设置只针对配送员无未完成订单时,接新的一单时生效</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">待抢订单列表排序方式</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="radio radio-inline">
+					<input type="radio" value="desc" name="deliverynoassign_sort_type" id="deliverynoassign_sort_type-1"{if $order['deliverynoassign_sort_type'] == 'desc'}checked{/if}>
+					<label for="deliverynoassign_sort_type-1">按下单时间倒序</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" value="asc" name="deliverynoassign_sort_type" id="deliverynoassign_sort_type-0"{if $order['deliverynoassign_sort_type'] == 'asc' || !$order['deliverynoassign_sort_type']}checked{/if}>
+					<label for="deliverynoassign_sort_type-0">按下单时间正序</label>
+				</div>
+				<div class="help-block">正序是先下单的在最先显示,倒序是后下单的在最先显示</div>
+			</div>
+		</div>
+		<div class="form-group hide">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">配送员完成订单距离收货地址判断</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="radio radio-inline">
+					<input type="radio" value="1" name="delivery_success_verify" id="delivery_success_verify-1"{if $order['delivery_success_verify'] == '1'}checked{/if} onclick="$('.delivery_success_verify_distance').show();">
+					<label for="delivery_success_verify-1">开启</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" value="0" name="delivery_success_verify" id="delivery_success_verify-0"{if $order['delivery_success_verify'] == '0' || !$order['delivery_success_verify']}checked{/if} onclick="$('.delivery_success_verify_distance').hide();">
+					<label for="delivery_success_verify-0">关闭</label>
+				</div>
+				<div class="help-block"></div>
+			</div>
+		</div>
+		<div class="form-group delivery_success_verify_distance hide" {if $order['delivery_success_verify'] == '0' || !$order['delivery_success_verify']}style="display: none"{/if}>
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">验证距离范围</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="input-group">
+					<span class="input-group-addon">配送员位置距离收货地址</span>
+					<input type="text" class="form-control" name="delivery_success_verify_distance" value="{$order['delivery_success_verify_distance']}">
+					<span class="input-group-addon">米内， 配送员可完成订单</span>
+				</div>
+				<div class="help-block"></div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">订单超时</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="input-group">
+					<span class="input-group-addon">订单完成超时</span>
+					<input type="text" class="form-control" name="timeout_limit" value="{$order['timeout_limit']}">
+					<span class="input-group-addon">分钟</span>
+				</div>
+				<span class="help-block">从订单支付完成开始计算到订单完成的时间超过此时间, 则会被标记, 便于管理员查看</span>
+				<br>
+				<div class="input-group">
+					<span class="input-group-addon">订单配送提前</span>
+					<input type="text" class="form-control" name="delivery_before_limit" value="{$order['delivery_before_limit']}">
+					<span class="input-group-addon">分钟</span>
+				</div>
+				<span class="help-block">从配送员接单开始计算到订单完成的时间小于此时间, 则会被标记, 便于管理员查看</span>
+				<br>
+				<div class="input-group">
+					<span class="input-group-addon">订单配送超时</span>
+					<input type="text" class="form-control" name="delivery_timeout_limit" value="{$order['delivery_timeout_limit']}">
+					<span class="input-group-addon">分钟</span>
+				</div>
+				<span class="help-block">从配送员接单开始计算到订单完成的时间超过此时间, 则会被标记, 便于管理员查看</span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">待抢订单最多显示</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="input-group">
+					<input type="text" class="form-control" name="max_dispatching" value="{$order['max_dispatching']}" digits="true">
+					<span class="input-group-addon">单</span>
+				</div>
+				<div class="help-block">此项设置仅在配送员待抢列表中按顾客下单时间排列显示限制。0为不限制</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">待抢订单超时时间</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="input-group">
+					<input type="text" class="form-control" name="delivery_status_3[timeout_limit]" value="{$order['delivery_status_3']['timeout_limit']}" digits="true">
+					<span class="input-group-addon">分钟</span>
+				</div>
+				<div class="help-block">从商家通知配送员接单到配送员接单之间的时间</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">待抢订单接单显示</label>
+			<div class="col-sm-9 col-xs-12">
+				<div id="delivery-status-3-container">
+					<div class="attr-item">
+						<div class="input-group">
+							<span class="input-group-addon">已过</span>
+							<input type="text" class="form-control" name="delivery_status_3[timeout_remind][minute][]" value="{$order['delivery_status_3']['timeout_remind'][0]['minute']}" digits="true">
+							<span class="input-group-addon">分钟,提示</span>
+							<input class="form-control" type="text" name="delivery_status_3[timeout_remind][color][]"  placeholder="显示颜色" value="{$order['delivery_status_3']['timeout_remind'][0]['color']}">
+							<span class="input-group-addon" style="width:35px;border-left:none;background-color:{$order['delivery_status_3']['timeout_remind'][0]['color']};"></span>
+							<span class="input-group-btn">
+								<button class="btn btn-default colorpicker" type="button">选择颜色 <i class="fa fa-caret-down"></i></button>
+								<button class="btn btn-default colorclean" type="button"><span><i class="fa fa-remove"></i></span></button>
+							</span>
+						</div>
+					</div>
+					<br>
+					<div class="attr-item">
+						<div class="input-group">
+							<span class="input-group-addon">已过</span>
+							<input type="text" class="form-control" name="delivery_status_3[timeout_remind][minute][]" value="{$order['delivery_status_3']['timeout_remind'][1]['minute']}" digits="true">
+							<span class="input-group-addon">分钟,提示</span>
+							<input class="form-control" type="text" name="delivery_status_3[timeout_remind][color][]"  placeholder="显示颜色" value="{$order['delivery_status_3']['timeout_remind'][1]['color']}">
+							<span class="input-group-addon" style="width:35px;border-left:none;background-color: {$order['delivery_status_3']['timeout_remind'][1]['color']};"></span>
+							<span class="input-group-btn">
+								<button class="btn btn-default colorpicker" type="button">选择颜色 <i class="fa fa-caret-down"></i></button>
+								<button class="btn btn-default colorclean" type="button"><span><i class="fa fa-remove"></i></span></button>
+							</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">待取餐订单超时时间</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="input-group">
+					<input type="text" class="form-control" name="delivery_status_7[timeout_limit]" value="{$order['delivery_status_7']['timeout_limit']}" digits="true">
+					<span class="input-group-addon">分钟</span>
+				</div>
+				<div class="help-block">从配送员接单到配送员到店之间的时间</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">待取餐订单接单显示</label>
+			<div class="col-sm-9 col-xs-12">
+				<div id="delivery-status-7-container">
+					<div class="attr-item">
+						<div class="input-group">
+							<span class="input-group-addon">已过</span>
+							<input type="text" class="form-control" name="delivery_status_7[timeout_remind][minute][]" value="{$order['delivery_status_7']['timeout_remind'][0]['minute']}" digits="true">
+							<span class="input-group-addon">分钟,提示</span>
+							<input class="form-control" type="text" name="delivery_status_7[timeout_remind][color][]"  placeholder="显示颜色" value="{$order['delivery_status_7']['timeout_remind'][0]['color']}">
+							<span class="input-group-addon" style="width:35px;border-left:none;background-color:{$order['delivery_status_7']['timeout_remind'][0]['color']};"></span>
+							<span class="input-group-btn">
+								<button class="btn btn-default colorpicker" type="button">选择颜色 <i class="fa fa-caret-down"></i></button>
+								<button class="btn btn-default colorclean" type="button"><span><i class="fa fa-remove"></i></span></button>
+							</span>
+						</div>
+					</div>
+					<br>
+					<div class="attr-item">
+						<div class="input-group">
+							<span class="input-group-addon">已过</span>
+							<input type="text" class="form-control" name="delivery_status_7[timeout_remind][minute][]" value="{$order['delivery_status_7']['timeout_remind'][1]['minute']}" digits="true">
+							<span class="input-group-addon">分钟,提示</span>
+							<input class="form-control" type="text" name="delivery_status_7[timeout_remind][color][]"  placeholder="显示颜色" value="{$order['delivery_status_7']['timeout_remind'][1]['color']}">
+							<span class="input-group-addon" style="width:35px;border-left:none;background-color: {$order['delivery_status_7']['timeout_remind'][1]['color']};"></span>
+							<span class="input-group-btn">
+								<button class="btn btn-default colorpicker" type="button">选择颜色 <i class="fa fa-caret-down"></i></button>
+								<button class="btn btn-default colorclean" type="button"><span><i class="fa fa-remove"></i></span></button>
+							</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">待送达订单超时时间</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="input-group">
+					<input type="text" class="form-control" name="delivery_status_4[timeout_limit]" value="{$order['delivery_status_4']['timeout_limit']}" digits="true">
+					<span class="input-group-addon">分钟</span>
+				</div>
+				<div class="help-block">从配送员到店取货到配送员送达之间的时间</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">待送达订单接单显示</label>
+			<div class="col-sm-9 col-xs-12">
+				<div id="delivery-status-4-container">
+					<div class="attr-item">
+						<div class="input-group">
+							<span class="input-group-addon">已过</span>
+							<input type="text" class="form-control" name="delivery_status_4[timeout_remind][minute][]" value="{$order['delivery_status_4']['timeout_remind'][0]['minute']}" digits="true">
+							<span class="input-group-addon">分钟,提示</span>
+							<input class="form-control" type="text" name="delivery_status_4[timeout_remind][color][]"  placeholder="显示颜色" value="{$order['delivery_status_4']['timeout_remind'][0]['color']}">
+							<span class="input-group-addon" style="width:35px;border-left:none;background-color:{$order['delivery_status_4']['timeout_remind'][0]['color']};"></span>
+							<span class="input-group-btn">
+								<button class="btn btn-default colorpicker" type="button">选择颜色 <i class="fa fa-caret-down"></i></button>
+								<button class="btn btn-default colorclean" type="button"><span><i class="fa fa-remove"></i></span></button>
+							</span>
+						</div>
+					</div>
+					<br>
+					<div class="attr-item">
+						<div class="input-group">
+							<span class="input-group-addon">已过</span>
+							<input type="text" class="form-control" name="delivery_status_4[timeout_remind][minute][]" value="{$order['delivery_status_4']['timeout_remind'][1]['minute']}" digits="true">
+							<span class="input-group-addon">分钟,提示</span>
+							<input class="form-control" type="text" name="delivery_status_4[timeout_remind][color][]"  placeholder="显示颜色" value="{$order['delivery_status_4']['timeout_remind'][1]['color']}">
+							<span class="input-group-addon" style="width:35px;border-left:none;background-color: {$order['delivery_status_4']['timeout_remind'][1]['color']};"></span>
+							<span class="input-group-btn">
+								<button class="btn btn-default colorpicker" type="button">选择颜色 <i class="fa fa-caret-down"></i></button>
+								<button class="btn btn-default colorclean" type="button"><span><i class="fa fa-remove"></i></span></button>
+							</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<input type="submit" value="提交" class="btn btn-primary col-lg-1">
+			</div>
+		</div>
+	</form>
+</div>
+<script type="text/javascript">
+require(["jquery", "util"], function($, util){
+	$(".colorpicker").each(function(){
+		var elm = this;
+		util.colorpicker(elm, function(color){
+			$(elm).parent().prev().prev().val(color.toHexString());
+			$(elm).parent().prev().css("background-color", color.toHexString());
+		});
+	});
+	$(".colorclean").click(function(){
+		$(this).parent().prev().prev().val("");
+		$(this).parent().prev().css("background-color", "#FFF");
+	});
+	$('.order-update-status').click(function() {
+		var value = $(this).val();
+		if(value == 1) {
+			$('.order-update-setting').removeClass('hide');
+		} else {
+			$('.order-update-setting').addClass('hide');
+		}
+	})
+});
+</script>
+{itemplate 'public/footer'}

@@ -1,0 +1,458 @@
+{template 'public/header'}
+{template 'public/comhead'}
+
+<style type="text/css">
+.footer{
+    background:none !important;
+    color:#666;
+    /*position: fixed;*/
+/*    bottom: 0;*/
+    /*z-index: -100;*/
+    opacity: 1;
+    width: 100%;
+}
+  .nav{background-color: #F5F7F9;font-size: 12px;}
+  .nav-tabs>li>a:hover{
+      color: #fff;
+      border-color: #44ABF7;
+      background-color: #44ABF7;
+  }
+  .nav-tabs>li{margin-right: 10px;}
+  .nav-tabs > li.active > a,.nav-tabs > li.active > a:hover{
+      background-color: #44ABF7;
+      color: #fff;
+      border-color: #44ABF7;
+  }
+  .nav>li>a{padding: 6px 20px;border-radius: 4px;border:1px solid #44ABF7;color: #44ABF7;}
+  .nav.nav-tabs{border:none;margin-top: 30px;}
+  .ygxian{width: 3px;height: 17px;float:left;background-color: #44ABF7;margin-top: 6px;border:none;}
+  .ygdangq{margin-top: 6px;margin-left: 10px;float: left;margin-right: 10px;}
+  input[type="radio"] + label::before {
+        content: "\a0"; /*不换行空格*/
+        display: inline-block;
+        vertical-align: middle;
+        font-size: 16px;
+        width: 1em;
+        height: 1em;
+        margin-right: .4em;
+        border-radius: 50%;
+        border: 2px solid #ddd;
+        text-indent: .15em;
+        line-height: 1; 
+    }
+    input[type="radio"]:checked + label::before {
+        background-color: #44ABF7;
+        background-clip: content-box;
+        padding: .1em;
+        border: 2px solid #44ABF7;
+    }
+    input[type="radio"] {
+        position: absolute;
+        clip: rect(0, 0, 0, 0);
+    }
+  /*#frame-11{display: block;visibility: visible;}*/
+  .panel-default>.wyheader{font-weight: bold;background-color: #F3F3F3;}
+  .yg14{margin-top: 30px;}
+  .chongzhi{margin-bottom: 10px;height: 35px;}
+  .ygminp,.man4,.man2,.man,.man3,.money,.money2,.titleinp{
+    float: left;
+    border:1px solid #eee;
+    height: 35px;
+    line-height: 35px;
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+  .man{
+    padding: 0px 12px;
+    text-align: center;
+  }
+  .man3{
+    padding: 0px 12px;
+    text-align: center;
+  }
+  .man2{
+    width: 130px;
+    padding: 0px 12px;
+    text-align: center;
+  }
+  .man4{
+    width: 160px;
+    padding: 0px 12px;
+    text-align: center;
+  }
+  .money{
+    width: 60%;
+    text-indent: 1em;
+  }
+  .money2{
+    width: 42%;
+    text-indent: 1em;
+  }
+  .ygminp{
+    width: 42%;
+    text-indent: 1em;
+  }
+  .titleinp2>.row{
+    width: 260px;
+    margin: 0px;
+  }
+  .titleinp2>.row>.col-sm-8{
+    width: 100%;
+    padding-left: 0px;
+  }
+  .shanchu{
+    color: white;
+    background-color: #ED5565;
+    cursor: pointer;
+  }
+  .tianjia{
+    border:1px solid #eee;
+    height: 35px;
+    line-height: 35px;
+    text-align: center;
+    width: 110px;
+    cursor: pointer;
+  }
+  .fa-plus{margin-right: 5px;}
+  .beizhu{margin-top: 10px;}
+  .tianj1{
+    height: 35px;
+    text-align: center;
+    line-height: 35px;
+    border:1px solid #EFEFEF;
+    background-color: #ddd;
+    cursor: pointer;
+  }
+  .ygtime{padding: 0px;}
+  @media (min-width: 1592px){
+    .titleinp{
+        width: 15%;
+        text-indent: 1em;
+        float: left;
+        border:1px solid #eee;
+        height: 35px;
+        line-height: 35px;
+        margin-left: 0px;
+        margin-right: 20px;
+      }
+      .titleinp3{
+        width: 15%;
+        text-indent: 1em;
+        float: left;
+        border:1px solid #eee;
+        height: 35px;
+        line-height: 35px;
+        margin-left: 0px;
+      }
+      .titleinp2{
+        float: left;
+        height: 35px;
+        line-height: 35px;
+        margin-left: 0px;
+        margin-right: 20px;
+      }
+  }
+  @media (max-width: 1591px){
+    .titleinp{
+        width: 10%;
+        padding-left: 5px;
+        float: left;
+        border:1px solid #eee;
+        height: 35px;
+        line-height: 35px;
+        margin-left: 0px;
+        margin-right: 10px;
+      }
+      .titleinp3{
+        width: 10%;
+        padding-left: 5px;
+        float: left;
+        border:1px solid #eee;
+        height: 35px;
+        line-height: 35px;
+        margin-left: 0px;
+      }
+      .titleinp2{
+        float: left;
+        height: 35px;
+        line-height: 35px;
+        margin-left: 0px;
+        margin-right: 10px;
+      }
+  }
+  .shcg,.czcg{
+    position: absolute;
+    top: 6%;
+    left: 0px;
+    display: none;
+  }
+  .panel-body{font-size: 12px;}
+
+</style>
+<ul class="nav nav-tabs">
+    <span class="ygxian"></span>
+    <div class="ygdangq">当前位置:</div>    
+    <li class="active"><a href="javascript:void(0);">签到管理</a></li>
+</ul>
+<div class="main">
+<div class="panel panel-default yg14">
+
+    <div class="panel-heading wyheader">签到设置</div>
+
+        <div class="panel-body">
+        
+            <form class="form-horizontal" action="" method="POST">
+
+              <div class="form-group col-md-12">
+                    <label class="col-sm-1 control-label">签到积分</label>
+                    <div class="col-sm-11">
+                        <div class="col-md-12">
+                          <label class="radio-inline">
+                              <input type="radio" id="emailwy1" class="kaiqi1" name="is_open" value="1" {if $res3['is_open']==1 || empty($res3['is_open'])}checked{/if} />
+                              <label for="emailwy1">开启</label>
+                          </label>
+                          <label class="radio-inline">
+                              <input type="radio" id="emailwy2" class="kaiqi2" name="is_open" value="2" {if $res3['is_open']==2}checked{/if} />
+                              <label for="emailwy2">关闭</label>
+                          </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-12">
+                    <label for="inputEmail3" class="col-sm-1 control-label">首次奖励</label>
+                    <div class="col-sm-11">
+                        <div class="col-md-5 chongzhi">
+                           <div class="man4">首次奖励</div>
+                           <input type="number" name="oneintegral" value="{$res3['one']}" class="ygminp inp1">
+                           <div class="man">积分</div>
+                       </div>
+                       <div class="col-md-7 chongzhi">
+                           <div class="man2">日常奖励</div>
+                           <input type="number" name="sintegral" value="{$res3['integral']}" class="money2 inp2">
+                           <div class="man">积分</div>
+                       </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-12">
+                    <label class="col-sm-1 control-label">开启补签</label>
+                    <div class="col-sm-11">
+                        <div class="col-sm-12">
+                          <label class="radio-inline">
+                              <input type="radio" id="emailwy3" name="is_bq" class="kaiqi3" value="1" {if $res3['is_bq']==1 || empty($res3['is_bq'])}checked{/if} />
+                              <label for="emailwy3">开启</label>
+                          </label>
+                          <label class="radio-inline">
+                              <input type="radio" id="emailwy4" name="is_bq" class="kaiqi4" value="2" {if $res3['is_bq']==2}checked{/if} />
+                              <label for="emailwy4">关闭</label>
+                          </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-12">
+                    <label for="inputEmail3" class="col-sm-1 control-label">补签规则设置</label>
+                    <div class="col-sm-11">
+                        <div class="col-md-5 chongzhi">
+                           <div class="man4">补签扣除(次)</div>
+                           <input type="number" name="" value="{$res3['bq_integral']}" class="ygminp inp1 bqinter">
+                           <div class="man">积分</div>
+                       </div>
+
+                    </div>
+                </div>
+                <div class="form-group col-md-12">
+                    <label for="inputEmail3" class="col-sm-1 control-label">连签奖励</label>
+                    <div class="col-sm-11">
+                        <table class="table2 col-md-12" style="padding: 0px;">
+                        {loop $list $row}
+                            <div class="col-md-12 yginter yginter2" id="addhang2" style="padding: 0px;">
+                                <div class="col-md-5 chongzhi">
+                                   <div class="man4">连签奖励</div>
+                                   <input type="number" name="day" value="{$row['day']}" class="ygminp inp1"/>
+                                   <div class="man">天</div>
+                                </div>
+                                <div class="col-md-7 chongzhi">
+                                   <div class="man2">奖励</div>
+                                   <input type="number" name="integral" value="{$row['integral']}" class="money2 inp2"/>
+                                   <div class="man">积分</div>
+                                   <div id="del{$row['id']}" data-id="{$row['id']}" class="man shanchu shanchu{$row['id']}"><span class="fa fa-times"></span></div>
+                                </div>
+                                <script type="text/javascript">
+                                   $(function(){
+                                      $(".shanchu{$row['id']}").click(function(){          
+                                          var id = $("#del{$row['id']}").data('id');
+                                          console.log(id);
+                                          $.ajax({
+                                              type:"post",
+                                              url:"{$_W['siteroot']}/app/index.php?i={$_W['uniacid']}&c=entry&do=DelQd&m=zh_cjdianc",
+                                              dataType:"text",
+                                              data:{id:id},
+                                              success:function(data){
+                                                  // alert(data)
+                                                  console.log("返回的data数据是："+data);      
+                                                  $(".shcg").fadeIn()
+                                                  setTimeout(function(){
+                                                      $(".shcg").fadeOut();
+                                                      location.reload();
+                                                  },1500)
+                                              }
+                                          })
+                                      })
+                                   })
+                                </script>
+                            </div>
+                          {/loop} 
+                        </table>
+                        <div class="col-md-12">
+                            <div class="tianj1 special2 col-md-6 col-md-push-3"><span class="fa fa-plus"></span>添加一个连签奖励规则</div>
+                        </div>                           
+                        
+                    </div>
+                </div>
+
+                <div class="form-group col-md-12">
+                    <label for="inputEmail3" class="col-sm-1 control-label">特殊奖励</label>
+                    <div class="col-sm-11">
+                        <table id="tb" class="table col-md-12" style="padding: 0px;">
+                            <div class="col-md-12 yginter" id="addhang">
+                                <form action="" method="POST" class="col-md-2">
+                                    <div class="col-md-2 ygtime">
+                                        <div class="input-group datetime">
+                                            <span class="input-group-btn">
+                                                <span class="btn btn-default">日期</span>
+                                            </span>
+                                            {php echo tpl_form_field_date(open_time,$res2['day'],$withtime = false);}
+                                        </div>
+                                        <input type="hidden" name="token" value="{$_W['token']}"/>
+                                    </div>
+                                </form>
+                                <div class="col-md-10 chongzhi">
+                                    <div class="man3">标题</div>
+                                    <input type="text" name="" value="{$res2['title']}" placeholder="非必填" class="titleinp">
+                                    <div class="man3">颜色</div>
+                                    <div class="titleinp2">
+                                      {php echo tpl_form_field_color('color', $res2['color'])}                                
+                                    </div>
+                                    <div class="man3">奖励</div>
+                                    <input type="number" name="integral2" value="{$res2['integral']}" class="titleinp3 inp2">
+                                    <div class="man">积分</div>
+                                </div>
+                                <input type="hidden" name="">
+                            </div>
+                        </table>   
+                    </div>
+                </div>
+                 <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-1 control-label">签到页背景图片</label>
+                    <div class="col-sm-9">
+                        {php echo tpl_form_field_image('qd_img', $res3['qd_img'])}
+                        <span class="help-block">*建议宽高270*180px</span>
+                    </div>
+                </div>
+            
+                <div class="col-md-12"><br/><br/><br/><br/><br/><br/></div>
+
+                <div class="form-group col-md-12">
+                    <input type="button" name="button" value="提交" data-toggle="modal" data-target="#myModal" class="btn col-lg-3 col-lg-offset-3" style="color: white;background-color: #44ABF7;"/>
+                    
+                </div>
+                <div class="col-md-12 czcg">
+                  <div class="col-md-8 col-md-push-2 btn btn-sm btn-success">操作成功！</div>
+                </div>
+                <div class="col-md-12 shcg">
+                  <div class="col-md-8 col-md-push-2 btn btn-sm btn-danger">删除成功！</div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+
+<script type="text/javascript">
+
+    var num = $(".yginter2").length;
+    $(function(){
+ 
+        $("#frame-8").show();
+        $("#yframe-8").addClass("wyactive");
+        $(".special2").click(function(){
+            num ++;
+            var addli = $('<div class="col-md-12 yginter yginter2" id="addhang2" style="padding: 0px;"><div class="col-md-5 chongzhi"><div class="man4">连签奖励</div><input type="number" name="day" value="" class="ygminp inp1"><div class="man">天</div></div><div class="col-md-7 chongzhi"><div class="man2">奖励</div><input type="number" name="integral" value="" class="money2 inp2"><div class="man">积分</div><div  class="man shanchu"><span class="fa fa-times"></span></div></div></div>');
+            addli.appendTo($(".table2"));
+            console.log($(".datetime>input").val())
+        });
+
+        // ———————————是否开启签到———————————
+        var is_open = 1;
+        $(".kaiqi1").click(function(){
+          is_open=1;
+        })
+        $(".kaiqi2").click(function(){
+          is_open=2;
+        })
+
+        // ———————————是否开启补签———————————
+        var is_bq = 1;
+        $(".kaiqi3").click(function(){
+          is_bq=1;
+        })
+        $(".kaiqi4").click(function(){
+          is_bq=2;
+        })
+        // ———————————点击提交传输数据———————————
+        $("input[name='button']").click(function(){
+          var list = [];
+           var qd_img = $("input[name='qd_img']").val();
+          var color = $(".row>.col-sm-8>.input-group>input").val();
+          var datetime = $(".datetime>input").val();
+          var title = $(".titleinp").val();
+          var bq_integral = $(".bqinter").val();
+          var one = $("input[name='oneintegral']").val();
+          var integral3 = $("input[name='sintegral']").val();
+          var integral2 = $("input[name='integral2']").val();
+          console.log("开启签到的值"+is_open+"，是否开启补签值："+is_bq);
+          for(var i = 0;i<$(".yginter2").length;i++){
+            var day = $(".yginter2").eq(i).find("input[name='day']").val();
+            var integral = $(".yginter2").eq(i).find("input[name='integral']").val();
+            console.log("天数"+day+",奖励积分是"+integral);
+            var obj = {};
+            obj.day = day;
+            obj.integral = integral;
+            list.push(obj);
+          }
+          $.ajax({
+              type:"post",
+              url:"{$_W['siteroot']}/app/index.php?i={$_W['uniacid']}&c=entry&do=AddQd&m=zh_cjdianc",
+              dataType:"text",
+              data:{
+                list:list,
+                color:color,
+                day:datetime,
+                title:title,
+                bq_integral:bq_integral,
+                one:one,
+                integral:integral3,
+                is_open:is_open,
+                qd_img:qd_img,
+                is_bq:is_bq,
+                integral2:integral2,
+              },
+              success:function(data){
+                  console.log(data);      
+                  
+                  $(".czcg").fadeIn()
+                  setTimeout(function(){
+                      $(".czcg").fadeOut();
+                      location.reload();
+                  },1500)
+              }
+          })
+          
+          
+        })
+
+        
+    })
+
+   
+</script>
+{template 'common/footer'}

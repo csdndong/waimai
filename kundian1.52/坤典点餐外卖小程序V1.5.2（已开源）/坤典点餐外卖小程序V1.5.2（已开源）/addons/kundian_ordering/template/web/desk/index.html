@@ -1,0 +1,110 @@
+{template 'web/common/common'}
+{template 'web/desk/navbar'}
+<link rel="stylesheet" type="text/css" href="../addons/kundian_ordering/resource/css/style.css" />
+<link rel="stylesheet" type="text/css" href="../addons/{php echo $_GPC['m']}/resource/swal/dist/sweetalert2.min.css" />
+<style>
+    .desk-border{border:1px solid #cfcfcf;height: 140px;box-shadow:5px 4px 19px #d8d8d8;margin-left: 5px;margin-bottom: 5px;width: 230px;}
+    .desk-border h4{color: #ec6818;}
+    .desk-border .tag{color:#fc8535 ;font-size: 14px;}
+    .desk-state{width: 100px;height: 30px;line-height:30px;background: #b5b4b4;color: white;border-radius: 30px;text-align: center;margin-top: 15px;}
+    .desk-ren{width: 100%;height: 30px;}
+    .desk-ren img{width: 15px;height: 15px;position: relative;top: -2px;right: 3px;}
+    .desk-ren .ul-ren{height:100%;float:left; text-align: center;}
+    .desk-ren .one{width: 25%;}
+    .desk-ren .two{width: 30%;}
+    .desk-ren .three{width: 45%;}
+    .desk-jiesuan{width: 100%;height: 30px;text-align: right;color: #07BB09;margin-top: 10px;}
+    .desk-jiesuan img{width: 15px;height: 15px;}
+    .btm{width: 100%;height: 40px;text-align: right;}
+    .view-details{width: 100%;height: 30px;text-align: right;color: #fc8535}
+    .look-order{width: 100px;height: 25px;background: #f4f4f4;line-height: 25px;font-size: 14px;position: absolute;top: -1px;left: 56%;text-align: center;cursor: pointer;color: gray;}
+</style>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            餐桌管理
+        </h3>
+    </div>
+
+    <div class="panel-body">
+        {loop $list $index $item}
+        <!--未开桌-->
+        {if $item['status']==0}
+        <div class="col-sm-2 desk-border">
+            <h4>{$item['name']}</h4>
+            <a href="{url 'site/entry/desk',array('m'=>'kundian_ordering','op'=>'history_order','desk_id'=>$item['id'],'version_id'=>$_GPC['version_id'])}">
+                <div class="look-order">查看历史订单</div>
+            </a>
+            <span class="tag">可容纳{$item['person']}人</span>
+            <div class="desk-state"> 空 闲 </div>
+            <div class="view-details">
+                <a href="{url 'site/entry/desk',array('m'=>'kundian_ordering','op'=>'desk_detail','id'=>$item['id'],'version_id'=>$_GPC['version_id'])}">查看详情</a>
+            </div>
+        </div>
+        {elseif $item['status']==1}
+        <!--未结账-->
+        <div class="col-sm-2 desk-border">
+            <h4>{$item['name']}</h4>
+            <a href="{url 'site/entry/desk',array('m'=>'kundian_ordering','op'=>'history_order','desk_id'=>$item['id'],'version_id'=>$_GPC['version_id'])}">
+                <div class="look-order">查看历史订单</div>
+            </a>
+            <div class="desk-ren">
+                <div class="ul-ren one">
+                    <img src="{$_W['siteroot']}addons/kundian_ordering/resource/img/ren.png" alt=""><span>{$item['orderData']['person_count']}</span>
+                </div>
+                <div class="ul-ren two">
+                    <img src="{$_W['siteroot']}addons/kundian_ordering/resource/img/time.png" alt=""><span>{$item['orderData']['create_time']}</span>
+                </div>
+                <div class="ul-ren three">
+                    <img src="{$_W['siteroot']}addons/kundian_ordering/resource/img/money.png" alt=""><span>{$item['orderData']['total_price']}</span>
+                </div>
+            </div>
+            <div class="view-details">
+                <a href="{url 'site/entry/desk',array('m'=>'kundian_ordering','op'=>'desk_order_detail','desk_id'=>$item['id'],'version_id'=>$_GPC['version_id'])}">查看详情</a>
+            </div>
+        </div>
+        {elseif $item['status']==2}
+        <!--已结账-->
+        <div class="col-sm-2 desk-border">
+            <h4>{$item['name']}</h4>
+            <a href="{url 'site/entry/desk',array('m'=>'kundian_ordering','op'=>'history_order','desk_id'=>$item['id'],'version_id'=>$_GPC['version_id'])}">
+                <div class="look-order">查看历史订单</div>
+            </a>
+            <div class="desk-ren">
+                <div class="ul-ren one">
+                    <img src="{$_W['siteroot']}addons/kundian_ordering/resource/img/ren.png" alt=""><span>{$item['orderData']['person_count']}</span>
+                </div>
+                <div class="ul-ren two">
+                    <img src="{$_W['siteroot']}addons/kundian_ordering/resource/img/time.png" alt=""><span>{$item['orderData']['create_time']}</span>
+                </div>
+                <div class="ul-ren three">
+                    <img src="{$_W['siteroot']}addons/kundian_ordering/resource/img/money.png" alt=""><span>{$item['orderData']['total_price']}</span>
+                </div>
+            </div>
+            <div class="desk-jiesuan">
+                <img src="{$_W['siteroot']}addons/kundian_ordering/resource/img/finsh1.png" alt="">
+                <span>已结账</span>
+            </div>
+            <div class="btm">
+                <a class="btn btn-warning btn-xs edit" href="{url 'site/entry/desk',array('m'=>'kundian_ordering','op'=>'set_desk_leisure','desk_id'=>$item['id'],'version_id'=>$_GPC['version_id'])}">设为空闲</a>
+            </div>
+
+        </div>
+        {/if}
+        {/loop}
+        <div style="text-align: right;">
+            {$pager}
+        </div>
+    </div>
+
+    </div>
+</div>
+{template 'common/footer'}
+    <script type="text/javascript" src="../addons/kundian_ordering/resource/js/jquery-1.11.1.min.js"></script>
+<script>
+    require(["../addons/{php echo $_GPC['m']}/resource/swal/dist/sweetalert2.min.js"],function(){
+        $(function(){
+
+        })
+    })
+</script>

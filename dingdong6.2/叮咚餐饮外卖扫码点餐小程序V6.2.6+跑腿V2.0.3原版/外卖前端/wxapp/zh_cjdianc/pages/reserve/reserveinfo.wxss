@@ -1,0 +1,3 @@
+@import"/zh_cjdianc/pages/wddd/ddxq.wxss";
+.formftyh{ border-top: 1rpx solid #f4f4f4; }
+.weui-cell{ padding: 20rpx 30rpx; }

@@ -1,0 +1,166 @@
+{itemplate 'public/header'}
+{if $op == 'list'}
+<form action="./index.php" class="form-horizontal form-filter">
+	{php echo tpl_form_filter_hidden('storebd/account/list');}
+	{if $_W['is_agent']}
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">选择代理区域</label>
+		<div class="col-sm-9 col-xs-12">
+			<select name="agentid" class="select2 js-select2 form-control width-130">
+				<option value="0">选择代理区域</option>
+				{loop $_W['agents'] $agent}
+				<option value="{$agent['id']}" {if $agentid == $agent['id']}selected{/if}>{$agent['area']}</option>
+				{/loop}
+			</select>
+		</div>
+	</div>
+	{/if}
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">门店</label>
+		<div class="col-sm-9 col-xs-12">
+			<select name="sid" class="form-control select2 js-select2 width-130" id="select-sid">
+				<option value="0" {if !$sid}selected{/if}>全部门店</option>
+				{loop $stores $store}
+					<option value="{$store['id']}" {if $store['id'] == $sid}selected{/if}>{$store['title']}</option>
+				{/loop}
+			</select>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">搜索</label>
+		<div class="col-sm-4 col-xs-4">
+			<input type="text" name="keyword" value="{$keyword}" class="form-control" placeholder="搜索的姓名、昵称、手机号">
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+		<div class="col-sm-4 col-xs-4">
+			<input type="submit" value="筛选" class="btn btn-primary">
+		</div>
+	</div>
+</form>
+
+<form action="" class="form-table form" method="post">
+	<div class="panel panel-table">
+		<div class="panel-heading">
+			<a href="javascript:;" class="btn btn-primary btn-sm btn-add">添加店铺推广员</a>
+		</div>
+		<div class="panel-body table-responsive js-table">
+			<table class="table table-hover">
+				<thead class="navbar-inner">
+				<tr>
+					<th width="40">
+						<div class="checkbox checkbox-inline">
+							<input type="checkbox" name="ids[]" value="{$item['id']}"/>
+							<label></label>
+						</div>
+					</th>
+					<th width="65"></th>
+					<th>微信昵称</th>
+					{if $_W['is_agent']}
+					<th>所属城市</th>
+					{/if}
+					<th>店铺推广员名称</th>
+					<th>所属门店</th>
+					<th>手机号</th>
+					<th>账户余额</th>
+					<th>添加时间</th>
+					<th style="width:150px; text-align:right;">操作</th>
+				</tr>
+				</thead>
+				<tbody>
+				{loop $data $item}
+					<tr>
+						<td>
+							<div class="checkbox checkbox-inline">
+								<input type="checkbox" name="ids[]" value="{$item['id']}"/>
+								<label></label>
+							</div>
+						</td>
+						<td><img src="{php echo tomedia($item['avatar']);}" width="48"></td>
+						<td>{$item['nickname']}</td>
+						{if $_W['is_agent']}
+						<td>{php echo toagent($item['agentid'])}</td>
+						{/if}
+						<td>{$item['title']}</td>
+						<td>{$item['stores_title']}</td>
+						<td>{$item['mobile']}</td>
+						<td>{$item['credit2']}</td>
+						<td>{php echo date('Y-m-d H:i', $item['addtime']);}</td>
+						<td style="text-align:right; width: 300px;">
+							<a href="{php echo iurl('storebd/bind/index', array('id' => $item['id']))}" class="btn btn-default btn-sm">绑定店铺</a>
+							<a href="{php echo iurl('storebd/getcash/list', array('bd_id' => $item['id']))}" class="btn btn-default btn-sm">提现</a>
+							<a href="{php echo iurl('storebd/current/list', array('bd_id' => $item['id']))}" class="btn btn-default btn-sm">账户明细</a>
+							<a href="{php echo iurl('storebd/account/del', array('id' => $item['id']))}" class="btn btn-default btn-sm js-remove" data-confirm="删除后将不可恢复，确定删除吗">删除</a>
+						</td>
+					</tr>
+				{/loop}
+				</tbody>
+			</table>
+			<div class="btn-region clearfix">
+				<div class="pull-left">
+					<a href="{php echo iurl('storebd/account/del')}" class="btn btn-primary btn-danger js-batch" data-batch="remove" data-confirm="删除后将不可恢复，确定删除吗">删除</a>
+				</div>
+				<div class="pull-right">
+					{$pager}
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+<div class="modal fade" id="add-container">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">添加店铺推广员</h4>
+			</div>
+			<div class="modal-body">
+				<div class="alert alert-info">
+					添加平台店铺推广员之前, 店铺推广员需要成为平台会员, 然后通过搜索"手机号"把他添加进来
+				</div>
+				<form onkeydown="if(event.keyCode==13) {$('.btn-submit').trigger('click'); return false;};">
+					<div class="form-group">
+						<label for="">平台会员手机号</label>
+						<input type="text" class="form-control" id="mobile" name="mobile" placeholder="请输入平台会员手机号">
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				<button type="button" class="btn btn-primary btn-submit">添加</button>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	$(function(){
+		$(document).on('click', '.btn-add', function(){
+			$('#add-container').modal('show');
+		});
+		$(document).on('click', '.btn-submit', function(){
+			var $this = $(this);
+			if($this.hasClass('disabled')) {
+				return false;
+			}
+			var mobile = $('#mobile').val();
+			if(!mobile) {
+				Notify.info('手机号不能为空');
+				return false;
+			}
+			$this.addClass('disabled');
+			$.post("{php echo iurl('storebd/account/add');}", {mobile: mobile}, function(data){
+				$this.removeClass('disabled');
+				var result = $.parseJSON(data);
+				if(result.message.errno == -1) {
+					Notify.error(result.message.message);
+					return false;
+				} else {
+					Notify.success('添加店铺推广员成功', location.href);
+				}
+			});
+		});
+	});
+</script>
+{/if}
+{itemplate 'public/footer'}

@@ -1,0 +1,129 @@
+page {
+    font-size: 14px;
+    box-sizing: border-box;
+    width: 100%;
+    background-color: #F0EFF5;
+}
+
+::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    color: transparent;
+}
+
+.small-button {
+    font-size: 12px;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 5px;
+    color: #888;
+    padding: 3px 7px;
+    margin-left: 10px;
+    border: 1px solid #AFAFAF;
+}
+
+.page-assign .content {
+    position: fixed;
+    top: 0px;
+    bottom: 70px;
+    width: 100%;
+    overflow: auto;
+}
+
+.page-assign .content .assign-title {
+    padding: 7px 10px;
+    background-color: #FFF;
+}
+
+.page-assign .content .assign-title .head {
+    font-size: 15px;
+    border-left: 3px solid #FF2D4B;
+    padding-left: 10px;
+}
+
+.page-assign .content .assign-item {
+    background-color: #FFF;
+    margin-bottom: 15px;
+    border-top: 1px solid #e0e0e0;
+}
+
+.page-assign .content .assign-item .assign-body {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    text-align: center;
+    padding: 15px 0;
+}
+
+.page-assign .content .assign-item .assign-body .now-assign {
+    width: 33.33%;
+    border-right: 1px solid #e0e0e0;
+    font-size: 14px;
+    color: #B5B5B5;
+}
+
+.page-assign .content .assign-item .assign-body .now-assign .info {
+    font-weight: bold;
+    color: #FF2D4B;
+    padding-top: 20px;
+}
+
+.page-assign .content .assign-item .assign-body .now-assign .tables-type {
+    font-weight: bold;
+    padding-top: 20px;
+    color: #3d4145;
+}
+
+.page-assign .content .assign-item .assign-body .take-assign {
+    width: 33.33%;
+    font-size: 14px;
+    color: #FFF;
+}
+
+.page-assign .content .assign-item .assign-body .take-assign .takeout {
+    width: 70%;
+    margin: 0 auto;
+    border-radius: 5px;
+    background-color: #31AAFB;
+}
+
+.page-assign .content .assign-item .assign-body .take-assign .takeout view {
+    padding: 5px 0;
+}
+
+.page-assign .content .assign-item .assign-foot {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 10px 15px;
+    background-color: #FFF;
+    font-size: 14px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.page-assign .content .assign-item .assign-foot .icon {
+    font-size: 15px;
+}
+
+.page-assign .content .assign-item .assign-foot .icon-viewgallery {
+    font-size: 14px;
+    padding: 1px 0;
+}
+
+.page-assign .content .assign-item .assign-foot .active {
+    color: #31AAFB;
+    border-color: #31AAFB;
+}
+
+.page-assign .content .assign-button {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    background-color: #fff;
+    height: 70px;
+    width: 100%;
+}
+
+.page-assign .content .assign-button .page__bd {
+    padding: 12px 15px;
+}

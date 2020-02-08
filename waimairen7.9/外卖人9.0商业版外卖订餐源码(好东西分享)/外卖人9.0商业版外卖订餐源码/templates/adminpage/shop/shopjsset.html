@@ -1,0 +1,184 @@
+ <{extends file="<{$tempdir}>/public/admin.html"}> 
+ <{block name=extendjs}>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js"></script>
+ <{/block}>
+ <{block name=controlname}>结算设置<{/block}>
+ <{block name=bodylist}> 
+ 
+	  <div style="width:auto;overflow-x:hidden;overflow-y:auto;">   
+          <div id="tagscontent">
+               <div>
+                <table border="0" cellspacing="2" cellpadding="4" class="list" name="table" id="table" width="100%">
+                  <tbody>
+                     
+                     
+					<tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                      <td class="left"><span style="font-weight: bolder;">佣金设置</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                      <td>
+                      	 
+                      </td>
+                    </tr>
+					 </tr>
+					<tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                        <td class="left">平台配送</td>
+                        <td>
+                         佣金计算内容：
+						 <input name="ptyjps" type="radio" value="<{$ptyj['pscost']}>" <{if $ptyj['pscost'] == 1}>checked<{/if}> /> + 配送费
+						 <input name="ptyjbag" type="radio" value="<{$ptyj['bagcost']}>"  <{if $ptyj['bagcost'] == 1}>checked<{/if}> /> + 打包费
+						 <input name="ptyjcx" type="radio" value="<{$ptyj['shopdowncost']}>"  <{if $ptyj['shopdowncost'] == 1}>checked<{/if}> /> - 促销金额中商家承担的部分						 
+						 （除了商品费用外是否包含这些费用）
+                        </td>
+                    </tr>
+					<tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                        <td class="left"> </td>
+                        <td>
+                         佣金计算公式 =（商品总价
+						 <span id="ptyjps" <{if $ptyj['pscost'] == 0}>style="display:none"<{/if}>> + 配送费</span>
+						 <span id="ptyjbag" <{if $ptyj['bagcost'] == 0}>style="display:none"<{/if}>> + 打包费</span>
+						 <span id="ptyjcx" <{if $ptyj['shopdowncost'] == 0}>style="display:none"<{/if}>> - 促销金额中商家承担的部分</span>）× 佣金比例 
+                        <input type="button" value="保存" class="button" data="ptyj" des="1" >  						 
+                        </td>
+                    </tr>
+                    <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                      <td class="left">商家配送</td>
+                      <td>
+                      	佣金计算内容：
+						 <input name="sjyjps" type="radio" value="<{$sjyj['pscost']}>" <{if $sjyj['pscost'] == 1}>checked<{/if}>  /> + 配送费
+						 <input name="sjyjbag" type="radio" value="<{$sjyj['bagcost']}>" <{if $sjyj['bagcost'] == 1}>checked<{/if}> /> + 打包费
+						 <input name="sjyjcx" type="radio" value="<{$sjyj['shopdowncost']}>" <{if $sjyj['shopdowncost'] == 1}>checked<{/if}> /> - 促销金额中商家承担的部分		
+						 （除了商品费用外是否包含这些费用）
+                      </td>
+                    </tr>
+				    <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                      <td class="left"></td>
+                      <td>
+                      	 佣金计算公式 =（商品总价
+						 <span id="sjyjps" <{if $sjyj['pscost'] == 0}>style="display:none"<{/if}>> + 配送费</span>
+						 <span id="sjyjbag" <{if $sjyj['bagcost'] == 0}>style="display:none"<{/if}>> + 打包费</span>
+						 <span id="sjyjcx" <{if $sjyj['shopdowncost'] == 0}>style="display:none"<{/if}>> - 促销金额中商家承担的部分</span>）× 佣金比例 
+                          <input type="button" value="保存" class="button" data="sjyj" des="2">
+					  </td>
+                    </tr>
+				    
+				    
+				    <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                      <td class="left"><span style="font-weight: bolder;">结算设置</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                      <td>
+                      	 
+                      </td>
+                    </tr>
+					 </tr>
+					<tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                        <td class="left">平台配送</td>
+                        <td>
+                         结算金额内容：
+						 <input name="ptjsps" type="radio" value="<{$ptjs['pscost']}>" <{if $ptjs['pscost'] == 1}>checked<{/if}>  /> + 配送费
+						 <input name="ptjsbag" type="radio" value="<{$ptjs['bagcost']}>" <{if $ptjs['bagcost'] == 1}>checked<{/if}> /> + 打包费
+						 <input name="ptjscx" type="radio" value="<{$ptjs['shopdowncost']}>" <{if $ptjs['shopdowncost'] == 1}>checked<{/if}> /> - 促销金额中商家承担的部分
+						 （除了商品费用外是否包含这些费用）
+ 
+                        </td>
+                    </tr>
+					<tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                        <td class="left"> </td>
+                        <td>
+                         结算金额公式 =（商品总价
+						 <span id="ptjsps" <{if $ptjs['pscost'] == 0}>style="display:none"<{/if}> > + 配送费</span>
+						 <span id="ptjsbag" <{if $ptjs['bagcost'] == 0}>style="display:none"<{/if}>> + 打包费</span>
+						 <span id="ptjscx" <{if $ptjs['shopdowncost'] == 0}>style="display:none"<{/if}>> - 促销金额中商家承担的部分</span>）-佣金  
+                         <input type="button" value="保存" class="button" data="ptjs" des="3">
+						</td>
+                    </tr>
+                    <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                      <td class="left">商家配送</td>
+                      <td>
+                      	结算金额内容：
+						 <input name="sjjsps" type="radio" value="<{$sjjs['pscost']}>" <{if $sjjs['pscost'] == 1}>checked<{/if}>  /> + 配送费
+						 <input name="sjjsbag" type="radio" value="<{$sjjs['bagcost']}>" <{if $sjjs['bagcost'] == 1}>checked<{/if}> /> + 打包费
+						 <input name="sjjscx" type="radio" value="<{$sjjs['shopdowncost']}>" <{if $sjjs['shopdowncost'] == 1}>checked<{/if}> /> - 促销金额中商家承担的部分
+						（除了商品费用外是否包含这些费用）
+                      </td>
+                   </tr>
+				    <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                      <td class="left"></td>
+                      <td>
+                      	 结算金额公式 =（商品总价
+						 <span id="sjjsps" <{if $sjjs['pscost'] == 0}>style="display:none"<{/if}> > + 配送费
+						 </span><span id="sjjsbag" <{if $sjjs['bagcost'] == 0}>style="display:none"<{/if}> > + 打包费
+						 </span><span id="sjjscx" <{if $sjjs['shopdowncost'] == 0}>style="display:none"<{/if}> > - 促销金额中商家承担的部分</span>）- 佣金 
+                         <input type="button" value="保存" class="button" data="sjjs" des="4">
+					 </td>
+                   </tr>
+				     
+                        
+		 
+                  </tbody>
+                </table>
+              </div>
+              <div class="blank20"></div>
+             
+            
+          </div>
+         
+           
+         </div>
+      
+    
+
+          </div> 
+<style>
+.button{
+    float: right;
+    margin-right: 300px;
+	margin-top: 6px;
+}
+
+</style>
+		  
+		  
+<script>
+	$("input").bind('click', function () {
+	var type = $(this).attr('type');
+	if(type == "radio"){
+	  var name = $(this).attr('name');
+	  var val = $(this).val();	    
+	  if (val == 1){
+	      $(this).val('0') ;
+		  $(this).attr('checked',false) ;
+	      $('#'+name).hide() ;
+	  }else{
+	      $(this).val('1') ;
+		  $(this).attr('checked',true) ;
+	      $('#'+name).show() ;
+	    }
+	  }
+	if(type == "button"){
+	    var name = $(this).attr('data');
+	    var des = $(this).attr('des');
+	    var pscost = $("input[name="+name+"ps]").val() ;
+	    var bagcost = $("input[name="+name+"bag]").val() ;
+	    var shopdowncost = $("input[name="+name+"cx]").val() ;
+	    url = siteurl+'/index.php?ctrl=adminpage&action=shop&module=saveshopjsset&datatype=json&random=@random@';
+     	url = url.replace('@random@', 1+Math.round(Math.random()*1000));
+           $.ajax({          
+                 url: url.replace('@random@', 1+Math.round(Math.random()*1000)),
+                 dataType: "json",
+                 async:true,
+                 data:{'des':des,'pscost':pscost,'bagcost':bagcost,'shopdowncost':shopdowncost},
+                 success:function(content) { 
+                 	if(content.error ==  false){					
+						alert('保存成功');	
+                        window.location.reload();						 
+                 	}else{
+                 		alert(content.msg);
+                 	}
+                },      
+           }); 
+	    }	  
+	})	
+	
+     
+ 	
+</script>    
+<!--newmain 结束-->
+ <{/block}>

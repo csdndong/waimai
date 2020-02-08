@@ -1,0 +1,132 @@
+{itemplate 'public/header'}
+{if $ta == 'create'}
+<div class="page clearfix">
+	<form class="form-horizontal form form-validate" id="form1" action="" method="post" enctype="multipart/form-data">
+		<div class="alert alert-warning">本月已发放优惠券数量：{$record['grant_num']}， 最多可发放{$record['max_limit']}张优惠券</div>
+		<h3>活动信息</h3>
+		<input type="hidden" name="coupons" value=""/>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">面向人群</label>
+			<div class="col-sm-6 col-xs-6 col-md-4">
+				<div class="form-control-static">{$group['title']} 人群数量：{$group['uids_total']}</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">优惠券名称</label>
+			<div class="col-sm-6 col-xs-6 col-md-4">
+				<input type="text" class="form-control" name="title" value=""/>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">优惠券金额</label>
+			<div class="col-sm-6 col-xs-6 col-md-4">
+				<div class="input-group">
+					<input type="number" class="form-control" name="discount" value="" required="true" digtis="true"/>
+					<span class="input-group-addon">元</span>
+				</div>
+				<span class="help-block">必须填写整数</span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">满多少元可用</label>
+			<div class="col-sm-6 col-xs-6 col-md-4">
+				<div class="input-group">
+					<input type="number" class="form-control" name="condition" value="" required="true" digtis="true"/>
+					<span class="input-group-addon">元</span>
+				</div>
+				<span class="help-block">必须填写整数,且大于优惠券面额</span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">每人发放</label>
+			<div class="col-sm-6 col-xs-6 col-md-4">
+				<div class="input-group">
+					<input type="number" class="form-control" name="everyone_num" value="{$everyone_num}" required="true" digtis="true"/>
+					<span class="input-group-addon">张</span>
+				</div>
+				<span class="help-block">必须填写整数,且大于等于1</span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">发券后几天内有效</label>
+			<div class="col-sm-6 col-xs-6 col-md-4">
+				<div class="input-group">
+					<input type="number" class="form-control" name="use_days_limit" value="" required="true" digtis="true"/>
+					<span class="input-group-addon">天</span>
+				</div>
+				<span class="help-block">必须填写整数,且必须大于0</span>
+				<div class="checkbox checkbox-inline">
+					<input type="checkbox" class="form-control" name="agreement" id="agreement" value="1"/>
+					<label for="agreement">我已阅读并同意<span class="agreement">《商家自营销协议》</span></label>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<input type="submit" value="保存并发放" class="btn btn-primary">
+			</div>
+		</div>
+	</form>
+</div>
+<script>
+
+</script>
+{/if}
+{if $ta == 'send'}
+<div class="page clearfix" ng-controller="processor">
+	<form class="form-horizontal form" id="form1" action="" method="post" enctype="multipart/form-data">
+		<h2>发送优惠券</h2>
+		<div class="progress">
+			<div class="progress-bar progress-bar-danger" ng-style="style">
+				{{pragress}}
+			</div>
+		</div>
+		<span class="help-block">红包正在发送中，请勿关闭浏览器</span>
+	</form>
+</div>
+<script>
+	require(['angular'], function(angular) {
+		var running = true;
+		window.onbeforeunload = function(e) {
+			if(running) {
+				return (e || window.event).returnValue = '正在发送优惠券,确定离开页面吗?';
+			}
+		}
+		angular.module('app', []).controller('processor', function($scope, $http) {
+			$scope.grant_object = {php echo json_encode($grant_object)};
+			var total = $scope.grant_object.total;
+			var i = 0;
+			running = true;
+			var proc = function() {
+				var percent = (i / total).toFixed(2);
+				if(percent > 1) {
+					percent = 1
+				}
+				$scope.pragress = percent * 100 + "%";
+				$scope.style = {'width': percent * 100 + "%"};
+				if($scope.more == 0) {
+					running = false;
+					Notify.success('发送完成', "{php echo iurl('store/activity/superCouponRecord')}");
+					return;
+				}
+				$http.post(location.href).success(function(data) {
+					i += 20;
+					if(data.message.errno != 0) {
+						Notify.error(data.message.message);
+						return;
+					}
+					$scope.more = data.message.message;
+					proc();
+				}).error(function() {
+					i += 20;
+					proc();
+				});
+			}
+			proc();
+		});
+		angular.bootstrap(document, ['app']);
+	});
+</script>
+{/if}
+
+{itemplate 'public/footer'}

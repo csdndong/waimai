@@ -1,0 +1,110 @@
+<view class="order-nav">
+    <view bindtap="waiOrder" class="nav-li {{is_active==1?'active':''}}">
+        <text>外卖订单</text>
+    </view>
+    <view bindtap="dianOrder" class="nav-li {{is_active==2?'active':''}}">
+        <text>点餐订单</text>
+    </view>
+    <view bindtap="makeOrder" class="nav-li {{is_active==3?'active':''}}">
+        <text>预定</text>
+    </view>
+    <view bindtap="kuaiOrder" class="nav-li {{is_active==4?'active':''}}">
+        <text>快餐订单</text>
+    </view>
+</view>
+<view class="none-order" wx:if="{{orderData==''}}">
+    <image src="../../../img/none-cart.png"></image>
+    <text>暂时没有订单信息</text>
+</view>
+<view class="con" wx:else>
+    <view class="wai-order" wx:if="{{is_active==1||is_active==4}}">
+        <view class="wai-ul" wx:for="{{orderData}}" wx:for-item="val">
+            <view class="li-top">
+                <image src="{{val.avatarurl}}"></image>
+                <text class="nickname">{{val.nickname}}</text>
+                <text class="time">{{val.create_time}}</text>
+                <text class="order-status">{{val.status_txt}}</text>
+            </view>
+            <view class="li-center" wx:for="{{val.orderDetail}}" wx:for-item="detail">
+                <view class="c-left">
+                    <image src="{{detail.cover}}"></image>
+                </view>
+                <view class="c-center">
+                    <text class="goods-name">{{detail.product_name}}</text>
+                    <text class="count">× {{detail.num}}</text>
+                </view>
+                <view class="c-right">
+                    <text class="price">￥ {{detail.price}}</text>
+                    <text class="old-price">￥{{detail.old_price}}</text>
+                </view>
+            </view>
+            <view class="order-btn">
+                <text>总计：{{val.price}}</text>
+            </view>
+            <view wx:if="{{val.is_fast_food==1}}">
+                <view class="order-btn">
+                    <text class="get-number" style="font-size:46rpx;" wx:if="{{val.fast_food_number-0}}">#取餐号：{{val.fast_food_number}}</text>
+                </view>
+            </view>
+            <view wx:else>
+                <view class="order-btn" wx:if="{{val.is_pay==0}}">
+                    <text bindtap="cancelOrder" class="cancel-order" data-orderid="{{val.id}}">取消订单</text>
+                </view>
+                <view class="order-btn" wx:if="{{val.is_pay==1||val.is_pay==-1}}">
+                    <text bindtap="beginSend" class="begin-send" data-orderid="{{val.id}}">开始配送</text>
+                </view>
+                <view class="order-btn" wx:if="{{val.is_pay==2}}">
+                    <text bindtap="completeSend" class="begin-send" data-orderid="{{val.id}}">完成配送</text>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view class="o-desk" wx:elif="{{is_active==2}}">
+        <view bindtap="intoDeskOrderDetail" class="desk-ul" data-orderid="{{val.id}}" wx:for="{{orderData}}" wx:for-item="val">
+            <view class="d-ul-center">
+                <view class="cen-left">
+                    <image src="{{aboutData.logo_img}}"></image>
+                </view>
+                <view class="cen-cen">
+                    <text class="desk-name">餐桌：{{val.desk_name}}</text>
+                    <text class="desk-status" wx:if="{{val.status==0}}">订单状态：未付款</text>
+                    <text class="desk-status" wx:else>已结算</text>
+                    <text class="desk-time">下单时间：{{val.create_time}}</text>
+                    <text class="desk-price">￥{{val.total_price}}</text>
+                </view>
+            </view>
+            <view class="cen-btn">
+                <text class="detail">查看详情</text>
+            </view>
+        </view>
+    </view>
+    <view class="make-order" wx:if="{{is_active==3}}">
+        <view class="make-ul" wx:for="{{orderData}}" wx:for-item="val">
+            <view class="make-li">
+                <text class="li-title">客户姓名</text>
+                <text class="li-val">{{val.name}}</text>
+            </view>
+            <view class="make-li">
+                <text class="li-title">联系电话</text>
+                <text class="li-val">{{val.phone}}</text>
+            </view>
+            <view class="make-li">
+                <text class="li-title">用餐人数</text>
+                <text class="li-val">{{val.person_count}} 人</text>
+            </view>
+            <view class="make-li">
+                <text class="li-title">用餐时间</text>
+                <text class="li-val">{{val.use_date}} {{val.use_time}}</text>
+            </view>
+            <view class="make-btn" wx:if="{{val.is_use==0}}">
+                <text bindtap="useMake" class="use-make" data-orderid="{{val.id}}">已用餐</text>
+                <text bindtap="cancelMake" class="cancel-make" data-orderid="{{val.id}}">取消预定</text>
+            </view>
+            <view class="make-btn" wx:if="{{val.is_use==2}}">
+                <text bindtap="cancelMake" class="cancel-make" data-orderid="{{val.id}}">取消预定</text>
+            </view>
+            <image src="../../../img/order-user-order.png" wx:if="{{val.is_use==1}}"></image>
+            <image src="../../../img/order-user-use.png" wx:if="{{val.is_use==3}}"></image>
+        </view>
+    </view>
+</view>

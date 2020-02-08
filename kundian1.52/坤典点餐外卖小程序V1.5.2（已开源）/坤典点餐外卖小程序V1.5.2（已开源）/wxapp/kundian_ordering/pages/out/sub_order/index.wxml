@@ -1,0 +1,84 @@
+<form bindsubmit="formSubmit">
+    <view class="top-sel">
+        <view bindtap="selectAddress" class="sel-address" wx:if="{{is_select_address==1}}">
+            <image src="../../../img/address-jia.png"></image>
+            <text>选择收货地址</text>
+        </view>
+        <view bindtap="selectAddress" class="have-address" wx:else>
+            <view class="left">
+                <image src="../../../img/user-address.png"></image>
+            </view>
+            <view class="center">
+                <text class="address-detail">{{address}}</text>
+                <text class="name">{{userName}} {{phone}}</text>
+            </view>
+            <view class="right">
+                <image src="../../../img/right.png"></image>
+            </view>
+        </view>
+        <view class="sel-time">
+            <image class="time-img" src="../../../img/time.png"></image>
+            <view class="section">
+                <picker bindchange="bindTimeChange" end="{{limit_time[1]}}" mode="time" start="{{limit_time[0]}}" value="{{time}}">
+                    <view class="picker">
+                        {{time_str}}
+                    </view>
+                </picker>
+            </view>
+            <image class="time-jiantou" src="../../../img/right.png"></image>
+        </view>
+    </view>
+    <view class="order-ul">
+        <view class="ul-top">
+            <image src="{{aboutData.logo_img}}"></image>
+            <text>{{aboutData.merchant_name}}</text>
+        </view>
+        <view class="ul">
+            <view class="ul-li" wx:for="{{cartData}}" wx:for-item="val">
+                <view class="li-left">
+                    <image src="{{val.cover}}"></image>
+                </view>
+                <view class="li-center">
+                    <text class="name">{{val.product_name}}</text>
+                    <text class="count">X {{val.selectNum}}</text>
+                </view>
+                <view class="li-right">
+                    <text class="price">￥{{val.price}}</text>
+                    <text class="old-price">￥{{val.old_price}}</text>
+                </view>
+            </view>
+        </view>
+        <view class="peisong-money">
+            <text class="title">配送费</text>
+            <text class="value">￥{{aboutData['send_price']}}</text>
+        </view>
+        <view class="sel-token">
+            <view class="section">
+                <view class="section_title">支付方式</view>
+                <picker bindchange="bindPickerChange" range="{{array}}" value="{{index}}">
+                    <view class="picker">
+                        {{array[index]}}
+                    </view>
+                </picker>
+            </view>
+            <image class="time-jiantou" src="../../../img/right.png"></image>
+        </view>
+        <view class="clear"></view>
+        <view class="total">
+            <text class="total-price">￥{{totalPrice}}</text>
+            <text>共计：</text>
+        </view>
+        <view class="remark">
+            <input name="remark" placeholder="备注"></input>
+        </view>
+    </view>
+    <view class="footer">
+        <view class="left">
+            <text>待支付:</text>
+            <text class="dai-price">￥{{totalPrice}}</text>
+        </view>
+        <view class="right">
+            <button formType="submit">提交订单</button>
+        </view>
+    </view>
+</form>

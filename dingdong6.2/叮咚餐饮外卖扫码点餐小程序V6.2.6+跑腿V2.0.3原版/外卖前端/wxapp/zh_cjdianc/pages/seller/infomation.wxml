@@ -1,0 +1,68 @@
+<!--   time:2019-07-18 01:07:57 -->
+<view class="fwxq">
+	<block wx:if="{{store&&store.details!=''}}">
+		<view>
+			<view class="title">
+				<view class="hx"></view>
+				<view class="hxwz">关于我们</view>
+				<view class="hx"></view>
+			</view>
+			<view class="weui-cell" style="background:white;font-size:26rpx;color:#666;margin-bottom:20rpx;">
+				<rich-text nodes="{{store.details}}"></rich-text>
+			</view>
+		</view>
+	</block>
+	<block wx:if="{{store.store_video.length>6}}">		<view style="margin-bottom:20rpx;">
+			<view class="title">
+				<view class="hx"></view>
+				<view class="hxwz">商家视频</view>
+				<view class="hx"></view>
+			</view>
+			<block wx:if="{{store.store_video.length>6}}" >				<view class="video">
+					<video objectFit="fill" src="{{store.store_video}}"></video>
+				</view>
+			</block>
+			<block wx:else>
+				<view style="background:#fff;padding:10px 15px">商家暂未上传视频</view>
+			</block>
+		</view>
+	</block>
+	<block wx:if="{{store.environment!=''}}">
+		<view class="title">
+			<view class="hx"></view>
+			<view class="hxwz">商家环境</view>
+			<view class="hx"></view>
+		</view>
+		<view class="xztpul">
+			<block wx:if="{{store.environment==''}}" >
+				<view style="padding:10px 15px">商家暂未上传图片</view>
+			</block>
+			<block wx:else>
+				<block wx:for="{{store.environment}}" wx:for-item="item" wx:for-index="index" >
+					<view class="scimg-box">
+						<image bindtap="previewImage" class="scimg" data-urls="{{store.environment}}" id="{{item}}" mode="widthFix" src="{{item}}"></image>
+					</view>
+				</block>
+			</block>
+		</view>
+	</block>
+	<block wx:if="{{store.yyzz!=''}}">
+		<view class="title" style="margin-top:20rpx;">
+			<view class="hx"></view>
+			<view class="hxwz">商家资质</view>
+			<view class="hx"></view>
+		</view>
+		<view class="xztpul">
+			<block wx:if="{{store.yyzz==''}}" >
+				<view style="padding:10px 15px">商家暂未上传资质</view>
+			</block>
+			<block wx:else>
+				<block wx:for="{{store.yyzz}}" wx:for-item="item" wx:for-index="index" >
+					<view class="scimg-box">
+						<image bindtap="previewImage" class="scimg" data-urls="{{store.yyzz}}" id="{{item}}" mode="widthFix" src="{{item}}"></image>
+					</view>
+				</block>
+			</block>
+		</view>
+	</block>
+</view>

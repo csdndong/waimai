@@ -1,0 +1,20 @@
+<ul class="nav nav-tabs">
+    <li {if $op=='list'}class="active"{/if} >
+        <a href="{url 'site/entry/giftToken',array('m'=>'kundian_ordering','version_id'=>$_GPC['version_id'])}">礼品券</a>
+    </li>
+    <li {if $op=='gift_token_level'}class="active"{/if} >
+        <a href="{url 'site/entry/giftToken',array('m'=>'kundian_ordering','op'=>'gift_token_level','version_id'=>$_GPC['version_id'])}">礼品券等级</a>
+    </li>
+    <li {if $op=='customer_list'}class="active"{/if} >
+        <a href="{url 'site/entry/giftToken',array('m'=>'kundian_ordering','op'=>'customer_list','version_id'=>$_GPC['version_id'])}">客户信息</a>
+    </li>
+    <li {if $op=='tokenSale_list'}class="active"{/if} >
+        <a href="{url 'site/entry/giftToken',array('m'=>'kundian_ordering','op'=>'tokenSale_list','version_id'=>$_GPC['version_id'])}">卡券出售</a>
+    </li>
+    <li {if $op=='token_product_list'}class="active"{/if}>
+        <a href="{url 'site/entry/giftToken',array('m'=>'kundian_ordering','op'=>'token_product_list','version_id'=>$_GPC['version_id'])}">礼品券兑换产品</a>
+    </li>
+    <li {if $op=='token_set'}class="active"{/if}>
+        <a href="{url 'site/entry/giftToken',array('m'=>'kundian_ordering','op'=>'token_set','version_id'=>$_GPC['version_id'])}">卡券设置</a>
+    </li>
+</ul>

@@ -1,0 +1,260 @@
+<{extends file="<{$tempdir}>/public/admin.html"}> 
+   <{block name=extendjs}>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js"></script>
+ <{/block}>
+ <{block name=controlname}>分站平台配送设置<{/block}>
+ <{block name=bodylist}>
+ 
+    <div class="managShopCon">
+	<div class="managShopBox">
+		<div class="managShopMain">
+ 			<div class="managShopClas">
+				<ul>
+					<li><a href="<{ofunc type=url link="/areaadminpage/area/module/adminpsset"}>">平台配送设置</a></li>
+					<li><a href="<{ofunc type=url link="/areaadminpage/area/module/platformpsrange"}>">平台地图配送范围</a></li>
+					<li  class="maShClaA"><a href="<{ofunc type=url link="/areaadminpage/order/module/setpaotui"}>">跑腿配送设置</a></li>
+				</ul>
+			</div>
+			<div class="addShopSingCon">
+ 
+ 
+ <div style="width:auto;overflow-x:hidden;overflow-y:auto;">   
+          <div id="tagscontent">
+            <form method="post" name="form1" action="<{ofunc type=url link="/areaadminpage/order/module/saveset/datatype/json"}>" onsubmit="return subform('',this);">
+              <div>
+                <table border="0" cellspacing="2" cellpadding="4" class="list" name="table" id="table" width="100%">
+                  <tbody>
+				    <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <th colspan="3" class="center">重量设置</th>                       
+                     </tr> 
+                    <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <td class="left">重量初始值</td>
+                      <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<input type="text" name="kg" id="kg" value="<{$paotuiinfo['kg']}>" class="skey" style="width:50px;">&nbsp;公斤&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					      <input type="text" name="kgcost" id="kgcost" value="<{$paotuiinfo['kgcost']}>" class="skey" style="width:80px;">&nbsp;元
+						&nbsp;&nbsp;&nbsp&nbsp;&nbsp;&nbsp（比如：5公斤以下10元）
+					  </td>
+                     </tr>  
+					<tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <td class="left">增加设置</td>
+                      <td>每增加<input type="text" name="addkg" id="addkg" value="<{$paotuiinfo['addkg']}>" class="skey" style="width:50px;">&nbsp;公斤&nbsp;&nbsp;&nbsp;增加
+					      <input type="text" name="addkgcost" id="addkgcost" value="<{$paotuiinfo['addkgcost']}>" class="skey" style="width:80px;">&nbsp;元
+						&nbsp;&nbsp;&nbsp&nbsp;&nbsp;&nbsp（比如：每增加2公斤增加2元）
+					  </td>
+                     </tr> 
+					 
+					  <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <th colspan="3" class="center">距离设置</th>                       
+                     </tr> 
+					       <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <td class="left">距离初始值</td>
+                      <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<input type="text" name="km" id="km" value="<{$paotuiinfo['km']}>" class="skey" style="width:50px;">&nbsp;公里&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					      <input type="text" name="kmcost" id="kmcost" value="<{$paotuiinfo['kmcost']}>" class="skey" style="width:80px;">&nbsp;元
+						&nbsp;&nbsp;&nbsp&nbsp;&nbsp;&nbsp（比如：1公里以下5元）
+					  </td>
+                     </tr>  
+					<tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <td class="left">增加设置</td>
+                      <td>每增加<input type="text" name="addkm" id="addkm" value="<{$paotuiinfo['addkm']}>" class="skey" style="width:50px;">&nbsp;公里&nbsp;&nbsp;&nbsp;增加
+					      <input type="text" name="addkmcost" id="addkmcost" value="<{$paotuiinfo['addkmcost']}>" class="skey" style="width:80px;">&nbsp;元
+						&nbsp;&nbsp;&nbsp&nbsp;&nbsp;&nbsp（比如：每增加2公里增加2元）
+					  </td>
+                     </tr> 
+					 
+			 
+
+					 <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <th colspan="3" class="center">时间设置</th>                       
+                     </tr> 
+					<tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <td class="left">是否支持预定</td>
+                      <td>
+					 <input type="radio"<{if  $paotuiinfo['is_ptorderbefore'] == 1}> checked<{/if}> name="is_ptorderbefore" id="" value="1" />是 
+					 <input type="radio" name="is_ptorderbefore" id="" value="0" <{if  $paotuiinfo['is_ptorderbefore'] ==0}> checked<{/if}>/>否 
+					 <span id="befortime" <{if  $paotuiinfo['is_ptorderbefore']==1}>style="display:inline-block;" <{else}>style="display:none;"<{/if}>>,可预定天数<input type="text"  name="pt_orderday" value="<{$paotuiinfo['pt_orderday']}>" class="ttext" style="width:50px;">1表示只支持当天</span>
+					  </td>
+                    </tr>
+					<{foreach from=$pstimelist key=cdkey item=iteml}>
+					   <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <td class="left">配送时间：</td>
+                      <td><{$iteml['s']}>-<{$iteml['e']}>  <{$iteml['i']}> <a href="#" onclick="detimelist(<{$cdkey}>);">删除</a></td>
+                    </tr>
+					  <{/foreach}>
+					  <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <td class="left">配送时间：</td>
+                      <td>   <a href="#" onclick="outtimelist();">添加配送时间</a></td>
+                    </tr>
+		
+               
+                  </tbody>
+                </table>
+              </div>
+              <div class="blank20"></div>
+              <input type="hidden" name="tijiao" id="tijiao" value="do" class="skey" style="width:250px;">
+              <input type="hidden" name="saction" id="saction" value="siteset" class="skey" style="width:250px;">
+               <input type="submit" value="确认提交" class="button">  
+            </form>
+          </div>
+         
+           
+         </div>
+      <div class="clear"></div>
+    </div>
+    
+    
+    
+  </div> 
+  </div> 
+  </div> 
+  </div> 
+  </div> 
+  <style>
+  input{border:1px solid #c4d9e9;}
+  </style>
+<script>
+
+$("input[name='is_ptorderbefore']").click(function(){
+		  var checkid =  $("input[name='is_ptorderbefore']:checked").val();
+		 //befortime
+		 if(checkid == 1){
+		 	$('#befortime').show();
+		 }else{
+		 	 $('#befortime').hide();
+		 	 $("input[name='befortime']").val('0');
+		 }
+		  
+	}); 
+function outtimelist(){
+	    var hourlist = '';
+		for(var i=0;i<24;i++){
+		     hourlist +='<option value="'+i+'">'+i+'点</option>';
+		}
+		var minilist = '';
+		for(var i=0;i<60;i++){
+		   minilist +='<option value="'+i+'">'+i+'分</option>';
+		}
+		var	htmls = '<form method="post" id="subyj" action="#" style="text-align:center;"><table>';
+		htmls += '<tbody><tr>';
+		htmls += '<td height="30px">从:</td>';
+		htmls += '<td><select name="starthour">'+hourlist+'</select><select name="startminit">'+minilist+'</select></td></tr>';
+		htmls += '<tr>';
+		htmls += '<td height="30px">至:</td>';
+		htmls += '<td><select name="endthour">'+hourlist+'</select><select name="endminit">'+minilist+'</select></td></tr>';
+		htmls += '<tr>';
+		htmls += '<td height="30px">说明</td>';
+		htmls += '<td><input type="text" name="instr" value=""></td></tr>';
+		htmls += '</tbody></table> ';
+		htmls += '<input type="hidden" value="" name="shopid"> ';
+		htmls += '<input type="button" value="确认提交" class="button" id="buttonsubyj" ></form>';
+		art.dialog({
+			id: 'testID1000',
+			title:'新增配送时间段',
+			content: htmls
+		});
+	}
+	$('#buttonsubyj').live('click',function(){ 
+		$.post('<{ofunc type=url link="/areaadminpage/order/module/savepostdate/datatype/json"}>', $('#subyj').serialize() ,function (data, textStatus){  
+			if(data.error == false){
+				diasucces('操作成功','');
+			}else{
+				if(data.error == true)
+				{
+					diaerror(data.msg); 
+				}else{
+					diaerror(data); 
+				}
+			} 
+		}, 'json'); 
+	});
+	function detimelist(timeid){
+		if(confirm('确定删除该配送时间段吗？')){ 
+			//myajax('<{ofunc type=url link="/areaadminpage/order/module/delpostdate/datatype/json"}>',{id:timeid});
+			$.post('<{ofunc type=url link="/areaadminpage/order/module/delpostdate/datatype/json"}>', {id:timeid} ,function (data, textStatus){  
+			if(data.error == false){
+				diasucces('操作成功','');
+			}else{
+				if(data.error == true)
+				{
+					diaerror(data.msg); 
+				}else{
+					diaerror(data); 
+				}
+			} 
+		}, 'json'); 
+		}else{
+		 
+		}
+	}
+	
+	
+
+	var dialogs ;
+ function uploads(){  
+ 	  dialogs = art.dialog.open('<{ofunc type=url link="/areaadminpage/other/module/adminupload/func/uploadsucess"}>');
+ 	  dialogs.title('上传图片'); 
+ }
+ function uploadsucess(flag,obj,linkurl){
+ 	 if(flag == true){
+ 		alert(linkurl);
+		dialogs.close();
+		uploads();
+ 	 }else{ 
+ 		dialogs.close();
+ 	 $('#userlogo').val(linkurl);
+   	$('#imgshow').attr('src',linkurl);
+ 	  $('#imgshow').show();
+   }
+ }  
+ function uploadm(){  
+ 	  dialogs = art.dialog.open('<{ofunc type=url link="/areaadminpage/other/module/adminupload/func/uploadsucessm"}>');
+ 	  dialogs.title('上传图片'); 
+ }
+ function uploadsucessm(flag,obj,linkurl){
+ 	 if(flag == true){
+ 		alert(linkurl);
+		dialogs.close();
+		uploadm();
+ 	 }else{ 
+ 		dialogs.close();
+ 	 $('#shoplogo').val(linkurl);
+ 	$('#imgshows').attr('src',linkurl);
+ 	$('#imgshows').show(); 
+   }
+ }   
+function uploadc(){  
+ 	  dialogs = art.dialog.open('<{ofunc type=url link="/areaadminpage/other/module/adminupload/func/uploadsucessc"}>');
+ 	  dialogs.title('上传图片'); 
+ }
+ function uploadsucessc(flag,obj,linkurl){
+ 	 if(flag == true){
+ 		alert(linkurl);
+		dialogs.close();
+		uploadc();
+ 	 }else{ 
+ 		dialogs.close();
+ 	 	$('#sitelogo').val(linkurl);
+ 	  $('#imgshowc').attr('src',linkurl);
+ 	  $('#imgshowc').show(); 
+   }
+ } 
+ function uploadk(){
+ 	 dialogs = art.dialog.open('<{ofunc type=url link="/areaadminpage/other/module/adminupload/func/uploadsucessk"}>');
+ 	  dialogs.title('上传图片'); 
+}
+function uploadsucessk(flag,obj,linkurl){
+ 	 if(flag == true){
+ 		alert(linkurl);
+		dialogs.close();
+		uploadk();
+ 	 }else{ 
+ 		dialogs.close();
+ 	 	$('#html5logo').val(linkurl);
+ 	  $('#html5logoshow').attr('src',linkurl);
+ 	  $('#html5logoshow').show(); 
+   }
+ } 
+ 
+</script>  
+<!--newmain 结束-->
+<{/block}>

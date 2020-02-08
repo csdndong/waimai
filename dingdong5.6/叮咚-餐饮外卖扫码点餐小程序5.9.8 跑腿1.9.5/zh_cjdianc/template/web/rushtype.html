@@ -1,0 +1,106 @@
+{template 'public/header'}
+{template 'public/comhead'}
+<link rel="stylesheet" type="text/css" href="../addons/zh_cjdianc/template/public/ygcsslist.css">
+<style type="text/css">
+    .yg5_key>div{float: left;line-height: 34px;}
+    .store_td1{height: 45px;}
+    .store_list_img{width: 40px;height: 40px;}
+    .yg5_tabel{border-color: #e5e5e5;outline: 1px solid #e5e5e5;}
+    .yg5_tr2>td{padding: 10px;border: 1px solid #e5e5e5;text-align: center;}
+    .yg5_tr1>td{
+        border: 1px solid #e5e5e5;
+        padding-left: 15px;
+        background-color: #FAFAFA;
+        font-weight: bold;
+        text-align: center;
+    }
+    .yg5_btn{background-color: #EEEEEE;color: #333;border: 1px solid #E4E4E4;border-radius: 6px;width: 100px;height: 34px;}
+    /*#frame-8{display: block;visibility: visible;}*/
+</style>
+<ul class="nav nav-tabs">
+    <span class="ygxian"></span>
+    <div class="ygdangq">当前位置:</div>     
+    <li class="active"><a href="{php echo $this->createWebUrl('rushtype')}">商品分类管理</a></li>
+    <li><a href="{php echo $this->createWebUrl('addrushtype')}">添加商品分类</a></li>
+</ul>
+<div class="main">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                分类列表
+            </div>
+            <div class="panel-body" style="padding: 0px 15px;">
+                <div class="row">
+                    <table class="yg5_tabel col-md-12">
+                        <tr class="yg5_tr1">
+                            <td class="store_td1 col-md-1">顺序</td>
+                            <td class="col-md-1">类型名称</td>
+                            <td class="col-md-1">状态</td>
+                            <td class="col-md-1">操作</td>
+                        </tr>
+                        {loop $list $row}
+                        <tr class="yg5_tr2">
+                            <td><div>{$row['num']}</div></td>
+                            <td>{$row['name']}</td>
+                            <td>
+                            {if $row['state']==1}
+                            <a href="{php echo $this->createWebUrl('rushtype',array('op'=>'upd','state'=>2,'id'=>$row['id']));}" class="btn storeblue btn-xs"  >显示</a>
+                            {elseif $row['state']==2}
+                            <a  href="{php echo $this->createWebUrl('rushtype',array('op'=>'upd','state'=>1,'id'=>$row['id']));}" class="btn storegrey btn-xs" >隐藏</a>
+                            {/if}
+                            </td>
+                            <td>
+                                <a href="{php echo $this->createWebUrl('addrushtype', array('id' => $row['id']))}" class="storespan btn btn-xs">
+                                    <span class="fa fa-pencil"></span>
+                                    <span class="bianji">编辑
+                                        <span class="arrowdown"></span>
+                                    </span>
+                                </a>
+                                <a href="javascript:void(0);" class="storespan btn btn-xs" data-toggle="modal" data-target="#myModal{$row['id']}">
+                                    <span class="fa fa-trash-o"></span>
+                                    <span class="bianji">删除
+                                        <span class="arrowdown"></span>
+                                    </span>
+                                </a>
+                                <!-- <a class="btn btn-warning btn-xs" href="{php echo $this->createWebUrl('addrushtype', array('id' => $row['id']))}" title="编辑">改</a>&nbsp;&nbsp;
+                                <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#myModal{$row['id']}">删</button> -->
+                            </td>
+                        </tr>
+                         <div class="modal fade" id="myModal{$row['id']}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel" style="font-size: 20px;">提示</h4>
+                        </div>
+                        <div class="modal-body" style="font-size: 20px">
+                            确定删除么？
+                        </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                            <a href="{php echo $this->createWebUrl('rushtype', array('op'=>'del','id' => $row['id']))}" type="button" class="btn btn-info" >确定</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                        {/loop}
+                       {if empty($list)}
+                            <tr class="yg5_tr2">
+                                <td colspan="4">
+                                  暂无商品分类
+                                </td>
+                            </tr>         
+                        {/if}
+                    </table>
+                </div>
+            </div>
+        </div>
+    {$pager}
+</div>
+<script type="text/javascript">
+    $(function(){
+        // $("#frame-8").addClass("in");
+        $("#frame-19").show();
+        $("#yframe-19").addClass("wyactive");
+    })
+</script>
+{template 'common/footer'}

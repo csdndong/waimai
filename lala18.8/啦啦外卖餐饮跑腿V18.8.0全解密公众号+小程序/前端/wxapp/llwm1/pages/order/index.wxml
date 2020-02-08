@@ -1,0 +1,191 @@
+<view class="page-order">
+    <view class="tabs">
+        <view bind:tap="onChangeStatus" class="tabs-item {{status==1?'active':''}}" data-status="1">
+            <view class="item-logo">
+                <view class="order-status {{status==1?'active':''}}">
+                    <text>新</text>
+                </view>
+            </view>
+            <view class="item-title {{status==1?'active':''}}">待确认</view>
+        </view>
+        <view bind:tap="onChangeStatus" class="tabs-item {{status==2?'active':''}}" data-status="2">
+            <view class="item-logo">
+                <view class="order-status {{status==2?'active':''}}">
+                    <text>接</text>
+                </view>
+            </view>
+            <view class="item-title {{status==2?'active':''}}">处理中</view>
+        </view>
+        <view bind:tap="onChangeStatus" class="tabs-item {{status==3?'active':''}}" data-status="3">
+            <view class="item-logo">
+                <view class="order-status {{status==3?'active':''}}">
+                    <text>待</text>
+                </view>
+            </view>
+            <view class="item-title {{status==3?'active':''}}">待配送</view>
+        </view>
+        <view bind:tap="onChangeStatus" class="tabs-item {{status==4?'active':''}}" data-status="4">
+            <view class="item-logo">
+                <view class="order-status {{status==4?'active':''}}">
+                    <text>送</text>
+                </view>
+            </view>
+            <view class="item-title {{status==4?'active':''}}">配送中</view>
+        </view>
+        <view bind:tap="onChangeStatus" class="tabs-item {{status==6?'active':''}}" data-status="6">
+            <view class="item-logo">
+                <view class="order-status {{status==6?'active':''}}">
+                    <text>完</text>
+                </view>
+            </view>
+            <view class="item-title {{status==6?'active':''}}">已完成</view>
+        </view>
+    </view>
+    <view class="order-list" wx:if="{{orders.data.length>0}}">
+        <view class="list-item" wx:for="{{orders.data}}">
+            <view class="order-nt">
+                <view class="order-number">{{item.serial_sn}}</view>
+                <view class="time-status">
+                    <view class="delivery-time">{{item.delivery_time}}</view>
+                    <view class="order-status">{{item.order_status_cn}}</view>
+                </view>
+            </view>
+            <view class="tips" wx:if="{{item.status==6}}">
+                <view class="icon icon-commentfill"></view>
+                <view class="cancel-reason">取消原因：{{item.cancel_reason}}</view>
+            </view>
+            <view class="recieve-info">
+                <view class="info-name">
+                    <view class="left">
+                        <view class="name">{{item.username}}({{item.sex}})</view>
+                        <view class="name-tabs" wx:if="{{item.favorite_store}}">收藏店铺</view>
+                        <view class="name-tabs hide">下单2次</view>
+                    </view>
+                    <view class="right">
+                        <view class="icon icon-weixin" wx:if="{{0}}"></view>
+                        <view bind:tap="onJsEvent" class="icon icon-locationfill" data-address="{{item.address}}" data-event-type="jsLocation" data-lat="{{item.location_x}}" data-lng="{{item.location_y}}" wx:if="{{item.location_x&&item.location_y}}"></view>
+                    </view>
+                </view>
+                <view catch:tap="onJsEvent" class="info-tel" data-event-type="jsPhone" data-phoneNumber="{{item.mobile}}">
+                    <view class="icon icon-telephone"></view>{{item.mobile}}</view>
+                <view class="info-address">
+                    <view>{{item.address}}</view>
+                    <block wx:if="{{item.distance>0}}">
+                        <view class="shu">|</view>
+                        <view>{{item.distance}}km</view>
+                    </block>
+                </view>
+            </view>
+            <view class="divide">
+                <view class="divide-line"></view>
+            </view>
+            <view class="goods-info">
+                <view class="info-title">
+                    <view class="left">商品</view>
+                    <view catch:tap="onShowGoods" class="right" data-index="{{index}}">
+                        <view class="unfold">{{item.showGoods?'收起':'展开'}}</view>
+                        <view class="icon {{item.showGoods?'icon-fold':'icon-unfold'}}"></view>
+                    </view>
+                </view>
+            </view>
+            <view class="goods-list" wx:if="{{item.showGoods}}">
+                <view class="note" wx:if="{{item.note}}">
+                    <view class="color-danger">备注：</view>
+                    <view>{{item.note}}</view>
+                </view>
+                <view class="goods-item" wx:for="{{item.goods}}" wx:for-item="goodsItem">
+                    <view class="goods-tn">
+                        <view class="title">{{goodsItem.goods_title}}</view>
+                        <view class="num {{goodsItem.goods_num>1?'many':''}}">x{{goodsItem.goods_num}}</view>
+                    </view>
+                    <view class="price">¥{{goodsItem.goods_price}}</view>
+                </view>
+                <view class="box-fee flex-lr">
+					餐盒费 <text>¥{{item.box_price}}</text>
+                </view>
+                <view class="box-fee flex-lr" wx:if="{{item.pack_fee>0}}">
+					包装费 <text>¥{{item.pack_fee}}</text>
+                </view>
+                <view class="box-fee flex-lr">
+					配送费 <text>¥{{item.delivery_fee}}</text>
+                </view>
+                <view class="subtotal">
+                    <view class="content">
+                        <view class="left">小计</view>
+                        <view class="right">¥{{item.total_fee}}</view>
+                    </view>
+                    <view class="h-line"></view>
+                </view>
+            </view>
+            <view class="total-fee">
+                <view class="predict-fee">
+                    <view class="left">本单预计收入</view>
+                    <view class="right">
+						¥{{item.store_final_fee}}
+						</view>
+                </view>
+                <view class="practical-fee">
+                    <view class="left">本单顾客实际支付：<text>¥{{item.final_fee}}</text>
+                    </view>
+                </view>
+            </view>
+            <view class="divide">
+                <view class="divide-line"></view>
+            </view>
+            <view class="action">
+                <block wx:if="{{item.status==1}}">
+                    <view catch:tap="onChangeOrderStatus" class="confirm" data-confirm="{{item.is_pay==1?'确定接单吗?':'该订单尚未支付，确定接单吗?'}}" data-id="{{item.id}}" data-type="handle">确认接单</view>
+                    <view catch:tap="onChangeOrderStatus" class="cancel" data-id="{{item.id}}" data-status="{{item.status}}" data-type="cancel">取消订单</view>
+                </block>
+                <block wx:elif="{{item.status==2||item.status==3}}">
+                    <block wx:if="{{item.order_type==1}}">
+                        <view catch:tap="onChangeOrderStatus" class="confirm" data-confirm="确定通知配送员配送吗?" data-id="{{item.id}}" data-type="notify_deliveryer_collect">通知配送员配送</view>
+                        <block wx:if="{{item.delivery_type==1}}">
+                            <view catch:tap="onChangeOrderStatus" class="confirm" data-confirm="确定通知配送员配送吗?" data-id="{{item.id}}" data-type="direct_deliveryer">指定配送员配送</view>
+                            <view catch:tap="onChangeOrderStatus" class="confirm" data-confirm="确定设置为配送中吗?" data-id="{{item.id}}" data-type="delivery_ing">设为配送中</view>
+                        </block>
+                    </block>
+                    <view catch:tap="onChangeOrderStatus" class="confirm" data-confirm="顾客已自提?" data-id="{{item.id}}" data-type="end" wx:elif="{{item.order_type==2}}">顾客已自提</view>
+                    <view catch:tap="onChangeOrderStatus" class="confirm" data-confirm="确定订单已完成?" data-id="{{item.id}}" data-type="end" wx:elif="{{item.order_type>=3}}">订单完成</view>
+                </block>
+                <view catch:tap="onChangeOrderStatus" class="confirm" data-confirm="确定订单已完成?" data-id="{{item.id}}" data-type="end" wx:elif="{{item.status==4}}">订单完成</view>
+                <view catch:tap="onChangeOrderStatus" class="confirm" data-confirm="确定订单已完成?" data-id="{{item.id}}" data-type="end" wx:elif="{{item.delivery_type==1&&item.status>1&&item.status<5&&item.order_type==1}}">订单完成</view>
+                <view bind:tap="onJsEvent" class="cancel" data-event-type="jsUrl" data-url="pages/order/detail?id={{item.id}}">详情</view>
+            </view>
+            <view class="order-info ">
+                <view class="info-inner">
+                    <view class="left">
+                        <view class="addtime">
+                            <text class="title">下单</text>
+                            <text>{{item.addtime_cn}}</text>
+                        </view>
+                        <view catch:tap="onJsEvent" class="order_sn" data-event-type="jsCopy" data-text="{{item.ordersn}}">
+                            <text class="title">单号</text>
+                            <text>{{item.ordersn}}</text>
+                            <text class="copy">复制</text>
+                        </view>
+                    </view>
+                    <view catch:tap="onJsEvent" class="right" data-confirm="确定打印订单?" data-event-type="jsPost" data-href="manage/order/takeout/print?id={{item.id}}">
+                        <view class="icon icon-print"></view>
+                        <view>打印{{item.print_nums>0?item.print_nums:''}}</view>
+                    </view>
+                </view>
+            </view>
+            <view class="have-pay" wx:if="{{item.is_pay==1&&item.pay_type!='delivery'}}"></view>
+            <view class="delivery-pay" wx:elif="{{item.is_pay==1&&item.pay_type=='delivery'}}"></view>
+        </view>
+        <view class="wui-loadmore wui-loadmore-nomore" wx:if="{{orders.loaded}}">
+            <view class="wui-loadmore-tips">我是有底线的</view>
+            <view class="wui-loadmore-line"></view>
+        </view>
+    </view>
+    <view class="wui-loadmore" wx:if="{{showLoading}}">
+        <view class="wui-loading"></view>
+        <view class="wui-loadmore-tips">正在加载中</view>
+    </view>
+    <view class="no-data" wx:elif="{{!orders.data.length}}">
+        <image class="no-coupon" src="/static/img/coupon_no_con.png"></image>
+        <text class="no-record">暂无数据</text>
+    </view>
+</view>
+<include src="../public/footer.wxml"></include>

@@ -1,0 +1,99 @@
+{itemplate 'public/header'}
+<style>
+	.spread-register .content{background-color: #fff;}
+	.spread-register .list-group{background-color: #fff; position: relative; margin-top: .5rem;}
+	.spread-register .list-group .list-group-title{padding: 0 .5rem; font-size: .7rem; color: #333; height: 1.8rem; line-height: 1.8rem;}
+	.spread-register .list-group .list-group-title i{font-size: .8rem; margin-right: .2rem;}
+	.spread-register .list-group .list{position: relative; display: flex; padding: .5rem;     transition-duration: 300ms; -webkit-box-align: center; overflow: hidden; align-items: center;}
+	.spread-register .list-group .list:before{content: ""; position: absolute; top: 0; left: .5rem; right: .5rem; height: 1px; border-top: 1px solid #d9d9d9; color: #d9d9d9; transform-origin: 0 0; transform: scaleY(0.5);}
+	.spread-register .list-group .list-inner{position: relative; width: 100%; overflow: hidden; box-sizing: border-box; -webkit-box-flex: 1; display: block;}
+	.spread-register .list-group .list-inner .text{position: relative; font-size: .65rem; color: #666;}
+	.spread-register .list-group .list-inner .text span{color: #ef4f4f; font-weight: bold;}
+	.spread-register .content .button-fill{margin: .5rem; height: 2rem; line-height: 1.9rem; font-size: .8rem; background-color: #ef4f4f;}
+
+	.spread-register .content .cell-group{position: relative; background-color: #fff; line-height: 1.4rem; font-size: .8rem; overflow: hidden;}
+	.spread-register .content .cell-group .cell-title{color: #333; font-size: .75rem; padding:.5rem .7rem;}
+	.spread-register .content .cell-group .cell-title>span{color: #ef4f4f;}
+	.spread-register .content .cell-group .cell{position: relative; padding: .5rem .5rem; display: flex; -webkit-box-align: center; align-items: center; transition-duration: 300ms; transition-property: background-color;}
+	.spread-register .content .cell-group .cell:before{content: ""; position: absolute; left: .5rem; right: .5rem; top: 0; height: 1px; border-top: 1px solid #d9d9d9; color: #d9d9d9; transform-origin: 0 0; transform: scaleY(0.5);}
+	.spread-register .content .cell-group .cell .cell-label{position: relative; display: block; width: 4rem; font-size: .75rem; padding: 0 .2rem;}
+	.spread-register .content .cell-group .cell .cell-info{-webkit-box-flex: 1; flex: 1; text-overflow: ellipsis; overflow: hidden; font-size: .75rem; color: #666;}
+	.spread-register .content .cell-group .cell .cell-info.overflow{height: auto; word-break: break-all; overflow: auto; white-space: normal;}
+	.spread-register .content .cell-group .cell .cell-info>span{color: #ef4f4f;}
+	.spread-register .content .cell-group .cell .cell-info .cell-input{width: 100%; border: 0; outline: 0; -webkit-appearance: none; background-color: transparent; font-size: inherit; color: inherit; height: 1.4rem; line-height: 1.4rem;}
+	.spread-register .content .cell-group .cell.must .cell-label:after{content: "*"; position: absolute; right: .2rem; top: .1rem; color: #f30; font-size: .8rem;}
+	.spread-register .content .cell-group .cell .label-switch{margin-right: .3rem;}
+	.spread-register .content .cell-group .checkbox-inline{position: relative; font-size: .7rem; padding-left: 1.2rem; vertical-align: middle; color: #666;}
+	.spread-register .content .cell-group .checkbox-inline input[type="checkbox"]{position: absolute; margin-left: -1rem; top: 50%; margin-top: -.4rem;}
+</style>
+<div class="page spread-register">
+	<div class="content">
+		<img src="{WE7_WMALL_TPL_URL}static/img/activity/P3WTPSWYn4tWxSYN5O35jTIsNzi53o.jpg" alt="">
+		<!-- <div class="list-group border-1px-tb">
+			<div class="list-group-title">
+				<i class="icon icon-lights"></i>友情提醒
+			</div>
+			<div class="list">
+				<div class="list-inner">
+					<div class="text">
+						本店累计消费满 <span>10</span>次，才可能成为<<span>瓷都商城</span>>购物中心分销商，您已消费<span>0</span>次，请继续努力！
+					</div>
+				</div>
+			</div>
+		</div>
+		<a href="javascript:;" class="button button-fill button-danger">继续去购物</a> -->
+		<div class="cell-group border-1px-tb">
+			<div class="cell-title">
+				欢迎加入 <span>瓷都商城</span>，请填写申请信息
+			</div>
+			<div class="cell">
+				<div class="cell-label">邀请人</div>
+				<div class="cell-info overflow">
+					<span>总店</span> (请核对)
+				</div>
+			</div>
+			<div class="cell">
+				<div class="cell-label">邀请码</div>
+				<div class="cell-info overflow">
+					<input type="text" class="cell-input" placeholder="请填写邀请码">
+				</div>
+			</div>
+			<div class="cell must">
+				<div class="cell-label">姓名</div>
+				<div class="cell-info overflow">
+					<input type="text" class="cell-input" placeholder="请填写真实姓名，用于结算">
+				</div>
+			</div>
+			<div class="cell must">
+				<div class="cell-label">手机号</div>
+				<div class="cell-info overflow">
+					<input type="text" class="cell-input" placeholder="填写手机号方便联系">
+				</div>
+			</div>
+			<div class="cell">
+				<div class="cell-label">微信号</div>
+				<div class="cell-info overflow">
+					<input type="text" class="cell-input" placeholder="请填写微信号">
+				</div>
+			</div>
+			<div class="cell-group">
+				<div class="cell">
+					<label class="checkbox-inline">
+						<input type="checkbox" name="" id="">
+						我已经阅读并了解了
+						<a href="#" class="open-popup" data-popup=".popup-about">【分销商申请协议】</a>
+					</label>
+				</div>
+			</div>
+		</div>
+		<a href="javascript:;" class="button button-fill button-danger">申请成为分销商</a>
+	</div>	
+</div>
+<div class="popup popup-about">
+	<div class="content-block">
+		<p>About</p>
+		<p><a href="#" class="close-popup">Close popup</a></p>
+		<p>Lorem ipsum dolor ...</p>
+	</div>
+</div>
+{itemplate 'public/footer'}

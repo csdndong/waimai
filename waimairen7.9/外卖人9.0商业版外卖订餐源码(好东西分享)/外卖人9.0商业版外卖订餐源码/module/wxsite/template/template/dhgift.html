@@ -1,0 +1,86 @@
+ <{extends file="<{$tempdir}>/public/wxsite.html"}>  
+<{block name=extendcss}> 
+ <link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/gift.css">
+<{/block}>
+ <{block name=extendjs}> 
+  <script src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/js/template.min.js"></script>    
+<{/block}>
+<{block name=myScrolljs}>
+<script> 
+		var myScroll;
+function loaded() {
+	myScroll = new iScroll('wrapper', {
+		useTransform: false,
+		onBeforeScrollStart: function (e) {
+			var target = e.target;
+			while (target.nodeType != 1) target = target.parentNode;
+
+			if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA')
+				e.preventDefault();
+		}
+	});
+}
+document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false); 
+document.addEventListener('DOMContentLoaded', function () { setTimeout(loaded, 200); }, false);
+</script>
+<{/block}>
+ <{block name=hearnav}>
+<div class="toptitCon">
+ <div class="toptitBox">
+  <div class="toptitL"><i></i></div>
+  <div class="toptitC"><h3>积分兑换</h3></div>
+ </div>
+</div>
+<{/block}>
+<{block name=sitetitle}><{$sitename}><{/block}>
+<{block name=blockcontent}> 
+ <div id="wrapper" style="top:40px;">
+	<div id="scroller">
+		
+
+<!--用户信息-->
+<div class="intexchausin">
+ <ul>
+  <li><i>用户信息</i></li>
+ </ul>
+</div>
+<div class="intexchausinCon">
+ <div class="intexchausinBox">
+  <ul>
+  
+   <li>姓名：<input type="text" id="aboutname" value=""  placeholder="请输入收货人姓名"></li>
+   <li>手机：<input type="text" id="aboutphone" value="" placeholder="请输入收货人手机号"></li>
+   <li>地址：<input type="text" id="address" value="" placeholder="请输入收货人地址"></li>
+   <li>备注：<input type="text" id="content" value=""  placeholder="请输入备注"></li>
+  </ul>
+ </div>
+</div>
+<div class="intexchabutt"><input type="button"  onclick="dochange()" value="立即兑换" class="intexbg1"></div>
+		 <div style="height:10px;"></div>
+	</div>
+</div>
+
+ <script>
+ 	      	 
+			function dochange(){  
+ 	  	    showLoading();
+ 	  	   
+	         	var info = {'lipin_id':<{$giftinfo['id']}>,'address':$('#address').val(),'aboutname':$('#aboutname').val(),'aboutphone':$('#aboutphone').val(),'content':$('#content').val()};
+	        	var url = '<{ofunc type=url link="/gift/exchang/random/@random@/datatype/json"}>';
+	        	    url = url.replace('@random@', 1+Math.round(Math.random()*1000));
+	          var backinfo = ajaxback(url,info);
+	          if(backinfo.flag ==  false){
+	          	newhideLoading(); 
+			   Tmsg('兑换成功！');
+							 
+			 window.location.href=  siteurl+'/index.php?ctrl=wxsite&action=giftlog' ;
+								 
+						 
+	          }else{
+	            newhideLoading();
+	             Tmsg(backinfo.content);
+	          } 
+ 	  };
+ </script>
+  
+<{/block}>

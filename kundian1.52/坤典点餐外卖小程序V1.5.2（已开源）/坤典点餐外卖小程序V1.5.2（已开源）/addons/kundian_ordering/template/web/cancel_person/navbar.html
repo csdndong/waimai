@@ -1,0 +1,9 @@
+<ul class="nav nav-tabs">
+    <li {if $op=='list'}class="active"{/if} >
+        <a href="{url 'site/entry/cancel_person',array('m'=>'kundian_ordering','version_id'=>$_GPC['version_id'])}">配送员</a>
+    </li>
+    <li {if $op=='server_person'}class="active"{/if} >
+        <a href="{url 'site/entry/cancel_person',array('m'=>'kundian_ordering','op'=>'server_person','version_id'=>$_GPC['version_id'])}">服务员</a>
+    </li>
+
+</ul>

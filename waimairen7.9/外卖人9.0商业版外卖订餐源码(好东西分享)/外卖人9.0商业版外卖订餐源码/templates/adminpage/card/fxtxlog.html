@@ -1,0 +1,138 @@
+ <{extends file="<{$tempdir}>/public/admin.html"}>
+   <{block name=extendjs}>
+ <script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/datepicker/WdatePicker.js" type="text/javascript" language="javascript"></script>
+ 
+<{/block}>
+ <{block name=controlname}>分销提现申请表 <{/block}>
+ <{block name=bodylist}>
+
+          <div style="width:auto;overflow-x:hidden;overflow-y:auto">
+
+		    <div class="search">
+
+
+            <div class="search_content">
+
+            	 <form method="post" name="form1" action="<{ofunc type=url link="/adminpage/card/module/fxtxlog"}>">
+
+            	  <label>用户名：</label>
+            	   <input type="text" name="username" value="<{$username}>" style="width:150px;">  
+				   <label>状态：</label>
+            	   <select name="status">
+				   <option value="0" <{if $status == 0}>selected<{/if}>>申请</option>
+				   <option value="1" <{if $status == 1}>selected<{/if}>>处理成功</option>
+				   <option value="2" <{if $status == 2}>selected<{/if}>>已取消</option>   
+				   </select>
+            	   
+            	   从<input class="Wdate datefmt" type="text" name="starttime" id="starttime" value="<{$starttime}>"  onFocus="WdatePicker({isShowClear:false,readOnly:true});" />
+			   	   到<input class="Wdate datefmt" type="text" name="endtime" id="endtime" value="<{$endtime}>"  onFocus="WdatePicker({isShowClear:false,readOnly:true});" />
+
+
+            	    <input type="submit" value="提交查询" class="button">
+            	 </form>
+            </div>
+
+      	</div>
+		  
+		    
+		  
+		  
+           <div class="tags">
+
+
+
+          <div id="tagscontent">
+
+            <div id="con_one_1">
+
+              <div class="table_td" style="margin-top:10px;">
+
+              <form method="post" action="" onsubmit="return remind();" id="delform">
+
+                  <table border="0" cellspacing="2" cellpadding="4" class="list" name="table" id="table" width="100%">
+
+                    <thead>
+
+                      <tr>
+						<th align="center">用户名</th>
+						<th align="center">提现方式</th>
+						<th align="center">账号信息</th>
+						<th align="center">提现金额</th>
+						<th align="center">手续费率</th>
+						<th align="center">手续费</th> 
+                        <th align="center">余额</th>  						
+						<th align="center">状态</th> 
+						<th align="center">提交时间</th> 
+						<th align="center">操作</th> 
+                      </tr>
+
+                    </thead>
+
+                     <tbody> 
+		 
+		            <{foreach from=$txlist item=items}>
+                      <tr class="s_out" onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                        <td align="center" > <{$items['username']}> </td>
+						<td align="center" ><{$items['typename']}></td>
+						<td align="left" style='line-height:20px;text-indent: 2em;'>
+							<{if $items['type'] == 1 }>
+								<p>账户余额</p>
+							<{elseif $items['type'] == 2}>
+								<p>支付宝账户：<{$items['zfbaccount']}></p>
+								<p>支付宝姓名：<{$items['zfbusername']}></p>
+							<{else}>
+								<p>持卡人姓名：<{$items['cardusername']}></p>
+								<p>银行卡卡号：<{$items['cardnumber']}></p>
+								<p>开户行名称：<{$items['bankname']}>
+							<{/if}>
+						</td>  
+						<td align="center" > <{$items['cost']}></td>
+						<td align="center" > <{$items['feelv']}>% </td>
+						<td align="center" > <{$items['fee']}> </td>
+						<td align="center" ><{$items['yue']}> </td>
+						<td align="center" > <{$items['statusname']}> </td>
+						<td align="center" > <{$items['adddate']}> </td>
+						 <td align="center">
+						    <{if $items['status'] == 0}>
+                        	<a onclick="return remind(this);" href="<{ofunc type=url link="/adminpage/card/module/admindotx/type/1/txid/<{$items['id']}>/datatype/json"}>">
+							确认提现
+							</a>
+							<a onclick="return remind(this);" href="<{ofunc type=url link="/adminpage/card/module/admindotx/type/2/txid/<{$items['id']}>/datatype/json"}>">
+							取消
+							</a>
+							<{else}>--
+							<{/if}> 
+							
+						</td>
+						
+                        </tr>
+					<{/foreach}>
+					   
+
+                    </tbody>
+
+                  </table>
+
+                <div class="blank20"></div>
+
+                </form>
+
+                <div class="page_newc">                   
+                     <div class="show_page"><ul><{$pagecontent}></ul></div>
+                 </div>
+
+               <div class="blank20"></div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+  </div>
+
+</div>
+<{/block}>

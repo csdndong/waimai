@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>商品库管理后台</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<link rel="stylesheet" type="text/css" href="<{$siteurl}>/templates/<{$tempdir}>/public/shopcenter/css/commom.css" />
+<link rel="stylesheet" type="text/css" href="<{$siteurl}>/templates/<{$tempdir}>/public/shopcenter/css/main.css" />
+<link rel="stylesheet" type="text/css" href="<{$siteurl}>/templates/<{$tempdir}>/public/shopcenter/css/shangjiaAdmin.css" />
+
+<link rel="stylesheet" type="text/css" href="<{$siteurl}>/templates/<{$tempdir}>/public/sysimg/css.css" />
+<link rel="stylesheet" type="text/css" href="<{$siteurl}>/templates/<{$tempdir}>/public/js/jquery.lightbox.css" />
+<script type="text/javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/jquery.js"></script>
+ 
+</head>
+
+<BODY>
+
+  <!---content right start---> 
+   <div class="shopSetTop" style="">
+              <A href="javascript:void(0);">	<span>提示:请直接点击图片上传或者更换改商品的图片</span> <span class="xuanzekuimg" style="margin-right:20px;float:right; background:none;">返回</span></A>
+          
+            </div>
+        <div>
+	<DIV id=content style="background: url(<{$siteurl}>/templates/<{$tempdir}>/publicshopcenter/images/fenleiBg.png) repeat; padding:20px 40px;width:930px;">
+
+	 <div id="showimg">
+	   <ul>
+	 <{foreach from=$imglist item=items}>
+				 <li kuimglujing="<{$items['imageurl']}>" >
+					 <img class="imgclass" src="<{$items['imageurl']}>" border="0" width="100" height="80"><br /><{$items['imagename']}> 
+					 
+				 </li>
+				 
+				 
+		
+		 <{/foreach}> 
+		
+		</ul></div>
+	   <{$pagecontent}>
+	</DIV>
+
+                
+        </div>
+        <div class="cl"></div>
+        
+        
+       
+        
+        
+        <!---content right end---> 
+ 
+
+<style>
+.delkuimg{ cursor: pointer;}
+</style>
+ <script>
+var gid = <{$gid}>;
+$('#showimg li').click(function(){
+	var lujing = $(this).attr('kuimglujing');
+	
+		var url = '/index.php?ctrl=adminpage&action=shop&module=uploadkuimggoods&datatype=json';
+		
+		$.ajax({         //script定义
+             url: url,
+			  type: 'post',
+            dataType: "json",
+            async:true,
+            data:{'imglujing':lujing,'gid':gid},
+            success:function(content) { 
+			
+             if(content.error == true){ 
+                
+	              alert(content.msg);
+             }else{
+				 
+				window.location.href="/index.php?ctrl=adminpage&action=shop&module=goodsone&gid="+gid;	
+		
+             }
+            },
+            error:function(){
+            
+            	alert('数据提交失败');
+            }
+   }); 
+
+
+	   }); 
+	   
+	   
+	   	$(".xuanzekuimg").click(function(){
+				window.location.href="/index.php?ctrl=adminpage&action=shop&module=goodsone&gid="+gid;	
+		});
+	
+ </script>
+ 
+</BODY></html>

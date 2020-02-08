@@ -1,0 +1,225 @@
+  <{extends file="<{$tempdir}>/public/admin1.html"}> 
+ <{block name=extendjs}>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js"></script>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/datepicker/WdatePicker.js"></script>
+ <{/block}>
+ <{block name=controlname}>优惠券设置<{/block}>
+ <{block name=bodylist}> 
+ <style>
+.set{border:1px solid #999d9c;width:80%}
+.settop div {text-align:center;display:inline-block!important;}
+.setconc div{text-align:center;display:inline-block!important;background-color:#F5F5F5;}
+.setconrs{border-bottom:1px solid #999d9c;}
+.setconrs div{ text-align:center;display:inline-block!important;}
+.setcon div{text-align:center;}
+.setcon{display: table;}
+.setconl{width:15.6%;height:100%;display: table-cell;vertical-align: middle;border-bottom:1px solid #999d9c;} 
+.fsetconr{width:84.3%;display: table-cell;border-left:1px solid #999d9c;margin-left:-5px;}
+.rsetconr{width:84.3%;display: table-cell;border-left:1px solid #999d9c;margin-left:-5px;}
+ </style>
+	 <div style="width:auto;overflow-x:hidden;overflow-y:auto"> 
+         <div class="search">
+            <div class="search_content" style='font-size:12px'>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			开启注册送优惠券后，用户注册（包含手机号首次快捷登录）成功将会自动发放优惠券到他的账户。仅支持APP和网页端的用户
+			</div>
+        </div>
+          <div id="tagscontent">
+            <form method="post" name="form1" action="<{ofunc type=url link="/adminpage/card/module/saveregistersjset/datatype/json"}>" onsubmit="return subform('',this);">
+              <div>
+                <table border="0" cellspacing="2" cellpadding="4" class="list" name="table" id="table" width="100%">
+                  <tbody>
+                  	 
+					 <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                        <td class="left">是否开启</td>
+                        <td><input type="radio" name="followjuan"   value="1"  <{if $juansetinfo['status']== 1}>checked<{/if}>>&nbsp;开启&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <input type="radio" name="followjuan"   value="0"  <{if $juansetinfo['status']== 0}>checked<{/if}>>&nbsp;关闭</td>
+                     </tr>
+					
+					  <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                        <td class="left">优惠券面值</td>
+                        <td><input type="radio" name="costtype" id='fixedcost'  value="1"  <{if $juansetinfo['costtype'] == 1}>checked<{/if}>>&nbsp;固定&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <input type="radio" name="costtype" id='randomcost'  value="2"  <{if $juansetinfo['costtype'] == 2}>checked<{/if}>>&nbsp;随机</td>
+                     </tr>
+					 <tr  onmouseout="this.bgColor='ffffff';">
+                        <td class="left">优惠券设置</td>
+                        <td>
+						 	<div class='set' >	
+                                <div class='settop' style='width:100%;border-bottom:1px solid #999d9c;background-color:#F5F5F5'>
+								    <div style='width:15%'>每人可领取</div>
+									<div style='width:25%'>面值</div>
+									<div style='width:29%'>使用条件</div>
+									<div style='width:29%'>操作</div>
+								</div>								
+								
+								<div class='setcon fixedcost' style='width:100%;<{if $juansetinfo['costtype'] == 2}>display:none<{/if}>'>
+									<div class='setconl'>
+									<span class='fjuannum'><{count($juaninfo,0)}></span>张								
+								    </div>
+                                    <div class='fsetconr' >
+									   <{foreach from=$juaninfo key=keys item=items}>
+									   <{if $keys == 0}>
+									   <div class='setconrs'>
+										   <div style='width:30%'><input type="text" name="fjuancost[]" value="<{$items["cost"]}>" style='width:45px' >元</div>
+										   <div style='width:34%'>满 <input type="text" name="fjuanlimitcost[]" value="<{$items["limitcost"]}>" style='width:45px' >元可使用</div>
+										   <div style='width:34%;color:#2585a6'><span class="faddjuan">+添加优惠券</span></div>
+									   </div>
+									  <{else}>
+									  <div class='setconrs'>
+										   <div style='width:30%'><input type="text" name="fjuancost[]" value="<{$items["cost"]}>" style='width:45px' >元</div>
+										   <div style='width:34%'>满 <input type="text" name="fjuanlimitcost[]" value="<{$items["limitcost"]}>" style='width:45px' >元可使用</div>
+										   <div style='width:34%;color:red'><span class="fdeljuan">删除</span></div>
+									   </div>
+									   <{/if}>
+									   <{/foreach}>
+									    
+								    </div>	
+								</div>
+
+								<div class='setcon randomcost' style='width:100%;<{if $juansetinfo['costtype'] == 1}>display:none<{/if}>'>
+									<div class='setconl'>
+									<span class='rjuannum'><{count($juaninfo,0)}></span>张							
+								    </div>
+                                    <div class='rsetconr' >
+									   <{foreach from=$juaninfo key=keys item=items}>
+									   <{if $keys == 0}>
+									   <div class='setconrs'>
+										   <div style='width:30%'><input type="text" name="rjuancostmin[]" value="<{$items["costmin"]}>" style='width:45px' >
+										   至 <input type="text" name="rjuancostmax[]" value="<{$items["costmax"]}>" style='width:45px' >元</div>
+										   <div style='width:34%'>满 <input type="text" name="rjuanlimitcost[]" value="<{$items["limitcost"]}>" style='width:45px' >元可使用</div>
+										   <div style='width:34%;color:#2585a6'><span class="raddjuan">+添加优惠券</span></div>
+									   </div>
+									   <{else}>
+									   <div class='setconrs'>
+										   <div style='width:30%'><input type="text" name="rjuancostmin[]" value="<{$items["costmin"]}>" style='width:45px' >
+											至 <input type="text" name="rjuancostmax[]" value="<{$items["costmax"]}>" style='width:45px' >元</div>
+										   <div style='width:34%'>满 <input type="text" name="rjuanlimitcost[]" value="<{$items["limitcost"]}>" style='width:45px' >元可使用</div>
+										   <div style='width:34%;color:red'><span class="rdeljuan">删除</span></div>
+									   </div>								   
+									   <{/if}>
+									   <{/foreach}>  
+								    </div>	
+								</div>
+							   
+							    <div class='setfoot' style='width:100%;' >
+								    &nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="paytype"   value="1" <{if $juansetinfo['paytype'] == '1'}> checked <{/if}>  >&nbsp;
+									仅支持在线支付订单使用  
+									</div>							
+							</div>		
+							
+							
+							
+							</div>		
+						</td>
+                     </tr>
+					 <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                        <td class="left">使用有效期</td>
+                        <td>
+						<input type="radio" name="timetype"  class='days' value="1"  <{if $juansetinfo['timetype'] == 1}> checked <{/if}>>
+						领劵当日起&nbsp;<input type="text" name="juanday"   value="<{$juansetinfo['days']}>" style='width:40px' > 天内有效
+                        </td>   
+                     </tr>
+					 <tr bgcolor="#ffffff">
+                        <td class="left"></td>
+                        <td>
+						<input type="radio" name="timetype" class='gdsj'  value="2"  <{if $juansetinfo['timetype'] == 2}> checked <{/if}>>&nbsp;固定时间
+                        </td>   
+                     </tr>
+					 <tr bgcolor="#ffffff" class="gdtime" <{if $juansetinfo['timetype'] == 1}> style="display:none"<{/if}>>
+                        <td class="left"></td>
+                        <td>
+						&nbsp;&nbsp;&nbsp;&nbsp;生效时间：<input class="Wdate datefmt" type="text" name="starttime" id="starttime" value="<{$juansetinfo['starttime']|date_format:"%Y-%m-%d"}>"  onFocus="WdatePicker({isShowClear:false,readOnly:true});" />
+                        </td>   
+                     </tr>
+					 <tr bgcolor="#ffffff" class="gdtime" <{if $juansetinfo['timetype'] == 1}> style="display:none"<{/if}>>
+                        <td class="left"></td>
+                        <td>
+						&nbsp;&nbsp;&nbsp;&nbsp;过期时间：<input class="Wdate datefmt" type="text" name="endtime" id="endtime" value="<{$juansetinfo['endtime']|date_format:"%Y-%m-%d"}>"  onFocus="WdatePicker({isShowClear:false,readOnly:true});" />
+                        </td>   
+                     </tr>
+                   
+                    
+                  </tbody>
+                </table>
+              </div>
+              <div class="blank20"></div>
+              <input type="hidden" name="tijiao" id="tijiao" value="do" class="skey" style="width:250px;">
+              <input type="hidden" name="saction" id="saction" value="saveregistersjset" class="skey" style="width:250px;">
+               <input type="submit" value="确认提交" class="button">  
+            </form>
+          </div>
+        </div> 
+    </div> 
+	<script>
+	   $('.days').live('click',function(){ 
+		$('.gdtime').hide();        
+	  }); 
+	  $('.gdsj').live('click',function(){ 
+		$('.gdtime').show();        
+	  });
+      $('#fixedcost').live('click',function(){ 
+		$('.fixedcost').show();  
+        $('.randomcost').hide();		
+	  });
+	  $('#randomcost').live('click',function(){ 
+		$('.randomcost').show();  
+        $('.fixedcost').hide();  		
+	  });			
+	  
+	  $('.raddjuan').live('click',function(){ 
+	    var num = $('.rjuannum').text();
+		if(num < 5){
+		   $('.rjuannum').text(Number(num)+1);
+		   var html  = '<div class="setconrs">';
+            html += '<div style="width:30%">';
+			html += '<input type="text" name="rjuancostmin[]" value=" " style="width:45px" > 至 ';
+			html += '<input type="text" name="rjuancostmax[]" value=" " style="width:45px" >元</div>';
+			html += '<div style="width:35%">满 ';
+			html += '<input type="text" name="rjuanlimitcost[]" value=" " style="width:45px" >元可使用</div>';	
+			html += '<div style="width:34%;color:red"><span class="rdeljuan">删除</span></div></div>';
+		    $('.rsetconr').append(html); 
+		}else{
+		   alert('最多只能添加5张优惠券噢~');
+		}
+		
+	  });
+	  $('.rdeljuan').live('click',function(){ 
+	     var num = $('.rjuannum').text();
+		 $('.rjuannum').text(Number(num)-1);
+	     $(this).parent().parent().remove();
+	  });
+	 
+	 $('.faddjuan').live('click',function(){ 
+	    var num = $('.fjuannum').text();
+		if(num < 5){
+		   $('.fjuannum').text(Number(num)+1);
+		   var html  = '<div class="setconrs">';
+            html += '<div style="width:30%">';			
+			html += '<input type="text" name="fjuancost[]" value=" " style="width:45px" >元</div>';
+			html += '<div style="width:35%">满 ';
+			html += '<input type="text" name="fjuanlimitcost[]" value=" " style="width:45px" >元可使用</div>';	
+			html += '<div style="width:34%;color:red"><span class="fdeljuan">删除</span></div></div>';
+		    $('.fsetconr').append(html); 
+		}else{
+		   alert('最多只能添加5张优惠券噢~');
+		}
+		
+	  });
+	  $('.fdeljuan').live('click',function(){ 
+	     var num = $('.fjuannum').text();
+		 $('.fjuannum').text(Number(num)-1);
+	     $(this).parent().parent().remove();
+	  });
+	  
+	  $("input[type='text']").change(function(){
+          var cnum = $(this).val();	  
+		  if(isNaN(cnum) || Number(cnum) <= 0){
+		     alert('请输入大于0的数字~');
+			 $(this).val('1');	
+             return false;					 
+		  }
+	  });
+	   
+	  
+	</script>
+ <{/block}>

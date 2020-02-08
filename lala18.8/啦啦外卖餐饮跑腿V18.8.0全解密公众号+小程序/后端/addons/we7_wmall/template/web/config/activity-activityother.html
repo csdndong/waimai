@@ -1,0 +1,53 @@
+{itemplate 'public/header'}
+<div class="page clearfix page-config-store-delivery">
+	<h2>其他 / 代金券</h2>
+	<form class="form-horizontal form form-validate" id="form1" action="" method="post" enctype="multipart/form-data">
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-4 col-md-3 control-label">取消订单后是否返回红包（或代金券）</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="radio radio-inline">
+					<input type="radio" value="1" name="return_redpacket_status" id="return_redpacket_status-1"{if $config_activity['return_redpacket_status'] == '1'}checked{/if}>
+					<label for="return_redpacket_status-1">是</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" value="0" name="return_redpacket_status" id="return_redpacket_status-0"{if $config_activity['return_redpacket_status'] == '0' || !$config_activity['return_redpacket_status']}checked{/if}>
+					<label for="return_redpacket_status-0">否</label>
+				</div>
+				<span class="help-block">当顾客取消订单后，是否要将用来支付该订单的红包（或代金券）返回到顾客账户中</span>
+			</div>
+		</div>
+		<div class="form-group hide">
+			<label class="col-xs-12 col-sm-4 col-md-3 control-label">是否开启代金券赠送</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="radio radio-inline">
+					<input type="radio" value="1" name="coupon[give_status]" id="coupon_give_status-1"{if $config_activity['coupon']['give_status'] == '1'}checked{/if}>
+					<label for="coupon_give_status-1">是</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" value="0" name="coupon[give_status]" id="coupon_give_status-0"{if $config_activity['coupon']['give_status'] == '0' || !$config_activity['coupon']['give_status']}checked{/if}>
+					<label for="coupon_give_status-0">否</label>
+				</div>
+				<span class="help-block">开启后顾客可以将自己的代金券赠送给好友使用</span>
+			</div>
+		</div>
+		<div class="form-group hide">
+			<label class="col-xs-12 col-sm-4 col-md-3 control-label">赠送限制</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="input-group">
+					<div class="input-group-addon">每天可赠送</div>
+					<input type="text" class="form-control" name="coupon[give_num]" value="{$config_activity['coupon']['give_num']}">
+					<div class="input-group-addon">张， 每天可接受赠送</div>
+					<input type="text" class="form-control" name="coupon[accept_num]" value="{$config_activity['coupon']['accept_num']}">
+					<div class="input-group-addon">张</div>
+				</div>
+				<span class="help-block">设置0表示不限制</span>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<input type="submit" value="提交" class="btn btn-primary col-lg-1">
+			</div>
+		</div>
+	</form>
+</div>
+{itemplate 'public/footer'}

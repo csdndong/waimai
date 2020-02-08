@@ -1,0 +1,201 @@
+ <{extends file="<{$tempdir}>/public/wxsite.html"}>  
+<{block name=extendcss}> 
+ <link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/gift.css">
+<{/block}>
+ <{block name=extendjs}> 
+  <script src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/js/template.min.js"></script>    
+<{/block}>
+<{block name=myScrolljs}>
+<script> 
+		var myScroll;
+function loaded() {
+	myScroll = new iScroll('wrapper', {
+		useTransform: false,
+		onBeforeScrollStart: function (e) {
+			var target = e.target;
+			while (target.nodeType != 1) target = target.parentNode;
+
+			if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA')
+				e.preventDefault();
+		}
+	});
+}
+document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false); 
+document.addEventListener('DOMContentLoaded', function () { setTimeout(loaded, 200); }, false);
+</script>
+ 
+<{/block}>
+ <{block name=hearnav}>
+<div class="toptitCon">
+ <div class="toptitBox">
+  <div class="toptitL"><i></i></div>
+  <div class="toptitC" style="position:relative;"><input style="  background-image:none;font-size:12px" id="searchname" value="<{$searchname|default:''}>" type="text" placeholder="搜索商家、商品名称" >
+  <img id="searchwords" style="width:15px; height:15px; top:8px; left:95%;position:absolute;" src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/059.png" />
+  </div>
+ </div>
+</div>
+<{/block}>
+<{block name=sitetitle}><{$sitename}><{/block}>
+<{block name=blockcontent}> 
+ <div id="wrapper" style="top:40px;background-color:#fff">
+	<div id="scroller">
+		
+<div id="nowordsearch">
+<!--热门搜索-->
+<!-- <div class="searchtit"><i class="topsetit"></i><h3>热门搜索</h3></div>
+<div class="hotsearch">
+ <ul>
+<{if !empty($searchwords)}>
+<{$list = $searchwords|unserialize}>
+	<{foreach from=$list key=myid item=items}>	 
+		<{if !empty($items)}>
+		<li class="sousuoguanjianci"><{$items}></li>
+		<{/if}>
+	<{/foreach}>  
+<{/if}>
+ 
+ </ul>
+</div> -->
+<!--历史记录开始-->
+<div class="wmr_search_box">
+<div class="wmr_search_title">
+<h3>历史搜索</h3>
+<i class="fa fa-trash-o emptyhisbg"></i>
+</div>
+<div class="wmr_search_txt">
+	<ul>
+	<{if !empty($searchloglist)}>
+	<{foreach from=$searchloglist item=items }>
+	<li  class="sousuoguanjianci"><{$items['searchval']}></li>				 
+	<{/foreach}>
+    <{else}>
+    <span>暂无历史搜索数据</span>	
+    <{/if}>	
+	</ul>
+</div>
+</div>
+<!--历史记录结束-->
+
+<!--热门搜索开始-->
+<!-- <div class="searchtit"><i class="hissetit"></i><h3>历史记录</h3></div>
+<div class="hisrec">
+ <ul>
+ <{foreach from=$searchloglist item=items }>
+  <li class="sousuoguanjianci"><{$items['searchval']}></li>
+  <{/foreach}>
+ </ul>
+</div> -->
+<div class="wmr_search_box">
+		<div class="wmr_search_title">
+			<h3>热门搜索</h3>
+		</div>
+		<div class="wmr_search_txt">
+			<ul>
+			<{if !empty($searchwords)}>
+			<{$list = $searchwords|unserialize}>
+			<{foreach from=$list key=myid item=items}>	 
+			<{if !empty($items)}>			
+				<li class="sousuoguanjianci"><{$items}></li>
+			<{/if}>
+			<{/foreach}>  
+			<{/if}>		  
+			</ul>
+		</div>
+	</div>
+<!--热门搜索结束-->
+</div>
+
+
+
+<div id="havesearch" style="display:none;">
+
+
+</div>
+<!---------------------------------------------------------------------------搜索结束------------------------------------------------------------------------------------->
+
+
+
+
+		 <div style="height:20px;"></div>
+	</div>
+</div> 
+<script>
+    var searltime;
+    $("#searchname").keyup(function(){
+        clearTimeout(searltime);
+        searltime = setTimeout("shopsearch()",300);
+
+    })
+$("#searchwords").bind('click',function(){
+    shopsearch();
+});
+function shopsearch(){
+    var searchname = $("#searchname").val();
+    if(searchname != ''){
+        $("#nowordsearch").hide();
+        $("#havesearch").show();
+        $("#havesearch").html('');
+        var url = '<{ofunc type=url link="/wxsite/searchresult"}>';
+        $.post(url, {'searchname':searchname},function (data, textStatus){
+
+            $('#havesearch').html(data);
+            myScroll.refresh();
+        }, 'html');
+
+
+    }else{
+        $("#havesearch").hide();
+        $("#nowordsearch").show();
+    }
+}
+$(".sousuoguanjianci").bind('click',function(){
+	var searchname = $(this).text();
+	if(searchname != ''){
+		$("#searchname").val(searchname);
+		$("#nowordsearch").hide();
+		$("#havesearch").show();
+			$("#havesearch").html('');
+			var url = '<{ofunc type=url link="/wxsite/searchresult"}>'; 
+					$.post(url, {'searchname':searchname},function (data, textStatus){ 					
+							$('#havesearch').html(data); 
+							myScroll.refresh();
+						}, 'html');
+		
+		
+	}else{
+		$("#havesearch").hide();
+		$("#nowordsearch").show();
+	}
+});
+
+
+$(".emptyhisbg").bind('click',function(){
+showLoading();
+			url = siteurl+'/index.php?ctrl=wxsite&action=qkmemsearchlog&datatype=json&random=@random@';
+     	  url = url.replace('@random@', 1+Math.round(Math.random()*1000));
+        $.ajax({         //script定义
+                 url: url.replace('@random@', 1+Math.round(Math.random()*1000)),
+                 dataType: "json",
+                 async:true,
+                 data:{},
+                 success:function(content) { 
+                 	if(content.error ==  false){
+					 newhideLoading();
+							Tmsg('清除成功');
+							 
+								 window.location.href=  siteurl+'/index.php?ctrl=wxsite&action=search' ;
+							 
+                 	}else{
+						newhideLoading();
+                 		Tmsg(content.msg);
+                 	}
+                  
+                 },
+                 error:function(){
+                  newhideLoading();
+                 }
+        }); 
+	 
+});
+</script>
+<{/block}>

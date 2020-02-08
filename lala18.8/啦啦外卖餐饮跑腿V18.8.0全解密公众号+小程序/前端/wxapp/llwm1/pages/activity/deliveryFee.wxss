@@ -1,0 +1,83 @@
+page {
+    font-size: 14px;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    background-color: #F5F5F5;
+}
+
+.content {
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.content .zan-cell__bd {
+    color: #B8B8B8;
+    font-size: 16px;
+}
+
+.content .zan-cell__ft {
+    font-size: 16px;
+}
+
+.content .activity-box {
+    margin-top: 10px;
+    background-color: #fff;
+}
+
+.content .activity-box .activity-col {
+    padding: 8px 16px;
+    position: relative;
+}
+
+.content .activity-box .activity-col text {
+    font-size: 16px;
+    float: left;
+    line-height: 32px;
+}
+
+.content .activity-box .activity-col .input-box {
+    display: inline-block;
+    width: 66px;
+    height: 30px;
+    border: 1px solid #E6E6E6;
+    margin: 0 12px;
+    line-height: 14px;
+    float: left;
+}
+
+.content .activity-box .activity-col .input-box input {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    outline: 0;
+    text-align: center;
+}
+
+.content .activity-box .activity-col .icon-delete {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translate(0,-50%);
+    margin-right: 16px;
+    color: #5F5F5F;
+    font-size: 16px;
+}
+
+.content .activity-box .activity-add {
+    padding: 8px 16px;
+    text-align: center;
+    color: #FF2B4D;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.content .activity-box .activity-col:nth-child(even) {
+    background-color: #F9F9F9;
+}
+
+.content .page__bd_spacing {
+    margin-top: 11px;
+    padding: 0 5%;
+}

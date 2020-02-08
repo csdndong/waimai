@@ -1,0 +1,465 @@
+page {
+    background-color: #F0EFF5;
+}
+
+.h-line {
+    width: 100%;
+    border-bottom: 1px dotted #ddd;
+}
+
+::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    color: transparent;
+}
+
+.page-order {
+    width: 100%;
+}
+
+.page-order .divide::before,.page-order .divide::after {
+    background-color: #F0EFF5;
+}
+
+.page-order .tabs {
+    position: fixed;
+    z-index: 10;
+    top: 0;
+    left: 0;
+    tight: 0;
+    width: 100%;
+    padding: 0px 10px;
+    box-sizing: border-box;
+    background-color: #33aafc;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+}
+
+.page-order .tabs .tabs-item {
+    width: 23%;
+    text-align: center;
+    color: #fff;
+}
+
+.page-order .tabs .tabs-item.active {
+    border-bottom: 4px solid #FFF;
+}
+
+.page-order .tabs .tabs-item .item-logo .order-status {
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+    text-align: center;
+    line-height: 30px;
+    background-color: #0C8DE4;
+    margin: 10px auto 7px;
+    font-size: 16px;
+    position: relative;
+}
+
+.page-order .tabs .tabs-item .item-logo .order-status.active {
+    background-color: #FFF;
+}
+
+.page-order .tabs .tabs-item .item-logo .order-status .order-num {
+    width: 15px;
+    height: 15px;
+    border-radius: 100%;
+    background-color: #FC0104;
+    font-size: 12px;
+    text-align: center;
+    line-height: 15px;
+    position: absolute;
+    right: -7.5px;
+    top: -7.5px;
+}
+
+.page-order .tabs .tabs-item .item-logo .order-status.active text {
+    color: #33aafc;
+}
+
+.page-order .tabs .tabs-item .item-logo .order-status text {
+    font-weight: 700;
+    font-size: 15px;
+}
+
+.page-order .tabs .tabs-item .item-title {
+    width: 100%;
+    text-align: center;
+    font-size: 11px;
+    margin-bottom: 7px;
+}
+
+.page-order .order-list {
+    box-sizing: border-box;
+    padding: 85px 10px 10px 10px;
+    width: 100%;
+    background-color: #F0EFF5;
+}
+
+.page-order .order-list .list-item {
+    width: 100%;
+    background: #fff;
+    position: relative;
+    margin-bottom: 10px;
+}
+
+.page-order .order-list .list-item .delivery-pay {
+    position: absolute;
+    width: 110px;
+    height: 70px;
+    left: 50%;
+    margin-left: -65px;
+    bottom: 170px;
+    background: url("http://1.duoxunwl.com/addons/we7_wmall/static/img/delivery-pay.png") no-repeat center center;
+    background-size: 100% 100%;
+}
+
+.page-order .order-list .list-item .have-pay {
+    position: absolute;
+    width: 100px;
+    height: 50px;
+    left: 50%;
+    margin-left: -65px;
+    bottom: 170px;
+    background: url("http://1.duoxunwl.com/addons/we7_wmall/static/img/have-pay.png") no-repeat center center;
+    background-size: 100% 100%;
+}
+
+.page-order .order-list .list-item .order-nt {
+    width: 100%;
+    height: 40px;
+    box-sizing: border-box;
+    padding-right: 10px;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    background-color: #f8f8f8;
+}
+
+.page-order .order-list .list-item .order-nt .order-number {
+    height: 25px;
+    min-width: 25px;
+    box-sizing: border-box;
+    text-align: center;
+    background-color: #33aafc;
+    line-height: 25px;
+    color: #fff;
+}
+
+.page-order .order-list .list-item .order-nt .time-status {
+    width: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 14px;
+}
+
+.page-order .order-list .list-item .order-nt .order-status {
+    color: #1f1f1f;
+}
+
+.page-order .order-list .list-item .tips {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    font-size: 14px;
+    width: 100%;
+    background: #FFF5F4;
+    padding: 5px 0px;
+    color: #FD4744;
+}
+
+.page-order .order-list .list-item .tips .icon {
+    font-size: 18px;
+    margin: 0px 10px;
+}
+
+.page-order .order-list .list-item .order-nt .time-status .delivery-time {
+    color: #33aafc;
+    font-weight: 500;
+    padding-left: 7px;
+}
+
+.page-order .order-list .list-item .recieve-info {
+    width: 100%;
+    padding: 0px 10px 5px 10px;
+    box-sizing: border-box;
+}
+
+.page-order .order-list .list-item .recieve-info .info-name {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.page-order .order-list .list-item .recieve-info .info-name .left {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: flex-end;
+    line-height: 1;
+}
+
+.page-order .order-list .list-item .recieve-info .info-name .left .name {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.page-order .order-list .list-item .recieve-info .info-name .left .name-tabs {
+    font-size: 12px;
+    color: #B9B9B9;
+    margin-left: 10px;
+}
+
+.page-order .order-list .list-item .recieve-info .info-name .right .icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 100%;
+    border: 1px solid #eee;
+    text-align: center;
+    line-height: 29px;
+    font-size: 20px;
+    color: #656565;
+}
+
+.page-order .order-list .list-item .recieve-info .info-name .right .icon.icon-locationfill {
+    margin-left: 10px;
+}
+
+.page-order .order-list .list-item .recieve-info .info-tel {
+    color: #868686;
+    font-size: 14px;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    color: #1ABCAA;
+}
+
+.page-order .order-list .list-item .recieve-info .info-address {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    color: #868686;
+    font-size: 14px;
+}
+
+.page-order .order-list .list-item .recieve-info .info-address .shu {
+    padding: 0px 10px;
+}
+
+.page-order .order-list .list-item .goods-info {
+    width: 100%;
+    padding: 6px 10px;
+    box-sizing: border-box;
+}
+
+.page-order .order-list .list-item .goods-info .info-title {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.page-order .order-list .list-item .goods-info .info-title .left {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.page-order .order-list .list-item .goods-info .info-title .right {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: flex-end;
+    font-size: 14px;
+    color: #33aafc;
+}
+
+.page-order .order-list .list-item .goods-info .info-title .right .icon {
+    margin-left: 5px;
+    font-weight: 600;
+}
+
+.page-order .order-list .list-item .goods-list .note {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    font-size: 14px;
+    padding: 10px;
+}
+
+.page-order .order-list .list-item .goods-list .note view:first-child {
+    width: 15%;
+}
+
+.page-order .order-list .list-item .goods-list .note view:last-child {
+    width: 85%;
+    word-wrap: break-word;
+}
+
+.page-order .order-list .list-item .goods-list .goods-item {
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 14px;
+    color: #3E3D38;
+    background-color: #FFFCEB;
+    line-height: 30px;
+    padding: 0 10px;
+}
+
+.page-order .order-list .list-item .goods-list .goods-item .goods-tn {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: space-between;
+    width: 70%;
+}
+
+.page-order .order-list .list-item .goods-list .goods-item .goods-tn .title {
+    max-width: 80%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.page-order .order-list .list-item .goods-list .goods-item .goods-tn .num.many {
+    color: #FA4843;
+}
+
+.page-order .order-list .list-item .goods-list .box-fee {
+    padding: 0 10px;
+    line-height: 30px;
+    color: #a0a0a0;
+    font-size: 14px;
+}
+
+.page-order .order-list .list-item .goods-list .subtotal {
+    width: 100%;
+    padding: 0px 10px;
+    box-sizing: border-box;
+}
+
+.page-order .order-list .list-item .goods-list .subtotal .content {
+    width: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+}
+
+.page-order .order-list .list-item .goods-list .subtotal .content .left {
+    font-size: 16px;
+}
+
+.page-order .order-list .list-item .total-fee {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+.page-order .order-list .list-item .total-fee .left {
+    font-size: 16px;
+}
+
+.page-order .order-list .list-item .total-fee .right {
+    color: #FA4843;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.page-order .order-list .list-item .total-fee .right text {
+    font-size: 13px;
+}
+
+.page-order .order-list .list-item .action {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 7px 10px;
+    font-size: 14px;
+}
+
+.page-order .order-list .list-item .action .cancel {
+    padding: 4px 7px;
+    border: 1px solid #E7E7E7;
+    color: #747474;
+    text-align: center;
+    border-radius: 4px;
+    margin-left: 10px;
+    font-size: 13px;
+}
+
+.page-order .order-list .list-item .action .confirm {
+    padding: 5px 8px;
+    color: #fff;
+    background-color: #33aafc;
+    text-align: center;
+    border-radius: 4px;
+    font-size: 13px;
+    margin-left: 10px;
+}
+
+.page-order .order-list .list-item .action .print {
+    width: 66%;
+    text-align: center;
+    background-color: #06C1AE;
+    border: 1px solid #06C1AE;
+    color: #fff;
+    border-radius: 2px;
+    padding: 5px 0;
+}
+
+.page-order .order-list .list-item .order-info {
+    padding: 10px 10px 5px;
+    background-color: #fff;
+    position: relative;
+}
+
+.page-order .order-list .list-item .order-info .predict-fee {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.page-order .order-list .list-item .order-info .predict-fee .left {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.page-order .order-list .list-item .order-info .predict-fee .right {
+    color: #FA4843;
+}
+
+.page-order .order-list .list-item .order-info .practical-fee {
+    font-size: 14px;
+    color: #A0A0A0;
+}
+
+.page-order .order-list .list-item .order-info .practical-fee text {
+    color: #FA4843;
+}
+
+.page-order .order-list .list-item .divide {
+    height: 0px;
+}
+
+.page-order .no-data .no-coupon {
+    top: 200px;
+}
+
+.page-order .no-data .no-record {
+    top: 300px;
+}

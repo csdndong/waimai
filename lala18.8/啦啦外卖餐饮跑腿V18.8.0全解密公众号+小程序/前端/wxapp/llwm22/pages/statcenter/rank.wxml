@@ -1,0 +1,53 @@
+<view class="page-rank">
+    <view class="header">
+        <view class="nav-tab flex border-1px-b">
+            <view bind:tap="onChange" class="nav-item {{type=='today'?'active':''}}" data-type="today">今日</view>
+            <view bind:tap="onChange" class="nav-item {{type=='yesterday'?'active':''}}" data-type="yesterday">昨日</view>
+            <view bind:tap="onChange" class="nav-item {{type=='month'?'active':''}}" data-type="month">本月</view>
+            <view bind:tap="onChange" class="nav-item {{type=='last_month'?'active':''}}" data-type="last_month">上月</view>
+        </view>
+        <view class="tabs flex">
+            <view bind:tap="onSortType" class="tab-item {{sort_type=='total_success_order'?'active':''}}" data-sort_type="total_success_order">单量</view>
+            <view bind:tap="onSortType" class="tab-item {{sort_type=='percent_normal'?'active':''}}" data-sort_type="percent_normal">准时率</view>
+            <view bind:tap="onSortType" class="tab-item {{sort_type=='avg_delivery_success_time'?'active':''}}" data-sort_type="avg_delivery_success_time">平均时长</view>
+        </view>
+    </view>
+    <view class="content">
+        <view class="myself">
+            <view class="list-item flex">
+                <view class="ranking-num">
+					{{mine.ranking}}
+				</view>
+                <view class="rider flex">
+                    <view class="info">
+                        <view class="avatar flex">
+                            <image src="{{mine.avatar}}"></image>
+                        </view>
+                        <view class="name ellipsis">{{mine.title}}</view>
+                    </view>
+                    <view class="scores">{{mine[sort_type]}}{{dataUnit}}</view>
+                </view>
+            </view>
+        </view>
+        <view class="rank-list">
+            <view class="list-item border-1px-b flex" wx:for="{{rank}}">
+                <view class="ranking-num" wx:if="{{index<=2}}">
+                    <image mode="widthFix" src="/static/img/medal-{{index+1}}.png"></image>
+                </view>
+                <view class="ranking-num" wx:else>
+						{{index+1}}
+					</view>
+                <view class="rider flex">
+                    <view class="info">
+                        <view class="avatar flex">
+                            <image src="{{item.avatar}}"></image>
+                        </view>
+                        <view class="name ellipsis">{{item.title}}</view>
+                    </view>
+                    <view class="scores">{{item[sort_type]}}{{dataUnit}}</view>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>
+<include src="../public/footer.wxml"></include>

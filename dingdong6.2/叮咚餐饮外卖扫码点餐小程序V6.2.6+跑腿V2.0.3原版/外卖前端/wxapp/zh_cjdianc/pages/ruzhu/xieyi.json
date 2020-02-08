@@ -1,0 +1,6 @@
+{
+    "navigationBarTitleText": "入驻申请协议",
+    "usingComponents": {
+        "cardlist": "/zh_cjdianc/dist/cardlist/index"
+    }
+}

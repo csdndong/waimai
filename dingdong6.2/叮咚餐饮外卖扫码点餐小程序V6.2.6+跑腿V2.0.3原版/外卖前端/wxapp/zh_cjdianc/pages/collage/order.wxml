@@ -1,0 +1,58 @@
+<view class="flex-row tab-bar ba_f">
+    <view class="flex-grow-1">
+        <navigator class="{{state==1?'active':''}}" openType="redirect" url="order?state=1">
+            <text style="color:{{state==1?color:''}};border-bottom:{{state==1?4:0}}rpx solid {{color}}">拼团中</text>
+        </navigator>
+    </view>
+    <view class="flex-grow-1">
+        <navigator class="{{state==2?'active':''}}" openType="redirect" url="order?state=2">
+            <text style="color:{{state==2?color:''}};border-bottom:{{state==2?4:0}}rpx solid {{color}}">拼团成功</text>
+        </navigator>
+    </view>
+    <view class="flex-grow-1">
+        <navigator class="{{state==3?'active':''}}" openType="redirect" url="order?state=3">
+            <text style="color:{{state==3?color:''}};border-bottom:{{state==3?3:0}}rpx solid {{color}}">拼团失败</text>
+        </navigator>
+    </view>
+    <view class="flex-grow-1">
+        <navigator class="{{state==4?'active':''}}" openType="redirect" url="order?state=4">
+            <text style="color:{{state==4?color:''}};border-bottom:{{state==4?3:0}}rpx solid {{color}}">单独购</text>
+        </navigator>
+    </view>
+</view>
+<view class="order-list">
+    <view class="no-data-tip zwdd" wx:if="{{order_list.length==0}}">
+        <image mode="aspectFit" src="../image/list.png"></image>
+        <view>您暂无相关订单哦~</view>
+    </view>
+    <view class="order_list pa_1 ba_f mar_t" wx:for="{{order_list}}" wx:key="*this">
+        <view class="order_head pa_0">
+            <view class="dis_in">
+                <image class="dis_in" mode="aspectFill" src="../../img/collage/stores.png"></image>
+                <text class="fon_30 dis_in">{{item.store_name}}</text>
+            </view>
+            <view class="dis_in t_r" style="color:{{color}}">
+                <text class="fon_24">拼团</text>
+                <text class="fon_30 mar_l" wx:if="{{state==1}}">组团中</text>
+                <text class="fon_30 mar_l" wx:if="{{state==2}}">组团成功</text>
+                <text class="fon_30 mar_l" wx:if="{{state==3}}">组团失败</text>
+                <text class="fon_30 mar_l" wx:if="{{state==4}}">单独购</text>
+            </view>
+        </view>
+        <view class="shop_info pa_0">
+            <view class="dis_in">
+                <image mode="aspectFill" src="{{item.logo}}"></image>
+            </view>
+            <view class="dis_in">
+                <view class="fon_30 color_6">{{item.goods_name}}</view>
+                <view class="info pa_0">
+                    <view class="color_red fon_24 dis_in">￥{{item.money}}</view>
+                    <view class="fon_22 t_r dis_in">{{item.pay_time}}</view>
+                </view>
+            </view>
+        </view>
+        <view bindtap="order_info" class="pa_0 t_r order_info" data-info="{{item}}">
+            <text class="fon_30" style="border:2rpx solid {{color}};color:{{color}}">查看订单</text>
+        </view>
+    </view>
+</view>

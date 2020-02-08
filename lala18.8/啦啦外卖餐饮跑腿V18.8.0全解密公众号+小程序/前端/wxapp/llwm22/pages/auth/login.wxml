@@ -1,0 +1,31 @@
+<view class="page-login">
+    <view class="avatar">
+        <image src="{{config.logo}}"></image>
+    </view>
+    <view class="plateform-title">
+		{{config.title}}
+	</view>
+    <form bindsubmit="onSubmit">
+        <view class="input-group">
+            <view class="input flex">
+                <view class="right">
+                    <input class="" name="mobile" placeholder="请输入手机号" type="text"></input>
+                </view>
+            </view>
+            <view class="input flex">
+                <view class="right flex">
+                    <input class="" name="password" password="true" placeholder="请输入密码" type="password"></input>
+                </view>
+            </view>
+        </view>
+        <view class="operation flex">
+            <view bind:tap="onJsEvent" class="hide" data-event-type="jsUrl" data-url="pages/auth/register">注册</view>
+            <view bind:tap="onJsEvent" data-event-type="jsUrl" data-url="pages/auth/forget">忘记密码 <text class="icon icon-question1"></text>
+            </view>
+        </view>
+        <view class="save-btn">
+            <button formType="submit">登录</button>
+        </view>
+    </form>
+</view>
+<include src="../public/footer.wxml"></include>

@@ -1,0 +1,123 @@
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="Content-Language" content="zh-CN">
+    <meta content="all" name="robots">
+    <meta name="description" content="">
+    <meta content="" name="keywords">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="<{$siteurl}>/templates/<{$tempdir}>/public/shopcenter/css/commom.css" />
+    <link rel="stylesheet" type="text/css" href="<{$siteurl}>/templates/<{$tempdir}>/public/shopcenter/css/shangjiaAdmin.css" />
+    <link href="<{$siteurl}>/js/SWFUpload/css/default.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="<{$siteurl}>/templates/<{$tempdir}>/public/shopcenter/css/main.css" />
+    <script type="text/javascript" src="<{$siteurl}>/js/SWFUpload/swfupload/swfupload.js"></script>
+    <script type="text/javascript" src="<{$siteurl}>/js/SWFUpload/js/swfupload.queue.js"></script>
+    <script type="text/javascript" src="<{$siteurl}>/js/SWFUpload/js/fileprogress.js"></script>
+    <script type="text/javascript" src="<{$siteurl}>/js/SWFUpload/js/handlers.js"></script>
+    <script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/jquery.js" type="text/javascript" language="javascript"></script>
+    <script type="text/javascript">
+
+        var swfu;
+        var goodsid = <{$goodsid}>;
+        refrash();
+        $(function(){
+            var url = '<{ofunc type=url link="/shopcenter/uploadgoodsimg/goodsid/'+goodsid+'/datatype/json"}>';
+            var settings = {
+
+                flash_url : "<{$siteurl}>/js/SWFUpload/swfupload/swfupload.swf",
+                upload_url: url,	// Relative to the SWF file
+                post_params: "",
+                file_size_limit : "100 MB",
+                file_types : "*.*",
+                file_post_name:'imgFile',
+                file_types_description : "All Files",
+                file_upload_limit : 100,
+                file_queue_limit : 0,
+                custom_settings : {
+                    progressTarget : "fsUploadProgress",
+                    cancelButtonId : "btnCancel"
+                },
+                debug: false,
+
+                // Button settings
+                button_image_url: "<{$siteurl}>/js/SWFUpload/images/TestImageNoText_65x29.png",	// Relative to the Flash file
+                button_width: "100",
+                button_height: "29",
+                button_placeholder_id: "spanButtonPlaceHolder",
+                button_text: '<span class="theFont">浏览上传</span>',
+                button_text_style: ".theFont { font-size: 16; }",
+                button_text_left_padding: 12,
+                button_text_top_padding: 3,
+
+                file_queued_handler : fileQueued,
+                file_queue_error_handler : fileQueueError,
+                file_dialog_complete_handler : fileDialogComplete,
+                upload_start_handler : uploadStart,
+                upload_progress_handler : uploadProgress,
+                upload_error_handler : uploadError,
+                upload_success_handler : uploadSuccess,
+                upload_complete_handler : uploadComplete,
+                queue_complete_handler : queueComplete	// Queue plugin event
+            };
+            swfu = new SWFUpload(settings);
+        });
+
+        function queueComplete(){
+            refrash();
+        }
+        function refrash(){
+            var url = '/index.php?ctrl=shopcenter&action=showgoodsimg&goodsid='+goodsid+'&datatype=json';
+            $.get(url, function(result){
+                $("#showgoodsimg").html(result);
+            });
+        }
+
+
+    </script>
+</head>
+<body>
+<style>
+    .delkuimg{ cursor: pointer;}
+    #content {
+        background: #000;
+        overflow: auto;
+        width: 80%;
+        text-align: center;
+        margin:0 auto;
+        opacity: 0.8;
+        color:#fff;
+    }
+    div.flash{
+        margin:0 auto;
+        color:#000;
+    }
+    .swfupload {
+        vertical-align: top;
+    }
+    #showimg ul li {
+        float: left;
+        margin-left: 22px;
+        margin-bottom: 22px;
+        margin-left: 15px;
+    }
+</style>
+<div id=content style="background:#000;width:100%;height:100%;">
+    <form id="form1" action="index.php" method="post" enctype="multipart/form-data" style="margin-top:50px;">
+        <p style="padding-bottom:30px;">点击“浏览上传”按钮，选择您要上传的文档文件后，系统将自动上传并在完成后提示您。请勿上传包含中文文件名的文件！</p>
+        <div class="fieldset flash" id="fsUploadProgress">
+            <span class="legend">快速上传</span>
+        </div>
+        <div id="divStatus" style="height:30px;">
+
+        </div>
+        <div>
+            <span id="spanButtonPlaceHolder"></span>
+            <input id="btnCancel" type="button" value="取消所有上传" onclick="swfu.cancelQueue();" disabled="disabled" style="margin-left: 2px; font-size: 8pt; height: 29px;" />
+        </div>
+    </form>
+    <div id="showgoodsimg">
+
+    </div>
+
+</div>
+</body>
+</html>

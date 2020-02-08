@@ -1,0 +1,24 @@
+.head>image {
+    width: 40rpx;
+    height: 40rpx;
+    background: orange;
+}
+
+.info {
+    font-size: 30rpx;
+    width: 100%;
+    background: #fff;
+}
+
+.info>view:nth-child(1) {
+    width: 30%;
+    text-indent: 20rpx;
+}
+
+.info>view:nth-child(2) {
+    width: 70%;
+}
+
+.info>view text {
+    padding: 0 20rpx 0 0;
+}

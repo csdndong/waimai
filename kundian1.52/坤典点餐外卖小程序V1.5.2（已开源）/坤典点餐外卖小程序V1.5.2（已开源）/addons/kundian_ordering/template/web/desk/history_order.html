@@ -1,0 +1,101 @@
+{template 'web/common/common'}
+{template 'web/desk/navbar'}
+<link rel="stylesheet" type="text/css" href="../addons/kundian_ordering/resource/css/style.css" />
+<link rel="stylesheet" type="text/css" href="../addons/{php echo $_GPC['m']}/resource/swal/dist/sweetalert2.min.css" />
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            {$deskData['name']}历史订单信息
+        </h3>
+    </div>
+    <div class="panel-body">
+        <div class="ibox-content">
+            <form action="{url 'site/entry/desk',array('m'=>'kundian_ordering','op'=>'history_order','desk_id'=>$desk_id,'version_id'=>$_GPC['version_id'])}" id="searchform" method="post">
+                <div class="row" style="padding: 0 15px;">
+                    <div class="col-sm-3" style="width: 600px;">
+                        <input type="text" style="height: 30px;" placeholder="订单编号" name="order_number" value="{$order_number}">
+                        <span>下单时间：</span>
+                        <input type="date" name="begin_time" value="{$begin_time}">
+                        <input type="date" name="end_time" value="{$end_time}">
+                    </div>
+                    <div class="col-sm-2">
+                        <button type="submit" class="btn btn-default " style="margin-right:5px;">筛选</button>
+                        <a class="btn btn-primary" id="outOrder" href="{url 'site/entry/desk',array('m'=>'kundian_ordering','op'=>'outOrder','desk_id'=>$desk_id,'version_id'=>$_GPC['version_id'])}">批量导出</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <form action="" method="post" class="form-horizontal form">
+            <input type="hidden" name="token" value="{$_W['token']}">
+
+            <div class="table-responsive panel-body">
+                <table class="table-striped table-bordered table-hover dataTables-example table">
+                    <thead class="navbar-inner">
+                    <tr>
+                        <th>ID</th>
+                        <th>订单编号</th>
+                        <th>用餐人数</th>
+                        <th>餐位费</th>
+                        <th>订单总价</th>
+                        <th>下单时间</th>
+                        <th>订单状态</th>
+                        <th>支付方式</th>
+                        <th style="text-align:right;">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody id="level-list">
+                    {loop $list $index $item}
+                    <tr>
+                        <td><div class="type-parent">{$item['id']}</div></td>
+                        <td><div class="type-parent">{$item['order_number']}</div></td>
+                        <td><div class="type-parent">{$item['person_count']}</div></td>
+                        <td><div class="type-parent">{$item['person_price']}</div></td>
+                        <td><div class="type-parent">￥{$item['total_price']}</div></td>
+                        <td><div class="type-parent"><?php echo date("Y-m-d H:i:s",$item['create_time'])?></div></td>
+                        <td><div>
+                            <?php if($item['status']==0){?>
+                            <span class="label label-default">未结算</span>
+                            <?php }else{?>
+                            <span class="label label-success">已结算</span>
+                            <?php }?>
+                        </div></td>
+                        <td><div class="type-parent">{$item['pay_method']}</div></td>
+                        <td style="text-align:right;">
+                            <a href="{url 'site/entry/desk',array('m'=>'kundian_ordering','op'=>'history_order_detail','id'=>$item['id'],'version_id'=>$_GPC['version_id'])}" class="btn btn-primary btn-xs edit"><i class="fa fa-edit"></i>查看详情</
+                    </tr>
+                    {/loop}
+                    </tbody>
+                </table>
+                <span>订单总金额：</span><span style="color: red;font-size: 20px;">￥{$totalMoney}</span>
+                <div style="text-align: right;">
+                    {$pager}
+                </div>
+            </div>
+        </form>
+
+
+    </div>
+</div>
+{template 'common/footer'}
+<script>
+    require(["../addons/{php echo $_GPC['m']}/resource/swal/dist/sweetalert2.min.js"],function(){
+        $(function(){
+            $("#outOrder").click(function () {
+                var status=$("#sel_status").val();
+                var order_number=$("input[name='order_number']").val();
+                var begin_time=$("input[name='begin_time']").val();
+                var end_time=$("input[name='end_time']").val();
+                $.ajax({
+                    type:"post",
+                    url:"{url 'site/entry/'.$_GPC['do'],array('m'=>$_GPC['m'],'op'=>'outOrder','desk_id'=>$_GPC['desk_id'],'version_id'=>$_GPC['version_id'])}",
+                    data:{status:status,order_number:order_number,begin_time:begin_time,end_time:end_time},
+                    dataType:'json',
+                    success:function(res){
+                        console.log("aaa");
+                    }
+                })
+            })
+
+        })
+    })
+</script>

@@ -1,0 +1,98 @@
+<{extends file="<{$tempdir}>/public/admin.html"}>
+<{block name=extendjs}>
+<{/block}>
+ <{block name=controlname}>优惠活动设置<{/block}>
+ <{block name=bodylist}>
+
+    <div style="width:auto;overflow-x:hidden;overflow-y:auto">
+        <div class="search" style='height: 38px; line-height: 38px;'>
+            <div class="search_content" style='font-size:12px'>
+			注：优惠活动默认支持全部订单和全部平台，商家后台添加优惠活动也将使用此处对应的活动设置，若修改此处设置只对修改后添加的活动有效，修改前添加的活动还按照原有设置。
+			</div>
+        </div>
+ 
+ 
+ 
+          <div class="tags">
+          <div id="tagscontent">
+
+            <div id="con_one_1">
+
+              <div class="table_td" style="margin-top:10px;">
+
+              <form method="post" action="" onsubmit="return remind();" id="delform">
+
+                  <table border="0" cellspacing="2" cellpadding="4" class="list" name="table" id="table" width="100%">
+
+                    <thead>
+
+                      <tr>
+
+                        
+
+                        <th align="center">活动标签</th>
+                        <th align="center">活动类型</th>
+                        <th align="center">支持订单</th>                       
+                        <th align="center">支持平台</th>                         
+                        <th align="center">操作</th>
+
+                      </tr>
+
+                    </thead>
+
+                     <tbody>
+                 <{load_data assign="list" table="cxruleset"  fileds="*" where=" id >0 "  limit="5" }>        
+                 <{foreach from=$list['list'] item=items}>
+                        <td align="center"><img style='width: 20px;' <{ofunc type=img link="<{$items['imgurl']}>" }>  /></td>
+                        <td align="center"><{$items['name']}></td>
+                        <td align="center"><{if $items['supportorder'] == 1}>全部<{else}>仅在线支付订单有效<{/if}></td>
+                        <td align="center">
+						<{if in_array(1,explode(',',$items['supportplat']))}>PC端,<{/if}>
+						<{if in_array(2,explode(',',$items['supportplat']))}>微信端,<{/if}>
+						<{if in_array(3,explode(',',$items['supportplat']))}>web端,<{/if}>
+						<{if in_array(4,explode(',',$items['supportplat']))}>app(安卓,苹果)<{/if}>				
+						</td>                       
+			            <td align="center">
+                            <a href="<{ofunc type=url link="/adminpage/card/module/editrule/id/<{$items['id']}>"}>"><img style='margin-bottom:-8px' src="<{$siteurl}>/templates/<{$tempdir}>/public/images/admin/edit.jpg"></a>                             
+                        </td>                         
+                      </tr>
+                  <{/foreach}>
+                 
+                    </tbody>
+
+                  </table>
+
+                <div class="blank20" style="padding-left: 20px;"><font style="color:red;"></font></div>
+
+                </form>
+ 
+                <div class="page_newc">
+				
+					 
+				 
+                 	     </div>
+                      
+                 </div>
+  <div class="page_newc" style='margin-left: 18px;height: 30px;line-height: 20px;'>
+			  
+					<div class="select_page" style="color:red;width:800px;">
+					
+						  </div>
+				 
+                 	     </div>
+                <div class="blank20"></div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+  </div>
+
+</div>
+ 
+<{/block}>

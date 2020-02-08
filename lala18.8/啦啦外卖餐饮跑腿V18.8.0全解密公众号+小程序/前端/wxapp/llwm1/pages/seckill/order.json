@@ -1,0 +1,6 @@
+{
+    "navigationBarTitleText": "限时抢购订单管理",
+    "navigationBarBackgroundColor": "#33aafc",
+    "navigationBarTextStyle": "white",
+    "enablePullDownRefresh": true
+}

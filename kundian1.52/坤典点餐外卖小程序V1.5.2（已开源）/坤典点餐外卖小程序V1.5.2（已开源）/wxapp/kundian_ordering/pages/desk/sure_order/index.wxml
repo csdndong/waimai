@@ -1,0 +1,35 @@
+<view class="con">
+    <view class="title-img">
+        <image src="../../../img/address-line.png"></image>
+    </view>
+    <view class="o-ul">
+        <view class="ul-title"> 餐 桌 </view>
+        <view class="ul-val red">{{deskData.name}}</view>
+    </view>
+    <view class="o-ul">
+        <view class="ul-title">用餐人数</view>
+        <view class="ul-val">{{orderData.person_count}}</view>
+    </view>
+</view>
+<view class="goods">
+    <view class="goods-title">商品清单（共{{totalNum}}件）</view>
+    <view class="goods-ul" wx:for="{{selectList}}" wx:for-item="val">
+        <view class="ul-cover">
+            <image src="{{val.cover}}"></image>
+        </view>
+        <view class="ul-name text-overflow">{{val.goods_name}}</view>
+        <view class="ul-count">×{{val.selectNum}}</view>
+        <view class="ul-price">￥{{val.price}}</view>
+    </view>
+    <view class="goods-btm">
+        <text class="g-b-title">总计：</text>
+        <text class="red">￥{{totalPrice}}</text>
+    </view>
+</view>
+<view class="o-footer">
+    <view class="f-left">
+        <text>还需要支付</text>
+        <text class="price">￥{{totalPrice}}</text>
+    </view>
+    <view bindtap="confirmOrder" class="f-right">确认下单</view>
+</view>

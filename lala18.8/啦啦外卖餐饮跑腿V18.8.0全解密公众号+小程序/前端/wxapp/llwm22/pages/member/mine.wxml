@@ -1,0 +1,88 @@
+<view class="page-member">
+    <view class="diy-memberHeader">
+        <view class="member-headinfo">
+            <view class="headinfo-user">
+                <view class="user-face {{0=='radius'?'party':''}}">
+                    <image src="{{deliveryer.avatar}}"></image>
+                </view>
+                <view class="user-name">{{deliveryer.title}}</view>
+                <view class="user-level hide">
+					[配送员等级]
+				</view>
+            </view>
+            <view bind:tap="onJsEvent" class="setting hide" data-event-type="jsUrl" data-url="pages/member/setting">
+                <view class="icon icon-settings"></view>
+            </view>
+        </view>
+    </view>
+    <view class="diy-blockNav">
+        <view class="blockNav-title border-1px-b">我的账户</view>
+        <view class="col-4">
+            <view bind:tap="onJsEvent" class="diy-icon-col" data-event-type="jsUrl" data-url="pages/finance/getcash">
+                <view class="icon-img">
+                    <text class="icon icon-pay"></text>
+                </view>
+                <view class="text-icon">账户余额</view>
+                <view class="icon-tips">¥{{deliveryer.credit2}}</view>
+            </view>
+            <view bind:tap="onJsEvent" class="diy-icon-col" data-event-type="jsUrl" data-url="pages/finance/current">
+                <view class="icon-img">
+                    <text class="icon icon-news_hot_light"></text>
+                </view>
+                <view class="text-icon">账户明细</view>
+                <view class="icon-tips"></view>
+            </view>
+            <view bind:tap="onJsEvent" class="diy-icon-col" data-event-type="jsUrl" data-url="pages/finance/getcash">
+                <view class="icon-img">
+                    <text class="icon icon-refund"></text>
+                </view>
+                <view class="text-icon">申请提现</view>
+                <view class="icon-tips"></view>
+            </view>
+            <view bind:tap="onJsEvent" class="diy-icon-col" data-event-type="jsUrl" data-url="pages/finance/getcashList">
+                <view class="icon-img">
+                    <text class="icon icon-text1"></text>
+                </view>
+                <view class="text-icon">提现记录</view>
+                <view class="icon-tips"></view>
+            </view>
+            <view bind:tap="onJsEvent" class="diy-icon-col" data-event-type="jsUrl" data-url="pages/member/setting">
+                <view class="icon-img">
+                    <text class="icon icon-notice"></text>
+                </view>
+                <view class="text-icon">我的设置</view>
+            </view>
+            <view bind:tap="onClearStorage" class="diy-icon-col">
+                <view class="icon-img">
+                    <text class="icon icon-delete"></text>
+                </view>
+                <view class="text-icon">清除缓存</view>
+            </view>
+            <view style="clear:both"></view>
+        </view>
+    </view>
+    <view class="diy-blockNav">
+        <view class="blockNav-title border-1px-b">统计</view>
+        <view class="col-4">
+            <view bind:tap="onJsEvent" class="diy-icon-col" data-event-type="jsUrl" data-url="pages/statcenter/count">
+                <view class="icon-img">
+                    <text class="icon icon-calendar"></text>
+                </view>
+                <view class="text-icon">配送统计</view>
+            </view>
+            <view bind:tap="onJsEvent" class="diy-icon-col" data-event-type="jsUrl" data-url="pages/statcenter/rank">
+                <view class="icon-img">
+                    <text class="icon icon-rank"></text>
+                </view>
+                <view class="text-icon">外卖排行</view>
+            </view>
+            <view bind:tap="onJsEvent" class="diy-icon-col" data-event-type="jsUrl" data-url="pages/statcenter/erranderRank">
+                <view class="icon-img">
+                    <text class="icon icon-rank"></text>
+                </view>
+                <view class="text-icon">跑腿排行</view>
+            </view>
+        </view>
+    </view>
+</view>
+<include src="../public/footer.wxml"></include>

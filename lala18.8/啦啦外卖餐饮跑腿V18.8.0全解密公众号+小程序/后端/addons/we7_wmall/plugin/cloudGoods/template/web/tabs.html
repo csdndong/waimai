@@ -1,0 +1,44 @@
+<div class="second-sidebar-title">{$_W['_plugin']['title']}</div>
+<div class="nav slimscroll">
+	{ifp 'cloudGoods.goods' || 'cloudGoods.goodsCategory' || 'cloudGoods.menuCategory'}
+	<div class="menu-header">商品</div>
+	<ul class="menu-item">
+		{ifp 'cloudGoods.goods'}
+		<li {if $_W['_action'] == 'goods'}class="active"{/if}>
+			<a href="{php echo iurl('cloudGoods/goods/index');}">商品库</a>
+		</li>
+		{/if}
+		{ifp 'cloudGoods.goodsCategory'}
+		<li {if $_W['_action'] == 'goodsCategory'}class="active"{/if}>
+			<a href="{php echo iurl('cloudGoods/goodsCategory/index');}">商品分类</a>
+		</li>
+		{/if}
+		{ifp 'cloudGoods.menuCategory'}
+		<li {if $_W['_action'] == 'menuCategory'}class="active"{/if}>
+			<a href="{php echo iurl('cloudGoods/menuCategory/index');}">菜单</a>
+		</li>
+		{/if}
+	</ul>
+	{/if}
+	{ifp 'cloudGoods.goods' || 'cloudGoods.goodsCategory' || 'cloudGoods.menuCategory'}
+	<div class="menu-header">导入</div>
+	<ul class="menu-item">
+		{ifp 'cloudGoods.storeGoods'}
+		<li {if $_W['_action'] == 'storeGoods'}class="active"{/if}>
+			<a href="{php echo iurl('cloudGoods/storeGoods/index');}">商户商品</a>
+		</li>
+		{/if}
+		{ifp 'cloudGoods.exportgoods'}
+		<li {if $_W['_action'] == 'exportgoods'}class="active"{/if}>
+			<a href="{php echo iurl('cloudGoods/exportgoods/index');}">从Excel导入</a>
+		</li>
+		{/if}
+	</ul>
+	{/if}
+	<!--<div class="menu-header">工具</div>-->
+	<!--<ul class="menu-item">-->
+		<!--<li {if $_W['_action'] == 'uploadsPicture'}class="active"{/if}>-->
+			<!--<a href="{php echo iurl('cloudGoods/uploadsPicture/index');}">批量上传图片</a>-->
+		<!--</li>-->
+	<!--</ul>-->
+</div>

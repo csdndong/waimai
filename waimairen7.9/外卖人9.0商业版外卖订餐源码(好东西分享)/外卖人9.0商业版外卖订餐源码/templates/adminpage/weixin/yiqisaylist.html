@@ -1,0 +1,208 @@
+ <{extends file="<{$tempdir}>/public/admin.html"}>
+ <{block name=controlname}>微信一起说留言列表<{/block}>
+ <{block name=bodylist}>
+ 
+ <script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js"></script>
+          <div style="width:auto;overflow-x:hidden;overflow-y:auto">
+
+           <div class="tags">
+
+
+
+          <div id="tagscontent">
+
+            <div id="con_one_1">
+
+              <div class="table_td" style="margin-top:10px;">
+
+              <form method="post" action="" onsubmit="return remind();" id="delform">
+
+                  <table border="0" cellspacing="2" cellpadding="4" class="list" name="table" id="table" width="100%">
+
+                    <thead>
+
+                      <tr>
+
+                        <th width="60px"><input type="checkbox" id="chkall" name="chkall" onclick="checkall()"></th>
+
+                        <th align="center">id</th>
+                         <th width="6%" align="center">用户名</th>
+                         <th align="center">发表主题</th>
+                         <th width="8%" align="center">所发图片</th>
+                        <th width="8%"  align="center">添加时间</th>
+                        <th width="8%" align="center">用户所发时位置</th>
+                        <th width="6%"  align="center">所赞总数</th>
+                         <th width="6%"  align="center">被举报总数</th>
+                         <th width="8%"  align="center">是否展示</th>
+                        <th width="6%" align="center">操作</th>
+
+                      </tr>
+
+                    </thead>
+
+                     <tbody>
+
+                  
+		                 	<{foreach from=$togethersaylist item=items}>
+                      <tr class="s_out"<{if $items['beijubaoshu'] >10 }> onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='#ffef87';"  bgcolor="#ffef87 " <{else}>  onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';"  bgcolor="#ffffff " <{/if}> >
+                        <td align="center" ><input type="checkbox" name="id[]" value="<{$items['id']}>"></td>
+                        <td align="center"><{$items['id']}></td>
+                        <td align="center"><{$items['username']}></td>
+                        <td align="center"> <{$items['usercontent']|htmlspecialchars_decode}> </td>
+                        <td align="center"><{if $items['userimg'] == ''}>无图<{else}><span style="cursor:pointer;" onclick="chakansay(<{$items['id']}>);">点击查看图片</span><{/if}> </td>
+                        <td align="center"><{$items['addtime']|date_format:"%Y-%m-%d %H:%M:%S"}></td>
+						 <td align="center"><{$items['address']}></td>
+						  <td align="center"><{$items['zongzanshu']}></td>			
+						 <td <{if $items['beijubaoshu'] >10 }> style="color: #F00; font-size:20px; font-weight:bold;" <{/if}> align="center"><{$items['beijubaoshu']}></td>
+						  
+						<td  align="center">
+							<{if $items['is_show'] == 1 }>
+							<a  onclick="return showremind(this);"  href="<{ofunc type=url link="/adminpage/weixin/module/showwxusercomm/id/<{$items['id']}>/datatype/json"}>" >设置成不展示</a>
+							<{else}>
+							<a  onclick="return showremind(this);"  href="<{ofunc type=url link="/adminpage/weixin/module/showwxusercomm/id/<{$items['id']}>/datatype/json"}>" >设置成展示</a>
+							<{/if}>
+						</td>
+						  
+                        <td align="center">
+                        <!-- 	<a href="<{ofunc type=url link="/adminpage/news/module/addnews/id/<{$items['id']}>"}>" ><img src="<{$siteurl}>/templates/<{$tempdir}>/public/images/admin/edit.jpg"></a> -->
+                        	<a onclick="return remind(this);" href="<{ofunc type=url link="/adminpage/weixin/module/delwxusersay/id/<{$items['id']}>/datatype/json"}>"><img src="<{$siteurl}>/templates/<{$tempdir}>/public/images/admin/del.jpg"></a></td>
+                      </tr>
+                       <{/foreach}>
+
+                    </tbody>
+
+                  </table>
+
+                <div class="blank20"></div>
+
+                </form>
+
+                <div class="page_newc">
+                 	      <div class="select_page"><a href="#" onclick="checkword(true);">全选</a>/<a href="#" onclick="checkword(false);">取消</a> <a onclick="return remindall(this);" href="<{ofunc type=url link="/adminpage/weixin/module/delwxusersay/datatype/json"}>" class="delurl">删除</a>  <a href="<{ofunc type=url link="/adminpage/weixin/module/glywxmsg"}>" class="delurl">管理员发布置顶留言</a></div>
+                       <div class="show_page"><ul><{$pagecontent}></ul></div>
+                 </div>
+
+               <div class="blank20"></div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+  </div>
+
+</div>
+<script>
+var dialogs ;
+function chakansay(sayid){
+		 dialogs = art.dialog.open(siteurl+'/index.php?ctrl=adminpage&action=weixin&module=chakansayimgs&sayid='+sayid,{height:'600px',width:'800px'},false);	 	
+}
+
+
+function showremind(obj){
+  if(confirm('确定操作吗？')){
+  	$('#cat_zhe').toggle();
+	      $('#cat_tj').toggle();
+    var url = $(obj).attr('href'); 
+	 $.ajax({
+     type: 'get',
+     async:true,
+     data:$(obj).serialize(),
+     url: url.replace('@random@', 1+Math.round(Math.random()*1000)), 
+     dataType: 'json',success: function(content) {  
+     	$('#cat_zhe').toggle();
+	      $('#cat_tj').toggle();
+     	if(content.error == false){
+     		diasucces(content.msg,'');
+     	}else{
+     		if(content.error == true)
+     		{
+     			diaerror(content.msg); 
+     		}else{
+     			diaerror(content); 
+     		}
+     	} 
+		},
+    error: function(content) { 
+    	$('#cat_zhe').toggle();
+	      $('#cat_tj').toggle();
+    	diaerror('数据获取失败'); 
+	  }
+   });   
+  }
+  return false;
+}
+
+
+function remind(obj){
+  if(confirm('确定删除吗？确定将删除此条用户所发的留言，以及对应的评论回复、所赞数和被举报数？')){
+  	$('#cat_zhe').toggle();
+	      $('#cat_tj').toggle();
+    var url = $(obj).attr('href'); 
+	 $.ajax({
+     type: 'get',
+     async:true,
+     data:$(obj).serialize(),
+     url: url.replace('@random@', 1+Math.round(Math.random()*1000)), 
+     dataType: 'json',success: function(content) {  
+     	$('#cat_zhe').toggle();
+	      $('#cat_tj').toggle();
+     	if(content.error == false){
+     		diasucces(content.msg,'');
+     	}else{
+     		if(content.error == true)
+     		{
+     			diaerror(content.msg); 
+     		}else{
+     			diaerror(content); 
+     		}
+     	} 
+		},
+    error: function(content) { 
+    	$('#cat_zhe').toggle();
+	      $('#cat_tj').toggle();
+    	diaerror('数据获取失败'); 
+	  }
+   });   
+  }
+  return false;
+}
+function remindall(obj){ 
+  if(confirm('确定删除吗？确定将删除此条用户所发的留言，以及对应的评论回复、所赞数和被举报数？')){
+  	$('#cat_zhe').toggle();
+	      $('#cat_tj').toggle();
+    var url = $(obj).attr('href'); 
+	 $.ajax({
+     type: 'post',
+     async:true,
+     data:$('#delform').serialize(),
+     url: url.replace('@random@', 1+Math.round(Math.random()*1000)), 
+     dataType: 'json',success: function(content) {  
+      $('#cat_zhe').toggle();
+	      $('#cat_tj').toggle();
+     	if(content.error == false){
+     		diasucces(content.msg,'');
+     	}else{
+     		if(content.error == true)
+     		{
+     			diaerror(content.msg); 
+     		}else{
+     			diaerror(content); 
+     		}
+     	} 
+		},
+    error: function(content) {  
+    	$('#cat_zhe').toggle();
+	      $('#cat_tj').toggle();
+    	diaerror('数据获取失败'); 
+	  }
+   });   
+  }  
+  return false; 
+}
+</script>
+<{/block}>

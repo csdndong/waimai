@@ -1,0 +1,92 @@
+  <{extends file="<{$tempdir}>/public/admin.html"}> 
+ <{block name=extendjs}>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js"></script>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/datepicker/WdatePicker.js"></script>
+ <{/block}>
+ <{block name=controlname}>微信客服设置<{/block}>
+ <{block name=bodylist}> 
+ 
+  <div class="managShopCon">
+	<div class="managShopBox">
+		<div class="managShopMain">
+		<{include file="<{$tempdir}>/public/commentcate.html"}>  
+			
+			<div class="addShopSingCon">
+ 
+ 
+	 <div style="width:auto;overflow-x:hidden;overflow-y:auto"> 
+         
+          <div id="tagscontent">
+            <form method="post" name="form1" action="<{ofunc type=url link="/areaadminpage/other/module/savewxkefu/datatype/json"}>" onsubmit="return subform('',this);">
+              <div>
+                <table border="0" cellspacing="2" cellpadding="4" class="list" name="table" id="table" width="100%">
+                  <tbody>
+                  	 
+				 
+					 
+					 <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                        <td class="left">微信客服设置</td>
+                        <td><input type="radio" name="wxkefu_open"   value="1"  <{if $station['wxkefu_open']== 1}>checked<{/if}>>开启
+                            <input type="radio" name="wxkefu_open"   value="0"  <{if $station['wxkefu_open']== 0}>checked<{/if}>>关闭
+						</td>
+                     </tr>
+					
+					 
+                    <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                        <td class="left">个人二维码</td>
+                        <td>
+                            <input type="hidden" name="wxkefu_ewm" id="wxkefu_ewm" value="<{$station['wxkefu_ewm']}>" class="skey" style="width:100px;">
+                            <img src="<{$station['wxkefu_ewm']}>" width=150px height=150px id="imgwxkefu_ewm" <{if  empty($station['wxkefu_ewm'])}> style="display:none;"<{/if}>>
+                            <span onclick="uploadw();">上传图片</span>
+                        </td>
+                    </tr>
+
+					 <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                      <td class="left">电话</td>
+                      <td><input type="text" name="wxkefu_phone" id="wxkefu_phone" value="<{$station['wxkefu_phone']}>" class="skey" style="width:250px;"></td>
+                    </tr>
+				 
+                   
+                    
+                  </tbody>
+                </table>
+              </div>
+              <div class="blank20"></div>
+              <input type="hidden" name="tijiao" id="tijiao" value="do" class="skey" style="width:250px;">
+              <input type="hidden" name="saction" id="saction" value="siteset" class="skey" style="width:250px;">
+               <input type="submit" value="确认提交" class="button">  
+            </form>
+          </div>
+        </div> 
+        
+        
+   
+    </div> 
+    </div> 
+    </div> 
+    </div> 
+    </div> 
+	
+<script>
+	var dialogs ;
+ function uploadw(){
+        dialogs = art.dialog.open('<{ofunc type=url link="/areaadminpage/other/module/adminupload/func/uploadsuceswebc"}>');
+        dialogs.title('上传图片');
+    }
+    function uploadsuceswebc(flag,obj,linkurl){
+        if(flag == true){
+            
+            dialogs.close();
+            uploadw();
+        }else{
+            
+            dialogs.close();
+            $('#wxkefu_ewm').val(linkurl);
+            $('#imgwxkefu_ewm').attr('src',linkurl);
+            $('#imgwxkefu_ewm').show();
+        }
+    }
+
+</script>	
+	
+ <{/block}>

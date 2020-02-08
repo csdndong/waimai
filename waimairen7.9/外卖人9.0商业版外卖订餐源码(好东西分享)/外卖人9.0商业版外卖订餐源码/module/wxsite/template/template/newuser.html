@@ -1,0 +1,89 @@
+ <{extends file="<{$tempdir}>/public/wxsite.html"}> 
+
+<{block name=extendcss}>  
+  <link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/newwxuserhtlp.css">  
+  <link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/newwxuserhtlpCom.css">  
+ <style>
+
+	.prer03 li p {
+
+width: 90%;
+
+border-bottom: 1px solid #dcdcdc;
+
+margin: 0px auto;
+
+padding: 15px;
+
+line-height: 20px;
+
+position: relative;
+
+}
+
+.ftnBd {
+
+font-weight: bold;
+
+}
+
+ 
+
+.city-select {
+
+background: url(../images/li_selected.png) right no-repeat;
+
+background-size: 18px 18px;
+
+} 
+#scroller {
+position:absolute; 
+	z-index:1;
+	display:block;   
+	overflow:auto; 
+	width:100%;
+}
+</style>
+<{/block}>
+ <{block name=myScrolljs}>
+<script> 
+		var myScroll;
+function loaded() {
+	myScroll = new iScroll('wrapper', {
+		useTransform: false,
+		onBeforeScrollStart: function (e) {
+			var target = e.target;
+			while (target.nodeType != 1) target = target.parentNode;
+
+			if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA')
+				e.preventDefault();
+		}
+	});
+}
+document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false); 
+document.addEventListener('DOMContentLoaded', function () { setTimeout(loaded, 200); }, false);
+</script>
+<{/block}>
+<{block name=hearnav}>
+<div class="toptitCon">
+ <div class="toptitBox">
+  <div class="toptitL"><i></i></div>
+  <div class="toptitC"><h3>新手指南</h3></div>
+ </div>
+</div>
+<{/block}>
+<{block name=sitetitle}><{$sitename}><{/block}>
+<{block name=blockcontent}>  
+ <div id="wrapper" style="top:40px;">
+	<div id="scroller">
+ <section> 
+     <div style="width:100%; margin:0  auto; height:auto; ">
+		<div style="width:90%; margin:0px  auto 0px;   font-size:16px; color:#333333;">
+					<{load_data assign="neuserhelp" table="single" type="one" where="code='neuserhelp'" fileds="*" }>  
+			         <{$neuserhelp['content']|htmlspecialchars_decode}>
+		</div>
+	 </div>
+    </section>
+  </div>
+</div> 
+<{/block}>

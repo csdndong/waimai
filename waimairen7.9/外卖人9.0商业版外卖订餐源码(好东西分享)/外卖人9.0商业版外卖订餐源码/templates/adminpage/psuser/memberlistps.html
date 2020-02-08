@@ -1,0 +1,155 @@
+ <{extends file="<{$tempdir}>/public/admin.html"}> 
+  
+ <{block name=controlname}>配送员会员列表<{/block}>
+ <{block name=bodylist}>
+   	        	 	
+      <div style="width:auto;overflow-x:hidden;overflow-y:auto"> 
+      	
+      	
+      	 <div class="search">
+      		 
+            
+            <div class="search_content">
+            	 
+            	 <form method="post" name="form1" action="<{ofunc type=url link="/adminpage/psuser/module/memberlistps"}>">
+            	  
+            	   <label>用户名：</label>
+            	   <input type="text" name="username" value="<{$username|default:''}>"> 
+            	   <label>邮箱：</label>
+            	   <input type="text" name="email" value="<{$email|default:''}>">                 
+                  <label>手机：</label>
+            	   <input type="text" name="phone" value="<{$phone|default:''}>">    
+            	  
+            	    <input type="submit" value="提交查询" class="button">  
+            	 </form>
+            </div>
+        
+      	</div>
+      	 
+           <div class="tags"> 
+
+          <div id="tagscontent">
+
+            <div id="con_one_1">
+
+              <div class="table_td"  >
+
+              <form method="post" action="" onsubmit="return remind();"  id="delform">
+
+                  <table border="0" cellspacing="2" cellpadding="4" class="list" name="table" id="table" width="100%">
+
+                    <thead>
+
+                      <tr>
+
+                        <th width="60px"><input type="checkbox" id="chkall" name="chkall" onclick="checkall()"></th>
+
+                        <th align="center">用户名称</th>
+
+                        <th align="center">登录时间</th> 
+
+                        <th align="center">创建时间</th> 
+                        <th align="center">登录IP</th>
+                        <th align="center">余额</th>
+                        <th align="center">积分</th>
+                        <th align="center">绑定所属城市</th>
+                        <th align="center">操作</th>
+
+                      </tr>
+
+                    </thead> 
+
+                     <tbody>
+                      <{load_data assign="list" table="member" showpage="true" where="<{$where}>" }> 
+                      <{foreach from=$list['list'] item=items}> 
+                      <tr class="s_out" onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff"> 
+                        <td align="center" ><input type="checkbox" name="id[]" value="<{$items['uid']}>"></td> 
+                        <td align="center"><{$items['username']}></td> 
+                        <td align="center"> <{$items['creattime']|date_format:"%Y-%m-%d %H:%M:%S"}> </td> 
+                        <td align="center"><{$items['logintime']|date_format:"%Y-%m-%d %H:%M:%S"}></td>  
+                        <td align="center"><{$items['loginip']}></td> 
+                        <td align="center"><{$items['cost']}></td> 
+                        <td align="center"><{$items['score']}></td> 
+                        <td align="center"><a onclick="setadmin('<{$items['username']}>','<{$items['admin_id']}>','<{$items['uid']}>');" href="#"><{$adminlist[$items['admin_id']]|default:'请设置所属城市'}></a></td>
+                        <td align="center"><a href="<{ofunc type=url link="/adminpage/member/module/addmember/id/<{$items['uid']}>"}>"><img src="<{$siteurl}>/templates/<{$tempdir}>/public/images/admin/edit.jpg"></a> 
+                        	<a onclick="return remind(this);" href="<{ofunc type=url link="/adminpage/member/module/delmember/id/<{$items['uid']}>/datatype/json"}>"><img src="<{$siteurl}>/templates/<{$tempdir}>/public/images/admin/del.jpg"></a></td> 
+                      </tr> 
+                       <{/foreach}> 
+
+                    </tbody> 
+
+                  </table>
+
+                <div class="blank20"></div> 
+                </form>
+                 <div class="page_newc">
+                 	     <div class="select_page">
+                 	      
+                 	     	</div>
+                       <div class="show_page"><ul><{$list['pagecontent']}></ul></div>
+                 </div>
+
+                <div class="blank20"></div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+        
+        
+        
+        
+
+        
+ </div> 
+ <script>
+ 	function setadmin(username,adminid,memberuid)
+{
+	 
+  var	htmls = '<form method="post" id="subyj" action="#" style="text-align:center;"><table>';
+	htmls += '<tbody><tr>';
+	htmls += '<td height="50px">选择所属城市:</td>';
+	htmls += '<td> <select name="adminid"><option value="0">请选择绑定城市</option>';
+	<{foreach from=$adminall item=items}>
+	if(adminid == <{$items['adcode']}>){
+		htmls += '<option value="<{$items['adcode']}>" selected><{$items['name']}></option>';
+	}else{
+		htmls += '<option value="<{$items['adcode']}>"><{$items['name']}></option>';
+	} 
+	<{/foreach}>
+	
+	htmls += '</td></tr></tbody></table> ';
+  htmls += '<input type="hidden" value="'+memberuid+'" name="uid"> ';
+	htmls += '<input type="button" value="确认提交" class="button" onclick="parent.buttonsubyj();" id="buttonsubyj" ></form>';
+  art.dialog({
+    id: 'testID4',
+    title:'设置'+username+'配送所属管理员',
+    content: htmls
+  });
+} 
+
+ // $('#buttonsubyj').bind('click',function(){ 
+function buttonsubyj(){
+
+			$.post('<{ofunc type=url link="/adminpage/psuser/module/setpsyuan/datatype/json"}>', $('#subyj').serialize() ,function (data, textStatus){  
+					if(data.error == false){
+						diasucces(data.msg,'');
+					}else{
+						if(data.error == true)
+						{
+							diaerror(data.msg); 
+						}else{
+							diaerror(data); 
+						}
+					} 
+			 }, 'json'); 
+	 
+	}
+//});
+ 	
+ 	</script>
+<{/block}>    

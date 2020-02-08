@@ -1,0 +1,394 @@
+<{extends file="<{$tempdir}>/public/wxsite.html"}>  
+<{block name=extendcss}> 
+ <link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/wmr_newaddress.css">    
+<{/block}>
+ <{block name=myScrolljs}>
+<script> 
+		var myScroll;
+function loaded() {
+	myScroll = new iScroll('wrapper', {
+		useTransform: false,
+		onBeforeScrollStart: function (e) {
+			var target = e.target;
+			while (target.nodeType != 1) target = target.parentNode;
+
+			if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA')
+				e.preventDefault();
+		}
+	});
+}
+document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false); 
+document.addEventListener('DOMContentLoaded', function () { setTimeout(loaded, 200); }, false);
+</script>
+<{/block}>
+<{block name=hearnav}><!--标题-->
+<div class="toptitCon">
+ <div class="toptitBox">
+  <div class="adr_toptitL"><a href="javascript:void(0);"><i></i></a></div>
+  <div class="toptitC"><h3>选择收货地址</h3></div>
+ </div>
+</div> 
+<div class="swiaddCon">
+	<div class="swiaddL" id="selectCity" style="width:auto!important;">
+		<div class="swiadd" style="width:auto!important;padding-right:13px;">
+			<span id="cityname" style="width:auto!important;"><{if !empty($CITY_NAME) }><{$CITY_NAME|default:$cityname}><{else}><{$cityname}><{/if}></span>
+			<input type="hidden" value="<{$CITY_ID|default:$default_cityid}>" name="cityId" />
+			<i class="fa fa-angle-down" style="margin-left:5px;"></i>
+		</div>
+	</div>
+	<div class="swiaddR">
+		<div class="swiaddsea">
+			<input type="text" id="wmrSearchKeywords"  style="text-align:center;height:20px;"  value="" placeholder="请输入您的收货地址" />
+			<i class="clearSerchInput" style="display:none;"></i>
+		</div>
+		<div class="swiaddbtn">
+			<input id="searchButton" type="button" value="搜索" />
+		</div>
+	</div>
+</div>
+
+<{/block}>
+<{block name=sitetitle}><{$sitename}><{/block}>
+<{block name=blockcontent}>  
+ <div id="wrapper" style="top:88px;">
+	<div id="scroller">
+ 
+<div class="defaposCon"  onclick="dolink('<{ofunc type=url link="/wxsite/dwLocation"}>');"  >
+	<i></i><span>定位当前位置</span>
+</div> 
+
+<{load_data assign="addresslist" table="address"   fileds="*"   limit="10" orderby=" addtime desc" where=" userid = '<{$member['uid']}>' and  lng != '' and lat != '' and  bigadr != '' and address != ''   "}> 
+ <{if !empty($addresslist['list']) }>
+ <div class="defaTit">
+	<i></i><span>我的收货地址</span>
+</div>
+<div class="defaCon" id="historyaddList">
+	<ul>
+	<{foreach from=$addresslist['list']  item=items }>
+		<li  lat="<{$items['lat']}>"  lng="<{$items['lng']}>"  address="<{$items['bigadr']}>"   >
+			<div class="defaTop">
+				<h3><{$items['address']}></h3>
+			</div>
+			<div class="defaBot">
+				<span><{$items['contactname']}></span><span><{$items['phone']}></span>
+			</div>
+		</li>
+	 <{/foreach}>
+	</ul>
+</div>
+<{/if}>
+
+ 
+   
+  </div>
+</div> 
+ 
+ 
+<div id="searchAddresslist"  style="display:none;">
+	<div>
+	<{if !empty($cook_adrlistcookie) }>
+		 <div class="defachoCon" id="searchHist">
+			<div class="defachoTit">
+				<div class="defachoTitL">
+					<i></i><span>搜索历史</span>
+				</div>
+				<div id="clearAdrCookie" class="defachoTitR">
+					<span>清空</span>
+				</div>
+			</div>
+			<div class="defachoBox">
+				<ul>
+					<{foreach from=$cook_adrlistcookie item=items }>
+ 							<li lng="<{$items[0]}>" lat="<{$items[1]}>" address="<{$items[2]}>" adcode="<{$items[3]}>" ><{$items[2]}></li>
+ 					<{/foreach}>
+				</ul>
+			</div>
+		</div>
+	<{/if}>
+	
+		  <div class="entaddCon"  >
+			<ul id="showAdrlist">
+				 
+			</ul>
+		</div> 
+		
+		
+	</div>
+</div>
+
+
+<div id="selectCityList"  style="display:none;">
+	<div>
+	 
+		
+		 <div class="alropeCon">
+			<div class="alropeTit">
+				<div class="alropeTitL">
+					<span>已开通城市</span>
+				</div>
+			</div>
+			<div class="alropeBox">
+				<ul>
+					<{load_data assign="arealist" table="area"   fileds="*"   limit="1000" orderby=" orderid asc" where=" id > 0 and parent_id = 0 "}> 
+ 					<{if !empty($arealist['list']) }>
+						<{foreach from=$arealist['list'] item=items }>
+							<li cityid="<{$items['adcode']}>"  style="overflow:hidden;" <{if $CITY_ID == $items['adcode'] }> class="curaA" <{/if}> ><{$items['name']}></li>
+						<{/foreach}>
+					<{/if}>
+				</ul>
+			</div>
+			<div class="clear"></div>
+		</div>
+		
+	</div>
+</div>
+
+
+
+<script>
+var lng;
+var lat;
+var address;
+var backtype = 0;
+var biaoqianval = false;
+var selectaddscorl;
+var adrlistcookie = new Array();
+function bqzhi(){
+	biaoqianval  = false;
+}
+ $(function(){  
+	<{if !empty($cook_adrlistcookie) }>
+		<{foreach from=$cook_adrlistcookie item=items }>
+			var adrtempary = new Array();
+			<{foreach from=$items item=itv }> 
+				adrtempary.push('<{$itv}>');
+			<{/foreach}>
+			adrlistcookie.push(adrtempary);
+		<{/foreach}>
+ 	<{/if}> 
+	 
+ });
+ 
+ $("#historyaddList ul li").bind('click',function(){
+		if( lockclick() ){
+			lat = $(this).attr('lat');
+			lng = $(this).attr('lng');
+			address = $(this).attr('address'); 
+			var getaddurl = '<{$map_comment_link}>restapi.amap.com/v3/geocode/regeo?output=json&location='+lng+','+lat+'&key=<{$map_webservice_key}>&radius=1000&extensions=all&callback=func_getadcode';
+			$.getScript(getaddurl); 
+		}
+		
+	});
+	 $("#searchHist ul li").bind('click',function(){
+		if( lockclick() ){
+			lat = $(this).attr('lat');
+			lng = $(this).attr('lng');
+			address = $(this).attr('address'); 
+			adcode = $(this).attr('adcode'); 
+			choiceaddress(lat,lng,address,adcode);
+ 		}
+	}) 
+ 
+ $('#clearAdrCookie').bind('click',function(){
+	$('#searchHist').hide();
+	$('#searchHist ul').html('');
+	$.cookie('cook_adrlistcookie', null);
+ });
+function func_getadcode(datas){ 
+	if(datas.status == 1   && datas.info == 'OK' ) {
+		var adcode = datas.regeocode.addressComponent.adcode;
+ 		choiceaddress(lat,lng,address,adcode);
+	}
+}  
+$('#selectCityList ul li').bind('click',function(){
+
+	$('#selectCityList ul li').removeClass('curaA');
+	$(this).addClass('curaA');
+	$('#selectCityList').hide();
+	$('#cityname').text($(this).text());
+	var cityid = $(this).attr('cityid');
+	$('input[name="cityId"]').val(cityid);
+	
+	var searchval  = $("#wmrSearchKeywords").val();
+ 	if( searchval != '' && searchval != undefined ){
+		func_searchinputAdr();
+	}
+
+});  
+$('.toptitBox .adr_toptitL').bind("click", function() {    
+		if( backtype == 1 ){
+			$("#searchAddresslist").hide();
+			backtype = 0;
+		}else if( backtype == 2 ){
+			$("#searchAddresslist").hide();
+			$("#selectCityList").hide();
+			backtype = 0;
+		}else{
+			history.back();
+		}
+    });
+function choiceaddress(lat,lng,address,adcode){  
+	 $.ajax({
+           type: 'GET', 
+           url: '<{ofunc type=url link="/wxsite/saveloation/datatype/json"}>',
+           async:false,
+ 		   data: {'lat':lat,'lng':lng,'addressname':address,'adcode':adcode},
+           dataType: 'json',success: function(content) { 
+               if(content.error == false){
+					 var temparr = new Array();
+					 temparr.push(lng); 
+					 temparr.push(lat); 
+					 temparr.push(address); 
+					 temparr.push(adcode); 
+					 adrlistcookie.push(temparr);
+  					 var adrlistcookieList = adrlistcookie.join('#');
+ 					 $.cookie("cook_adrlistcookie",adrlistcookieList,{path: "/", expiress: 365*10});
+					 window.location.href=  siteurl+'/index.php?ctrl=wxsite&action=index' ;
+             }else{
+             	  newTmsg(content.msg);
+             }
+	    	  },
+           error: function(content) { 
+				newTmsg('提交数据失败');
+	        }
+       });  
+		
+	}
+$('#searchButton').bind('click',function(){
+	if( lockclick() ){
+		$(".clearSerchInput").show();
+		// $("#showAdrlist").html('');
+		 $('#selectCityList').hide();
+		 backtype = 1;
+		 $('#searchAddresslist').show();
+		 $('#searchAddresslist').css({'position':'absolute','top':'84px','width':'100%','background':'#FFF','zIndex':'9999','height':($(window).height()-84)+'px'}); 
+		 selectaddscorl = scorllerfreach(selectaddscorl,'searchAddresslist');
+	}
+ });
+$("#wmrSearchKeywords").bind('click',function(){
+	if( lockclick() ){
+		 $(".clearSerchInput").show();
+		// $("#showAdrlist").html('');
+		 $('#selectCityList').hide();
+		 backtype = 1;
+		 $('#searchAddresslist').show();
+		 $('#searchAddresslist').css({'position':'absolute','top':'84px','width':'100%','background':'#FFF','zIndex':'9999','height':($(window).height()-84)+'px'}); 
+		 selectaddscorl = scorllerfreach(selectaddscorl,'searchAddresslist');
+	 }
+ });
+ $("#wmrSearchKeywords").bind('keyup',function(e){
+					if(biaoqianval == false){
+						biaoqianval  = true;
+						setTimeout("bqzhi()", 500 );   
+						func_searchinputAdr();
+					}
+}); 
+function func_searchinputAdr(){
+	var searchval  = $("#wmrSearchKeywords").val();
+								var cityname  = $("#cityname").text();
+								if( searchval != '' && searchval != undefined ){
+									var addresslist = '<{$map_comment_link}>restapi.amap.com/v3/place/text?&keywords='+searchval+'&city='+cityname+'&output=json&offset=20&page=1&key=<{$map_webservice_key}>&extensions=all&callback=showaddresslist';						 
+									$.getScript(addresslist); 
+								}else{
+ 									$(".clearSerchInput").hide();
+									$("#searchAddresslist").hide();
+									backtype = 0;
+								}
+								 
+}
+function showaddresslist(data){
+	console.log(data);
+	var datas = eval(data); 
+ 	if(datas.info == "OK"  && datas.status == 1  && datas.pois.length > 0 ){
+		$('#showAdrlist').html('');
+		var addresslist = datas.pois;
+ 		var showhtmls = '';
+		if( addresslist != '' ){
+			$('#searchHist').hide();
+			$('#selectCityList').hide();
+			$.each(addresslist, function(i, newobj) {
+			  showhtmls += '<li address="'+newobj.name+'" datalnglat="'+newobj.location+'"   ><div class="entaddL"><h3>'+newobj.name+'</h3><span>'+newobj.address+'</span></div><div class="entaddR"><span></span></div></li>';
+			});
+			 $('#showAdrlist').append(showhtmls);
+			 selectaddscorl.refresh();
+			 $('#showAdrlist li').bind('click',function(){
+				 if( lockclick() ){
+					var lnglat = $(this).attr('datalnglat');
+					if( lnglat != '' && address != '' ){
+						var lnglatarr = lnglat.split(',');
+						lng = lnglatarr[0];
+						lat = lnglatarr[1];
+						address = $(this).attr('address');
+						var getaddurl = '<{$map_comment_link}>restapi.amap.com/v3/geocode/regeo?output=json&location='+lng+','+lat+'&key=<{$map_webservice_key}>&radius=1000&extensions=all&callback=func_getadcode';
+						$.getScript(getaddurl);
+					}
+				 }
+			 });
+		}else{
+			$('#showAdrlist').html('');
+			selectaddscorl.refresh();
+		}
+		 
+	}else{
+		$('#showAdrlist').html('');
+		selectaddscorl.refresh();
+	}
+}
+				 
+$('.clearSerchInput').bind('click',function(){
+	if( lockclick() ){
+		$('#wmrSearchKeywords').val('');
+		$(".clearSerchInput").hide();
+		$("#searchAddresslist").hide();
+		backtype = 0;
+	}
+ });
+ 
+$("#selectCity").bind('click',function(){
+	if( lockclick() ){
+ 		 backtype = 2;
+		 $('#selectCityList').toggle();
+		 $('#selectCityList').css({'position':'absolute','top':'84px','width':'100%','background':'#FFF','zIndex':'9999','height':($(window).height()-84)+'px'}); 
+		 selectaddscorl = scorllerfreach(selectaddscorl,'selectCityList');
+	 }
+ }); 
+ 
+function scorllerfreach(scoller_name,elements_name){
+	 
+	if(typeof(scoller_name) != 'undefined'){
+		scoller_name.destroy();
+	} 
+	scoller_name = new iScroll(''+elements_name+'', { 
+			hScrollbar:false, 
+			vScrollbar:false,
+			onBeforeScrollStart: function (e) {
+			var target = e.target;
+			while (target.nodeType != 1) target = target.parentNode;
+
+			if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA' )
+				e.preventDefault();
+			},
+			useTransition: true 
+			
+    });  
+	return scoller_name;
+}				 
+</script>
+<style>
+#wmrSearchKeywords{color:#fff!important;}
+.toptitBox .adr_toptitL {
+    height: 22px;
+    display: inline-block;
+    width: 3.625%;
+    float: left;
+}
+.toptitBox .adr_toptitL i {
+    display: inline-block;
+    width: 100%;
+    height: 22px;
+    background-image: url(<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/top04.png);
+    background-repeat: no-repeat;
+    background-size: 100%;
+}
+</style>
+<{/block}>

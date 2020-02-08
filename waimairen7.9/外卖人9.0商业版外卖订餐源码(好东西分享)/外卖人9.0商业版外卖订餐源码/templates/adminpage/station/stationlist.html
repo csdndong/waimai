@@ -1,0 +1,191 @@
+<{extends file="<{$tempdir}>/public/admin.html"}>
+   <{block name=extendjs}>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js"></script>
+ <{/block}>
+ <{block name=controlname}>分站列表<{/block}>
+ <{block name=bodylist}>
+ <div style="width:auto;overflow-x:hidden;overflow-y:auto">
+
+      	<div class="search">
+
+
+           
+            <div class="search_content">
+            	 
+            	 <form method="post" name="form1" action="<{ofunc type=url link="/adminpage/station/module/stationlist"}>">
+				  <label>所属城市：</label>
+				  <select name="cityid" style='width:150px'>
+					<option value="0">全部</option> 
+                      	 <{load_data assign="arealist" table="area"    fileds="*"  where=" parent_id=0 " orderby=" orderid asc " limit="1000" }>  
+							<{foreach from=$arealist['list'] key=myid  item=items}>  
+							   <option value="<{$items['adcode']}>" <{if $cityid == $items['adcode']}>selected<{/if}>><{$items['name']}></option>
+							<{/foreach}> 
+                      </select>
+				 
+            	  <label>查询类型：</label>
+            	  <select name="querytype">
+            	  	<option value="0">未选择</option>
+            	  	<option value="mem.username"  <{if $querytype == 'mem.username'}>selected<{/if}>>分站账号</option>
+            	  	<option value="st.shopname"  <{if $querytype == 'st.stationname'}>selected<{/if}>>分站名称</option> 
+            	  	<option value="st.stationusername"  <{if $querytype == 'st.stationusername'}>selected<{/if}>>分站负责人</option> 
+            	  	<option value="st.stationphone"  <{if $querytype == 'st.stationphone'}>selected<{/if}>>分站电话</option> 
+            	  	<option value="st.stationphone"  <{if $querytype == 'st.stationphone'}>selected<{/if}>>分站电话</option> 
+             	  </select>
+            	  <label>查询条件：</label>
+            	   <input type="text" name="searchvalue" value="<{$searchvalue}>">
+            	   
+            	   <select name="status">
+								<option value="all">状态</option> 
+			   		 	  	  <option value="1" <{if $status == '1'}>selected<{/if}>>开启</option>
+			   		 	  	  <option value="2" <{if $status == '2'}>selected<{/if}>>关闭</option> 
+            	  </select>
+            	    
+            	    <input type="submit" value="提交查询" class="button">  
+            	 
+            	 </form>
+            </div>
+
+      	</div>
+
+
+
+           <div class="tags">
+
+
+
+          <div id="tagscontent">
+
+            <div id="con_one_1">
+
+              <div class="table_td" style="margin-top:10px;">
+
+              <form method="post" action="" onsubmit="return remind();"  id="delform">
+
+                  <table border="0" cellspacing="2" cellpadding="4" class="list" name="table" id="table" width="100%">
+
+                    <thead>
+
+                      <tr>
+
+                        <th width="60px"><input type="checkbox" id="chkall" name="chkall" onclick="checkall()"></th>
+
+                        <th align="center">ID</th>
+                        <th align="center">分站账号</th>
+                        <th align="center">分站名称</th>
+                        <th align="center">所属城市</th>
+                        <th align="center">分站负责人</th>
+                        <th align="center">分站电话</th>
+                        <th align="center">分站地址</th>
+						<th align="center">支持支付方式</th>
+						<th align="center">是否支持自提</th>
+                        <th align="center">状态</th> 
+                        <th align="center">排序</th>
+                        <th align="center">操作</th>
+
+                      </tr>
+
+                    </thead>
+
+                     <tbody>
+
+					 <{if empty($stationlist) }> 
+						 <tr class="s_out" onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+							<td colspan=10 align="center">暂无数据  </td>
+						  </tr>
+					<{else}>
+                       <{foreach from=$stationlist item=items}>
+                      <tr class="s_out" onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                        <td align="center" ><input type="checkbox" name="id[]" value="<{$items['id']}>"></td>
+                        <td align="center"><{$items['id']}>  </td>
+                        <td align="center"> <{$items['username']}> </td>
+                        <td align="center"> <{$items['stationname']}> </td>
+						 <td align="center">
+						<{load_data assign="cityinfo" table="area" type="one" where="adcode='<{$items['cityid']}>'" fileds="name" }>
+						<{$cityinfo['name']}> </td>
+                        <td align="center"> <{$items['stationusername']}> </td>
+                        <td align="center"> <{$items['stationphone']}> </td>
+                        <td align="center"> <{$items['stationaddress']}> </td> 
+						<td align="center" > <a onclick="starttask('<{$items['cityid']}>');" href="#">设置</a></td> 
+						
+						
+						<td align="center" > <{if $items['is_allow_ziti'] == 0 }>否<{else}>是<{/if}>  </td> 
+                        <td align="center"> <{if $items['stationis_open'] == 0 }>开启中<{else if $items['stationis_open'] == 1}>关闭<{else}>未知<{/if}> </td> 
+                        <td align="center"> <{$items['orderid']}> </td> 
+                         <td align="center">
+							  <a href="<{ofunc type=url link="/adminpage/station/module/managestation/id/<{$items['uid']}>"}>"><img src="<{$siteurl}>/templates/<{$tempdir}>/public/images/admin/edit.jpg"></a>
+                <a onclick="return remind(this);" href="<{ofunc type=url link="/adminpage/station/module/delstation/id/<{$items['uid']}>/datatype/json"}>"><img src="<{$siteurl}>/templates/<{$tempdir}>/public/images/admin/del.jpg"></a> 
+							   </td> 
+                      </tr>
+                       <{/foreach}>
+					<{/if}>
+                    </tbody>
+
+                  </table>
+
+                <div class="blank20"></div>
+
+                 <input type="hidden" name="stopoutenable" id="stopoutenable" value="4ce2f22509228162cadfc0ca0473ec19"/>
+
+                </form>
+
+               <div class="page_newc">
+                 	     <div class="select_page">
+                 	     	<a href="#" onclick="checkword(true);">全选</a>/<a href="#" onclick="checkword(false);">取消</a>
+                 	     <a onclick="return remindall(this);" href="<{ofunc type=url link="/adminpage/ask/module/delask/datatype/json"}>" class="delurl">删除</a>
+                 	     	</div>
+                       <div class="show_page"><ul><{$pagecontent}></ul></div>
+                 </div>
+
+                <div class="blank20"></div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+  </div>
+ <div id="askback" style="display:none;">
+
+               <div>
+                <table border="0" cellspacing="1" cellpadding="4" class="list" name="table" id="table" width="100%">
+                  <tbody>
+
+                  	<tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+
+                      <td><textarea name="askback" style="height:70px;width:200px"></textarea></td>
+                    </tr>
+
+                    </table>
+                </div>
+              <div class="blank20"></div>
+              <input type="hidden" name="askbackid" id="askbackid" value="" class="skey" style="width:150px;">
+               <input type="submit" value="确认提交" class="button">
+
+  </div>
+ <script>
+	var dialogs ;
+	function starttask(cityid){
+	 	 if(cityid > 0){
+		    dialogs = art.dialog.open(siteurl+'/index.php?ctrl=adminpage&action=station&module=paytypeset&cityid='+cityid,{height:'300px',width:'400px'},false); 
+		 }else{
+		    alert('分站cityid获取失败');
+			return false;
+		 }
+		
+	 }
+	function uploadsucess(linkurl){
+ 	     dialogs.close(); 
+ 	     window.location.reload(); 
+    }
+	function uploaderror(msg){
+	     dialogs.close(); 	
+		 alert(msg);
+         	 
+}
+</script>
+</div>
+<{/block}>

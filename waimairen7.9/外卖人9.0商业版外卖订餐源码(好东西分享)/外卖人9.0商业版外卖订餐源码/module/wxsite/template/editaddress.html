@@ -1,0 +1,412 @@
+<{extends file="<{$tempdir}>/public/wxsite.html"}>
+<{block name=extendcss}>
+<link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/gift.css">
+<{/block}>
+ <{block name=myScrolljs}>
+<link rel="stylesheet" href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/gaodecss.css"/>
+  <script src="<{$map_comment_link}>webapi.amap.com/maps?v=1.3&key=<{$map_javascript_key}>"></script>
+<script> 
+var myScroll;
+function loaded() {
+	myScroll = new iScroll('wrapper', {
+		useTransform: false,
+		onBeforeScrollStart: function (e) {
+			var target = e.target;
+			while (target.nodeType != 1) target = target.parentNode;
+
+			if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA')
+				e.preventDefault();
+		}
+	});
+}
+document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
+document.addEventListener('DOMContentLoaded', function () { setTimeout(loaded, 200); }, false);
+$(function(){
+	var getscreenwidth = $(window).width();
+	var inputWidth = getscreenwidth-58;
+	$(".newaddBox ul li input").css('width',inputWidth+'px');
+
+});
+		function scorllerfreach(scoller_name,elements_name){
+		
+			if(typeof(scoller_name) != 'undefined'){
+				scoller_name.destroy();
+			}
+
+			scoller_name = new iScroll(''+elements_name +'', {
+				hScroll:false,hScrollbar:false, vScrollbar:false,mouseWheel: true, click: true, tap: true,mouseWheel: true,preventDefault:false,
+			});
+			return scoller_name;
+		}
+</script>
+<{/block}>
+<{block name=hearnav}><!--标题-->
+ <{load_data assign="info" table="address" type="one" where="id='<{$id}>' and userid = '<{$member['uid']}>'" fileds="*" }> 
+
+	<!--标题-->
+<div class="toptitCon">
+ <div class="toptitBox addressbox" >
+ <div class="toptitL" ><i></i></div>
+  <div class="toptitC"><h3><{if !empty($info) }>编辑<{else}>新增<{/if}>收货地址</h3></div>
+<!--  <div class="toptitR" onclick="saveaddress();"><h3>保存</h3></div>-->
+ </div>
+ 
+ <div class="mapaddressbox toptitBox" style="display:none; padding:0px; height:49px;">
+ <!--搜索框-->
+ 
+<div class="searchCon" >
+ <div class="toptitL" style="margin-top:5px;"><i></i></div>
+ <div class="searchBox" style="float:left; margin-left:15px; width:80%; height:32px;">
+ <input style="height:32px; line-height:32px; padding-left:25px; font-size:14px;width:100%;" type="text" id="searchKeywords"  onkeyup="getscraddress();" placeholder="搜索地址"><i></i></div>
+</div>
+
+</div>
+ 
+ 
+</div>
+
+
+<{/block}>
+<{block name=sitetitle}><{$sitename}><{/block}>
+<{block name=blockcontent}>
+ <div id="wrapper" style="top:40px;">
+	<div id="scroller">
+
+ <style>
+ .newadd li .newinp {
+    width: 200px;
+  margin-left: 0px;
+    font-size: 14px;
+}
+.newadd {width:100%;}
+.newadd li {
+    border-bottom: 1px solid #e8e8e8;
+    line-height: 42px;}
+ </style>
+
+
+
+	    <div class="addressbox">
+			<input type="hidden" name="add_addressid" value="<{$addressid}>"  >
+            <!--联系人-->
+            <div class="newaddCon">
+                <div class="newaddBox">
+                    <ul class="newadd">
+                        <li><a>&nbsp;&nbsp;&nbsp;姓名：</a><input type="text" placeholder="请填写收货人的姓名" id="contactname" value="<{$info['contactname']}>" name="" class="newinp"></li>
+                        <li><a>&nbsp;&nbsp;&nbsp;手机：</a><input type="text" placeholder="请填写收货人手机号" id="mobile" name="phone" value="<{$info['phone']}>" class="newinp"></li>
+                         <{if $areacode== 1}>
+                         <li id="showgetcode" class="signmehide">
+                             <i class="signinmess"></i>
+                             <input type="text" name="check_message" id="phoneyan"   value="" placeholder="输入短信验证码">
+                             <input type="button"  onclick="clickyanzheng();"   time="0" id="dosendbtn"  value="发送到手机" class="signmeinput">
+                         </li>
+                         <{/if}>
+                      
+                 
+                        <li style=" height:44px; ">
+                            <a style="float:left;">&nbsp;&nbsp;&nbsp;地址：</a>
+                            <div lng="<{$info['lng']}>" lat="<{$info['lat']}>" lnglat="" style="float:left; height:44px; line-height:44px;margin-left:20px;" id ='selectSendAddress' type="text"  class="newinp1"><{$info['bigadr']|default:'点击选择地址'}></div>
+                        </li>
+                        <div class="clear"></div>
+                        <li><a>&nbsp;&nbsp;&nbsp;楼号-门牌号：</a><input style='width: 185px;' type="text" placeholder="例：16号楼107室" value="<{$info['detailadr']}>" class="newinp2"></li>
+                  
+						 
+						<div class="selectLabCon">
+	<div class="selectLabL">
+		<span>标&nbsp;&nbsp;&nbsp;签：</span>
+	</div>
+	<div class="selectLabR">
+			<div class="selectLabBox">
+			<input type="hidden" name="i_tag" id="i_tag" value="<{$info['tag']|default:1}>" /> 
+			<span><{if !empty($info)}><{if $info['tag'] == 1 }>家<{else if $info['tag'] == 2  }>公司<{else if $info['tag'] == 3  }>学校<{else}>无<{/if}><{else}>家<{/if}></span>
+			<i class="fa fa-caret-down" style="font-size: 14px; margin-right: 12px;"></i>
+		</div>
+			<div class="selectLab" style="display:none;">
+			<ul>
+							<li tagid="1" tagname="家">
+					<span>家</span>
+					<input type="radio" name="selb">
+				</li>
+							<li tagid="2" tagname="公司">
+					<span>公司</span>
+					<input type="radio" name="selb">
+				</li>
+							<li tagid="3" tagname="学校">
+					<span>学校</span>
+					<input type="radio" name="selb">
+				</li>
+							<li tagid="0" tagname="无">
+					<span>无</span>
+					<input type="radio" name="selb">
+				</li>
+							 
+			</ul>
+		</div>
+	</div>
+</div>
+ 		 
+                    </ul>
+                </div>
+            </div>
+            <div class="intexchabutt"  onclick="saveaddress();" style="margin-top:15px;"><input type="button"  value="保存地址" class="intexbg1"></div>
+        </div>
+
+
+
+		<div class="mapaddressbox"  style="display:none;">
+	<div class="showmapbox">
+		 <div class="mapditu" id="map">
+			
+		 </div>	 
+		 
+		 <div id="marker_red_sprite"><img <{ofunc type=img  link="/upload/map/marker_red_sprite.png"}> /></div>
+	</div>
+ 
+	
+<div id="choiceguidebox" >
+	<ul>
+	 
+	</ul>
+</div>
+</div>
+
+<!-------------------------------------------------------------------------切换地址结束---------------------------------------------------------------------------------->
+
+	
+	
+	
+  </div>
+</div>
+<div id="selectAddress" style="display:none; position:absolute;z-index:1; width:100%;height:100%;background:#fff;  " >
+
+</div>
+
+<script>
+$(document).ready(function(){
+   $('.newinp2').css('width','185px');
+});
+var back = 1;
+var map,market;
+var biaoqianval = false;
+ function bqzhi(){
+	biaoqianval  = false;
+}
+var selectSendAddress; 
+$("#selectSendAddress").bind('click',function() {
+	if (lockclick()) {
+		back = 1
+		$("#selectAddress").show();
+		$(".addressbox").hide();
+		$("#selectAddress").html('');
+		var content = htmlback(siteurl + '/index.php?ctrl=wxsite&action=gaodewebapi', {});
+		if (content.flag == false) {
+			$("#selectAddress").html(content.content);
+			$('#searchAddresslist').hide();
+			$('#searchKeywordss').unbind();
+			$("#searchKeywordss").bind('click',function(){
+								back = 1;
+								$('#searchAddresslist').show();
+								 $('#searchAddresslist').css({'position':'absolute','top':'0px','marginTop':'42px','width':'100%','background':'#FFF','zIndex':'99999999999999','height':($(window).height()-42)+'px'}); 
+								  
+								 selectSendAddress=    new iScroll('searchAddresslist', {
+									useTransform: false,
+									onBeforeScrollStart: function (e) {
+									var target = e.target;
+									while (target.nodeType != 1) target = target.parentNode;
+
+									if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA')
+										e.preventDefault();
+									}
+								});
+								bindsearchclick();
+			});  
+			$("#searchKeywordss").bind('keyup',function(e){
+				//if(biaoqianval == false){
+					//biaoqianval  = true;
+					//setTimeout("bqzhi()", 500 );
+					var searchval  = $("#searchKeywordss").val();
+					if( searchval != '' && searchval != undefined ){
+						var addresslist = '<{$map_comment_link}>restapi.amap.com/v3/place/text?&keywords='+searchval+'&city=<{$CITY_NAME}>&output=json&offset=20&page=1&key=<{$map_webservice_key}>&extensions=all&callback=showaddresslist';
+						$.getScript(addresslist);
+					}else{
+						$('#searchAddresslist div').html('');
+					}
+				//}
+			});
+			
+			
+		} 
+		window.addEventListener("message", function(e){
+				var name = e.data.name;
+				var lnglat = e.data.location;
+				if(  name != '' && lnglat!='' ){
+					$('#selectAddress').hide();
+					$('#selectSendAddress').text(name);
+					$('#selectSendAddress').attr('lnglat',lnglat);
+					$("#selectAddress").hide();
+					$(".addressbox").show();
+
+				}else{
+					Tmsg('数据获取失败');
+				}
+		}, false);
+
+	}
+	
+	  
+		
+		$("#houtuiimg").bind('click',function(){ 
+				 if(back == 1){
+						 $("#selectAddress").hide();
+						 $(".addressbox").show();
+				  }else{
+						 back = 1;
+						 $("#searchAddresslist").hide();
+						 $('#selectadd').show();
+				  } 
+		  }); 
+		
+	});
+ $('.selectLabBox').bind('click',function(){
+		if( lockclick() ){
+			
+			$('.selectLab li').removeClass('show');
+			var curtagid = $('input[name="i_tag"]').val();
+			console.log(curtagid);
+			if( curtagid > 0 ){
+				$('.selectLab li').eq(curtagid-1).addClass('show');
+			}else{
+				$('.selectLab li').eq(3).addClass('show');
+			}
+ 			$('.selectLab').toggle();
+			if($(".selectLab").is(":hidden")){
+				$('.selectLabBox i').addClass('fa-caret-down');
+				$('.selectLabBox i').removeClass('fa-caret-up');
+			}else{
+				$('.selectLabBox i').addClass('fa-caret-up');
+				$('.selectLabBox i').removeClass('fa-caret-down');
+			}
+			
+			$('.selectLab li').bind('click',function(){
+				if( lockclick() ){
+ 					$('input[name="i_tag"]').val($(this).attr('tagid'));
+					$('.selectLabBox span').text($(this).attr('tagname'));
+					$('.selectLab').toggle();
+					if($(".selectLab").is(":hidden")){
+						$('.selectLabBox i').addClass('fa-caret-down');
+						$('.selectLabBox i').removeClass('fa-caret-up');
+					}else{
+						$('.selectLabBox i').addClass('fa-caret-up');
+						$('.selectLabBox i').removeClass('fa-caret-down');
+					}
+				}
+			});
+			
+		}
+	}); 
+function showaddresslist(data){
+	 
+	$("#searchAddresslist").show();
+	var datas = eval(data);
+	if(datas.info == "OK"  && datas.status == 1  && datas.pois.length > 0 ){
+		$('#searchAddresslist div').html('');
+		var addresslist = datas.pois;
+
+		var showhtmls = '';
+		$.each(addresslist, function(i, newobj) {
+			showhtmls += '<div class="selADditem J_returnLng" data-lng-lat="'+newobj.location+'"  ><div class="txt"><div class="poicard-name">'+newobj.name+'</div> <div class="poicard-addr">'+newobj.address+'</div></div></div>';
+		});
+	     $('#searchAddresslist div').append(showhtmls); 
+		selectSendAddress.refresh();		
+		bindsearchclick();
+	}
+}
+
+
+function bindsearchclick(){ 
+	$('#searchAddresslist .selADditem').unbind();
+	$('#searchAddresslist .selADditem').bind('click',function(){
+		
+		var name = $(this).find('.poicard-name').text();
+		var lnglat = $(this).attr('data-lng-lat');
+		choiceaddresslnglat(name,lnglat);
+	});
+}
+function choiceaddresslnglat(name,lnglat){
+	$("#selectAddress").hide();
+	$(".addressbox").show();
+	colde_type = 0;
+	if(  name != '' && lnglat!='' ){
+		$('#selectSendAddress').text(name);
+		$('#selectSendAddress').attr('lnglat',lnglat);
+	}else{
+		Tmsg('选择地址获取失败，请重新选择');
+	}
+}
+
+
+function saveaddress(){
+	$('#loading').show();
+	var detailadr = $(".newinp2").val();
+<{if $addAreaType == 1}>
+	var bigadr = $(".newinp1").val();
+	var tempaddress = $(".newinp1").val();
+<{else}>
+	var bigadr = $(".newinp1").text();
+	var tempaddress = $(".newinp1").text()+$(".newinp2").val();
+<{/if}>
+	var	lnglatstr= $(".newinp1").attr("lnglat");
+	if(lnglatstr){
+		lnglatarr = lnglatstr.split(',');
+		var lng = lnglatarr[0];
+		var lat = lnglatarr[1];
+	}else{
+		var lng = $(".newinp1").attr('lng');
+		var lat = $(".newinp1").attr('lat');
+	}
+	var tag = $('input[name="i_tag"]').val();
+	var info = {'contactname':$('#contactname').val(),'tag':tag,'lng':lng,'lat':lat,'phone':$('#mobile').val(),'check_message':$('#phoneyan').val(),'bigadr':bigadr,'detailadr':detailadr,'add_new':tempaddress,'addressid':$('input[name="add_addressid"]').val()};
+	var url = '<{ofunc type=url link="/area/saveaddress/random/@random@/datatype/json"}>';
+	var backdata = ajaxback(url,info);
+	if(backdata.flag == false){
+		window.location.href = '<{ofunc type=url link="/wxsite/address"}>';
+	}else{
+		$('#loading').hide();
+		newTmsg(backdata.content);
+	}
+
+}
+//获取手机验证码
+function clickyanzheng(){
+		var tempurl = siteurl + '/index.php?ctrl=area&action=areaAddressPhone&random=@random@&phone=@phone@';
+		tempurl = tempurl.replace('@random@', 1 + Math.round(Math.random() * 1000)).replace('@phone@', $('#mobile').val());
+		$.getScript(tempurl);
+}
+function areashowsend(phone,time){
+	$('input[name="phone"]').val(phone);
+	$('#dosendbtn').attr('time',time);
+	setTimeout("btntime();",1000);
+}
+function noshow(msg){
+	alert(msg);
+}
+function  btntime(){
+
+	var nowtime = Number($('#dosendbtn').attr('time'));
+	if(nowtime > 0){
+		$('#dosendbtn').attr('disabled',true);
+		$('#dosendbtn').addClass('signmebg1');
+		var c = Number(nowtime)-1;
+		$('#dosendbtn').attr('time',c);
+		var  mx = 120-(120 - Number(c));
+		$('#dosendbtn').attr('value','剩余'+mx+'秒');
+		setTimeout("btntime();",1000);
+	}else{
+		$('#dosendbtn').attr('disabled',false);
+		$('#dosendbtn').removeClass('signmebg1');
+		$('#dosendbtn').attr('value','重新发送');
+	}
+
+}
+</script>
+<{/block}>

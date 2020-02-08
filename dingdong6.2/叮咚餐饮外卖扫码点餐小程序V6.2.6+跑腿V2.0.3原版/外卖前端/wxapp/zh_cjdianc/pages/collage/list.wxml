@@ -1,0 +1,26 @@
+﻿<view class="container">
+    <view class="mar_t">
+        <view bindtap="index" class="shop_list bor_bottom pa" data-id="{{item.id}}" data-storeid="{{item.store_id}}" wx:for="{{group_list}}" wx:key="*this">
+            <view>
+                <image mode="aspectFill" src="{{item.logo}}"></image>
+            </view>
+            <view>
+                <view class="fon_30 gobyndsingle shop_name">{{item.name}}</view>
+                <view class="shop_info">
+                    <text class="fon_36" style="color:{{color}}">￥</text>
+                    <text class="fon_36" style="color:{{color}}">{{item.pt_price}}</text>
+                    <text class="fon_24 text_c color_6 mar_l">￥{{item.y_price}}</text>
+                    <view class="right_group" style="border:2rpx solid {{color}};">
+                        <view class="dis_in t_c">
+                            <text style="color:{{color}}">{{item.people}}人团</text>
+                        </view>
+                        <view class="dis_in" style="background:{{color}};color:#fff">
+                            <image mode="aspectFill" src="../../img/collage/buy_shop.png"></image>
+                            <text>去开团</text>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>

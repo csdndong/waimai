@@ -1,0 +1,43 @@
+<html xmlns="http://www.w3.org/1999/xhtml"><head> 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+<meta http-equiv="Content-Language" content="zh-CN"> 
+<meta content="all" name="robots"> 
+<meta name="description" content=""> 
+<meta content="" name="keywords"> 
+<title>配送设置</title> 
+<link rel="stylesheet" type="text/css" href="<{$siteurl}>/templates/<{$tempdir}>/public/css/admin.css">
+ 
+ <script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/jquery.js" type="text/javascript" language="javascript"></script>  
+ <script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/artDialog.js?skin=blue"></script>
+</head>
+<body style="background:none;height:300px;">
+	 <form  method="post" name="upform" action="<{ofunc type=url link="/adminpage/psuser/module/savesetps"}>" style="text-align:center;">  
+	 	 
+   <div style="width:600px;height:260px;OVERFLOW-Y: auto;OVERFLOW-X: hidden;" id="arealist">
+	 	<table style="width:600px;">
+	 		<tr><th colspan="2" style="text-align:left;">勾选配送地区</th></tr>
+	 	<{foreach from=$arealist item=items}>
+                     	  <tr class="s_out " onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff" id="tr_<{$items['id']}>">  
+                              <td colspan="2" style="text-align:left;">
+                              	  <div style="padding-left:<{$items['space']*50}>px;">
+                              	  <{if !in_array($items['id'],$parent_ids)}>	<input type="checkbox" name="areaids[]" value="<{$items['id']}>" <{if in_array($items['id'],$choiceid)}>checked<{/if}>><{/if}> <{$items['name']}> 
+                                  </div>
+                              </td> 
+                             
+                        </tr>
+                    <{/foreach}>  
+	
+	 		</table>   
+	 	</div>  
+	 	 
+	 	<div style="clear:both;height:30px;text-align:right;"> 	
+	 		<input type="hidden" name="uid" value="<{$psyinfo['uid']}>">
+	 		<input type="submit" value="确认提交" class="button">  </div>
+	 	
+  </form>
+<script>
+ 
+ 
+</script>
+</body>
+</html>

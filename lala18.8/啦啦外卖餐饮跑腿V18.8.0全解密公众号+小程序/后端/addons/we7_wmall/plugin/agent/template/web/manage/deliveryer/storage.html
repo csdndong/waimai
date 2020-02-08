@@ -1,0 +1,85 @@
+{itemplate 'public/header'}
+{if $op == 'list'}
+<form action="./wagent.php?" class="form-horizontal form-filter">
+	{php echo tpl_form_filter_hidden('deliveryer/storage/list');}
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">搜索</label>
+		<div class="col-sm-4 col-xs-4">
+			<input type="text" name="keyword" value="{$keyword}" class="form-control" placeholder="搜索的姓名、昵称、手机号">
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+		<div class="col-sm-4 col-xs-4">
+			<input type="submit" value="筛选" class="btn btn-primary">
+		</div>
+	</div>
+</form>
+<form action="" class="form-table form" id="form-deliveryer" method="post">
+	<div class="panel panel-table">
+		<div class="panel-body table-responsive js-table">
+			{if empty($data)}
+			<div class="no-result">
+				<p>还没有相关数据</p>
+			</div>
+			{else}
+			<table class="table table-hover">
+				<thead class="navbar-inner">
+				<tr>
+					<th width="40">
+						<div class="checkbox checkbox-inline">
+							<input type="checkbox">
+							<label></label>
+						</div>
+					</th>
+					<th>编号</th>
+					<th>头像</th>
+					<th>配送员名称<br>手机号<br>性别/年龄</th>
+					<th>账户余额</th>
+					<th>删除时间</th>
+					<th style="width:200px; text-align:right;">操作</th>
+				</tr>
+				</thead>
+				<tbody>
+				{loop $data $item}
+				<tr>
+					<td>
+						<div class="checkbox checkbox-inline">
+							<input type="checkbox" name="ids[]" value="{$item['id']}">
+							<label></label>
+						</div>
+					</td>
+					<td>#{$item['id']}</td>
+					<td>
+						<img src="{php echo tomedia($item['avatar']);}" width="48"> {$item['nickname']}
+					</td>
+					<td>
+						{$item['title']}
+						<br/>
+						{$item['mobile']}
+						<br/>
+						{$item['sex']} /{$item['age']}
+					</td>
+					<td>
+						<span class="label {if $item['credit2'] > 0}label-success{else}label-danger{/if}">{$item['credit2']}</span>
+					</td>
+					<td>{php echo date('Y-m-d H:i', $item['deltime']);}</td>
+					<td class="text-right">
+						<a href="{php echo iurl('deliveryer/storage/delete', array('id' => $item['id']))}" class="btn btn-danger btn-sm js-post"  data-confirm="确定彻底删除该配送员吗?">彻底删除</a>
+						<a href="{php echo iurl('deliveryer/storage/recover', array('id' => $item['id']))}" class="btn btn-default btn-sm js-post"  data-confirm="确定恢复该配送员吗?">恢复</a>
+					</td>
+				</tr>
+				{/loop}
+				</tbody>
+			</table>
+			<div class="btn-region clearfix">
+				<div class="pull-right">
+					{$pager}
+				</div>
+			</div>
+			{/if}
+		</div>
+	</div>
+</form>
+{/if}
+{itemplate 'public/footer'}

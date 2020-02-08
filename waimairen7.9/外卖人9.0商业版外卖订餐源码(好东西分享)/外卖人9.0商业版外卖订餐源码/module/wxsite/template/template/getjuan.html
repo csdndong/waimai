@@ -1,0 +1,92 @@
+ <{extends file="<{$tempdir}>/public/wxsite.html"}>  
+<{block name=extendcss}> 
+<link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/shopshow.css">   
+<{/block}>
+ <{block name=extendjs}>  
+  <script src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/js/wxshop.js"></script>  
+<{/block}>
+<{block name=sitetitle}>优惠卷<{/block}>
+<{block name=hearnav}><{/block}>
+<{block name=footer}><{/block}>
+<{block name=myScrolljs}><script> 
+		var myScroll;
+function loaded() {
+	myScroll = new iScroll('wrapper11', {
+		useTransform: false,
+		onBeforeScrollStart: function (e) {
+			var target = e.target;
+			while (target.nodeType != 1) target = target.parentNode;
+
+			if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA')
+				e.preventDefault();
+		}
+	});
+}
+document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false); 
+document.addEventListener('DOMContentLoaded', function () { setTimeout(loaded, 200); }, false);
+</script>
+<{/block}>
+<{block name=blockcontent}> 
+<div id="wrapper11" style="top:0px;bottom:0px;">
+<div style="width:100%; background:#ffffff;">
+<div style=" height:65px; padding:10px 15px; ">
+	<p style="float:left;"><a  href="javascript:void(0);"><img style="width:65px; height:65px;" <{ofunc type=img  link="<{$sitelogo}>"}> /></a></p>
+	<p style="float:left; font-size:16px; margin-left:10px;">
+	<span style="color:#000000; height:32px;  line-height:32px;font-weight:bold;"><{$sitename}></span><br />
+	<span style="color:#ababab; height:32px; line-height:32px;">赠送了一张优惠卷</span>
+	</p>
+</div>
+
+<div style="height:200px; color:#f7d9d7; font-size:18px; text-align:center; background:#d54036;">
+	<p style="padding-top:20px;" ><{if $wxuserjuan['lqstatus'] == 0 }><a style=" color:#f7d9d7; " onclick="wxgetjuan(<{$wxuserjuan['id']}>);"  href="javascript:void(0);">领取</a> <{else}> 已领取 <{/if}></p>
+	<p style="font-size:34px; color:#fff; padding-top:20px;">订餐优惠卷</p>
+	<p style="padding-top:20px;"><{$wxuserjuan['juanname']}></p>
+	<p style="padding-top:20px;">有效期：<{$wxuserjuan['fafangtime']|date_format:"%Y.%m.%d"}>-<{$wxuserjuan['endtime']|date_format:"%Y.%m.%d"}></p>
+</div>
+<div style="height:4px; background:url(<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/getjuanimg.png) left repeat-x;"></div>
+<div style="height:30px;background:#ebebeb;"></div>
+<div style=" color:#000000; font-size:18px; text-align:left; background:#fff;">
+	<p style="padding:0px 20px;height:50px; line-height:50px;  border-bottom:1px solid #d9d9d9;">优惠卷详情</p>
+	<p style="padding:5px 20px; color:#ababab; line-height:30px; border-bottom:1px solid #d9d9d9;"><{$wxuserjuan['cartdesrc']}></p>
+</div>
+</div>
+
+
+
+
+<script>
+	$("#wxbangduser").click(function(){
+		
+		if( $("#wxbanguser").val() == '' ){
+			Tmsg("昵称不能为空！");
+		}else{
+			if( $("#wxbangpsw").val() == '' ){
+				Tmsg("密码不能为空！");
+			}else{
+				
+			}
+		}
+		
+		
+		
+	});
+	
+	
+	 function wxgetjuan(juanid){ 
+          var info = {'id':juanid}; 
+	      var url = '<{ofunc type=url link="/wxsite/wxgetjuan/random/@random@/datatype/json"}>';
+		  var backdata = ajaxback(url,info); 
+		  if(backdata.flag == false){ 
+			window.location.reload();
+		  }else{ 
+		     Tmsg(backdata.content);
+		  }
+	 }
+
+</script>
+  
+  </div>
+  
+	
+ 
+<{/block}>

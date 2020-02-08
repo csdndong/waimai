@@ -1,0 +1,77 @@
+<!--   time:2019-07-18 01:03:16 -->
+<view class="head" style="background:#fff">
+	<view class="date-display flex" style="background:{{color}}">
+		<view class="next-prev">
+			<view bindtap="changeMonth" class="arrow prev" id="prev"></view>
+		</view>
+		<view class="selected-date">{{currYear}}年{{currMonth}}月</view>
+		<view class="next-prev">
+			<view bindtap="changeMonth" class="arrow next" id="next"></view>
+		</view>
+	</view>
+</view>
+<view class="container-rl">
+	<view class="lxqd">连续签到<text style="color:{{color}}">{{lxts}}</text>天了	</view>
+	<view class="week-display qdflex">
+		<block wx:for="{{week}}" wx:key="*this" wx:for-item="item" wx:for-index="index" >
+			<view class="week-cell {{item.class}}">{{item.value}}</view>
+		</block>
+	</view>
+	<view class="date-picker">
+		<view class="qdflex">
+			<block wx:for="{{emptyGrids}}" wx:key="*this" wx:for-item="item" wx:for-index="index" >
+				<view class="date-cell"></view>
+			</block>
+			<block wx:for="{{days}}" wx:key="*this" wx:for-item="item" wx:for-index="index" >
+				<view class="date-cell" data-selected="{{[currYear,currMonth,item.value]}}">
+					<block wx:if="{{item.isqd!=null}}">
+						<view data-selected="{{[currYear,currMonth,item.value]}}">
+							<icon color="{{color}}" size="27" type="success"></icon>
+						</view>
+					</block>
+					<block wx:if="{{item.isqd==null&&item.tsrq!=null}}">
+						<view bindtap="selectDate" class="{{item.class}}{{selected==item.value?'selected':''}} {{xz==item.value?'xz':''}}" data-selected="{{[currYear,currMonth,item.value]}}" data-tsrq="{{days[index]}}" style="background:{{item.tsrq.color}};color:#fff;">{{item.value}}</view>
+					</block>
+					<block wx:if="{{item.isqd==null&&item.tsrq==null}}">
+						<view bindtap="selectDate" class="{{item.class}}{{selected==item.value?'selected':''}} {{xz==item.value?'xz':''}}" data-selected="{{[currYear,currMonth,item.value]}}" data-tsrq="{{days[index]}}">{{item.value}}</view>
+					</block>
+				</view>
+			</block>
+		</view>
+	</view>
+	<view class="xxts">日常签到<text style="color:{{color}}">+{{qdset[0].integral}}</text>积分,有背景色的日期含有特殊奖励哦~	</view>
+	<view class="weui-btn-area">
+		<block wx:if="{{!isbq||qdset[0].is_bq=='2'}}" >
+			<button bindtap="qd" class="weui-btn" disabled="{{disabled}}" style="background:{{disabled?'#d5d5d5':color}};" type="primary">{{logintext}}</button>
+		</block>
+		<block wx:else>
+			<button bindtap="bq" class="weui-btn" disabled="{{bqdisabled}}" style="background:{{bqdisabled?'#d5d5d5':color}};" type="primary">{{bqtext}}</button>
+		</block>
+	</view>
+</view>
+<navigator url="pm">
+	<view class="ckpm" style="color:{{color}}">查看排名></view>
+</navigator>
+<view style="background:#fff;">
+	<view class="jfgz1">
+		<image class="wjx" src="../../images/wjx.png"></image>
+		<view>首次签到</view>
+	</view>
+	<view class="jfgz2">
+		<view class="jlgz">
+			<text>首次签到可额外获得{{qdset[0].one}}积分</text>
+		</view>
+	</view>
+	<view class="jfgz1">
+		<image class="wjx" src="../../images/wjx.png"></image>
+		<view>奖励规则</view>
+	</view>
+	<view class="jfgz2">
+		<view class="jlgz">
+			<block wx:for="{{jl}}" wx:key="*this" wx:for-item="item" wx:for-index="index" >
+				<text>{{index+1}}.连续签到{{item.day}}天赠送{{item.integral}}积分</text>
+			</block>
+		</view>
+		<image class="jfjl" mode="aspectFill" src="{{url}}{{qdset[0].qd_img}}"></image>
+	</view>
+</view>

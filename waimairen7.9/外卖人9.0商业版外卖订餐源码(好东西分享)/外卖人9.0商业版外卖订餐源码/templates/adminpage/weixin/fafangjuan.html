@@ -1,0 +1,60 @@
+<div style="width: 400px;padding: 2px 15px 15px 15px;
+  overflow: auto;">
+
+	<form id="putjuanform" action="" method="post">
+		<div class="labeldiv">
+			<label>
+				<span class="wxyouhuijuan">顾客ID:</span>
+				<input placeholder="顾客ID" name="useruid" id="useruid" value="" type="text" />
+			</label>
+		</div>
+		<div style="clear:both;"></div>
+		<div class="labeldiv">
+			<label>
+				<span class="wxyouhuijuan">选择优惠卷:</span>
+				
+				<select name="xzejuan">
+					<option  value="0">选择优惠卷</option>
+				 <{load_data assign="wxjuan" table="wxjuan"    fileds="*"  limit="10" }>  
+                    <{foreach from=$wxjuan['list'] key=myid  item=items}>  
+					<option  value="<{$items['id']}>"><{$items['cartname']}></option>
+					
+                <{/foreach}> 
+				</select>
+				
+			</label>
+		</div>
+		<div style="clear:both;"></div>
+		<div class="labeldiv">
+			<label>
+				<span class="wxyouhuijuan">发放数量:</span>
+				<input placeholder="" style="width:60px;" name="putcount" id="putcount" value="1" type="text" /><span style="color:red;">给此用户发放多少张所选的优惠券</span>
+			</label>
+		</div>
+		<div style="clear:both;"></div>
+	
+			<div class="labeldiv">
+			<label>
+				<span class="wxyouhuijuan"></span>
+				<div   style="width:80px; background:#eb9316; height:40px; line-height:40px; float:left; margin-left:10px; padding:0px 5px; text-align:center;   -moz-border-radius: 4px;
+  border-radius: 4px;color:#fff;" onclick="putjuan();" >确认发放</div>
+				
+			</label>
+		</div>
+		<div style="clear:both;"></div>
+	</form>
+	
+</div>
+<script>
+
+</script>
+<style>
+.wxyouhuijuan{font-size:16px; height:40px; line-height:40px; float:left; width:100px;}
+.labeldiv{ font-size:14px; height:40px; line-height:40px;margin-bottom:15px;}
+#putjuanform input,#putjuanform select{color: #555; float:left; margin-right:8px; width:250px; height:40px; line-height:40px; margin-left:10px; padding:0px 5px;
+  background-color: white;
+  border: 1px solid #CCC;font-size: 14px;-webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  vertical-align: middle;}
+</style>

@@ -1,0 +1,144 @@
+@charset "utf-8";
+/* CSS Document */
+
+html{font-size:62.5%;}
+body{ -webkit-user-select:none;-webkit-text-size-adjust:none;font-size:18px; background-color:#f0f0f0; position:relative;}
+body,ul,li,h1,h2,h3,h4,h5,h6,p,img,input,i,b,*{ margin:0px; padding:0px; list-style:none; border:0px;font-size: 100%;color:#666;font-family:'微软雅黑'; outline:none;}
+
+.hide{ display:none;}
+
+.titR i, .helpmepick i, .helpmeadded i, .helpmedistime ul li i, .helpmedisweiput i, .processCon i, .meseapplyCon i{ display:inline-block; background-repeat:no-repeat; background-size:100%;}
+
+/*------------------------------------------------------------各类图标------------------------------------------------------------*/
+.icon_01{ background-image:url(../images/icon_01.png);}
+.icon_02{ background-image:url(../images/icon_02.png);}
+.icon_03{ background-image:url(../images/icon_03.png);}
+.icon_04{ background-image:url(../images/icon_04.png);}
+.icon_05{ background-image:url(../images/icon_05.png);}
+.icon_06{ background-image:url(../images/icon_06.png);}
+.icon_dh{ background-image:url(../images/icon_dh.png);}
+.icon_dw1{ background-image:url(../images/icon_dw1.png);}
+.icon_dw2{ background-image:url(../images/icon_dw2.png);}
+.icon_tc{ background-image:url(../images/icon_tc.png);}
+.icon_gou{ background-image:url(../images/icon_gou.png);}
+.icon_qu{ background-image:url(../images/icon_qu.png);}
+.icon_shou{ background-image:url(../images/icon_shou.png);}
+.but_01{ background-image:url(../images/but_01.png);}
+.but_02{ background-image:url(../images/but_02.png);}
+.but_03{ background-image:url(../images/but_03.png);}
+.pro_01{ background-image:url(../images/pro_01.png);}
+.pro_02{ background-image:url(../images/pro_02.png);}
+.pro_03{ background-image:url(../images/pro_03.png);}
+.exa_01{ background-image:url(../images/exa_01.png);}
+.exa_02{ background-image:url(../images/exa_02.png);}
+.exa_03{ background-image:url(../images/exa_03.png);}
+/*------------------------------------------------------------标题开始------------------------------------------------------------*/
+.titCon{ width:100%; background-color:#ff6e6e; overflow:hidden;}
+.titBox{ width:94.4444%; margin:0 auto; line-height:42px; overflow:hidden;}
+.titL{ width:19.1176%; float:left;}
+.titL i{ color:#fff; font-size:2rem;}
+.titC{ width:61.7647%; float:left; text-align:center;}
+.titC h2{ font-weight:normal; font-size:1.6rem; color:#fff;}
+.titR{ width:19.1176%; float:right; text-align:right;}
+.titR i{ width:19px; height:19px; vertical-align:-5px;}
+/*------------------------------------------------------------标题结束------------------------------------------------------------*/
+
+/*-----------------------------------------------------------帮我送开始-----------------------------------------------------------*/
+/*-------------------------取货地址-------------------------*/
+.helpmepickCon{ padding:0px!important; width:100%; background-color:#fff; margin-top:10px; overflow:hidden;}
+.helpmepickCon ul .borno{ border:none;}
+.helpmepickCon ul li{ padding:10 2.7777%; border-bottom:1px solid #dbdbdb; overflow:hidden;}
+.helpmepickCon ul li .helpmepick{ width:100%;line-height:37px;}
+.helpmepickCon ul li .helpmepick i{ margin-right:1.7644%; vertical-align:-10px;}
+.helpmepickCon ul li .helpmepick .icon_qu,.icon_gou, .helpmepick .icon_shou{ width:25px; height:30px;}
+.helpmepickCon ul li .helpmepick span{  display:inline-block; padding-right:1.8235%; font-size:1.4rem;}
+.helpmepickCon ul li .helpmepick input{ width:60.2647%; font-size:1.2rem; color:#808080;}
+.helpmepickCon ul li .helpmepick select{ width:60.2647%; font-size:1.2rem; color:#808080; -webkit-appearance:none; background-color:transparent;}
+/*-------------------------配送重量-------------------------*/
+.helpmedisweiCon{ padding:0px!important; width:100%; background-color:#fff; margin-top:0px!important; overflow:hidden;}
+.helpmedisweiCon .helpmedisweiput{ border-bottom:0px!important; width:53.0555%; padding:15px 0; margin:0 auto; position:relative;}
+.helpmedisweiCon .helpmedisweiput span{ width:80%; margin-left:10%; line-height:30px; border-top:1px solid #e2e2e2;  border-bottom:1px solid #e2e2e2; font-size:1.4rem; color:#999999; display:block; text-align:center; background-color:#fafafa;}
+.helpmedisweiCon .helpmedisweiput i{ display:block; width:32px; height:32px;}
+.helpmedisweiCon .helpmedisweiput .helpmebutL{ position:absolute; left:0; top:15px;}
+.helpmedisweiCon .helpmedisweiput .helpmebutR{ position:absolute; right:0; top:15px;}
+.helpmedisweiCon .helpmediswei{ padding:10px 0; border-top:1px solid #e2e2e2; text-align:center; overflow:hidden;}
+.helpmedisweiCon .helpmediswei ul .backno{ background-image:none;}
+.helpmedisweiCon .helpmediswei ul li{ padding:0px!important;width:49%; line-height:20px; display:inline-block; text-align:center; background-image:url(../images/bor_rig.png); background-repeat:repeat-y; background-position:top right;}
+.helpmedisweiCon .helpmediswei ul li span{ font-size:1.2rem; color:#666666;}
+.helpmedisweiCon .helpmediswei ul li b{ font-size:1.5rem; color:#000000; display:block; font-weight:normal;}
+.helpmedisweiCon .helpmediswei ul li .fonCol01{ color:#e82b2b;}
+.helpmedisweiCon .helpmediswei ul li .fonCol02{ color:#2ba2e5;}
+/*-------------------------我要加价-------------------------*/
+.helpmeFareCon{ width:100%; margin-top:10px; background-color:#fff; border-top:1px solid #dbdbdb; border-bottom:1px solid #dbdbdb;}
+.helpmeFareCon .helpmeFareChe{ padding:14px 2.7777%; overflow:hidden;}
+.helpmeFareCon .helpmeFareChe input{ width:14px; height:14px; margin-top:4px; -webkit-appearance:none; background-image:url(../images/icon_xz01.png); background-size:100%; float:left;}
+.helpmeFareCon .helpmeFareChe .fainpaA{ background-image:url(../images/icon_xz02.png)}
+.helpmeFareCon .helpmeFareChe span{ font-size:14px; color:#333333; margin-left:6px; float:left;}
+.helpmeFareCon .helpmeFareBox{ width:100%; padding:7px 0; border-top:1px solid #dbdbdb; display:none; overflow:hidden;}
+.helpmeFareCon .helpmeFareBox ul li{ width:13.3333%; height:21px; line-height:21px; font-size:1.3rem; color:#999999; text-align:center; float:left; margin-left:2.7777%; border:1px solid #cccccc; border-radius:3px;}
+.helpmeFareCon .helpmeFareBox ul .farebgaA{ color:#e82b2b; border:1px solid #e82b2b;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*-------------------------确认支付-------------------------*/
+.helpmedete{ padding:0 2.7777%; margin-top:68px; overflow:hidden;}
+.helpmedete input{ width:100%; height:35px; border-radius:4px; font-size:1.4rem; color:#fff; background-color:#ff6e6e;}
+/*-----------------------------------------------------------帮我送结束-----------------------------------------------------------*/
+
+/*----------------------------------------------------------商家入驻开始----------------------------------------------------------*/
+/*-------------------------账户信息-------------------------*/
+/*--------信息进度--------*/
+.processCon{ padding:5px 2.7777% 17px 2.7777%; text-align:center; background-color:#fff; border-bottom:2px solid #ff6e6e; overflow:hidden;}
+.processCon i{ width:84.5588%; height:22px; margin:11px 0;}
+.processCon span{ padding:0.6355% 1.6447%; font-size:1.3rem; color:#808080; border-radius:3px;}
+.processCon .proaL{ float:left;}
+.processCon .proaC{ display:inline-block;}
+.processCon .proaR{ float:right;}
+.processCon .proaA{ color:#ff6e6e;}
+/*--------提示信息--------*/
+.mesepromptCon{ margin:10px 2.7777% 0 2.7777%; padding:7px 2.7777%; background-color:#fff; border-radius:3px; overflow:hidden;}
+.mesepromptCon ul li{ line-height:25px; font-size:1.2rem; color:#444444;}
+/*--------填写信息--------*/
+.mesefillinfo{ width:100%; overflow:hidden;}
+.mesefillinfo ul li{ line-height:40px; margin:10px 2.7777% 0 2.7777%; padding:7px 2.7777%; background-color:#fff; border-radius:5px; overflow:hidden;}
+.mesefillinfo ul li span{ font-size:1.4rem; float:left; color:#040000;}
+.mesefillinfo ul li input{ font-size:1.4rem; width:70%; color:#666666;}
+.mesefillinfo ul li .buli{ width:60px; height:60px; float:left; background-image:url(../images/buli_bg.png); background-size:100%; overflow:hidden;}
+.mesefillinfo ul li .buli input{ width:60px; height:60px; opacity:0;}
+/*--------确认支付--------*/
+.mesedete{ padding:8px 2.7777%; margin-top:68px; background-color:#fff; overflow:hidden;}
+.mesedete input{ width:100%; height:35px; border-radius:4px; font-size:1.4rem; color:#fff; background-color:#ff6e6e;}
+/*-------------------------申请通过-------------------------*/
+.meseapplyCon{ padding-top:103px; text-align:center; overflow:hidden;}
+.meseapplyCon i{ width:110px; height:125px; margin-bottom:30px;}
+.meseapplyCon h3{ font-size:1.65rem; line-height:24px; font-weight:normal; color:#333333;}
+.meseapplyCon span{ font-size:1.2rem; color:#333333;}
+/*----------------------------------------------------------商家入驻结束----------------------------------------------------------*/

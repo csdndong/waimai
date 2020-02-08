@@ -1,0 +1,29 @@
+<view class="head flex-col flex-x-center flex-y-center">
+    <view>当前余额（元）</view>
+    <view>{{wallet}}</view>
+</view>
+<view class="yecz">
+    <view>-余额充值-</view>
+    <view class="hbcells">
+        <view bindtap="tabClick" class="hbcell" id="{{index}}" style="border:2rpx solid {{activeIndex==index?color:'#E1E1E1'}}" wx:for="{{czhd}}">
+            <view>{{item.full}}元</view>
+            <view>送{{item.reduction}}元</view>
+        </view>
+    </view>
+    <view class="hbcells">
+        <view bindtap="tabClick1" class="hbcell" style="border:2rpx solid {{activeIndex==-1?color:'#E1E1E1'}};padding:0 20rpx;">
+            <input bindinput="bindinput" maxlength="6" placeholder="其他金额，充值立享优惠" placeholderStyle="font-size:24rpx;color:#333;" type="digit"></input>
+        </view>
+    </view>
+</view>
+<view bindtap="lookck" class="read">
+    <radio checked="true" color="{{color}}" style="transform:scale(0.8);"></radio>
+    <view>我已阅读并同意以下
+    <text class="readfont" style="color:{{color}}">《充值服务协议》</text>
+    </view>
+</view>
+<form bindreset="formReset" bindsubmit="tjddformSubmit" reportSubmit="true">
+    <view class="weui-btn-area">
+        <button class="weui-btn" formType="submit" style="background:{{color}};color:#fff;">立即充值{{czmoney}}元</button>
+    </view>
+</form>

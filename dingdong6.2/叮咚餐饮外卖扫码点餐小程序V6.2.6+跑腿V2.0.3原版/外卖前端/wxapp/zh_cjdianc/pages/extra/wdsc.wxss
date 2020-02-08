@@ -1,0 +1,4 @@
+@import"/wxss/f3_0.wxss";
+.tjsj,.main{ margin-top: 0; }
+.kong {margin-top: 0;padding-top: 30rpx;}
+.sjright{justify-content: space-between;}

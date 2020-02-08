@@ -1,0 +1,100 @@
+<{extends file="<{$tempdir}>/public/admin.html"}>
+<{block name=extendjs}>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js"></script>
+<{/block}>
+<{block name=controlname}>店铺列表<{/block}>
+<{block name=bodylist}>
+<style>
+	th{
+		color:#fff;
+	}
+</style>
+<div class="managShopCon">
+	<div class="managShopBox">
+		<div class="managShopMain">
+			<div class="managShopClas">
+				<ul>
+					<li ><a href="<{ofunc type=url link="/areaadminpage/shop/module/adminshoplist"}>">店铺列表</a></li>
+					<li><a href="<{ofunc type=url link="/areaadminpage/shop/module/addshop"}>">添加店铺</a></li>
+					<li class="maShClaA"><a href="<{ofunc type=url link="/areaadminpage/shop/module/adoptshop"}>">待审核店铺</a></li>
+				</ul>
+			</div>
+			<div class="managShopSeaBox">
+				<form method="get" name="form1" action="<{ofunc type=url link="/areaadminpage/shop/module/adoptshop"}>">
+				<div class="managShopSeaL">
+					<input type="hidden" name="ctrl" value="areaadminpage">
+					<input type="hidden" name="action" value="shop">
+					<input type="hidden" name="module" value="adoptshop">
+					<ul>
+						<li><span>店铺名：</span><input type="text" name="shopname" value="<{$shopname|default:''}>"> </li>
+						<li><span>用户名：</span><input type="text" name="username" value="<{$username|default:''}>"> </li>
+						<li><input type="submit" value="提交查询" class="managBut"></li>
+					</ul>
+				</div>
+				</form>
+			</div>
+			<div class="managShopList">
+				<form method="post" action="" onsubmit="return remind();"  id="delform">
+					<table>
+						<thead>
+						<tr>
+							<td width="36">
+								<div class="managShopChek">
+									<input type="checkbox" id="chkall" name="chkall" onclick="checkall()">
+								</div>
+							</td>
+							<th align="center">申请单位</th>
+							<th align="center">营业执照</th>
+							<th align="center">店铺名称</th>
+							<th align="center">会员名称</th>
+							<th align="center">是否审核</th>
+							<th align="center">所属城市</th>
+							<th align="center">操作</th>
+						</tr>
+						</thead>
+						<tbody>
+
+						<{load_data assign="list" table="shop" showpage="true"  where="is_pass='0' <{$where}>" }>
+						<{foreach from=$list['list'] item=items}>
+						<tr class="s_out" onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+							<td>
+								<div class="managShopChek">
+									<input type="checkbox" name="id[]" value="<{$items['id']}>">
+								</div>
+							</td>
+							<td align="center"><{if $items['ruzhutype'] == 0}>个人入驻<{else}>企业入驻<{/if}></td>
+							<td align="center" class="zzimg"><{if !empty($items['shoplicense'])}><a href="<{$items['shoplicense']}>"><img src="<{$items['shoplicense']}>" style="width:100px;height:50px" /></a><{else}>无<{/if}></td>
+							<td align="center"><{$items['shopname']}>[<font color=red><{$shoptype[$items['shoptype']]}></font>]</td>
+							<td align="center">
+								<{load_data assign="userinfo" table="member" type="one" where="uid='<{$items['uid']}>'" fileds="username" }>
+								<{$userinfo['username']}>
+							</td>
+							<td align="center"><{if $items['is_pass']==1}>是<{else}><a onclick="return remind(this);" href="<{ofunc type=url link="/areaadminpage/shop/module/passhop/id/<{$items['id']}>/admin_id/<{$items['admin_id']}>/datatype/json"}>">通过审核</a><{/if}></td>
+							<{load_data assign="arealist" table="area"  type="one"   where="adcode=<{$items['admin_id']}>" orderby=" orderid asc " limit="1000" }>
+							<td align="center"><{$arealist['name']|default:'未设置所属城市'}></td>
+							<td align="center">
+								<a onclick="return remind(this);" href="<{ofunc type=url link="/areaadminpage/shop/module/delshop/id/<{$items['id']}>"}>"><img style="width:auto;height:auto;" src="<{$siteurl}>/templates/<{$tempdir}>/public/images/admin/del.jpg"></a></td>
+						</tr>
+						<{/foreach}>
+						</tbody>
+					</table>
+
+				</form>
+
+			</div>
+			<div class="pagingCon">
+				<ul>
+					<{$list['pagecontent']}>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+<script>
+
+</script>
+<!--newmain 结束-->
+<{/block}>

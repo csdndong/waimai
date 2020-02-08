@@ -1,0 +1,44 @@
+<style type="text/css">
+	#select-link-modal .modal-dialog{width: 750px;}
+	#select-link-modal .modal-dialog .modal-body{padding: 15px;}
+	#select-link-modal .link-container{height: 420px; overflow-y: auto;}
+	#select-link-modal .page-header{padding: 9px 0; margin-top: 5px; margin-bottom: 8px}
+	#select-link-modal .page-header h4{margin: 0; font-size: 14px; font-weight: 600}
+	#select-link-modal .btn{margin-bottom: 3px; border: 1px solid #e7eaec;}
+	#select-link-modal .btn:hover{border: 1px solid #d2d2d2; background: #ffffff; text-decoration: none}
+</style>
+<div class="modal-dialog">
+	<div class="modal-content">
+		<div class="modal-header">
+			<button data-dismiss="modal" class="close" type="button">×</button>
+			<h4 class="modal-title">选择链接</h4>
+		</div>
+		<div class="modal-body clearfix link-container">
+			<ul class="nav nav-tabs" role="tablist">
+				{loop $urls $tabIndex $tab}
+					<li role="presentation" class="{if $tabIndex == 'takeout'}active{/if}"><a href="#{$tabIndex}" aria-controls="{$tabIndex}" role="tab" data-toggle="pill">
+						{if $tabIndex == 'plugin'}
+							插件
+						{else}
+							{$tab['sys']['title']}
+						{/if}
+					</a></li>
+				{/loop}
+			</ul>
+			<div class="tab-content">
+				{loop $urls $index $url}
+					<div class="tab-pane {if $index == 'takeout'}active{/if}" role="tabpanel" id="{$index}">
+						{loop $url $index1 $val}
+							<div class="page-header">
+								<h4><i class="fa fa-folder-open-o"></i> {$val['title']}</h4>
+							</div>
+							{loop $val['items'] $item}
+								<div class="btn btn-default btn-sm btn-link" data-href="{$item['url']}" title="{$item['title']}">{$item['title']}</div>
+							{/loop}
+						{/loop}
+					</div>
+				{/loop}
+			</div>
+		</div>
+	</div>
+</div>

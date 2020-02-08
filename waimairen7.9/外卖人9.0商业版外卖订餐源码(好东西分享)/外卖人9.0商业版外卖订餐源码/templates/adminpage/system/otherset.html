@@ -1,0 +1,114 @@
+  <{extends file="<{$tempdir}>/public/admin.html"}> 
+ <{block name=extendjs}>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js"></script>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/datepicker/WdatePicker.js"></script>
+ <{/block}>
+ <{block name=controlname}>网站限制<{/block}>
+ <{block name=bodylist}> 
+	 <div style="width:auto;overflow-x:hidden;overflow-y:auto"> 
+         
+          <div id="tagscontent">
+            <form method="post" name="form1" action="<{ofunc type=url link="/adminpage/system/module/saveotherset/datatype/json"}>" onsubmit="return subform('',this);">
+              <div>
+                <table border="0" cellspacing="2" cellpadding="4" class="list" name="table" id="table" width="100%">
+                  <tbody>
+                  	 
+					<tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                      <td class="left">用户注册发送验证码</td>
+                      <td><input type="checkbox" name="regestercode" id="regestercode" value="1"  <{if $regestercode== 1}>checked<{/if}>>勾选允许&nbsp;&nbsp;&nbsp;(PC端、微信端、APP端同时生效)</td>
+                    </tr>
+                    
+					 <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                        <td class="left">微信端登录方式</td>
+                        <td><input type="radio" name="wxLoginType"   value="0"  <{if $wxLoginType== 0}>checked<{/if}>>自动登录（微信接口） 
+                       <input type="radio" name="wxLoginType"   value="1"  <{if $wxLoginType== 1}>checked<{/if}>>其他登录方式  &nbsp;&nbsp;&nbsp;（仅微信端和触屏端有效）</td>
+                    </tr>
+					
+					<!-- <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                        <td class="left">是否开启前台促销规则</td>
+                        <td><input type="checkbox" name="open_wxcx" id="open_wxcx" value="1" <{if $open_wxcx== 1}>checked<{/if}>>勾选开启,商家列表显示促销信息 &nbsp;&nbsp;&nbsp;（微信端、APP端同时生效）</td>
+                    </tr>  -->       
+                    <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                      <td class="left">下单成功后通知买家</td>
+                      <td>
+                      	<input type="checkbox" name="allowedsendbuyer" id="allowedsendbuyer" value="1" <{if $allowedsendbuyer== 1}>checked<{/if}>>短信通知 
+                      	</td>
+                    </tr>
+                   <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                      <td class="left">退款申请是否需要平台审核</td>
+                      <td>
+                      	<input type="checkbox" name="shenhedrawback" id="shenhedrawback" value="1" <{if $shenhedrawback== 1}>checked<{/if}>>  勾选后，申请退款订单需平台审核确认后才能退款；不勾选，不需平台审核，直接退款。                      	</td>
+                    </tr>
+                   
+					<tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+						<td class="left">商家制作后是否支持申请退款</td>                      					  
+                      	<td><input type="radio" name="allowreback"   value="1"  <{if $allowreback== 1}>checked<{/if}>> 是（支持退款） 
+						<input type="radio" name="allowreback"   value="0"  <{if $allowreback== 0}>checked<{/if}>> 否（不支持退款） &nbsp&nbsp&nbsp&nbsp该设置只对在线支付订单有效 </td>      
+                    </tr>
+					
+                   
+				   <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                      <td class="left">管理员后台审核订单</td>
+                      <td><input type="checkbox" name="man_ispass" id="man_ispass" value="1"  <{if $man_ispass== 1}>checked<{/if}>>勾选审核,开启后管理员审核通过商家才能看到订单并同时发送通知(只针对货到支付，若是在线支付 支付成功后自动发送通知)</td>
+                    </tr>                   
+					 <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                      <td class="left">是否是提交苹果审核</td>
+                      <td><input type="checkbox" name="ios_waiting" id="ios_waiting" value="1"  <{if $ios_waiting== 1}>checked<{/if}>>勾选表示提交审核中,IOS程序限制距离无效
+                      	</td>
+                    </tr>
+					<tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                      <td class="left">是否启用一键打款到微信零钱</td>
+                      <td><input type="checkbox" name="pay_wechat" id="pay_wechat" value="1"  <{if $pay_wechat== 1}>checked<{/if}>>开启后如后台确认提现，则直接转账到微信零钱
+                      	</td>
+                    </tr>
+					 <!-- 
+					 <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff" style="display:none;">
+                        <td class="left">Memcached缓存</td>
+                        <td><input type="radio" name="datacache"   value="0"  checked>不使用 
+                       <input type="radio" name="datacache"   value="1"  <{if $datacache== 1}>checked<{/if}>>使用</td>
+                    </tr>
+                     <tr class="gf" onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                      <td class="left">常用数据缓存时长</td>
+                      <td> <input type="input" name="datacachetime" id="datacachetime" value="<{$datacachetime|default:''}>"  class="skey" style="width:200px;">秒不能低于300秒 </td>
+                    </tr>
+                     <tr class="gf" onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                      <td class="left">不常用数据缓存时长</td>
+                      <td> <input type="input" name="datacachelongtime" id="datacachelongtime" value="<{$datacachelongtime|default:''}>"  class="skey" style="width:200px;">秒不能少于1800秒 例如公告和广告</td>
+                    </tr>
+					<tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                      <td class="left">平台采购店铺id</td>
+                      <td><input type="text" name="plateshopid" id="plateshopid" value="<{$plateshopid|default:'0'}>" class="skey" style="width:50px;"></td>
+                    </tr> -->
+                  </tbody>
+                </table>
+              </div>
+              <div class="blank20"></div>
+              <input type="hidden" name="tijiao" id="tijiao" value="do" class="skey" style="width:250px;">
+              <input type="hidden" name="saction" id="saction" value="siteset" class="skey" style="width:250px;">
+               <input type="submit" value="确认提交" class="button">  
+            </form>
+          </div>
+        </div> 
+        
+        
+   
+    </div> 
+<script>
+$(function(){
+	$("[name='datacache']").bind('click',function(){
+		changechoice();
+	});
+     changechoice();
+});
+function changechoice(){
+   var tempid = $("[name='datacache']:checked").val(); 
+   if(tempid == 0){
+		$('.gf').hide();
+		 
+   }else if(tempid == 1){ 
+		$('.gf').show(); 
+   }
+}
+
+</script>
+ <{/block}>

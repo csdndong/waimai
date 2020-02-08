@@ -1,0 +1,115 @@
+{itemplate 'public/header'}
+{if $ta == 'list'}
+<form action="" class="form-horizontal form-filter" id="form1">
+	{php echo tpl_form_filter_hidden('store/seckill/orders/list');}
+	<input type="hidden" name="days" value="{$days}"/>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">变更时间</label>
+		<div class="col-sm-9 col-xs-12 js-daterange" data-form="#form1">
+			<div class="btn-group">
+				<a href="{php echo ifilter_url('days:-2');}" class="btn {if $days == -2}btn-primary{else}btn-default{/if}">不限</a>
+				<a href="{php echo ifilter_url('days:7');}" class="btn {if $days == 7}btn-primary{else}btn-default{/if}">近一周</a>
+				<a href="{php echo ifilter_url('days:30');}" class="btn {if $days == 30}btn-primary{else}btn-default{/if}">近一月</a>
+				<a href="{php echo ifilter_url('days:90');}" class="btn {if $days == 90}btn-primary{else}btn-default{/if}">近三月</a>
+				<a href="javascript:;" class="btn js-btn-custom {if $days == -1}btn-primary{else}btn-default{/if}">自定义</a>
+			</div>
+			<span class="js-btn-daterange {if $days != -1}hide{/if}">
+				{php echo tpl_form_field_daterange('addtime', array('start' => date('Y-m-d H:i', $starttime), 'end' => date('Y-m-d H:i', $endtime)), true);}
+			</span>
+		</div>
+	</div>
+	<div class="form-group clearfix form-inline">
+		<label class="col-xs-12 col-sm-2 col-md-1 control-label">其他</label>
+		<div class="col-sm-7 col-lg-8 col-xs-12">
+			<input class="form-control" name="goods_name" id="" type="text" value="{$_GPC['goods_name']}" placeholder="商品名称">
+			<input class="form-control" name="keywords" id="" type="text" value="{$_GPC['keywords']}" placeholder="购买人姓名或手机号">
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+		<div class="col-sm-9 col-xs-12">
+			<button class="btn btn-primary">筛选</button>
+		</div>
+	</div>
+</form>
+
+<form action="" class="form-table form form-validate" method="post">
+	<div class="panel panel-table">
+		<div class="panel-body table-responsive js-table">
+			{if empty($orders)}
+			<div class="no-result">
+				<p>还没有相关数据</p>
+			</div>
+			{else}
+			<table class="table table-hover">
+				<thead class="navbar-inner">
+					<tr>
+						<th>订单号</th>
+						<th>商品名</th>
+						<th>购买数量</th>
+						<th>最终价格</th>
+						<th>购买人姓名<br>手机号</th>
+						<th>支付方式</th>
+						<th>是否支付</th>
+						<th>状态</th>
+						<th>下单时间</th>
+						<th>兑换码</th>
+						<th style="width:150px; text-align:right;">操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					{loop $orders $item}
+						<tr>
+							<td>{$item['order_sn']}</td>
+							<td>{$item['goods_title']}</td>
+							<td>{$item['goods_num']}</td>
+							<td>{$item['final_fee']}元</td>
+							<td>{$item['username']}<br>{$item['mobile']}</td>
+							<td>
+								{if empty($item['pay_type']['text'])}
+									未支付
+								{else}
+									<span class="{$item['pay_type']['css']}">
+										{$item['pay_type']['text']}
+									</span>
+								{/if}
+							</td>
+							<td>
+								{if $item['is_pay'] == 1}
+									已支付
+								{/if}
+							</td>
+							<td>
+								{if $item['status'] == 0}
+									<span class="label label-primary">未支付</span>
+								{elseif $item['status'] == 1}
+									<span class="label label-danger">待核销</span>
+								{elseif $item['status'] == 2}
+									<span class="label label-success">已核销</span>
+								{elseif $item['status'] == 3}
+									<span class="label label-default">已取消</span>
+								{/if}
+							</td>
+							<td>{php echo date('Y-m-d H:i:s',$item['addtime']);}</td>
+							<td>{$item['code']}</td>
+							<td style="text-align:right; min-width: 200px;">
+								{if $item['status'] == 1 && $item['is_pay'] == 1}
+									<a href="{php echo iurl('store/seckill/orders/status', array('id' => $item['id'], 'type' => 'cancel'))}" class="btn btn-default btn-sm js-post" data-confirm="确定取消订单吗?">取消订单</a>
+									<a href="{php echo iurl('store/seckill/orders/status', array('id' => $item['id'], 'type' => 'status'))}" class="btn btn-primary btn-sm js-post" data-confirm="确定核销商品吗?">设为已核销</a>
+								{/if}
+							</td>
+						</tr>
+					{/loop}
+				</tbody>
+			</table>
+			<div class="btn-region clearfix">
+				<div class="pull-right">
+					{$pager}
+				</div>
+			</div>
+			{/if}
+		</div>
+	</div>
+</form>
+{/if}
+{itemplate 'public/footer'}

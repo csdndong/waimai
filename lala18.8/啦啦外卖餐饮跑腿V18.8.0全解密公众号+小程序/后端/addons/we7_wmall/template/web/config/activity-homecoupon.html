@@ -1,0 +1,40 @@
+{itemplate 'public/header'}
+<div class="page clearfix page-config-store-delivery">
+	<h2>首页显示商家代金券</h2>
+	<form class="form-horizontal form form-validate" id="form1" action="" method="post" enctype="multipart/form-data" >
+		<div class="alert alert-warning">
+			被选择的商家的进店领券活动，会和首页超级红包弹出页一样，在用户进入平台时展示和发放。
+		</div>
+		<!--		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">已选择商户</label>
+			<div class="col-sm-9 col-xs-12 toggle-tabs" data-content=".sync-type">
+				<div class="input-group" >
+					<div class="radio radio-inline">
+						<input type="radio" name="extra_sync" id="extra-sync-1" value="1"/>
+						<label for="extra-sync-1" class="toggle-role" data-target="sync-type-1">同步到所有商户</label>
+					</div>
+				</div>
+			</div>
+		</div>-->
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">选择商家</label>
+			<div class="col-sm-9 col-xs-12">
+				{loop $stores $store}
+					<div class="col-xs-3">
+						<div class="checkbox checkbox-inline">
+							<input type="checkbox" value="{$store['id']}" name="store_ids[]" id="store_{$store['id']}" {if in_array($store['id'], $showstores)}checked{/if}>
+							<label for="store_{$store['id']}">{$store['title']}</label>
+						</div>
+					</div>
+				{/loop}
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<input type="submit" value="提交" class="btn btn-primary">
+			</div>
+		</div>
+	</form>
+</div>
+
+{itemplate 'public/footer'}

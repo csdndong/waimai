@@ -1,0 +1,75 @@
+<{extends file="<{$tempdir}>/public/diswxsite.html"}>  
+<{block name=extendcss}> 
+<link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/distribution.css">   
+<link href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<{/block}>
+ <{block name=extendjs}>  
+   <script src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/js/template.min.js"></script>    
+<{/block}>
+<{block name=myScrolljs}>
+<{/block}>
+<{block name=sitetitle}><{$sitename}><{/block}>
+<{block name=hearnav}>
+<!-- 我的佣金 -->
+<div class="content">
+	<div class="toptitCon">
+		<div class="toptitBox">
+			<div class="toptitL"><i></i></div>
+			<div class="toptitC">
+				<h3>我的佣金</h3>
+			</div>
+			<div class="toptitR"></div>
+		</div>
+	</div>
+	<div class="commisionhome_head_content">
+		<div class="commisionhome_head_top">
+			<small>今日收益佣金(元）</small>
+			<span><{$todaycost}></span>
+		</div>
+		<div class="commisionhome_head_bottom">
+			<small>累计收益佣金(元）</small>
+			<span><{$allcost}></span>
+		</div>
+	</div>
+	<div class="commisionhome_putforward_content">
+		<ul>
+			<li>
+				<small>可提现佣金(元）</small>
+				<span><{$cantxcost}></span>
+			</li>
+			<li>
+				<small>已提现佣金(元）</small>
+				<span><{$txcost}></span>
+			</li>
+		</ul>
+	</div>
+	<div class="h_10"></div>
+	<div class="commisionhome_list_content">
+		<ul>
+			<li onclick="dolink('<{ofunc type=url link="/wxsite/distribution_yjdet"}>');">
+				<div class="commisionhome_list_left">
+					<div class="commisionhome_list_icon" style='border-radius:0px'><img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/distribution/yjmx.png" /></div>
+					<span>佣金明细</span>
+				</div>
+				<div class="commisionhome_list_right"><i class="fa fa-angle-right"></i></div>
+			</li>
+			<li onclick="dolink('<{ofunc type=url link="/wxsite/distribution_txlog"}>');">
+				<div class="commisionhome_list_left">
+					<div class="commisionhome_list_icon" style='border-radius:0px'><img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/distribution/txjl.png" /></div>
+					<span>提现记录</span>
+				</div>
+				<div class="commisionhome_list_right"><i class="fa fa-angle-right"></i></div>
+			</li>
+		</ul>
+	</div>
+	<div style="height: 50px;"></div>
+	<div class="commisionhome_btn_content" style="position: initial;" onclick="dolink('<{ofunc type=url link="/wxsite/distribution_yjtx"}>');">
+		<div class="commisionhome_btn_box">
+			<span>提现</span>
+		</div>
+	</div>
+</div>
+ 
+<{/block}>
+ 
+ 

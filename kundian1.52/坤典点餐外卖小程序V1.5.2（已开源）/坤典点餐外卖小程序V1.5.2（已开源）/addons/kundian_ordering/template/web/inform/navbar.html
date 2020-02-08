@@ -1,0 +1,15 @@
+<ul class="nav nav-tabs">
+    <!--<li {if $op=='msg_set'}class="active"{/if} >-->
+        <!--<a href="{url 'site/entry/inform',array('m'=>'kundian_ordering','op'=>'msg_set','version_id'=>$_GPC['version_id'])}">短信配置</a>-->
+    <!--</li>-->
+    <li {if $op=='print_set'}class="active"{/if} >
+        <a href="{url 'site/entry/inform',array('m'=>'kundian_ordering','op'=>'print_set','version_id'=>$_GPC['version_id'])}">飞鹅打印机配置</a>
+    </li>
+    <li {if $op=='print_test'}class="active"{/if} >
+        <a href="{url 'site/entry/inform',array('m'=>'kundian_ordering','op'=>'print_test','version_id'=>$_GPC['version_id'])}">飞鹅打印机测试</a>
+    </li>
+    <li {if $op=='wx_set'}class="active"{/if} >
+        <a href="{url 'site/entry/inform',array('m'=>'kundian_ordering','op'=>'wx_set','version_id'=>$_GPC['version_id'])}">微信公众号配置</a>
+    </li>
+
+</ul>

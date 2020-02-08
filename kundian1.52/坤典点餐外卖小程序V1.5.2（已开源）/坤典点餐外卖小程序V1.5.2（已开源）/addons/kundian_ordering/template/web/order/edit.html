@@ -1,0 +1,244 @@
+{template 'web/common/common'}
+{template 'web/order/navbar'}
+<link rel="stylesheet" type="text/css" href="../addons/kundian_ordering/resource/css/style.css" />
+<link rel="stylesheet" type="text/css" href="../addons/{php echo $_GPC['m']}/resource/swal/dist/sweetalert2.min.css" />
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            订单>编辑
+        </h3>
+    </div>
+    <div class="panel-body">
+        <form id="sign-form" class="form-horizontal" role="form" method="post" action="{url 'site/entry/order',array('m'=>'kundian_ordering','op'=>'saveModel','version_id'=>$_GPC['version_id'])}" name="submit" style="padding: 20px 0;">
+            <input type="hidden" name="id" value="{$orderData['id']}">
+            <table class="table-striped table-bordered table-hover dataTables-example table receipt">
+                <thead>
+                    <caption >收货信息</caption>
+                    <tr >
+                        <td>订单编号</td>
+                        <td>收货人</td>
+                        <td>联系电话</td>
+                        <td>收货地址</td>
+                    </tr>
+                    <tr >
+                        <td>{$orderData['order_number']}</td>
+                        <td>{$orderData['name']}</td>
+                        <td>{$orderData['phone']}</td>
+                        <td>{$orderData['address']}</td>
+                    </tr>
+
+                    <tr>
+
+                        <td>订单状态</td>
+                        <td>支付方式</td>
+
+                        <td>配送时间</td>
+                        <td>备注</td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <?php if($orderData['is_change']==1){?>
+                            <span class="btn-success">{$orderData['pay_method']}</span>
+                            <?php }else{?>
+                            <span class="btn-success">{$orderData['pay_method']}</span>
+                            <?php }?></td>
+                        <td>
+                            <?php if($orderData['is_pay']==0){?>
+                            未支付
+                            <?php }elseif($orderData['is_pay']==1){?>
+                            待配送
+                            <?php }elseif($orderData['is_pay']==2){?>
+                            配送中
+                            <?php }elseif($orderData['is_pay']==3){?>
+                            完成配送
+                            <?php }elseif($orderData['is_pay']==4){?>
+                            申请取消
+                            <?php }elseif($orderData['is_pay']==5){?>
+                            已取消
+                            <?php }?>
+
+                        </td>
+                        <td><?php echo $orderData['pei_time'];?></td>
+                        <td><?php echo $orderData['remark'];?></td>
+                    </tr>
+                </thead>
+
+            </table>
+
+            <table class="table-striped table-bordered table-hover dataTables-example table">
+                <thead>
+                <caption>商品信息</caption>
+                <tr>
+                    <td>id</td>
+                    <td>商品名称</td>
+                    <td>封面</td>
+                    <td>价格</td>
+                    <td class="hide-td">取餐号</td>
+                </tr>
+                <?php foreach($orderDetail as $v){?>
+                <tr>
+                    <td><?php echo $v['id']?></td>
+                    <td><?php echo $v['product_name'];?></td>
+                    <td><img src="<?php echo $v['cover'];?>" style="width: 70px;height: 70px;" alt=""></td>
+                    <td><?php echo $v['dan_price'];?></td>
+                    <td class="fast-food-number"></td>
+                </tr>
+                <?php } ?>
+                </thead>
+            </table>
+
+
+            <!--<div class="form-group receipt">-->
+                <!--<label class="col-sm-2 control-label">物流编号</label>-->
+                <!--<div class="col-sm-8">-->
+                    <!--<input type="text" class="form-control"  name="send_number" value="{$orderData['send_number']}">-->
+                <!--</div>-->
+            <!--</div>-->
+
+            <?php if($orderData['is_pay']==0){?>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <input type="hidden" name="orderid" value="<?php echo $orderData['id']?>">
+                    <?php if($orderData['is_change']==2){?>
+                    <button class="btn btn-primary" id="sendGoods" type="button">开始配送</button>
+                    <?php }?>
+                    <button class="btn" id="cancelAdminOrder" type="button">取消订单</button>
+                </div>
+            </div>
+            <?php }elseif($orderData['is_pay']==1){?>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <input type="hidden" name="orderid" value="<?php echo $orderData['id']?>">
+                    <button class="btn btn-primary" id="sendGoods" type="button">开始配送</button>
+                    <button class="btn btn-warning" id="cancelPayOrder" type="button">取消订单</button>
+                </div>
+            </div>
+            <?php }elseif($orderData['is_pay']==2){?>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <input type="hidden" name="orderid" value="<?php echo $orderData['id']?>">
+                    <button class="btn" id="finishOrder" type="button">完成配送</button>
+                </div>
+            </div>
+            <?php }elseif($orderData['is_pay']==3){?>
+
+            <?php }elseif($orderData['is_pay']==4){?>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <input type="hidden" name="orderid" value="<?php echo $orderData['id']?>">
+                    <a href="{url 'site/entry/refund',array('m'=>'kundian_ordering','id'=>$orderData['id'],'version_id'=>$_GPC['version_id'])}">
+                        <button class="btn" id="backPayOrder" type="button">确认退款</button>
+                    </a>
+                </div>
+            </div>
+            <?php }elseif($orderData['is_pay']==5){?>
+
+            <?php }?>
+
+
+
+        </form>
+    </div>
+</div>
+{template 'common/footer'}
+<script>
+    require(["../addons/{php echo $_GPC['m']}/resource/swal/dist/sweetalert2.min.js"],function(){
+        $(function(){
+            $("#sendGoods").click(function () {
+                var orderid=$("input[name='orderid']").val();
+                var send_number=$("input[name='send_number']").val();
+                $.ajax({
+                    type:"post",
+                    url:"{url 'site/entry/'.$_GPC['do'],array('m'=>$_GPC['m'],'op'=>'send_goods','version_id'=>$_GPC['version_id'])}",
+                    data:{order_id:orderid,send_number:send_number},
+                    dataType:'json',
+                    success:function(res){
+                        if(res.status==1){
+                            swal('操作成功!', '操作成功!', 'success');
+                        }else{
+                            swal('操作失败!', '操作失败!', 'error');
+                        }
+                    }
+                })
+            })
+            $("#finishOrder").click(function () {
+                var orderid=$("input[name='orderid']").val();
+                var send_number=$("input[name='send_number']").val();
+                $.ajax({
+                    type:"post",
+                    url:"{url 'site/entry/'.$_GPC['do'],array('m'=>$_GPC['m'],'op'=>'confirmGoods','version_id'=>$_GPC['version_id'])}",
+                    data:{order_id:orderid,send_number:send_number},
+                    dataType:'json',
+                    success:function(res){
+                        if(res.status==1){
+                            swal('操作成功!', '操作成功!', 'success');
+                        }else{
+                            swal('操作失败!', '操作失败!', 'error');
+                        }
+                    }
+                })
+            })
+            $("#cancelAdminOrder").click(function () {
+                var orderid=$("input[name='orderid']").val();
+                var send_number=$("input[name='send_number']").val();
+                $.ajax({
+                    type:"post",
+                    url:"{url 'site/entry/'.$_GPC['do'],array('m'=>$_GPC['m'],'op'=>'cancelGoods','version_id'=>$_GPC['version_id'])}",
+                    data:{order_id:orderid,send_number:send_number},
+                    dataType:'json',
+                    success:function(res){
+                        if(res.status==1){
+                            swal('操作成功!', '操作成功!', 'success');
+                        }else{
+                            swal('操作失败!', '操作失败!', 'error');
+                        }
+                    }
+                })
+            })
+
+            $("#cancelPayOrder").click(function () {
+                var that=$(this);
+                var orderid=$("input[name='orderid']").val();
+                swal({
+                    title: '提示',
+                    text: "确定取消订单吗?",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: '确认',
+                    cancelButtonText: '取消',
+                }).then(function(isConfirm) {
+                    if (isConfirm) {
+                        $.ajax({
+                            type:"post",
+                            url:"{url 'site/entry/'.$_GPC['do'],array('m'=>$_GPC['m'],'op'=>'cancelPayOrder','version_id'=>$_GPC['version_id'])}",
+                            data:{order_id:orderid},
+                            dataType:'json',
+                            success:function(res){
+                                if(res.status==1){
+                                    swal('操作成功!', '操作成功!', 'success');
+                                    that.parent().parent().remove();
+                                }else{
+                                    swal('操作失败!', '操作失败!', 'error');
+                                }
+                            }
+                        })
+                    }
+                })
+            })
+
+            if("{$orderData['fast_food_number']}"-0){
+                $(".receipt").hide();
+                $(".hide-td").show();
+                $('.fast-food-number').html("{$orderData['fast_food_number']}");
+            }else{
+                $(".hide-td").hide();
+                $('.fast-food-number').hide();
+            }
+
+        })
+    })
+</script>

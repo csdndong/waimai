@@ -1,0 +1,53 @@
+page {
+    background-color: #f4f4f4;
+}
+
+.page-forget .content {
+    margin-top: 10px;
+}
+
+.page-forget .content .list {
+    background: #fff;
+    padding: 3px 0;
+    padding-left: 15px;
+}
+
+.page-forget .content .list .item {
+    padding: 10px 0;
+    font-size: 14px;
+}
+
+.page-forget .content .list .item .item-title {
+    float: left;
+    display: inline-block;
+    width: 30%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    height: 24px;
+    line-height: 24px;
+}
+
+.page-forget .content .list .item .item-inner {
+    float: left;
+    width: 60%;
+    position: relative;
+}
+
+.page-forget .content .list .item .item-inner .item-remark {
+    position: absolute;
+    right: -20px;
+    top: 50%;
+    transform: translate(0,-50%);
+    color: #888;
+    z-index: 100;
+}
+
+.page-forget .content .submit {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.page-forget .content .submit .btn {
+    line-height: normal;
+}

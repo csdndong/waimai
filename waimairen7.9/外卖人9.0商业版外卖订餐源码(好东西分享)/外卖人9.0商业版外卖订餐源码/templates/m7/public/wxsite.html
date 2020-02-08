@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<meta name="MobileOptimized" content="320">
+<meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta name="HandheldFriendly" content="true">
+<meta name="author" content="johnye">
+<meta name="shenma-site-verification" content="f28da5e2e3fb6e2afd372a3eedfda998">
+<meta name="baidu-site-verification" content="eafwEzRbnz">
+<title><{block name=sitetitle}><{/block}></title> 
+<link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/public1.css?v=9.0"> 
+<link rel="stylesheet" type="text/css" href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/newweixin.css?v=9.0"> 
+<link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/newcss/index.css?v=9.0">
+<link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/newcss/font-awesome.min.css?v=9.0">
+<link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/scrllo_function.css?v=9.0">
+<{if $color == "green"}>
+<link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/newcss/green.css?v=9.0"> 
+<{/if}>
+<{if $color == "yellow"}>
+<link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/newcss/yellow.css?v=9.0"> 
+<{/if}>
+
+<script src="<{$siteurl}>/js/jquerymobile/jquery-1.6.4.min.js?v=9.0"></script>
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/js/public.js?v=9.0"></script>  
+<script src="<{$siteurl}>/templates/adminpage/public/js/allj.js?v=9.0"></script>  
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/js/swipe.js?v=9.0"></script> 
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/js/iscroll.js?v=9.0"></script> 
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/js/newiscroll.js?v=9.0"></script>  
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/js/scrllo_function.js?v=9.0?v=1.0.0"></script>  
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/js/jquery.cookie.js?v=9.0"></script>
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/jquery.lazyload.min.js?v=9.0" type="text/javascript" language="javascript"></script> 
+  <{block name=extendcss}><{/block}>
+<{block name=extendjs}><{/block}>
+<script>  
+	var siteurl = "<{$siteurl}>";
+	var is_static ="<{$is_static}>";
+	var taction = "<{$Taction}>"; 
+	var https = '<{$https|default:''}>';
+    var lat = '<{$lat|default:0}>';
+    var lng = '<{$lng|default:0}>';
+	if ( taction != 'member' &&  taction != 'login' &&  taction != 'reg'  ){
+		var cururl = window.location.href;
+		$.cookie('wxCurUrl', cururl);
+	} 
+</script>
+<{block name=loadinghide}> 
+<{/block}>
+<{block name=myScrolljs}>
+<script> 
+		var myScroll;
+		
+function loaded() {
+	myScroll = new iScroll('wrapper', {
+		useTransform: false,
+		onBeforeScrollStart: function (e) {
+			var target = e.target;
+			while (target.nodeType != 1) target = target.parentNode;
+
+			if (target.tagName != 'a' && target.tagName != 'span')
+				e.preventDefault();
+		}
+	});
+	 
+
+}
+$(function(){ 
+
+document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false); 
+document.addEventListener('DOMContentLoaded', function () { setTimeout(loaded, 200); }, false);
+});
+
+
+
+</script>
+<{/block}>
+ 
+ 
+ 
+</head>
+<body>  
+ <{block name=hearnav}><header   id="header"><div class="return"></div> 标题 </header><{/block}>
+	
+	<{block name=blockcontent}>  
+  <{/block}> 
+<{block name=footer}> 
+<{if $Taction != 'shopshow' && $Taction != 'foodshow' && $Taction != 'mkshopshow' && $Taction != 'shopcart'}> 
+ 
+ <{include file="<{$tempdir}>/public/bottom.html"}>
+ 
+<{/if}> 
+<{/block}> 
+<script>
+ var sharetitle = '<{block name=sharetitle}><{$sitename|default:''}><{/block}>';
+ var sharedesc = '<{block name=sharedesc}><{$description|default:''}><{/block}>';
+ var shareimgUrl = '<{block name=shareimg}><{if !empty($signPackage['shareimg'])}><{$signPackage['shareimg']}><{else}><{$siteurl}><{$sitelogo}><{/if}><{/block}>';
+ var sharelink = '<{block name=sharelink}><{$signPackage['url']|default:''}><{/block}>';
+
+</script>
+<{if is_array($signPackage) &&  $Taction != 'togethersay'  &&  $Taction != 'togethersaydata' &&  $Taction != 'fabiaozhuti'  }> 
+<script src="<{$map_comment_link}>res.wx.qq.com/open/js/jweixin-1.2.0.js?v=9.0" type="text/javascript" language="javascript"></script> 
+<script> 
+    wx.config({
+      debug: false,
+      appId: '<{$signPackage['appId']}>',
+      timestamp: '<{$signPackage['timestamp']}>',
+      nonceStr: '<{$signPackage['nonceStr']}>',
+      signature: '<{$signPackage['signature']}>',
+      jsApiList: [
+        'onMenuShareTimeline',
+        'onMenuShareAppMessage',
+        'onMenuShareQQ',
+        'onMenuShareWeibo',
+        'onMenuShareQZone',
+		'openLocation'
+      ] 
+  }); 
+ // alert('<{$signPackage['appId']}>');
+ wx.ready(function(){
+	//分享到朋友圈
+	wx.onMenuShareTimeline({
+		title: sharetitle, // 分享标题
+		link: sharelink, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+		imgUrl: shareimgUrl, // 分享图标
+		success: function () { 
+			// 用户确认分享后执行的回调函数
+		},
+		cancel: function () { 
+			// 用户取消分享后执行的回调函数
+		}
+	});
+	//分享给朋友
+	wx.onMenuShareAppMessage({
+		title: sharetitle, // 
+		desc: sharedesc, // 
+		link: sharelink, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+		imgUrl: shareimgUrl, // 分享图标
+		type: 'link', // 分享类型,music、video或，不填默认为link
+		dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+		success: function () { 
+			// 用户确认分享后执行的回调函数
+			//Tmsg(shareimgUrl);
+		},
+		cancel: function () { 
+			// 用户取消分享后执行的回调函数
+			//Tmsg('取消分享');
+		}
+	}); 
+	wx.onMenuShareQQ({
+		title: sharetitle, // 分享标题
+		desc: sharedesc, // 分享描述
+		link: sharelink, // 分享链接
+		imgUrl: shareimgUrl, // 分享图标
+		success: function () { 
+		   // 用户确认分享后执行的回调函数
+		},
+		cancel: function () { 
+		   // 用户取消分享后执行的回调函数
+		}
+	});
+	
+	wx.onMenuShareWeibo({
+		title: sharetitle, // 分享标题
+		desc: sharedesc, // 分享描述
+		link: sharelink, // 分享链接
+		imgUrl: shareimgUrl, // 分享图标
+		success: function () { 
+		   // 用户确认分享后执行的回调函数
+		},
+		cancel: function () { 
+			// 用户取消分享后执行的回调函数
+		}
+	}); 
+	wx.onMenuShareQZone({
+		title: sharetitle, // 分享标题
+		desc: sharedesc, // 分享描述
+		link: sharelink, // 分享链接
+		imgUrl: shareimgUrl, // 分享图标
+		success: function () { 
+		   // 用户确认分享后执行的回调函数
+		},
+		cancel: function () { 
+			// 用户取消分享后执行的回调函数
+		}
+	});
+	<{if $Taction == 'index'}>  
+		<{if empty($lng) || empty($lat) || empty($addressname)  }>
+		wx.getLocation({
+		type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+		success: function (res) {
+		var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+		var longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。 
+		 gpstolng(latitude,longitude);
+		}
+		});
+		<{/if}>
+	<{/if}>
+});
+wx.error(function(res){ 
+	// alert(res.errMsg);
+});
+
+
+
+
+</script> 
+<{/if}>
+ 
+</body>
+</html>
+ 

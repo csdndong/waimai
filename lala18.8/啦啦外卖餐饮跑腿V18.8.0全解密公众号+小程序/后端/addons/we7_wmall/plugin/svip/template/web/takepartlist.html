@@ -1,0 +1,106 @@
+{itemplate 'public/header'}
+{if $op == 'takepartlist'}
+<form action="./index.php?" class="form-horizontal form-filter">
+	{php echo tpl_form_filter_hidden('svip/task/takepartlist');}
+	<input type="hidden" name="task_type" value="{$task_type}"/>
+	<input type="hidden" name="status" value="{$status}"/>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">任务类型</label>
+		<div class="col-sm-9 col-xs-12">
+			<div class="btn-group">
+				<a href="{php echo ifilter_url('task_type:'. '');}" class="btn {if $task_type == ''}btn-primary{else}btn-default{/if}">不限</a>
+				{loop $task_types $type}
+				<a href="{php echo ifilter_url('task_type:' . $type['type']);}" class="btn {if $type['type'] == $task_type}btn-primary{else}btn-default{/if}">{$type['title']}</a>
+				{/loop}
+			</div>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">任务状态</label>
+		<div class="col-sm-9 col-xs-12">
+			<div class="btn-group">
+				<a href="{php echo ifilter_url('status:-1');}" class="btn {if $status == -1}btn-primary{else}btn-default{/if}">不限</a>
+				<a href="{php echo ifilter_url('status:1');}" class="btn {if $status == 1}btn-primary{else}btn-default{/if}">进行中</a>
+				<a href="{php echo ifilter_url('status:2');}" class="btn {if $status == 2}btn-primary{else}btn-default{/if}">已完成</a>
+				<a href="{php echo ifilter_url('status:3');}" class="btn {if $status == 3}btn-primary{else}btn-default{/if}">未完成</a>
+			</div>
+		</div>
+	</div>
+	<div class="form-group form-inline">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">其他</label>
+		<div class="col-sm-9 col-xs-12">
+			<select name="task_id" class="form-control select2 js-select2 width-130" id="select-task_id">
+				<option value="0" {if $task_id == 0}selected{/if}>选择任务</option>
+				{loop $tasks $task}
+				<option value="{$task['id']}" {if $task['id'] == $task_id}selected{/if}>{$task['title']}</option>
+				{/loop}
+			</select>
+			<div style="display: inline-block">
+				{php echo itpl_form_field_daterange('endtime', array('placeholder' => '完成时间'));}
+			</div>
+			<input type="text" name="uid" value="{$_GPC['uid']}" class="form-control" placeholder="用户UID">
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+		<div class="col-sm-9 col-xs-12">
+			<button class="btn btn-primary">筛选</button>
+		</div>
+	</div>
+</form>
+<form action="" class="form-table form" method="post">
+	<div class="panel panel-table">
+		<div class="panel-body table-responsive js-table">
+			{if empty($records)}
+			<div class="no-result">
+				<p>还没有相关数据</p>
+			</div>
+			{else}
+			<table class="table table-hover">
+				<thead class="navbar-inner">
+				<tr>
+					<th>用户</th>
+					<th>任务名称</th>
+					<th>任务类型</th>
+					<th>奖励详情</th>
+					<th>领取时间</th>
+					<th>完成时间</th>
+					<th>结束时间</th>
+					<th>任务状态</th>
+					<th style="width:150px; text-align:right;">操作</th>
+				</tr>
+				</thead>
+				<tbody>
+				{loop $records $record}
+				<tr>
+					<td>
+						<img src="{$record['avatar']}" alt="" width="50"/>
+						{$record['realname']}
+					</td>
+					<td>{$record['data']['title']}</td>
+					<td>
+						<span class="{$record['task_type_all']['css']}">
+							{$record['task_type_all']['title']}
+						</span>
+					</td>
+					<td>{$record['award_cn']}</td>
+					<td>{$record['addtime_cn']}</td>
+					<td>{$record['endtime_cn']}</td>
+					<td>{$record['overtime_cn']}</td>
+					<td>
+						<span class="{$record['takepart_status_all']['css']}">{$record['takepart_status_all']['text']}</span>
+					</td>
+					<td style="text-align:right;">
+						<a href="{php echo iurl('svip/task/del_takepartlist', array('id' => $record['id']))}" class="btn btn-default btn-sm js-remove" data-confirm="确定删除该任务记录吗">删除</a>
+					</td>
+				</tr>
+				{/loop}
+				</tbody>
+			</table>
+			{$pager}
+			{/if}
+		</div>
+	</div>
+</form>
+{/if}
+{itemplate 'public/footer'}

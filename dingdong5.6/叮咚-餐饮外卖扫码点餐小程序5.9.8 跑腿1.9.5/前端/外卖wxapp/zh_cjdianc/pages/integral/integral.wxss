@@ -1,0 +1,156 @@
+page {
+    background: #F5F5F5;
+}
+
+.integral {
+    width: 100%;
+    overflow-x: hidden;
+}
+
+.banner {
+    width: 100%;
+    height: 360rpx;
+}
+
+.swiper-container {
+    position: relative;
+}
+
+.swiper-container .swiper {
+    height: 360rpx;
+}
+
+.swiper-container .swiper .img {
+    width: 100%;
+    height: 100%;
+}
+
+.wsj {
+    text-align: center;
+    font-size: 28rpx;
+    color: #666;
+}
+
+.list {
+    background-color: white;
+    height: 80rpx;
+    font-size: 28rpx;
+    color: #333;
+}
+
+.cost {
+    width: 40rpx;
+    height: 40rpx;
+    margin-right: 30rpx;
+}
+
+.listleft {
+    width: 50%;
+    height: 70%;
+    border-right: 1rpx solid #d5d5d5;
+}
+
+.listright {
+    width: 50%;
+    height: 70%;
+}
+
+.incolor1 {
+    color: #FF6000;
+}
+
+.fenlei {
+    background-color: white;
+    margin-top: 20rpx;
+    padding: 1rpx 5rpx 30rpx;
+    font-size: 26rpx;
+    color: #666;
+}
+
+.fenlist {
+    margin: 30rpx 20rpx 0rpx;
+    flex: 1;
+}
+
+.fenimg {
+    width: 80rpx;
+    height: 80rpx;
+    margin-bottom: 10rpx;
+}
+
+.fename {
+    width: 140rpx;
+    height: 35rpx;
+    line-height: 35rpx;
+    text-align: center;
+}
+
+.commodity {
+    background-color: white;
+    margin-top: 20rpx;
+}
+
+.comtitle {
+    font-size: 26rpx;
+    color: #666;
+    padding: 0rpx 20rpx;
+    border-bottom: 1rpx solid #eee;
+    height: 60rpx;
+    line-height: 60rpx;
+}
+
+.comlist>.comone:nth-child(odd) {
+    border-right: 1rpx solid #eee;
+}
+
+.comone {
+    width: 50%;
+    box-sizing: border-box;
+    border-bottom: 1rpx solid #eee;
+    padding: 22rpx 22rpx 22rpx;
+}
+
+.onetitle {
+    font-size: 28rpx;
+    color: #333;
+    margin-bottom: 10rpx;
+    width: 320rpx;
+}
+
+.comnum {
+    font-size: 26rpx;
+    color: #FF6000;
+}
+
+.comcost {
+    font-size: 20rpx;
+    color: #999;
+    margin-left: 5rpx;
+}
+
+.comred {
+    background-color: #FE4A21;
+    font-size: 20rpx;
+    color: white;
+    padding: 2rpx 8rpx;
+    border-radius: 4rpx;
+    margin-left: 10rpx;
+}
+
+.comimgwai {
+    width: 100%;
+    height: 260rpx;
+    margin-top: 20rpx;
+}
+
+.comimg {
+    width: 100%;
+    height: 260rpx;
+}
+
+.flex1 {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}

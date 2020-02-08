@@ -1,0 +1,74 @@
+<view class="page page-assignRecord">
+    <div class="content">
+        <div class="record-top">
+            <div class="record-header">桌号分类</div>
+            <div class="record-header">编号</div>
+            <div class="record-header">状态</div>
+            <div class="record-header">操作</div>
+        </div>
+        <div class="record-list">
+            <div class="record-item">排队</div>
+            <div class="record-item">A008</div>
+            <div class="record-item">排队中前面还有999人</div>
+            <div class="record-item">
+                <span class="icon icon-delete"></span>
+            </div>
+        </div>
+        <div class="record-list">
+            <div class="record-item">排队</div>
+            <div class="record-item">A008</div>
+            <div class="record-item">排队中前面还有999人</div>
+            <div class="record-item">
+                <span class="icon icon-delete"></span>
+            </div>
+        </div>
+        <div class="record-list">
+            <div class="record-item">排队</div>
+            <div class="record-item">A008</div>
+            <div class="record-item">排队中前面还有999人</div>
+            <div class="record-item">
+                <span class="icon icon-delete"></span>
+            </div>
+        </div>
+        <div class="record-list">
+            <div class="record-item">排队</div>
+            <div class="record-item">A008</div>
+            <div class="record-item">排队中前面还有999人</div>
+            <div class="record-item">
+                <span class="icon icon-delete"></span>
+            </div>
+        </div>
+        <div class="record-list">
+            <div class="record-item">排队</div>
+            <div class="record-item">A008</div>
+            <div class="record-item">排队中前面还有999人</div>
+            <div class="record-item">
+                <span class="icon icon-delete"></span>
+            </div>
+        </div>
+        <div class="record-list">
+            <div class="record-item">排队</div>
+            <div class="record-item">A008</div>
+            <div class="record-item">排队中前面还有999人</div>
+            <div class="record-item">
+                <span class="icon icon-delete"></span>
+            </div>
+        </div>
+        <div class="record-list">
+            <div class="record-item">排队</div>
+            <div class="record-item">A008</div>
+            <div class="record-item">排队中前面还有999人</div>
+            <div class="record-item">
+                <span class="icon icon-delete"></span>
+            </div>
+        </div>
+        <div class="record-list">
+            <div class="record-item">排队</div>
+            <div class="record-item">A008</div>
+            <div class="record-item">排队中前面还有999人</div>
+            <div class="record-item">
+                <span class="icon icon-delete"></span>
+            </div>
+        </div>
+    </div>
+</view>

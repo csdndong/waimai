@@ -1,0 +1,136 @@
+
+ 
+    <div class="bottom-bar-warp">
+        <div class="bottom-bar" id="bottom-bar" style='width:100%;display: flex;flex-direction: row;'>
+            <div class="bbar-btn tap-click" onclick="dolink('<{ofunc type=url link="/wxsite/index"}>');"  >
+			    <img style='width:25px;margin-top:5px' src='<{$siteurl}>/images/bottom/home/home.png'>
+				<div class="text homebtn" style="margin-top:-8px;">首页</div>
+			</div>
+			<{if $shangou == 1}>
+            <div class="bbar-btn tap-click" onclick="dolink('<{ofunc type=url link="/wxsite/marketshop"}>');"  >
+			    <img style='width:25px;margin-top:5px' src='<{$siteurl}>/images/bottom/shangou/shangou.png'>
+				<div class="text shangoubtn" style="margin-top:-8px;">闪购</div>
+			</div>
+			<{/if}>
+			<{if $paotui == 1}>
+            <div class="bbar-btn tap-click" onclick="dolink('<{ofunc type=url link="/wxsite/paotui"}>');"  >
+			    <img style='width:25px;margin-top:5px' src='<{$siteurl}>/images/bottom/paotui/paotui.png'>
+				<div class="text paotuibtn" style="margin-top:-8px;">跑腿</div>
+			</div>
+			<{/if}>
+			<div class="bbar-btn tap-click" onclick="dolink('<{ofunc type=url link="/wxsite/order"}>');" >
+				<img style='width:25px;margin-top:5px' src='<{$siteurl}>/images/bottom/order/order.png'>
+				<div class="text orderbtn" style="margin-top:-8px;">订单</div>
+			</div>
+			<{if $say == 1}>
+            <div class="bbar-btn tap-click" onclick="dolink('<{ofunc type=url link="/wxsite/togethersay"}>');"  >
+				<img style='width:25px;margin-top:5px' src='<{$siteurl}>/images/bottom/say/say.png'>
+				<div class="text saybtn" style="margin-top:-8px;">一起说</div>
+			</div>
+			<{/if}>
+            <div class="bbar-btn tap-click"  onclick="dolink('<{ofunc type=url link="/wxsite/member"}>');">
+				<img style='width:25px;margin-top:5px' src='<{$siteurl}>/images/bottom/mycenter/mycenter.png'>
+				<div class="text memberbtn"  style="margin-top:-10px;">我的</div>
+			</div>
+        </div>
+    </div>
+
+
+
+
+<{if $color == "green"}>
+<script>
+    var siteurl = '<{$siteurl}>';
+	$(function(){
+		if( taction  == 'index' ){          	
+			$(".homebtn").css('color','#00cd85');			
+			$(".homebtn").prev().attr('src',siteurl+'/images/bottom/home/home_g.png');		
+		}
+		if( taction  == 'member' ){		
+			$(".memberbtn").css('color','#00cd85');
+			$(".memberbtn").prev().attr('src',siteurl+'/images/bottom/mycenter/mycenter_g.png');		
+		}
+		if( taction  == 'order' ){		
+			$(".orderbtn").css('color','#00cd85');
+			$(".orderbtn").prev().attr('src',siteurl+'/images/bottom/order/order_g.png');		
+		}
+		if( taction  == 'togethersay' ){		
+			$(".saybtn").css('color','#00cd85');
+			$(".saybtn").prev().attr('src',siteurl+'/images/bottom/say/say_g.png');		
+		}
+		if( taction  == 'paotui' ){		
+			$(".paotuibtn").css('color','#00cd85');
+			$(".paotuibtn").prev().attr('src',siteurl+'/images/bottom/paotui/paotui_g.png');		
+		}
+		if( taction  == 'marketshop' ){		
+			$(".shangoubtn").css('color','#00cd85');
+			$(".shangoubtn").prev().attr('src',siteurl+'/images/bottom/shangou/shangou_g.png');		
+		}
+	});
+</script>
+<{/if}>
+
+
+<{if $color == "yellow"}>
+<script>
+	$(function(){
+		if( taction  == 'index' ){          	
+			$(".homebtn").css('color','#ff7600 ');			
+			$(".homebtn").prev().attr('src',siteurl+'/images/bottom/home/home_y.png');		
+		}
+		if( taction  == 'member' ){		
+			$(".memberbtn").css('color','#ff7600 ');
+			$(".memberbtn").prev().attr('src',siteurl+'/images/bottom/mycenter/mycenter_y.png');		
+		}
+		if( taction  == 'order' ){		
+			$(".orderbtn").css('color','#ff7600 ');
+			$(".orderbtn").prev().attr('src',siteurl+'/images/bottom/order/order_y.png');		
+		}
+		if( taction  == 'togethersay' ){		
+			$(".saybtn").css('color','#ff7600 ');
+			$(".saybtn").prev().attr('src',siteurl+'/images/bottom/say/say_y.png');		
+		}
+		if( taction  == 'paotui' ){		
+			$(".paotuibtn").css('color','#ff7600');
+			$(".paotuibtn").prev().attr('src',siteurl+'/images/bottom/paotui/paotui_y.png');		
+		}
+		if( taction  == 'marketshop' ){		
+			$(".shangoubtn").css('color','#ff7600');
+			$(".shangoubtn").prev().attr('src',siteurl+'/images/bottom/shangou/shangou_y.png');		
+		}
+	});
+</script>
+
+<{/if}>
+
+<{if $color == "red" || empty($color)}>
+<script>
+	$(function(){
+		if( taction  == 'index' ){          	
+			$(".homebtn").css('color','#ff6e6e');			
+			$(".homebtn").prev().attr('src',siteurl+'/images/bottom/home/home_r.png');		
+		}
+		if( taction  == 'member' ){		
+			$(".memberbtn").css('color','#ff6e6e');
+			$(".memberbtn").prev().attr('src',siteurl+'/images/bottom/mycenter/mycenter_r.png');		
+		}
+		if( taction  == 'order' ){		
+			$(".orderbtn").css('color','#ff6e6e');
+			$(".orderbtn").prev().attr('src',siteurl+'/images/bottom/order/order_r.png');		
+		}
+			if( taction  == 'togethersay' ){		
+			$(".saybtn").css('color','#ff6e6e');
+			$(".saybtn").prev().attr('src',siteurl+'/images/bottom/say/say_r.png');		
+		}
+		if( taction  == 'paotui' ){		
+			$(".paotuibtn").css('color','#ff6e6e');
+			$(".paotuibtn").prev().attr('src',siteurl+'/images/bottom/paotui/paotui_r.png');		
+		}
+		if( taction  == 'marketshop' ){		
+			$(".shangoubtn").css('color','#ff6e6e');
+			$(".shangoubtn").prev().attr('src',siteurl+'/images/bottom/shangou/shangou_r.png');		
+		}
+	});
+</script>
+ 
+<{/if}>

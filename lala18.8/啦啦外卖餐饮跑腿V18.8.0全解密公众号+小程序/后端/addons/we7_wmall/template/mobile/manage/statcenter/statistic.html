@@ -1,0 +1,73 @@
+{itemplate 'public/header'}
+<div class="page" id="page-statistic">
+	<header class="bar bar-nav common-bar-nav">
+		<a href="javascript:;" class="pull-left back"><i class="icon icon-arrow-left"></i></a>
+		<h1 class="title">商户统计</h1>
+	</header>
+	<div class="content">
+		<div class="statistic-head">
+			<div class="statistic-title">今日统计</div>
+			<ul class="statistic-data">
+				<li>
+					<a href="javascript:;">
+						<div class="store-data-sum">{if $_GPC['days'] == 0}{php echo $stat['total_success_order']}{else}0{/if}</div>
+						<div class="store-data-info">今日有效订单</div>
+					</a>
+				</li>
+				<li>
+					<a href="javascript:;">
+						<div class="store-data-sum">{if $_GPC['days'] == 0}{php echo $stat['total_fee']}{else}0{/if}</div>
+						<div class="store-data-info">今日总营业额</div>
+					</a>
+				</li>
+				<li>
+					<a href="javascript:;">
+						<div class="store-data-sum">{if $_GPC['days'] == 0}{php echo $stat['store_final_fee']}{else}0{/if}</div>
+						<div class="store-data-info">今日总收入</div>
+					</a>
+				</li>
+			</ul>
+		</div>
+		<div class="tabs-list">
+			<div class="tabs-item {if $_GPC['days'] == 0 || !$_GPC['days']}active{/if}"><a href="{php echo imurl('manage/statcenter/statistic', array(days => '0'));}">今天</a></div>
+			<div class="tabs-item {if $_GPC['days'] == 7}active{/if}"><a href="{php echo imurl('manage/statcenter/statistic', array(days => '7'));}">近7天</a></div>
+			<div class="tabs-item {if $_GPC['days'] == 30}active{/if}"><a href="{php echo imurl('manage/statcenter/statistic', array(days => '30'));}">近30天</a></div>
+			<div class="tabs-item {if $_GPC['days'] == -1}active{/if}"><a class="" href="{php echo imurl('manage/statcenter/statistic', array(days => '-1'));}">自定义</a></div>
+		</div>
+		{if $_GPC['days'] == -1}
+		<form method="post" id="order-form" action="{php echo imurl('manage/statcenter/statistic', array(days => '-1'))}">
+			<div class="time-limit">
+				<div class="time-wrap">
+					<input type="text" data-toggle='date' name="start"/>
+					<span>至</span>
+					<input type="text" data-toggle='date' name="end"/>
+					<button>提交</button>
+				</div>
+			</div>
+		</form>
+		{/if}
+		<div class="statistic-head">
+			<ul class="statistic-data">
+				<li>
+					<a href="javascript:;">
+						<div class="store-data-sum">{php echo $stat['total_success_order']}</div>
+						<div class="store-data-info">有效订单</div>
+					</a>
+				</li>
+				<li>
+					<a href="javascript:;">
+						<div class="store-data-sum">{php echo $stat['total_fee']}</div>
+						<div class="store-data-info">总营业额</div>
+					</a>
+				</li>
+				<li>
+					<a href="javascript:;">
+						<div class="store-data-sum">{php echo $stat['store_final_fee']}</div>
+						<div class="store-data-info">总收入</div>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+{itemplate 'public/footer'}

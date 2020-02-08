@@ -1,0 +1,196 @@
+{template 'public/header'}
+{template 'public/comhead'}
+<link rel="stylesheet" type="text/css" href="../addons/zh_cjdianc/template/public/ygcsslist.css">
+<style type="text/css">
+  .store_td1{height: 45px;}
+  .yg5_tabel{border-color: #e5e5e5;outline: 1px solid #e5e5e5;}
+    .yg5_td{
+        padding: 10px;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;        
+    }
+    .tabel_yuan{width: 15px;height: 15px;border: 3px solid white;border-radius: 50%;margin-right: 5px;}
+    .tabel_btn{margin-right: 10px;}
+    .tabel_btn>div{float: left;line-height: 15px;}
+    .tabel_wai{margin: 20px 0px;}
+    .tabel_erwei{width: 17px;height: 17px;float: left;margin-right: 5px;}
+    .tabel_seach{padding-left: 10px;width: 150px;height: 30px;border-radius: 4px;border: 1px solid #e5e5e5;}
+    .tabel_sele{width: 120px;height: 30px;margin-right: 10px;}
+    .tabel1{background-color: #555555;}
+    .tabel2{background-color: #EF4437;}
+    .tabel3{background-color: #428BCA;}
+    .tabel4{background-color: #5CB85C;}
+    .tabel1_label{color: #5CB85C;margin-top: 20px;}
+    .tabel_in{width: 100px;}
+    .tabel1_labe2{width: 140px;padding: 10px 0px;background-color: #EEEEEE;margin:10px auto 0px;}
+    .yg5_td>a>div:nth-child(1){margin:0px auto;width: 100px;height: 100px;line-height: 100px;color: white;border-radius: 50%;font-size: 18px;}
+    .yg5_td{position: relative;}
+    .tabel_cha{position: absolute;font-size: 28px;top: 0px;right: 0px;font-weight: bold;}
+    .tabel_cha>a{color: red;}
+    .spanyg{color: #999;font-size: 12px;display: none;}
+    .tabel_cha>a:hover .spanyg{display: block;}
+    .tabel_left{
+    	position: absolute;;
+    	top: 11px;
+    	right: 25px;
+    	width: 16px;
+    	height: 16px;
+    	font-weight: bold;
+    	font-size: 28px;
+    }
+</style>
+<ul class="nav nav-tabs">
+    <span class="ygxian"></span>
+    <div class="ygdangq">当前位置:</div>    
+    <li class="active"><a href="{php echo $this->createWebUrl('table')}">餐桌列表</a></li>
+    <li><a href="{php echo $this->createWebUrl('addtable')}">添加餐桌</a></li>
+</ul> 
+<div class="main"> 
+    <div class="panel panel-default">
+        <div class="panel-heading wyheader">
+            桌台列表
+        </div>
+        <div class="panel-body" style="padding: 0px 15px;">
+            <div class="row">
+                <div class="col-md-12 tabel_wai">
+<!--                   <a class="btn btn-success btn-sm tabel_btn" href="javascript:void(0);">
+                    <div class="tabel_yuan"></div>
+                    <div>桌台状态</div>
+                  </a>
+                  <a class="btn btn-success btn-sm tabel_btn" href="javascript:void(0);">
+                    <img class="tabel_erwei" src="../addons/zh_cjdianc/template/images/saoma.png">
+                    <div>二维码</div>
+                  </a> -->
+                   <form  action="" method="POST">
+                  <a class="btn storeblue btn-sm tabel_btn" href="{php echo $this->createWebUrl('addtable')}">
+                    新建桌台
+                  </a>
+                  <a class="btn storered btn-sm tabel_btn" href="{php echo $this->createWebUrl('table',array('op'=>'qt'))}">
+                    一键清台
+                  </a>
+                  <a class="btn btn-primary btn-sm tabel_btn" href="{php echo $this->createWebUrl('batch')}">
+                    批量新增
+                  </a>
+             
+                  <input class="tabel_seach" type="text" name="keywords" placeholder="餐桌名称">
+                  <select class="tabel_sele" name="type">
+                   {loop $type $row2}
+                    <option value="{$row2['id']}">{$row2['name']}</option>
+                   {/loop}
+                  </select>
+                  <input class="btn btn-success btn-sm tabel_btn" type="submit" name="submit" value="搜索">
+                  <input class="btn btn-success btn-sm tabel_btn" type="button" name="all" id="all" value='全选'>
+                  <input class="btn btn-success btn-sm tabel_btn" type="button" name="cancel" id="canvel" value='删除'>
+                   <input type="hidden" name="token" value="{$_W['token']}"/>
+                  </form>
+<!--                     <a href="javascript:;" class="storespan btn btn-xs">
+                        <span class="fa fa-pencil"></span>
+                        <span class="bianji">查看订单
+                            <span class="arrowdown"></span>
+                        </span>                                
+                    </a> -->
+                </div>
+
+                <div class="yg5_tabel col-md-12">
+                        <div class="yg5_tr1">
+                         {loop $list $row}
+                        <div class="col-md-2 yg5_td">
+                            <div class="tabel_cha">
+                                <a onclick="if(!confirm('删除后将不可恢复,确定删除吗?')) return false;" href="{php echo $this->createWebUrl('table',array('id'=>$row['id'],'op'=>'del'))}"><span class="">×</span>
+                                    <span class="spanyg">删除</span>
+                                </a>
+                            </div>
+                       <input class="tabel_left" name="test_check" type="checkbox" value="{$row['id']}" id="demo1"/>
+                        {if $row['status']==0}
+                            <a href="{php echo $this->createWebUrl('addtable',array('id'=>$row['id']))}"><div class="tabel1">空闲</div></a>
+                        {elseif $row['status']==1}
+                            <a href="{php echo $this->createWebUrl('addtable',array('id'=>$row['id']))}"><div class="tabel2">已开台</div></a>
+                        {elseif $row['status']==2}
+                            <a href="{php echo $this->createWebUrl('addtable',array('id'=>$row['id']))}"><div class="tabel3">已下单</div></a>
+                        {elseif $row['status']==3}
+                            <a href="{php echo $this->createWebUrl('addtable',array('id'=>$row['id']))}"><div class="tabel4">已支付</div></a>
+                        {/if}
+                            <div class="tabel1_label">类型：{$row['type_name']}</div>
+                            <div class="tabel1_label">标签：{$row['tag']}</div>
+                            <div class="tabel1_labe2">
+                                <div>{$row['name']}</div>
+                                <form action="" method="POST" style="width: 100px;float: left;">
+                                <select style="margin-top: 10px;" id="status" name="status" onchange="$(this.form).submit();">
+                                    <option value="4" {if $row['status']==0} selected {/if}>空闲</option>
+                                    <option value="1" {if $row['status']==1} selected {/if}>已开台</option>
+<!--                                     <option value="2" {if $row['status']==2} selected {/if}>已下单</option>
+                                    <option value="3" {if $row['status']==3} selected {/if}>已支付</option> -->
+                                </select>
+                                <input type="hidden" value="{$row['id']}" name="id" />
+                                <input type="hidden" name="token" value="{$_W['token']}"/>
+                                </form>
+                               <a href="{php echo $this->createWebUrl('tableorder',array('table_id'=>$row['id']))}" class="storespan btn btn-xs" style="margin-top: 16px; border: 1px solid;margin-right: 12px;">
+                                    <span class="fa fa-pencil"></span>
+                                    <span class="bianji" style="left:-100%">查看订单
+                                        <span class="arrowdown"></span>
+                                    </span>                                
+                                </a> 
+                            </div>
+                        </div>
+                        {/loop}
+                       
+                    </div>
+                    <div class="yg5_tr2">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  
+</div>
+<script type="text/javascript">
+    $(function(){
+        // $("#frame-3").addClass("in");
+        $("#frame-3").show();
+        $("#yframe-3").addClass("wyactive");
+        // 全部选中
+       	$("input[name='all']").click(function(){
+       		if($("input[name='all']").val()=='全选'){
+				$("input[name='all']").val("全不选")
+       			$("input[name='test_check']").prop("checked",true);
+       		}else{
+				$("input[name='all']").val("全选")
+       			$("input[name='test_check']").prop("checked",false);
+       		}
+       		
+       	})
+       	// 删除选中的桌台
+       	$("input[name='cancel']").click(function(){
+		// 获取选中的input的value值  即每个桌台的id
+        var inputValue = document.getElementById("demo1").value;
+        var checkInput = $('input[type=checkbox]:checked')
+        var check = []
+       		 for(let i in checkInput){
+        		if(checkInput[i].defaultValue!=null){
+        			check.push(checkInput[i].defaultValue)
+        		}
+        	}	
+        	if(check.length==0){
+        		alert('请选择要删除的餐桌')
+        	}else{
+        		// 请求接口删除数据
+        	 $.ajax({
+                    type:"post",
+                    url:"{$_W['siteroot']}/app/index.php?i={$_W['uniacid']}&c=entry&do=AllDelTable&m=zh_cjdianc",
+                    dataType:"text",
+                    data:{id:check},
+                    success:function(data){
+                        console.log(data);      
+                       location.reload();
+                    }
+                })    
+        	}
+        	           
+       	})
+       
+    })
+</script>
+{template 'common/footer'}

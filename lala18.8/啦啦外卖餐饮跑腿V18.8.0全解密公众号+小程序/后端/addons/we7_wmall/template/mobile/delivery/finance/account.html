@@ -1,0 +1,136 @@
+{itemplate 'public/header'}
+<div class="page page-account">
+	<header class="bar bar-nav common-bar-nav">
+		<a class="icon pull-left icon icon-arrow-left back hide"></a>
+		<h1 class="title">提现账户</h1>
+	</header>
+	{itemplate 'public/nav'}
+	<div class="content">
+		<div class="account-title">
+			<div class="account-group">
+				<div class="bank account-select active" data-type="bank">银行账户</div>
+				<div class="alipay account-select" data-type="alipay">支付宝账户</div>
+			</div>
+		</div>
+		<div class="list-block border-1px-tb account-group-list bank show">
+			<ul>
+				<li class="account-li border-1px-b">
+					<div class="item-inner">
+						<div class="item-title label">银行</div>
+						<div class="item-input">
+							<select name="bank_id" style="height: 1.1rem; font-size: 0.7rem; width: 6rem; direction: rtl;padding-right: .5rem;">
+								<option value="0">请选择开户行</option>
+								{loop $bank_list $id $bank}
+								<option value="{$bank['id']}" {if $account['bank']['id'] == $id}selected{/if}>{$bank['title']}</option>
+								{/loop}
+							</select>
+							<i class="icon icon-right"></i>
+						</div>
+					</div>
+				</li>
+				<li class="account-li border-1px-b">
+					<div class="item-inner">
+						<div class="item-title label">银行卡号</div>
+						<div class="item-input">
+							<input type="number" name="bank[account]" placeholder="请输入银行卡号" value="{$account['bank']['account']}">
+						</div>
+					</div>
+				</li>
+				<li class="account-li">
+					<div class="item-inner">
+						<div class="item-title label">开户人姓名</div>
+						<div class="item-input">
+							<input type="text" name="bank[realname]" placeholder="请输入开户人姓名" value="{$account['bank']['realname']}">
+						</div>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<div class="list-block border-1px-tb account-group-list alipay hide">
+			<ul>
+				<li class="account-li border-1px-b">
+					<div class="item-inner">
+						<div class="item-title label">支付宝账号</div>
+						<div class="item-input">
+							<input type="text" name="alipay[account]" placeholder="请输入支付宝账号" value="{$account['alipay']['account']}">
+						</div>
+					</div>
+				</li>
+				<li class="account-li">
+					<div class="item-inner">
+						<div class="item-title label">支付宝姓名</div>
+						<div class="item-input">
+							<input type="text" name="alipay[realname]" placeholder="请输入支付宝姓名" value="{$account['alipay']['realname']}">
+						</div>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<a href="#" class="button button-big button-fill button-success">提交</a>
+	</div>
+</div>
+
+<script>
+	$(function(){
+		$('.account-select ').click(function(){
+			$(this).addClass("active").siblings().removeClass("active");
+			var type = $(this).data('type');
+			$('.account-group-list').hide();
+			$('.'+ type).show();
+		});
+		$('.button-success').click(function(){
+			var type = $('.account-select.active').data('type');
+			var bank_id = $('select[name="bank_id"]').val();
+			var bank_account = $('input[name="bank[account]"]').val();
+			var bank_realname = $('input[name="bank[realname]"]').val();
+			var alipay_account = $('input[name="alipay[account]"]').val();
+			var alipay_realname = $('input[name="alipay[realname]"]').val();
+			if(type == 'bank') {
+				if(!bank_id || bank_id == '0') {
+					$.toast('请选择开户行');
+					return false;
+				}
+				if(!bank_account) {
+					$.toast('银行卡号不能为空');
+					return false;
+				}
+				if(!bank_realname) {
+					$.toast('开户人姓名不能为空');
+					return false;
+				}
+			} else {
+				if(!alipay_account) {
+					$.toast('支付宝账号不能为空');
+					return false;
+				}
+				if(!alipay_realname) {
+					$.toast('支付宝姓名不能为空');
+					return false;
+				}
+			}
+			var bank = {
+				'id': bank_id,
+				'account': bank_account,
+				'realname': bank_realname
+			};
+			var alipay = {
+				'account': alipay_account,
+				'realname': alipay_realname
+			};
+			var params = {
+				bank: bank,
+				alipay: alipay
+			};
+			$.post("{php echo imurl('delivery/finance/account')}", {params:params}, function(data){
+				var result = $.parseJSON(data);
+				if(result.message.errno == -1) {
+					$.toast(result.message.message);
+				} else {
+					$.toast('提现账户设置成功', "{php echo imurl('delivery/member/mine')}");
+				}
+				return false;
+			});
+		});
+	});
+</script>
+{itemplate 'public/footer'}

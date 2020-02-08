@@ -1,0 +1,72 @@
+<div style="width: 400px;padding: 2px 15px 15px 15px;
+  overflow: auto;">
+
+	<form id="wxjuanform" action="" method="post">
+		<div class="labeldiv">
+			<label>
+				<span class="wxyouhuijuan">优惠卷名称:</span>
+				<input name="cartname" id="cartname" value="<{$juaninfo['cartname']}>" type="text" />
+			</label>
+		</div>
+		<div style="clear:both;"></div>
+		<div class="labeldiv">
+			<label>
+				<span class="wxyouhuijuan">优惠卷名称:</span>
+				<span class="wxyouhuijuan" style="margin-left:10px; color:#555;">所有店铺</span>
+				
+			</label>
+		</div>
+		<div style="clear:both;"></div>
+		<div class="labeldiv">
+			<label>
+				<span class="wxyouhuijuan">优惠卷描述:</span>
+				<input placeholder="" name="cartdesrc" id="cartdesrc" value="" type="text" />
+			</label>
+		</div>
+		<div style="clear:both;"></div>
+		<div class="labeldiv">
+			<label>
+				<span class="wxyouhuijuan">优惠卷面值:</span>
+				<input placeholder="" name="cost" id="cost" value="" type="text" />
+			</label>
+		</div>
+		<div style="clear:both;"></div>
+		<div class="labeldiv">
+			<label>
+				<span class="wxyouhuijuan">最新消费限制:</span>
+				<input placeholder="" name="limitcost" id="limitcost" value="" type="text" />
+			</label>
+		</div>
+		<div style="clear:both;"></div>
+		<div class="labeldiv">
+			<label>
+				<span class="wxyouhuijuan">有效天数:</span>
+				<input placeholder="" style="width:60px;" name="card_time" id="card_time" value="30" type="text" />&nbsp;&nbsp;天
+			</label>
+		</div>
+		<div style="clear:both;"></div>
+			<div class="labeldiv">
+			<label>
+				<span class="wxyouhuijuan"></span>
+				<div   style="width:80px; background:#eb9316; height:40px; line-height:40px; float:left; margin-left:10px; padding:0px 5px; text-align:center;   -moz-border-radius: 4px;
+  border-radius: 4px;color:#fff;" onclick="ajaxwxyyj(0);" >保存</div>
+				
+			</label>
+		</div>
+		<div style="clear:both;"></div>
+	</form>
+	
+</div>
+<script>
+
+</script>
+<style>
+.wxyouhuijuan{ height:40px; line-height:40px; float:left; width:100px;}
+.labeldiv{ height:40px; line-height:40px;margin-bottom:15px;}
+#wxjuanform input{color: #555; float:left; width:250px; height:40px; line-height:40px; margin-left:10px; padding:0px 5px;
+  background-color: white;
+  border: 1px solid #CCC;font-size: 14px;-webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  vertical-align: middle;}
+</style>

@@ -1,0 +1,106 @@
+{itemplate 'public/header'}
+{if $op == 'index'}
+<form action="" class="form-table form form-validate" method="post">
+	<div class="panel panel-table">
+		<div class="panel-heading">
+			<a href="{php echo iurl('cloudGoods/menuCategory/post');}" class="btn btn-primary btn-sm">添加菜单</a>
+		</div>
+		<div class="panel-body table-responsive js-table">
+			{if empty($store)}
+			<div class="no-result">
+				<p>还没有相关数据</p>
+			</div>
+			{else}
+			<table class="table table-hover">
+				<thead>
+				<tr>
+					<th>
+						<div class="checkbox checkbox-inline">
+							<input type="checkbox" name="id[]"/>
+							<label></label>
+						</div>
+					</th>
+					<th>名称</th>
+					<th>排序</th>
+					<th>状态</th>
+					<th class="text-right">操作</th>
+				</tr>
+				</thead>
+				{loop $store $sto}
+				<tr>
+					<td>
+						<div class="checkbox checkbox-inline">
+							<input type="checkbox" name="id[]" value="{$sto['id']}"/>
+							<label></label>
+						</div>
+					</td>
+					<input type="hidden" name="ids[]" value="{$sto['id']}">
+					<td>
+						<input name="title[]" value="{$sto['title']}" class="form-control width-100" required="true">
+					</td>
+					<td>
+						<input name="displayorder[]" value="{$sto['displayorder']}" class="form-control width-100" required="true">
+					</td>
+					<td>
+						<input type="checkbox" class="js-checkbox" data-on-text="开启" data-off-text="关闭" data-href="{php echo iurl('cloudGoods/menuCategory/status', array('id' => $sto['id']))}" data-name="status" value="1" {if $sto['status'] == 1}checked{/if}>
+					</td>
+					<td class="text-right">
+						<a href="{php echo iurl('cloudGoods/menuCategory/post', array('id' => $sto['id']))}" class="btn btn-default btn-sm" title="编辑" data-toggle="tooltip" data-placement="top" >编辑</a>
+						<a href="{php echo iurl('cloudGoods/menuCategory/del', array('id' => $sto['id']))}" class="btn btn-default btn-sm js-post" data-confirm="确定删除该菜单?"> 删除</a>
+					</td>
+				</tr>
+				{/loop}
+			</table>
+			<div class="btn-region clearfix">
+				<div class="pull-left">
+					<input name="token" type="hidden" value="{$_W['token']}" />
+					<input type="submit" class="btn btn-primary btn-sm" name="submit" value="提交修改" />
+				</div>
+				<div class="pull-right">
+					{$pager}
+				</div>
+			</div>
+			{/if}
+		</div>
+	</div>
+</form>
+{/if}
+{if $op == 'post'}
+<div class="page clearfix">
+	<h2>编辑菜单</h2>
+	<form class="form-horizontal form form-validate" id="form1" action="" method="post" enctype="multipart/form-data">
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">名称</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="text" class="form-control" name="title" value="{$storecate['title']}" required="true">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">排序</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="number" class="form-control" name="displayorder" value="{$storecate['displayorder']}">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">状态</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="radio radio-inline">
+					<input type="radio" name="status" value="1" id="status-1" {if $storecate['status'] == 1}checked{/if}>
+					<label for="status-1">开启</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" name="status" value="0" id="status-0" {if $storecate['status'] == 0}checked{/if}>
+					<label for="status-0">关闭</label>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<input type="hidden" name="token" value="{$_W['token']}">
+				<input type="submit" value="提交" class="btn btn-primary">
+			</div>
+		</div>
+	</form>
+</div>
+{/if}
+{itemplate 'public/footer'}

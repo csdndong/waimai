@@ -1,0 +1,311 @@
+<html xmlns="http://www.w3.org/1999/xhtml"><head> 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+<meta http-equiv="Content-Language" content="zh-CN"> 
+<meta content="all" name="robots"> 
+<meta name="description" content=""> 
+<meta content="" name="keywords"> 
+<title>打印</title>  
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/jquery.js" type="text/javascript" language="javascript"></script>   
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/jquery.PrintArea.js" type="text/javascript" language="javascript"></script>
+<{if $printtype == 1}>
+ <link type="text/css" rel="stylesheet" href="<{$siteurl}>/templates/<{$tempdir}>/public/css/print_1.css" media="print">
+ <{else}>
+ <link type="text/css" rel="stylesheet" href="<{$siteurl}>/templates/<{$tempdir}>/public/css/print_0.css" media="print">
+ <{/if}>
+</head>
+<script>
+  
+</script>
+<body>
+<div id="ordercontrol" style="width:100%;height:40px;background-color:#000;text-align:center;font-size:30px;font-weight:bold;color:#fff;line-height:40px;cursor:pointer;" onclick="printorder();">立即打印</div>
+<div id="ordercontent">
+
+
+<{if $printtype == 1}>
+<table class="table table-bordered" width=95% style="font-size:10px;margin-top:5px;text-align:left;color:#000!important;font-weight: bold!important;"   >
+     <tr>
+		 	<td  style="font-size:8px;">单号：<{$orderinfo['dno']}>
+			<{if $orderinfo['is_goshop'] == 1}>
+				<font style='color:#000!important'>预订<{if $orderinfo['allcost'] == 0}>座位<{else}>座位和菜品<{/if}></font>
+				<{else}>
+				<font style='color:#000!important'><{$shoptype[$orderinfo['shoptype']]}></font>
+				<{/if}></td> 
+	 </tr>
+	 <tr> <td>创建时间：<{$orderinfo['addtime']|date_format:"%Y-%m-%d %H:%M:%S"}></td>  </tr>
+	 <tr> <td>订单状态: <font style='color:#000!important'>
+	  <{if $orderinfo['is_goshop'] == 1}>
+				<{if $orderinfo['is_make'] < 2 }>					
+					<{if $orderinfo['status'] == 1 }>
+							等待用户到店消费
+						<{elseif $orderinfo['status'] == 0  }>
+							等待处理	
+						<{elseif $orderinfo['status'] == 2 || $orderinfo['status'] ==3 }>
+							已完成，用户已消费
+						<{elseif $orderinfo['status'] == 4  }>
+							商家已取消订单
+						<{elseif $orderinfo['status'] ==5 }>
+							管理员已取消订单
+						<{/if}>
+					<{else}>
+				
+				商家已取消订单
+
+			<{/if}>
+<{else}>
+				
+				<{$buyerstatus[$orderinfo['status']]}>　
+
+			<{/if}>
+	 </font></td>  </tr>
+	 <tr> <td>店铺名称：<{$orderinfo['shopname']}></td>  </tr>
+  <tr> <td>店铺电话: <{$orderinfo['shopphone']}></td>  </tr>
+  <tr> <td>店铺地址：<{$orderinfo['shopaddress']}></td>  </tr>
+  <tr> <td>支付状态：<font style='color:#000!important'><{$paytypearr[$orderinfo['paytype']]|default:'未定义'}></font><{if $orderinfo['paystatus'] == 1}>已付<{else}>未付<{/if}><font color=red><{$backarray[$orderinfo['is_reback']]}></font></td>  </tr>
+  <{if $orderinfo['is_goshop'] == 1}>
+	 <tr> <td>消费时间：<{$orderinfo['posttime']|date_format:"%Y-%m-%d %H:%M:%S"}></td>  </tr>
+     <tr> <td>联系人：<{$orderinfo['buyername']}>[<{if empty($orderinfo['acountname'])}>游客<{else}>帐号:<{$orderinfo['acountname']}><{/if}>]</td>  </tr>
+	 <tr> <td>联系电话：<{$orderinfo['buyerphone']}></td>  </tr>
+	 <tr> <td>说明:<{assign var=showother value=$orderinfo['othertext']|unserialize}>   
+		            		 		  	 <{foreach from=$showother key=mytest item=itc}>
+		            		 		  	<font style='color:#000!important'> <{$mytest}></blue>:<{$itc}> </font>
+		            		 		  	 <{/foreach}></td>  </tr>
+	<{else}> 
+	<tr> <td>配送时间：<{$orderinfo['posttime']|date_format:"%Y-%m-%d %H:%M:%S"}></td>  </tr>
+     <tr> <td>联系人：<{$orderinfo['buyername']}>[<{if empty($orderinfo['acountname'])}>游客<{else}>帐号:<{$orderinfo['acountname']}><{/if}>]</td>  </tr>
+	 <tr> <td>联系电话：<{$orderinfo['buyerphone']}></td>  </tr>
+	 <tr><td>送货地址：<{$orderinfo['buyeraddress']}></td></tr>
+	 <tr> <td>说明:<{assign var=showother value=$orderinfo['othertext']|unserialize}>   
+		            		 		  	 <{foreach from=$showother key=mytest item=itc}>
+		            		 		  	<font style='color:#000!important'> <{$mytest}></blue>:<{$itc}> </font>
+		            		 		  	 <{/foreach}></td>  </tr> 
+	<{/if}>
+	<tr>
+	    <td> 
+		     <table style="margin:0px;padding:0px;font-size:12px;" width="100%">
+		            			<tr style="height:20px;line-height:20px;">
+		            				<td style="border:none;padding:0px;color:#000;font-weight: bold!important;text-align:left;" width="30%">名称</td>
+		            				<td style="border:none;padding:0px;color:#000;font-weight: bold!important;" width="35%">价格</td>
+		            				<td style="border:none;padding:0px;color:#000;font-weight: bold!important;" width="35%">数量</td> 
+		            			</tr>
+		            			<{foreach from=$orderdet item=value}>  
+		            		
+									   <tr style="height:20px;line-height:20px;">
+								      <td  style="border-bottom:1px dotted #000;padding:0px;color:#000;font-weight: bold!important;"> <{$value['goodsname']}><{if $value['is_send'] == 1}><font color=red>[赠品]</font><{/if}></td>
+		            				  <td  style="border-bottom:1px dotted #000;padding:0px;color:#000;font-weight: bold!important;">￥<{$value['goodscost']}></td>
+		            				  <td style="border-bottom:1px dotted #000;padding:0px;color:#000;font-weight: bold!important;"><{$value['goodscount']}>份</td>
+		            				  </tr> 
+		            				<{/foreach}>  
+		            				 
+		            	    
+		            		   
+		            		 </table>
+		
+		
+		
+		</td>
+    </tr>
+	<{if $orderinfo['shopps']>0}>
+	<tr style="height:20px;line-height:20px;">
+         <td  >配送费： <{$orderinfo['shopps']}>元 </td>
+	 </tr>
+    <{/if}>
+    <{if $orderinfo['bagcost']>0}>
+    <tr style="height:20px;line-height:20px;">
+        <td >打包费： <{$orderinfo['bagcost']}>元 </td>
+    </tr>
+    <{/if}>
+    <{if $orderinfo['cxcost']>0}>
+    <tr style="height:20px;line-height:20px;">
+        <td  >店铺促销金额： <{$orderinfo['cxcost']}>元 </td>
+    </tr>
+    <{/if}>
+    <tr style="height:20px;line-height:20px;">
+
+        <td  >应收： <{$orderinfo['allcost']}>元 </td>
+    </tr>
+	
+	
+</table> 
+
+<{else}>
+	<table class="table table-bordered" width=95% style="font-size:12px;margin-top:5px;text-align:left;margin-left:20px;"   >
+		             <{if $orderinfo['is_goshop'] == 1}>
+		             <tr>
+		             	<td colspan="2" style="text-align:left;"><{$orderinfo['is_goshop']}>单号：<{$orderinfo['dno']}><{if $orderinfo['is_goshop'] == 1}><font color=red>预订<{if $orderinfo['allcost'] == 0}>座位<{else}>座位和菜品<{/if}></font><{/if}></td>
+		             	<td colspan="2" style="text-align:left;">创建时间：<{$orderinfo['addtime']|date_format:"%Y-%m-%d %H:%M:%S"}></td>
+		             	<td colspan="2" style="text-align:left;">订单状态:  
+	<{if $orderinfo['is_goshop'] == 1}>
+				<{if $orderinfo['is_make'] < 2 }>					
+					<{if $orderinfo['status'] == 1 }>
+							等待用户到店消费
+						<{elseif $orderinfo['status'] == 0  }>
+							等待处理	
+						<{elseif $orderinfo['status'] == 2 || $orderinfo['status'] ==3 }>
+							已完成，用户已消费
+						<{elseif $orderinfo['status'] == 4  }>
+							商家已取消订单
+						<{elseif $orderinfo['status'] ==5 }>
+							管理员已取消订单
+						<{/if}>
+					<{else}>
+				
+				商家已取消订单
+
+			<{/if}>
+<{else}>
+				
+				<{$buyerstatus[$orderinfo['status']]}>　
+
+			<{/if}></td>
+		            </tr>
+		             <tr style="height:20px;line-height:20px;">
+		             	<td colspan="2" style="text-align:left;">店铺名称：<{$orderinfo['shopname']}></td>
+		             	<td colspan="2" style="text-align:left;">店铺地址：<{$orderinfo['shopaddress']}></td>
+		             	<td colspan="2" style="text-align:left;">店铺电话: <{$orderinfo['shopphone']}></td> 
+		            </tr>
+		            <tr style="height:20px;line-height:20px;">
+		             	<td colspan="2" style="text-align:left;">消费时间：<{$orderinfo['posttime']|date_format:"%Y-%m-%d %H:%M:%S"}></td>
+		             	<td colspan="2" style="text-align:left;">支付状态：<font color=red><{$paytypearr[$orderinfo['paytype']]|default:'未定义'}></font><{if $orderinfo['paystatus'] == 1}>已付<{else}>未付<{/if}><font color=red><{$backarray[$orderinfo['is_reback']]}></font></td>
+		             	<td colspan="2" style="text-align:left;">下单来源: <{$ordertypearr[$orderinfo['ordertype']]}></td>
+		            </tr>
+		            <tr style="height:20px;line-height:20px;">
+		             	<td colspan="2" style="text-align:left;">订单类型：预订</td>   
+		             	<td colspan="2" style="text-align:left;">ip信息：<{$orderinfo['ipaddress']}></td> 
+		            </tr>
+                <tr style="height:20px;line-height:20px;">
+		             	<td colspan="2" style="text-align:left;">联系人：<{$orderinfo['buyername']}>[<{if empty($orderinfo['acountname'])}>游客<{else}>帐号:<{$orderinfo['acountname']}><{/if}>]</td>  
+		             	<td colspan="2" style="text-align:left;">联系电话：<{$orderinfo['buyerphone']}></td> 
+		             	<td colspan="2" style="text-align:left;"> <{assign var=showother value=$orderinfo['othertext']|unserialize}>   
+		            		 		  	 <{foreach from=$showother key=mytest item=itc}>
+		            		 		  	<font color=red> <{$mytest}></blue>:<{$itc}> </font>
+		            		 		  	 <{/foreach}></td>  
+		            </tr>
+		             <{else}>
+		             <tr>
+		             	<td colspan="2" style="text-align:left;">单号：<{$orderinfo['dno']}><font color=red><{$shoptype[$orderinfo['shoptype']]}></font></td>
+		             	<td colspan="2" style="text-align:left;">创建时间：<{$orderinfo['addtime']|date_format:"%Y-%m-%d %H:%M:%S"}></td>
+		             	<td colspan="2" style="text-align:left;">订单状态: <font color=blue><{$buyerstatus[$orderinfo['status']]}></font></td>
+		            </tr>
+		             <tr style="height:20px;line-height:20px;">
+		             	<td colspan="2" style="text-align:left;">店铺名称：<{$orderinfo['shopname']}></td>
+		             	<td colspan="2" style="text-align:left;">店铺地址：<{$orderinfo['shopaddress']}></td>
+		             	<td colspan="2" style="text-align:left;">店铺电话: <{$orderinfo['shopphone']}></td> 
+		            </tr>
+		            <tr style="height:20px;line-height:20px;">
+		             	<td colspan="2" style="text-align:left;">支付方式：<font color=red><{$paytypearr[$orderinfo['paytype']]|default:'未定义'}></font></td>
+		             	<td colspan="2" style="text-align:left;">支付状态：<{if $orderinfo['paystatus'] == 1}>已付<{else}>未付<{/if}><font color=red><{$backarray[$orderinfo['is_reback']]}></font></td>
+		             	<td colspan="2" style="text-align:left;">下单来源: <{$ordertypearr[$orderinfo['ordertype']]}></td>
+		            </tr>
+		            <tr style="height:20px;line-height:20px;">
+		             	<td colspan="2" style="text-align:left;">配送时间：<{$orderinfo['posttime']|date_format:"%Y-%m-%d %H:%M:%S"}></td>
+		             	<td colspan="2" style="text-align:left;">订单类型：<{$shoptype[$orderinfo['shoptype']]}></td>   
+		             	<td colspan="2" style="text-align:left;">ip信息：<{$orderinfo['ipaddress']}></td> 
+		            </tr>
+                <tr style="height:20px;line-height:20px;">
+		             	<td colspan="2" style="text-align:left;">联系人：<{$orderinfo['buyername']}>[<{if empty($orderinfo['acountname'])}>游客<{else}>帐号:<{$orderinfo['acountname']}><{/if}>]</td>
+		             	<td colspan="2" style="text-align:left;">消费地址：<{$orderinfo['buyeraddress']}></td>   
+		             	<td colspan="2" style="text-align:left;">联系电话：<{$orderinfo['buyerphone']}></td> 
+		            </tr>
+		            <{/if}>
+		            <tr> 
+		            </tr>
+		            <{if !empty($orderdet)}>
+		            <tr style="height:20px;line-height:20px;">
+		            	<td colspan="3" width="50%" valign=top>
+		            		<table style="margin:0px;padding:0px;font-size:12px;" width="100%">
+		            			<tr style="height:20px;line-height:20px;">
+		            				<td style="border:none;padding:0px;color:#000;text-align:left;" width="60%">名称</td>
+		            				<td style="border:none;padding:0px;color:#000;" width="15%">价格</td>
+		            				<td style="border:none;padding:0px;color:#000;">数量</td> 
+		            			</tr>
+		            			<{foreach from=$orderdet item=value}>  
+		            			<tr style="height:20px;line-height:20px;"><td style="border:none;padding:0px;color:#000;text-align:left;"><{$value['goodsname']}><{if $value['is_send'] == 1}><font color=red>[赠品]</font><{/if}></td>
+		            				  <td style="border:none;padding:0px;color:#000;"><{$value['goodscost']}>元</td>
+		            				  <td style="border:none;padding:0px;color:#000;"><{$value['goodscount']}>份</td>
+		            				  </tr> 
+		            				<{/foreach}>  
+		            				 
+		            	    
+		            		   
+		            		 </table>
+		            	</td>
+		            	<td colspan="3" style="text-align:left;color:#000;" valign=top>
+		            		 <table style="margin:0px;padding:0px;font-size:12px;text-align:left;" width="100%">
+		            		    <{if $orderinfo['shopcost'] > 0}>
+		            		   	<tr style="height:20px;line-height:20px;">
+		            		 		  <td style="border:none;padding:0px;color:#000;" width="100px;">店铺商品总价</td>
+		            		 		  <td style="border:none;padding:0px;color:#000;"><font color=red><{$orderinfo['shopcost']}></font>元</td>
+		            		 		   </tr>
+		            		 		<{/if}>
+		            		 		 <{if $orderinfo['shopps'] > 0}>
+		            		   	<tr style="height:20px;line-height:20px;">
+		            		 		  <td style="border:none;padding:0px;color:#000;" width="100px;">店铺配送费</td>
+		            		 		  <td style="border:none;padding:0px;color:#000;"><font color=red><{$orderinfo['shopps']}></font>元</td>
+		            		 		   </tr>
+		            		 		<{/if}>
+		            		 	 
+		            		 		<{if $orderinfo['scoredown'] > 0}>
+		            		   	<tr style="height:20px;line-height:20px;">
+		            		 		  <td style="border:none;padding:0px;color:#000;" width="100px;">积分低扣</td>
+		            		 		  <td style="border:none;padding:0px;color:#000;"><font color=red>-<{$orderinfo['scoredown']/$scoretocost}></font>元,<{$orderinfo['scoredown']}>积分,比例：<{$scoretocost}>:1</td>
+		            		 		   </tr>
+		            		 		<{/if}>
+		            		 		<{if $orderinfo['yhjcost'] > 0}>
+		            		   	<tr style="height:20px;line-height:20px;">
+		            		 		  <td style="border:none;padding:0px;color:#000;" width="100px;">优惠券低扣</td>
+		            		 		  <td style="border:none;padding:0px;color:#000;"><font color=red>-<{$orderinfo['yhjcost']}></font>元</td>
+		            		 		   </tr>
+		            		 		<{/if}>
+		            		 		<{if $orderinfo['cxcost'] > 0}>
+		            		   	<tr style="height:20px;line-height:20px;">
+		            		 		  <td style="border:none;padding:0px;color:#000;" width="100px;">店铺促销减金额</td>
+		            		 		  <td style="border:none;padding:0px;color:#000;"><font color=red>-<{$orderinfo['cxcost']}></font>元</td>
+		            		 		   </tr>
+		            		 		<{/if}>
+		            		 		<{if $orderinfo['bagcost'] > 0}>
+		            		   	<tr style="height:20px;line-height:20px;">
+		            		 		  <td style="border:none;padding:0px;color:#000;" width="100px;">打包费</td>
+		            		 		  <td style="border:none;padding:0px;color:#000;"><font color=red><{$orderinfo['bagcost']}></font>元</td>
+		            		 		   </tr>
+		            		 		   
+		            		 		<{/if}>
+		            		 		<tr style="height:20px;line-height:20px;">
+		            		 		  <td style="border:none;padding:0px;color:#000;" width="100px;">应收</td>
+		            		 		  <td style="border:none;padding:0px;color:#000;"><font color=red><{$orderinfo['allcost']}></font>元 </td>
+		            		 	   </tr>
+		            		 	   <{if !empty($orderinfo['content'])}>
+		            		 		<tr style="height:20px;line-height:20px;">
+		            		 		  <td style="border:none;padding:0px;color:#000;" width="100px;">备注</td>
+		            		 		  <td style="border:none;padding:0px;color:#000;"><{$orderinfo['content']}></td>
+		            		 	   </tr> 
+		            		 	   <{/if}>
+		            		 	   <{if !empty($orderinfo['othertext'])}>
+		            		 		<tr style="height:20px;line-height:20px;" valign=top>
+		            		 		  <td style="border:none;padding:0px;color:#000;" width="100px;">其他说明</td> 
+		            		 		  <td style="border:none;padding:0px;color:#000;">
+		            		 		  	<{assign var=showother value=$orderinfo['othertext']|unserialize}>   
+		            		 		  	 <{foreach from=$showother key=mytest item=itc}>
+		            		 		  	  <{$mytest}>:<{$itc}>，
+		            		 		  	 <{/foreach}>
+		            		 		  	</td>
+		            		 	   </tr> 
+		            		 	   <{/if}>
+		            		 </table> 
+		            		 
+		            		</td>
+		            </tr>
+		             <{/if}> 
+		            </table> 
+<{/if}>
+
+</div>
+ 
+<div id="print_area" style="display:none;font-size:40px;"></div> 
+<script>
+	function printorder(){
+		 
+		$("#ordercontent").printArea(); 
+	}
+</script>
+</body>
+</html>

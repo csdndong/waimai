@@ -1,0 +1,271 @@
+<{extends file="<{$tempdir}>/public/wxsite.html"}>
+<{block name=extendcss}>
+
+<{/block}>
+<{block name=extendjs}>
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/js/wxshop.js"></script>
+<{/block}>
+<{block name=sitetitle}><{$sitename}><{/block}>
+<{block name=hearnav}><{/block}>
+<{block name=myScrolljs}>
+<{/block}>
+<{block name=blockcontent}>
+<style>
+    .wx_signin_btn input{
+        width: 100%;
+        height: 38px;
+        margin-top: 20px;
+        font-size: 15px;
+        background-color: transparent;
+        border: 1px solid #11850e;
+        border-radius: 4px;
+    }
+
+    .wx_signin_btn input:first-child{
+        color: #fff;
+        background-color: #19ad17;
+    }
+
+    .wx_signin_btn input:last-child{
+        color: #19ad17;
+        background-color: #fff;
+    }
+
+    .wx_signin_other_box ul li,
+    .wx_signin_other_btn{
+        line-height: 40px;
+        text-align: center;
+        font-size: 14px;
+        color: #333333;
+        background-color: #fff;
+    }
+
+    .wx_signin_other_box ul li{
+        position: relative;
+    }
+
+    .wx_signin_other_box ul li img{
+        width: 18px;
+        height: 18px;
+        margin-right: 6px;
+        vertical-align: -4px;
+    }
+    .wx_signinsj_prompt{
+        padding: 8px 10px;
+        font-size: 11px;
+        color: #999999;
+    }
+
+    .wx_signinsj_box{
+        height: 30px;
+        line-height: 30px;
+        padding: 5px 10px;
+        margin-bottom: 10px;
+        display: -webkit-box;
+        display: -moz-box;
+        background-color: #fff;
+    }
+
+    .wx_signinsj_box span{
+        font-size: 14px;
+        color: #333333;
+    }
+
+    .wx_signinsj_inp{
+        padding-right: 10px;
+        -webkit-box-flex: 1;
+        -moz-box-flex: 1;
+    }
+
+    .wx_signinsj_inp input{
+        width: 100%;
+        height: 29px;
+        font-size: 14px;
+        color: #333333;
+    }
+
+    .wx_signinsj_colse .icon_signcolse{
+        width: 16px;
+        height: 16px;
+        display: inline-block;
+        vertical-align: -2px;
+        background-image: url(../images/icon_signcolse.png);
+        background-size: 100%;
+    }
+
+    .wx_signinsj_right{
+        width: 80px;
+        padding-left: 10px;
+        text-align: center;
+        position: relative;
+    }
+
+    .wx_signinsj_right:after{
+        content: '';
+        width: 1px;
+        height: 100%;
+        background-color: #e6e6e6;
+        transform: scaleX(.4);
+        position: absolute;
+        left: 0;
+        top: 0;
+        z-index: 1;
+    }
+
+    #btnSendCode{
+        width: 100%;
+        font-size: 14px;
+        color: #19ad17;
+        background-color: transparent;
+    }
+
+    .wx_signinsj_btn{
+        padding: 10px 10px 0;
+    }
+
+    .wx_signinsj_btn input{
+        width: 100%;
+        height: 40px;
+        font-size: 12px;
+        color: #ffffff;
+        background-color: #00CD85;
+        border-radius: 4px;
+    }
+
+    .wx_signinsj_btn.navaA input{
+        background-color: #19ad17;
+        border: 1px solid #11850e;
+    }
+
+</style>
+<div class="web_content bg_gray">
+    <div class="wx_signinsj_content">
+        <div class="wx_signinsj_prompt">请先绑定手机号，绑定后登录更安全，更方便</div>
+        <div class="wx_signinsj_box">
+            <span>手机号：</span>
+            <div class="wx_signinsj_inp">
+                <input class="sing_sj" type="text" id="phone" name="phone" placeholder="请输入手机号" />
+            </div>
+            <div class="wx_signinsj_colse">
+                <i class="icon_signcolse"></i>
+            </div>
+        </div>
+        <div class="wx_signinsj_box">
+            <span>验证码：</span>
+            <div class="wx_signinsj_inp">
+                <input class="sing_yzm" type="text" id="pwdyzm" name="code" placeholder="请输入验证码" />
+            </div>
+            <div class="wx_signinsj_right">
+                <input id="btnSendCode" type="button" time="0" value="获取验证码" onclick="clickyanzheng()" />
+            </div>
+        </div>
+        <div class="wx_signinsj_btn">
+            <input type="button" value="完成绑定" class="surebind" onclick="savebd();" style='border-radius: 5px;background-color:#cccccc!important' disabled="disabled" />
+        </div>
+    </div>
+</div>
+<script>
+    document.getElementById("phone").oninput = function () {
+                 check();
+     }
+   document.getElementById("pwdyzm").oninput = function () {
+		 check();
+	 }
+	function  check(){
+		var bindphone = $("#phone").val();
+		var bindyzm = $("#pwdyzm").val();
+		var colorset = '<{$color}>';
+		if(colorset == 'yellow'){
+		    color = '#ff7600';
+		}else if(colorset == 'green'){
+		    color = '#00cd85';
+		}else{
+		    color = '#ff6e6e';
+		}
+		if((bindphone =='') || (bindyzm =='') ){     
+			$(".surebind").css("background-color","#cccccc"); 
+			$('.surebind').attr('disabled',"true"); 
+		}else{
+			$('.surebind').removeAttr("disabled"); 
+			$(".surebind").css("background-color",color);
+			
+		}
+	}	 
+		 
+		 
+</script>
+
+<script>
+    function noshow(msg){
+        Tmsg(msg);
+    }
+    //获取手机验证码
+    function clickyanzheng(){
+        var tempurl = '<{$siteurl}>/index.php?ctrl=member&action=bindingwxlogin&random=@random@&phone=@phone@';
+        tempurl = tempurl.replace('@random@', 1+Math.round(Math.random()*1000)).replace('@phone@',$('#phone').val());
+        $.getScript(tempurl);
+    }
+
+    function showsend(phone,time,uid){
+        $('input[name="phone"]').val(phone);
+        $('#btnSendCode').attr('time',time);
+        $('#btnSendCode').attr('value','剩余90秒');
+        setTimeout("btntime();",1000);
+    }
+    function  btntime(){
+        var nowtime = Number($('#btnSendCode').attr('time'));
+        if(nowtime > 0){
+            $('#btnSendCode').attr('disabled',true);
+            $('#btnSendCode').addClass('seinpbg1');
+            var c = Number(nowtime)-1;
+            $('#btnSendCode').attr('time',c);
+            var  mx = 120-(120 - Number(c));
+            $('#btnSendCode').attr('value','剩余'+mx+'秒');
+            setTimeout("btntime();",1000);
+        }else{
+            $('#btnSendCode').attr('disabled',false);
+            $('#btnSendCode').removeClass('seinpbg1');
+            $('#btnSendCode').attr('value','重新获取');
+        }
+    }
+    function savebd(){
+		showLoading();
+        var phone = $('input[name="phone"]').val();
+        var code = $('input[name="code"]').val();
+        if(phone==''){
+            Tmsg("请输入手机号");
+            return false;
+        }
+        if(code==''){
+            Tmsg("请输入验证码");
+            return false;
+        }
+        var  url = '<{$siteurl}>/index.php?ctrl=wxsite&action=saveqqbd&datatype=json&random=@random@';
+        $.post(url.replace('@random@', 1+Math.round(Math.random()*1000)),{"phone":phone,"code":code},function(e){
+            if(e.error==false){
+				newhideLoading();
+                if(e.msg==1){
+                    alert("绑定成功，登录获取手机绑定的账户信息");
+                    link();
+                }else if(e.msg==2){
+                    alert("绑定成功，我们已将第三方账户余额、积分等账户相关信息移至绑定的账户中，请注意查看。");
+                    link();
+                }else{
+                    Tmsg("绑定成功");
+                    setTimeout("link()",800);
+                }
+            }else{
+				newhideLoading();
+                if(e.msg=='wxempty'){
+                    Tmsg("数据获取失败，请退出重试");
+                }else{
+                    Tmsg(e.msg);
+                }
+            }
+        },'json')
+    }
+    function link(){
+        window.location.href = '<{$web_extend_link|default:$siteurl}>';
+    }
+</script>
+<{/block}>

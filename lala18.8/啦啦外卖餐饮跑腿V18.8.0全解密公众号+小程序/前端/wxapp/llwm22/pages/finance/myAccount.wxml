@@ -1,0 +1,22 @@
+<view class="page-myAccount">
+    <view class="info">
+        <view class="image flex">
+            <image src="http://bpic.588ku.com/element_origin_min_pic/16/08/23/1057bbb58318400.jpg"></image>
+        </view>
+        <view class="title">我的账户</view>
+        <view class="num">89</view>
+    </view>
+    <view class="zan-panel" style="margin-top: 0px;">
+        <view class="zan-cell zan-cell--access">
+            <view class="zan-cell__bd zan-font-16 ">查看明细</view>
+            <view class="zan-cell__ft"></view>
+        </view>
+        <navigator class="zan-cell zan-cell--access" hoverClass="none" url="./recharge">
+            <view class="zan-cell__bd zan-font-16 ">立即充值</view>
+            <view class="zan-cell__ft"></view>
+        </navigator>
+    </view>
+    <navigator class="service" hoverClass="none" url="">
+        <view class="icon icon-service1"></view>
+    </navigator>
+</view>

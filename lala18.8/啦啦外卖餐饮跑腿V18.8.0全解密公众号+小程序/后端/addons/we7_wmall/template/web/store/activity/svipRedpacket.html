@@ -1,0 +1,113 @@
+{itemplate 'public/header'}
+<div class="page clearfix">
+	<form class="form-horizontal form form-validate" id="form1" action="" method="post" enctype="multipart/form-data">
+		{if !empty($activity['id'])}
+			{if empty($activity['status'])}
+				<div class="alert alert-warning">活动已失效,你可以选择点击下方"删除"按钮删除该活动</div>
+			{else}
+				<div class="alert alert-info">活动进行中,你可以选择点击下方"撤销"按钮撤销该活动</div>
+			{/if}
+		{/if}
+		<h3>活动信息</h3>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">活动开始时间</label>
+			<div class="col-sm-6 col-xs-6 col-md-4">
+				{php echo tpl_form_field_date('starttime', $activity['starttime'], true);}
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">活动结束时间</label>
+			<div class="col-sm-6 col-xs-6 col-md-4">
+				{php echo tpl_form_field_date('endtime', $activity['endtime'], true);}
+			</div>
+		</div>
+		<h3>红包信息</h3>
+		<div class="form-group item">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">使用条件</label>
+			<div class="col-sm-8">
+				<div class="input-group">
+					<span class="input-group-addon">满</span>
+					<input type="number" name="condition" value="{php echo $activity['data']['condition'] > 0 ? $activity['data']['condition'] : 0}" class="form-control" />
+					<span class="input-group-addon">元</span>
+				</div>
+				<div class="help-block">使用条件设置为0，则表示不限制</div>
+			</div>
+		</div>
+		<div class="form-group item">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">红包金额</label>
+			<div class="col-sm-8">
+				<div class="input-group">
+					<input type="number" name="discount" value="{$activity['data']['discount']}" class="form-control">
+					<span class="input-group-addon">元</span>
+					{if !empty($_W['ismanager'])}
+						<span class="input-group-addon">平台承担</span>
+						<input type="number" name="plateform_charge" value="{$activity['data']['discount_bear']['plateform_charge']}" class="form-control">
+						<span class="input-group-addon">元</span>
+						<span class="input-group-addon">代理商承担</span>
+						<input type="number" name="agent_charge" value="{$activity['data']['discount_bear']['agent_charge']}" class="form-control">
+						<span class="input-group-addon">元</span>
+					{elseif !empty($_W['isagenter'])}
+						<span class="input-group-addon">代理商承担</span>
+						<input type="number" name="agent_charge" value="{$activity['data']['discount_bear']['agent_charge']}" class="form-control">
+						<span class="input-group-addon">元</span>
+					{/if}
+				</div>
+				<span class="help-block">
+					例如：红包金额为10元，平台承担4元，代理商承担4元，则剩余2元由商户承担。
+				</span>
+			</div>
+		</div>
+
+		<div class="form-group item">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">领取后几天内有效</label>
+			<div class="col-sm-8">
+				<div class="input-group">
+					<input type="number" name="use_days_limit" value="{$activity['data']['use_days_limit']}" class="form-control">
+					<span class="input-group-addon">天</span>
+				</div>
+			</div>
+		</div>
+		<div class="form-group item">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">每日发放红包数量</label>
+			<div class="col-sm-8">
+				<div class="input-group">
+					<input type="number" name="amount" value="{$activity['data']['amount']}" class="form-control">
+					<span class="input-group-addon">个</span>
+				</div>
+			</div>
+		</div>
+		<div class="form-group item hide">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">是否开启奖励金兑换</label>
+			<div class="col-sm-8">
+				<div class="radio radio-inline">
+					<input type="radio" name="can_exchange" id="can_exchange-1" value="1" {if $activity['data']['can_exchange'] == 1}checked{/if}>
+					<label for="can_exchange-1">开启</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" name="can_exchange" id="can_exchange-0" value="0" {if !$activity['data']['can_exchange']}checked{/if}>
+					<label for="can_exchange-0">关闭</label>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<input type="submit" value="提交" class="btn btn-primary">
+				{if !empty($activity['id'])}
+					{if empty($activity['status'])}
+						<a href="{php echo iurl('store/activity/svipRedpacket/del');}" class="btn btn-danger js-post" data-confirm="确定删除此活动?">删除</a>
+					{else}
+						<a href="{php echo iurl('store/activity/svipRedpacket/del');}" class="btn btn-danger js-post" data-confirm="确定撤销此活动?">撤销此活动</a>
+					{/if}
+				{/if}
+			</div>
+		</div>
+	</form>
+</div>
+<script>
+	$(function(){
+		$(document).on('click', '.btn-turncate', function(){
+			$(this).parents('.input-group').find(':text').val('');
+		})
+	});
+</script>
+{itemplate 'public/footer'}

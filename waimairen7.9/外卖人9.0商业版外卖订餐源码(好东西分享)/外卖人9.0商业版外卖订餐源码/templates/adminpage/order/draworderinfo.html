@@ -1,0 +1,203 @@
+<html xmlns="http://www.w3.org/1999/xhtml"><head> 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+<meta http-equiv="Content-Language" content="zh-CN"> 
+<meta content="all" name="robots"> 
+<meta name="description" content=""> 
+<meta content="" name="keywords"> 
+<title>退款管理</title>  
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/jquery.js" type="text/javascript" language="javascript"></script>   
+
+</head>
+<script>
+  
+</script>
+<body>
+ <div id="ordercontent">
+ 	 <style>
+		 table tr{ width:50%;   line-height:52px;}
+		 table tr td{ display:block}
+		 </style>
+      	<table class="table table-bordered" width=95% style="border-collapse: collapse;font-size:12px;margin-top:5px;text-align:left;margin-left:20px;"  >
+		    <tr>      
+				<td colspan="2" style="text-align:left;">总金额: <font color=red><{$oderinfo['allcost']}> </font>元</td>
+				<td colspan="2" style="text-align:left;">支付方式: <font color=red>
+				<{if $oderinfo['paytype_name']  == 'open_acout' }>余额支付<{/if}> 
+				<{if $oderinfo['paytype_name']  == 'weixin' }>微信支付<{/if}> 
+				<{if $oderinfo['paytype_name']  == 'alipay' }>支付宝支付<{/if}> 
+				<{if $oderinfo['paytype_name']  == 'alimobile' }>手机支付宝支付<{/if}> 
+				</font>
+				</td>
+				<{if $oderinfo['paytype_name']  == 'weixin' ||  $oderinfo['paytype_name']  == 'alipay'  || $oderinfo['paytype_name']  == 'alimobile'  }>
+					<td colspan="2" style="text-align:left;">交易号: <font color=red><{$oderinfo['trade_no']}></font></td>
+				<{/if}>
+		     </tr>
+		 
+		        <tr>
+		         <td colspan="6" style="text-align:left;">
+		         <{if $drawbacklog['status'] == 0}>
+		         <table style="margin:0px;padding:0px;font-size:12px;text-align:left;" width="100%">
+		        <!-- <tr>
+				   <td style="width:100px;">处理说明:</td>
+				   <td><input type="text" name="bkcontent" value="平台已退款" style="width:200px;" id="bkcontent"></td>
+				 </tr>
+				-->					 
+			    <{if $oderinfo['paytype_name']  == 'open_acout' }>						 
+									 
+					<tr onmouseover="this.bgColor='#F5F5F5';"  >
+                      <td class="left">增加余额金额</td>
+                      <td>  
+					 
+						<input type="text" readonly name="zengcost" id="zengcost" value="<{$oderinfo['allcost']}>" class="skey" style="width:100px;">元
+						
+						 </td>
+                    </tr>
+					
+			
+                     <tr onmouseover="this.bgColor='#F5F5F5';" >
+                      <td class="left">余额变动是否发送短信通知</td>
+                      <td>  
+						<input type="radio" name="is_phonenotice" id="" value="0"  checked />否 
+				  
+					  <input type="radio"  name="is_phonenotice" id="" value="1" />是 </td>
+
+                    </tr>
+					 <tr id="notice_content" style="display:none;"  onmouseover="this.bgColor='#F5F5F5';" >
+                      <td class="left">短信通知内容</td>
+                      <td><textarea name="notice_content" id="yuanyin_content" rows="6" cols="20"> </textarea></td>
+                    </tr>
+					<script>
+				 
+					$("input[name='is_phonenotice']").click(function(){
+					  var checkid =  $("input[name='is_phonenotice']:checked").val();
+					 //befortime
+					 if(checkid == 1){
+						$('#notice_content').show();
+					 }else{
+						 $('#notice_content').hide();
+						 $("#yuanyin_content").val('');
+					 }
+					  
+				}); 
+					</script>
+						
+			<{else}>
+			<tr onmouseover="this.bgColor='#F5F5F5';"  >
+                      <td  colspan="2" style="width:100%;" class="left">如需退款，请根据上面的订单交易号在对应的支付平台里面退款给用户，退款成功后请点击下面的确认退款</td> 
+                    </tr>
+			<{/if}>						 
+		             	 	   	 <tr>
+		             	 	   	 	   <td style="width:100px;">&nbsp;&nbsp;</td>
+		             	 	   	 	   <td> <input type="button" value="确认退款" class="button" onclick="sureclose();">   <!--<input type="button" value="不退款" class="button" onclick="unsureclose();">--></td>
+		             	 	   	 	 </tr>
+		             	 	   	
+		             	 	  </table>
+		             		<{else}>
+		             		处理说明:<{$drawbacklog['bkcontent']}>
+		             		<{/if}>
+		             		
+		             		
+		             		
+		             	</td>
+		             	 
+		            </tr>
+		 
+		 
+		 
+		 
+		 
+		 
+		 
+		 
+		            </table> 
+ 
+</div>
+ 
+<div id="print_area" style="display:none;font-size:40px;"></div> 
+
+<script type="text/javascript">
+   function colorred(obj){
+   	$(obj).css('background','#eee'); 
+   }
+   function tcolorred(obj){
+   	$(obj).css('background','');
+   }
+    
+	 
+	 function sureclose()
+	 {
+	 	  var zengcost = $('#zengcost').val();
+	 	  var is_phonenotice = $("input[name='is_phonenotice']:checked").val();
+	 	  var notice_content = $("#yuanyin_content").val();
+	 	  var zengcost = $('#zengcost').val();
+	 	  var reasons = '管理员后台退款';
+	 	  if(reasons == undefined || reasons == '')
+	 	  {
+	 	  	alert('处理说明不能为空');
+	 	  }else{ //{'orderid':orderid,'reason':reasons}
+	 	    var url =  '<{$siteurl}>/index.php?ctrl=adminpage&action=order&module=systemdraworder&zengcost='+zengcost+'&is_phonenotice='+is_phonenotice+'&notice_content='+notice_content+'&type=drawback&id=<{$oderinfo['id']}>&reasons='+reasons+'&datatype=json&random=@random@';
+	 	    $.ajax({
+     type: 'get',
+     async:false, 
+     url: url.replace('@random@', 1+Math.round(Math.random()*1000)), 
+     dataType: 'json',success: function(content) {  
+     	if(content.error == false){
+     		alert('操作成功','');
+			parent.closeddraw();
+			 
+     	}else{
+     		if(content.error == true)
+     		{
+     			alert(content.msg); 
+     		}else{
+     			alert(content); 
+     		}
+     	} 
+		},
+    error: function(content) { 
+    	alert('数据获取失败'); 
+	  }
+   });   
+	 	 }
+	 }
+	 function unsureclose()
+	 {
+	 	  var reasons = $('#bkcontent').val();
+	 	  if(reasons == undefined || reasons == '')
+	 	  {
+	 	  	alert('处理说明不能为空');
+	 	  }else{ //{'orderid':orderid,'reason':reasons}
+	 	    var url = '<{$siteurl}>/index.php?ctrl=adminpage&action=order&module=systemdraworder&type=undrawback&id=<{$oderinfo['id']}>&reasons='+reasons+'&datatype=json&random=@random@';
+	 	    $.ajax({
+     type: 'get',
+     async:false, 
+     url: url.replace('@random@', 1+Math.round(Math.random()*1000)), 
+     dataType: 'json',success: function(content) {  
+     	if(content.error == false){
+     		alert('操作成功','');
+			parent.closeddraw();
+     	}else{
+     		if(content.error == true)
+     		{
+     			alert(content.msg); 
+     		}else{
+     			alert(content); 
+     		}
+     	} 
+		},
+    error: function(content) { 
+    	alert('数据获取失败'); 
+	  }
+   });   
+	 	 }
+	 }
+	 
+   
+ </script>
+<script>
+	function printorder(){
+		 
+		$("#ordercontent").printArea(); 
+	}
+</script>
+</body>
+</html>

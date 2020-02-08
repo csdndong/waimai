@@ -1,0 +1,176 @@
+<{extends file="<{$tempdir}>/public/admin.html"}>
+<{block name=extendjs}>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js"></script>
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/datepicker/WdatePicker.js" type="text/javascript" language="javascript"></script>
+<{/block}>
+ <{block name=controlname}>通知列表<{/block}>
+ <{block name=bodylist}>
+ <style>
+.notice_head{text-align: left;background: #fcf9f4;height: 38px;line-height: 38px;position:relative;}
+.notice_title{margin-top: 10px;color: #666;padding:0 20px;}
+.notice_title .notice_style{cursor: pointer;background-color: #fff;padding: 0 8px;color: #666;height: 24px;font-size: 12px;line-height: 24px;border-radius: 5px;border: 1px solid #e5e5e5;position: absolute;top: 6px;right: 40px;}
+.opendetail .firstspan{float:left;display:inline-block;margin-right:40px;}
+.notice_list{padding:10px 0 10px 20px;;}
+.notice_box{float: left;width: 20%;background-color: #ebe7dc;height: 50px;line-height: 50px; color: #333;text-align: left;padding-left: 20px;position: relative;margin-bottom: 10px;margin-right: 32px;}
+.notice_box img{position: absolute;top: 16px;right: 20;cursor: pointer;}
+#n_style_content{position: absolute;top: 25%;left: 40%;width: 300px; background-color: #fff;border: 1px solid #ebebeb;padding: 10px 1% 0;display:none;}
+#n_style_content ul{padding:0;margin:0;width:99%;color:#666;}
+#n_style_content ul li{width:100%;height:40px;text-align:left;}
+#s_style_content{position: absolute;top: 25%;left: 40%;width: 300px; background-color: #fff;border: 1px solid #ebebeb;padding: 10px 1% 0;display:none;}
+#s_style_content ul{padding:0;margin:0;width:99%;color:#666;}
+#s_style_content ul li{width:100%;height:40px;text-align:left;}
+ </style>
+	<div style="width:auto;overflow-x:hidden;overflow-y:auto">
+		<{if !empty($list)}>
+			<{foreach from=$list item=items}>
+				<div class="notice_head">
+					<div class="notice_title">	
+						<div class="opendetail">
+							<span class="firstspan"><{$items['name']}></span>
+							<form method="post" name="form1" action="<{ofunc type=url link="/adminpage/card/module/savewxnotice/type/<{$items['type']}>"}>">
+							   <input  type="radio" data="<{$items['type']}>" name="openwxnotice_<{$items['type']}>" class="openwxnotice" value="1" <{if $items['is_open']==1}>checked<{/if}>/>开启 
+							   <input  type="radio" data="<{$items['type']}>" name="openwxnotice_<{$items['type']}>" class="openwxnotice" value="0" <{if $items['is_open']==0}>checked<{/if}> />不开启
+								
+								<input type="text" name="template_id_<{$items['type']}>" id="template_id_<{$items['type']}>" value="<{$items['template_id']}>" style="height: 24px;margin: 0 40px;width: 310px;<{if $items['is_open']==0}>display:none<{else}>display:inline-block<{/if}>;">
+							   							   
+							   <input type="submit" value="保存" class="button">            
+							</form>
+						</div>
+						<{if $items['type']==1}>
+							<span class="notice_style" id="n_style">通知样式</span>
+						<{elseif $items['type']==2}>
+							<span class="notice_style" id="s_style">通知样式</span>
+						<{/if}>
+					</div>
+				</div>
+				<div class="notice_center">
+					<div class="notice_content">
+						<ul class="notice_list">
+							<{if !empty($items['det'])}>
+								<{foreach from=$items['det'] item=itp}>
+									<li class="notice_box">
+										<span><{$itp['name']}></span>
+										<{if $itp['is_open']==1}>
+											<img src="<{$siteurl}>/templates/<{$tempdir}>/public/images/wxts_btn02.png" onclick="changeopen('<{$itp['type']}>','<{$itp['parent_type']}>');"/>
+										<{else}>
+											<img src="<{$siteurl}>/templates/<{$tempdir}>/public/images/wxts_btn01.png" onclick="changeopen('<{$itp['type']}>','<{$itp['parent_type']}>');"/>
+										<{/if}>
+									</li>
+								<{/foreach}>
+							<{/if}>
+						</ul>
+					</div>
+				</div>
+				<div class="clear" style="clear: both;"></div>
+			<{/foreach}>
+		<{/if}>
+	</div>
+	<div id="n_style_content">
+		<ul>
+			<li>
+				<span style="font-size: 18px;font-weight: bold;color: #000;">订单状态更新</span>
+				<p style="font-size: 12px;color: #999;">8月8日</p>
+			</li>
+			<li style="padding:10px 0;height:auto;">
+				<p>订单支付成功</p>
+				<span>您在<商家>下的外卖订单已支付成功，商家接单后会尽快发货</span>
+			</li>
+			<li>
+				<span>订单编号：</span><span>15359747622942</span>				
+			</li>
+			<li>
+				<span>订单状态：</span><span>待付款</span>				
+			</li>
+			<li>
+				<span>订单金额：</span><span>￥88.88</span>
+			</li>
+			<li>
+				<span>支付状态：</span><span>已支付</span>
+			</li>
+			<li style="border-top: 1px solid #e5e5e5;line-height: 40px;">
+				<span>详情：</span>
+			</li>
+		</ul>
+	</div>
+	<div id="s_style_content">
+		<ul>
+			<li>
+				<span style="font-size: 18px;font-weight: bold;color: #000;">商家订单通知</span>
+				<p style="font-size: 12px;color: #999;">8月8日</p>
+			</li>
+			<li style="padding:10px 0;height:auto;">
+				<p>有新的外卖订单</p>
+				<span>您有新的外卖订单，请及时处理！</span>
+			</li>
+			<li>
+				<span>商家：</span><span>外卖人</span>				
+			</li>
+			<li>
+				<span>收货人：</span><span>高大尚</span>				
+			</li>
+			<li>
+				<span>地址：</span><span>郑州市火车站</span>
+			</li>
+			<li>
+				<span>电话：</span><span>15212345678</span>
+			</li>
+			<li>
+				<span>总价：</span><span>￥88.88</span>
+			</li>
+			<li>
+				<span>本单收入：</span><span>￥88.88</span>
+			</li>
+			<li>
+				<span>期望时间：</span><span>立即送达</span>
+			</li>
+		</ul>
+	</div>
+</div>
+ <script>
+ $(function(){
+	$('#n_style').hover(function(){
+		$('#n_style_content').show();
+	},function(){
+		$('#n_style_content').hide();
+	});
+	$('#s_style').hover(function(){
+		$('#s_style_content').show();
+	},function(){
+		$('#s_style_content').hide();
+	});
+	
+	$('.openwxnotice').change(function() {
+          var type=$(this).attr('data');
+		  if($(this).val()==1){
+			$("#template_id_"+type).show();
+		  }else{
+			$("#template_id_"+type).hide();
+		  }
+      });
+ });
+function changeopen(changetype,parent_type){
+	var url = siteurl+'/index.php?ctrl=adminpage&action=card&module=updatewxnotice&datatype=json&random=@random@';   
+	$.ajax({
+		type: 'post',
+		async:true,
+		data:{'changetype':changetype,'parent_type':parent_type},
+		url: url.replace('@random@', 1+Math.round(Math.random()*1000)), 
+		dataType: 'json',success: function(content) {  
+			if(content.error==false){
+				alert(content.msg);
+				window.location.reload();
+			}else{
+				if(content.error == true){
+					alert(content.msg);	
+				}else{
+					alert(content);
+				}
+			} 
+		},
+		error: function(content) {   
+			alert('数据获取失败');
+		}
+	});
+}
+</script>
+<{/block}>

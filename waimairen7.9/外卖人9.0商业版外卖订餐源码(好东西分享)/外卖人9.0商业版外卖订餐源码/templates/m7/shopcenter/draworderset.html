@@ -1,0 +1,544 @@
+ <{extends file="<{$tempdir}>/public/shopcenter.html"}>  
+ <{block name=extendjs}>
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/jquery.PrintArea.js" type="text/javascript" language="javascript"></script>
+ <script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/datepicker/WdatePicker.js" type="text/javascript" language="javascript"></script> 
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js" type="text/javascript" language="javascript"></script>
+   <script>
+  	var mynomenu='draworderset';
+  	</script>
+ <{/block}> 
+ <{block name=bodylist}>
+ <style>
+ .showorderdet { width:60px; color:red; }
+ </style>
+  <!---content right start--->
+  <div class="conWaiSet fr">
+    <div class="shopSetTop"> <span>退款订单管理</span> </div>
+     <form action="<{ofunc type=url link="/shopcenter/draworderset"}>" method="post">
+      <div class="order_search">
+        <label class="chaxun">查询类型：</label>
+        <label>
+          <input type="radio" value="1" name="orderSource" <{if $orderSource==1}>checked<{/if}>  />
+          待处理</label>
+        <label>
+          <input type="radio" value="2" name="orderSource" <{if $orderSource==2}>checked<{/if}>  />
+          已退款</label>
+        <label>
+          <input type="radio" value="3" name="orderSource" <{if $orderSource==3}>checked<{/if}>  />
+          拒退款</label>
+    
+        <label>选择日期
+          <input class="xzrq" type="text" name="starttime" id="starttime" value="<{$starttime|date_format:"%Y-%m-%d"}>"  onFocus="WdatePicker({isShowClear:false,readOnly:true});" />
+        </label>
+        <label><input class="searchBg" type="submit" name="" value="" style='padding-bottom: 8px;border-radius: 5px;' /></label>
+      </div>
+    </form>
+    <div class="cl"></div>
+ 
+    <div class="orderList">
+    	  
+      
+      
+      <div id="all_area">
+      	<!--订单循环-->
+       <{foreach from=$list key=myid item=items}>  
+      <div class="singleOrder" id="order_area_<{$items['id']}>">
+        <div class="singleOrder_title">
+          <div class="orderNum" style="width:120px;"> <span style="font-size:14px;"><{$items['orderone']['dno']}></span> </div>
+          <div class="order_xx"> <span style=" margin-left:36px;"><span class="oxx">退款原因</span>：<{$items['reason'] }>  </span>
+		  <span style=" margin-left:20px;"><span class="oxx">金额</span>：<{$items['cost']}>元</span>
+		  <span style=" margin-left:20px;"><span class="oxx">状态</span>：
+		  
+					<{if $items['type'] ==0  }>
+						待处理
+					<{/if}>
+					<{if $items['type'] ==1  }>
+						<{if $items['orderone']['is_reback'] == 1 }>
+							商家已同意退款,等待管理员处理
+						<{elseif $items['orderone']['is_reback'] == 2}>
+							经审核后符合退款条件,已退款
+						<{elseif $items['orderone']['is_reback'] == 3}>
+							商家已同意退款,但管理员拒绝退款给用户
+						<{/if}>
+					<{/if}>
+					<{if $items['type'] ==2  }>
+						<{if $items['orderone']['is_reback'] == 1 }>
+							商家已拒绝退款,等待管理员处理
+						<{elseif $items['orderone']['is_reback'] == 2}>
+							经审核后符合退款条件,已退款
+						<{elseif $items['orderone']['is_reback'] == 3}>
+							商家已拒绝退款,管理员同意拒绝退款给用户
+						<{/if}>
+					<{/if}>	
+          	</span> </div>
+          <div class="showorderdet curbtn" style='color:#fff' onclick="showdet('<{$items['orderone']['id']}>',this);">处理</div>
+        </div>
+        <div class="order_details" id="order_det<{$items['orderone']['id']}>">
+		
+			
+			<div>
+			
+			<h3>退款申请信息</h3>
+				    <table class="order_listli" style="font-size: 14px; margin-top: 5px; text-align: left; margin-left: 20px;" width="898" align="center" border="" cellpadding="0" cellspacing="0" bordercolor="#6596a9" >
+			<tr>
+              <td><div>申请时间: <span><{$items['addtime']|date_format:"%Y-%m-%d %H:%M:%S"}></span></div></td>
+              <td><div>会员名: <span><{$items['username']}></span></div></td>  
+              <td colspan="2"><div>退款状态: <span>
+		   <{if $items['type'] ==0  }>待处理<{/if}>
+				<{if $items['type'] ==1  }>
+						<{if $items['orderone']['is_reback'] == 1 }>
+							商家已同意退款,等待管理员处理
+						<{elseif $items['orderone']['is_reback'] == 2}>
+							商家已同意退款,管理员已退款给用户
+						<{elseif $items['orderone']['is_reback'] == 3}>
+							商家已同意退款,但管理员拒绝退款给用户
+						<{/if}>
+					<{/if}>
+					<{if $items['type'] ==2  }>
+						<{if $items['orderone']['is_reback'] == 1 }>
+							商家已拒绝退款,等待管理员处理
+						<{elseif $items['orderone']['is_reback'] == 2}>
+							商家已拒绝退款,但经管理员审核后符合退款条件且管理员已退款给用户
+						<{elseif $items['orderone']['is_reback'] == 3}>
+							商家已拒绝退款,管理员同意拒绝退款给用户
+						<{/if}>
+					<{/if}>	
+			  </span></div></td>
+            </tr>           
+		    
+            <tr>
+              <td><div>总金额: <span><{$items['cost']}>元</span></div></td>
+              <td><div>支付方式: <span>
+						<{if $items['orderone']['paytype_name']  == 'open_acout' }>余额支付<{/if}> 
+						<{if $items['orderone']['paytype_name']  == 'weixin' }>微信支付<{/if}> 
+						<{if $items['orderone']['paytype_name']  == 'alipay' }>支付宝支付<{/if}> 
+						<{if $items['orderone']['paytype_name']  == 'alimobile' }>手机支付宝支付<{/if}>
+			  </span></div></td>  
+			  <{if $items['orderone']['paytype_name']  == 'weixin' ||  $items['orderone']['paytype_name']  == 'alipay'  || $items['orderone']['paytype_name']  == 'alimobile'  }>
+			                <td colspan="2"><div>交易号: <span> <font color=red><{$items['orderone']['trade_no']}></font></span></div></td>
+						<{/if}>
+            </tr>
+  
+            <tr>
+              <td  colspan="4"><div>退款原因: <span> <{$items['reason'] }> </span></div></td>             
+            </tr> 
+			<tr>
+              <td  colspan="4"><div>退款详细说明: <span> <{$items['content'] }> </span></div></td>             
+            </tr>
+		 
+			<tr>
+              <td  colspan="4"><div> <span>
+			  <{if $items['orderone']['is_reback'] == 4 && $items['type'] == 0 }>
+				      <span style="padding: 6px 10px; background: #EC7501; margin-left:300px;" onclick="rebackclick(<{$items['orderone']['id']}>);" class="curbtn">同意退款</span>  
+					  <span style="padding: 6px 10px; background: #EC7501; margin-left:30px;" onclick="unrebackclick(<{$items['orderone']['id']}>);" class="curbtn">拒绝退款</span>
+				<{else if $items['orderone']['is_reback'] == 2 }>
+					<span style="padding: 6px 10px; background: #EC7501; margin-left:300px;"   class="curbtn"> 
+						管理员已退款给用户
+					</span>
+				<{else if $items['orderone']['is_reback'] == 3 }>
+					 <span style="padding: 6px 10px; background: #EC7501; margin-left:300px;"   class="curbtn"> 
+						管理员已拒绝退款给用户
+					</span>	
+				<{else}>
+					<span style="padding: 6px 10px; background: #EC7501; margin-left:300px;"   class="curbtn"> 
+					<{if $items['type'] ==1  }>
+						<{if $items['orderone']['is_reback'] == 1 }>
+							商家已同意退款,等待管理员处理
+						<{elseif $items['orderone']['is_reback'] == 2}>
+							商家已同意退款,管理员已退款给用户
+						<{elseif $items['orderone']['is_reback'] == 3}>
+							商家已同意退款,但管理员拒绝退款给用户
+						<{/if}>
+					<{/if}>
+					<{if $items['type'] ==2  }>
+						<{if $items['orderone']['is_reback'] == 1 }>
+							商家已拒绝退款,等待管理员处理
+						<{elseif $items['orderone']['is_reback'] == 2}>
+							商家已拒绝退款,但经管理员审核后符合退款条件且管理员已退款给用户
+						<{elseif $items['orderone']['is_reback'] == 3}>
+							商家已拒绝退款,管理员同意拒绝退款给用户
+						<{/if}>
+					<{/if}>	
+					</span>
+				<{/if}>
+				 </span></div></td>             
+            </tr>
+				<tr>
+              <td  colspan="4"><div>注意事项: <span>同意退款后网站管理员会把款退还给用户的对应账户中，如果拒绝退款但用户不同意，请等待管理员审核处理</span></div></td>             
+            </tr>
+          </table>
+		  	<h3>订单详情</h3>
+			</div>
+			
+		
+		
+          <table class="order_listli" style="font-size: 14px; margin-top: 5px; text-align: left; margin-left: 20px;" width="898" align="center" border="" cellpadding="0" cellspacing="0" bordercolor="#6596a9" >
+			<tr>
+              <td><div>订单号: <span><{$items['orderone']['dno']}><{if $items['orderone']['is_goshop'] == 1}> <font color=red>预订<{if $items['orderone']['allcost'] == 0}>座位<{else}>座位和菜品<{/if}></font> <{/if}></span></div></td>
+              <td><div>下单时间: <span><{$items['orderone']['addtime']|date_format:"%Y-%m-%d %H:%M:%S"}></span></div></td>  
+              <td colspan="2"><div>订单状态: <span>
+			  
+			<{if $items['orderone']['is_goshop'] == 1}>
+					<font color=red> 
+						<{if $items['orderone']['is_make'] < 2 }>					
+							<{if $items['orderone']['status'] == 1 }>
+									等待用户到店消费
+								<{elseif $items['orderone']['status'] == 0  }>
+									等待处理	
+								<{elseif $items['orderone']['status'] == 2 || $items['orderone']['status'] ==3 }>
+									已完成，用户已消费
+								<{elseif $items['orderone']['status'] == 4  }>
+									商家已取消订单
+								<{elseif $items['orderone']['status'] ==5 }>
+									管理员已取消订单
+							<{/if}>
+						<{else}>
+						商家已取消订单
+						<{/if}>
+					</font>
+			 <{else}>
+				<{if $items['orderone']['is_make'] == 0}>
+					待确认制作
+				<{elseif $items['orderone']['is_make'] == 1}>
+					 <{$buyerstatus[$items['orderone']['status']]}>
+				<{else}>
+					   取消制作
+				<{/if}>	 
+          	<{/if}>
+			  </span></div></td>
+            </tr>           
+		   <tr>
+              <td><div>支付方式: <span><{$items['orderone']['paytype']}><{$paytypearr[$items['orderone']['paytype']]}>(<{$payway[$items['orderone']['paytype_name']]}>，<{if $items['orderone']['paystatus'] == 1}>已付<{else}>未付<{/if}>) <font color=red><{$backarray[$items['orderone']['is_reback']]}></font></span></div></td>
+ 
+              <td><div> <{if $items['orderone']['is_goshop'] != 1}> 配送时间:<{else}> 消费时间： <{/if}> <span><{$items['orderone']['posttime']|date_format:"%Y-%m-%d"}> <{$items['orderone']['postdate']}></span></div></td>
+           <{if $items['orderone']['is_goshop'] != 1}>    <td><div>配送: <span><{if $items['orderone']['pstype'] == 1}>店铺<{else}>网站<{/if}></span></div></td>   <{/if}>
+            </tr>
+            <tr>
+              <td><div>顾客电话: <span><{$items['orderone']['buyerphone']}></span></div></td>
+              <{if $items['orderone']['is_goshop'] != 1}>   <td><div>顾客地址: <span><{$items['orderone']['buyeraddress']}></span></div></td>  <{/if}>
+              <td colspan="2"><div>联系人: <span><{$items['orderone']['buyername']}></span></div></td>
+            </tr>
+            <tr>
+              <td colspan="4"><div>订单备注: <span><{$items['orderone']['content']}></span><{assign var=showother value=$items['orderone']['othertext']|unserialize}>   
+		            		 		  	 <{foreach from=$showother key=mytest item=itc}>
+		            		 		  	<font color=red> <{$mytest}></blue>:<{$itc}> </font>
+		            		 		  	 <{/foreach}></div></td>
+            </tr>
+            <tr>
+              <td  colspan="1"><div>审核参考: <span> <{if empty($items['orderone']['buyeruid'])}>游客<{else}>成交次数:<{$items['maijiagoumaishu']}><{/if}></span></div></td>
+              <td colspan="3"><div>下单IP: <span><{$items['orderone']['ipaddress']}></span></div></td>
+            </tr>
+          </table>
+          <div class="order_alllist">
+            <table style="font-size: 14px; margin-top: 5px; text-align: left; margin-left: 20px;" width="898" align="center" border="1" cellpadding="0" cellspacing="0" bordercolor="#6596a9" >
+              <tr>
+                  <td style=" font-weight:bold;" width="55%">美食篮子</td>
+                  <td style=" font-size:14px; color:#ffffff; font-weight:bold; font-family:"微软雅黑";"  align="center">单价</td>
+                  <td style=" font-size:14px; color:#ffffff; font-weight:bold; font-family:"微软雅黑";"  align="center" align="center"> 数量 </td>
+                  <td style=" font-size:14px; color:#ffffff; font-weight:bold; font-family:"微软雅黑";"  align="center" align="center">总价  </td>
+              </tr> 
+               <{foreach from=$items['detlist'] item=value}>  
+              <tr>
+                <td style=" font-weight:bold;"  width="55%"><{$value['goodsname']}><{if $value['is_send'] == 1}><font color=red>[赠品]</font><{/if}><{if $value['shopid'] == 0}><font color=blue>[商城]</font><{/if}></td>
+                <td style=" font-size:14px; color:#ffffff; font-weight:bold; font-family:"微软雅黑";"  align="center"><{$value['goodscost']}></td>
+                  <td style=" font-size:14px; color:#ffffff; font-weight:bold; font-family:"微软雅黑";"  align="center" align="center"><{$value['goodscount']}></td>
+                  <td style=" font-size:14px; color:#ffffff; font-weight:bold; font-family:"微软雅黑";"  align="center" align="center"><{$value['goodscount']*$value['goodscost']}>  </td>
+              </tr>
+               <{/foreach}>   
+              <tr>
+                <td style=" font-weight:bold;" colspan="4">
+                	<{if $items['orderone']['scoredown'] > 0}> <span class="info_name">积分：<font color=red><{$items['orderone']['scoredown']}></font>个</span><{/if}>
+                                 <{if $items['orderone']['is_goshop'] != 1}>	  <span class="info_name">配送费：<font color=red><{$items['orderone']['shopps']}></font>元</span>   <{/if}>
+                               	 <{if $items['orderone']['yhjcost']> 0}><span class="info_name ml20">优惠券金额：<font color=red><{$items['orderone']['yhjcost']}></font>元</span><{/if}>
+                               	<{if $items['orderone']['cxcost']> 0}> <span class="info_name ml20">促销优惠：<font color=red><{$items['orderone']['cxcost']}></font>元</span><{/if}>
+                               	 <{if $items['orderone']['bagcost']> 0}><span class="info_name ml20">打包费：<font color=red><{$items['orderone']['bagcost']}></font>元</span><{/if}>
+                               	 <span class="info_name ml20">应收金额：<font color=red><{$items['orderone']['allcost']}></font>元</span>
+                </td> 
+              </tr>
+            </table>
+            <div class="order_bottom"  id="<{$items['orderone']['id']}>"> 
+            		<{if $items['orderone']['status'] == 1}>
+							 <{if $items['orderone']['is_goshop'] != 1}>
+									   <{if $items['orderone']['is_make'] == 0}>
+											
+										 <{elseif $items['orderone']['is_make'] == 1}> 
+											 <{if $items['orderone']['is_goshop'] != 1}>
+												<span onclick="sendorder(<{$items['id']}>);" class="curbtn"><img src="<{$siteurl}>/templates/<{$tempdir}>/public/shopcenter/images/peisongfahuo.png" /></span> 
+											<{else}>
+												 <span class="curbtn" onclick="wancheng(<{$items['id']}>);"  ><img src="<{$siteurl}>/templates/<{$tempdir}>/public/shopcenter/images/wanchengdingdan.png" /></span> 
+
+											<{/if}>
+									   <{elseif $items['orderone']['is_make'] == 2}>
+										   订单取消制作
+									   <{/if}>
+									   
+							<{else}>
+						
+									<{if $items['orderone']['is_make'] < 2}>
+							
+								<span onclick="unyudingorder(<{$items['id']}>);" class="curbtn">取消订单</span> 
+
+								<span class="curbtn" onclick="wancheng(<{$items['id']}>);"  ><img src="<{$siteurl}>/templates/<{$tempdir}>/public/shopcenter/images/wanchengdingdan.png" /></span> 
+									<{elseif $items['orderone']['is_make'] == 2}>
+										   已取消此预定订单
+									   <{/if}>
+							<{/if}>
+       		      <{/if}>
+            	
+            	<span onclick="printorder(<{$items['id']}>,0);" class="curbtn"><img src="<{$siteurl}>/templates/<{$tempdir}>/public/shopcenter/images/dayindingdan.png" /></span> 
+            	<span onclick="printorder(<{$items['id']}>,1);" class="curbtn"><img src="<{$siteurl}>/templates/<{$tempdir}>/public/shopcenter/images/xiaopiaodayin.png" /></span> 
+				
+            	<{if $items['orderone']['status'] == 2}>
+            	   <span class="curbtn" onclick="wancheng(<{$items['orderone']['id']}>);"  ><img src="<{$siteurl}>/templates/<{$tempdir}>/public/shopcenter/images/wanchengdingdan.png" /></span> 
+            	<{/if}>
+				 
+            </div> 
+		
+			
+          </div>
+        </div>
+      </div>
+      <{/foreach}>
+       
+      <!---订单循环-->
+    </div>
+     
+    </div>
+  </div>
+  <div class="cl"></div>
+  
+  <!---content right end---> 
+ 
+ 
+  
+
+
+
+
+<div id="print_area" style="display:none;"></div>
+<div id="palywave" style="display:none;"></div>
+ <script>     
+ 	<{if $playwave != 2}> 
+ 	var playwave = true;  	
+ 	<{else}>
+ 		var playwave = false;  	
+ 	<{/if}>
+				$(function(){
+					 if(playwave == true){
+					 	$('#startwave').css('background','#ec7501');
+					}else{
+						$('#closetwave').css('background','#ec7501');
+					}
+					$("#startwave").click(function(){
+						$(this).css('background','#ec7501');//.siblings().css('background','');
+						$('#closetwave').css('background','');
+						playwave =   true;
+						ajaxback('<{ofunc type=url link="/shopcenter/wavecontrol/type/openwave/datatype/json"}>',''); 
+					});	
+					$("#closetwave").click(function(){
+						$(this).css('background','#ec7501');//.siblings().css('background','');
+							$('#startwave').css('background','');
+								playwave = false;
+					    	ajaxback('<{ofunc type=url link="/shopcenter/wavecontrol/type/closewave/datatype/json"}>',''); 
+						
+					});	
+					
+				});
+function refreshorder(){
+	window.location.reload();
+}
+</script> 
+<script type="text/javascript">
+	 function showdet(order,obj){
+	 	var checkobj = $('#order_det'+order).is(":hidden");
+	 	if(checkobj ==  false){
+	 		 $(obj).text('处理');
+	 		 $('#order_det'+order).hide();
+	 	}else{
+	 		$(obj).text('－');
+	 		$('#order_det'+order).show();
+	 	}
+	 	 
+	}
+	 function unorder(orderid,dno)
+	 {
+	 	   var dialog =  art.dialog({
+	 	   	id:'coslid',
+        title:'取消订单'+dno,
+           content: '<div>关闭订单理由</div><div><textarea name="reason" id="reason" style="height:40px;"></textarea></div><div class="btn_wuxiao hc_listfoods_menus_foods hcl_food_lists_cont_div_order2 hcl_food_lists_cont_div_order4 hc_listfoods_menus_foods2" style="width:65px;float:left;" onclick="sureclose('+orderid+');">提交关闭</div>'
+        });
+	 }
+	 function sureclose(orderid)
+	 {
+	 	  var reasons = $('#reason').val();
+	 	  if(reasons == undefined || reasons == '')
+	 	  {
+	 	  	alert('关闭理由不能为空');
+	 	  }else{ 
+	 	    myajax('<{ofunc type=url link="/shopcenter/shopcontrol/controlname/unorder/datatype/json"}>',{'orderid':orderid,'reason':reasons}); 
+	 	 }
+	 }
+	 function makeorder(orderid){
+	 	
+	 	  if(confirm('订单已审核通过，确认制作吗？')){
+		        myajax('<{ofunc type=url link="/shopcenter/shopcontrol/controlname/makeorder/datatype/json"}>',{'orderid':orderid});
+		  }
+	 	
+	 	
+	 	
+	 }
+	 function wancheng(orderid){
+	 	 if(confirm('订单操作确认完成该订单吗？')){
+		        myajax('<{ofunc type=url link="/shopcenter/shopcontrol/controlname/wancheng/datatype/json"}>',{'orderid':orderid});
+		  }
+	}
+	 function unmakeorder(orderid){
+	 	
+	 	  if(confirm('订单已审核通过，取消不制作吗？')){
+		       myajax('<{ofunc type=url link="/shopcenter/shopcontrol/controlname/unmakeorder/datatype/json"}>',{'orderid':orderid});
+		  }
+	 	
+	 }
+	 
+	  function unyudingorder(orderid){
+	 	
+	 	  if(confirm('订单已审核通过，取消此预定订单吗？')){
+		       myajax('<{ofunc type=url link="/shopcenter/shopcontrol/controlname/unmakeorder/datatype/json"}>',{'orderid':orderid});
+		  }
+	 	
+	 }
+	 
+	 function sendorder(orderid)
+	{
+		if(confirm('订单已审核通过，确认发货吗？')){
+		   myajax('<{ofunc type=url link="/shopcenter/shopcontrol/controlname/sendorder/datatype/json"}>',{'orderid':orderid});
+		}
+	}
+	function shenhe(orderid)
+	{
+		if(confirm('通过审核，此订单将生效吗？')){
+		   myajax('<{ofunc type=url link="/shopcenter/shopcontrol/controlname/shenhe/datatype/json"}>',{'orderid':orderid});
+		}
+	}
+	function delorder(orderid)
+	{
+		if(confirm('彻底删除订单吗？')){
+		   myajax('<{ofunc type=url link="/shopcenter/shopcontrol/controlname/delorder/datatype/json"}>',{'orderid':orderid});
+		}
+	}
+	//退款
+	 function rebackclick(orderid){
+			if(confirm('确定同意退款吗，同意后管理员会把钱退还给用户？')){
+		        myajax('<{ofunc type=url link="/shopcenter/shopcontrol/controlname/reback/datatype/json"}>',{'orderid':orderid});
+		  }
+	 }
+	 //取消退款
+	 function unrebackclick(orderid){
+			if(confirm('确定拒绝退款，拒绝后如用户有意见，请等待管理员审核处理？')){
+		        myajax('<{ofunc type=url link="/shopcenter/shopcontrol/controlname/unreback/datatype/json"}>',{'orderid':orderid});
+		  }
+	 }
+	  var mydialog;
+	function printorder(orderid,printtype)
+	{
+		if(printtype == 1){
+			   mydialog = art.dialog.open(siteurl+'/index.php?ctrl=shopcenter&action=orderprint&orderid='+orderid+'&printtype='+printtype,{height:'600px',width:'400px'},false);  //小票打印
+		}else{
+			   mydialog = art.dialog.open(siteurl+'/index.php?ctrl=shopcenter&action=orderprint&orderid='+orderid+'&printtype='+printtype,{height:'690px',width:'794px'},false);  //打印A4 
+		}
+	}
+  function print_all_area()
+  {
+  	$('#print_area').html($('#all_area').html());
+	  $("#print_area").find('.order_bottom').remove();
+	  $("#print_area").printArea();
+  }
+</script>
+<script>
+	 
+$(function(){
+	setTimeout("get_status()",1000); 		
+}); 
+function get_status(){//<span id="timeshow" data="20" style="color:#666;"></div>
+	//alert('xxx');
+	var timeaction =  $('#showztai').attr('data');
+	 
+ 
+	if(timeaction == 0){
+	$('#showztai').text('检测订单..'); 
+	 var url = siteurl+'/index.php?ctrl=shopcenter&action=ajaxcheckshoporder&datatype=json&random=@random@';
+	 $.ajax({
+       type: 'POST',
+       async:false,
+       url: url.replace('@random@', 1+Math.round(Math.random()*1000)),
+       data: {},
+      dataType: 'json',success: function(content) { 
+      	if(content.error == true)
+      	{
+      		$('#showztai').text('未获取到新订单');
+      		$('#showztai').attr('data','20');
+ 	       
+      		setTimeout("get_status()",1000); 	
+      	}else if(content.error == false)
+      	{
+      		  var checkNum = Number($('#showztai').attr('udata'));
+      		  var ccNumber = Number(content.msg);
+      		  if(ccNumber > checkNum){
+      		  	palywav();
+      		  }else{
+      		  	 $('#showztai').text('未获取到新订单');
+      	     	$('#showztai').attr('data','20');
+ 	       
+      	      	setTimeout("get_status()",1000); 	
+      		  }
+      	 
+      	}else{
+      	 $('#showztai').text('未获取到新订单');
+      		$('#showztai').attr('data','20');
+ 	       
+      		setTimeout("get_status()",1000); 	
+      	}
+      	
+		  },
+      error: function(content) { 
+      $('#showztai').text('未获取到新订单');
+      		$('#showztai').attr('data','20');
+ 	       
+      		setTimeout("get_status()",1000); 	
+	   }
+   }); 
+ }else{
+ 	var nowtime = Number(timeaction)-1;
+ 	$('#showztai').attr('data',nowtime);
+ 	$('#showztai').html('自动刷新倒计时<span>'+nowtime+'</span>秒');
+ 	setTimeout("get_status()",1000); 	
+ 	
+ }
+ 
+}
+function palywav(){
+	if(playwave == true){
+				if(navigator.userAgent.indexOf("Chrome") > -1){  
+				$('#palywave').html('<audio src="<{$siteurl}>/upload/wave.mp3" type="audio/mp3" autoplay=”autoplay” hidden="true"></audio>');
+				}else if(navigator.userAgent.indexOf("Firefox")!=-1){  
+				$('#palywave').html('<embed src="<{$siteurl}>/upload/wave.mp3" type="audio/mp3" hidden="true" loop="false" mastersound></embed>');
+				}else if(navigator.appName.indexOf("Microsoft Internet Explorer")!=-1 && document.all){ 
+				$('#palywave').html('<object classid="clsid:22D6F312-B0F6-11D0-94AB-0080C74C7E95"><param name="AutoStart" value="1" /><param name="Src" value="<{$siteurl}>/upload/wave.mp3" /></object>');
+				}else if(navigator.appName.indexOf("Opera")!=-1){ 
+				$('#palywave').html('<embed src="<{$siteurl}>/upload/wave.mp3" type="audio/mpeg" loop="false"></embed>');
+				}else{ 
+				$('#palywave').html('<embed src="<{$siteurl}>/upload/wave.mp3" type="audio/mp3" hidden="true" loop="false" mastersound></embed>'); 
+				} 
+
+
+				  // $('#palywave').html('<embed id=cct src="<{$siteurl}>/wave.wav" loop="0" autostart="true" hidden="true"></embed>'); 
+				   setTimeout("playon()",3000); 	
+   }
+}
+function playon(){
+	//$('#cct').load("<{$siteurl}>/upload/wave.mp3");
+	 
+ 	location.reload();  
+}
+</script>
+ <{/block}>

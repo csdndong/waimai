@@ -1,0 +1,110 @@
+page {
+    font-size: 14px;
+    background-color: #f5f5f5;
+}
+
+.category-post .tip {
+    height: 40px;
+    line-height: 40px;
+    padding-left: 15px;
+    background-color: #f5f5f5;
+    color: #535353;
+}
+
+.category-post .zan-panel {
+    margin-top: 0;
+}
+
+.category-post .zan-panel.basic-info .zan-field__title {
+    min-width: 95px;
+}
+
+.category-post .zan-panel.category-setting .zan-cell {
+    height: 48px;
+    box-sizing: border-box;
+}
+
+.category-post .zan-panel.category-desc {
+    padding: 11px 15px;
+}
+
+.category-post .zan-panel.category-desc textarea {
+    width: 100%;
+    height: 60px;
+}
+
+.category-post .zan-panel.sail-time .zan-cell {
+    height: 48px;
+    box-sizing: border-box;
+    color: #33aafc;
+}
+
+.category-post .zan-panel.sail-time .zan-cell .icon {
+    font-size: 20px;
+    margin-right: 5px;
+}
+
+.category-post .btn-group {
+    padding: 15px;
+}
+
+.category-post .sail-day {
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    padding: 10px 5px;
+}
+
+.category-post .sail-day .weekday-item {
+    width: 20%;
+    padding: 5px 10px;
+    box-sizing: border-box;
+}
+
+.category-post .sail-day .weekday-item .inner {
+    width: 100%;
+    border: 1rpx solid #ccc;
+    border-radius: 1px;
+    text-align: center;
+    font-size: 12px;
+    position: relative;
+}
+
+.category-post .sail-day .weekday-item .inner .select-img {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    font-size: 0;
+    display: none;
+}
+
+.category-post .sail-day .weekday-item .inner .select-img image {
+    width: 15px;
+    border-radius: 0 0 1px 0;
+}
+
+.category-post .sail-day .weekday-item.active .inner {
+    border-color: #33aafc;
+    color: #33aafc;
+}
+
+.category-post .sail-day .weekday-item.active .inner .select-img {
+    display: block;
+}
+
+.category-post .time-picker {
+    height: 48px;
+    padding: 0 15px;
+    color: #535353;
+    margin-bottom: 10px;
+}
+
+.category-post .time-picker text {
+    padding: 0 20px;
+}
+
+.category-post .time-picker .remove {
+    color: #33aafc;
+}

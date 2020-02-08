@@ -1,0 +1,418 @@
+ <{extends file="<{$tempdir}>/public/wxsite.html"}>  
+  <{block name=extendcss}> 
+  <link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/weixinlunbo.css">   
+ <{/block}>
+ 
+<{block name=hearnav}>
+<!--地址栏-->
+<div class="topContainer">
+ <div class="topBox">
+  <div class="topL"  onclick="dolink('<{ofunc type=url link="/wxsite/choice"}>');"  ><a href="javascript:void(0);"><i class="marker"></i><span id="showareainfo"><{if $areaid > 0}><{$mapname}><{else}>定位地址信息...<{/if}></span><i class="fa fa-angle-right"></i></a></div>
+  <div class="topR"  onclick="dolink('<{ofunc type=url link="/wxsite/search"}>');"  ><a href="javascript:void(0);"><i class="search"></i></a></div>
+ </div>
+</div>
+<{/block}>
+ <{block name=sitetitle}><{$sitename}><{/block}>
+ <{block name=blockcontent}> 
+	 <div id="wrapper" style="top:46px;">
+	 
+<div class="page-app"  >
+
+<!--分类部分-->
+<div class="categoryContainer">
+ <ul>
+ <{foreach from=$moretypelist item=items}>
+  <li <{if $items['activity'] == 'waimai' }>  onclick="dolink('<{ofunc type=url link="/wxsite/waimai/typeid/<{$items['param']}>"}>');"  <{else}>  onclick="dolink('<{ofunc type=url link="/wxsite/marketlist/typeid/<{$items['param']}>"}>');"  <{/if}> >
+	<a><img <{ofunc type=img  link="<{$items['img']}>"}>   class="category_img"><span><{$items['name']}></span></a>
+ </li>
+ <{/foreach}>
+ 
+  <li onclick="dolink('<{ofunc type=url link="/wxsite/waimai"}>');"  ><a><img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/tb8.png" class="category_img"><span>更多</span></a></li>
+ </ul>
+</div>
+<!--展示-->
+<div class="exhibition">
+ <ul>
+ <{foreach from=$moduleshow item=items}>
+  <li   <{if count($moduleshow) == 1  }>style="width:100%"<{elseif count($moduleshow) == 2}>style="width:49.222%"<{elseif count($moduleshow) ==3}>style="width:32.222%%"<{/if}> onclick="dolink('<{ofunc type=url link="/wxsite/<{$items['name']}>"}>');"  > 
+  <a><img <{ofunc type=img  link="<{$items['imgurl']}>"}> ></a></li>
+ <{/foreach}>
+ </ul>
+</div>
+<!--展示-->
+<div class="bannerCon">
+    <section id="slider" class="swipe" style="visibility: visible;">
+  				<div class="swipe-wrap">
+  				  <{load_data assign="list" table="adv"    fileds="*"  limit="5" where="advtype='weixinlb' and  module='<{$sitetemp}>' " }> 
+  				  <{foreach from=$list['list'] item=items}>
+  				   <div class="wrap" ><a href="<{$items['linkurl']}>"><img <{ofunc type=img  link="<{$items['img']}>"}>  style="width:100%; height:70px;" alt=""></a></div>
+  				  <{/foreach}>
+  				</div>
+  			 <div class="bgboxgo">
+  						<div class="botton-box mBxCm" id="abdcd">
+						<{if count($list['list'])  > 1 }>
+  							 <{foreach from=$list['list'] item=items}>
+  							    <span class="on"></span>
+  							 <{/foreach}>
+						<{/if}>
+  					 </div>
+  				</div>
+  			</section>
+</div>
+ 
+<!-- 专题页 -->
+<div class="advertisement"> 
+<{foreach from=$ztylist key=key item=items}>
+ <ul class="adver"   style="width:<{$items['imgwidth']}>; height:<{$items['imgheight']}>px; border:none;"  onclick="dolink('<{ofunc type=url link="/wxsite/specialpage/id/<{$items['id']}>"}>');"    >
+  <li style="width:100%; height:<{$items['imgheight']}>px;">
+  <a href="javascript:void(0);"><img  style="width:100%; height:<{$items['imgheight']}>px;" <{ofunc type=img  link="<{$items['indeximg']}>"}> ></a></li>
+ </ul>
+ <{/foreach}>
+ 
+</div>
+
+<!--附近推荐商家-->
+<div class="nearbyreCon">
+ <div class="nearbyretit">
+  <ul>
+   <li style="height:40px;"><h3 style="line-height: 40px;">附近商家</h3></li>
+  </ul>
+  
+		
+   
+ </div>
+ 
+
+		<div id="pullDown" style="display:none;">
+			<span class="pullDownIcon"></span><span class="pullDownLabel">下拉刷新...</span>
+		</div>
+ 
+		 <div class="nearbyreCon">
+		 <div class="nearbyreBox"  id="supplierlist" >
+		  
+		 </div>
+		 </div>
+		 
+	 <center>
+	<div id="pullUp" style="border-top:0px; ">
+			<div style="width:35%; float:left;text-align:right;"><span class="pullUpIcon" style="  margin-left:60%;"></span></div>
+			<div style="width:65%; float:left;text-align:left;"><span class="pullUpLabel">上拉加载更多...</span></div>
+		</div>
+   </center>
+   
+   
+   
+</div>
+<!---------------------------------------------------------------------------首页结束----------------------------------------------------------------------------------->
+ 
+ 
+
+ </div>
+</div>
+<script>
+var can_show = true;
+var page = 1;
+var catid = <{$typeid|default:0}>;
+var order = 0;
+var qsjid = 0;
+var typeid = <{$typeid|default:0}>;
+var myaddress = '<{$myaddress}>';
+var search_input = '<{$search_input}>';
+var shopshowtype  = '<{$shopshowtype}>';
+var checknext = false;
+var lat = '<{$lat|default:0}>';
+var lng = '<{$lng|default:0}>';
+var addressname = '<{$addressname|default:''}>';
+
+$(function(){ 
+  
+   
+  <{if !empty($lng) && !empty($lat) &&  !empty($addressname)  }>
+		$('#showareainfo').text(addressname);
+		shopdata(); 
+   <{else}>   	
+		getLocation(); 
+   $('#loading').show();
+   <{/if}>
+  
+});
+function getLocation()
+  {
+  	
+  if (navigator.geolocation)
+    { 
+       navigator.geolocation.getCurrentPosition(showPosition,showError);
+    }
+   else{$('#showareainfo').text("浏览器不支持定位");shopdata();}
+  }
+
+function showPosition(position)
+{ 
+
+ $.getScript('http://api.map.baidu.com/geocoder/v2/?ak=<{$baidumapkey}>&callback=renderReverse&location='+position.coords.latitude+','+position.coords.longitude+'&output=json&pois=0&coordtype=wgs84ll'); 
+  // $.getScript('http://api.map.baidu.com/geocoder/v2/?ak=<{$baidumapkey}>&callback=renderReverse&location=23.036989,114.3679&output=json&pois=0&coordtype=wgs84ll'); 
+}
+function renderReverse(datas){
+ 
+	 if(datas.status == 0){  
+	 
+	    $('#showareainfo').text(datas.result.formatted_address); 
+		 $.ajax({
+           type: 'GET', 
+           url: '<{ofunc type=url link="/wxsite/saveloation/datatype/json"}>',
+           async:false,
+ 		  //	data: {'lat':23.036989,'lng':114.3679},
+		    data: {'lat':datas.result.location.lat,'lng':datas.result.location.lng,'addressname':datas.result.formatted_address},
+           dataType: 'json',success: function(content) { 
+          	//var info = JSON.parse(content);
+             // $(allobj).eq(i).find('.juliid').eq(0).text(content.msg);  
+             if(content.error == false){
+                 
+             	shopdata();
+             }else{
+             	  shopdata();// alert(content.msg);
+             }
+	    	  },
+           error: function(content) { 
+         
+              	shopdata();//alert('提交数据失败');
+	        }
+       });
+		
+		
+		
+		
+	 }else{
+	   shopdata();
+	   $('#showareainfo').text('定位失败');
+	 }
+ }
+  function showError(error)
+  {
+  	$('#showareainfo').text("定位失败");
+   switch(error.code) 
+    {
+    	
+    case error.PERMISSION_DENIED:
+      //x.innerHTML="User denied the request for Geolocation."
+    //  $('#showareainfo').text("User denied the request for Geolocation.");
+      break;
+    case error.POSITION_UNAVAILABLE:
+     // x.innerHTML="Location information is unavailable."
+      //$('#showareainfo').text("Location information is unavailable.");
+      break;
+    case error.TIMEOUT:
+    //  x.innerHTML="The request to get user location timed out."
+    //$('#showareainfo').text("The request to get user location timed out.");
+      break;
+    case error.UNKNOWN_ERROR:
+     // x.innerHTML="An unknown error occurred."
+     //  $('#showareainfo').text("An unknown error occurred.");
+      break;
+    }
+    
+    shopdata();
+  }
+  function shopdata(){  
+			  
+			var tempurl = siteurl+'/index.php?ctrl=wxsite&action=indexshoplistdata&page=@page@';
+   	 	     tempurl = tempurl.replace('@random@', 1+Math.round(Math.random()*1000)).replace('@page@',page);
+	         $.getScript(tempurl); 
+  
+  }
+ function showmoreshop(datas){
+  
+	var spdatas = eval(datas); 
+    if(spdatas.length > 0){
+			$("#pullUp").show();
+		
+		for(i=0;i<spdatas.length;i++){
+		 	var tempdata = 'red';
+				var tempdata2 = '营业中';
+					if(spdatas[i].opentype != 2){
+					tempdata = '#ccc';
+					tempdata2 = '已打烊';
+				} 
+				if(spdatas[i].opentype ==3){
+					tempdata = 'green';
+					tempdata2 = '可预订';
+				} 
+				var backdata = '';
+				 backdata =' <ul class="nearbyre"  data-supplierid="'+spdatas[i].id+'"  > ';
+				  if(spdatas[i].shoptype == 1  ){   
+					backdata +=' <a href="'+siteurl+'/index.php?ctrl=wxsite&action=shopshow&typelx=mk&id='+spdatas[i].id+'">';
+				  }else{
+				 		backdata += '<a href="'+siteurl+'/index.php?ctrl=wxsite&action=shopshow&typelx=wm&id='+spdatas[i].id+'">';
+				  }
+				 backdata +='  	<li class="nearbyreLimg"><img class="scrollLoading"  <{ofunc type=img  link="'+spdatas[i].shoplogo+'"}> ></li> ';
+				 backdata +='  	<li class="nearbyreRco"> ';
+				 backdata +='  	 <ul class="nearbyrecommend"> ';
+				 backdata +='  	  <li><h3>'+spdatas[i].shopname+'</h3></li> ';
+				 if(spdatas[i].opentype ==3){
+					backdata +='  		<li class="nerestate" style="margin-top: 8px;"><i class="nerejs"></i></li> ';
+				 }
+				  if(spdatas[i].opentype != 2 && spdatas[i].opentype != 3   ){
+					backdata +='  		<li class="nerestate" style="margin-top: 8px;"><i class="nerexx"></i></li> ';
+				 }
+				 backdata +='  	  <li> ';
+				 backdata +='  	   <ul class="neresavo"> ';
+				 backdata +='  		<li style="width:'+spdatas[i].point*15+'px; height:15px; overflow:hidden;"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></li> ';
+				 backdata +='  		<li>月售'+spdatas[i].ordercount+'单</li> ';
+				 if(spdatas[i].sendtype ==  0){
+				 backdata +='  		<li style=" float:right;"><i class="nermyf"></i></li> ';
+				 }
+				 backdata +='  	   </ul> ';
+				 backdata +='  	  </li> ';
+				 backdata +='  	  <li> ';
+				 backdata +='  	   <ul class="nereprice"> ';
+				 backdata +='  		<li><span>起送价<b>￥'+spdatas[i].limitcost+'</b></span>|</li> ';
+				 backdata +='  		<li><span>配送费<b>￥'+spdatas[i].pscost+'</b></span>';
+				 if(spdatas[i].attrdet.input != ''){ backdata +='|';}
+				  backdata +='  		</li> ';
+				 if(spdatas[i].attrdet.input != ''){
+					backdata +='  		<li><span>'+spdatas[i].attrdet.input+'送达</span></li> ';
+				 }
+				 backdata +='  	   </ul> ';
+				 backdata +='  	  </li> ';
+				 if(spdatas[i].cxlist.length > 0){
+					 for(var c=0;c<spdatas[i].cxlist.length;c++){
+				 backdata +='  	  <li class="neredisc"><i class="nereyh" style=" margin-top: 5px;background:url('+spdatas[i].cxlist[c].imgurl+') no-repeat left center ;background-size: 100%;"></i><span>'+spdatas[i].cxlist[c].name+'</span></li> ';
+					 }
+				}
+				 backdata +='  	 </ul> ';
+				 backdata +='  	</li> ';
+				 backdata +='   </a>';
+				 backdata +='  </ul>  ';
+				
+	
+	
+			$('#supplierlist').append(backdata); 
+			
+	}
+			myScroll.refresh();
+				page = Number(page+1);  
+        //       $(".mBxCr").hide(); 
+               
+		}else{
+			
+				can_show ==  false; 
+      		      if(page == 1){ 
+      		      	 error($('#supplierlist'),'很遗憾,附近商家正在覆盖中...');
+					$("#pullUp").hide();					 
+      		 
+      		      }else{ 
+      		        $('.pullUpLabel').text('更多商家,敬请期待中...'); 
+      		      }
+      		   
+		
+		}
+		
+		
+	 
+    	
+ }
+  
+</script>
+ 
+ </script>
+<{/block}>
+<{block name=myScrolljs}>
+
+<script>
+		var myScroll, pullDownEl, pullDownOffset,pulldowncate,
+	pullUpEl, pullUpOffset,
+	generatedCount = 0;
+
+function pullDownAction () {
+	 
+}
+
+function pullUpAction () {
+		setTimeout(function () { 
+		shopdata();
+		myScroll.refresh();	                 
+		 
+		// 数据加载完成后，调用界面更新方法 Remember to refresh when contents are loaded (ie: on ajax completion)
+	}, 200);	// <-- Simulate network congestion, remove setTimeout from production!
+}
+
+function loaded() {
+	pullDownEl = document.getElementById('pullDown');
+	pullDownOffset = pullDownEl.offsetHeight;
+	pullUpEl = document.getElementById('pullUp');	
+	pullUpOffset = pullUpEl.offsetHeight;
+	
+	myScroll = new iScroll('wrapper', {
+		scrollbarClass: 'myScrollbar', /* 重要样式 */
+		useTransition: false, /* 此属性不知用意，本人从true改为false */
+		topOffset: pullDownOffset,
+		onRefresh: function () {
+			if (pullDownEl.className.match('loading')) {
+				pullDownEl.className = '';
+				pullDownEl.querySelector('.pullDownLabel').innerHTML = '下拉刷新...';
+			} else if (pullUpEl.className.match('loading')) {
+				pullUpEl.className = '';
+				pullUpEl.querySelector('.pullUpLabel').innerHTML = '上拉加载更多...';
+			}
+		},
+		onScrollMove: function () { 
+			if (this.y > 1 && !pullDownEl.className.match('flip')) {
+				
+				pullDownEl.className = 'flip';
+				pullDownEl.querySelector('.pullDownLabel').innerHTML = '松手开始更新...';
+				this.minScrollY = 0;
+			} else if (this.y < 1 && pullDownEl.className.match('flip')) {
+				pullDownEl.className = '';
+				pullDownEl.querySelector('.pullDownLabel').innerHTML = '下拉刷新...';
+				this.minScrollY = -pullDownOffset;
+			} else if (this.y < (this.maxScrollY + 50) && !pullUpEl.className.match('flip')) {
+				pullUpEl.className = 'flip';
+				pullUpEl.querySelector('.pullUpLabel').innerHTML = '松手开始更新...';
+				this.maxScrollY = this.maxScrollY;
+			} else if (this.y > (this.maxScrollY + 1) && pullUpEl.className.match('flip')) {
+		
+				pullUpEl.className = '';
+				pullUpEl.querySelector('.pullUpLabel').innerHTML = '上拉加载更多...';
+				this.maxScrollY = pullUpOffset;
+			}
+		},
+		onScrollEnd: function () {
+			if (this.y < (this.maxScrollY + 50)){
+					 
+					pullUpEl.className = 'loading';
+					pullUpEl.querySelector('.pullUpLabel').innerHTML = '加载中...';				
+				 	pullUpAction();	
+			}
+		
+			 
+		}
+	});
+	
+	setTimeout(function () { document.getElementById('wrapper').style.left = '0'; }, 200);
+}
+
+//初始化绑定iScroll控件 
+document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
+document.addEventListener('DOMContentLoaded', loaded, false); 
+
+
+</script>
+ <script>
+ 	$(function(){ 
+		 
+ 	      var bullets = document.getElementById('abdcd').getElementsByTagName('span');
+ 	      var slider =  Swipe(document.getElementById('slider'), {
+           auto: 3000,
+           continuous: true,
+           callback: function(pos) { 
+              var i = bullets.length;
+              while (i--) {
+                bullets[i].className = ' ';
+              }
+              bullets[pos].className = 'on'; 
+           }
+        });  
+}); 
+</script>
+
+<{/block}>

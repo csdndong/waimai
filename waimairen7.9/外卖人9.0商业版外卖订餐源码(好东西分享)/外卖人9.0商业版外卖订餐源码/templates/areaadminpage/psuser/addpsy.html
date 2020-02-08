@@ -1,0 +1,140 @@
+ <{extends file="<{$tempdir}>/public/admin.html"}> 
+  
+ <{block name=controlname}>配送员佣金统计<{/block}>
+ <{block name=bodylist}>
+   	 <div class="managShopCon">
+	<div class="managShopBox">
+		<div class="managShopMain">
+			<div class="managShopClas">
+				<ul>
+					<li><a href="<{ofunc type=url link="/areaadminpage/psuser/module/memberlistps"}>">配送员管理</a></li>
+					<li  class="maShClaA"> <a href="<{ofunc type=url link="/areaadminpage/psuser/module/addpsy"}>">添加配送员</a></li>
+					<li><a target="_bank" href="<{ofunc type=url link="/areaadminpage/psuser/module/psymap"}>">配送调度管理</a></li>
+					<li><a href="<{ofunc type=url link="/areaadminpage/psuser/module/psyyj"}>">配送员佣金统计</a></li>
+				</ul>
+			</div>
+			 
+			 
+			 
+			 
+			 
+			 
+			  <{load_data assign="info" table="member" where="`uid`=$id"  type="one"}> 
+   <div style="width:auto;overflow-x:hidden;overflow-y:auto"> 
+          <div class="tags"> 
+          <div id="tagscontent">
+            <form method="post" name="form1" action="<{ofunc type=url link="/areaadminpage/member/module/savemember/datatype/json"}>" onsubmit="return subform('<{ofunc type=url link="/areaadminpage/psuser/module/memberlistps"}>',this);">
+              <div>
+                <table border="0" cellspacing="2" cellpadding="4" class="list" name="table" id="table" width="100%">
+                  <tbody>
+                    <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <td class="left">会员名称</td>
+                      <td><input type="text" name="username" id="username" value="<{$info['username']}>" class="skey" style="width:150px;" <{if !empty($info)}> readonly<{/if}>></td>
+                    </tr>
+                    
+                    <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <td class="left">新密码</td>
+                      <td><input type="password" name="password" id="password" value="" class="skey" style="width:150px;"> 不修改留空</td>
+                    </tr>
+                    <input type="hidden" name="uid" id="uid" value="<{$info['uid']}>" class="skey" style="width:150px;">
+                     <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <td class="left">联系电话</td>
+                      <td><input type="text" name="phone" id="phone" value="<{$info['phone']}>" class="skey" style="width:150px;"> </td>
+                    </tr>
+                     <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <td class="left">联系地址</td>
+                      <td><input type="text" name="address" id="address" value="<{$info['address']}>" class="skey" style="width:150px;"> </td>
+                    </tr>
+                     <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <td class="left">联系邮箱</td>
+                      <td><input type="text" name="email" id="email" value="<{$info['email']}>" class="skey" style="width:150px;"> </td>
+                    </tr>
+             
+                    <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <td class="left">用户积分</td>
+                      <td><input type="text" name="score" id="score" value="<{$info['score']}>" class="skey" style="width:150px;"></td>
+                    </tr>
+                    <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <td class="left">账户金额</td>
+                      <td><input <{if $id > 0 }> disabled="disabled"   style="width:150px; border:none; background:none;color:red; font-size:20px ; font-weight:bold" <{else}> style="width:150px;" <{/if}> type="text" name="cost" id="cost" value="<{$info['cost']}>" class="skey"></td>
+                    </tr>
+					
+							
+					<{if $id > 0 }>
+					  <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <td class="left">增加或减少金额</td>
+                      <td>  
+						<input type="radio" name="is_zengjian" id="" value="1"  />增加
+				  
+						<input type="radio" name="is_zengjian" id="" value="2" />减少
+						<input type="text" name="yuecost" id="yuecost" value="" class="skey" style="width:60px;">
+						
+						 </td>
+                    </tr>
+					
+			
+                     <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <td class="left">余额变动是否发送短信通知</td>
+                      <td>  
+						<input type="radio" name="is_phonenotice" id="" value="0"  checked />否 
+				  
+					  <input type="radio"  name="is_phonenotice" id="" value="1" />是 </td>
+
+                    </tr>
+					 <tr id="notice_content" style="display:none;"  onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <td class="left">短信通知内容</td>
+                      <td><textarea name="notice_content" rows="6" cols="40"> </textarea></td>
+                    </tr>
+					<script>
+				 
+					$("input[name='is_phonenotice']").click(function(){
+					  var checkid =  $("input[name='is_phonenotice']:checked").val();
+					 //befortime
+					 if(checkid == 1){
+						$('#notice_content').show();
+					 }else{
+						 $('#notice_content').hide();
+						 $("input[name='notice_content']").text('');
+					 }
+					  
+				}); 
+					</script>
+                  <{/if}>
+                  </tbody> 
+                </table>
+              </div>
+              <div class="blank20"></div>
+              <input type="hidden" name="tijiao" id="tijiao" value="do" class="skey" style="width:250px;">
+			  <input type="hidden" name="group" value="2" />
+              <input type="hidden" name="saction" id="saction" value="siteset" class="skey" style="width:250px;">
+               <input type="submit" value="确认提交" class="button">  
+            </form>
+          </div>
+        </div>
+        <div class="blank20"></div> 
+      
+      </div>
+      <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+
+
+
+
+
+
+
+
+</div>  
+			 
+			 
+			 
+			 
+			 
+		</div>
+	</div>
+</div>
+
+
+      
+<{/block}>    

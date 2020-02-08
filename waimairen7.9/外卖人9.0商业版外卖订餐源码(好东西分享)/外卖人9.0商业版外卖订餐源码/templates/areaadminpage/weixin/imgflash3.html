@@ -1,0 +1,127 @@
+<style>
+	.appAddtoCon .appAddtoRight .appAddtoModi table tbody tr td img.yuan{
+		width: 96px;
+		border-radius:0px;
+	}
+	.p1{font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    color: red;}	 
+	.tubiao{width:30px!important;height:30px!important}
+</style>
+<div class="appAddtoRight home_1">
+<i class="app_tri"></i>
+<div class="appAddtoTit">
+	<i class="icon_edit"></i>
+	<h3>首页底部导航编辑<span style='font-size:12px'></span></h3>
+</div>
+<div class="appAddtoSubj">
+	<table>
+		<thead>
+			<tr>
+				<td>名称</td>	
+                <td>图标</td>				
+				<td>操作</td>
+			</tr>
+		</thead>
+	</table>
+</div>
+
+<div class="appAddtoModi" style='height:300px;'>
+	<table>
+		<tbody>				 
+				<tr cid="shangou" type="btn"> 
+					<td>
+						<span class="orderid">闪购</span>
+					</td>
+					<td>
+						<img class='tubiao' src='<{$siteurl}>/images/bottom/shangou/shangou_r.png' /> 
+					</td>
+					<td>
+						<{if $shangou==1}>
+						<a class="appAdda_bg02" href="javascript:;">隐藏</a>
+						<{else}>
+						<a class="appAdda_bg01" href="javascript:;">显示</a>
+						<{/if}>
+					</td>					 
+				</tr> 
+				<tr cid="say" type="btn"> 
+					<td>
+						<span class="orderid">一起说</span>
+					</td>
+					<td>
+						<img class='tubiao' src='<{$siteurl}>/images/bottom/say/say_r.png' /> 
+					</td>
+					<td>
+						<{if $say==1}>
+						<a class="appAdda_bg02" href="javascript:;">隐藏</a>
+						<{else}>
+						<a class="appAdda_bg01" href="javascript:;">显示</a>
+						<{/if}>
+					</td>					 
+				</tr> 
+				<tr cid="paotui" type="btn"> 
+					<td>
+						<span class="orderid">跑腿</span>
+					</td>
+					<td>
+						<img class='tubiao' src='<{$siteurl}>/images/bottom/paotui/paotui_r.png' /> 
+					</td>
+					<td>
+						<{if $paotui==1}>
+						<a class="appAdda_bg02" href="javascript:;">隐藏</a>
+						<{else}>
+						<a class="appAdda_bg01" href="javascript:;">显示</a>
+						<{/if}>
+					</td>					 
+				</tr> 				 
+		</tbody>
+	</table>
+	
+</div>
+<div style='padding: 0 20px;color: #999999;'>
+<p class='p1'>说明</p>
+<p>1.【首页】【订单】【我的】	三个为必显项 </p>
+<p>2.【闪购】【一起说】【跑腿】可自定义显示状态</p>
+<p class='p2'>3.其中【一起说】不支持在移动端显示	</p>
+</div> 
+</div>
+<script>
+	$(".appAddaL_bg").click(function(){
+		$('#bottom_edit').show();
+		$("input[name='i_links']").val($(this).parents("tr").find(".link").val());
+		$("input[name='i_img_url']").val( $(this).parents("tr").find(".imgurl").val());
+		$("input[name='i_orderid']").val($(this).parents("tr").find(".orderid").html());
+		$("input[name='id']").val($(this).parents("tr").find(".id").val());
+	})
+	$('#dosave').click(function(){
+		var url = '<{$siteurl}>/index.php?ctrl=adminpage&action=weixin&module=saveappindex&datatype=json&type=imgflash';
+		$.ajax({
+			type: 'post',
+			async:false,
+			data:$('#dosaveform').serialize(),
+			url: url.replace('@random@', 1+Math.round(Math.random()*1000)),
+			dataType: 'json',success: function(content) {
+				if(content.error == false){
+					alert('更新成功');
+					$('#showjscontent').html('');
+					var content = htmlback("<{$siteurl}>/index.php?ctrl=adminpage&action=weixin&module=imgflash2");
+					if(content.flag == false){
+						var getmoreContent =  $.trim(content.content);
+						$('#showjscontent').append(getmoreContent);
+					}
+				}else{
+					if(content.error == true)
+					{
+						alert(content.msg);
+					}else{
+						alert(content);
+					}
+				}
+			},
+			error: function(content) {
+				alert('数据提交失败');
+			}
+		});
+	});
+</script>

@@ -1,0 +1,78 @@
+ <{extends file="<{$tempdir}>/public/wxsite.html"}>  
+<{block name=extendcss}> 
+ <link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/gift.css">
+<{/block}>
+ <{block name=extendjs}> 
+  <script src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/js/template.min.js"></script>    
+<{/block}>
+<{block name=myScrolljs}>
+<script> 
+		var myScroll;
+function loaded() {
+	myScroll = new iScroll('wrapper', {
+		useTransform: false,
+		onBeforeScrollStart: function (e) {
+			var target = e.target;
+			while (target.nodeType != 1) target = target.parentNode;
+
+			if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA')
+				e.preventDefault();
+		}
+	});
+}
+document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false); 
+document.addEventListener('DOMContentLoaded', function () { setTimeout(loaded, 200); }, false);
+</script>
+<{/block}>
+ <{block name=hearnav}>
+<div class="toptitCon">
+ <div class="toptitBox">
+  <div class="toptitL"><i></i></div>
+  <div class="toptitC"><h3>兑换记录</h3></div>
+ </div>
+</div>
+<{/block}>
+<{block name=sitetitle}><{$sitename}><{/block}>
+<{block name=blockcontent}> 
+ <div id="wrapper" style="top:40px;">
+	<div id="scroller">
+		
+
+<!--记录-->
+<div class="exchreconame" style='border-bottom:none'>
+ <ul>
+  <li>兑换礼品</li>
+  <li>兑换日期</li>
+  <li>兑换积分</li>
+  <li style='border-right: none;'>兑换状态</li>
+ </ul>
+</div>
+<div class="exchrecolist">
+   <{load_data assign="list" table="giftlog"    fileds="*"  where="uid='<{$member['uid']}>'" orderby="id desc" limit="30"}> 
+		<{if count($list['list']) > 0}>
+		  <{foreach from=$list['list'] item=items}>            	 
+ <ul>
+  <li><{$items['giftname']|default:'--'}></li>
+  <li><{$items['addtime']|date_format:"%m-%d %H:%M"}></li>
+  <li>-<{$items['score']}></li>
+  <li style='line-height:<{if $items["status"] ==1 || $items["status"] ==2 }>25px<{else}>50px<{/if}>;' class="exfco1"><{$logstat[$items['status']]}></li>
+ </ul>
+ 
+   <{/foreach}>
+<{else}>
+
+    <script>
+        htmlNull(1,'您还没有兑换任何礼品','nullgiftlog.png');
+    </script>
+ 
+ <{/if}>
+ 
+ 
+</div>
+		 <div style="height:10px;"></div>
+	</div>
+</div>
+
+ 
+  
+<{/block}>

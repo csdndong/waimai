@@ -1,0 +1,107 @@
+<{extends file="<{$tempdir}>/public/wxsite.html"}>
+<{block name=extendcss}>
+<link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/gift.css">
+<{/block}>
+<{block name=extendjs}>
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/js/template.min.js"></script>
+<{/block}>
+<{block name=myScrolljs}>
+<script>
+ var myScroll;
+ function loaded() {
+  myScroll = new iScroll('wrapper', {
+   useTransform: false,
+   onBeforeScrollStart: function (e) {
+    var target = e.target;
+    while (target.nodeType != 1) target = target.parentNode;
+
+    if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA')
+     e.preventDefault();
+   }
+  });
+ }
+ document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
+ document.addEventListener('DOMContentLoaded', function () { setTimeout(loaded, 200); }, false);
+</script>
+<{/block}>
+<{block name=hearnav}>
+<div class="toptitCon">
+ <div class="toptitBox">
+  <div class="toptitL"><i></i></div>
+  <div class="toptitC"><h3>积分兑换</h3></div>
+ </div>
+</div>
+<{/block}>
+<{block name=sitetitle}><{$sitename}><{/block}>
+<{block name=blockcontent}>
+<div id="wrapper" style="top:40px;">
+ <div id="scroller">
+
+
+  <!--广告-->
+
+ <a href="<{$list['linkurl']}>"><div class="intexchadvCon">
+   <img <{ofunc type=img  link="<{$list['img']}>"}>></div></a>
+
+  <!--我的积分-->
+  <div class="myintexchaCon">
+   <div class="myintexchaBox">
+    <span>我的积分<b><{$member['score']}></b></span>
+    <a  onclick="dolink('<{ofunc type=url link="/wxsite/giftlog"}>');" href="javascript:void(0);">兑换记录</a>
+   </div>
+  </div>
+  <!--兑换列表-->
+  <div class="intexchshopCon">
+   <ul>
+    <{load_data assign="list" table="gift"   fileds="*"  orderby="id asc" limit="100" }>
+    <{foreach from=$list['list'] item=value}>
+    <li>
+     <div class="intexchshopImg" onclick="dolink('<{ofunc type=url link="/wxsite/giftinfo/id/<{$value['id']}>"}>');"><img <{ofunc type=img  link="<{$value['img']|default:$shoplogo}>"}>></div>
+     <div class="intexchshopName" onclick="dolink('<{ofunc type=url link="/wxsite/giftinfo/id/<{$value['id']}>"}>');">
+      <h3><{$value['title']}></h3></div>
+     <div class="intexchshoprom">
+      <span><{$value['score']}> 积分</span>
+      <{if $value['stock'] > 0 }>
+      <input type="button" value="立即兑换"  onclick="duihuan('<{$value['id']}>','<{$value['score']}>','<{$value['title']}>','<{$value['sell_count']}>','<{$value['stock']}>','<{$value['img']}>')" class="inbg01">
+      <{else}>
+      <input type="button" value="已兑完" class="inbg02">
+      <{/if}>
+     </div>
+    </li>
+    <{/foreach}>
+   </ul>
+  </div>
+
+
+
+
+  <div style="height:10px;"></div>
+ </div>
+</div>
+
+<script>
+ function duihuan(gid,gscore,gtitle,gsell_count,gstock,gimg)
+ {
+
+  var cc = '<{$member['uid']}>';
+  var userscore = <{$member['score']}>;
+  if( cc < 1)
+  {
+   Tmsg('登录后才可兑换');
+  }else{
+   if(userscore < gscore){
+    Tmsg('积分不足！');
+   }else{
+    if(gstock < 1){
+     Tmsg('兑换商品库存不足');
+    }else{
+     window.location.href=  siteurl+'/index.php?ctrl=wxsite&action=dhgift&giftid='+gid ;
+    }
+   }
+
+  }
+ }
+
+</script>
+
+<{/block}>

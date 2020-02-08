@@ -1,0 +1,68 @@
+{itemplate 'public/header'}
+<div class="page clearfix">
+	<form class="form-horizontal form form-validate" id="formdisplayorder" action="" method="post" enctype="multipart/form-data">
+		<h3>超级代金券</h3>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">是否允许商家使用</label>
+				<div class="col-sm-9 col-xs-12">
+					<div class="radio radio-inline">
+						<input type="radio" value="1" name="superCoupon[status]" id="superCoupon_status-1" {if $datasync['status'] == 1}checked{/if}>
+						<label for="superCoupon_status-1">允许</label>
+					</div>
+					<div class="radio radio-inline">
+						<input type="radio" value="0" name="superCoupon[status]" id="superCoupon_status-0" {if !$datasync['status']}checked{/if}>
+						<label for="superCoupon_status-0">不允许</label>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">发放数量限制</label>
+				<div class="col-sm-9 col-xs-12">
+					<div class="input-group">
+						<div class="input-group-addon">每月最多发放</div>
+						<input type="number" name="superCoupon[max_limit]" value="{$datasync['max_limit']}" class="form-control"/>
+						<div class="input-group-addon">张</div>
+					</div>
+				</div>
+			</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">将超级代金券同步到商户</label>
+			<div class="col-sm-9 col-xs-12 toggle-tabs" data-content=".sync-type">
+				<div class="input-group">
+					<div class="radio radio-inline">
+						<input type="radio" value="1" name="sync" id="sync-1" checked>
+						<label for= "sync-1" class="toggle-role" data-target="sync-type-1">同步到所有商户</label>
+					</div>
+					<div class="radio radio-inline">
+						<input type="radio" value="2" name="sync" id="sync-2" >
+						<label for= "sync-2" class="toggle-role" data-target="sync-type-2">同步到指定商户</label>
+					</div>
+					<div class="help-block">同步后,将为所有商户添加超级代金券</div>
+				</div>
+			</div>
+		</div>
+		<div class="toggle-content sync-type">
+			<div class="toggle-pane" id="sync-type-2">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-9 col-xs-12">
+						{loop $stores $store}
+							<div class="col-xs-3">
+								<div class="checkbox checkbox-inline">
+									<input type="checkbox" value="{$store['id']}" name="store_ids[]" id="store_{$store['id']}">
+									<label for="store_{$store['id']}">{$store['title']}</label>
+								</div>
+							</div>
+						{/loop}
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<input type="submit" value="提交" class="btn btn-primary">
+			</div>
+		</div>
+	</form>
+</div>
+{itemplate 'public/footer'}

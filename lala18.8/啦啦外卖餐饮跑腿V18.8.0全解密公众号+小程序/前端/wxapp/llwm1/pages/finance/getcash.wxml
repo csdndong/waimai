@@ -1,0 +1,27 @@
+<view class="page-getcash">
+    <form bindsubmit="onSubmit" reportSubmit="true">
+        <view class="content">
+            <view class="zan-panel">
+                <view class="zan-cell">
+                    <view class="zan-cell__bd">账户可用余额：<text>¥{{account.amount}}</text>
+                    </view>
+                </view>
+            </view>
+            <view class="takeout-list border-1px-tb">
+                <view class="body">
+                    <view class="takeout-item-left">提现金额</view>
+                    <view class="takeout-item-right">
+                        <view class="takeout-item-input">
+                            <input name="fee" placeholder="请输入提现金额" type="number"></input>
+                        </view>
+                        <view class="takeout-rule">最低提现金额为{{account.fee_limit}}元</view>
+                        <view class="takeout-rule">提现费率为{{account.fee_rate}}%，最低收取{{account.fee_min}}元，最高收取{{account.fee_max}}元</view>
+                    </view>
+                </view>
+            </view>
+            <button disabled class="weui-btn btn-footer" type="default" wx:if="{{account.amount<account.fee_limit}}">不足{{account.fee_limit}}元</button>
+            <button class="weui-btn btn-footer" formType="submit" type="warn" wx:else>提现</button>
+        </view>
+    </form>
+</view>
+<include src="../public/footer.wxml"></include>

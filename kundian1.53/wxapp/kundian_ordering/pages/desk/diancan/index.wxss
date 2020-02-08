@@ -1,0 +1,14 @@
+@import "../../../../__wuBaseWxss__/0.wxss";
+
+@import "../../../../__wuBaseWxss__/1.wxss";
+
+page {
+    background: white;
+}
+
+.none-goods {
+    font-size: 28rpx;
+    color: gray;
+    text-align: right;
+    display: block;
+}

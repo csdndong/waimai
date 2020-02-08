@@ -1,0 +1,138 @@
+ <{extends file="<{$tempdir}>/public/shopcenter.html"}>
+<{block name=extendjs}>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js"></script>
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/datepicker/WdatePicker.js" type="text/javascript" language="javascript"></script>
+
+<{/block}>
+ <{block name=bodylist}>
+        <div class="conWaiSet fr">
+            <div class="shopSetTop">
+            	<span><{if empty($ztinfo)}>添加<{else}>编辑<{/if}>海报<{if empty($ztinfo)}>(最多添加5个)<{/if}></span>
+            </div>
+           <form id="loginForm" method="post" action="<{ofunc type=url link="/shopcenter/savezt/datatype/json"}>" >
+                 <div class="jutiSet" style='height:607px'>
+             <!---------------------专题名称开始----------------------->
+					<div class="serxuanze">
+                    	<div class="xuanze_left">
+                        	<span>海报名称：</span>
+                        </div>
+                        <div class="xuanze_right">
+                        	 <input type="text" style=" width:200px;margin-top:5px;height:30px;line-height:30px;" id="title" name="title" value="<{$ztinfo['title']}>" >
+                        </div>
+                        <div class="cl"></div>
+                    </div>
+			 <!----------------------专题名称结束---------------------->
+			
+			 <!----------------------专题图片开始---------------------->
+                    <div class="serxuanze" style='height: fit-content;'>
+                    	<div class="xuanze_left">
+                        	<span>海报图片：</span>
+                        </div>		 
+						<div class="xuanze_right "  style='' > 
+                            <img id='ztimgshow'  <{ofunc type=img link="<{$ztinfo['ztimg']}>" }>   style='width: 126px; height: 42px;<{if empty(<{$ztinfo['ztimg']}>)}>display:none<{/if}>'/>
+							<input type="button" class='liulan' value='浏览上传'>
+							<input class="appfile" type="file" id="imgFile" name="imgFile" />
+							<input class="ztimg" type="hidden" id="ztimg" name="ztimg" value="<{$ztinfo['ztimg']}>"/>
+							<span style='float: right;margin-right: 120px;'>（注：海报图片长宽比为3:1）</span>
+                        </div>			 
+						 
+                        <div class="cl"></div>
+                    </div>
+             <!----------------------专题图片结束---------------------->
+			 <!----------------------是否显示结束---------------------->
+			         <div class="serxuanze" style='height: fit-content;'>
+                    	<div class="xuanze_left">
+                        	<span>显示状态：</span>
+                        </div>		 
+						<div class="xuanze_right "  style='' >
+                        	<input type='radio' name='is_show' class='is_show' value='1' <{if $ztinfo['is_show'] != 2}>checked<{/if}>>显示
+						    <input type='radio' name='is_show' class='is_show' value='2' <{if $ztinfo['is_show'] == 2}>checked<{/if}>>隐藏
+                        </div>			 
+						 
+                        <div class="cl"></div>
+                    </div>
+			 <!----------------------是否显示结束---------------------->
+			 <!---------------------排序开始----------------------->
+					<div class="serxuanze">
+                    	<div class="xuanze_left">
+                        	<span>排列顺序：</span>
+                        </div>
+                        <div class="xuanze_right">
+                        	 <input type="text" style=" width:50px;margin-top:5px;height:30px;line-height:30px;" id="sort" name="sort" value="<{$ztinfo['sort']}>" >
+                                                    
+					   </div>
+                        <div class="cl"></div>
+                    </div>
+			 <!----------------------排序结束---------------------->
+                    <div class="serxuanze" style='margin-bottom:0'>
+                    	<div class="xuanze_left" style='width:747px;text-align:center;line-height: 42px;font-size: 14px; color: #333;'>
+                        	 选择商品 
+                        </div>
+                         
+                        <div class="cl"></div>
+                    </div>
+					<div class="serxuanze"> 
+                        <div class="xuanze_right goodslist" style='width:90%;margin-left:10%;line-height: 30px;padding:15px 0 0 20px'>
+                         <{foreach from=$goodsinfo item=items}>
+						   <div>
+							   <input type="checkbox" name="goodid[]" value="<{$items['id']}>"  <{if in_array("<{$items['id']}>",explode(',',$ztinfo['goodids']))}>checked<{/if}>><{$items['name']}>
+						   </div>
+						 <{/foreach}>
+                        </div>
+                        <div class="cl"></div>
+                    </div>
+                    <br><br>
+                   <input type="hidden" name="ztid" value="<{$ztinfo['id']}>">
+                  	 <div class="settijiao">
+                          <div class="xuanze_right hc_login_btn_div" style='margin:220px 0 0 293px;'>保存</div>
+                        <div class="cl"></div>
+                    </div>
+       			 </div>
+       			 </form>
+        </div>
+        <div class="cl"></div>
+ 
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/adminpage/public/js/ajaxfileupload.js"> </script>
+<script>
+    var mynomenu='basecx';
+	$("#imgFile").live("change", function (){
+	   ajaxFileUpload();
+	   $("#upload").replaceWith($("#upload").clone(true));
+   });
+   function ajaxFileUpload(){
+	   $.ajaxFileUpload({
+		   url:'<{$siteurl}>/index.php?ctrl=shopcenter&action=shopupload&uploaddir=poster&datatype=json',
+		   secureuri:false,
+		   fileElementId:'imgFile',
+		   dataType: 'json',
+		   data:{'inputname':'imgFile'},
+		   success: function (data, status){
+			   if(typeof(data.error) != 'undefined'){
+				   if(data.error == false){
+					   $('input[name="ztimg"]').val(data.msg);
+					   $('#ztimgshow').attr('src', data.msg);
+					   $('#ztimgshow').show();
+				   }else{
+					   alert(data.msg);
+				   }
+			   }else{
+				   alert(data);
+			   }
+		   },
+		   error: function (data, status, e){   
+			   alert(e);
+		   }
+	   })
+	   return false;
+
+   }
+</script>
+
+
+<script type="text/javascript">
+    $('.hc_login_btn_div').click(function(){		 
+	    subform('<{ofunc type=url link="/shopcenter/sptpclist"}>',$('#loginForm'));
+	});
+
+</script>
+<{/block}>

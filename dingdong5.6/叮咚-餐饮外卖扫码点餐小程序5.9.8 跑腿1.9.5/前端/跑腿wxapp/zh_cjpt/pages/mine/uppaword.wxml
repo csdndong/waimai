@@ -1,0 +1,30 @@
+<form bindreset="formReset" bindsubmit="formSubmit" reportSubmit="true">
+    <view class="container">
+        <view class="pa fon_28 ba_f list bor_bottom">
+            <view class="dis_in">
+                <image mode="widthFix" src="../img/acc.png"></image>
+            </view>
+            <input class="dis_in" name="phone" placeholder="请输入手机号码" placeholderStyle="color:#999" type="number"></input>
+        </view>
+        <view class="pa fon_28 ba_f list bor_bottom">
+            <view class="dis_in">
+                <image mode="widthFix" src="../img/password.png"></image>
+            </view>
+            <input class="dis_in" maxlength="8" name="pwd" placeholder="请输入您新的密码" placeholderStyle="color:#999"></input>
+        </view>
+        <view class="pa fon_28 ba_f list bor_bottom">
+            <view class="dis_in">
+                <image mode="widthFix" src="../img/password.png"></image>
+            </view>
+            <input class="dis_in" maxlength="8" name="new_pwd" placeholder="请再次输入新的密码" placeholderStyle="color:#999"></input>
+        </view>
+        <view class="pa fon_28 ba_f list rel  bor_bottom">
+            <view class="dis_in">
+                <image mode="widthFix" src="../img/code.png"></image>
+            </view>
+            <input bind class="dis_in" name="code" placeholder="请输入验证码" placeholderStyle="color:#999" type="number"></input>
+            <button bindtap="sendmessg" class="dis_in fon_24 btn_0 ab ud" style="background:#fff;border:2rpx solid {{color}};color:{{color}}">{{getmsg}}</button>
+        </view>
+        <button class="fon_30 btn_1 color_f" formType="submit" style="background:{{color}}">确认修改</button>
+    </view>
+</form>

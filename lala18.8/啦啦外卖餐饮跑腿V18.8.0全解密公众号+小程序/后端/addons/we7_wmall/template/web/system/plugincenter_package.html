@@ -1,0 +1,229 @@
+{itemplate 'public/header'}
+{if $op == 'list'}
+<form action="" class="form-table form" method="post">
+	<div class="panel panel-table">
+		<div class="panel-heading">
+			<a href="{php echo iurl('system/plugincenter_package/post');}" class="btn btn-primary btn-sm">添加应用套餐</a>
+		</div>
+		<div class="panel-body table-responsive js-table">
+			{if empty($packages)}
+			<div class="no-result">
+				<p>还没有相关数据</p>
+			</div>
+			{else}
+			<table class="table table-hover">
+				<thead>
+				<tr>
+					<th>
+						<div class="checkbox checkbox-inline">
+							<input type="checkbox" name="id[]"/>
+							<label></label>
+						</div>
+					</th>
+					<th>缩略图</th>
+					<th>套餐名称</th>
+					<th>套餐插件</th>
+					<th>排序</th>
+					<th>销量</th>
+					<th>状态</th>
+					<th class="text-right">操作</th>
+				</tr>
+				</thead>
+				{loop $packages $item}
+				<tr>
+					<td>
+						<div class="checkbox checkbox-inline">
+							<input type="checkbox" name="id[]" value="{$item['id']}"/>
+							<label></label>
+						</div>
+					</td>
+					<input type="hidden" name="ids[]" value="{$item['id']}">
+					<td><img src="{php echo tomedia($item['thumb'])}" alt="" width="38" style="border-radius: 3px;"></td>
+					<td>{$item['title']}</td>
+					<td>
+						{$item['packagename_cn']}
+					</td>
+					<td>
+						<input name="displayorders[]" value="{$item['displayorder']}" class="form-control width-100" required="true">
+					</td>
+					<td>
+						<input name="saileds[]" value="{$item['sailed']}" class="form-control width-100" required="true">
+					</td>
+					<td>
+						<input type="checkbox" class="js-checkbox" data-on-text="开启" data-off-text="关闭" data-href="{php echo iurl('system/plugincenter_package/status', array('id' => $item['id']));}" data-name="status" value="1" {if $item['status'] == 1}checked{/if}>
+					</td>
+					<td class="text-right">
+						<a href="{php echo iurl('system/plugincenter_package/post', array('id' => $item['id']))}" class="btn btn-default btn-sm" title="编辑" data-toggle="tooltip" data-placement="top" >编辑</a>
+						<a href="javascript:;" class="btn btn-default btn-sm js-clip" data-href="{php echo iurl('plugin/plugincenter/detail', array('id' => $item['id'],'type' => 'package'), true)}"><i class="fa fa-link"></i></a>
+						<a href="{php echo iurl('system/plugincenter_package/del', array('id' => $item['id']))}" class="btn btn-default btn-sm js-post" data-confirm="确定删除该应用?"> 删除</a>
+					</td>
+				</tr>
+				{/loop}
+			</table>
+			<div class="btn-region clearfix">
+				<div class="pull-left">
+					<input name="token" type="hidden" value="{$_W['token']}" />
+					<input type="submit" class="btn btn-primary btn-sm" name="submit" value="提交修改" />
+				</div>
+				<div class="pull-right">
+					{$pager}
+				</div>
+			</div>
+			{/if}
+		</div>
+	</div>
+</form>
+{/if}
+{if $op == 'post'}
+<div class="page clearfix">
+	<h2>编辑套餐</h2>
+	<form class="form-horizontal form form-validate" id="form1" action="" method="post" enctype="multipart/form-data">
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">排序</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="number" class="form-control" name="displayorder" value="{$pluginpackage['displayorder']}">
+				<span class="help-block">数字越大越靠前</span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">套餐名称</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="text" class="form-control" name="title" value="{$pluginpackage['title']}" required>
+			</div>
+		</div>
+		<div id="change-plugin" class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">选择应用</label>
+			<div class="col-sm-9 col-xs-12">
+				{loop $plugins $plugin}
+				<div class="col-xs-3">
+					<div class="checkbox checkbox-inline">
+						<input type="checkbox" name="pluginid[]" value="{$plugin['id']}" id="pluginid-{$plugin['id']}" {if in_array($plugin['id'],$pluginpackage['pluginid'])}checked{/if}>
+						<label for="pluginid-{$plugin['id']}">{$plugin['title']}</label>
+					</div>
+				</div>
+				{/loop}
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">套餐缩略图</label>
+			<div class="col-sm-9 col-xs-12">
+				{php echo tpl_form_field_image('thumb', $pluginpackage['thumb']);}
+				<div class="help-block">建议图片尺寸:640*240</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">销量</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="number" class="form-control" name="sailed" value="{$pluginpackage['sailed']}">
+			</div>
+		</div>
+		<div class="form-group" id="peerpay-container">
+			<div class="col-sm-2 control-label">设置价格</div>
+			<div class="col-sm-9">
+				<div class="help-items">
+					{if !empty($pluginpackage['data']['meal'])}
+						{loop $pluginpackage['data']['meal'] $val}
+							<div class="input-group help-item" style="margin-bottom: 10px;">
+								<div class="input-group-addon">使用时长</div>
+								<input class="form-control" type="number" value="{$val['month']}" name="meal[month][]">
+								<div class="input-group-addon">个月，价格</div>
+								<input class="form-control" type="number" value="{$val['price']}" name="meal[price][]">
+								<div class="input-group-addon">元</div>
+								<div class="input-group-btn del-item">
+									<a class="btn btn-danger" href="javascript:;">
+										<i class="fa fa-remove"></i>
+									</a>
+								</div>
+							</div>
+						{/loop}
+					{else}
+						<div class="input-group help-item" style="margin-bottom: 10px;">
+							<div class="input-group-addon">使用时长</div>
+							<input class="form-control" type="number" value="" name="meal[month][]">
+							<div class="input-group-addon">个月，价格</div>
+							<input class="form-control" type="number" value="" name="meal[price][]">
+							<div class="input-group-addon">元</div>
+							<div class="input-group-btn del-item">
+								<a class="btn btn-danger" href="javascript:;">
+									<i class="fa fa-remove"></i>
+								</a>
+							</div>
+						</div>
+					{/if}
+				</div>
+				<div style="margin-top: 5px;">
+					<a href="javascript:;" class="btn btn-default add-help-words"><i class="fa fa-plus"></i>新增价格</a>
+				</div>
+				<div class="help-block">注意：使用时长设置为0，期限为永久。</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">套餐简介</label>
+			<div class="col-sm-9 col-xs-12">
+				<textarea name="content" id="" class="form-control" cols="30" rows="5">{$pluginpackage['content']}</textarea>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">套餐详情</label>
+			<div class="col-sm-9 col-xs-12">
+				{php echo tpl_ueditor('description', $pluginpackage['description']);}
+			</div>
+		</div>
+		<div class="form-group hide">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">是否推荐</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="radio radio-inline">
+					<input type="radio" name="is_recommend" value="1" id="recommend-1" {if $pluginpackage['recommend'] == 1}checked{/if}>
+					<label for="recommend-1">是</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" name="is_recommend" value="0" id="recommend-0" {if !$pluginpackage['recommend']}checked{/if}>
+					<label for="recommend-0">否</label>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">是否启用</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="radio radio-inline">
+					<input type="radio" name="status" value="1" id="status-1" {if $pluginpackage['status'] == 1}checked{/if}>
+					<label for="status-1">启用</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" name="status" value="0" id="status-0" {if !$pluginpackage['status']}checked{/if}>
+					<label for="status-0">不启用</label>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<input type="hidden" name="token" value="{$_W['token']}">
+				<input type="submit" value="提交" class="btn btn-primary">
+			</div>
+		</div>
+	</form>
+</div>
+<script>
+	$(function (){
+		$(document).on('click', '.add-help-words', function() {
+			var html = '<div class="input-group help-item" style="margin-bottom: 10px;">'+
+				'		<div class="input-group-addon">使用时长</div>'+
+				'		<input class="form-control" type="number" name="meal[month][]">'+
+				'		<div class="input-group-addon">个月，价格</div>'+
+				'		<input class="form-control" type="number" name="meal[price][]">'+
+				'		<div class="input-group-addon">元</div>'+
+				'		<div class="input-group-btn del-item">'+
+				'			<a class="btn btn-danger" href="javascript:;">'+
+				'				<i class="fa fa-remove"></i>'+
+				'			</a>'+
+				'		</div>'+
+				'	</div>';
+			$('#peerpay-container .help-items').append(html);
+		});
+		$(document).on('click', '.del-item', function() {
+			$(this).parents('.input-group').remove();
+		});
+	});
+</script>
+{/if}
+{itemplate 'public/footer'}

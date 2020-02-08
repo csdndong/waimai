@@ -1,0 +1,62 @@
+@import "../takeout/takeoutindex.wxss";
+
+.zdstyle {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+}
+
+page {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.share-modal .share-modal-body {
+    position: fixed;
+    bottom: 17vh;
+    left: 0;
+    width: 100%;
+    background: #fff;
+    transform: translateY(100%);
+    transition: transform 500ms;
+}
+
+.dbgwc {
+    position: fixed;
+    left: 0;
+    bottom: 9vh;
+    z-index: 999;
+    width: 100%;
+    height: 8vh;
+    background: #fff;
+}
+
+.sjinfohd1 {
+    color: #fff;
+    font-size: 26rpx;
+    height: 25vh;
+    position: relative;
+    z-index: 0;
+}
+
+.sjinfohd1 image {
+    width: 100%;
+    height: 100%;
+}
+
+.sjinfohd1dbdt {
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    padding: 10rpx 40rpx;
+}
+
+.sjinfohd1dbdt image {
+    width: 30rpx;
+    height: 30rpx;
+    margin-right: 15rpx;
+}

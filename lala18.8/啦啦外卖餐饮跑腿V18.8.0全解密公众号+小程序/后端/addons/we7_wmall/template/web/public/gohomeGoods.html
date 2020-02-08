@@ -1,0 +1,56 @@
+{if $op == 'goods'}
+<div class="modal-dialog">
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<h4 class="modal-title">选择商品</h4>
+		</div>
+		<form class="form-horizontal form" id="form-first-order" action="" method="post">
+			<div class="modal-body">
+				<div class="form-group" style="margin: 0; margin-bottom: 20px">
+					<div class="input-group">
+						<input class="form-control" name="keyword" id="keyword" type="text" placeholder="输入商品名称进行搜索"/>
+						<div class="input-group-btn">
+							<a class="btn btn-primary" href="javascript:;" id="search"><i class="fa fa-search"></i> 搜索</a>
+						</div>
+					</div>
+				</div>
+				<table class="table table-hover table-bordered text-center">
+					<thead>
+					<tr>
+						<th class="text-center"></th>
+						<th class="text-center">名称</th>
+						<th class="text-center">价格</th>
+						<th class="text-center">库存</th>
+						<th class="text-center">操作</th>
+					</tr>
+					</thead>
+					<tbody class="content">
+					<tr>
+						<td colspan="5">
+							<h4><i class="fa fa-info-circle"></i> <span id="info">输入商品名称进行搜索</span></h4>
+						</td>
+					</tr>
+					</tbody>
+				</table>
+			</div>
+		</form>
+		<div class="modal-footer hide">
+			<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+			<button type="button" class="btn btn-primary btn-submit">确定</button>
+		</div>
+	</div>
+</div>
+<script type="text/html" id="select-gohomeGoods-data">
+	<{# for(var i = 0, len = d.length; i < len; i++){ }>
+	<tr>
+		<td><img src="<{d[i].thumb}>" width="50" alt=""/></td>
+		<td><{d[i].name}></td>
+		<td><{d[i].price}></td>
+		<td><{d[i].total}></td>
+		<td><a href="javascript:;" class="btn btn-default btn-item" data-index="<{i}>">选择</a></td>
+	</tr>
+	<{# } }>
+</script>
+{/if}
+

@@ -1,0 +1,213 @@
+{itemplate 'public/header'}
+
+{if $op == 'list'}
+<form action="./index.php" class="form-horizontal form-filter">
+	<input type="hidden" name="type" value="{$type}">
+	{php echo tpl_form_filter_hidden('diypage/diyPage/list');}
+	{if $_W['is_agent'] && !$_W['agentid']}
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">选择代理区域</label>
+			<div class="col-sm-9 col-xs-12">
+				<select name="agentid" class="select2 js-select2 form-control width-130">
+					<option value="0">选择代理区域</option>
+					{loop $_W['agents'] $agent}
+						<option value="{$agent['id']}" {if $agentid == $agent['id']}selected{/if}>{$agent['area']}</option>
+					{/loop}
+				</select>
+			</div>
+		</div>
+	{/if}
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">页面类型</label>
+		<div class="col-sm-9 col-xs-12">
+			<div class="btn-group">
+				<div class="btn-group">
+					<a href="{php echo ifilter_url('type:-1');}" class="btn {if $type == -1}btn-primary{else}btn-default{/if}">不限</a>
+					<a href="{php echo ifilter_url('type:1');}" class="btn {if $type == '1'}btn-primary{else}btn-default{/if}">自定义</a>
+					{if !defined('IN_AGENT')}
+					<a href="{php echo ifilter_url('type:2');}" class="btn {if $type == '2'}btn-primary{else}btn-default{/if}">会员中心</a>
+					{/if}
+					{if check_plugin_perm('gohome')}
+						<a href="{php echo ifilter_url('type:4');}" class="btn {if $type == '4'}btn-primary{else}btn-default{/if}">生活圈</a>
+						<a href="{php echo ifilter_url('type:5');}" class="btn {if $type == '5'}btn-primary{else}btn-default{/if}">好店</a>
+					{/if}
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">搜索</label>
+		<div class="col-sm-4 col-xs-4">
+			<input type="text" name="keyword" value="{$keyword}" class="form-control" placeholder="请输入页面标题或关键字进行搜索">
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+		<div class="col-sm-4 col-xs-4">
+			<input type="submit" value="筛选" class="btn btn-primary">
+		</div>
+	</div>
+</form>
+<form action="" class="form-table form" method="post">
+	<div class="panel panel-table">
+		<div class="panel-heading">
+			<a href="{php echo iurl('diypage/diyPage/post', array('type' => 1));}" class="btn btn-primary btn-sm">新建自定义页面</a>
+			{if !$_W['agentid']}
+				<a href="{php echo iurl('diypage/diyPage/post', array('type' => 2));}" class="btn btn-primary btn-sm">新建会员中心页面</a>
+			{/if}
+			{if check_plugin_perm('gohome')}
+				<a href="{php echo iurl('diypage/diyPage/post', array('type' => 4));}" class="btn btn-primary btn-sm">新建生活圈页面</a>
+				<a href="{php echo iurl('diypage/diyPage/post', array('type' => 5));}" class="btn btn-primary btn-sm">新建好店页面</a>
+			{/if}
+		</div>
+		{if !check_plugin_exist('diypage')}
+			<div class="alert alert-danger">
+				注意：自定义DIY功能目前仅对购买过"平台装修"插件的客户开放
+			</div>
+		{/if}
+		<div class="panel-body table-responsive js-table">
+			{if empty($pages)}
+				<div class="no-result">
+					<p>还没有相关数据</p>
+				</div>
+			{else}
+				<table class="table table-hover">
+					<thead class="navbar-inner">
+					<tr>
+						<th width="40">
+							<div class="checkbox checkbox-inline">
+								<input type="checkbox" name="ids[]"/>
+								<label></label>
+							</div>
+						</th>
+						<th>页面名称</th>
+						<th>页面类型</th>
+						{if $_W['is_agent']}
+							<th>所属城市</th>
+						{/if}
+						<th>创建时间</th>
+						<th>最后修改时间</th>
+						<th style="width:400px; text-align:right;">操作</th>
+					</tr>
+					</thead>
+					<tbody>
+					{loop $pages $page}
+					<tr>
+						<td>
+							<div class="checkbox checkbox-inline">
+								<input type="checkbox" name="ids[]" value="{$page['id']}"/>
+								<label></label>
+							</div>
+						</td>
+						<td>{$page['name']}</td>
+						<td>
+							{if $page['type'] == 1}
+								首页
+							{else if $page['type'] == 2}
+								会员中心
+							{else if $page['type'] == 4}
+								生活圈
+							{else if $page['type'] == 5}
+								好店页面
+							{/if}
+						</td>
+						{if $_W['is_agent']}
+							<td>{php echo toagent($page['agentid'])}</td>
+						{/if}
+						<td>{php echo date('Y-m-d H:i:s', $page['addtime'])}</td>
+						<td>{php echo date('Y-m-d H:i:s', $page['updatetime'])}</td>
+						<td style="text-align:right;">
+							<a href="{php echo iurl('diypage/diyPage/post', array('id' => $page['id']))}" class="btn btn-default btn-sm">编辑</a>
+							<a href="{php echo iurl('diypage/diyPage/copy', array('id' => $page['id']))}" class="btn btn-default btn-sm  js-post" data-confirm="确定复制该自定义页面吗?">复制</a>
+							<a href="{php echo iurl('diypage/diyPage/del', array('id' => $page['id']))}" class="btn btn-default btn-sm js-remove" data-confirm="删除后将不可恢复，确定删除吗">删除</a>
+							<a href="javascript:;" class="btn btn-default btn-sm js-clip" data-href="{php echo ivurl('/pages/diy/index', array('id' => $page['id']), true)}">公众号链接</a>
+							<a href="javascript:;" class="btn btn-default btn-sm js-clip" data-href="pages/diy/index?id={$page['id']}">小程序链接</a>
+						</td>
+					</tr>
+					{/loop}
+					</tbody>
+				</table>
+				<div class="btn-region clearfix">
+					<div class="pull-left">
+						<a href="{php echo iurl('diypage/diyPage/del')}" class="btn btn-danger js-batch" data-batch="remove" data-confirm="删除后将不可恢复，确定删除吗">删除</a>
+						{if $_W['is_agent']}
+							<a href="{php echo iurl('diypage/diyPage/diypageagent')}" class="btn btn-default js-batch" data-batch="modal">批量操作</a>
+						{/if}
+					</div>
+					<div class="pull-right">
+						{$pager}
+					</div>
+				</div>
+			{/if}
+		</div>
+	</div>
+</form>
+{/if}
+{if $op == 'post'}
+<div class="clearfix">
+	{if $_GPC['type'] == 2 || $page['type'] == 2}
+		<div class="alert alert-danger form-horizontal" style="font-size: 18px;">
+			注意：自定义会员中心的默认页面只有 <span style="color: #f00;">保存</span> 后才会生效！
+		</div>
+	{/if}
+	<div class="app-preview">
+		<div class="app-header"></div>
+		<div class="app-body">
+			<div class="title" id="page">新建自定义页面</div>
+			<div class="main" id="app-preview" style="min-height: 550px;"></div>
+		</div>
+		<div class="app-footer"></div>
+	</div>
+	<div class="app-editor form-horizontal" id="app-editor">
+		<div class="alert alert-danger hide">特别注意：在开启区域代理后，在使用(天天特价,公告,为您优选,幻灯片,导航栏)组建后,后台无法显示出来对应的数据,请在手机端查看（手机端可以）正常显示</div>
+		<div class="editor-arrow"></div>
+		<div class="inner">
+		</div>
+	</div>
+</div>
+<div class="app-action">
+	<div class="parts" id="parts"></div>
+	<div class="action">
+		<nav class="btn btn-default btn-sm pull-left" id="gotop">返回顶部</nav>
+		<nav class="btn btn-primary btn-sm btn-save">保存并设置</nav>
+	</div>
+</div>
+{itemplate 'diyTpl'}
+
+<script language="javascript">
+	var path = '../../plugin/diypage/static/js/diy.vue';
+	irequire([path, 'tmodtpl'],function(diy, tmodtpl){
+		diy.init({
+			tmodtpl: tmodtpl,
+			attachurl: "{$_W['attachurl']}",
+			id: '{php echo intval($_GPC["id"])}',
+			type: {if !empty($page['type'])}{php echo $page['type']}{else}{php echo intval($_GPC['type']);}{/if},
+			data: {if !empty($page['data'])}{php echo json_encode($page['data'])}{else}null{/if},
+			diymenu: {php echo json_encode($diymenus)},
+			storeactivity: {php echo json_encode($activitys)},
+			mallset: {},
+			plugins: {php echo json_encode($plugins)}
+		});
+	});
+
+	function callbackGoods(data) {
+		irequire([path],function(diy) {
+			diy.callbackGoods(data);
+		});
+	}
+	function callbackStore(data) {
+		irequire([path],function(diy) {
+			console.dir(data)
+			diy.callbackStore(data);
+		});
+	}
+	function callbackGohomeGoods(data) {
+		irequire([path],function(diy) {
+			console.dir(data)
+			diy.callbackGohomeGoods(data);
+		});
+	}
+
+</script>
+{/if}
+{itemplate 'public/footer'}

@@ -1,0 +1,66 @@
+<div class="second-sidebar-title">{$_W['_plugin']['title']}</div>
+<div class="nav slimscroll">
+	{ifp 'svip.redpacket' || 'svip.task' || 'svip.goods'}
+		<div class="menu-header">会员特权</div>
+		<ul class="menu-item">
+			{ifp 'svip.redpacket'}
+			<li {if $_W['_action'] == 'redpacket'}class="active"{/if}>
+				<a href="{php echo iurl('svip/redpacket');}">专享红包</a>
+			</li>
+			{/if}
+			{ifp 'svip.goods'}
+			<li {if $_W['_action'] == 'goods'}class="active"{/if}>
+				<a href="{php echo iurl('svip/goods');}">专享商品</a>
+			</li>
+			{/if}
+			{ifp 'svip.task'}
+			<li {if $_W['_action'] == 'task' && $_W['_op'] != 'takepartlist'}class="active"{/if}>
+				<a href="{php echo iurl('svip/task');}">会员任务</a>
+			</li>
+			<li {if $_W['_action'] == 'task' && $_W['_op'] == 'takepartlist'}class="active"{/if}>
+				<a href="{php echo iurl('svip/task/takepartlist');}">任务记录</a>
+			</li>
+			{/if}
+			{ifp 'svip.credit'}
+			<li {if $_W['_action'] == 'credit'}class="active"{/if}>
+				<a href="{php echo iurl('svip/credit/list');}">奖励金记录</a>
+			</li>
+			{/if}
+		</ul>
+	{/if}
+	{ifp 'svip.setmeal' || 'svip.order'}
+		<div class="menu-header">套餐</div>
+		<ul class="menu-item">
+			{ifp 'svip.setmeal'}
+			<li {if $_W['_action'] == 'setmeal'}class="active"{/if}>
+				<a href="{php echo iurl('svip/setmeal/list');}">套餐列表</a>
+			</li>
+			{/if}
+			{ifp 'svip.order'}
+			<li {if $_W['_action'] == 'order'}class="active"{/if}>
+				<a href="{php echo iurl('svip/order/list');}">购买记录</a>
+			</li>
+			{/if}
+			{ifp 'svip.code'}
+			<li {if $_W['_action'] == 'code'}class="active"{/if}>
+				<a href="{php echo iurl('svip/code/list');}">兑换码</a>
+			</li>
+			{/if}
+		</ul>
+	{/if}
+	{ifp 'svip.config' || 'svip.cover'}
+		<div class="menu-header">设置</div>
+		<ul class="menu-item">
+			{ifp 'svip.config'}
+				<li {if $_W['_action'] == 'config'}class="active"{/if}>
+					<a href="{php echo iurl('svip/config/index');}">会员设置</a>
+				</li>
+			{/if}
+			{ifp 'svip.cover'}
+				<li {if $_W['_action'] == 'cover'}class="active"{/if}>
+					<a href="{php echo iurl('svip/cover/index');}">入口设置</a>
+				</li>
+			{/if}
+		</ul>
+	{/if}
+</div>

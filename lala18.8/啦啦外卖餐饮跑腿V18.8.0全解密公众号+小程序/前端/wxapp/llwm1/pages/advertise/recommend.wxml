@@ -1,0 +1,48 @@
+<view class="page-advertise">
+    <view class="content">
+        <view class="content-title">选择广告位置</view>
+        <view class="zan-panel">
+            <view bind:tap="onSelectPosition" class="zan-cell" data-type="recommendHome">
+                <view class="zan-cell__bd">为您优选首页</view>
+                <view class="zan-cell__ft">
+                    <view class="icon icon-check" wx:if="{{type=='recommendHome'}}"></view>
+                    <view class="checked" wx:else></view>
+                </view>
+            </view>
+            <view bind:tap="onSelectPosition" class="zan-cell" data-type="recommendOther">
+                <view class="zan-cell__bd">为您优选更多页</view>
+                <view class="zan-cell__ft">
+                    <view class="icon icon-check" wx:if="{{type=='recommendOther'}}"></view>
+                    <view class="checked" wx:else></view>
+                </view>
+            </view>
+        </view>
+        <view class="zan-panel">
+            <view class="zan-cell">
+                <view class="zan-cell__bd">广告位总数{{advertise[type].total}}个 {{advertise[type].leave>0?'剩余'+advertise[type].leave+'个位置':'（已售罄）'}} 价目:</view>
+            </view>
+            <view bind:tap="onSelectPosition" class="zan-cell" data-index="{{index}}" data-type="day" wx:for="{{advertise[type].prices}}" wx:for-item="feeItem">
+                <view class="zan-cell__bd">购买广告{{feeItem.day}}天{{feeItem.fee}}元</view>
+                <view class="zan-cell__ft" wx:if="{{advertise[type].leave>0}}">
+                    <view class="icon icon-check" wx:if="{{day[type]==index}}"></view>
+                    <view class="checked" wx:else></view>
+                </view>
+            </view>
+        </view>
+        <view class="content-title">选择支付方式</view>
+        <view class="zan-panel">
+            <view class="zan-cell">
+                <view class="zan-cell__bd">余额支付 账户余额:<text class="amount">{{amount}}元</text>
+                </view>
+                <view class="zan-cell__ft">
+                    <view class="icon icon-check"></view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view class="page__bd page__bd_spacing">
+        <button bind:tap="onSubmit" class="weui-btn" type="warn" wx:if="{{advertise[type].leave}}">立即购买</button>
+        <button bind:tap="onJsEvent" class="weui-btn disabled" data-event-type="jsUrl" data-url="pages/advertise/index" type="warn" wx:else>此广告位已售罄，去看看其他广告位</button>
+    </view>
+</view>
+<include src="../public/footer.wxml"></include>

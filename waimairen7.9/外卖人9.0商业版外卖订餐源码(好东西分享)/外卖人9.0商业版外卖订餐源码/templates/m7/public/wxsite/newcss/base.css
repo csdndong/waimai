@@ -1,0 +1,33 @@
+@charset "utf-8";
+/* CSS Document */
+
+/*顶部*/
+.basetopCon{ width:100%; background-color:#01cd88;}
+.basetopBox{ width:91.67822%; margin:0 auto; overflow:hidden; padding:10px 0;}
+.basetopL{ float:left; width:2.57186%; margin-left:24px;}
+.basetopL_img{ width:100%;}
+.basetopC{ float:left; line-height:22px; margin-left:92px;}
+.basetopC1{ float:left; line-height:22px; margin-left:92px;}
+.basetopC2{ float:left; line-height:22px; margin-left:72px;}
+.basetopR{ float:right;}
+/*End*/
+
+@media only screen and (min-width:321px) and (max-width:360px){
+	.basetopC{ margin-left:98px;}
+}
+@media only screen and (min-width:361px) and (max-width:375px){
+	.basetopC{ margin-left:106px;}
+}
+@media only screen and (min-width:376px) and (max-width:384px){
+	.basetopC{ margin-left:108px;}
+	.basetopBox{ padding:18px 0;}
+
+}
+@media only screen and (min-width:385px) and (max-width:400px){
+	
+}
+@media only screen and (min-width:401px) and (max-width:414px){
+	.basetopC{ margin-left:106px;}
+	.basetopBox{ padding:18px 0; font-size:24px}
+	.basetopC{ line-height:32px;}
+}

@@ -1,0 +1,217 @@
+{itemplate 'public/header'}
+{if $op == 'basic'}
+<div class="page clearfix">
+	<form class="form-horizontal form form-validate" id="form2" action="" method="post" enctype="multipart/form-data">
+		<ul class="nav nav-tabs" role="tablist">
+			<li role="presentation" {if $_GPC['type'] == 'basicSetting' || !$_GPC['type']}class="active"{/if}><a href="#basicSetting" aria-controls="basicSetting" role="tab" data-toggle="pill">公共设置</a></li>
+			<li role="presentation" {if $_GPC['type'] == 'storeSetting'}class="active"{/if}><a href="#storeSetting" aria-controls="storeSetting" role="tab" data-toggle="pill">商家设置</a></li>
+			<li role="presentation" {if $_GPC['type'] == 'deliverySetting'}class="active"{/if}><a href="#deliverySetting" aria-controls="deliverySetting" role="tab" data-toggle="pill">配送员设置</a></li>
+			<li role="presentation" {if $_GPC['type'] == 'memberSetting'}class="active"{/if}><a href="#memberSetting" aria-controls="memberSetting" role="tab" data-toggle="pill">顾客设置</a></li>
+		</ul>
+		<div class="tab-content">
+			<div class="tab-pane {if $_GPC['type'] == 'basicSetting' || !$_GPC['type']}active{/if}" role="tabpanel" id="basicSetting">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">是否开启隐私号</label>
+					<div class="col-sm-9 col-xs-12">
+						<div class="radio radio-inline">
+							<input type="radio" value="1" name="yinsihao[status]" id="yinsihao_status-1" {if $setting['status'] == 1}checked{/if}>
+							<label for="yinsihao_status-1">开启</label>
+						</div>
+						<div class="radio radio-inline">
+							<input type="radio" value="0" name="yinsihao[status]" id="yinsihao_status-0" {if $setting['status'] == 0 || !$setting['status']}checked{/if}>
+							<label for="yinsihao_status-0">关闭</label>
+						</div>
+					</div>
+				</div>
+				<div class="form-group toggle-content">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">AccessKeyId</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="yinsihao[accessKeyId]" value="{$setting['accessKeyId']}" class="form-control" required />
+					</div>
+				</div>
+				<div class="form-group toggle-content">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">AccessSecret</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="yinsihao[accessSecret]" value="{$setting['accessSecret']}" class="form-control" required />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">号码池Key</label>
+					<div class="col-sm-9 col-xs-12">
+						<div id="attrs-container">
+							{if !empty($setting['poolKey'])}
+							{loop $setting['poolKey'] $poolKey $numbers}
+							<div class="attr-item">
+								<div class="col-md-3">
+									<input type="text" name="poolKey[poolKey][]" class="form-control" value="{$poolKey}" placeholder="例如:FC100000064970023">
+								</div>
+								<div class="col-md-8">
+									<input type="text" name="poolKey[numbers][]" class="form-control" value="{$numbers}" placeholder="例如:17045678910,17145829603">
+								</div>
+								<div class="col-md-1">
+									<span class="attrs-delete"><i class="fa fa-remove"></i></span>
+								</div>
+							</div>
+							{/loop}
+							{/if}
+						</div>
+						<a class="btn btn-primary btn-sm add-attr" href="javascript:;">添加号码池Key</a>
+						<span class="help-block">第一栏输入号码池Key, 第二栏输入号码池的隐私号段。一个号码池Key可对应多个隐私号段，输入多个隐私号段时用英文状态的逗号隔开。请确保对应关系正确。</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">隐私号协议内容</label>
+					<div class="col-sm-9 col-xs-12">
+						{php echo tpl_ueditor('protocol', $protocol);}
+					</div>
+				</div>
+			</div>
+			<div class="tab-pane {if $_GPC['type'] == 'storeSetting'}active{/if}" role="goodsinfo" id="storeSetting">
+				<div class="alert alert-danger">顾客、商家、配送员的隐私号段必须独立分开不能重复，重复会造成拨打的时候提示是空号。</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">顾客拨打商家电话是否使用隐私号</label>
+					<div class="col-sm-9 col-xs-12">
+						<div class="radio radio-inline">
+							<input type="radio" value="1" name="yinsihao[member_call_store_status]" id="member_call_store_status-1" {if $setting['member_call_store_status'] == 1}checked{/if}>
+							<label for="member_call_store_status-1">是</label>
+						</div>
+						<div class="radio radio-inline">
+							<input type="radio" value="0" name="yinsihao[member_call_store_status]" id="member_call_store_status-0" {if $setting['member_call_store_status'] == 0 || !$setting['member_call_store_status']}checked{/if}>
+							<label for="member_call_store_status-0">否</label>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">商家隐私号段</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="yinsihao[store_number]" value="{$setting['store_number']}" class="form-control" placeholder="例如:17045678910,17145829603" required />
+						<span class="help-block">输入多个隐私号段时用英文状态的逗号隔开。</span>
+					</div>
+				</div>
+				<!--<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">模板消息是否显示顾客姓名和电话</label>
+					<div class="col-sm-9 col-xs-12">
+						<div class="radio radio-inline">
+							<input type="radio" value="1" name="yinsihao[store_tpl_status]" id="yinsihao_store_tpl_status-1" {if $setting['store_tpl_status'] == 1}checked{/if}>
+							<label for="yinsihao_store_tpl_status-1">显示</label>
+						</div>
+						<div class="radio radio-inline">
+							<input type="radio" value="0" name="yinsihao[store_tpl_status]" id="yinsihao_store_tpl_status-0" {if $setting['store_tpl_status'] == 0 || !$setting['store_tpl_status']}checked{/if}>
+							<label for="yinsihao_store_tpl_status-0">不显示</label>
+						</div>
+					</div>
+				</div>-->
+			</div>
+			<div class="tab-pane {if $_GPC['type'] == 'deliverySetting'}active{/if}" role="rules" id="deliverySetting">
+				<div class="alert alert-danger">顾客、商家、配送员的隐私号段必须独立分开不能重复，重复会造成拨打的时候提示是空号。</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">顾客拨打配送员电话是否使用隐私号</label>
+					<div class="col-sm-9 col-xs-12">
+						<div class="radio radio-inline">
+							<input type="radio" value="1" name="yinsihao[member_call_deliveryer_status]" id="member_call_deliveryer_status-1" {if $setting['member_call_deliveryer_status'] == 1}checked{/if}>
+							<label for="member_call_deliveryer_status-1">是</label>
+						</div>
+						<div class="radio radio-inline">
+							<input type="radio" value="0" name="yinsihao[member_call_deliveryer_status]" id="member_call_deliveryer_status-0" {if $setting['member_call_deliveryer_status'] == 0 || !$setting['member_call_deliveryer_status']}checked{/if}>
+							<label for="member_call_deliveryer_status-0">否</label>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">配送员隐私号段</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="yinsihao[deliveryer_number]" value="{$setting['deliveryer_number']}" placeholder="例如:17045678910,17145829603" class="form-control" required />
+						<span class="help-block">输入多个隐私号段时用英文状态的逗号隔开。</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">模板消息是否显示顾客姓名和电话</label>
+					<div class="col-sm-9 col-xs-12">
+						<div class="radio radio-inline">
+							<input type="radio" value="1" name="yinsihao[deliveryer_tpl_status]" id="deliveryer_tpl_status-1" {if $setting['deliveryer_tpl_status'] == 1}checked{/if}>
+							<label for="deliveryer_tpl_status-1">显示</label>
+						</div>
+						<div class="radio radio-inline">
+							<input type="radio" value="0" name="yinsihao[deliveryer_tpl_status]" id="deliveryer_tpl_status-0" {if $setting['deliveryer_tpl_status'] == 0 || !$setting['deliveryer_tpl_status']}checked{/if}>
+							<label for="deliveryer_tpl_status-0">不显示</label>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="tab-pane {if $_GPC['type'] == 'memberSetting'}active{/if}" role="shareset" id="memberSetting">
+				<div class="alert alert-danger">顾客、商家、配送员的隐私号段必须独立分开不能重复，重复会造成拨打的时候提示是空号。</div>
+				<div class="form-group">
+					<div>
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">外卖顾客隐私号段</label>
+						<div class="col-sm-9 col-xs-12">
+							<input type="text" name="yinsihao[member_number]" value="{$setting['member_number']}" class="form-control" placeholder="例如:17045678910,17145829603" required />
+							<span class="help-block">输入多个隐私号段时用英文状态的逗号隔开。</span>
+						</div>
+					</div>
+					<div>
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">外卖顾客隐私号有效时长</label>
+						<div class="col-sm-9 col-xs-12">
+							<div class="input-group">
+								<input type="number" name="yinsihao[member_expiration]" value="{$setting['member_expiration']}" class="form-control" required />
+								<span class="input-group-addon">分钟</span>
+							</div>
+							<span class="help-block">顾客隐私号有效时长不能低于60分钟。</span>
+						</div>
+					</div>
+					<div>
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">跑腿顾客隐私号段</label>
+						<div class="col-sm-9 col-xs-12">
+							<input type="text" name="yinsihao[errander_number]" value="{$setting['errander_number']}" class="form-control" placeholder="例如:17045678910,17145829603" required />
+							<span class="help-block">输入多个隐私号段时用英文状态的逗号隔开。</span>
+						</div>
+					</div>
+					<div>
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">跑腿顾客隐私号有效时长</label>
+						<div class="col-sm-9 col-xs-12">
+							<div class="input-group">
+								<input type="number" name="yinsihao[errander_expiration]" value="{$setting['errander_expiration']}" class="form-control" required />
+								<span class="input-group-addon">分钟</span>
+							</div>
+							<span class="help-block">顾客隐私号有效时长不能低于60分钟。</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-9 col-xs-9 col-md-9">
+					<input type="hidden" name="token" value="{$_W['token']}">
+					<input type="submit" value="提交" class="btn btn-primary">
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+
+<script type="text/javascript">
+	$(function() {
+		$(document).on('click', '.add-attr', function() {
+			var length = $('#attrs-container .attr-item').length;
+			if(length >= 10) {
+				Notify.info('最多可添加10个');
+				return false;
+			}
+			var html = '<div class="attr-item">'+
+				'		<div class="col-md-3">'+
+				'			<input type="text" name="poolKey[poolKey][]" class="form-control" placeholder="例如:FC100000064970023">'+
+				'		</div>'+
+				'		<div class="col-md-8">'+
+				'			<input type="text" name="poolKey[numbers][]" class="form-control" placeholder="列如:17045678910,17145829603">'+
+				'		</div>'+
+				'		<div class="col-md-1">'+
+				'			<span class="poolKey-delete attrs-delete"><i class="fa fa-remove"></i></span>'+
+				'		</div>'+
+				'	</div>';
+			$('#attrs-container').append(html);
+		});
+		$(document).on('click', '.attrs-delete', function() {
+			$(this).parent().parent().remove();
+		});
+	});
+</script>
+{/if}
+{itemplate 'public/footer'}

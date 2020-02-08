@@ -1,0 +1,188 @@
+<style>
+.editordertit ul li{line-height:40px;}
+.editordertit{height:40px}
+.pttypetext{font-weight: bold; font-size: 15px;}
+.ptcontent{border-left: 1px solid #d8d8d8;padding-left: 8px;font-size: 13px;margin-left: 5px;} 
+.flag1 li {overflow: hidden;width: 95%;text-overflow: ellipsis;white-space: nowrap;}
+.editorderbox ul li {float: none;}
+.flag1 span{font-size: 14px!important;color:#000!important;}
+.editordercon {border: none!important; }
+</style>
+<{if !empty($orderlist) }>
+	<{foreach from=$orderlist item=items }>
+		<div class="editordercon order_<{$items['id']}>"   style="position:relative;"> 	
+			<div class="editordertit" style='height:40px;'>  
+				<ul> 
+					<li style="overflow: hidden;width: 70%;text-overflow: ellipsis;white-space: nowrap;">
+						<span class='pttypetext'>帮我<{if $items['pttype'] == 1}>送<{else}>买<{/if}></span> 
+						 
+						<span class='ptcontent'><{if $items['pttype'] == 1}><{$items['movegoodstype']}>，<{$items['ptkg']}>kg，<{$items['movegoodscost']}><{else}><{$items['content']}><{/if}><span>
+					</li> 
+					<li class="editordright"><span class="editorfoncol"><{$items['orderwuliustatus']}></span></li> 
+				</ul> 
+			</div> 
+		 
+		<div class="editorderbox" data='<{$items['id']}>' data_status='<{$items['status']}>' data_reback='<{$items['is_reback']}>'  > 
+			<ul id='order_<{$items['id']}>' onclick='showorderdet(<{$items['id']}>)'> 
+				<li>
+					<ul class='flag1'> 
+						<li>下单时间&nbsp;&nbsp;<span><{$items['addtime']}></span></li>
+						<li><{if $items['pttype'] == 1}>取货<{else}>购买<{/if}>地址&nbsp;&nbsp;<span><{$items['shopaddress']}></span>
+						    <{if $items['pttype'] == 1}>
+							<br>
+						    <span style='padding-left:65px;'><{$items['shopname']}>&nbsp;&nbsp;&nbsp;<{$items['shopphone']}></span>
+							<{/if}>
+						
+						
+						
+						</li> 
+						<li style='line-height: 20px;padding-top: 3px;'>收货地址&nbsp;&nbsp;<span><{$items['buyeraddress']}></span><br>
+						<span style='padding-left:65px;'><{$items['buyername']|default:$member['username']}>&nbsp;&nbsp;&nbsp;<{$items['buyerphone']}></span>
+						</li>
+					</ul> 
+				</li> 
+			</ul> 
+		</div> 
+		 
+		 
+			<div class="editorderbut" style='height:40px'> 
+			    <div><div class="editordinp1"></div></div>
+				<ul style='line-height:40px'> 
+				    <!--再来一单  无条件显示-->
+					<a href="<{ofunc type=url link="/wxsite/paotui"}>"> 	
+					    <li><div class="editordinp2" >再来一单</div></li> 
+					</a>
+					
+					<!--取消订单-->  
+					<{if $items['status'] < 3 && $items['is_reback'] == 0 }> 						
+						<{if $items['psstatus'] == 0}>
+						     <!--未抢单的在线支付未付的可以直接取消-->  
+						     <{if ( $items['paytype'] == 1 && $items['paystatus'] == 0  ) || $items['paytype'] == 0  }>	 
+								<li><div class="editordinp2" onclick="quxiao(<{$items['id']}>,1);" >取消订单</div></li>
+							 <{/if}><!--未抢单的在线支付已付的跳到申请退款页面-->  
+                             <{if $items['paytype'] == 1 && $items['paystatus'] == 1 }>	 
+							    <li><div class="editordinp2" onclick="quxiao(<{$items['id']}>,2);" >取消订单</div></li>	 
+							 <{/if}> 
+						<{else}>
+                            <{if $items['paytype'] == 1 && $items['paystatus'] == 1 }>	 
+							    <a onclick="subreback(<{$items['psstatus']}>);"> 
+								   <li><div class="editordinp2" >申请退款</div></li>
+								</a>	
+							<{/if}>
+
+						
+						<{/if}>
+						 				
+					<{/if}>  
+					
+					
+					<!--立即支付  在线支付未付订单-->
+                    <{if $items['paytype'] == 1 && $items['paystatus'] == 0 && $items['status'] < 3}>
+					   <a href="<{ofunc type=url link="/wxsite/subshow/orderid/<{$items['id']}>"}>"> 
+					      <li><div class="editordinp1" >立即支付</div></li>
+					   </a> 
+					<{/if}>
+					
+		            <!--退款详情  涉及退款的订单--> 
+					<{if $items['is_reback'] > 0 }>
+					   <a href="<{ofunc type=url link="/wxsite/drawbacklog/orderid/<{$items['id']}>"}>"> 
+						  <li><div class="editordinp1" >退款详情</div></li> 
+					   </a>					    
+					<{/if}>
+					
+                    <!--评价订单  已完成未评价的订单-->
+                    <{if $items['is_ping'] == 0 && $items['status'] == 3}>
+					   <a href="<{ofunc type=url link="/wxsite/commentorder/orderid/<{$items['id']}>"}>"> 
+					      <li><div class="editordinp1" >评价订单</div></li>
+					   </a> 
+					<{/if}>					
+				</ul> 
+			</div> 	 
+		</div>
+	<{/foreach}>
+
+<{/if}>
+<script>
+function quxiao(orderid,type){//type1时直接取消 2时跳转到申请退款页面    
+	var html = "<div class='zhezhaox'><div class='wdowx'><div class='tishix'>确认取消订单？</div>"
+			+"<div class='deletebtnx' data=''><div class='nobtnx'>再等等</div><div class='yesbtnx' onclick='qxord("+orderid+","+type+")' style='color:#ff6e6e'>取消订单</div></div></div> </div> "
+	$('.zhezhao').after(html);		
+	$('.nobtnx').bind('click',function(){
+	   $('.zhezhaox').remove();	   
+	})	
+	$('.zhezhaox').show(); 	 
+}
+function qxord(orderid,type){
+    if(type == 1){
+	    quxiaoorder(orderid)
+	}else{
+	    var siteurl = '<{$siteurl}>';
+	    window.location.href= siteurl+'/index.php?ctrl=wxsite&action=drawback&orderid='+orderid ;
+	}
+}
+</script>
+ <script>
+ var siteurl = '<{$siteurl}>';
+ function showorderdet(orderid){    
+	  window.location.href=  siteurl+'/index.php?ctrl=wxsite&action=paotuidetail&orderid='+orderid ;
+ }
+
+//长按事件
+$.fn.longPress = function (fn) {
+　　var timeout = undefined;
+　　var $this = this;
+　　for (var i = 0; i < $this.length; i++) { 
+　　$this[i].addEventListener('touchstart', function (event) { 
+　　	timeout = setTimeout("orderhide("+$(event.target).parents('.editorderbox').eq(0).attr('data')+","+$(event.target).parents('.editorderbox').eq(0).attr('data_status')+","+$(event.target).parents('.editorderbox').eq(0).attr('data_reback')+")", 800); 
+　　}, false);
+　　$this[i].addEventListener('touchend', function (event) {
+		
+　　	clearTimeout(timeout);
+
+　　}, false);
+　　}
+}
+
+//还需阻止浏览器 复制粘贴等事件
+
+//window.ontouchstart = function (e) { e.preventDefault(); };
+
+//触发事件 (代码写这里就OK~~) 
+$(".editorderbox").longPress();
+function orderhide(id,status,reback){ 
+	 if(status == 3 || (status > 3 && reback !=1 && reback !=4)){//已完成订单，退款成功或者正常订单可删除
+		  $('.p2').text('订单删除后将不可恢复，是否删除此订单？');
+		  $('.zhezhao').show();
+		  $('#order_'+id).removeAttr('onclick');
+		  $('#noworder').val(id); 
+		  $('.yesbtn').text('删除');
+		  $('.callphone').attr('href','')
+		  $('.yesbtn').attr('onclick','hideorder('+id+')');         	     
+    }	   
+}
+function hideorder(id){
+    $('.zhezhao').hide();	 
+    $.ajax({
+	url:'<{ofunc type=url link="/wxsite/orderhide/datatype/json"}>',
+	data:{orderid:id},
+	dataType: 'json',
+	success:function (data, status){	  		 
+		if(data.error == false){			
+			Tmsg('订单删除成功');	
+			$('.order_'+id).remove();
+			window.location.reload();
+		}else{
+			Tmsg(data.msg);		
+		}			
+	},
+	error: function (data, status){
+		Tmsg('删除失败');
+	  }
+  });	 
+
+
+
+
+
+}
+</script>

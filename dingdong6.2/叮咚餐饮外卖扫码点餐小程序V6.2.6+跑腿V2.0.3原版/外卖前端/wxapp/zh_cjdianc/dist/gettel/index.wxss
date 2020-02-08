@@ -1,0 +1,9 @@
+@import "../../pages/smdc/getdl.wxss";
+
+.sq_screen {
+    z-index: 2001;
+}
+
+.sq_box {
+    z-index: 2002;
+}

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<meta name="MobileOptimized" content="320">
+<meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta name="HandheldFriendly" content="true">
+<meta name="author" content="johnye">
+<meta name="shenma-site-verification" content="f28da5e2e3fb6e2afd372a3eedfda998">
+<meta name="baidu-site-verification" content="eafwEzRbnz">
+<title></title>  
+</head>
+<body>  
+ <div id="loading"  style="display: block;">
+ 
+</div>
+   
+<script> 
+getLocation();  
+function getLocation(){ 
+   if(navigator.geolocation){ 
+		var options = {
+                enableHighAccuracy: false,
+                timeout: 100,
+                maximumAge: 100
+            };
+        navigator.geolocation.getCurrentPosition(showPosition,showError,options);
+    }else{
+		 parent.dosaymmm('xxxx'); 
+	}  
+}  
+function showPosition(position){   
+	parent.dosay(position.coords.latitude,position.coords.longitude);  
+} 
+function showError(error){ 
+	parent.dosaymmm('xxxxaaaa'); 
+}  
+</script>  
+</body>
+</html> 

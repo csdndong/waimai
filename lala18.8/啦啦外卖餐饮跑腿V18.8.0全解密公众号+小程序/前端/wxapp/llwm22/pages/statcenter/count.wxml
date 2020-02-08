@@ -1,0 +1,51 @@
+<view class="page-count">
+    <view class="nav-tab flex border-1px-b">
+        <view bind:tap="onChange" class="nav-item {{type=='today'?'active':''}}" data-type="today">今天</view>
+        <view bind:tap="onChange" class="nav-item {{type=='yesterday'?'active':''}}" data-type="yesterday">昨天</view>
+        <view bind:tap="onChange" class="nav-item {{type=='month'?'active':''}}" data-type="month">本月</view>
+        <view bind:tap="onChange" class="nav-item {{type=='last_month'?'active':''}}" data-type="last_month">上月</view>
+        <view bind:tap="onChange" class="nav-item hide {{status==5?'active':''}}" data-type="5">自定义</view>
+    </view>
+    <view class="count-time ellipsis">统计时间：{{time.start}}到{{time.end}}</view>
+    <view class="category">
+        <view class="title flex">
+            <view>外卖战绩</view>
+            <view class="green">收入：{{takeout.fee}}元</view>
+        </view>
+        <view class="count-items flex">
+            <view class="count-item">
+                <view class="green">{{takeout.total_num}}</view>
+                <view>已抢</view>
+            </view>
+            <view class="count-item">
+                <view class="green">{{takeout.num}}</view>
+                <view>成功</view>
+            </view>
+            <view class="count-item">
+                <view class="green">{{takeout.cancel_num}}</view>
+                <view>取消</view>
+            </view>
+        </view>
+    </view>
+    <view class="category">
+        <view class="title flex">
+            <view>跑腿战绩</view>
+            <view class="green">收入：{{errander.fee}}元</view>
+        </view>
+        <view class="count-items flex">
+            <view class="count-item">
+                <view class="green">{{errander.total_num}}</view>
+                <view>已抢</view>
+            </view>
+            <view class="count-item">
+                <view class="green">{{errander.num}}</view>
+                <view>成功</view>
+            </view>
+            <view class="count-item">
+                <view class="green">{{errander.cancel_num}}</view>
+                <view>取消</view>
+            </view>
+        </view>
+    </view>
+</view>
+<include src="../public/footer.wxml"></include>

@@ -1,0 +1,157 @@
+ <{extends file="<{$tempdir}>/public/admin.html"}> 
+ <{block name=extendjs}>
+  <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=<{$baidumapkey}>"></script>
+  <script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js"></script>
+  <{/block}>
+ <{block name=controlname}>配送员实时监控<{/block}>
+ <{block name=bodylist}>
+   	        	 	
+      <div style="width:auto;overflow-x:hidden;overflow-y:auto"> 
+      	
+      	
+      	 <div class="search">
+      		 
+            
+            <div class="search_content">
+            	 
+            	 <form method="post" name="form1" action="<{ofunc type=url link="/adminpage/member/module/memberlistshop"}>">
+            	  
+            	   <label>配送区域：</label>
+            	   <select name="psarea" onchange="freshdata();">
+            	   	   <option value="0" lng="<{$baidulng}>" lat="<{$baidulat}>">不限制区域</option>
+            	   	   <{foreach from=$arealist item=items}>
+            	   	   <option value="<{$items['id']}>" lng="<{$items['lng']}>" lat="<{$items['lat']}>"><{$items['name']}></option> 
+            	   	   <{/foreach}>
+            	   	 </select>
+            	   	  
+            	   <label>刷新配送送位置间隔：</label>
+            	    <select name="pstime" data="30" onchange="freshdata();">
+            	   	   <option value="30">30秒</option>
+            	   	   <option value="60">1分钟</option>
+            	   	   <option value="300">5分钟</option>
+            	   	   <option value="600">2分钟</option>
+            	   	 </select>  
+            	   	 <label>距下次刷新<font id="timecontent">0s</font>：</label>            
+                  
+            	    <input type="button" value="立即刷新" class="button" onclick="freshdata();">  
+            	 </form>
+            </div>
+        
+      	</div>
+      	 
+           <div class="tags"> 
+               <div id="psylist">
+               	 <ul>
+               	 	  <li>配送员1</li>
+               	 	  <li>配送员2</li>
+               	 	 </ul>
+              </div>
+              <div id="tagscontent" style="height:600px;width:871px;float:left;">
+
+             
+
+               </div>
+
+          </div>
+      </div>
+        
+        
+        
+        
+
+        
+ </div> 
+ <style>
+ 	#psylist{
+ 	width: 200px;
+float: left;
+height: 600px;
+OVERFLOW-Y: auto;
+OVERFLOW-X: hidden;
+ 	}
+ 	#psylist li{
+ 	  border-bottom:1px solid #ccc;
+ 	  text-align:left;
+ 	  height:30px;
+ 	  line-height:30px;
+ 	  color:#333;
+ 	}
+ 	#psylist li:hover,#psylist li.on{
+ 	  background-color:#f60;
+ 	  color:#fff;
+ 	}
+ 	</style>
+<script>
+var map = new BMap.Map("tagscontent");
+var point = new BMap.Point(<{$baidulng}>, <{$baidulat}>); 
+var myIcon1 = new BMap.Icon(siteurl+"/upload/map/pepole.png", new BMap.Size(75,75),{offset: new BMap.Size(25,25),imageOffset: new BMap.Size(25,25)});  
+//var marker = new BMap.Marker(point);
+var marker = null;   
+var infoWindow = new BMap.InfoWindow('');  // 创建信息窗口对象
+var makenow = false;
+var markerslist = null;
+map.centerAndZoom(point, 15);
+map.setDefaultCursor("url('<{$siteurl}>/upload/shop/add-my-shubiao.cur'),default"); 
+map.setDraggingCursor("auto"); 
+//加载缩放级别
+map.addControl(new BMap.NavigationControl());  //添加默认缩放平移控件
+map.addControl(new BMap.NavigationControl({anchor: BMAP_ANCHOR_TOP_RIGHT, type: BMAP_NAVIGATION_CONTROL_SMALL}));  //右上角，仅包含平移和缩放按钮
+map.addControl(new BMap.NavigationControl({anchor: BMAP_ANCHOR_BOTTOM_LEFT, type: BMAP_NAVIGATION_CONTROL_PAN}));  //左下角，仅包含平移按钮
+map.addControl(new BMap.NavigationControl({anchor: BMAP_ANCHOR_BOTTOM_RIGHT, type: BMAP_NAVIGATION_CONTROL_ZOOM}));  //右下角，仅包含缩放按钮 
+map.enableContinuousZoom();
+var markerslist2 = null;
+/*自动加载*/
+$(function(){  
+	freshdata();//刷新数据 
+});
+function freshdata(){
+    markerslist2=new Array();
+	map.clearOverlays();  
+	var areaid = $("select[name='psarea']").find("option:selected").val(); 
+ 
+	var newpoint = new BMap.Point($("select[name='psarea']").find("option:selected").attr('lng'), $("select[name='psarea']").find("option:selected").attr('lat'));  
+	map.centerAndZoom(newpoint, 15);
+	$('#psylist ul').html('');
+	var url = siteurl+'/index.php?ctrl=adminpage&action=psuser&module=ajaxpsy&areaid='+areaid+'&random=@random@&datatype=json'; 
+	$.ajax({ 
+        type: 'post',
+        async:false, 
+        url: url.replace('@random@', 1+Math.round(Math.random()*1000)), 
+        dataType: 'json',success: function(content) {   
+         	if(content.error == false){  
+				$.each(content.msg, function(i,val){   
+					var icon = new BMap.Icon("/upload/map/marker_red_sprite.png", new BMap.Size(39,25));
+					var mkr = new BMap.Marker(new BMap.Point(val.lng,val.lat),{icon: icon});    
+					var contentm = '<div id="newmap"  ><div id="closedoinfo" class="close_btn" onclick="closeinfo();"><a class="close"></a></div><div class="shoplogo"></div><div class="shopinfo"><div class="shopname">'+val.username+'<a href="#" onclick="dosee(\''+val.uid+'\',\''+val.username+'\');">查看详情</a></div><div class="shopopentime">待送：'+val.waitps+'</div><div class="shopaddress">已送：'+val.overps+'</div><div></div></div></div>';
+					var infoWindow = new BMap.InfoWindow(contentm); 
+					mkr.addEventListener("click", function(){          
+	                        this.openInfoWindow(infoWindow);  
+					}); 
+					markerslist2.push(infoWindow);
+					var tempoint =   new BMap.Point(val.lng,val.lat);
+					map.addOverlay(mkr);  
+					var label = new BMap.Label(val.username,{offset:new BMap.Size(20,-10)});
+					mkr.setLabel(label);
+					$('#psylist ul').append('<li data="'+val.uid+'" lng="'+val.lng+'" lat="'+val.lat+'">'+val.username+'<font style="line-height:10px;font-size:10px;">(未送:'+val.waitps+',已送'+val.overps+')</font></li>'); 
+				});
+				$('#psylist li').bind("click", function() {   
+              	   $(this).addClass('on').siblings().removeClass('on');
+              	    var checkobj = $(this).index(); 
+	                    var tempoint =   new BMap.Point($(this).attr('lng'),$(this).attr('lat'));//imageOffset: new BMap.Size(-32,0 - i * 46)}
+	                    map.openInfoWindow(markerslist2[checkobj],tempoint);  
+                      map.centerAndZoom(tempoint,map.getZoom());  
+				}); 
+         	}else{
+         	   diaerror(content.msg);
+         	}
+	    },
+        error: function(content) {   alert('shiba'); }
+    });  
+}
+ 
+function dosee(uid,username){
+	dialogs = art.dialog.open(siteurl+'/index.php?ctrl=adminpage&action=psuser&module=getpsorder&userid='+uid,{height:'300px',width:'600px'},false);
+	dialogs.title('配送员:'+username+',当天送货情况'); 
+}
+</script>
+<{/block}>    

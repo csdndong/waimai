@@ -1,0 +1,103 @@
+{template 'public/header'}
+{template 'public/comhead'}
+<style type="text/css">
+    .nav-tabs>li>a:hover{
+        color: #333;
+        border-color: #31C2A5;
+        background-color: white;
+    }
+    .nav-tabs > li.active > a,.nav-tabs > li.active > a:hover{
+        background-color: #31C2A5;
+        color: white;
+        border-color: #31C2A5;
+    }
+    .nav.nav-tabs{border-color: #31C2A5;margin-top: 30px;}
+    .yg5_key>div{float: left;line-height: 34px;}
+    .store_td1{height: 45px;}
+    .store_list_img{width: 60px;height: 60px;}
+    .yg5_tabel{border-color: #e5e5e5;outline: 1px solid #e5e5e5;}
+    .yg5_tr2>td{padding: 10px 15px;border: 1px solid #e5e5e5;}
+    .yg5_tr1>th{
+        border: 1px solid #e5e5e5;
+        padding-left: 15px;
+        background-color: #FAFAFA;
+        font-weight: bold;
+    }
+    .yg5_btn{background-color: #EEEEEE;color: #333;border: 1px solid #E4E4E4;border-radius: 6px;width: 100px;height: 34px;}
+</style>
+<ul class="nav nav-tabs">    
+    <li><a href="{php echo $this->createWebUrl('test2')}">员工管理</a></li>
+    <li class="active"><a href="javascript:void(0);">添加员工</a></li>
+</ul>
+<div class="main">
+    <form action="" method="post" class="form-horizontal form" enctype="multipart/form-data">
+        <!--<input type="hidden" name="parentid" value="{$parent['id']}" />-->
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                内容编辑
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">*真实姓名</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="title" class="form-control" value="{$info['title']}" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">*手机号码</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="title" class="form-control" value="{$info['title']}" />
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">员工岗位</label>
+                    <div class="col-sm-9">
+                        <label class="radio-inline">
+                            <input type="radio" name="status" value="1" {if $info['status']==1 || empty($info['status'])}checked{/if} />服务员
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="status" value="2" {if $info['status']==2}checked{/if} />收银员
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="status" value="3" {if $info['status']==2}checked{/if} />配送员
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="status" value="4" {if $info['status']==2}checked{/if} />老板
+                        </label>
+                    </div>
+                </div>
+
+                <!-- 操作权限部分 -->
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">操作权限</label>
+                    <div class="col-sm-9">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" name="status" value="1" {if $info['status']==1 || empty($info['status'])}checked{/if} />订单管理
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" name="status" value="2" {if $info['status']==2}checked{/if} />接收订单通知
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" name="status" value="3" {if $info['status']==2}checked{/if} />服务员通知
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" name="status" value="4" {if $info['status']==2}checked{/if} />排队通知
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" name="status" value="5" {if $info['status']==2}checked{/if} />每日通知
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="form-group col-sm-12">
+            <input type="submit" name="submit" value="提交" class="btn col-lg-3" style="color: white;background-color: #31C2A5;"/>
+            <input type="hidden" name="token" value="{$_W['token']}" />
+            <input type="hidden" name="id" value="{$info['id']}" />
+        </div>
+    </form>
+</div>
+<!-- {template 'common/footer'} -->

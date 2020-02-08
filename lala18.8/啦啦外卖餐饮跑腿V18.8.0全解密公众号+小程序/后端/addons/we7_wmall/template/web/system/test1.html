@@ -1,0 +1,17 @@
+{itemplate 'public/header'}
+<a href="javascript:;" class="btn btn-success"  tabindex="0" role="button">测试</a>
+<script>
+$(function(){
+	$('.btn-success').click(function(){
+		$(this).popover({
+			'html':true,
+			'placement': 'right',
+			'trigger': 'manual',
+			'content': '<style>.zent-pop-inner{border-radius: 2px;padding: 10px 20px;color: #333;}.zent-btn-primary{color: #fff;background: #38f;border-color: #38f;}.zent-btn-small{height:30px;line-height:24px;padding: 0 5px;}.zent-btn{outline:none;border-radius: 3px;font-size: 12px;font-family: inherit;border: 1px solid #eee;text-align: center;vertical-align: middle;box-sizing: border-box;cursor: pointer;}.zent-btn+.zent-btn{margin-left: 10px;background:#fff;}</style><div class="zent-pop-inner"><div style="margin-bottom: 10px;"><div class="checkbox checkbox-inline" style="line-height:20px;"><input type="checkbox" id="food"><label for="food">主食</label></div></div><div style="margin-bottom: 10px;"><div class="checkbox checkbox-inline" style="line-height:20px;"><input type="checkbox" id="hot-food"><label for="hot-food">热菜</label></div></div><div style="margin-bottom: 10px;"><div class="checkbox checkbox-inline" style="line-height:20px;"><input type="checkbox" id="cool-food"><label for="cool-food">冷菜</label></div></div><div style="margin-bottom: 10px;"><div class="checkbox checkbox-inline" style="line-height:20px;"><input type="checkbox" id="drink"><label for="drink">饮料</label></div></div><hr style="margin: 0px 0px 10px 0px;"><div><button type="button" class="zent-btn-primary zent-btn-small zent-btn">保存</button><button type="button" class="zent-btn-small zent-btn">取消</button></div></div>',
+		});
+		$(this).popover('toggle');
+	});
+
+});
+</script>
+{itemplate 'public/footer'}

@@ -1,0 +1,55 @@
+{template 'web/common/common'}
+<link rel="stylesheet" type="text/css" href="../addons/kundian_ordering/resource/css/style.css" />
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            打印机>编辑
+        </h3>
+    </div>
+    <div class="panel-body">
+        <form id="sign-form" class="form-horizontal" role="form" method="post" action="{url 'site/entry/print',array('m'=>'kundian_ordering','op'=>'saveModel','version_id'=>$_GPC['version_id'])}" name="submit" style="padding: 20px 0;">
+            <div class="form-group">
+                <label for="sn" class="col-sm-2 control-label"></label>
+                <div class="col-sm-8">
+                    <span style="color: gray;">提示：请先到通知配置中配置打印机相关信息！暂时只支持飞鹅打印机！--- 好源码网</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="sn" class="col-sm-2 control-label">*(必填)打印机编号SN：</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control"  name="sn" id="sn" value="{$list['sn']}">
+                    <input type="hidden" name="id" value="{$list['id']}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">*(必填)打印机识别码KEY</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control"  name="key" value="{$list['key']}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">(选填)打印机名称</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control"  name="name" value="{$list['name']}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">(选填)流量卡号码</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control"  name="carnum" value="{$list['carnum']}">
+                </div>
+            </div>
+            <div class="form-group">
+
+                <div class="col-sm-offset-2 col-sm-10">
+                    <input type="submit" name="submit" class="btn btn-default">
+                    <a class="btn btn-default" href="{url 'site/entry/print',array('m'=>'kundian_ordering')}">返回</a>
+                </div>
+            </div>
+
+
+
+        </form>
+    </div>
+</div>
+{template 'common/footer'}

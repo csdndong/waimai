@@ -1,0 +1,504 @@
+<{extends file="<{$tempdir}>/public/wxsite.html"}>
+<{block name=extendcss}>
+<link rel="stylesheet" href="<{$siteurl}>/js/jquerymobile/jquery.mobile.min.css" /> 
+ <{/block}>
+<{block name=loadinghide}><{/block}>
+<{block name=extendjs}><{/block}>
+<{block name=myScrolljs}><{/block}>
+<{block name=sitetitle}><{$sitename}><{/block}>
+<{block name=hearnav}><{/block}>
+<{block name=blockcontent}>
+ <div data-role="page">
+<link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/public.css">
+<link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/shoplist.css">
+<link rel="stylesheet" href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/newshop/css/font-awesome.min.css" />
+<link rel="stylesheet" href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/newshop/css/index.css" />
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/js/template.min.js"></script>
+<div data-role="content">
+<script>
+    var pulldowncate;
+    var can_show = true;
+    var page = 1;
+    var catid = <{$typeid|default:0}>;
+    var order = 0;
+    var qsjid = 0;
+	var sendtype = 0;
+	var cxtype = 0;
+	var isxl = 0;
+    var typeid = <{$typeid|default:0}>;
+    var myaddress = '<{$myaddress}>';
+    var search_input = '<{$search_input|default:' '}>';
+    var shopshowtype  = '<{$shopshowtype}>';
+    var html5_config = {'showheader':true,'showfooter':true,'bodyscller':true,'Canfresh':true,'CanloadMore':true,'titilename':'外卖频道'};
+ 
+    $(function(){
+        $('.toptitBox .toptitLs').bind("click", function() {
+            window.location.href="<{$siteurl}>/index.php?ctrl=wxsite";
+        });
+        loading();
+		showLoading();
+        //加载页面函数
+        function loading(){
+            if(typeof html5_config == 'undefined'){
+                alert('获取失败');
+            }else{
+
+                if(html5_config.bodyscller == true){
+                    setTimeout(function(){
+                        $('#wrapper').show();
+                        addfresh();
+
+                    },500);
+                }
+
+            }
+        }
+         /*=====================通过某个类型进入=======================*/
+		 //alert(typeid);
+		if( typeid != '' || typeid != null ){ 
+			var catename = $(".typeid_"+typeid).attr('catename')
+ 			if( catename == 'undefined' || catename == '' || catename == null ){
+				catename = "全部商家";
+			}
+ 			var aaa = catename+'<i class="fa fa-caret-down"></i>';
+            $('.allshop').html(aaa);		
+            $(".typeid_"+typeid).addClass('navaA').siblings().removeClass('navaA');
+		    catid = $(".typeid_"+typeid).attr('id');
+            can_show = true;
+            page = 1;
+        }        
+        /*=====================选择店铺类型=======================*/
+		$('#shoptype li').bind('click',function(){       
+            $(this).addClass('navaA').siblings().removeClass('navaA');
+            $('.allshop').removeClass('navaA');	
+	        $('#shoptype').hide();		
+            $('#shade_html').hide();			
+            $('.allshop').html($(this).attr('catename')+'<i class="fa fa-caret-down"></i>');	
+			catid = $(this).attr('id'); 
+            can_show = true;
+            page = 1;   
+            freshpage();
+            defaultSwiper.refresh();
+
+        });
+		 /*=====================选择排序=======================*/
+        $('#zhpx li').bind('click',function(){
+            $(this).addClass('navaA').siblings().removeClass('navaA');
+			$('.paixu').removeClass('navaA');
+            $('#zhpx').hide();	
+            $('#shade_html').hide();			
+			$('.paixu').html($(this).attr('catename')+'<i class="fa fa-caret-down"></i>');	
+            order = $(this).attr('orderid'); // 0综合排序 1好评优先 2起送价最低                     
+			page = 1;
+            freshpage();
+            defaultSwiper.refresh();
+        });
+		/*=======================销量最高========================*/
+		  $('.juli').bind('click',function(){
+			  if($('.juli').hasClass('navaA')){
+				 $('.juli').removeClass('navaA');                  			 
+			  }else{
+				 $('.juli').addClass('navaA'); 
+                 $('.allshop').removeClass('navaA');
+				 $('.shoptype').hide(); 
+				 $('.allshop i').addClass('fa-caret-down');
+				 $('.allshop i').removeClass('fa-caret-up');
+				 $('.shaixuan').removeClass('navaA');
+				 $('.wmr_listfilter_listTow').hide(); 
+				 $('.allshop').removeClass('navaA');  
+				 $('.zhpx').hide(); 
+				 $('.paixu i').addClass('fa-caret-down');
+				 $('.paixu i').removeClass('fa-caret-up');
+				 $('.paixu').removeClass('navaA'); 
+                 order = 3; 				 
+			  }	
+            	$('#shade_html').hide();  
+            page = 1;
+            
+            freshpage();  
+		  })
+		/*=======================筛选=========================*/  
+		  $('.oversx').bind('click',function(){
+			  $('.wmr_listfilter_listTow').hide();	
+			  $('.shaixuan').removeClass('navaA'); 
+              $("#shade_html").hide();			  
+              sendtype = $('#sendtype li.navaA').attr('data');
+		      cxtype = $('#yhhd li.navaA').attr('data');
+			  page = 1; 
+              freshpage();			  
+              
+		  })    
+    });
+function refreshSwiper(){
+	defaultSwiper.refresh();
+}
+    function freshpage(){//刷新函数
+		showLoading();
+        page =1;
+        pageend = false; 
+		var ajaxurl = '<{ofunc type=url link="/wxsite/shoplistdata"}>'; 
+				$.ajax({
+				   type: 'POST',
+				   async:true,
+				   url: ajaxurl,
+				   data: {'typelx':'<{$typelx|default:0}>','areaid':'<{$areaid|default:0}>','search_input':search_input,'order':order,'catid':catid,'qsjid':qsjid,'isxl':isxl,'sendtype':sendtype,'cxtype':cxtype,'page':page},
+				  dataType: 'html',success: function(content) {  
+						  $('#supplierlist').html(content);
+							if($.trim(content) != '' && $("#supplierlist li").length >= 10  ){
+								$("#lodingmore").show();
+								$("#lodingmore span").text(" ");
+								$('#lodingmore .moreLoading i').addClass('iconloading');
+								$('#lodingmore .moreLoading i').removeClass('iconOverload');
+								$('.emptyshop').css('display','none');
+								$("#lodingmore span").text("加载中..");
+								 newhideLoading();
+							}else if($.trim(content) != '' && $("#supplierlist li").length < 10){
+								$("#lodingmore").show();						
+								$('#lodingmore .moreLoading i').removeClass('iconOverload');
+								
+								$('.emptyshop').css('display','none');
+								$("#lodingmore span").text("——已显示全部商家——");
+								 newhideLoading();
+							}else if($.trim(content) == ''){
+								$("#lodingmore").show();
+								$('#lodingmore .moreLoading i').addClass('iconOverload');
+								$('.emptyshop').css('display','block');
+								$("#lodingmore span").text("没有符合条件的商家~~");
+								 newhideLoading();
+							}
+						 refreshSwiper();
+				  },
+				  error: function(content) { 
+						 Tmsg('获取失败...');
+						  newhideLoading();
+				   }
+				  });  
+         hidefresh();
+       
+    }
+    function loadmore(){
+		showLoading();
+        page = page+1;   
+		var ajaxurl = '<{ofunc type=url link="/wxsite/shoplistdata"}>'; 
+				$.ajax({
+				   type: 'POST',
+				   async:true,
+				   url: ajaxurl,
+				   data: {'typelx':'<{$typelx|default:0}>','areaid':'<{$areaid|default:0}>','search_input':search_input,'order':order,'catid':catid,'qsjid':qsjid,'isxl':isxl,'sendtype':sendtype,'cxtype':cxtype,'page':page},
+				  dataType: 'html',success: function(content) {  
+						$('#lodingmore .moreLoading i').addClass('iconloading');
+						$('#lodingmore .moreLoading i').removeClass('iconOverload');
+						
+						var getmoreContent =  $.trim(content);
+						if( getmoreContent == ''  ){
+							pageend = true;
+							$('#lodingmore .moreLoading i').removeClass('iconloading');
+							$('#lodingmore .moreLoading i').removeClass('iconOverload');
+							$("#lodingmore span").text("——已显示全部商家——");
+						}else{
+							$('#supplierlist').append(content);
+						}
+						newhideLoading();
+						refreshSwiper();
+ 				  },
+				  error: function(content) { 
+						 pageend = true;
+						//$('#lodingmore .moreLoading i').removeClass('iconstartloading');
+						$('#lodingmore .moreLoading i').removeClass('iconloading');
+						$('#lodingmore .moreLoading i').removeClass('iconOverload');
+						$("#lodingmore span").text("——已显示全部商家——");
+						newhideLoading();
+				   }
+				  }); 
+		 
+        hideloadmore();
+		
+    }
+ 
+$(function(){
+
+  $('.allshop').bind('click',function(){    
+      if($('.allshop').hasClass('navaA')){
+	     $('.allshop').removeClass('navaA');
+		 $('.shoptype').hide();
+		 $('#shade_html').hide();
+         $('.allshop i').addClass('fa-caret-down');
+		 $('.allshop i').removeClass('fa-caret-up');		 
+	  }else{
+	     $('.allshop').addClass('navaA');
+		 $('.shoptype').show();
+		  $('#shade_html').show();
+		 $('.allshop i').removeClass('fa-caret-down');
+		 $('.allshop i').addClass('fa-caret-up');
+		 $('.paixu').removeClass('navaA');
+		 $('.zhpx').hide(); 
+         $('.paixu i').addClass('fa-caret-down');
+		 $('.paixu i').removeClass('fa-caret-up');
+		 $('.shaixuan').removeClass('navaA');
+		 $('.wmr_listfilter_listTow').hide(); 
+		  
+	  }
+  })
+  $('.paixu').bind('click',function(){
+      if($('.paixu').hasClass('navaA')){
+	     $('.paixu').removeClass('navaA');
+		 $('.zhpx').hide(); 
+		 $('#shade_html').hide();
+         $('.paixu i').addClass('fa-caret-down');
+		 $('.paixu i').removeClass('fa-caret-up');
+		 
+	  }else{
+	     $('.paixu').addClass('navaA');
+		 $('.zhpx').show();
+		 $('#shade_html').show();
+		 $('.paixu i').removeClass('fa-caret-down');
+		 $('.paixu i').addClass('fa-caret-up');
+		 $('.allshop').removeClass('navaA');
+		 $('.shoptype').hide(); 
+         $('.allshop i').addClass('fa-caret-down');
+		 $('.allshop i').removeClass('fa-caret-up');
+		 $('.shaixuan').removeClass('navaA');
+		 $('.wmr_listfilter_listTow').hide(); 
+		 $('.allshop').removeClass('navaA');
+		 $('.juli').removeClass('navaA');
+         
+		  
+	  }
+  })   
+  $('.shaixuan').bind('click',function(){
+      if($('.shaixuan').hasClass('navaA')){
+	     $('.shaixuan').removeClass('navaA');
+		 $('.wmr_listfilter_listTow').hide();
+		 $('#shade_html').hide();
+	  }else{
+	     $('.shaixuan').addClass('navaA');
+		 $('.wmr_listfilter_listTow').show();
+         $('.allshop').removeClass('navaA');
+		 $('.shoptype').hide();
+		 $('#shade_html').show();
+         $('.allshop i').addClass('fa-caret-down');
+		 $('.allshop i').removeClass('fa-caret-up');
+		 $('.zhpx').hide(); 
+         $('.paixu i').addClass('fa-caret-down');
+		 $('.paixu i').removeClass('fa-caret-up');
+		 $('.paixu').removeClass('navaA');  	 
+	  }
+  }) 
+  $('#sendtype li').bind('click',function(){
+	  if($(this).hasClass('navaA')){
+		$(this).removeClass('navaA');
+	  }else{
+		$(this).addClass('navaA').siblings().removeClass('navaA');
+	  }
+  })
+  $('#yhhd li').bind('click',function(){
+      if($(this).hasClass('navaA')){
+		$(this).removeClass('navaA');
+	  }else{
+		$(this).addClass('navaA').siblings().removeClass('navaA');
+	  }
+  })
+  $('.clearsx').bind('click',function(){
+      $('#yhhd li').removeClass('navaA'); 
+	  $('#sendtype li').removeClass('navaA'); 
+	  $('.shaixuan').removeClass('navaA'); 	   
+	  $("#shade_html").hide();
+  })
+	 
+	var wheight = $(window).height();
+
+	$("#shade_html").height(wheight+'px');
+})
+/*
+pulldowncate = new iScroll('shoptype', {
+        hScrollbar:false,
+        vScrollbar:false,
+        useTransition: true
+    });
+	*/
+    $(".kouweixz").click(function(){
+        $(".kouweidiv").toggle();
+        $(".kouweidivpx").hide();
+        $(".kouweidivqsj").hide();
+        $(".kwselected").addClass('kouweiok').siblings().removeClass('kouweiok');
+        pulldowncate.refresh();
+    });
+    $(".kouweixzpx").click(function(){
+        $(".kouweidivpx").toggle();
+        $(".kouweidivqsj").hide();
+        $(".kouweidiv").hide();
+        $(".kwselectedpx").addClass('kouweiok').siblings().removeClass('kouweiok');
+    });
+    $(".kouweixzqsj").click(function(){
+        $(".kouweidivqsj").toggle();
+        $(".kouweidivpx").hide();
+        $(".kouweidiv").hide();
+        $(".kwselectedqsj").addClass('kouweiok').siblings().removeClass('kouweiok');
+    });
+ 
+    function cx_maxh(){
+        if($(".hoPaNearBot").hasClass("cx_maxh")){
+            $(".hoPaNearBot").removeClass('cx_maxh');
+            $(".fa-caret-down").addClass('flipy');
+            defaultSwiper.refresh();
+        }else{
+            $(".hoPaNearBot").addClass('cx_maxh');
+            $(".fa-caret-down").removeClass('flipy');
+            defaultSwiper.refresh();
+        }
+    }
+</script>
+</div>
+<style>
+    .clkitm { min-height: 80px;}
+    #cuisien{padding-left:0px;padding-right:0px;margin-left:0px; margin-right:0px;}
+    #cuisien li{padding-left:0px;padding-right:0px;margin-left:0px; margin-right:0px;}
+	.toptitBox .toptitLs i {background-size: 65%!important;margin-top: 6px!important;}
+</style>
+<{if $open_wxcx == 1}>
+<style>
+    .cx_maxh{max-height:40px;overflow:hidden;}
+    .flipy{
+        -moz-transform: scaleY(-1);
+        -webkit-transform: scaleY(-1);
+        -o-transform: scaleY(-1);
+        transform: scaleY(-1);
+        filter: FlipV();
+    }
+</style>
+
+<{/if}>
+<style>
+    .toptitBox .toptitLs {
+        height: 22px;
+        display: inline-block;
+        width: 3.625%;
+        float: left;
+    }
+    .toptitBox .toptitLs i{
+        display: inline-block;
+        width: 100%;
+        height: 22px;
+        background-image: url(templates/m7/public/wxsite/images/top04.png);
+        background-repeat: no-repeat;
+        background-size: 100%;
+    }
+</style>
+ 
+<{if $wxType == 2 }>
+<div class="toptitCon">
+    <div class="toptitBox">
+        <div class="toptitLs"> <a href="javascript:void(0);" data-rel="back"><i></i></a></div>
+        <div class="toptitC"><h3>商家列表</h3></div>
+        <div class="toptitR"><a href="javascript:void(0);"><i class="search"></i></a></div>
+    </div>
+</div>
+<{/if}>
+<!--------列表筛选-------->
+<input type='hidden' id='linshi' value='0'/>
+
+<div class="wmr_listfilter_content">
+	<div class="wmr_listfilter_tit">
+		<ul>
+			<li class="allshop">全部商家<i class="fa fa-caret-down"></i></li>
+			<li class="paixu">综合排序<i class="fa fa-caret-down"></i></li>
+			<li class='juli'>销量最高</li>
+			<li class='shaixuan'>筛选<i class="fa fa-filter"></i></li>
+		</ul>
+	</div>
+	<div id="shade_html" style="position:relative;background: rgba(0,0,0,.3);z-index:50;display:none;">
+	<div class="wmr_listfilter_box "  style='top:0px'>
+		<div class="wmr_listfilter_listOne hide shoptype" id="shoptype">
+			<ul>
+			    <li catename="全部商家" id="0" class="xz">全部商家</li>
+			    <{foreach from=$caipin item=items}>				
+				<li class="typeid_<{$items['id']}>" catename="<{$items['name']}>" id="<{$items['id']}>"><{$items['name']}></li>
+                <{/foreach}>
+			</ul>
+		</div>
+		<div class="wmr_listfilter_listOne hide zhpx" id='zhpx'>
+			<ul>
+				<li catename="综合排序" orderid="0" class="">综合排序</li> 				 
+				<li catename="好评优先" orderid="1" class="">好评优先</li> 
+				<li catename="起送价最低" orderid="2" class="">起送价最低</li> 
+			</ul>
+		</div>
+		<div class="wmr_listfilter_listTow hide">
+			<div class="wmr_listfilter_fun">
+				<h3>配送方式</h3>
+				<ul id='sendtype'>
+					<li data='2'>
+						<img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/newshop/images/icon_wzps.png" />
+						<span>网站配送</span>
+					</li>
+					<li data='1'>
+						<img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/newshop/images/icon_dpps.png" />
+						<span>店铺配送</span>
+					</li>
+					<{if $is_allow_ziti==1}>
+					<li data='3' class="wmr_ps1">
+						<img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/newshop/images/icon_ddzt.png" />
+						<span>到店自取</span>
+					</li>
+					<{/if}>
+				</ul>
+			</div>
+			<div class="wmr_listfilter_fun">
+				<h3>优惠活动</h3>
+				<ul id='yhhd'>
+					<li data='2'>
+						<img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/newshop/images/icon_jian.png" />
+						<span>限时满减</span>
+					</li>
+					<li data='3'>
+						<img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/newshop/images/icon_zhe.png" />
+						<span>促销打折</span>
+					</li>
+					<li data='1'>
+						<img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/newshop/images/icon_zeng.png" />
+						<span>送赠品</span>
+					</li>
+					<li data='4'>
+						<img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/newshop/images/icon_mian.png" />
+						<span>免配送费</span>
+					</li>
+				</ul>
+			</div>
+			<div style="height: 18px;background-color: #fafafa;"></div>
+			<div class="wmr_listfilter_btn">
+				<span class='clearsx'>清除筛选</span>
+				<span class='oversx'>完成</span>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+ 
+<div id="wrapper" style="top:35px;<{if $wxType == 2 }>margin-top:48px;<{/if}>bottom:50px;  ">
+    <div id="scroller">
+
+        <div class="nearbyreCon" style='margin-top:5px'>
+
+
+           
+
+
+            <div class=" homeNeashopBox ">
+                <ul   id="supplierlist" >
+
+
+                </ul>
+            </div>
+
+        </div>
+		<div class="emptyshop" style="display:none;text-align:center;margin-top:30%"><img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/newshop/images/shop__icon.png" /></div>
+		<div  id="lodingmore" style="background:#f0f0f0;"  class="downLoading "><div class="moreLoading" style="width:220px!important;text-align:center;"><span></span></div></div>
+        
+    </div>
+	
+</div>
+ <{include file="<{$tempdir}>/public/bottom.html"}>
+</div>
+
+
+<{/block}>

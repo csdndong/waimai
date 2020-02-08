@@ -1,0 +1,39 @@
+<form bindsubmit="formSubmit">
+    <view class="o-con">
+        <view class="list">
+            <input name="name" placeholder="您的姓名"></input>
+        </view>
+        <view class="list">
+            <input name="phone" placeholder="联系电话" type="number"></input>
+        </view>
+        <view class="list">
+            <image src="../../../img/right.png"></image>
+            <picker bindchange="bindDateChange" end="2100-01-01" mode="date" start="{{date}}" value="{{date}}">
+                <view class="picker">
+                    <text style="color:gray;">用餐日期</text> {{date}}
+        </view>
+            </picker>
+        </view>
+        <view class="list">
+            <image src="../../../img/right.png"></image>
+            <picker bindchange="bindTimeChange" end="{{date_time[1]}}" mode="time" start="{{date_time[0]}}" value="{{time}}">
+                <view class="picker">
+                    <text style="color:gray;">用餐时间</text> {{time}}
+        </view>
+            </picker>
+        </view>
+        <view class="list">
+            <image src="../../../img/right.png"></image>
+            <picker bindchange="bindPickerChange" range="{{array}}">
+                <view class="picker">
+                    <text style="color:gray;">用餐人数</text> {{index}}
+        </view>
+            </picker>
+        </view>
+        <view class="list">
+            <input name="remark" placeholder="备注"></input>
+        </view>
+        <view class="tag">{{ordering_title}}</view>
+        <button formType="submit">申请订餐</button>
+    </view>
+</form>

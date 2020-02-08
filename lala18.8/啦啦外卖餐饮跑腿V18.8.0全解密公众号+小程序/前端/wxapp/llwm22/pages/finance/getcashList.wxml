@@ -1,0 +1,41 @@
+<view class="page-getcashList">
+    <view class="nav-tab flex border-1px-b">
+        <view bind:tap="onChange" class="nav-item {{status==0?'active':''}}" data-index="0">全部</view>
+        <view bind:tap="onChange" class="nav-item {{status==1?'active':''}}" data-index="1">提现成功</view>
+        <view bind:tap="onChange" class="nav-item {{status==2?'active':''}}" data-index="2">申请中</view>
+        <view bind:tap="onChange" class="nav-item {{status==3?'active':''}}" data-index="3">已撤销</view>
+    </view>
+    <view class="record-content">
+        <view class="zan-panel" style="margin-top:0px;" wx:if="{{records['status_'+status].list.length>0}}">
+            <view bind:tap="onJsEvent" class="zan-cell" data-event-type="jsUrl" data-url="pages/finance/getcashDetail?id={{item.id}}" hoverClass="none" wx:for="{{records['status_'+status].list}}">
+                <view class="zan-cell__bd">
+                    <view class="zan-cell__text">{{item.status_cn}}</view>
+                    <view class="zan-cell__desc">{{item.addtime_cn}}</view>
+                </view>
+                <view class="zan-cell__ft">
+                    <view class="zan-cell__text {{item.status>1?'del':'add'}}">
+							{{item.get_fee}}
+						</view>
+                    <view class="zan-cell__desc">手续费：¥{{item.take_fee}}</view>
+                </view>
+            </view>
+        </view>
+        <view class="nodata" wx:if="{{records['status_'+status].empty}}">
+            <view class="nodata-container">
+                <view class="box-icon">
+                    <view class="icon icon-order"></view>
+                </view>
+                <view class="text">暂无数据</view>
+            </view>
+        </view>
+        <view class="wui-loadmore wui-loadmore-nomore" wx:elif="{{records['status_'+status].loaded==1}}">
+            <view class="wui-loadmore-tips">没有更多记录</view>
+            <view class="wui-loadmore-line"></view>
+        </view>
+        <view class="wui-loadmore" wx:if="{{showLoading}}">
+            <view class="wui-loading"></view>
+            <view class="wui-loadmore-tips">正在加载中</view>
+        </view>
+    </view>
+</view>
+<include src="../public/footer.wxml"></include>

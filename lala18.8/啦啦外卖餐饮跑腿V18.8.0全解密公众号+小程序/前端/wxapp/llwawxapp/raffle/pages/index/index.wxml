@@ -1,0 +1,353 @@
+<scroll-view scrollY="{{!(sudokuShow||prize_show||prize_details||prize_details2||award_rule||mask)}}" style="height:100%" wx:if="{{replace2!=2}}">
+    <view class="container">
+        <view wx:if="{{now}}">
+            <image mode="widthFix" src="/raffle/static/images/raffle/draw_01.png"></image>
+            <view class="draw fl">
+                <image class="draw-bg" src="/raffle/static/images/raffle/zhuanbg.png"></image>
+                <view class="content">
+                    <image id="turntable" src="/raffle/static/images/raffle/zhuan.png" style="transition: all {{time}}s;transform:rotate({{rotateAngle}}deg)"></image>
+                    <view bindtap="dial" class="txt" id="pointer1" style="transition: all 4s;" wx:if="{{nobegun}}">
+                        <image src="/raffle/static/images/raffle/zhuanbt2.png"></image>
+                        <text>未开始</text>
+                    </view>
+                    <view bindtap="dial" class="txt" id="pointer1" style="transition: all 4s;" wx:else>
+                        <image src="/raffle/static/images/raffle/zhuanbt.png"></image>
+                    </view>
+                    <view class="bottom-shadow"></view>
+                </view>
+            </view>
+            <view class="circulation" style="left:100rpx;top:1083rpx">
+                <swiper autoplay="true" circular="true" duration="3000" indicatorDots="false" interval="4000" style="height:60rpx" vertical="true">
+                    <swiper-item style="line-height:60rpx" wx:for="{{winner}}">
+              恭喜用户{{item.mobile}}抽中{{item.prize_level}}
+            </swiper-item>
+                </swiper>
+            </view>
+            <view class="draw-top ">
+                <view style="margin-right:332rpx">剩余:{{tickets}}次</view>
+                <view bindtap="awardRule">{{replace1}}规则</view>
+            </view>
+            <view class="draw-bottom ">
+                <view bindtap="myAward" style="margin-right:80rpx">我的{{replace2}}品</view>
+                <view bindtap="awardDetails">{{replace2}}品详情</view>
+            </view>
+            <view class="rule" style="background:#ff6f00;padding:0 40rpx 40rpx;">
+                <view>
+                    <image class="rule-bg1" mode="widthFix" src="/raffle/static/images/raffle/bg_01.png"></image>
+                    <image class="rule-bg2" mode="widthFix" src="/raffle/static/images/raffle/bg_02.png"></image>
+                    <view class="rule-title">活动规则</view>
+                    <text class="rule-span">活动时间</text>
+                    <view>6月5/6/7日，连续3天，每天上午10：00</view>
+                    <text class="rule-span">活动细则</text>
+                    <view>
+           1.6月5/6/7日上午10：00准时在小程序{{replace1}}，立即扫码进入小程序平台{{replace1}}，未注册用户中心需先注册登录即可参与{{replace1}}！每人每天有1次{{replace1}}机会。
+          </view>
+                    <view>
+           2.一等{{replace2}}、二等{{replace2}}、三等{{replace2}}服务器托管立减优惠，仅限3周年活动期间使用，逾期优惠失效。
+          </view>
+                    <view>
+            3.服务器数据迁移5折优惠券、数据库读写分离5折优惠券、添加小程序域名白名单以及600元组合券，使用截止时间为2018年12月31日。
+          </view>
+                    <view>
+            4.以上所有{{replace2}}项中{{replace2}}后请及时联系在线客服进行兑换，所有{{replace2}}项均不可兑换现金，不可叠加使用。
+          </view>
+                    <view>
+            5.本活动最终解释权归人人商城所有。
+          </view>
+                </view>
+            </view>
+        </view>
+        <view wx:else>
+            <image mode="widthFix" src="/raffle/static/images/raffle/raffle_01.png"></image>
+            <image mode="widthFix" src="/raffle/static/images/raffle/raffle_02.png"></image>
+            <view class="residue">剩余{{replace1}}次数：{{tickets}}次</view>
+            <view class="rule">
+                <view>
+                    <image class="rule-bg1" mode="widthFix" src="/raffle/static/images/raffle/bg_01.png"></image>
+                    <image class="rule-bg2" mode="widthFix" src="/raffle/static/images/raffle/bg_02.png"></image>
+                    <view class="rule-title">活动规则</view>
+                    <text class="rule-span">活动时间</text>
+                    <view>6月11/13/15日每天上午10：00</view>
+                    <text class="rule-span">活动细则</text>
+                    <view>
+           1.6月11/13/15日每天上午10：00准时在小程序{{replace1}}，立即扫码进入小程序平台{{replace1}}，未注册用户中心需先注册登录即可参与{{replace1}}！每人每天有 2次{{replace1}}机会，{{replace2}}品不累计不叠加，不找零不可兑换现金。
+          </view>
+                    <view>
+            2.1000元更换域名服务、200元无门槛优惠券，使用截止时间为2018年12月31日。
+          </view>
+                    <view>
+            3.5000元周年庆基金，仅限购买开店版以上商城系统使用，不与秒杀活动同时使用。使用截止时间为2018年6月30日。
+          </view>
+                    <view>
+            4.价值2999元周期购立减500元优惠券使用截止时间为2018年7月15日。
+          </view>
+                    <view>
+           5.以上所有{{replace2}}品您都需在2018年6月30日联系客服进行兑换，逾期{{replace2}}品兑换码失效。
+          </view>
+                    <view>
+           6.活动最终解释权归人人商城所有。
+          </view>
+                </view>
+            </view>
+            <image mode="widthFix" src="/raffle/static/images/raffle/raffle_05.png"></image>
+            <view class="circulation">
+                <swiper autoplay="true" circular="true" duration="3000" indicatorDots="false" interval="4000" style="height:75rpx" vertical="true">
+                    <swiper-item style="line-height:75rpx" wx:for="{{winner}}">
+              恭喜用户{{item.mobile}}抽中{{item.prize_level}}
+            </swiper-item>
+                </swiper>
+            </view>
+            <view class="raffle-bottom">
+                <view bindtap="myAward" style="margin-right:70rpx">
+                    <view class="raffle-btn raffle-btn-t">我的{{replace2}}品</view>
+                    <view class="raffle-btn raffle-btn-b"></view>
+                </view>
+                <view bindtap="awardDetails2">
+                    <view class="raffle-btn raffle-btn-t">{{replace2}}品详情</view>
+                    <view class="raffle-btn raffle-btn-b"></view>
+                </view>
+            </view>
+            <view class="raffle">
+                <image class="raffle-img" src="/raffle/static/images/raffle/raffle2.png" wx:if="{{nobegun}}"></image>
+                <image class="raffle-img" src="/raffle/static/images/raffle/raffle.png" wx:else></image>
+                <view id="lottery">
+                    <view class="lottery-unit lottery-unit-0 {{sudokuIndex==0?'active':''}}">
+                        <view class="mask"></view>
+                    </view>
+                    <view class="lottery-unit lottery-unit-1 {{sudokuIndex==1?'active':''}}">
+                        <view class="mask"></view>
+                    </view>
+                    <view class="lottery-unit lottery-unit-2 {{sudokuIndex==2?'active':''}}">
+                        <view class="mask"></view>
+                    </view>
+                    <view class="lottery-unit lottery-unit-7 {{sudokuIndex==7?'active':''}}">
+                        <view class="mask"></view>
+                    </view>
+                    <view>
+                        <a bindtap="sudoku" wx:if="{{nobegun}}">未开始</a>
+                        <a bindtap="sudoku" wx:else>{{replace1}}</a>
+                    </view>
+                    <view class="lottery-unit lottery-unit-3 {{sudokuIndex==3?'active':''}}">
+                        <view class="mask"></view>
+                    </view>
+                    <view class="lottery-unit lottery-unit-6 {{sudokuIndex==6?'active':''}}">
+                        <view class="mask"></view>
+                    </view>
+                    <view class="lottery-unit lottery-unit-5 {{sudokuIndex==5?'active':''}}">
+                        <view class="mask"></view>
+                    </view>
+                    <view class="lottery-unit lottery-unit-4 {{sudokuIndex==4?'active':''}}">
+                        <view class="mask"></view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view id="mask" wx:if="{{sudokuShow||prize_show||prize_details||prize_details2||award_rule||mask}}"></view>
+        <view class="model" style="top:300rpx" wx:if="{{sudokuShow}}">
+            <view style="position:relative">
+                <image class="title-img" mode="widthFix" src="/raffle/static/images/raffle/bg_03.png"></image>
+                <image bindtap="sudokuClose" class="model-close" mode="widthFix" src="/raffle/static/images/raffle/close.png"></image>
+                <view class="title">恭喜您获得</view>
+                <view wx:if="{{lottery.cdkey}}">
+                    <view class="subtitle">{{lottery.prize_title}}</view>
+                    <view class="cdkey">{{lottery.cdkey}}</view>
+                    <view bindtap="copyCdkey" class="copy" data-key="{{lottery.cdkey}}">复制兑换码</view>
+                    <view class="hint">请您复制兑换码，并联系客服进行兑换吧~</view>
+                </view>
+                <view wx:else>
+                    <image class="coupon-img" mode="widthFix" src="/raffle/static/images/raffle/coupon_08.png"></image>
+                    <view class="hint">请您立即登录PC端用户中心查看使用吧~</view>
+                </view>
+            </view>
+        </view>
+        <view class="model prize_show" wx:if="{{prize_show}}">
+            <view style="position:relative">
+                <image class="title-img" mode="widthFix" src="/raffle/static/images/raffle/bg_03.png"></image>
+                <image bindtap="sudokuClose" class="model-close" mode="widthFix" src="/raffle/static/images/raffle/close.png"></image>
+                <view class="title" style="margin-bottom:50rpx">我的{{replace2}}品</view>
+                <view class="prize-content">
+                    <block wx:for="{{my_prize}}" wx:for-item="prize">
+                        <view class="prize-child" wx:if="{{prize.cdkey}}">
+                            <view class="subtitle">{{prize.prize_title}}</view>
+                            <view class="cdkey">{{prize.cdkey}}</view>
+                            <view bindtap="copyCdkey" class="copy" data-key="{{prize.cdkey}}">复制兑换码</view>
+                            <view class="time">有效期至2018年6月30日</view>
+                        </view>
+                        <view wx:else>
+                            <image class="coupon-img" mode="widthFix" src="/raffle/static/images/raffle/coupon_08.png"></image>
+                        </view>
+                    </block>
+                </view>
+            </view>
+        </view>
+        <view class="model prize-details" wx:if="{{prize_details}}">
+            <image class="rule-bg2" mode="widthFix" src="/raffle/static/images/raffle/bg_02.png"></image>
+            <view style="position:relative">
+                <image class="title-img" mode="widthFix" src="/raffle/static/images/raffle/bg_01.png"></image>
+                <image bindtap="sudokuClose" class="model-close" mode="widthFix" src="/raffle/static/images/raffle/close.png"></image>
+                <view class="title" style="margin-bottom:50rpx">{{replace2}}品详情</view>
+                <view class="prize-details-content">
+                    <view>
+                        <view> 一等{{replace2}}：</view>
+                        <view>价值7199元服务器托管
+              <span>高级版本</span>立减
+              <text>600元</text>优惠券。</view>
+                    </view>
+                    <view>
+                        <view>二等{{replace2}}：</view>
+                        <view>价值3799元服务器托管
+              <span>中级版本</span>立减
+              <text>300元</text>优惠券。</view>
+                    </view>
+                    <view>
+                        <view>三等{{replace2}}：</view>
+                        <view>价值2699元服务器托管
+              <span>初级版本</span>立减
+              <text>200元</text>优惠券。</view>
+                    </view>
+                    <view>
+                        <view>四等{{replace2}}：</view>
+                        <view>服务器数据迁移
+              <text>5折</text>优惠券。</view>
+                    </view>
+                    <view>
+                        <view>五等{{replace2}}：</view>
+                        <view>数据库读写分离
+              <text>5折</text>优惠券。 </view>
+                    </view>
+                    <view>
+                        <view>六等{{replace2}}：</view>
+                        <view>
+                            <text>600元组合券</text>（redis【200元】https【100元】swoole【100元】Memcache【200元】）您可任意搭配组合。</view>
+                    </view>
+                    <view>
+                        <view>七等{{replace2}}：</view>
+                        <view>价值
+              <text>100元</text>添加小程序域名白名单。</view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="model prize-details" wx:if="{{prize_details2}}">
+            <image class="rule-bg2" mode="widthFix" src="/raffle/static/images/raffle/bg_02.png"></image>
+            <view style="position:relative">
+                <image class="title-img" mode="widthFix" src="/raffle/static/images/raffle/bg_01.png"></image>
+                <image bindtap="sudokuClose" class="model-close" mode="widthFix" src="/raffle/static/images/raffle/close.png"></image>
+                <view class="title" style="margin-bottom:50rpx">{{replace2}}品详情</view>
+                <view class="prize-details-content">
+                    <view>
+                        <view> 一等{{replace2}}：</view>
+                        <view>人人商城永久免费更新。</view>
+                    </view>
+                    <view>
+                        <view>二等{{replace2}}：</view>
+                        <view>价值
+              <text>6888元</text>小程序无限生成。</view>
+                    </view>
+                    <view>
+                        <view>三等{{replace2}}：</view>
+                        <view>
+                            <text>5000元</text>周年庆基金购买商城使用（开店版除外）。</view>
+                    </view>
+                    <view>
+                        <view>四等{{replace2}}：</view>
+                        <view>周年庆神秘插件一折购。</view>
+                    </view>
+                    <view>
+                        <view>五等{{replace2}}：</view>
+                        <view>人人小店内测名额。</view>
+                    </view>
+                    <view>
+                        <view>六等{{replace2}}：</view>
+                        <view>价值
+              <text>1000元</text>更换授权域名。</view>
+                    </view>
+                    <view>
+                        <view>七等{{replace2}}：</view>
+                        <view>价值
+              <text>2299元</text>周期购立减500元优惠券。</view>
+                    </view>
+                    <view>
+                        <view>八等{{replace2}}：</view>
+                        <view>价值
+              <text>200元</text>无门槛优惠券。</view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="model award-rule" wx:if="{{award_rule}}">
+            <view style="position:relative">
+                <image class="rule-bg2" mode="widthFix" src="/raffle/static/images/raffle/bg_02.png"></image>
+                <image class="title-img" mode="widthFix" src="/raffle/static/images/raffle/bg_01.png"></image>
+                <image bindtap="sudokuClose" class="model-close" mode="widthFix" src="/raffle/static/images/raffle/close.png"></image>
+                <view class="title" style="margin-bottom:50rpx">活动规则</view>
+                <view class="prize-details-content">
+                    <text class="rule-span">活动时间</text>
+                    <view>6月5/6/7日，连续3天，每天上午10：00</view>
+                    <text class="rule-span">活动细则</text>
+                    <view>
+           1.6月5/6/7日上午10：00准时在小程序{{replace1}}，立即扫码进入小程序平台{{replace1}}，未注册用户中心需先注册登录即可参与{{replace1}}！每人每天有1次{{replace1}}机会。
+          </view>
+                    <view>
+           2.一等{{replace2}}、二等{{replace2}}、三等{{replace2}}服务器托管立减优惠，仅限3周年活动期间使用，逾期优惠失效。
+          </view>
+                    <view>
+            3.服务器数据迁移5折优惠券、数据库读写分离5折优惠券、添加小程序域名白名单以及600元组合券，使用截止时间为2018年12月31日。
+          </view>
+                    <view>
+            4.以上所有{{replace2}}项中{{replace2}}后请及时联系在线客服进行兑换，所有{{replace2}}项均不可兑换现金，不可叠加使用。
+          </view>
+                    <view>
+            5.本活动最终解释权归人人商城所有。
+          </view>
+                </view>
+            </view>
+        </view>
+        <view class="register" wx:if="{{register}}">
+            <view class="title">
+        注册人人商城用户中心
+      </view>
+            <view class="form">
+                <view class="tel">
+                    <i class="icox icox-accountfilling"></i>
+                    <input bindinput="registertel" placeholder="请输入手机号" type="text"></input>
+                </view>
+                <view class="note">
+                    <i class="icox icox-suo"></i>
+                    <input bindinput="registersmscode" placeholder="请输入验证码" type="text"></input>
+                </view>
+                <a bindtap="sendsmscode" class="sendNote {{smscodetext=='发送验证码'?'':'disabled'}}" href="javascript:;">{{smscodetext}}</a>
+                <view class="password">
+                    <i class="icox icox-suo"></i>
+                    <input bindinput="registerpass" placeholder="请输入密码" type="password"></input>
+                </view>
+                <view class="password">
+                    <i class="icox icox-suo"></i>
+                    <input bindinput="confirmPassword" placeholder="请确认密码" type="password"></input>
+                </view>
+                <view bindtap="register" class="submit">立即注册</view>
+            </view>
+            <i bindtap="closelogin" class="icox icox-roundclose close"></i>
+        </view>
+        <view class="login" wx:if="{{login}}">
+            <view class="title">
+        登录人人商城用户中心
+      </view>
+            <view class="form">
+                <view class="tel">
+                    <i class="icox icox-accountfilling"></i>
+                    <input bindinput="logintel" placeholder="请输入手机号" type="text"></input>
+                </view>
+                <view class="password">
+                    <i class="icox icox-suo"></i>
+                    <input bindinput="loginpass" placeholder="请输入密码" type="password"></input>
+                </view>
+                <view bindtap="login" class="submit">立即登录</view>
+                <view class="bottom">没有账户，
+          <a bindtap="goregister" href="javascript:;">立即注册</a>
+                </view>
+            </view>
+            <i bindtap="closelogin" class="icox icox-roundclose close"></i>
+        </view>
+    </view>
+</scroll-view>

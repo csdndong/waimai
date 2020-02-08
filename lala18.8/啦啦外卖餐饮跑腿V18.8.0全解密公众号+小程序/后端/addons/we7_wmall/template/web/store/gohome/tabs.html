@@ -1,0 +1,33 @@
+<div class="second-sidebar-title">生活圈</div>
+<div class="nav slimscroll">
+	<div class="menu-header">订单</div>
+	<ul class="menu-item">
+		<li {if $_W['_op'] == 'order'}class="active"{/if}>
+			<a href="{php echo iurl('store/gohome/order/list');}">订单列表</a>
+		</li>
+	</ul>
+	<div class="menu-header">数据</div>
+	<ul class="menu-item">
+		<li {if $_W['_op'] == 'statcenter'}class="active"{/if}>
+		<a href="{php echo iurl('store/gohome/statcenter');}">订单统计</a>
+		</li>
+	</ul>
+	<div class="menu-header">砍价</div>
+	<ul class="menu-item">
+		<li {if $_W['_action'] == 'kanjia'}class="active"{/if}>
+			<a href="{php echo iurl('store/kanjia/activity/list');}">活动列表</a>
+		</li>
+	</ul>
+	<div class="menu-header">拼团</div>
+	<ul class="menu-item">
+		<li {if $_W['_action'] == 'pintuan'}class="active"{/if}>
+			<a href="{php echo iurl('store/pintuan/activity/list');}">活动列表</a>
+		</li>
+	</ul>
+	<div class="menu-header">限时抢购</div>
+	<ul class="menu-item">
+		<li {if $_W['_op'] == 'goods'}class="active"{/if}>
+			<a href="{php echo iurl('store/seckill/goods');}">活动列表</a>
+		</li>
+	</ul>
+</div>

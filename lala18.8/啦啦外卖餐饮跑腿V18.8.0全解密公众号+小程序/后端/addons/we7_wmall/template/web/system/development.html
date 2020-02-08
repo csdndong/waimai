@@ -1,0 +1,180 @@
+{itemplate 'public/header'}
+	<div class="page clearfix">
+		<h2>调试模式</h2>
+		<form class="form-horizontal form form-validate" id="form1" action="" method="post" enctype="multipart/form-data">
+			<input type="hidden" name="system_config" value="config">
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">站点设置</label>
+				<div class="col-sm-9 col-xs-12">
+					{if $_W['setting']['copyright']['develop_status'] == 1}
+					<p class="form-control-static">
+						<span class="label label-danger">开启状态</span>
+					</p>
+					<br/>
+					<a href="{php echo iurl('system/development/develop_status')}" class="btn btn-primary js-post" data-confirm="确定关闭调试模式吗?">关闭站点设置调试模式</a>
+					{else}
+					<p class="form-control-static">
+						<span class="label label-success">关闭状态</span>
+					</p>
+					{/if}
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">配置文件</label>
+				<div class="col-sm-9 col-xs-12">
+					{if $_W['config']['setting']['development'] == 1}
+					<p class="form-control-static">
+						<span class="label label-danger">开启状态</span>
+					</p>
+					{else}
+					<p class="form-control-static">
+						<span class="label label-success">关闭状态</span>
+					</p>
+					{/if}
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">调试模式</label>
+				<div class="col-sm-9 col-xs-12">
+					<div class="radio radio-inline radio-primary">
+						<input type="radio" value="0" name="development" id="development-0" {if $config_global['development'] == 0 || !$config_global['development']}checked{/if}>
+						<label for="development-0">关闭</label>
+					</div>
+					<div class="radio radio-inline radio-primary">
+						<input type="radio" value="1" name="development" id="development-1" {if $config_global['development'] == 1}checked{/if}>
+						<label for="development-1">开启</label>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">读写分离状态</label>
+				<div class="col-sm-9 col-xs-12">
+					{if !empty($_W['config']['db']['slave_status'])}
+					<p class="form-control-static">
+						<span class="label label-danger">开启状态</span>
+					</p>
+					<p class="form-control-static">
+						{loop $_W['config']['db']['common']['slave_except_table'] $table}
+							{$table}
+						{/loop}
+					</p>
+					{else}
+					<p class="form-control-static">
+						<span class="label label-success">关闭状态</span>
+					</p>
+					{/if}
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">数据库信息</label>
+				<div class="col-sm-9 col-xs-12">
+					{if !empty($_W['config']['db']['host'])}
+					<p class="form-control-static">
+						<span class="label label-info">{$_W['config']['db']['host']}</span>
+						<span class="label label-info">{$_W['config']['db']['database']}</span>
+						<span class="label label-info">{$_W['config']['db']['username']}</span>
+						<span class="label label-info">{$_W['config']['db']['password']}</span>
+					</p>
+					{else if !empty($_W['config']['db']['master']['host'])}
+					<p class="form-control-static">
+						<span class="label label-info">{$_W['config']['db']['master']['host']}</span>
+						<span class="label label-info">{$_W['config']['db']['master']['database']}</span>
+						<span class="label label-info">{$_W['config']['db']['master']['username']}</span>
+						<span class="label label-info">{$_W['config']['db']['master']['password']}</span>
+					</p>
+					{/if}
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">模块版本</label>
+				<div class="col-sm-9 col-xs-12">
+					<input type="text" name="version" value="{$module['version']}" class="form-control"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">配送员位置按钮</label>
+				<div class="col-sm-9 col-xs-12">
+					<div class="radio radio-inline radio-primary">
+						<input type="radio" value="0" name="development_delivery_location" id="development_delivery_location-0" {if $config_global['development_delivery_location'] == 0 || !$config_global['development_delivery_location']}checked{/if}>
+						<label for="development_delivery_location-0">关闭</label>
+					</div>
+					<div class="radio radio-inline radio-primary">
+						<input type="radio" value="1" name="development_delivery_location" id="development_delivery_location-1" {if $config_global['development_delivery_location'] == 1}checked{/if}>
+						<label for="development_delivery_location-1">开启</label>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">错误日志</label>
+				<div class="col-sm-9 col-xs-12">
+					<div class="radio radio-inline">
+						<input type="radio" value="2" name="slog_status" id="slog_status-2" {if $config_global['slog_status'] == 2}checked{/if}>
+						<label for="slog_status-2">关闭</label>
+					</div>
+					<div class="radio radio-inline">
+						<input type="radio" value="1" name="slog_status" id="slog_status-1" {if $config_global['slog_status'] == 1 || !$config_global['slog_status']}checked{/if}>
+						<label for="slog_status-1">开启</label>
+					</div>
+					<div class="help-block text-danger"></div>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-9 col-xs-9 col-md-9">
+					<input type="hidden" name="token" value="{$_W['token']}">
+					<input type="submit" value="提交" class="btn btn-primary">
+				</div>
+			</div>
+		</form>
+		<form class="form-horizontal form form-validate" id="form1" action="" method="post" enctype="multipart/form-data" style="margin-top: 50px; max-width: 100%">
+			<h3>快捷操作</h3>
+			<div class="form-group">
+				<div class="col-sm-9 col-xs-9 col-md-9">
+					<a href="{php echo iurl('system/development/agent_config')}" class="btn btn-primary js-post" data-confirm="操作后将不可恢复，确定进行该操作?">处理代理设置</a>
+					<a href="{php echo iurl('system/development/creditshop')}" class="btn btn-primary js-post" data-confirm="操作后将不可恢复，确定进行该操作?">积分商城商品表</a>
+					<a href="{php echo iurl('system/development/session')}" class="btn btn-primary js-post" data-confirm="操作后将不可恢复，确定进行该操作?">清空session表</a>
+					<a href="{php echo iurl('system/development/goodsprice')}" class="btn btn-primary js-post" data-confirm="操作后将不可恢复，确定进行该操作?">修复商品价格</a>
+					<a href="{php echo iurl('system/development/goodstype')}" class="btn btn-primary js-post" data-confirm="操作后将不可恢复，确定进行该操作?">修复商品类型</a>
+					<a href="{php echo iurl('system/development/plugin')}" class="btn btn-primary js-post" data-confirm="操作后将不可恢复，确定进行该操作?">删除盗版插件</a>
+					<a href="{php echo iurl('system/development/discountprice')}" class="btn btn-primary js-post" data-confirm="操作后将不可恢复，确定进行该操作?">商品折扣价格</a>
+					<a href="{php echo iurl('system/development/bargain')}" class="btn btn-primary js-post" data-confirm="操作后将不可恢复，确定进行该操作?">天天特价多余商品</a>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-9 col-xs-9 col-md-9">
+					<a href="{php echo iurl('system/development/file')}" class="btn btn-primary js-post" data-confirm="操作后将不可恢复，确定进行该操作?">模块文件处理</a>
+					<a href="{php echo iurl('system/development/py')}" class="btn btn-primary js-post" data-confirm="操作后将不可恢复，确定进行该操作?">py数据库文件处理</a>
+					<a href="{php echo iurl('system/development/cache')}" class="btn btn-danger js-post" data-confirm="操作后将不可恢复，确定进行该操作?">清空缓存</a>
+					<a href="{php echo iurl('system/development/manifest')}" class="btn btn-danger js-post" data-confirm="操作后将不可恢复，确定进行该操作?">删除manifest</a>
+					<a href="{php echo iurl('system/development/ignoreupdate')}" class="btn btn-danger js-post" data-confirm="操作后将不可恢复，确定进行该操作?">同步模块版本号</a>
+				</div>
+			</div>
+		</form>
+		{if function_exists('opcache_get_configuration') && (ini_get('opcache.enable') || ini_get('opcache.enable_cli'))}
+		<form class="form-horizontal form form-validate" id="form1" action="" method="post" enctype="multipart/form-data" style="margin-top: 50px; max-width: 100%">
+			<h3>性能优化</h3>
+			<div class="form-group">
+				<div class="col-sm-9 col-xs-9 col-md-9">
+					<a href="{php echo iurl('system/development/opcache')}" class="btn btn-danger js-post" data-confirm="操作后将不可恢复，确定进行该操作?">性能优化</a>
+				</div>
+			</div>
+		</form>
+		{/if}
+		<form class="form-horizontal form form-validate" id="form1" action="" method="post" enctype="multipart/form-data" style="margin-top: 50px; max-width: 100%">
+			<h3>系统环境</h3>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">session.auto_start</label>
+				<div class="col-sm-9 col-xs-12">
+					{if ini_get('session.auto_start') == 'On' || ini_get('session.auto_start') == 1}
+						<p class="form-control-static">
+							<span class="label label-danger">开启状态</span>
+						</p>
+					{else}
+						<p class="form-control-static">
+							<span class="label label-success">关闭状态</span>
+						</p>
+					{/if}
+				</div>
+			</div>
+		</form>
+	</div>
+{itemplate 'public/footer'}

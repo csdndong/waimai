@@ -1,0 +1,138 @@
+ <{extends file="<{$tempdir}>/public/wxsite.html"}>  
+<{block name=extendcss}> 
+ <link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/gift.css">
+<{/block}>
+ <{block name=extendjs}> 
+  <script src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/js/template.min.js"></script>    
+<{/block}>
+<{block name=myScrolljs}>
+<script> 
+		var myScroll;
+function loaded() {
+	myScroll = new iScroll('wrapper', {
+		useTransform: false,
+		onBeforeScrollStart: function (e) {
+			var target = e.target;
+			while (target.nodeType != 1) target = target.parentNode;
+
+			if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA')
+				e.preventDefault();
+		}
+	});
+}
+document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false); 
+document.addEventListener('DOMContentLoaded', function () { setTimeout(loaded, 200); }, false);
+</script>
+<{/block}>
+ <{block name=hearnav}>
+<div class="toptitCon">
+ <div class="toptitBox">
+  <div class="toptitL"><i></i></div>
+  <div class="toptitC"><h3>积分中心</h3></div>
+ </div>
+</div>
+<{/block}>
+<{block name=sitetitle}><{$sitename}><{/block}>
+<{block name=blockcontent}> 
+ <div id="wrapper" style="top:40px;">
+	<div id="scroller">
+		
+
+<!--积分显示-->
+<div class="intdisCon">
+ <div class="intdisBox">
+  <b><{$member['score']}></b></li>
+  <span>我的积分</span>
+ </div>
+</div>
+<!--积分标题-->
+<div class="interuletit">
+ <ul>
+  <li data="giftdet"  class="interuleaA giftnavqiehuandet" ><i class="interulemx2"></i><span>积分明细</span></li>
+  <li data="gift" class="giftnavqiehuangz"><i class="interulegz2"></i><span>积分规则</span></li>
+ </ul>
+</div>
+
+<!-- 积分明细 -->
+ 
+<div class="interdetailCon">
+<{foreach from=$giftlog item=items}>
+ <div class="interdetailBox">
+  <ul class="interdetail">
+   <li>
+    <ul class="interdetailt">
+     <li><{$items['title']}></li>
+     <li class="intdetr">
+	 <{if $items['addtype'] == 1 }><span class="intespcl1">+<{$items['result']}></span><{/if}><{if $items['addtype'] == 2 }><span class="intespcl2">-<{$items['result']}></span><{/if}></li>
+    </ul>
+   </li>
+   <li>
+    <ul class="interdetailb">
+     <li><{$items['addtime']|date_format:"%Y-%m-%d %H:%M"}></li>
+     <li class="intdetr"></li>
+    </ul>
+   </li>
+  </ul>
+ </div>
+ <{/foreach}>
+</div>
+
+<!--积分规则-->
+<div class="interuleCon" style="display:none;">
+ <div class="interuleBox">
+  <p>
+  <{load_data assign="jfgz" table="single" type="one" where="code='jfgz'" fileds="*" }>  
+			         <{$jfgz['content']|htmlspecialchars_decode}> 
+	
+   </p>
+ </div>
+</div>
+
+<!--兑换礼品-->
+<div class="interulebutt">
+ <div  onclick="dolink('<{ofunc type=url link="/wxsite/giftlist"}>');" class="interulebutton"><input type="button" value="兑换礼品"></div>
+</div>
+
+
+
+
+
+
+		 <div style="height:10px;"></div>
+	</div>
+</div>
+
+ <script>
+ 
+	$(".giftnavqiehuandet").click(function(){
+	 		$(".interuletit li").removeClass('interuleaA');
+			$(".giftnavqiehuangz").find('i').removeClass('interulegz1');
+			$(".giftnavqiehuangz").find('i').addClass('interulegz2');
+			
+			 $(this).addClass('interuleaA');
+			 $(this).find('i').removeClass('interulemx1');
+			 $(this).find('i').addClass('interulemx2');
+			 $(".interdetailCon").show();
+			 $(".interuleCon").hide();
+			 myScroll.refresh();
+		 
+	});
+ 
+	$(".giftnavqiehuangz").click(function(){
+	 		$(".interuletit li").removeClass('interuleaA');
+			$(".giftnavqiehuandet").find('i').removeClass('interulemx2');
+			$(".giftnavqiehuandet").find('i').addClass('interulemx1');
+			
+			 $(this).addClass('interuleaA');
+			 $(this).find('i').removeClass('interulegz2');
+			 $(this).find('i').addClass('interulegz1');
+			 $(".interdetailCon").hide();
+			 $(".interuleCon").show();
+			 myScroll.refresh();
+		 
+	});
+
+ 
+ </script>
+  
+<{/block}>

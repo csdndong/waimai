@@ -1,0 +1,35 @@
+.head {
+    display: flex;
+}
+
+.head>view {
+    flex: 2;
+}
+
+.notice {
+    width: 100%;
+}
+
+.notice>view:nth-child(1) {
+    width: 16%;
+}
+
+.notice>view image {
+    width: 45rpx;
+    height: 45rpx;
+}
+
+.glyphicon {
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+}
+
+.glyphicon-fire:before {
+    content: "\e104";
+}

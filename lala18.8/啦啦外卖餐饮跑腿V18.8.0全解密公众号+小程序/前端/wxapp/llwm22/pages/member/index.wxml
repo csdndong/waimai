@@ -1,0 +1,6 @@
+<view>
+    <block wx:for="{{record}}">
+		dd
+		<view>{{item.num}}-{{item.latitude}}</view>
+    </block>
+</view>

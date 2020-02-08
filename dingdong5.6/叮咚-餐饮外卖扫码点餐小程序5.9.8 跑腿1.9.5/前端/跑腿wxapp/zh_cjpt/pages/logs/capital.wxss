@@ -1,0 +1,19 @@
+.show {
+    display: show;
+}
+
+.none {
+    display: none;
+}
+
+.title>view {
+    display: inline-block;
+}
+
+.title>view:nth-child(1) {
+    width: 10%;
+}
+
+.title>view:nth-child(2) {
+    width: 90%;
+}

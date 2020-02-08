@@ -1,0 +1,54 @@
+<view class="page-info">
+    <view class="tip">基本信息</view>
+    <view class="zan-panel">
+        <view class="zan-cell zan-cell--access">
+            <view class="zan-cell__bd">门店名称</view>
+            <view bind:tap="onJsEvent" class="zan-cell__ft" data-event-type="jsUrl" data-url="pages/shop/part/textarea?type=title">{{store.title?store.title:'未设置'}}</view>
+        </view>
+        <view class="zan-cell zan-cell--access">
+            <view class="zan-cell__bd">门店地址</view>
+            <view bind:tap="onJsEvent" class="zan-cell__ft" data-event-type="jsUrl" data-url="pages/shop/part/textarea?type=address">{{store.address?store.address:'未设置'}}</view>
+        </view>
+        <view class="zan-cell zan-cell--access">
+            <view class="zan-cell__bd">所属分类</view>
+            <view bind:tap="onShowTip" class="zan-cell__ft">{{store.category_cn?store.category_cn:'未设置'}}</view>
+        </view>
+    </view>
+    <view class="tip">营业设置</view>
+    <view class="zan-panel">
+        <view class="zan-cell zan-cell--access shop-logo">
+            <view class="zan-cell__bd">门店Logo</view>
+            <view class="zan-cell__ft">
+                <image bind:tap="onUploadLogo" src="{{store.logo}}" wx:if="{{store.logo}}"></image>
+                <image src="/static/img/add_pic.png" wx:else></image>
+            </view>
+        </view>
+        <view class="zan-cell zan-cell--access">
+            <view class="zan-cell__bd">营业时间</view>
+            <view bind:tap="onJsEvent" class="zan-cell__ft" data-event-type="jsUrl" data-url="pages/shop/part/textarea?type=business_hours">{{store.business_hours.length>0?store.business_hours_cn:'24小时营业'}}</view>
+        </view>
+        <view class="zan-cell zan-cell--access">
+            <view class="zan-cell__bd">门店电话</view>
+            <view bind:tap="onJsEvent" class="zan-cell__ft" data-event-type="jsUrl" data-url="pages/shop/part/textarea?type=telephone">{{store.telephone?store.telephone:'未设置'}}</view>
+        </view>
+    </view>
+    <view class="tip">其他信息</view>
+    <view class="zan-panel">
+        <view class="zan-cell zan-cell--access">
+            <view class="zan-cell__bd">门店公告</view>
+            <view bind:tap="onJsEvent" class="zan-cell__ft" data-event-type="jsUrl" data-url="pages/shop/part/textarea?type=notice">{{store.notice?store.notice:'未填写'}}</view>
+        </view>
+        <view class="zan-cell zan-cell--access">
+            <view class="zan-cell__bd">门店描述</view>
+            <view bind:tap="onJsEvent" class="zan-cell__ft" data-event-type="jsUrl" data-url="pages/shop/part/textarea?type=content">{{store.content?store.content:'未填写'}}</view>
+        </view>
+        <view class="zan-cell zan-cell--access">
+            <view class="zan-cell__bd">门店实景</view>
+            <view bind:tap="onJsEvent" class="zan-cell__ft {{store.thumbs.length>0?'':'color-waning'}}" data-event-type="jsUrl" data-url="pages/shop/part/textarea?type=thumbs">
+                <block wx:if="{{store.thumbs.length>0}}">已上传{{store.thumbs.length}}张</block>
+                <block wx:else>未上传</block>
+            </view>
+        </view>
+    </view>
+</view>
+<include src="../public/footer.wxml"></include>

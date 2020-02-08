@@ -1,0 +1,20 @@
+{if $op == 'show_qrcode'}
+<div class="modal-dialog">
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<h3 class="modal-title">小程序二维码</h3>
+		</div>
+		<div class="modal-body" style="text-align : center">
+			{if is_error($qrcode)}
+				{$qrcode['message']}
+			{else}
+				<img src="{$qrcode}" style="width:250px; height: 250px;">
+			{/if}
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">关闭</button>
+		</div>
+	</div>
+</div>
+{/if}

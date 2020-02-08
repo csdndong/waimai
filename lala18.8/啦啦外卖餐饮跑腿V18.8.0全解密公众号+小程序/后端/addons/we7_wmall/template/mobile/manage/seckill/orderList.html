@@ -1,0 +1,243 @@
+{itemplate 'public/header'}
+<div class="page page-order" id="page-manage-order">
+	<header class="bar bar-nav common-bar-nav">
+		<a class="icon pull-left icon icon-arrow-left back"></a>
+		<div class="js-date" data-href="{php echo imurl('manage/seckill/order/list', array('status' => $status))}" data-maxDate="{php echo date('Y-m-d')}">
+			<div class="date">{php echo date('m-d', strtotime($stat_day))} <i class="icon icon-arrow-down"></i></div>
+			<div class="calendar hide"></div>
+		</div>
+		<h1 class="title">限时抢购订单管理</h1>
+		<a class="icon pull-right icon icon-refresh refresh"></a>
+	</header>
+	{itemplate 'public/nav'}
+	<div class="content infinite-scroll js-infinite" data-href="{php echo imurl('manage/seckill/order/more', array('status' => $status, 'date' => $stat_day))}" data-distance="50" data-min="{$min}" data-container="#order-list" data-tpl="tpl-order">
+		<div class="buttons-tab">
+			<a href="{php echo imurl('manage/seckill/order/list', array('date' => $stat_day, 'status' => 0));}" class="button {if $status == 0}active{/if}">全部</a>
+			<a href="{php echo imurl('manage/seckill/order/list', array('date' => $stat_day, 'status' => 1));}" class="button {if $status == 1}active{/if}">待核销</a>
+			<a href="{php echo imurl('manage/seckill/order/list', array('date' => $stat_day, 'status' => 2));}" class="button {if $status == 2}active{/if}">已核销</a>
+			<a href="{php echo imurl('manage/seckill/order/list', array('date' => $stat_day, 'status' => 3));}" class="button {if $status == 3}active{/if}">已取消</a>
+		</div>
+		{if empty($orders)}
+		<div class="no-data">
+			<div class="bg"></div>
+			<p>没有任何订单哦～</p>
+		</div>
+		{else}
+		<div class="order-list" id="order-list">
+			{loop $orders $order}
+				<div class="order-list-item">
+					<div class="order-info">
+						<div class="order-title">
+							<strong class="med">#</strong>
+							<strong class="largest">{$order['id']}</strong>
+							<span class="order-time hide">
+								<span class="med orange">立即送达</span>
+							</span>
+							<div class="order-status">{$order_status[$order['status']]['text']}</div>
+						</div>
+						<div class="order-reason hide">
+							<i class="icon icon-time"></i>
+							取消原因: 111
+						</div>
+					</div>
+					<div class="user-info border-1px-b">
+						<div class="user-name">
+							<strong class="med">联系人：{$order['username']}</strong>
+						</div>
+						<div class="user-phone">
+							<i class="icon icon-telephone"></i>
+							<a href="tel:{$order['mobile']}">{$order['mobile']}</a>
+						</div>
+					</div>
+					<div class="goods-info border-1px-b clearfix">
+						<div class="left">
+							<i class="icon icon-viewgallery"></i>
+						</div>
+						<div class="right">
+							<div class="goods-title">
+								<strong>商品({$order['goods_num']})</strong>
+								<a href="javascript:;" class="pull-right">
+									<i class="icon icon-unfold"></i>
+								</a>
+							</div>
+							<div class="order-details">
+								<div class="goods-list border-1px-b">
+									<ul>
+										<li class="clearfix">
+											<span class="good-name">{$order['goods_title']}</span>
+											<span class="good-num {if $order['goods_num'] > 1}many{/if}">x{$order['goods_num']}</span>
+											<span class="good-price">¥{$order['final_fee']}</span>
+										</li>
+									</ul>
+								</div>
+							</div>
+							<div class="total">
+								<div class="clearfix">
+									<span class="left">本单预计收入</span>
+									<span class="price">¥{$order['final_fee']}</span>
+								</div>
+								<div class="grayest">
+									本单顾客实际支付：¥{$order['final_fee']}
+									{if $order['is_pay'] == 1}
+									<span class="green">
+										({$pay_types[$order['pay_type']]['text']})
+									</span>
+									{else}
+									<span class="color-danger">
+										({$pay_types[$order['pay_type']]})
+									</span>
+									{/if}
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="operate-box clearfix">
+						{if $order['is_pay'] == 1 &&  $order['status'] == 1}
+							<a href="javascript:;" class="receive" data-id="{$order['id']}">核销取货</a>
+							<a href="{php echo imurl('manage/seckill/order/status', array('id' => $order['id'], 'type' => 'cancel'))}" data-confirm="确认取消该订单吗" class="js-post ">取消订单</a>
+						{/if}
+					</div>
+					<div class="bottom clearfix">
+						<div class="operate clearfix">
+							<a href="tel:{$_W['we7_wmall']['config']['mall']['mobile']}" class="custom">
+								<i class="icon icon-service1"></i>
+								<div>客服</div>
+							</a>
+						</div>
+						<div class="about-order">
+							<div class="order-time">
+								{$order['addtime_cn']} 下单
+							</div>
+							<div class="order-number">
+								订单编号:{$order['order_sn']}
+							</div>
+						</div>
+					</div>
+				</div>
+			{/loop}
+		</div>
+		{/if}
+	</div>
+</div>
+
+<script id="tpl-order" type="text/html">
+	<{# for(var i = 0, len = d.length; i < len; i++){ }>
+		<div class="order-list-item">
+			<div class="order-info">
+				<div class="order-title">
+					<strong class="med">#</strong>
+					<strong class="largest"><{d[i].id}></strong>
+					<span class="order-time hide">
+						<span class="med orange">立即送达</span>
+					</span>
+					<div class="order-status"><{d[i].status_cn}></div>
+				</div>
+				<{# if(d[i].status == 3) { }>
+					<div class="order-reason hide">
+						<i class="icon icon-time"></i>
+						取消原因：<{d[i].cancel_reason}>
+					</div>
+				<{# } }>
+			</div>
+			<div class="user-info border-1px-b ">
+				<div class="user-name">
+					<strong class="med"><{d[i].username}></strong>
+				</div>
+				<div class="user-phone">
+					<i class="icon icon-telephone"></i>
+					<a href="tel:<{d[i].mobile}>"><{d[i].mobile}></a>
+				</div>
+			</div>
+			<div class="goods-info border-1px-b clearfix">
+				<div class="left">
+					<i class="icon icon-viewgallery"></i>
+				</div>
+				<div class="right">
+					<div class="goods-title">
+						<strong>商品(<{d[i].goods_num}>)</strong>
+						<a href="javascript:;" class="pull-right">
+							<i class="icon icon-unfold"></i>
+						</a>
+					</div>
+					<div class="order-details">
+						<div class="goods-list border-1px-b">
+							<ul>
+								<li class="clearfix">
+									<span class="good-name"><{d[i].goods_title}></span>
+									<span class="good-num <{# if(d[i].goods_num > 1) { }>many<{# } }>">x<{d[i].goods_num}></span>
+									<span class="good-price">¥<{d[i].final_fee}></span>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<div class="total">
+						<div class="clearfix">
+							<span class="left">本单预计收入</span>
+							<span class="price">¥ <{d[i].final_fee}></span>
+						</div>
+						<div class="grayest">
+							本单顾客实际支付：¥<{d[i].final_fee}>
+							<{# if(d[i].is_pay == 1){ }>
+								<span class="green">(<{d[i].pay_type_cn}>)</span>
+							<{# } else { }>
+								<span class="color-danger">
+									(<{d[i].pay_type_cn}>)
+								</span>
+							<{# } }>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="operate-box clearfix">
+				<{# if(d[i].status == 1 && d[i].is_pay == 1){ }>
+					<a href="{php echo imurl('manage/seckill/order/status')}&id=<{d[i].id}>&type=status" data-confirm="确认核销该订单吗" class="js-post">核销取货</a>
+					<a href="{php echo imurl('manage/seckill/order/status')}&id=<{d[i].id}>$type=cancel" data-confirm="确认取消该订单吗" class="js-post">取消订单</a>
+				<{# } }>
+			</div>
+			<div class="bottom clearfix">
+				<div class="operate clearfix">
+					<a href="tel:{$_W['we7_wmall']['config']['mall']['mobile']}" class="custom">
+						<i class="icon icon-service1"></i>
+						<div>客服</div>
+					</a>
+				</div>
+				<div class="about-order">
+					<div class="order-time">
+						<{d[i].addtime_cn}>下单
+					</div>
+					<div class="order-number">
+						订单编号:<{d[i].order_sn}>
+					</div>
+				</div>
+			</div>
+		</div>
+	<{# } }>
+</script>
+<script>
+	$(function(){
+		$(document).on('click', '.goods-title .pull-right', function(){
+			$(this).parents('.right').find('.order-details').toggleClass('active');
+			return false;
+		});
+		$(document).on('click', '.receive', function(){
+			var id = $(this).data('id');
+			$.prompt('请输入兑换码(6位数字)', function(value){
+				if(!value) {
+					$.toast('请输入6位兑换码');
+					return false;
+				}
+				var code = value;
+				$.post("{php echo imurl('manage/seckill/order/status')}", {id: id, type: 'status', code: code}, function(data){
+					var result = $.parseJSON(data);
+					if(result.message.errno != 0) {
+						$.toast(result.message.message);
+					} else {
+						$.toast('核销成功');
+						window.location.reload();
+					}
+				});
+			});
+		});
+	})
+</script>
+{itemplate 'public/footer'}

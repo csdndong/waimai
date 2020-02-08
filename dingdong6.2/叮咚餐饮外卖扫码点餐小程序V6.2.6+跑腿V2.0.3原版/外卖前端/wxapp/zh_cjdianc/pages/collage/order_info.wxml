@@ -1,0 +1,61 @@
+<view class="container">
+    <view class="pa_1 ba_f fon_30">
+        <view class="bor_bottom pa_0">
+            <image class="dis_in" mode="aspectFill" src="../../img/collage/stores.png"></image>
+            <text class="dis_in mar_l">{{info.store_name}}</text>
+        </view>
+        <view class="pa_0">
+            <text class="dis_in">{{info.goods_name}}</text>
+        </view>
+    </view>
+    <view class="pa_1 ba_f mar_t fon_30">
+        <view class="bor_bottom pa_0">
+            <view class="dis_in wid_50">货价</view>
+            <view class="dis_in wid_50 t_r">￥{{info.price}}</view>
+        </view>
+        <view class="pa_0">
+            <view class="dis_in wid_50" style="color:#ED414A">合计</view>
+            <view class="dis_in wid_50 t_r" style="color:{{color}}">￥{{info.money}}</view>
+        </view>
+    </view>
+    <view class="pa_1 ba_f fon_30 mar_t" wx:if="{{info.state==2||info.status==4}}">
+        <view class="bor_bottom pa_0">
+            <image class="dis_in" mode="aspectFill" src="../../img/collage/hx_code.png"></image>
+            <text class="dis_in mar_l">核销码</text>
+        </view>
+        <view class="pa_0 hx_code">
+            <image mode="aspectFill" src="data:image/png;base64,{{hx_code}}"></image>
+        </view>
+    </view>
+    <view class="pa_1 ba_f mar_t fon_30">
+        <view class="bor_bottom pa_0">
+            <image class="dis_in" mode="aspectFill" src="../../img/collage/group_order.png"></image>
+            <text class="dis_in mar_l">订单详情</text>
+        </view>
+        <view class="info fon_30">
+            <view>  订单号码：{{info.order_num}}</view>
+            <view wx:if="{{info.state==1}}">  订单状态：未付款</view>
+            <view wx:if="{{info.state==2}}">  订单状态：已付款</view>
+            <view wx:if="{{info.state==3}}">  订单状态：已完成</view>
+            <view wx:if="{{info.state==4}}">  订单状态：已关闭</view>
+            <view wx:if="{{info.state==5}}">  订单状态：已失效</view>
+            <view>  下单时间：{{info.pay_time}}</view>
+            <view>  消费时间：{{info.xf_time}}</view>
+            <view wx:if="{{info.pay_type==1}}">  支付方式：微信支付</view>
+            <view wx:if="{{info.pay_type==2}}">  支付方式：余额支付</view>
+        </view>
+        <view class=""></view>
+    </view>
+    <view style="height:120rpx;"></view>
+    <view class="order_title">
+        <view bindtap="more" class="dis_in ba_f wid_50 t_c fon_30" style="color:{{color}}">
+      查看更多拼团商品
+    </view>
+        <view bindtap="my_group" class="dis_in color_f wid_50 t_c fon_30" style="background:{{color}}" wx:if="{{info.state==1||info.state==2&&info.status!=4}}">
+      查看团详情
+    </view>
+        <view bindtap="buy" class="dis_in color_f wid_50 t_c fon_30" style="background:{{color}}" wx:else>
+      再次购买
+    </view>
+    </view>
+</view>

@@ -1,0 +1,67 @@
+<html xmlns="http://www.w3.org/1999/xhtml"><head> 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+<meta http-equiv="Content-Language" content="zh-CN"> 
+<meta content="all" name="robots"> 
+<meta name="description" content=""> 
+<meta content="" name="keywords"> 
+<title></title>  
+<link rel="stylesheet" type="text/css" href="<{$siteurl}>/templates/<{$tempdir}>/public/css/ajaxdialog.css" />
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/jquerynew.js" type="text/javascript" language="javascript"></script>   
+<script src="<{$siteurl}>/js/kindeditor/kindeditor.js" type="text/javascript" language="javascript"></script>
+ <script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/ajaxfileupload.js"> </script>
+</head>
+<body >
+	<div class="content">
+		 <form name="form2" method="post" enctype="multipart/form-data" action="<{ofunc type=url link="/adminpage/shop/module/doinputexcel/"}>"> 
+			<div class="goodsbase"> 
+				<div class="baseinfo" style="text-align:center;padding-top:60px; height:100px;">导入商品</div>	
+				<div class="basetext" style="width:660px;"> <p  style="padding-top:70px;"> <input type="file" name="inputExcel"><input type="submit" name="import" value="导入数据">
+				
+				
+				<input type="hidden" name="newfilename" value="<{$newfilename}>"> 
+				<input type="hidden" name="curtypeid" value="<{$curtypeid}>"> 
+				
+				</p></div> 
+				<div class="imgdiv">
+		    	
+		    	
+		    	
+		    	
+				</div>
+			</div> 
+		</form>
+	</div>
+	<div   class="infolist">
+	
+	
+	
+	
+	</div>
+	
+<script>
+  $('#tijiaofrom').click(function(){
+  	 $('#kloginForm').submit();
+  });
+	 
+	/*
+	$("#xuanzekuimg").click(function(){
+	
+		window.location.href="<{$siteurl}>/photo/selectkuimg.php?gid=<{$goodsinfo['id']}>";	
+	
+	});
+	*/
+	</script>
+
+</body>
+</html>
+ 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

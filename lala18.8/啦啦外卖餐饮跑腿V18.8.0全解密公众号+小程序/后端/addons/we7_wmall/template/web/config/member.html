@@ -1,0 +1,69 @@
+{itemplate 'public/header'}
+{if $op == 'group'}
+<div class="page clearfix">
+	<h2>顾客等级升级条件</h2>
+	<form class="form-horizontal form form-validate" id="form1" action="" method="post" enctype="multipart/form-data">
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-5 col-md-2 control-label">顾客等级升级依据</label>
+			<div class="col-sm-5 col-xs-12">
+				<div class="radio radio-inline">
+					<input type="radio" name="group_update_mode" id="group_update_mode-order_money" value="order_money" {if $group_update_mode == 'order_money'}checked {/if}>
+					<label for="group_update_mode-order_money">外卖订单和店内订单消费总额(完成的订单)</label>
+				</div>
+				<br/>
+				<div class="radio radio-inline">
+					<input type="radio" name="group_update_mode" id="group_update_mode-order_count" value="order_count" {if $group_update_mode == 'order_count'}checked{/if}>
+					<label for="group_update_mode-order_count">外卖订单和店内订单消费次数(完成的订单)</label>
+				</div>
+				<br/>
+				<div class="radio radio-inline">
+					<input type="radio" name="group_update_mode" id="group_update_mode-delivery_money" value="delivery_money" {if $group_update_mode == 'delivery_money'}checked{/if}>
+					<label for="group_update_mode-delivery_money">跑腿订单消费总额(完成的订单)</label>
+				</div>
+				<br/>
+				<div class="radio radio-inline">
+					<input type="radio" name="group_update_mode" id="group_update_mode-delivery_count" value="delivery_count" {if $group_update_mode == 'delivery_count'}checked{/if}>
+					<label for="group_update_mode-delivery_count">跑腿订单消费次数(完成的订单)</label>
+				</div>
+				<br/>
+				<div class="radio radio-inline">
+					<input type="radio" name="group_update_mode" id="group_update_mode-count_money" value="count_money" {if $group_update_mode == 'count_money'}checked{/if}>
+					<label for="group_update_mode-count_money">外卖订单、店内订单和跑腿订单消费总额(完成的订单)</label>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<input type="submit" value="提交" class="btn btn-primary">
+			</div>
+		</div>
+	</form>
+</div>
+{/if}
+{if $op == 'address'}
+<div class="page clearfix">
+	<h2>顾客收货地址</h2>
+	<form class="form-horizontal form form-validate" id="form1" action="" method="post" enctype="multipart/form-data">
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">收货地址是否可以使用微信地址</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="radio radio-inline">
+					<input type="radio" name="use_weixin_address" id="use_weixin_address-1" value="1" {if $use_weixin_address == '1'}checked {/if}>
+					<label for="use_weixin_address-1">是</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" name="use_weixin_address" id="use_weixin_address-0" value="0" {if !$use_weixin_address }checked{/if}>
+					<label for="use_weixin_address-0">否</label>
+				</div>
+				<div class="help-block">仅限顾客小程序使用</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<input type="submit" value="提交" class="btn btn-primary">
+			</div>
+		</div>
+	</form>
+</div>
+{/if}
+{itemplate 'public/footer'}

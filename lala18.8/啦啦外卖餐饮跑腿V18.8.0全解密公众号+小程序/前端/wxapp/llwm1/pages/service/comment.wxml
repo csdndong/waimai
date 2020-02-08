@@ -1,0 +1,84 @@
+<view class="page-comment">
+    <view class="content">
+        <view class="comment-tab border-1px-b">
+            <view bind:tap="onChangeType" class="comment-item {{type==0?'active':''}}" data-type="0">全部评价</view>
+            <view bind:tap="onChangeType" class="comment-item {{type==1?'active':''}}" data-type="1">好评</view>
+            <view bind:tap="onChangeType" class="comment-item {{type==2?'active':''}}" data-type="2">中评</view>
+            <view bind:tap="onChangeType" class="comment-item {{type==3?'active':''}}" data-type="3">差评</view>
+        </view>
+        <view class="comment-list" wx:if="{{!comments.empty}}">
+            <view class="comment-item {{index<comments.data.length-1?'border-1px-b':''}}" wx:for="{{comments.data}}">
+                <view class="clearfix">
+                    <view class="comment-left">
+                        <image alt="" src="{{item.avatar}}"></image>
+                    </view>
+                    <view class="comment-right">
+                        <view class="comment-title clearfix">
+                            <view class="comment-name">{{item.mobile}}</view>
+                            <view class="comment-time">{{item.addtime}}</view>
+                        </view>
+                        <view class="comment-stars clearfix">
+                            <view class="store-stars stars-{{item}}" wx:for="{{item.scores}}"></view>
+                            <view class="comment-audit {{item.status_css}}">{{item.status_cn}}</view>
+                        </view>
+                        <view class="comment-info clearfix" wx:if="{{item.note}}">{{item.note}}</view>
+                        <view class="comment-bottom clearfix" wx:if="{{item.data.good}}">
+                            <view class="icon"></view>
+                            <view class="text" wx:for="{{item.data.good}}">{{item}} </view>
+                        </view>
+                        <view class="comment-images-containter" wx:if="{{item.thumbs.length>0}}">
+                            <view class="comment-images-item" wx:for="{{item.thumbs}}" wx:for-item="thumb">
+                                <image bind:tap="onShowImage" data-current="{{thumb}}" data-preview="{{item.thumbs}}" src="{{thumb}}"></image>
+                            </view>
+                        </view>
+                        <view class="replay clearfix" wx:if="{{item.reply}}"> 商家回复({{item.replytime}}): {{item.reply}} </view>
+                        <view class="button clearfix">
+                            <view bind:tap="onJsEvent" class="button-reply" data-event-type="jsUrl" data-url="pages/order/detail?id={{item.id}}">查看订单</view>
+                            <block wx:if="{{store.self_audit_comment==1}}">
+                                <view catch:tap="onJsEvent" class="button-reply" data-confirm="确认变更评论状态吗?" data-event-type="jsPost" data-href="manage/service/comment/status?id={{item.id}}&status=1">审核通过</view>
+                                <view catch:tap="onJsEvent" class="button-reply" data-confirm="确认变更评论状态吗?" data-event-type="jsPost" data-href="manage/service/comment/status?id={{item.id}}&status=2">审核不通过</view>
+                            </block>
+                            <view bind:tap="onShowReplyDialog" class="button-reply" data-id="{{item.id}}">回复</view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <view class="wui-loadmore wui-loadmore-nomore" wx:if="{{comments.loaded}}">
+                <view class="wui-loadmore-tips">我是有底线的</view>
+                <view class="wui-loadmore-line"></view>
+            </view>
+            <view class="wui-loadmore" wx:else>
+                <view class="wui-loading"></view>
+                <view class="wui-loadmore-tips">正在加载中</view>
+            </view>
+        </view>
+        <view class="no-data" wx:else>
+            <image mode="widthFix" src="/static/img/no_order.png"></image>
+            <view class="tip">没有任何评论哦~</view>
+        </view>
+    </view>
+    <view class="wui-dialog wui-dialog-reply {{replyDialog?'wui-dialog-show':''}}">
+        <view class="wui-dialog-container">
+            <block wx:if="{{store.comment_reply.length>0}}">
+                <view class="tip">选择回复</view>
+                <view class="zan-panel">
+                    <view class="zan-cell zan-cell--access" wx:for="{{store.comment_reply}}">
+                        <view bind:tap="onSelectReply" class="zan-cell__bd zan-cell_title" data-index="{{index}}">
+                            <view class="box-icon {{index===replyIndex?'active':''}}">
+                                <view class="icon icon-check"></view>
+                            </view>
+							{{item}}
+						</view>
+                    </view>
+                </view>
+            </block>
+            <view class="tip">自定义回复</view>
+            <view class="zan-panel desc">
+                <textarea bindinput="onGetTextarea" placeholder="请输入回复内容" value="{{replyContent}}"></textarea>
+            </view>
+            <button catch:tap="onJsEvent" class="weui-btn" data-event-type="jsPost" data-href="manage/service/comment/reply?id={{commentId}}&reply={{replyContent}}" type="primary">回复</button>
+            <button bind:tap="onShowReplyDialog" class="weui-btn btn-hover" type="default">取消</button>
+        </view>
+    </view>
+</view>
+<include src="../public/footer.wxml"></include>

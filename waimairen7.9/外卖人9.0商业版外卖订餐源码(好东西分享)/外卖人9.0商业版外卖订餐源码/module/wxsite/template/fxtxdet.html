@@ -1,0 +1,52 @@
+<{extends file="<{$tempdir}>/public/diswxsite.html"}>  
+<{block name=extendcss}> 
+<link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/distribution.css">   
+<link href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<{/block}>
+ <{block name=extendjs}>  
+   <script src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/js/template.min.js"></script>    
+<{/block}>
+<{block name=myScrolljs}>
+<{/block}>
+<{block name=sitetitle}><{$sitename}><{/block}>
+<{block name=hearnav}>
+<!-- 我的佣金 -->
+<div class="content">
+	<div class="toptitCon">
+		<div class="toptitBox">
+			<div class="toptitL"><i></i></div>
+			<div class="toptitC">
+				<h3>提现详情</h3>
+			</div>
+			<div class="toptitR"></div>
+		</div>
+	</div>
+	<div class="putforward_details_content">
+		<ul style='padding-top:40px'>
+			<li>
+				<div class="putforward_details_left"><span>提现金额</span></div>
+				<div class="putforward_details_right"><span>￥<{$logdet["cost"]}></span></div>
+			</li>
+			<li>
+				<div class="putforward_details_left"><span>提现状态</span></div>
+				<div class="putforward_details_right"><span><{$logdet["status"]}></span></div>
+			</li>
+			<li>
+				<div class="putforward_details_left"><span>申请时间</span></div>
+				<div class="putforward_details_right"><span><{$logdet["addtime"]}></span></div>
+			</li>
+			<li>
+				<div class="putforward_details_left"><span>收款方式</span></div>
+				<div class="putforward_details_right"><span><{$logdet["type"]}></span></div>
+			</li>
+			<li>
+				<div class="putforward_details_left"><span>备注</span></div>
+				<div class="putforward_details_right"><span><{$logdet["content"]}></span></div>
+			</li>
+		</ul>
+	</div> 
+</div>
+ 
+<{/block}>
+ 
+ 

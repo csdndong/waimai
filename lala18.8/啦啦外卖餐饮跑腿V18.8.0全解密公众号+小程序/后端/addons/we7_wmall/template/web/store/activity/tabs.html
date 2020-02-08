@@ -1,0 +1,102 @@
+<div class="second-sidebar-title">
+	营销活动
+</div>
+<div class="nav slimscroll">
+	<div class="menu-header">店铺活动</div>
+	<ul class="menu-item">
+		<li {if $_W['_op'] == 'shopIndex'}class="active"{/if}>
+			<a href="{php echo iurl('store/activity/shopIndex');}">活动类型</a>
+		</li>
+		{if $_W['we7_wmall']['config']['store']['activity']['perm']['newMember']['status'] == 1}
+			<li {if $_W['_op'] == 'newMember'}class="active"{/if}>
+				<a href="{php echo iurl('store/activity/newMember');}">门店新用户</a>
+			</li>
+		{/if}
+		{if $_W['we7_wmall']['config']['store']['activity']['perm']['selfDelivery']['status'] == 1}
+			<li {if $_W['_op'] == 'selfDelivery'}class="active"{/if}>
+				<a href="{php echo iurl('store/activity/selfDelivery');}">自提打折</a>
+			</li>
+		{/if}
+		{if $_W['we7_wmall']['config']['store']['activity']['perm']['discount']['status'] == 1}
+			<li {if $_W['_op'] == 'discount'}class="active"{/if}>
+				<a href="{php echo iurl('store/activity/discount');}">满减优惠</a>
+			</li>
+		{/if}
+		{if $_W['we7_wmall']['config']['store']['activity']['perm']['cashGrant']['status'] == 1}
+			<li {if $_W['_op'] == 'cashGrant'}class="active"{/if}>
+				<a href="{php echo iurl('store/activity/cashGrant');}">返现优惠</a>
+			</li>
+		{/if}
+		{if $_W['we7_wmall']['config']['store']['activity']['perm']['grant']['status'] == 1}
+			<li {if $_W['_op'] == 'grant'}class="active"{/if}>
+				<a href="{php echo iurl('store/activity/grant');}">满赠优惠</a>
+			</li>
+		{/if}
+		{if $_W['we7_wmall']['config']['store']['activity']['perm']['couponGrant']['status'] == 1}
+			<li {if $_W['_op'] == 'couponGrant'}class="active"{/if}>
+				<a href="{php echo iurl('store/activity/couponGrant');}">下单返券</a>
+			</li>
+		{/if}
+		{if $_W['we7_wmall']['config']['store']['activity']['perm']['couponCollect']['status'] == 1}
+			<li {if $_W['_op'] == 'couponCollect'}class="active"{/if}>
+				<a href="{php echo iurl('store/activity/couponCollect');}">进店领券</a>
+			</li>
+		{/if}
+		{if $_W['we7_wmall']['config']['store']['activity']['perm']['bargain']['status'] == 1}
+			<li {if $_W['_op'] == 'bargain'}class="active"{/if}>
+				<a href="{php echo iurl('store/activity/bargain');}">天天特价</a>
+			</li>
+		{/if}
+		{if $_W['we7_wmall']['config']['store']['activity']['perm']['deliveryFeeDiscount']['status'] == 1}
+			<li {if $_W['_op'] == 'deliveryFeeDiscount'}class="active"{/if}>
+				<a href="{php echo iurl('store/activity/deliveryFeeDiscount');}">满减配送费</a>
+			</li>
+		{/if}
+		{if $_W['we7_wmall']['config']['store']['activity']['perm']['selfPickup']['status'] == 1}
+			<li {if $_W['_op'] == 'selfPickup'}class="active"{/if}>
+				<a href="{php echo iurl('store/activity/selfPickup');}">自提满减</a>
+			</li>
+		{/if}
+		{if check_plugin_perm('huangou') && $_W['we7_wmall']['store']['data']['huangou']['status'] == 1}
+			<li {if $_W['_op'] == 'huangou'}class="active"{/if}>
+				<a href="{php echo iurl('store/activity/huangou');}">换购</a>
+			</li>
+		{/if}
+	</ul>
+	<div class="menu-header" hidden>门店推广</div>
+	<ul class="menu-item" hidden>
+		<li {if $_W['_op'] == 'storeAdvertise'}class="active"{/if}>
+		<a href="{php echo iurl('store/activity/storeAdvertise');}">门店推广管理</a>
+		</li>
+	</ul>
+	{if $_W['we7_wmall']['config']['store']['activity']['perm']['mallNewMember']['status'] == 1}
+	<div class="menu-header">平台活动</div>
+	<ul class="menu-item">
+		<li {if $_W['_op'] == 'mallNewMember'}class="active"{/if}>
+		<a href="{php echo iurl('store/activity/mallNewMember');}">平台新用户</a>
+		</li>
+		{if check_plugin_perm('svip')}
+			<li {if $_W['_op'] == 'svipRedpacket'}class="active"{/if}>
+				<a href="{php echo iurl('store/activity/svipRedpacket');}">超级会员红包</a>
+			</li>
+		{/if}
+	</ul>
+	{/if}
+	{if check_plugin_perm('superCoupon') && $_W['we7_wmall']['store']['data']['superCoupon']['status'] == 1}
+		<div class="menu-header">代金券</div>
+		<ul class="menu-item">
+			<li {if $_W['_op'] == 'superCoupon'}class="active"{/if}>
+				<a href="{php echo iurl('store/activity/superCoupon');}">超级代金券</a>
+			</li>
+			<li {if $_W['_op'] == 'superCouponRecord'}class="active"{/if}>
+				<a href="{php echo iurl('store/activity/superCouponRecord');}">发券记录</a>
+			</li>
+		</ul>
+	{/if}
+	<div class="menu-header">客户</div>
+	<ul class="menu-item">
+		<li {if $_W['_op'] == 'member'}class="active"{/if}>
+		<a href="{php echo iurl('store/activity/member');}">客户管理</a>
+		</li>
+	</ul>
+</div>

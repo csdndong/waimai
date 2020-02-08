@@ -1,0 +1,102 @@
+<div class="m3-order-detail-left">
+    <ul>
+        <li><span>订单编号：</span><{$order['dno']}></li>
+        <li><span>下单时间：</span><{$order['addtime']}></li>
+        <li><span>要求时间：</span><{$order['posttime']}></li>
+        <li><span>完成时间：</span><{$order['suretime']}></li>
+        <li><span>配送方式：</span><{if $order['pstype'] == 1}>店铺自送<{else}>平台配送<{/if}></li>
+        <li><span>支付方式：</span><{if $order['paytype'] == 0}>餐到付款<{else}>在线支付<{/if}><{if $order['paystatus'] == 1}>(已付)<{else}>(未付)<{/if}></li>
+        <li><span>客户姓名：</span><{$order['buyername']}></li>
+        <li><span>手机号码：</span><{$order['buyerphone']}></li>
+        <li><span>配送地址：</span><{$order['buyeraddress']}></li>
+        <li><span>订单备注：</span><{$order['excontent']}></li>
+    </ul>
+    <div class="clear"></div>
+</div>
+<div class="m3-order-detail-right">
+    <table>
+        <tbody>
+        <tr>
+            <th class="m3-odetail1 ">订单商家：<{$order['shopname']}></th>
+            <th class="m3-odetail2">订单状态：<{$order['status']}></th>
+        </tr>
+        </tbody>
+    </table>
+    <div class="menulist">
+        <form id="ordercomment"  >
+            <table>
+                <tbody>
+                <{if $order['is_ping'] == 0}>
+                        <{foreach from=$orderdet item=items}>
+                        <tr>
+                            <td class="m3-odetail1"><{$items['goodsname']}></td>
+                            <td class="m3-odetail2">￥<{$items['goodscost']}>*<{$items['goodscount']}></td>
+                            <td class="m3-odetail3"><span class="money">￥<{$items['sum']}></span></td>
+                        </tr>
+                        <tr>
+                            <td colspan= 3 class="m3-odetail1">
+                                <div>
+                                    <label>评分:</label>
+                                    <input type="radio" style="width:15px;" name="goodsid_<{$items['id']}>" value="1" >1分
+                                    <input type="radio" style="width:15px;" name="goodsid_<{$items['id']}>" value="2">2分
+                                    <input type="radio" style="width:15px;" name="goodsid_<{$items['id']}>" value="3">3分
+                                    <input type="radio" style="width:15px;" name="goodsid_<{$items['id']}>" value="4">4分
+                                    <input type="radio" style="width:15px;" name="goodsid_<{$items['id']}>" value="5" checked>5分
+                                </div>
+                                <div>
+                                    <textarea class="cintempty" style="margin-left:30px;height:50px;width:300px" id="content_<{$items['id']}>"></textarea>
+                                </div>
+                            </td>
+                        </tr>
+                    <{/foreach}>
+                        <tr>
+                            <td colspan= 3 class="m3-odetail1">
+                                <div>
+                                    <label>总体评价:</label>
+                                    <input type="radio" style="width:15px;" name="shoppointnum" value="1" >1分
+                                    <input type="radio" style="width:15px;" name="shoppointnum" value="2">2分
+                                    <input type="radio" style="width:15px;" name="shoppointnum" value="3">3分
+                                    <input type="radio" style="width:15px;" name="shoppointnum" value="4">4分
+                                    <input type="radio" style="width:15px;" name="shoppointnum" value="5" checked>5分
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan= 3 class="m3-odetail1">
+                                <div>
+                                    <label>配送服务:</label>
+                                    <input type="radio" style="width:15px;" name="shopsudupointnum" value="1" >1分
+                                    <input type="radio" style="width:15px;" name="shopsudupointnum" value="2">2分
+                                    <input type="radio" style="width:15px;" name="shopsudupointnum" value="3">3分
+                                    <input type="radio" style="width:15px;" name="shopsudupointnum" value="4">4分
+                                    <input type="radio" style="width:15px;" name="shopsudupointnum" value="5" checked>5分
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan= 3 class="m3-odetail1">
+                                <div>
+                                    <input type="button" name="tijiao" value="提交评价" style="margin-left:30px;margin-top:5px;width:80px;" onclick="saveping(<{$order['id']}>);">
+                                </div>
+                            </td>
+                        </tr>
+                <{else}>
+                    <{foreach from=$orderdet item=items}>
+                    <tr>
+                        <td class="m3-odetail1"><{$items['goodsname']}></td>
+                        <td class="m3-odetail2">￥<{$items['goodscost']}>*<{$items['goodscount']}></td>
+                        <td class="m3-odetail3"><span class="money">￥<{$items['sum']}></span></td>
+                    </tr>
+                    <tr>
+                        <td colspan= 3 class="m3-odetail1">
+                            <div> <label>评分:</label><{$items['comment']['point']}> <font color="gray"><{$items['comment']['content']}></font></div>
+                        </td>
+                    </tr>
+                    <{/foreach}>
+                <{/if}>
+            </tbody>
+        </table>
+     </form>
+    </div>
+</div>
+<div class="clear"></div>

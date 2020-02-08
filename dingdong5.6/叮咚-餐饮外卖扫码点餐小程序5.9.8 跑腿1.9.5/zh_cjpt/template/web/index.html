@@ -1,0 +1,149 @@
+{template 'public/header'}
+{template 'public/comhead'}
+<style type="text/css">
+  .flex_bet{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .flex_around{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+  .order_box.col-md-12{
+    padding: 0;
+  }
+  .order{
+    background: #fff;
+    border:1px solid #e4ebf1;
+    width: 24%;
+    padding: 15px;
+  }
+  .order p{
+    margin-bottom: 0
+  }
+  .order span{
+    padding: 0 5px;
+    color: #fff;
+    font-size: 15px;
+    border-radius: 2px
+  }
+  .title{
+    font-size:16px;
+    line-height: 24px;
+    margin:0 0 10px;
+  }
+  .green{
+    background: #4b0
+  }
+  .orange{
+    background: #f60
+  }
+  .blue{
+    background: #35b8eb
+  }
+  .red{
+    background: #f30
+  }
+  .order3 p,
+  .order2 p{
+    text-align: center;
+    margin-bottom: 5px;
+  }
+  .order3 span,
+  .order2 span{
+    color: #35b8eb;
+    display: block;
+    text-align: center;
+    font-size: 22px;
+  }
+  .order3{
+    width: 32%;
+  }
+</style>
+<div class="main">
+  <div class="panel panel-default ygdefault">
+    <div class="panel-body">
+      <h2 class="title">所有数据监控</h2>
+      <div class="col-md-12 flex_bet order_box">
+        <div class="order">
+          <a href="" class="flex_bet">
+            <p>待接单</p>
+            <span class="green">{$orders['djd']}</span>
+          </a>
+        </div>
+        <div class="order">
+          <a href="" class="flex_bet">
+            <p>已接单</p>
+            <span class="orange">{$orders['yjd']}</span>
+          </a>
+        </div>
+        <div class="order">
+          <a href="" class="flex_bet">
+            <p>配送中</p>
+            <span class="blue">{$orders['psz']}</span>
+          </a>
+        </div>    
+        <div class="order">
+          <a href="" class="flex_bet">
+            <p>已完成</p>
+            <span class="orange">{$orders['ywc']}</span>
+          </a>
+        </div>
+      </div>
+    </div><!--panel-body-->
+  </div><!--panel-->
+
+  <div class="panel panel-default ygdefault">
+    <div class="panel-body">
+      <h2 class="title">今日数据监控</h2>
+      <div class="col-md-12 flex_bet order_box">
+        <div class="order2 order">
+            <p>接单量</p>
+            <span>{$jrorders['jdl']}</span>
+        </div>
+        <div class="order2 order">
+            <p>完成单量</p>
+            <span>{$jrorders['ywcl']}</span>
+        </div>
+        <div class="order2 order">
+            <p>取消单量</p>
+            <span>{$jrorders['qx']}</span>
+        </div>    
+        <div class="order2 order">
+            <p>待接单量</p>
+            <span>{$jrorders['djdl']}</span>
+        </div>
+      </div>
+    </div><!--panel-body-->
+  </div><!--panel-->
+  <div class="panel panel-default ygdefault">
+    <div class="panel-body">
+      <h2 class="title">骑手情况</h2>
+      <div class="col-md-12 flex_bet order_box">
+        <div class="order3 order">
+            <p>所有骑手</p>
+            <span>{$qs['total']}</span>
+        </div>
+        <div class="order3 order">
+            <p>在岗骑手</p>
+            <span>{$qs['zg']}</span>
+        </div>
+        <div class="order3 order">
+            <p>休息骑手</p>
+            <span>{$qs['xx']}</span>
+        </div>    
+      </div>
+    </div><!--panel-body-->
+  </div><!--panel-->
+</div><!--main-->
+
+<script type="text/javascript">
+    $(function(){
+        // $("#frame-0").addClass("in");
+        $("#frame-0").show();
+        $("#yframe-0").addClass("wyactive");
+    })
+   
+</script>

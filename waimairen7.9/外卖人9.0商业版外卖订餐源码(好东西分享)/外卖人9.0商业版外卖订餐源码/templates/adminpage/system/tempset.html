@@ -1,0 +1,96 @@
+  <{extends file="<{$tempdir}>/public/admin.html"}> 
+ <{block name=extendjs}>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js"></script>
+ <{/block}>
+ <{block name=controlname}>手机端模板（微信端和触屏端）<{/block}>
+ <{block name=bodylist}> 
+ <style>
+ 	#showmodule{padding-top:5px;padding-bottom:5px;}
+ 	#showmodule img{border:2px solid #ccc;}
+ 	#showmodule li{height:800px;width:300px; margin-right:100px;float:left;text-align:left;margin-left:30px;margin-top:30px;}
+ 	</style>
+	 <div style="width:auto;overflow-x:hidden;overflow-y:auto"> 
+  
+ 
+	 <div id="showmodule">
+    	<ul >
+     		<li>
+    			 <div style="margin-bottom:20px;"><input type="radio" name="mobilemodule"   value="1"   onclick="mobilechangemodule(this);"  checked>模板1(默认模板)</div>
+    			 <div><img src="<{$siteurl}>/upload/images/moduledefault.png" style="width:300px;height:680px;"></div>
+    			 <div style="color:#666;"> </div>
+    			</li>
+				
+				<li>
+    			 <div style="margin-bottom:20px;"><input type="radio" name="mobilemodule"  value="2"   onclick="mobilechangemodule(this);"  <{if $mobilemodule ==2 }>checked<{/if}>>模板2 </div>
+    			 <div><img src="<{$siteurl}>/upload/images/module2.png" style="width:300px;height:680px;"></div>
+    			 <div style="color:#666;"> </div>
+    			</li>
+     		 
+    	</ul>
+    		
+			<!-- 
+				
+					<tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                      <td class="left">移动端模板</td>
+                      <td>	<input type="radio" name="mobilemodule" id="mobilemodule" value="1"  checked>模板1
+                      	<input type="radio" name="mobilemodule" id="mobilemodule" value="2"   <{if $mobilemodule ==2 }>checked<{/if}>>模板2 
+                      </td>
+                    </tr>
+					 -->
+    </div>
+  </div> 
+        
+        
+   
+    </div> 
+<script>
+	function changemodule(obj){
+	var url = siteurl+'/index.php?ctrl=adminpage&action=system&module=savetempset&modulename='+$(obj).val()+'&datatype=json&random=@random@'; 
+	$.ajax({
+     type: 'post',
+     async:false, 
+     url: url.replace('@random@', 1+Math.round(Math.random()*1000)), 
+     dataType: 'json',success: function(content) {   
+     	if(content.error == false){
+     	 window.location.reload();
+     	}else{
+     		if(content.error == true)
+     		{
+     			diaerror(content.msg); 
+     		}else{
+     			diaerror(content); 
+     		}
+     	} 
+		},
+    error: function(content) { 
+    	diaerror('数据获取失败'); 
+	  }
+   });    
+	}
+	
+	
+	function mobilechangemodule(obj){
+	var url = siteurl+'/index.php?ctrl=adminpage&action=system&module=savemobiletempset&mobilemodule='+$(obj).val()+'&datatype=json&random=@random@'; 
+	$.ajax({
+     type: 'post',
+     async:false, 
+     url: url.replace('@random@', 1+Math.round(Math.random()*1000)), 
+     dataType: 'json',success: function(content) {   
+     	if(content.error == false){
+     	 window.location.reload();
+     	}else{
+     		if(content.error == true)
+     		{
+     			diaerror(content.msg); 
+     		}else{
+     			diaerror(content); 
+     		}
+     	} 
+		},
+    error: function(content) { 
+    	diaerror('数据获取失败'); 
+	  }
+   });    
+	}
+	</script>
+ <{/block}>

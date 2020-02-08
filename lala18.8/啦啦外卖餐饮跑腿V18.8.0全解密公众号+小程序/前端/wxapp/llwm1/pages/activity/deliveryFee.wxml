@@ -1,0 +1,50 @@
+<view class="page-deliveryFee">
+    <view class="content">
+        <view class="zan-panel">
+            <view class="zan-cell zan-cell--access">
+                <view class="zan-cell__bd">起始日期</view>
+                <view class="zan-cell__ft">
+                    <picker bindchange="changeDateTime" bindcolumnchange="changeDateTimeColumn" data-type="starttime" mode="multiSelector" range="{{dateTimeArray}}" value="{{dateTime}}">
+						{{starttime}}
+					</picker>
+                </view>
+            </view>
+            <view class="zan-cell zan-cell--access">
+                <view class="zan-cell__bd">结束日期</view>
+                <view class="zan-cell__ft">
+                    <picker bindchange="changedateTime" bindcolumnchange="changeDateTimeColumn" data-type="endtime" mode="multiSelector" range="{{dateTimeArray}}" value="{{dateTime}}">
+						{{endtime}}
+					</picker>
+                </view>
+            </view>
+        </view>
+        <view class="activity-box">
+            <view wx:if="{{type=='newMember'}}">
+                <view class="activity-col clearfix">
+                    <text>门店新客立减</text>
+                    <view class="input-box">
+                        <input bindblur="onInput" data-index="0" data-type="back" type="number"></input>
+                    </view>
+                    <text>元</text>
+                </view>
+            </view>
+            <view wx:else>
+                <view class="activity-col clearfix" wx:for="{{4}}">
+                    <text>满</text>
+                    <view class="input-box">
+                        <input bindblur="onInput" data-index="{{index}}" data-type="condition" type="number"></input>
+                    </view>
+                    <text>{{discount_title}}</text>
+                    <view class="input-box">
+                        <input bindblur="onInput" data-index="{{index}}" data-type="back" type="number"></input>
+                    </view>
+                    <text>{{discount_cn}}</text>
+                </view>
+            </view>
+        </view>
+        <view class="page__bd_spacing">
+            <button bind:tap="onSubmit" class="weui-btn mini-btn" type="primary">确认并保存</button>
+        </view>
+    </view>
+</view>
+<include src="../public/footer.wxml"></include>

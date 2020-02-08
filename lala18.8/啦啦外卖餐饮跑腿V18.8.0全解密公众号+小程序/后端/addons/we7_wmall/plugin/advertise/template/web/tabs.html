@@ -1,0 +1,52 @@
+<div class="second-sidebar-title">{$_W['_plugin']['title']}</div>
+<div class="nav slimscroll">
+	{ifp 'advertise.trade'}
+	<div class="menu-header">交易</div>
+	<ul class="menu-item">
+		<li {if $_W['_action'] == 'trade'}class="active"{/if}>
+		<a href="{php echo iurl('advertise/trade');}">购买记录</a>
+		</li>
+	</ul>
+	{/if}
+	{ifp 'advertise.config'}
+	<div class="menu-header">设置</div>
+	<ul class="menu-item">
+		<li {if $_W['_action'] == 'config'}class="active"{/if}>
+			<a href="{php echo iurl('advertise/config');}">基本设置</a>
+		</li>
+		<li {if $_W['_op'] == 'payment'}class="active"{/if}>
+			<a href="{php echo iurl('advertise/config/payment');}">支付设置</a>
+		</li>
+	</ul>
+	{/if}
+	{ifp 'advertise.advertise'}
+	<div class="menu-header">类型设置</div>
+	<ul class="menu-item">
+		<li {if $_W['_op'] == 'recommend'}class="active"{/if}>
+			<a href="{php echo iurl('advertise/advertise/recommend');}">为您优选推广</a>
+		</li>
+		<li {if $_W['_op'] == 'stick'}class="active"{/if}>
+			<a href="{php echo iurl('advertise/advertise/stick');}">商家置顶推广</a>
+		</li>
+	</ul>
+	{/if}
+	{ifp 'advertise.slide'}
+	<div class="menu-header">幻灯片推广</div>
+	<ul class="menu-item">
+		<li {if $_W['_action'] == 'homeTop'}class="active"{/if}>
+		<a href="{php echo iurl('advertise/slide', array('slide_type' => 'slideHomeTop'));}">首页顶部</a>
+		</li>
+		<li {if $_W['_action'] == 'member'}class="active"{/if}>
+		<a href="{php echo iurl('advertise/slide', array('slide_type' => 'slideMember'));}">会员中心</a>
+		</li>
+		<li {if $_W['_action'] == 'paycenter'}class="active"{/if}>
+		<a href="{php echo iurl('advertise/slide', array('slide_type' => 'slidePaycenter'));}">收银台</a>
+		</li>
+		<li {if $_W['_action'] == 'orderDetail'}class="active"{/if}>
+		<a href="{php echo iurl('advertise/slide', array('slide_type' => 'slideOrderDetail'));}">订单详情</a>
+		</li>
+	</ul>
+	{/if}
+</div>
+
+

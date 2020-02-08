@@ -1,0 +1,323 @@
+ <{extends file="<{$tempdir}>/public/admin.html"}> 
+   <{block name=extendjs}>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js"></script>
+ <{/block}>
+ <{block name=controlname}><span class='spanone' style="cursor:pointer;"><a  href="<{ofunc type=url link="/adminpage/shop/module/addshop"}>">单个添加店铺</a></span>   
+ <span class='spantwo' style="  cursor:pointer;  "><a style="color:#fff;" href="<{ofunc type=url link="/adminpage/shop/module/moreaddshop"}>">批量添加店铺</a></span><{/block}>
+ <{block name=bodylist}> 
+ <style>
+ #tagscontent input, #tagscontent #table input{padding:0px; width:100px;}
+ .showtop_t{padding-top: 6px!important;
+    border: none;
+    padding: 0;}
+ </style>
+ <script>
+$(document).ready(function(){
+   var text = '批量添加店铺';
+   $('#nowactioninfo').text(text);
+   $('#positionname2').text(text);
+});
+
+</script>
+    <div style="width:auto;overflow-x:hidden;overflow-y:auto">
+
+      	  <div class="search">
+
+
+            <div class="search_content">
+
+            	   <div class="select_page">
+<!--                  	      	<a href="#" onclick="checkword(true);">全选</a>/<a href="#" onclick="checkword(false);">取消</a>
+ -->                 	     <a  onclick="bkbase();" href="#"   class="delurl">批量添加店铺</a>
+                 	     <span id="showstatus">点此批量添加</span>
+
+                 </div>
+            </div>
+
+      	</div>
+
+
+           <div class="tags">
+
+          <div id="tagscontent">
+
+            <div id="con_one_1">
+
+              <div class="table_td" style="margin-top:10px;">
+
+              <form method="post" action="" onsubmit="return remind();" id="delform">
+
+                  <table border="0" cellspacing="2" cellpadding="4" class="list" name="table" id="table" width="100%">
+
+                    <thead>
+
+                      <tr>
+ 
+                        <th width="25%;" align="center">店铺名称</th>
+                        <th width="10%;" align="center">会员名称</th>
+                        <th width="10%;" align="center">登录密码	</th>
+						 <th width="10%;" align="center">联系电话</th>
+                         <th width="15%;" align="center">店铺分类</th>
+                        <th width="10%;" align="center">所属城市</th>
+                        <th  width="10%;" align="center">添加状态</th>
+                        <th width="10%;" align="center">操作</th>
+                      </tr>
+
+                    </thead>
+
+                     <tbody id="type">
+
+					 <tr class="s_out" onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+ 						
+						
+                        <td width="25%;" align="center" ><input style="width:90%;" type="text" name="shopname[]" value="" ></td>
+                        <td width="10%;" align="center" ><input type="text" name="username[]" value="" ></td>
+                         <td width="10%;" align="center" ><input type="text" name="password[]" value="" ></td>
+                         <td width="10%;" align="center" ><input type="text" name="maphone[]" value="" ></td>
+                        <td width="15%;" align="center" >
+						
+						<select name="shoptype[]">
+                 	<{foreach from=$catlist item=itv}>
+													<option value="<{$itv['cattype']}>_<{$itv['id']}>"   ><{$catarr[$itv['cattype']]}>-<{$itv['name']}></option>
+													<{/foreach}>
+							
+                      </select>
+						
+						</td>
+                         <td width="10%;" align="center" >
+						 
+						 <select name="admin_id[]">
+                      	<option value="0">请选择所属城市</option>
+                       	<{foreach from=$citylist key=mykey item=items}>
+                      	<option value="<{$items['adcode']}>"><{$items['name']}></option>      
+                      	 <{/foreach}>     
+						 </td> 
+                        <td   style="color:red;width:100px;" class="table_status" align="center" ></td>
+						<td align="center"> <a onclick="$(this).parent().parent().remove();" href="javascript:;"><img src="<{$siteurl}>/templates/<{$tempdir}>/public/images/admin/del.jpg"></a></td> 
+                       
+             
+
+                      </tr>
+					 
+                    </tbody>
+<tbody>
+ <tr>
+					 <td colspan="8" align="center;" style="padding:20px 0px; text-align:left; padding-left:80px;">
+				   <input type="button" name="button" id="typebutton" value="添加店铺" onclick="addbz();" class="button" />
+				  </td>
+				  </tr>
+
+</tbody>
+					
+					
+					
+                  </table>
+
+                <div class="blank20"></div>
+
+
+
+                </form>
+
+                <div class="page_newc">
+
+
+                 </div>
+
+                <div class="blank20"></div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+  </div>
+
+</div>
+<style>
+.spanone { 
+    color: #000!important;
+    font-size: 14px!important;
+    cursor: pointer!important;
+    background: #e7e9f1!important;
+    display: inline-block;
+    height: 30px;
+    width: 115px;
+    text-align: center;
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
+    border: 1px solid #E6E6E6;
+}
+.spantwo a{font-weight:bold;}
+.spantwo { 
+    color: #000!important;
+    font-size: 14px!important;
+    cursor: pointer!important;
+    background: #fff!important;
+    display: inline-block;
+    height: 30px;
+    width: 115px;
+    text-align: center;
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
+    border: 1px solid #E6E6E6;
+}
+#positionname span a {
+    color: #000!important;  
+}
+</style>
+ <script>
+	function addbz(){
+  
+ 
+			var 	htmldatas='		<tr class="s_out" onmouseover="this.bgColor=\'#F5F5F5\';" onmouseout="this.bgColor=\'#ffffff\';" bgcolor=\'#ffffff\' >	';
+ 						 
+                    	htmldatas+='		    <td width="25%;" align="center" ><input style="width:90%;" type="text" name="shopname[]" value="" ></td>	';
+                     	htmldatas+='		   <td width="10%;" align="center" ><input type="text" name="username[]" value="" ></td>	';
+                   	htmldatas+='		      <td width="10%;" align="center" ><input type="text" name="password[]" value="" ></td>	';
+                  	htmldatas+='		      <td width="10%;" align="center" ><input type="text" name="maphone[]" value="" ></td>	';
+                 	htmldatas+='		       <td width="15%;" align="center" >	';
+						
+					htmldatas+='				<select name="shoptype[]">	';
+                  
+				 	<{foreach from=$catlist item=itv}>
+							htmldatas +='	 	<option value="<{$itv['cattype']}>_<{$itv['id']}>" <{if $items['param'] == $itv['id']}> selected <{/if}> ><{$catarr[$itv['cattype']]}>-<{$itv['name']}></option>	';
+					 <{/foreach}> 
+						 
+                	htmldatas+='		      </select>	';
+						
+					htmldatas+='				</td>	';
+                    	htmldatas+='		     <td width="10%;" align="center" >	';
+						 
+					htmldatas+='				 <select name="admin_id[]">	';
+                	htmldatas+='		      	<option value="0">请选择所属城市</option>	';
+                	<{foreach from=$citylist key=mykey item=items}>
+                 	htmldatas	+='		     	<option value="<{$items['adcode']}>"><{$items['name']}></option>      	';
+                      	 <{/foreach}>
+			  
+					htmldatas+='			 </td> 	';
+						 
+                   	htmldatas+='		      <td   style="color:red;width:100px;" class="table_status" align="center" ></td>';
+                   	htmldatas+='		  <td align="center"> <a onclick="$(this).parent().parent().remove();" href="javascript:;"><img src="<{$siteurl}>/templates/<{$tempdir}>/public/images/admin/del.jpg"></a></td>	';
+                       
+ 
+                	htmldatas+='		      </tr>	';
+					 
+		
+		
+		
+		
+		$('#type').append(htmldatas);  
+	}
+	</script>
+<!--newmain 结束-->
+<script>
+  
+var indexeq = 0 ;
+
+function bkbase(){
+ 	if( $("#type tr").eq(indexeq).length  > 0 ){
+	 
+ 	 	 $('#showstatus').text('开始批量添加店铺');
+	 	$.ajax({
+     type: 'post',
+     async:false,
+     data:{'shopname':$('input[name="shopname[]"]').eq(indexeq).val(),'username':$('input[name="username[]"]').eq(indexeq).val(),'password':$('input[name="password[]"]').eq(indexeq).val(),
+	 'maphone':$('input[name="maphone[]"]').eq(indexeq).val(),'shoptype':$('select[name="shoptype[]"]').eq(indexeq).val(),'admin_id':$('select[name="admin_id[]"]').eq(indexeq).val()},
+   url: '<{ofunc type=url link="/adminpage/shop/module/savemoreshop/datatype/json"}>',
+     dataType: 'json',success: function(content) {
+     	if(content.error == false){
+     		 $("#type tr").eq(indexeq).find( '.table_status' ).text('ok');
+			
+     	}else{
+     		if(content.error == true)
+     		{
+     			$('#showstatus').text(content.msg);
+     			 $("#type tr").eq(indexeq).find( '.table_status' ).text(content.msg);
+     		}else{
+     			//diaerror(content);
+     			$('#showstatus').text(content);
+     			$("#type tr").eq(indexeq).find( '.table_status' ).text(content);
+     		}
+     	}
+		indexeq = indexeq+1;
+      	setTimeout("bkbase()",200);
+	   },
+     error: function(content) {
+     	 $('#showstatus').text('数据获取失败');
+       $("#type tr").eq(indexeq).find( '.table_status' ).text('数据获取失败');
+			indexeq = indexeq+1;
+        setTimeout("bkbase()",200);
+	     }
+     });
+
+
+	 }else{
+	 	 $('#showstatus').text('批量添加完成');
+	 }
+	 
+	 
+
+
+}
+
+
+	//空气开始结束
+	//时间间隔
+	/*
+	function bkbase(){
+		var dotable = '';
+		$("input[name='id[]']").each(function(){
+		 if($(this).is(":checked")){
+		 	 if($(this).attr('disabled')==false){
+		 	 	dotable = $(this).val();
+		 	 	$(this).attr('disabled',true);
+		 	 	 return false;
+		 	 }
+		 	}
+	 });
+	 if(dotable !=''){
+	 	 $('#showstatus').text('备份'+dotable+'表');
+	 	$.ajax({
+     type: 'post',
+     async:false,
+     data:{'tabelname':dotable,'dirname':<{$dirname}>},
+   url: '<{ofunc type=url link="/adminpage/other/module/savesqldata/datatype/json"}>',
+     dataType: 'json',success: function(content) {
+     	if(content.error == false){
+     		$('#table_'+dotable).text('ok');
+     	}else{
+     		if(content.error == true)
+     		{
+     			$('#showstatus').text(content,msg);
+     			 $('#table_'+dotable).text(content.msg);
+     		}else{
+     			//diaerror(content);
+     			$('#showstatus').text(content);
+     			 $('#table_'+dotable).text(content);
+     		}
+     	}
+     	setTimeout("bkbase()",200);
+	   },
+     error: function(content) {
+     	 $('#showstatus').text('数据获取失败');
+       $('#table_'+dotable).text('数据获取失败');
+       setTimeout("bkbase()",200);
+	     }
+     });
+
+
+	 }else{
+	 	 $('#showstatus').text('备份完成表');
+	 }
+
+		//
+	}
+	
+	*/
+</script>
+<{/block}>

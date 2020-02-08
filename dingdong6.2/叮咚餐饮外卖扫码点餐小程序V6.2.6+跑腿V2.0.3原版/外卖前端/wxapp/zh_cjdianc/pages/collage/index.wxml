@@ -1,0 +1,199 @@
+<view class="container">
+    <view class="head rel" style="height:{{width+53}}px">
+        <swiper autoplay="auto" circular="true" class="swiper" duration="500" indicatorActiveColor="{{color}}" indicatorColor="#ccc" indicatorDots="true" interval="5000" style="height:{{width}}px">
+            <swiper-item wx:for="{{goods_info.img}}">
+                <image class="slide-image" mode="aspectFill" src="{{url}}{{item}}"></image>
+            </swiper-item>
+        </swiper>
+        <view class="Collage ab pa" style="height:53px;">
+            <view class="dis_in color_f pa fon_24">
+                <view class="collMan">
+                    <text class="dis_in">{{goods_info.people}}人拼</text>
+                </view>
+            </view>
+            <view class="dis_in">
+                <text class=" fon_24 color_f">￥</text>
+                <text class=" fon_36 color_f">{{goods_info.pt_price}}</text>
+                <text class=" fon_24 color_e text_c pa_1">￥{{goods_info.y_price}}</text>
+            </view>
+            <view class="dis_in fon_24 color_f coTime" style="float:right;">
+                <view class="t_c">距拼购结束还剩:</view>
+                <view class="" wx:if="{{clock!=false}}">
+                    <text>{{day}}</text>
+                    <text>天</text>
+                    <text>{{hour}}</text>
+                    <text>:</text>
+                    <text>{{min}}</text>
+                    <text>:</text>
+                    <text>{{sec}}</text>
+                </view>
+                <view class="" wx:if="{{clock==false}}">
+                    <text>00</text>
+                    <text>天</text>
+                    <text>00</text>
+                    <text>:</text>
+                    <text>00</text>
+                    <text>:</text>
+                    <text>00</text>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view class="shop ba_f pa_0">
+        <view class="dis_in">
+            <view class="pa_1 gobyndsingle fon_36">
+        {{goods_info.name}}
+      </view>
+            <view class="fon_24 pa_1">
+          {{goods_info.introduction}}
+      </view>
+        </view>
+        <view bindtap="share" class="dis_in t_c fon_24">
+            <image mode="aspectFill" src="../../img/collage/share.png"></image>
+            <text>分享</text>
+        </view>
+    </view>
+    <view class="collInfo mar_t ba_f" style="background:#f7f7f7">
+        <view class="group pa bor_bottom" wx:for="{{group}}" wx:key="*this">
+            <view class="dis_in">
+                <image class="dis_in" mode="aspectFill" src="{{item.img}}"></image>
+                <text class="dis_in fon_30 mar_l">{{item.name}}的团</text>
+            </view>
+            <view class="dis_in t_r">
+                <view class="fon_24">
+                    <text>还差</text>
+                    <text style="color:{{color}}">{{item.num}}人</text>
+                    <text>成团</text>
+                </view>
+                <view class="fon_24 color_c" wx:if="{{clock!=false}}">剩余{{day}}天{{hour}}:{{min}}:{{sec}}</view>
+                <view class="fon_24 color_c" wx:else>活动已结束</view>
+            </view>
+            <view bindtap="collageInfo" class="dis_in color_f fon_28 parGroup t_c" data-id="{{item.id}}" data-logo="{{item.img}}" data-name="{{item.name}}" data-num="{{item.num}}" data-userid="{{item.user_id}}" wx:if="{{clock!=false}}">
+                <text>去参团</text>
+            </view>
+            <view class="dis_in color_f fon_28 parGroup t_c" wx:else>
+                <text>已结束</text>
+            </view>
+        </view>
+    </view>
+    <view class="pa_1 ba_f fon_24 mar_t">
+        <view class="pa bor_bottom" style="padding：20rpx 0">
+            <text>活动起止时间：</text>
+            <text style="color:{{color}}">{{goods_info.start_time}}至{{goods_info.end_time}}</text>
+        </view>
+        <view class="pa">
+            <text>消费结束时间：</text>
+            <text style="color:{{color}}">{{goods_info.xf_time}}</text>
+        </view>
+    </view>
+    <view class="ba_f mar_t pa_1">
+        <view class="pa_0 bor_bottom fon_30 color_6">适用店铺</view>
+        <view class="address rel pa_0 bor_bottom">
+            <image class="dis_in" mode="aspectFill" src="{{StoreInfo.store.logo}}" style="width:70rpx;height:70rpx;border-radius:50%;"></image>
+            <view class="dis_in fon_28">
+                <view class="color_6">
+          {{StoreInfo.store.name}}
+        </view>
+                <view class="color_9">
+          营业时间：{{StoreInfo.store.time}}-{{StoreInfo.store.time2}}<text style="margin-left:20rpx">{{StoreInfo.store.time3}}-{{StoreInfo.store.time4}}</text>
+                </view>
+            </view>
+            <image bindtap="maketel" class="dis_in ab ud se_right" mode="aspectFit" src="../../img/lxsj.png"></image>
+        </view>
+        <view bindtap="location" class="address rel pa_0">
+            <image class="dis_in" mode="aspectFit" src="../../img/location1.png" style="width:40rpx;height:40rpx;margin:0rpx 15rpx;"></image>
+            <view class="dis_in fon_28">
+                <view class="color_6">
+          {{StoreInfo.store.address}}
+        </view>
+            </view>
+            <image class="dis_in ab ud se_right" mode="aspectFit" src="../../img/blackjt.png"></image>
+        </view>
+    </view>
+    <view class="playMethod pa_1 ba_f mar_t">
+        <view class="pa_0 fon_30 bor_bottom">
+      拼购玩法
+    </view>
+        <view class="fon_24 pa_0 rule">
+            <view class="dis_in">
+                <image class="dis_in" mode="aspectFill" src="../../img/collage/num_one.png" style="width:30rpx;height:30rpx;margin-right:5rpx;"></image>
+                <text class="dis_in">开团/参团</text>
+            </view>
+            <view class="dis_in t_c">></view>
+            <view class="dis_in">
+                <image class="dis_in" mode="aspectFill" src="../../img/collage/num_two.png" style="width:30rpx;height:30rpx;margin-right:5rpx;"></image>
+                <text class="dis_in">邀请好友</text>
+            </view>
+            <view class="dis_in t_c">></view>
+            <view class="dis_in t_c">
+                <view class="dis_in">
+                    <image class="dis_in" mode="aspectFill" src="../../img/collage/num_three.png" style="width:30rpx;height:30rpx;margin-right:5rpx;"></image>
+                </view>
+                <view class="dis_in">
+                    <view>满员发货</view>
+                    <view class="color_9">(不满自动退款)</view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view class="shopInfo mar_t ba_f pa" wx:if="{{goods_info.details!=''}}">
+        <rich-text nodes="{{goods_info.details}}"></rich-text>
+    </view>
+    <view class="share" hidden="{{share}}">
+        <view class="ab"></view>
+        <view class="ab">
+            <view class="share_info">
+                <view class="dis_in rel">
+                    <view class="rel">
+                        <image class="ab udlr" mode="aspectFill" src="../../img/collage/weixin.png"></image>
+                    </view>
+                    <view class="t_c fon_24">分享给朋友</view>
+                    <button class="ab" openType="share"></button>
+                </view>
+                <view bindtap="canvas" class="dis_in">
+                    <view class="rel">
+                        <image class="ab udlr" mode="aspectFill" src="../../img/collage/schb.png"></image>
+                    </view>
+                    <view class="t_c fon_24">生成商品海报</view>
+                </view>
+            </view>
+            <view bindtap="close" class="pa_0 t_c fon_28 ba_f">
+        关闭
+      </view>
+        </view>
+    </view>
+    <view class="generateImage" hidden="{{friendsImage}}">
+        <view class="ab"></view>
+        <view class="ab udlr">
+            <view style="overflow:hidden">
+                <image mode="aspectFill" src="{{genImage}}"></image>
+            </view>
+            <button bindtap="toTemp" class="fon_30">保存图片</button>
+            <view class="color_e fon_24 t_c pa">保存至相册可以分享至朋友圈</view>
+            <view bindtap="close" class="ab t_c">×</view>
+        </view>
+    </view>
+    <view style="height:170rpx;"></view>
+    <view class="buyShop  ba_f">
+        <view bindtap="back" class="dis_in t_C fon_24 t_c">
+            <image mode="widthFix" src="../../img/collage/return.png"></image>
+            <text>返回</text>
+        </view>
+        <view bindtap="alone_pay" class="dis_in color_f">
+            <view class=" t_c">
+                <text class="fon_24">￥</text>
+                <text class="fon_30">{{goods_info.dd_price}}</text>
+            </view>
+            <view class="fon_30 t_c">单独购买</view>
+        </view>
+        <view bindtap="group_pay" class="dis_in color_f" style="background:{{color}}">
+            <view class=" t_c">
+                <text class="fon_24">￥</text>
+                <text class="fon_30">{{goods_info.pt_price}}</text>
+            </view>
+            <view class="fon_30 t_c">{{goods_info.people}}人成团</view>
+        </view>
+    </view>
+</view>
+<canvas canvasId="firstCanvas" style="width: 100%; height: 100%;top:-10000rpx;"></canvas>
+<canvas canvasId="ctx" style="width: 100%; height: 100%;top:-12000rpx;"></canvas>

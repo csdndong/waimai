@@ -1,0 +1,175 @@
+ <{extends file="<{$tempdir}>/public/admin.html"}>
+   <{block name=extendjs}>
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/jquery.PrintArea.js" type="text/javascript" language="javascript"></script>
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/datepicker/WdatePicker.js" type="text/javascript" language="javascript"></script>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js"></script>
+  <script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/chart/highcharts.js"></script>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/chart/modules/exporting.js"></script>
+ <{/block}>
+ <{block name=controlname}>分站统计<{/block}>
+ <{block name=bodylist}>
+ <style>
+	body{color:#666;}
+	.selectcolor{color: #1783b2;font-size: 12px;padding: 2px;border: 1px solid #1783b2;margin: 0 0 0 10px;cursor:pointer;}
+	.noselectcolor{color: #666;font-size: 12px;padding: 2px;border: 1px solid #ccc;margin: 0 0 0 10px;cursor:pointer;}
+	.selectcolor a{color:#0076cf;}
+	.noselectcolor a{color:#666;}
+	.selectcolor a:link{color:#0076cf;}
+	.noselectcolor a:link{color:#666;}
+	.trade_title{height: 40px;line-height: 40px;padding:0 20px;text-align: left;}
+	.trade_title i{width: 4px;display: inherit;float: left; height: 16px; margin-top: 11px;background-color: rgba(22, 155, 213, 1);}
+	.trade_title span{color: #333;font-weight: 700; margin-left: 10px;}
+	.trade_title .delurl{line-height:24px;float:right;margin-top: 8px;padding: 0px 5px;font-size:12px;color:#0076cf;}
+ </style>
+   <div style="width:auto;overflow-x:hidden;overflow-y:auto">
+			<div class="search" style="height:60px;line-height: 60px;"> 
+            <div class="search_content">
+            	 
+            	 <form method="post" name="form1" action="<{ofunc type=url link="/adminpage/analysis/module/area_statisyic"}>">
+            	 	<label>订单类型：</label>
+            	 	<select name="ordertype">
+            	 		<option value="0">全部</option>
+            	 		<option value="1" <{if $ordertype == 1}>selected<{/if}>>外卖订单</option>
+            	 		<option value="2" <{if $ordertype == 2}>selected<{/if}>>跑腿订单</option>
+						<option value="3" <{if $ordertype == 3}>selected<{/if}>>闪惠订单</option>
+            	 	</select>
+				  时间：
+            	  <input class="Wdate datefmt" type="text" name="starttime" id="starttime" value="<{$starttime|date_format:"%Y-%m-%d"}>"  onFocus="WdatePicker({isShowClear:false,readOnly:true});" style="width:100;"  />  
+			   		 	  至<input class="Wdate datefmt" type="text" name="endtime" id="endtime" value="<{$endtime|date_format:"%Y-%m-%d"}>"  onFocus="WdatePicker({isShowClear:false,readOnly:true});" style="width:100;" />                    
+
+            	    <input type="submit" value="查询" class="button">  
+            	  <span class="<{if $datetype==1}>selectcolor<{else}>noselectcolor<{/if}>"><a href="<{ofunc type=url link="/adminpage/analysis/module/area_statisyic/datetype/1"}>">近7天</a></span><span data="2" class="<{if $datetype==2}>selectcolor<{else}>noselectcolor<{/if}>"><a href="<{ofunc type=url link="/adminpage/analysis/module/area_statisyic/datetype/2"}>">近30天</a></span>
+            	 </form>
+            </div>
+        
+      	</div>
+          <div class="tags">
+
+          <div id="tagscontent">
+            <div id="con_one_1">
+
+              <div class="table_td" style="margin-top:10px;">
+
+               <div  id="container" style="min-width: 400px; height: 400px; margin: 0 auto">
+
+              </div>
+
+			<div class="trade_title">
+      			<i></i>
+      			<span>站点交易统计</span>
+				<a  href="<{$outlink}>" target="_blank" class="delurl">导出数据</a>
+      		</div>
+               <form method="post" action="" onsubmit="return remind();">
+                  <table border="0" cellspacing="2" cellpadding="4" class="list" name="table" id="table" width="100%">
+                    <thead>
+                      <tr>
+                        <th align="center">排序</th>
+                        <th align="center">站点</th>
+						<th align="center">订单总数</th>
+						<th align="center">交易总金额</th>
+						<th align="center">有效订单数</th>
+						<th align="center">有效订单金额</th>
+						<th align="center">下单会员数</th>
+						<th align="center">单均价</th>
+                      </tr>
+                    </thead>
+                     <tbody>
+						<{if empty($areadatalist)}>
+							<tr><td align="center" colspan="8">暂无数据</td></tr>
+						<{/if}>
+                     	<{foreach from=$areadatalist key=myid item=items}>
+                     	 <tr>
+							<td align="center"><{$myid+1}></td>
+							<td align="center"><{$items['name']}></td>
+							<td align="center"><{$items['ordernum']}></td>
+							<td align="center"><{$items['tradecost']}></td>
+							<td align="center"><{$items['useordnum']}></td>
+							<td align="center"><{$items['useordcost']}></td>
+							<td align="center"><{$items['memnum']}></td>
+							<td align="center"><{$items['singlecost']}></td>
+                      </tr>
+                      <{/foreach}>
+                    </tbody>
+                  </table>
+               </form>
+
+
+                <div class="blank20"></div>
+				<div class="show_page"><ul><{$pagecontent}></ul></div>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+  </div>
+
+</div>
+ <script type="text/javascript">
+$(function () {
+    var chart;
+    var jsarray = new Array();
+    var tempdata = <{$arealist|json_encode}>;
+
+    $(document).ready(function() {
+        chart = new Highcharts.Chart({
+            chart: {
+                renderTo: 'container',
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false
+            },
+            title: {
+                text: '分站交易金额所占比例'
+            },
+            tooltip: {
+                formatter: function() {
+
+
+                    return '<b>'+ this.point.name +'</b>: '+ this.percentage.toFixed(2) +' %';
+
+                }
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        color: '#000000',
+                        connectorColor: '#000000',
+                        formatter: function() {
+                            return '<b>'+ this.point.name +'</b>: '+ this.percentage.toFixed(2) +' %';
+                        }
+                    }
+                }
+            },
+            series: [{
+                type: 'pie',
+                name: 'Browser share',
+                data: [
+                <{foreach from=$arealist key=mykey item=items}>
+                    ['<{$items['name']}>',   changeTwoDecimal(<{$items['tradenum']}>/<{$total}>) ] <{if $mykey==$allshu-1}><{else}>,<{/if}>
+               <{/foreach}>
+                ]
+            }]
+        });
+    });
+    function changeTwoDecimal(floatvar)
+{
+var f_x = parseFloat(floatvar);
+if (isNaN(f_x))
+{
+//alert('暂无数据');
+//return false;
+}
+var f_x = Math.round(floatvar*100)/100;
+return f_x;
+}
+});
+		</script>
+<!--newmain 结束-->
+<{/block}>

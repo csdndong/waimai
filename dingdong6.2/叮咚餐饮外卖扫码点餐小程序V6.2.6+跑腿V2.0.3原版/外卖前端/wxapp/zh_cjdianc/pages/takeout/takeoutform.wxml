@@ -1,0 +1,488 @@
+<!--   time:2019-07-18 01:07:59 -->
+<import  src="/zh_cjdianc/pages/commons/xy.wxml"  />
+<block wx:if="{{isloading}}">
+	<view class="loadinggif">
+		<image src="../../img/loading.gif"></image>
+	</view>
+</block>
+<block wx:if="{{!isloading}}">
+	<view class="page">
+		<view class="head-bg" style="background:{{color}}"></view>
+		<view class="formmain">
+			<view class="formhead flex-bet flex-y-center" style="background:{{color}}">
+				<block wx:for="{{navbar}}" wx:key="*this" wx:for-item="item" wx:for-index="index" >
+					<view bindtap="selectednavbar" class="formheadnav  {{selectedindex==index?'selsect':'default'}}" data-index="{{index}}" style="color:{{selectedindex==index?color:''}};width:{{navbar.length==1?'100%':''}}">{{item}}</view>
+				</block>
+			</view>
+			<block wx:if="{{selectedindex=='0'&&storeset.is_ps=='1'}}">
+				<view class="formhdwm">
+					<view class="weui-cells weui-cells_after-title">
+						<block wx:if="{{address}}" >
+							<navigator class="weui-cell weui-cell_access wmaddress" hoverClass="weui-cell_active" style="border-bottom: 1rpx solid #f4f4f4;" url="../wddz/xzdz">
+								<view class="weui-cell__bd">
+									<view class="wmshr">
+										<text>{{address.user_name}}</text>
+										<block wx:if="{{address.sex=='1'}}">
+											<text>先生</text>
+										</block>
+										<block wx:if="{{address.sex=='2'}}">
+											<text>女士</text>
+										</block>
+										<text>{{address.tel}}</text>
+									</view>
+									<view class="wmshdz">{{address.area}}{{address.address}}</view>
+								</view>
+								<view class="weui-cell__ft weui-cell__ft_in-access"></view>
+							</navigator>
+						</block>
+						<block wx:else>
+							<navigator class="weui-cell weui-cell_access wmaddress" hoverClass="weui-cell_active" style="border-bottom: 1rpx solid #f4f4f4;" url="../wddz/xzdz">
+								<view class="weui-cell__bd">请选择收货地址</view>
+								<view class="weui-cell__ft weui-cell__ft_in-access"></view>
+							</navigator>
+						</block>
+						<block wx:if="{{timearr.length>0}}" >							<view>
+								<view bindtap="sjshowcart" class="weui-cell weui-cell_access" hoverClass="weui-cell_active">
+									<view class="weui-cell__hd">
+										<image src="../../img/wmtime.png" style="margin-right: 5px;vertical-align: middle;width:35rpx; height:35rpx;"></image>
+									</view>
+									<view class="weui-cell__bd">送达时间</view>
+									<view class="weui-cell__ft weui-cell__ft_in-access" style="color:{{color}}">{{xztime}}</view>
+								</view>
+							</view>
+						</block>
+						<block wx:else>
+							<picker bindchange="bindPickerChange" range="{{wmtimearray}}" value="{{wmindex}}">
+								<view class="weui-cell weui-cell_access" hoverClass="weui-cell_active">
+									<view class="weui-cell__hd">
+										<image src="../../img/wmtime.png" style="margin-right: 5px;vertical-align: middle;width:35rpx; height:35rpx;"></image>
+									</view>
+									<view class="weui-cell__bd">送达时间</view>
+									<view class="weui-cell__ft weui-cell__ft_in-access" style="color:{{color}}">{{wmtimearray[wmindex]}}</view>
+								</view>
+							</picker>
+						</block>
+					</view>
+				</view>
+			</block>
+			<block wx:if="{{selectedindex=='1'||storeset.is_ps=='2'}}">
+				<view class="formhdzq">
+					<view class="weui-cells weui-cells_after-title">
+						<view bindtap="ckwz" class="weui-cell weui-cell_access zqaddress" data-jwd="{{store.coordinates}}" hoverClass="weui-cell_active" url="">
+							<view class="weui-cell__bd">
+								<view class="zqdz1">自取地址</view>
+								<view class="zqdz2">{{store.address}}</view>
+								<view class="zqdz3">
+									<text>查看地图</text>
+								</view>
+							</view>
+							<view class="weui-cell__ft weui-cell__ft_in-access"></view>
+						</view>
+						<block wx:if="{{timearr.length>0}}" >							<view bindtap="sjshowcart" class="weui-cell weui-cell_access" hoverClass="weui-cell_active">
+								<view class="weui-cell__bd">自取时间</view>
+								<view class="weui-cell__ft weui-cell__ft_in-access" style="color:{{color}}">{{xztime}}</view>
+							</view>
+						</block>
+						<block wx:else>
+							<view class="weui-cell weui-cell_access" hoverClass="weui-cell_active" url="">
+								<view class="weui-cell__bd">自取时间</view>
+								<view class="weui-cell__ft weui-cell__ft_in-access picker" style="color:{{color}}">
+									<picker bindchange="bindDateChange" mode="date" start="{{datestart}}" style=" width: 220rpx">
+										<view class="weui-input flex-row flex-y-center">{{date}}</view>
+									</picker>
+									<view>日</view>
+									<picker bindchange="bindTimeChange" end="23:59" mode="time" start="{{timestart}}" style=" width: 120rpx" value="{{time}}">
+										<view class="weui-input flex-row flex-y-center flex-x-center">{{time}}</view>
+									</picker>
+									<view>分</view>
+								</view>
+							</view>
+						</block>
+						<view class="weui-cell weui-cell_access" style="padding:8rpx 30rpx;">
+							<view class="weui-cell__bd">自取电话</view>
+							<view class="weui-cell__ft">
+								<input bindinput="KeyMobile" class="weui-input" placeholder="请输入自取联系电话" type="number" value="{{mobile}}"></input>
+							</view>
+						</view>
+						<view class="weui-cell weui-cell_access" style="padding:8rpx 30rpx;">
+							<view class="weui-cell__bd">自取联系人</view>
+							<view class="weui-cell__ft">
+								<input bindinput="KeyName" class="weui-input" placeholder="请输入自取联系人" value="{{name}}"></input>
+							</view>
+						</view>
+						<label bindtap="checkboxChange" class="weui-cell weui-check__label">
+							<view class="weui-cell__hd weui-check__hd_in-checkbox">
+								<block wx:if="{{!checked}}">
+									<icon class="weui-icon-checkbox_circle" size="21" type="circle"></icon>
+								</block>
+								<block wx:if="{{checked}}">
+									<icon class="weui-icon-checkbox_success" color="#34aaff" size="21" type="success"></icon>
+								</block>
+							</view>
+							<view catchtap="openxy" class="weui-cell__bd">同意<text>《到店自取服务协议》</text>
+							</view>
+						</label>
+					</view>
+				</view>
+			</block>
+			<view class="formbd">
+				<view class="flex-row sjname">
+					<image src="{{url}}{{store.logo}}"></image>
+					<view class="flex-grow-1">{{store.name}}</view>
+				</view>
+				<block wx:for="{{cart_list}}" wx:key="*this" wx:for-item="item" wx:for-index="index" >
+					<view class="cart-item flex-row flex-y-center">
+						<view class="flex-grow-0 flex-y-center">
+							<block wx:if="{{item.is_qg=='1'}}" >
+								<image class="goods-pic" mode="aspectFill" src="{{item.qg_logo}}"></image>
+							</block>
+							<block wx:else>
+								<image class="goods-pic" mode="aspectFill" src="{{item.logo}}"></image>
+							</block>
+						</view>
+						<view class="flex-grow-1 flex-col">
+							<view class="flex-grow-1">
+								<block wx:if="{{item.is_qg=='1'}}" >
+									<view class="goods-name">{{item.qg_name}}</view>
+								</block>
+								<block wx:else>
+									<view class="goods-name">{{item.name}}</view>
+								</block>
+								<view class="attr-list">
+									<view class="attr-item">{{item.spec}}</view>
+								</view>
+							</view>
+							<view class="flex-grow-0 flex-row">
+								<view class="flex-grow-1 num">×{{item.num}}</view>
+								<view class="flex-grow-0 price">￥{{item.money}}</view>
+							</view>
+						</view>
+					</view>
+				</block>
+				<view class="formbdyh flex-row flex-y-center">
+					<view class="flex-row flex-y-center flex-grow-1">
+						<view class="yhhead bao">包</view>
+						<block wx:if="{{storeset.box_name!=''}}" >
+							<view>{{storeset.box_name}}</view>
+						</block>
+						<block wx:else>
+							<view>包装费</view>
+						</block>
+					</view>
+					<view class="flex-grow-0">￥{{gwcinfo.box_money}}</view>
+				</view>
+				<view class="formbdyh flex-row flex-y-center">
+					<view class="flex-row flex-y-center flex-grow-1">
+						<view class="yhhead pei">配</view>
+						<view>配送费</view>
+					</view>
+					<block wx:if="{{(selectedindex==0&&storeset.is_ps=='1')&&mpsf}}">
+						<view>免配送费</view>
+					</block>
+					<block wx:if="{{(selectedindex==0&&storeset.is_ps=='1')&&!mpsf}}">
+						<view class="flex-grow-0">￥{{psf}}</view>
+					</block>
+					<block wx:if="{{selectedindex==1||storeset.is_ps=='2'}}">
+						<view class="flex-grow-0" style="color:#999;">到店自取无配送费</view>
+					</block>
+				</view>
+				<view class="formftyh">
+					<block wx:if="{{reduction.length>0&&!haveQg}}">						<view class="formbdyh flex-row flex-y-center">
+							<view class="flex-row flex-y-center flex-grow-1">
+								<view class="yhhead jian">减</view>
+								<view>在线支付满减</view>
+							</view>
+							<block wx:if="{{isnewuser=='2'}}">
+								<view class="flex-grow-0">-￥{{mjmoney}}</view>
+							</block>
+							<block wx:if="{{isnewuser=='1'}}">
+								<view class="flex-grow-0" style="color:#999;">新用户不享有此优惠</view>
+							</block>
+						</view>
+					</block>
+					<block wx:if="{{(storeset.xyh_open=='1'&&isnewuser=='1')&&!haveQg}}">
+						<view class="formbdyh flex-row flex-y-center">
+							<view class="flex-row flex-y-center flex-grow-1">
+								<view class="yhhead xin">新</view>
+								<view>新客户下单立减</view>
+							</view>
+							<view class="flex-grow-0">-￥{{storeset.xyh_money}}</view>
+						</view>
+					</block>
+					<block wx:if="{{!haveQg}}">
+						<view class="weui-cells weui-cells_after-title" style="border-top: 1rpx solid #f4f4f4;">
+							<navigator bindtap="showcart" class="weui-cell weui-cell_access" hoverClass="weui-cell_active">
+								<view class="weui-cell__hd">
+									<image mode="aspectFit" src="../../img/personal/youhuiquan.png" style="margin-right: 15rpx;vertical-align: middle;width:40rpx; height: 40rpx;"></image>
+								</view>
+								<view class="weui-cell__bd">商家优惠券</view>
+								<block wx:if="{{Coupons.length==0}}">
+									<view class="weui-cell__ft weui-cell__ft_in-access">暂无此商家优惠券</view>
+								</block>
+								<block wx:if="{{Coupons.length>0&&yhqkdje==0}}">									<view class="weui-cell__ft_in-access">选择优惠券</view>
+								</block>
+								<block wx:if="{{Coupons.length>0&&yhqkdje!=0}}">									<view class="weui-cell__ft_in-access">-￥{{yhqkdje}}</view>
+								</block>
+							</navigator>
+						</view>
+					</block>
+					<block wx:if="{{!haveQg}}">
+						<view class="weui-cells weui-cells_after-title" style="border-top: 1rpx solid #f4f4f4;">
+							<navigator bindtap="hbshowcart" class="weui-cell weui-cell_access" hoverClass="weui-cell_active">
+								<view class="weui-cell__hd">
+									<image mode="aspectFit" src="../../img/hb.png" style="margin-right: 15rpx;vertical-align: middle;width:40rpx; height: 40rpx;"></image>
+								</view>
+								<view class="weui-cell__bd">红包</view>
+								<block wx:if="{{hbarr.length==0}}">
+									<view class="weui-cell__ft weui-cell__ft_in-access">暂无红包</view>
+								</block>
+								<block wx:if="{{hbarr.length>0&&hbkdje==0}}">									<view class="weui-cell__ft_in-access">选择红包</view>
+								</block>
+								<block wx:if="{{hbarr.length>0&&hbkdje!=0}}">									<view class="weui-cell__ft_in-access">-￥{{hbkdje}}</view>
+								</block>
+							</navigator>
+						</view>
+					</block>
+					<view class="sfk flex-row flex-y-center">
+						<view class="sfk-fv flex-grow-0">实付款</view>
+						<view class="flex-grow-1 xiaoji">
+							<view>已优惠￥{{totalyh}}</view>
+							<view>小计</view>
+							<view>￥{{totalPrice}}</view>
+						</view>
+					</view>
+				</view>
+				<view class="formft">
+					<view class="weui-cells weui-cells_after-title">
+						<block wx:if="{{storeset.is_cj=='1'}}">
+							<picker bindchange="bindcjPickerChange" range="{{cjarray}}" value="{{cjindex}}">
+								<view class="weui-cell weui-cell_access" hoverClass="weui-cell_active">
+									<view class="weui-cell__bd">{{storeset.cj_name}}</view>
+									<view class="weui-cell__ft weui-cell__ft_in-access">{{cjarray[cjindex]}}</view>
+								</view>
+							</picker>
+						</block>
+						<navigator class="weui-cell weui-cell_access" hoverClass="weui-cell_active" style="border-bottom: 1rpx solid #efeff4;" url="note">
+							<view class="weui-cell__bd" style="min-width:120rpx;">备注</view>
+							<view class="weui-cell__ft weui-cell__ft_in-access">{{note}}</view>
+						</navigator>
+					</view>
+				</view>
+			</view>
+		</view>
+	</view>
+	<block wx:if="{{((reduction.length>0&&mjindex!=null)&&isnewuser=='2')&&!haveQg}}">		<view class="footmj">下单已满{{reduction[mjindex].full}}元，可减<text>{{reduction[mjindex].reduction}}</text>元		</view>
+	</block>
+	<block wx:if="{{haveQg}}">
+		<view class="footmj">
+			<text>抢购商品不与其他优惠共享</text>
+		</view>
+	</block>
+	<view class="dbtjdd flex-row flex-y-center">
+		<view class="dbtjddl flex-row flex-y-center">
+			<view class="flex-grow-0">已优惠￥{{totalyh}}</view>
+			<view class="flex-grow-1">合计<text>￥{{totalPrice}}</text>
+			</view>
+		</view>
+		<view class="dbtjddr">
+			<form bindreset="formReset" bindsubmit="tjddformSubmit" reportSubmit="true">
+				<button formType="submit" style="background:{{color}}">提交订单</button>
+			</form>
+		</view>
+	</view>
+	<view class="modalzz" hidden="{{mdoaltoggle}}"></view>
+	<view class="modal {{mdoaltoggle?'':'active'}}">
+		<view class="modalbd">
+			<icon size="50" type="success"></icon>
+			<view class="xdcg">下单成功!</view>
+		</view>
+	</view>
+	<template  data="{{fwxy:fwxy,xymc:xymc,xynr:xynr}}" is="xytemp" />
+	<form bindreset="formReset" bindsubmit="formSubmit" reportSubmit="true">
+		<block wx:if="{{showModal}}">
+			<view bindtap="yczz" class="drawer_screen"></view>
+		</block>
+		<block wx:if="{{showModal}}">
+			<view class="drawer_box">
+				<view class="drawer_title">请选择支付方式</view>
+				<view class="weui-cells weui-cells_after-title">
+					<radio-group bindchange="radioChange1" class="radio-group" name="radiogroup">
+						<label>
+							<view class="weui-cell">
+								<view class="zfimg">
+									<image src="../../img/weixin.png"></image>
+								</view>
+								<view class="weui-cell__bd">微信支付</view>
+								<view class="weui-cell__ft">
+									<radio checked="{{zffs==1}}" value="wxzf"></radio>
+								</view>
+							</view>
+						</label>
+						<block wx:if="{{kqyue}}">
+							<label>
+								<view class="weui-cell" style="border-top:1rpx solid #e6e6e6;">
+									<view class="zfimg">
+										<image src="../../img/yeqb.png"></image>
+									</view>
+									<view class="weui-cell__bd">余额支付<text class="yetext">您的余额 {{userInfo.wallet}}</text>
+									</view>
+									<view class="weui-cell__ft">
+										<radio checked="{{zffs==2}}" color="#FF9700" disabled="{{!kqyue}}" value="yezf"></radio>
+									</view>
+								</view>
+							</label>
+						</block>
+						<block wx:if="{{hdfk}}">
+							<label>
+								<view class="weui-cell" style="border-top:1rpx solid #e6e6e6;">
+									<view class="zfimg">
+										<image src="../../img/wmtime.png" style="height:50rpx;"></image>
+									</view>
+									<view class="weui-cell__bd">货到付款<text class="yetext" style="color:#999"></text>
+									</view>
+									<view class="weui-cell__ft">
+										<radio checked="{{zffs==4}}" color="#34aaff" disabled="{{!hdfk}}" value="hdfk"></radio>
+									</view>
+								</view>
+							</label>
+						</block>
+					</radio-group>
+				</view>
+				<view class="drawer_title1">您选择的{{zfwz}}<block wx:if="{{zffs==3}}">
+						<text>({{jf_proportion}}积分可抵1元)</text>
+					</block>
+				</view>
+				<button class="{{btntype}}" disabled="{{zfz}}" formType="submit">
+					<block wx:if="{{!zfz&&zffs!=4}}">
+						<view>确定支付<text class="zftext">￥{{totalPrice}}</text>
+						</view>
+					</block>
+					<block wx:if="{{!zfz&&zffs==4}}">
+						<view>确定到付<text class="zftext">￥{{totalPrice}}</text>
+						</view>
+					</block>
+					<block wx:if="{{zfz}}">
+						<view>
+							<text class="zfztext">支付中...</text>
+						</view>
+					</block>
+				</button>
+			</view>
+		</block>
+	</form>
+</block>
+<view catchtap="closecart" class="share-modal {{share_modal_active?'active':''}}">
+	<view class="share-modal-body">
+		<view class="yhqhead">选择优惠券</view>
+		<radio-group bindchange="radioChange" class="radio-group" name="radiogroup">
+			<scroll-view scrollY style="height: 400rpx;">
+				<block wx:for="{{Coupons}}" wx:for-item="item" wx:for-index="index" >
+					<label catchtap="xzq" data-full="{{item.full}}" data-kdje="{{item.reduce}}" data-rdid="{{item.id}}" data-type="代金券">
+						<view class="mdlist">
+							<view class="coupon-item unreceive" id="{{item.coupon_id}}">
+								<view class="item-left" style="background:#F65C5C">
+									<text class="num">{{item.reduce}}</text>
+									<text class="unit">元</text>
+								</view>
+								<view class="item-right">
+									<text class="name">{{item.name}}</text>
+									<block wx:if="{{item.full!='0.0'}}" >
+										<text class="conditions">满{{item.full}}可用</text>
+									</block>
+									<block wx:else>
+										<text class="conditions">无门槛</text>
+									</block>
+									<text class="prefer">有效期至{{item.end_time}}</text>
+								</view>
+							</view>
+							<view class="radio">
+								<radio checked="{{activeradio==item.id}}" color="{{color}}" disabled="{{gwcinfo.money<item.full}}" value="{{item.id}}"></radio>
+							</view>
+						</view>
+					</label>
+				</block>
+				<block wx:if="{{Coupons.length==0}}">
+					<view class="kong">
+						<image src="../../img/wushuju.png"></image>
+						<view>暂无此门店的优惠券</view>
+					</view>
+				</block>
+			</scroll-view>
+		</radio-group>
+	</view>
+</view>
+<view catchtap="hbclosecart" class="share-modal {{hbshare_modal_active?'active':''}}">
+	<view class="share-modal-body">
+		<view class="yhqhead">选择红包</view>
+		<radio-group bindchange="hbradioChange" class="radio-group" name="hbradiogroup">
+			<scroll-view scrollY style="height: 400rpx;">
+				<block wx:for="{{hbarr}}" wx:for-item="item" wx:for-index="index" >
+					<label catchtap="xzhb" data-full="{{item.full}}" data-kdje="{{item.reduce}}" data-rdid="{{item.id}}" data-type="红包">
+						<view class="mdlist">
+							<view class="coupon-item unreceive" id="{{item.coupon_id}}">
+								<view class="item-left" style="background:#F65C5C">
+									<text class="num">{{item.reduce}}</text>
+									<text class="unit">元</text>
+								</view>
+								<view class="item-right">
+									<text class="name">{{item.name}}</text>
+									<block wx:if="{{item.full!='0.0'}}" >
+										<text class="conditions">满{{item.full}}可用</text>
+									</block>
+									<block wx:else>
+										<text class="conditions">无门槛</text>
+									</block>
+									<text class="prefer">有效期至{{item.end_time}}</text>
+								</view>
+							</view>
+							<view class="radio">
+								<radio checked="{{hbactiveradio==item.id}}" color="{{color}}" disabled="{{gwcinfo.money<item.full}}" value="{{item.id}}"></radio>
+							</view>
+						</view>
+					</label>
+				</block>
+				<block wx:if="{{hbarr.length==0}}">
+					<view class="kong">
+						<image src="../../img/wushuju.png"></image>
+						<view>暂无可用红包</view>
+					</view>
+				</block>
+			</scroll-view>
+		</radio-group>
+	</view>
+</view>
+<view class="share-modal {{sjshare_modal_active?'active':''}}">
+	<view class="share-modal-body" style="background:F2F2F2">
+		<view class="yhqhead" style="background:#EEEEEE">选择送达时间</view>
+		<view class="flex-row">
+			<view class="flex-grow-0">
+				<scroll-view scrollIntoView="{{toType}}" scrollY="true" style="height:500rpx;">
+					<block wx:for="{{timearr}}" wx:for-item="item" wx:for-index="index" >
+						<view bindtap="selectedime" class="xztime flex-x-center flex-y-center {{sjindex==index?'timeselsect':''}}" data-index="{{index}}" id="a{{index}}">{{item.time}}</view>
+					</block>
+				</scroll-view>
+			</view>
+			<view class="flex-grow-1">
+				<scroll-view scrollIntoView="{{toType}}" scrollY="true" style="height:500rpx;background:#fff">
+					<view class="weui-cells weui-cells_after-title">
+						<radio-group bindchange="sjradioChange">
+							<block wx:for="{{radioItems}}" wx:key="value" wx:for-item="item" wx:for-index="index" >
+								<label class="weui-cell weui-check__label">
+									<radio checked="{{item.checked}}" class="weui-check" value="{{item.id}}"></radio>
+									<view class="weui-cell__bd" style="color:#000">{{item.time}}</view>
+									<view class="weui-cell__hd weui-check__hd_in-checkbox">
+										<block wx:if="{{item.checked}}">
+											<icon class="weui-icon-checkbox_success" color="{{color}}" size="23" type="success"></icon>
+										</block>
+									</view>
+								</label>
+							</block>
+							<view class="weui-cell"></view>
+						</radio-group>
+					</view>
+				</scroll-view>
+			</view>
+		</view>
+		<view bindtap="sjclosecart" class="share-modal-close flex-y-center flex-x-center">关闭</view>
+	</view>
+</view>

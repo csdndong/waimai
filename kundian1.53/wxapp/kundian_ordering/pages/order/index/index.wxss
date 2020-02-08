@@ -1,0 +1,351 @@
+page {
+    background: #f4f4f4;
+    font-size: 28rpx;
+}
+
+.o-nav {
+    width: 100%;
+    height: 90rpx;
+    background: white;
+}
+
+.o-nav text {
+    display: block;
+    float: left;
+    width: 25%;
+    height: 100%;
+    text-align: center;
+    line-height: 90rpx;
+}
+
+.o-active {
+    border-bottom: 3rpx solid red;
+    color: red;
+}
+
+.none-order {
+    width: 100%;
+    height: 200rpx;
+    text-align: center;
+    margin-top: 200rpx;
+}
+
+.none-order image {
+    width: 180rpx;
+    height: 180rpx;
+}
+
+.none-order text {
+    display: block;
+    color: gray;
+}
+
+.is_hide {
+    display: none;
+}
+
+.is_show {
+    display: block;
+}
+
+.o-con {
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    padding-bottom: 60rpx;
+}
+
+.o-con .o-list {
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    margin-top: 10rpx;
+    background: white;
+}
+
+.o-list .list-top {
+    width: 90%;
+    height: 80rpx;
+    line-height: 80rpx;
+    border-bottom: 1rpx solid #f4f4f4;
+    margin-left: 5%;
+}
+
+.o-list .order-status {
+    float: right;
+    color: red;
+}
+
+.o-list .order-confirm {
+    float: right;
+    display: block;
+    width: 130rpx;
+    height: 50rpx;
+    border: 1rpx solid red;
+    border-radius: 10rpx;
+    text-align: center;
+    line-height: 50rpx;
+    position: relative;
+    top: 15rpx;
+    color: red;
+}
+
+.o-list .list-center {
+    width: 90%;
+    height: auto;
+    margin-left: 5%;
+    padding-top: 20rpx;
+    border-bottom: 1rpx solid #f4f4f4;
+    overflow: hidden;
+}
+
+.list-center .list-left {
+    width: 25%;
+    height: 160rpx;
+    float: left;
+}
+
+.o-list .list-center .list-left image {
+    width: 140rpx;
+    height: 140rpx;
+}
+
+.list-center .list-right {
+    width: 74%;
+    height: 160rpx;
+    float: left;
+}
+
+.list-right text {
+    display: block;
+    width: 90%;
+    height: 90rpx;
+    text-overflow: -o-ellipsis-lastline;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.list-right .price {
+    color: red;
+}
+
+.o-list .list-price {
+    width: 90%;
+    margin-left: 5%;
+    height: 80rpx;
+    line-height: 80rpx;
+    border-bottom: 1rpx solid #f4f4f4;
+}
+
+.list-price .title {
+    color: gray;
+}
+
+.o-list .list-price image {
+    float: right;
+    width: 40rpx;
+    height: 40rpx;
+    position: relative;
+    top: 20rpx;
+}
+
+.list-btn {
+    width: 90%;
+    height: 60rpx;
+    margin-left: 5%;
+    padding-top: 20rpx;
+    padding-bottom: 20rpx;
+}
+
+.list-btn .cancel-order {
+    display: block;
+    width: 150rpx;
+    height: 60rpx;
+    line-height: 60rpx;
+    text-align: center;
+    border: 1rpx solid black;
+    float: left;
+}
+
+.list-btn .lipay {
+    display: block;
+    width: 150rpx;
+    height: 60rpx;
+    line-height: 60rpx;
+    text-align: center;
+    background: black;
+    float: right;
+    color: white;
+}
+
+.list-btn .cancel-right {
+    float: right;
+}
+
+.order-con {
+    width: 100%;
+    height: auto;
+}
+
+.order-con .order-ul {
+    width: 100%;
+    height: 420rpx;
+    background: white;
+    margin-top: 10rpx;
+}
+
+.order-con .order-li {
+    width: 90%;
+    margin-left: 5%;
+    height: 100rpx;
+    line-height: 100rpx;
+    background: white;
+    border-bottom: 1rpx solid #f4f4f4;
+}
+
+.order-con .order-li .li-left {
+    width: 25%;
+    height: 100%;
+    float: left;
+    color: gray;
+}
+
+.order-con .order-li .li-right {
+    width: 75%;
+    height: 100%;
+    float: left;
+}
+
+.order-con image {
+    width: 100rpx;
+    height: 100rpx;
+    position: relative;
+    top: -100rpx;
+    left: 75%;
+}
+
+.o-desk {
+    width: 100%;
+    height: auto;
+    margin-top: 10rpx;
+}
+
+.o-desk .desk-ul {
+    width: 100%;
+    height: 380rpx;
+    background: white;
+    margin-top: 10rpx;
+}
+
+.o-desk .desk-ul .d-ul-top {
+    width: 90%;
+    margin-left: 5%;
+    height: 80rpx;
+    line-height: 80rpx;
+    border-bottom: 1rpx solid #f4f4f4;
+}
+
+.o-desk .desk-ul .d-ul-top .headimg {
+    width: 60rpx;
+    height: 60rpx;
+    margin-top: 10rpx;
+    margin-right: 10rpx;
+}
+
+.o-desk .desk-ul .d-ul-top .status {
+    float: right;
+}
+
+.o-desk .desk-ul .d-ul-top .username {
+    position: relative;
+    top: -20rpx;
+}
+
+.o-desk .desk-ul .d-ul-top .jiantou {
+    width: 30rpx;
+    height: 30rpx;
+    float: right;
+    position: relative;
+    top: 25rpx;
+}
+
+.o-desk .desk-ul .d-ul-center {
+    width: 90%;
+    margin-left: 5%;
+    height: 180rpx;
+    border-bottom: 1rpx solid #f4f4f4;
+    padding: 10rpx 0 10rpx 0;
+}
+
+.o-desk .desk-ul .d-ul-center .cen-left {
+    width: 25%;
+    float: left;
+    height: 100%;
+}
+
+.o-desk .desk-ul .d-ul-center .cen-left image {
+    width: 150rpx;
+    height: 150rpx;
+}
+
+.o-desk .desk-ul .d-ul-center .cen-cen {
+    width: 70%;
+    float: left;
+    height: 100%;
+}
+
+.o-desk .desk-ul .d-ul-center .cen-cen .desk-name {
+    display: block;
+    color: gray;
+    overflow: hidden;
+    height: 40rpx;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.o-desk .desk-ul .d-ul-center .cen-cen .desk-status {
+    color: #cfcfcf;
+    font-size: 24rpx;
+    display: block;
+}
+
+.o-desk .desk-ul .d-ul-center .cen-cen .desk-time {
+    color: #cfcfcf;
+    font-size: 24rpx;
+    display: block;
+}
+
+.o-desk .desk-ul .d-ul-center .cen-cen .desk-price {
+    color: red;
+}
+
+.o-desk .desk-ul .cen-btn {
+    width: 90%;
+    margin-left: 5%;
+    height: 80rpx;
+}
+
+.o-desk .desk-ul .cen-btn text {
+    display: block;
+    width: 150rpx;
+    height: 60rpx;
+    line-height: 60rpx;
+    border: 1rpx solid red;
+    border-radius: 5rpx;
+    text-align: center;
+    float: right;
+    margin-top: 20rpx;
+    color: red;
+}
+
+.get-number {
+    font-size: 46rpx;
+}
+
+.has-package {
+    float: right;
+    margin-right: 10rpx;
+}

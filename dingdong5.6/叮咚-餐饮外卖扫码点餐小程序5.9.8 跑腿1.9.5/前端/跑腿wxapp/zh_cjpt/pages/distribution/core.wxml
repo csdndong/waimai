@@ -1,0 +1,48 @@
+<view class="head pa" style="background:{{color}}">
+    <view class="pa_0 rel">
+        <image class="dis_in" mode="aspectFill" src=""></image>
+        <view class="dis_in">
+            <view class="fon_28 color_f">额相依</view>
+            <view class="fon_28 color_f">邀请码 1564864</view>
+        </view>
+        <view class="ab ud fon_24 color_f mine">
+            <text class="ab"></text>
+            <text class="ab">个人中心</text>
+        </view>
+    </view>
+    <view class="fon_24 color_e pa_0">累计收益佣金(元)</view>
+    <view class="fon_40 color_f rel">
+        <text>123456</text>
+        <text bindtap="tixian" class="ab ud fon_24 tixian">提现</text>
+    </view>
+</view>
+<view class="pa ba_ff put_forward">
+    <view class="dis_in fon_24">
+        <view class="fon_36">8888.8</view>
+        <view class="color_9">累计销售(元)</view>
+    </view>
+    <view class="dis_in fon_24">
+        <view class="fon_36">8888.8</view>
+        <view class="color_9">累计佣金(元)</view>
+    </view>
+</view>
+<view bindtap="distribution" class="pa ba_ff mar_t list bor_bottom rel">
+    <image class="dis_in" mode="aspectFit" src="../img/wy.png"></image>
+    <text class="dis_in fon_30">我的佣金</text>
+    <image class="ab ud" mode="aspectFill" src="../img/acright.png"></image>
+</view>
+<view bindtap="downline" class="pa ba_ff list bor_bottom rel">
+    <image class="dis_in" mode="aspectFit" src="../img/wx.png"></image>
+    <text class="dis_in fon_30">我的下线</text>
+    <image class="ab ud" mode="aspectFill" src="../img/acright.png"></image>
+</view>
+<view bindtap="ranking" class="pa ba_ff list rel">
+    <image class="dis_in" mode="aspectFit" src="../img/sm.png"></image>
+    <text class="dis_in fon_30">分销说明</text>
+    <image class="ab ud" mode="aspectFill" src="../img/acright.png"></image>
+</view>
+<view bindtap="invation" class="pa ba_ff mar_t list rel">
+    <image class="dis_in" mode="aspectFit" src="../img/sa.png"></image>
+    <text class="dis_in fon_30">分销二维码</text>
+    <image class="ab ud" mode="aspectFill" src="../img/acright.png"></image>
+</view>

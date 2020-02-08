@@ -1,0 +1,3 @@
+@import"/zh_cjdianc/pages/sjzx/sjzx/sjzx.wxss";
+.dyfs{ display: flex; flex-direction: row; justify-content: space-around; align-items: center; }
+.dyfs radio{ margin-left: 20rpx; }

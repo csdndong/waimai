@@ -1,0 +1,6 @@
+{
+    "navigationBarTitleText": "签到排名",
+    "usingComponents": {
+        "cardlist": "/zh_cjdianc/dist/cardlist/index"
+    }
+}

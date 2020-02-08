@@ -1,0 +1,5 @@
+					<{foreach from=$departmentlist key=myid  item=items}>  
+                     
+                      	   <option style="display:none;" class="department_<{$items['parent']}>" value="<{$items['id']}>"  ><{$items['name']}></option>
+                     
+                      	<{/foreach}> 

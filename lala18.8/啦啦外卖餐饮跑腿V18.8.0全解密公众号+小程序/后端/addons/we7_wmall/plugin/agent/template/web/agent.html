@@ -1,0 +1,1231 @@
+{itemplate 'public/header'}
+{if $op == 'list'}
+<form action="./index.php" class="form-horizontal form-filter">
+	{php echo tpl_form_filter_hidden('agent/agent/list');}
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">搜索</label>
+		<div class="col-sm-4 col-xs-4">
+			<input type="text" name="keyword" value="{$keyword}" class="form-control" placeholder="搜索代理名称或者代理区域">
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+		<div class="col-sm-4 col-xs-4">
+			<input type="submit" value="筛选" class="btn btn-primary">
+		</div>
+	</div>
+</form>
+<form action="" class="form-table form" method="post">
+	<div class="panel panel-table">
+		<div class="panel-heading">
+			<a href="{php echo iurl('agent/agent/post');}" class="btn btn-primary btn-sm">添加代理</a>
+		</div>
+		<div class="panel-body table-responsive js-table">
+			{if empty($agents)}
+				<div class="no-result">
+					<p>还没有相关数据</p>
+				</div>
+			{else}
+				<table class="table table-hover">
+					<thead class="navbar-inner">
+					<tr>
+						<th width="40">
+							<div class="checkbox checkbox-inline">
+								<input type="checkbox" name="ids[]"/>
+								<label></label>
+							</div>
+						</th>
+						<th>代理名称</th>
+						<th>账户余额</th>
+						<th>账户最低余额限制</th>
+						<th>
+							真实姓名
+							<br>
+							手机号
+						</th>
+						{if check_plugin_perm('plateformApp')}
+							<th>
+								APP登陆账号
+							</th>
+						{/if}
+						<th>代理区域</th>
+						<th>是否启用</th>
+						<th style="width:350px; text-align:right;">操作</th>
+					</tr>
+					</thead>
+					<tbody>
+						{loop $agents $agent}
+							<tr>
+								<td>
+									<div class="checkbox checkbox-inline">
+										<input type="checkbox" name="ids[]" value="{$agent['id']}"/>
+										<label></label>
+									</div>
+								</td>
+								<td>{$agent['title']}</td>
+								<td>
+									<span class="label label-success">{$agent['amount']}</span>
+								</td>
+								<td>
+									{if $agent['amount_min'] == 0}
+										<span class="label label-danger">不限制</span>
+									{else}
+										<span class="label label-danger">{$agent['amount_min']}</span>
+									{/if}
+								</td>
+								<td>
+									{$agent['realname']}
+									<br/>
+									{$agent['mobile']}
+								</td>
+								{if check_plugin_perm('plateformApp')}
+								<td>
+									<span class="label label-success">agent:{$agent['mobile']}</span>
+								</td>
+								{/if}
+								<td>{$agent['area']}</td>
+								<td>
+									<input type="checkbox" class="js-checkbox" data-href="{php echo iurl('agent/agent/status', array('id' => $agent['id']));}" data-name="status" value="1" {if $agent['status'] == 1}checked{/if}>
+								</td>
+								<td style="text-align:right;">
+									<a href="{php echo iurl('agent/agent/changes', array('id' => $agent['id']))}" class="btn btn-default btn-sm js-modal">账户变动</a>
+									<a href="{php echo iurl('agent/agent/set', array('id' => $agent['id']))}" class="btn btn-default btn-sm">账户设置</a>
+									<a href="{php echo iurl('agent/agent/post', array('id' => $agent['id']))}" class="btn btn-default btn-sm">编辑</a>
+									<a href="{php echo iurl('agent/agent/del', array('id' => $agent['id']))}" class="btn btn-default btn-sm js-remove" data-confirm="删除后将不可恢复，确定删除吗">删除</a>
+									{if 0}
+									<a href="{php echo iurl('dashboard/index', array('_agentid' => $agent['id'], 'agent' => 1))}" target="_blank" class="btn btn-default btn-sm" style="color:#D9534F;"><i class="fa fa-cog fa-spin"> </i> 管理</a>
+									{/if}
+								</td>
+							</tr>
+						{/loop}
+					</tbody>
+				</table>
+				<div class="btn-region clearfix">
+					<div class="pull-left">
+						<a href="{php echo iurl('agent/agent/del')}" class="btn btn-sm btn-primary btn-danger js-batch" data-batch="remove" data-confirm="删除后将不可恢复，确定删除吗">删除</a>
+					</div>
+					<div class="pull-right">
+						{$pager}
+					</div>
+				</div>
+			{/if}
+		</div>
+	</div>
+</form>
+{/if}
+
+{if $op == 'post'}
+<div class="page clearfix">
+	<form class="form-horizontal form form-validate" id="form1" style="max-width: 1500px;" action="" method="post" enctype="multipart/form-data">
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">代理名称</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="text" name="title" value="{$agent['title']}" class="form-control" required="true">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">真实姓名</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="text" name="realname" value="{$agent['realname']}" class="form-control" required="true">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">手机号</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="text" name="mobile" value="{$agent['mobile']}" class="form-control" required="true">
+				<div class="help-block">手机号将作为后台登录账号</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">密码</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="password" name="password" class="form-control" minlength="6" {if !$id}required="true"{/if}>
+				<div class="help-block">请填写密码，最小长度为 6 个字符.{if $id > 0}如果不更改密码此处请留空{/if}</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">代理区域</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="text" name="area" value="{$agent['area']}" class="form-control" required="true">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">是否启用</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="radio radio-inline">
+					<input type="radio" value="1" name="status" id="status-1" {if $agent['status'] == '1' || empty($agent['status'])}checked{/if}>
+					<label for="status-1">是</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" value="0" name="status" id="status-0" {if $agent['status'] == '0'}checked{/if}>
+					<label for="status-0">否</label>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">代理服务中心点</label>
+			<div class="col-sm-9 col-xs-12">
+				{php echo tpl_form_field_tiny_coordinate('map', $agent['geofence']['map'], true);}
+				<div class="help-block">设置代理服务中心点</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">服务区域</label>
+			<div class="col-sm-9 col-xs-12">
+				{itemplate 'store/shop/geofence'}
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<input type="hidden" name="token" value="{$_W['token']}">
+				<input type="submit" value="提交" class="btn btn-primary">
+			</div>
+		</div>
+	</form>
+</div>
+{/if}
+
+{if $op == 'set'}
+<div class="page clearfix">
+	<form class="form-horizontal form form-validate" id="form1" action="" method="post" enctype="multipart/form-data">
+		<input type="hidden" name="form_type" value="serve_fee">
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">当前代理</label>
+			<div class="col-sm-9 col-xs-12">
+				<p class="form-control-static text-danger"><strong>{$agent['title']}</strong></p>
+			</div>
+		</div>
+		<h3>服务费率</h3>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">外卖单佣金计算方式</label>
+			<div class="col-sm-9 col-xs-12 toggle-tabs" data-content=".fee-takeout-type">
+				<div class="radio radio-inline">
+					<input type="radio" value="1" name="fee_takeout[type]" id="fee-takeout-type-1" {if $agent[fee]['fee_takeout']['type'] == 1 || empty($agent[fee]['fee_takeout']['type'])}checked{/if}>
+					<label for="fee-takeout-type-1" class="toggle-role" data-target="fee-takeout-1">订单百分比抽成</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" value="2" name="fee_takeout[type]" id="fee-takeout-type-2" {if $agent[fee]['fee_takeout']['type'] == 2}checked{/if}>
+					<label for="fee-takeout-type-2" class="toggle-role" data-target="fee-takeout-2">固定抽成</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" value="3" name="fee_takeout[type]" id="fee-takeout-type-3" {if $agent[fee]['fee_takeout']['type'] == 3}checked{/if}>
+					<label for="fee-takeout-type-3" class="toggle-role" data-target="fee-takeout-3">按代理本单最终入账抽成</label>
+				</div>
+			</div>
+		</div>
+		<div class="toggle-content fee-takeout-type">
+			<div class="toggle-pane {if $agent[fee]['fee_takeout']['type'] == 1 || empty($agent[fee]['fee_takeout']['type'])}active{/if}" id="fee-takeout-1">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-9 col-xs-12">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">抽成项目：</label>
+						<div class="col-sm-9 col-xs-12">
+							<div class="checkbox checkbox-inline">
+								<input type="checkbox" value="price" name="fee_takeout[items_yes][]" id="fee-takeout-items-price" {if in_array('price', $agent['fee']['fee_takeout']['items_yes'])}checked{/if}>
+								<label for="fee-takeout-items-price">商品费用</label>
+							</div>
+							<div class="checkbox checkbox-inline">
+								<input type="checkbox" value="box_price" name="fee_takeout[items_yes][]" id="fee-takeout-items-box-price" {if in_array('box_price', $agent['fee']['fee_takeout']['items_yes'])}checked{/if}>
+								<label for="fee-takeout-items-box-price">餐盒费</label>
+							</div>
+							<div class="checkbox checkbox-inline">
+								<input type="checkbox" value="pack_fee" name="fee_takeout[items_yes][]" id="fee-takeout-items-pack-fee" {if in_array('pack_fee', $agent['fee']['fee_takeout']['items_yes'])}checked{/if}>
+								<label for="fee-takeout-items-pack-fee">包装费</label>
+							</div>
+							<div class="checkbox checkbox-inline">
+								<input type="checkbox" value="delivery_fee" name="fee_takeout[items_yes][]" id="fee-takeout-items-delivery-fee" {if in_array('delivery_fee', $agent['fee']['fee_takeout']['items_yes'])}checked{/if}>
+								<label for="fee-takeout-items-delivery-fee">配送费(仅限店内配送模式)</label>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-9 col-xs-12">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">不抽成项目：</label>
+						<div class="col-sm-9 col-xs-12">
+							<div class="checkbox checkbox-inline">
+								<input type="checkbox" value="store_discount_fee" name="fee_takeout[items_no][]" id="fee-takeout-items-discount" {if in_array('store_discount_fee', $agent['fee']['fee_takeout']['items_no'])}checked{/if}>
+								<label for="fee-takeout-items-discount">商户活动补贴</label>
+							</div>
+							<div class="checkbox checkbox-inline">
+								<input type="checkbox" value="agent_discount_fee" name="fee_takeout[items_no][]" id="fee-takeout-items-agent-discount" {if in_array('agent_discount_fee', $agent['fee']['fee_takeout']['items_no'])}checked{/if}>
+								<label for="fee-takeout-items-agent-discount">代理活动补贴</label>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-9 col-xs-12">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">抽成比例：</label>
+						<div class="col-sm-9 col-xs-12">
+							<div class="input-group">
+								<input type="text" name="fee_takeout[fee_rate]" value="{$agent['fee']['fee_takeout']['fee_rate']}" class="form-control"/>
+								<span class="input-group-addon">%，最低抽成金额</span>
+								<input type="text" name="fee_takeout[fee_min]" value="{$agent['fee']['fee_takeout']['fee_min']}" class="form-control"/>
+								<span class="input-group-addon">元</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="toggle-pane {if $agent['fee']['fee_takeout']['type'] == 2}active{/if}" id="fee-takeout-2">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-9 col-xs-12">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">抽成金额：</label>
+						<div class="col-sm-9 col-xs-12">
+							<div class="input-group">
+								<input type="text" name="fee_takeout[fee]" value="{$agent['fee']['fee_takeout']['fee']}" class="form-control"/>
+								<span class="input-group-addon">元</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="toggle-pane {if $agent['fee']['fee_takeout']['type'] == 3}active{/if}" id="fee-takeout-3">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-9 col-xs-12">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">抽成比例：</label>
+						<div class="col-sm-9 col-xs-12">
+							<div class="input-group">
+								<input type="text" name="fee_takeout[fee_rate_3]" value="{$agent['fee']['fee_takeout']['fee_rate']}" class="form-control"/>
+								<span class="input-group-addon">%，最低抽成金额</span>
+								<input type="text" name="fee_takeout[fee_min_3]" value="{$agent['fee']['fee_takeout']['fee_min']}" class="form-control"/>
+								<span class="input-group-addon">元</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">自提单佣金计算方式</label>
+			<div class="col-sm-9 col-xs-12 toggle-tabs" data-content=".fee-selfDelivery-type">
+				<div class="radio radio-inline">
+					<input type="radio" value="1" name="fee_selfDelivery[type]" id="fee-selfDelivery-type-1" {if $agent[fee]['fee_selfDelivery']['type'] == 1 || empty($agent[fee]['fee_selfDelivery']['type'])}checked{/if}>
+					<label for="fee-selfDelivery-type-1" class="toggle-role" data-target="fee-selfDelivery-1">订单百分比抽成</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" value="2" name="fee_selfDelivery[type]" id="fee-selfDelivery-type-2" {if $agent[fee]['fee_selfDelivery']['type'] == 2}checked{/if}>
+					<label for="fee-selfDelivery-type-2" class="toggle-role" data-target="fee-selfDelivery-2">固定抽成</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" value="3" name="fee_selfDelivery[type]" id="fee-selfDelivery-type-3" {if $agent[fee]['fee_selfDelivery']['type'] == 3}checked{/if}>
+					<label for="fee-selfDelivery-type-3" class="toggle-role" data-target="fee-selfDelivery-3">按代理本单最终入账抽成</label>
+				</div>
+			</div>
+		</div>
+		<div class="toggle-content fee-selfDelivery-type">
+			<div class="toggle-pane {if $agent[fee]['fee_selfDelivery']['type'] == 1 || empty($agent[fee]['fee_selfDelivery']['type'])}active{/if}" id="fee-selfDelivery-1">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-9 col-xs-12">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">抽成项目：</label>
+						<div class="col-sm-9 col-xs-12">
+							<div class="checkbox checkbox-inline">
+								<input type="checkbox" value="price" name="fee_selfDelivery[items_yes][]" id="fee-selfDelivery-items-price" {if in_array('price', $agent[fee]['fee_selfDelivery']['items_yes'])}checked{/if}>
+								<label for="fee-selfDelivery-items-price">商品费用</label>
+							</div>
+							<div class="checkbox checkbox-inline">
+								<input type="checkbox" value="box_price" name="fee_selfDelivery[items_yes][]" id="fee-selfDelivery-items-box-price" {if in_array('box_price', $agent[fee]['fee_selfDelivery']['items_yes'])}checked{/if}>
+								<label for="fee-selfDelivery-items-box-price">餐盒费</label>
+							</div>
+							<div class="checkbox checkbox-inline">
+								<input type="checkbox" value="pack_fee" name="fee_selfDelivery[items_yes][]" id="fee-selfDelivery-items-pack-fee" {if in_array('pack_fee', $agent[fee]['fee_selfDelivery']['items_yes'])}checked{/if}>
+								<label for="fee-selfDelivery-items-pack-fee">包装费</label>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-9 col-xs-12">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">不抽成项目：</label>
+						<div class="col-sm-9 col-xs-12">
+							<div class="checkbox checkbox-inline">
+								<input type="checkbox" value="store_discount_fee" name="fee_selfDelivery[items_no][]" id="fee-selfDelivery-items-discount" {if in_array('store_discount_fee', $agent[fee]['fee_selfDelivery']['items_no'])}checked{/if}>
+								<label for="fee-selfDelivery-items-discount">商户活动补贴</label>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-9 col-xs-12">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">抽成比例：</label>
+						<div class="col-sm-9 col-xs-12">
+							<div class="input-group">
+								<input type="text" name="fee_selfDelivery[fee_rate]" value="{$agent[fee]['fee_selfDelivery']['fee_rate']}" class="form-control"/>
+								<span class="input-group-addon">%，最低抽成金额</span>
+								<input type="text" name="fee_selfDelivery[fee_min]" value="{$agent[fee]['fee_selfDelivery']['fee_min']}" class="form-control"/>
+								<span class="input-group-addon">元</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="toggle-pane {if $agent[fee]['fee_selfDelivery']['type'] == 2}active{/if}" id="fee-selfDelivery-2">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-9 col-xs-12">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">抽成金额：</label>
+						<div class="col-sm-9 col-xs-12">
+							<div class="input-group">
+								<input type="text" name="fee_selfDelivery[fee]" value="{$agent[fee]['fee_selfDelivery']['fee']}" class="form-control"/>
+								<span class="input-group-addon">元</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="toggle-pane {if $agent[fee]['fee_selfDelivery']['type'] == 3}active{/if}" id="fee-selfDelivery-3">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-9 col-xs-12">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">抽成比例：</label>
+						<div class="col-sm-9 col-xs-12">
+							<div class="input-group">
+								<input type="text" name="fee_selfDelivery[fee_rate_3]" value="{$agent[fee]['fee_selfDelivery']['fee_rate']}" class="form-control"/>
+								<span class="input-group-addon">%，最低抽成金额</span>
+								<input type="text" name="fee_selfDelivery[fee_min_3]" value="{$agent[fee]['fee_selfDelivery']['fee_min']}" class="form-control"/>
+								<span class="input-group-addon">元</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">店内单佣金计算方式</label>
+			<div class="col-sm-9 col-xs-12 toggle-tabs" data-content=".fee-instore-type">
+				<div class="radio radio-inline">
+					<input type="radio" value="1" name="fee_instore[type]" id="fee-instore-type-1" {if $agent['fee']['fee_instore']['type'] == 1 || empty($agent['fee']['fee_instore']['type'])}checked{/if}>
+					<label for="fee-instore-type-1" class="toggle-role" data-target="fee-instore-1">订单百分比抽成</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" value="2" name="fee_instore[type]" id="fee-instore-type-2" {if $agent['fee']['fee_instore']['type'] == 2}checked{/if}>
+					<label for="fee-instore-type-2" class="toggle-role" data-target="fee-instore-2">固定抽成</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" value="3" name="fee_instore[type]" id="fee-instore-type-3" {if $agent[fee]['fee_instore']['type'] == 3}checked{/if}>
+					<label for="fee-instore-type-3" class="toggle-role" data-target="fee-instore-3">按代理本单最终入账抽成</label>
+				</div>
+			</div>
+		</div>
+		<div class="toggle-content fee-instore-type">
+			<div class="toggle-pane {if $agent['fee']['fee_instore']['type'] == 1 || empty($agent['fee']['fee_instore']['type'])}active{/if}" id="fee-instore-1">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-9 col-xs-12">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">抽成项目：</label>
+						<div class="col-sm-9 col-xs-12">
+							<div class="checkbox checkbox-inline">
+								<input type="checkbox" value="price" name="fee_instore[items_yes][]" id="fee-instore-items-price" {if in_array('price', $agent['fee']['fee_instore']['items_yes'])}checked{/if}>
+								<label for="fee-instore-items-price">商品费用</label>
+							</div>
+							<div class="checkbox checkbox-inline">
+								<input type="checkbox" value="serve_fee" name="fee_instore[items_yes][]" id="fee-instore-items-serve-fee" {if in_array('serve_fee', $agent['fee']['fee_instore']['items_yes'])}checked{/if}>
+								<label for="fee-instore-items-serve-fee">店内单服务费</label>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-9 col-xs-12">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">不抽成项目：</label>
+						<div class="col-sm-9 col-xs-12">
+							<div class="checkbox checkbox-inline">
+								<input type="checkbox" value="store_discount_fee" name="fee_instore[items_no][]" id="fee-instore-items-discount" {if in_array('store_discount_fee', $agent['fee']['fee_instore']['items_no'])}checked{/if}>
+								<label for="fee-instore-items-discount">商户活动补贴</label>
+							</div>
+							<div class="checkbox checkbox-inline">
+								<input type="checkbox" value="agent_discount_fee" name="fee_takeout[items_no][]" id="fee-instore-items-agent-discount" {if in_array('agent_discount_fee', $agent['fee']['fee_instore']['items_no'])}checked{/if}>
+								<label for="fee-instore-items-agent-discount">代理活动补贴</label>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-9 col-xs-12">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">抽成比例：</label>
+						<div class="col-sm-9 col-xs-12">
+							<div class="input-group">
+								<input type="text" name="fee_instore[fee_rate]" value="{$agent['fee']['fee_instore']['fee_rate']}" class="form-control"/>
+								<span class="input-group-addon">%，最低抽成金额</span>
+								<input type="text" name="fee_instore[fee_min]" value="{$agent['fee']['fee_instore']['fee_min']}" class="form-control"/>
+								<span class="input-group-addon">元</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="toggle-pane {if $agent['fee']['fee_instore']['type'] == 2}active{/if}" id="fee-instore-2">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-9 col-xs-12">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">抽成金额：</label>
+						<div class="col-sm-9 col-xs-12">
+							<div class="input-group">
+								<input type="text" name="fee_instore[fee]" value="{$agent['fee']['fee_instore']['fee']}" class="form-control"/>
+								<span class="input-group-addon">元</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="toggle-pane {if $agent['fee']['fee_instore']['type'] == 3}active{/if}" id="fee-instore-3">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-9 col-xs-12">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">抽成比例：</label>
+						<div class="col-sm-9 col-xs-12">
+							<div class="input-group">
+								<input type="text" name="fee_instore[fee_rate_3]" value="{$agent['fee']['fee_instore']['fee_rate']}" class="form-control"/>
+								<span class="input-group-addon">%，最低抽成金额</span>
+								<input type="text" name="fee_instore[fee_min_3]" value="{$agent['fee']['fee_instore']['fee_min']}" class="form-control"/>
+								<span class="input-group-addon">元</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">买单佣金计算方式</label>
+			<div class="col-sm-9 col-xs-12 toggle-tabs" data-content=".fee-paybill-type">
+				<div class="radio radio-inline">
+					<input type="radio" value="1" name="fee_paybill[type]" id="fee_paybill-type-1" {if $agent[fee]['fee_paybill']['type'] == 1 || empty($agent[fee]['fee_paybill']['type'])}checked{/if}>
+					<label for="fee_paybill-type-1" class="toggle-role" data-target="fee_paybill-1">订单百分比抽成</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" value="2" name="fee_paybill[type]" id="fee_paybill-type-2" {if $agent[fee]['fee_paybill']['type'] == 2}checked{/if}>
+					<label for="fee_paybill-type-2" class="toggle-role" data-target="fee_paybill-2">固定抽成</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" value="3" name="fee_paybill[type]" id="fee_paybill-type-3" {if $agent[fee]['fee_paybill']['type'] == 3}checked{/if}>
+					<label for="fee_paybill-type-3" class="toggle-role" data-target="fee_paybill-3">按代理本单最终入账抽成</label>
+				</div>
+			</div>
+		</div>
+		<div class="toggle-content fee-paybill-type">
+			<div class="toggle-pane {if $agent[fee]['fee_paybill']['type'] == 1 || empty($agent[fee]['fee_paybill']['type'])}active{/if}" id="fee_paybill-1">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-9 col-xs-12">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">抽成比例：</label>
+						<div class="col-sm-9 col-xs-12">
+							<div class="input-group">
+								<input type="text" name="fee_paybill[fee_rate]" value="{$agent[fee]['fee_paybill']['fee_rate']}" class="form-control"/>
+								<span class="input-group-addon">%，最低抽成金额</span>
+								<input type="text" name="fee_paybill[fee_min]" value="{$agent[fee]['fee_paybill']['fee_min']}" class="form-control"/>
+								<span class="input-group-addon">元</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="toggle-pane {if $agent[fee]['fee_paybill']['type'] == 2}active{/if}" id="fee_paybill-2">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-9 col-xs-12">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">抽成金额：</label>
+						<div class="col-sm-9 col-xs-12">
+							<div class="input-group">
+								<input type="text" name="fee_paybill[fee]" value="{$agent[fee]['fee_paybill']['fee']}" class="form-control"/>
+								<span class="input-group-addon">元</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="toggle-pane {if $agent[fee]['fee_paybill']['type'] == 3}active{/if}" id="fee_paybill-3">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-9 col-xs-12">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">抽成比例：</label>
+						<div class="col-sm-9 col-xs-12">
+							<div class="input-group">
+								<input type="text" name="fee_paybill[fee_rate_3]" value="{$agent[fee]['fee_paybill']['fee_rate']}" class="form-control"/>
+								<span class="input-group-addon">%，最低抽成金额</span>
+								<input type="text" name="fee_paybill[fee_min_3]" value="{$agent[fee]['fee_paybill']['fee_min']}" class="form-control"/>
+								<span class="input-group-addon">元</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">跑腿单佣金计算方式</label>
+			<div class="col-sm-9 col-xs-12 toggle-tabs" data-content=".fee-errander-type">
+				<div class="radio radio-inline">
+					<input type="radio" value="1" name="fee_errander[type]" id="fee-errander-type-1" {if $agent['fee']['fee_errander']['type'] == 1 || empty($agent['fee']['fee_errander']['type'])}checked{/if}>
+					<label for="fee-errander-type-1" class="toggle-role" data-target="fee-errander-1">订单配送费百分比抽成</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" value="2" name="fee_errander[type]" id="fee-errander-type-2" {if $agent['fee']['fee_errander']['type'] == 2}checked{/if}>
+					<label for="fee-errander-type-2" class="toggle-role" data-target="fee-errander-2">固定抽成</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" value="3" name="fee_errander[type]" id="fee-errander-type-3" {if $agent['fee']['fee_errander']['type'] == 3}checked{/if}>
+					<label for="fee-errander-type-3" class="toggle-role" data-target="fee-errander-3">按代理本单最终入账抽成</label>
+				</div>
+			</div>
+		</div>
+		<div class="toggle-content fee-errander-type">
+			<div class="toggle-pane {if $agent['fee']['fee_errander']['type'] == 1 || empty($agent['fee']['fee_errander']['type'])}active{/if}" id="fee-errander-1">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-9 col-xs-12">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">抽成项目：</label>
+						<div class="col-sm-9 col-xs-12">
+							<div class="checkbox checkbox-inline">
+								<input type="checkbox" value="delivery_fee" name="fee_errander[items_yes][]" id="fee-errander-items-delivery-fee" {if in_array('delivery_fee', $agent['fee']['fee_errander']['items_yes'])}checked{/if}>
+								<label for="fee-errander-items-delivery-fee">配送费</label>
+							</div>
+							<div class="checkbox checkbox-inline">
+								<input type="checkbox" value="delivery_tips" name="fee_errander[items_yes][]" id="fee-errander-items-delivery-tips" {if in_array('delivery_tips', $agent['fee']['fee_errander']['items_yes'])}checked{/if}>
+								<label for="fee-errander-items-delivery-tips">小费</label>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-9 col-xs-12">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">不抽成项目：</label>
+						<div class="col-sm-9 col-xs-12">
+							<div class="checkbox checkbox-inline">
+								<input type="checkbox" value="agent_discount_fee" name="fee_errander[items_no][]" id="fee-errander-items-agent-discount" {if in_array('agent_discount_fee', $agent['fee']['fee_errander']['items_no'])}checked{/if}>
+								<label for="fee-errander-items-agent-discount">代理活动补贴</label>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-9 col-xs-12">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">抽成比例：</label>
+						<div class="col-sm-9 col-xs-12">
+							<div class="input-group">
+								<input type="text" name="fee_errander[fee_rate]" value="{$agent['fee']['fee_errander']['fee_rate']}" class="form-control"/>
+								<span class="input-group-addon">%，最低抽成金额</span>
+								<input type="text" name="fee_errander[fee_min]" value="{$agent['fee']['fee_errander']['fee_min']}" class="form-control"/>
+								<span class="input-group-addon">元</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="toggle-pane {if $agent['fee']['fee_errander']['type'] == 2}active{/if}" id="fee-errander-2">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-9 col-xs-12">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">抽成金额：</label>
+						<div class="col-sm-9 col-xs-12">
+							<div class="input-group">
+								<input type="text" name="fee_errander[fee]" value="{$agent['fee']['fee_errander']['fee']}" class="form-control"/>
+								<span class="input-group-addon">元</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="toggle-pane {if $agent['fee']['fee_errander']['type'] == 3}active{/if}" id="fee-errander-3">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-9 col-xs-12">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">抽成比例：</label>
+						<div class="col-sm-9 col-xs-12">
+							<div class="input-group">
+								<input type="text" name="fee_errander[fee_rate_3]" value="{$agent['fee']['fee_errander']['fee_rate']}" class="form-control"/>
+								<span class="input-group-addon">%，最低抽成金额</span>
+								<input type="text" name="fee_errander[fee_min_3]" value="{$agent['fee']['fee_errander']['fee_min']}" class="form-control"/>
+								<span class="input-group-addon">元</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		{if check_plugin_perm('gohome')}
+		<h3>生活圈费率设置</h3>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">砍价费率计算方式</label>
+			<div class="col-sm-9 col-xs-12 toggle-tabs" data-content=".fee-kanjia-type">
+				<div class="radio radio-inline">
+					<input type="radio" value="1" name="kanjia[type]" id="fee-kanjia-type-1" {if $gohome['kanjia']['type'] == 1 || empty($gohome['kanjia']['type'])}checked{/if}>
+					<label for="fee-kanjia-type-1" class="toggle-role" data-target="fee-kanjia-1">订单百分比抽成</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" value="2" name="kanjia[type]" id="fee-kanjia-type-2" {if $gohome['kanjia']['type'] == 2}checked{/if}>
+					<label for="fee-kanjia-type-2" class="toggle-role" data-target="fee-kanjia-2">固定抽成</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" value="3" name="kanjia[type]" id="fee-kanjia-type-3" {if $gohome['kanjia']['type'] == 3}checked{/if}>
+					<label for="fee-kanjia-type-3" class="toggle-role" data-target="fee-kanjia-3">按代理本单最终入账抽成</label>
+				</div>
+			</div>
+		</div>
+		<div class="toggle-content fee-kanjia-type">
+			<div class="toggle-pane {if $gohome['kanjia']['type'] == 1 || empty($gohome['kanjia']['type'])}active{/if}" id="fee-kanjia-1">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-9 col-xs-12">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">抽成项目：</label>
+						<div class="col-sm-9 col-xs-12">
+							<div class="checkbox checkbox-inline">
+								<input type="checkbox" value="price" name="kanjia[items_yes][]" id="fee-kanjia-items-price" {if in_array('price', $gohome['kanjia']['items_yes'])}checked{/if}>
+								<label for="fee-kanjia-items-price">商品费用</label>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-9 col-xs-12">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">不抽成项目：</label>
+						<div class="col-sm-9 col-xs-12">
+							<div class="checkbox checkbox-inline">
+								<input type="checkbox" value="store_discount_fee" name="kanjia[items_no][]" id="fee-kanjia-items-discount" {if in_array('store_discount_fee', $gohome['kanjia']['items_no'])}checked{/if}>
+								<label for="fee-kanjia-items-discount">商户活动补贴</label>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-9 col-xs-12">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">抽成比例：</label>
+						<div class="col-sm-9 col-xs-12">
+							<div class="input-group">
+								<input type="text" name="kanjia[fee_rate]" value="{$gohome['kanjia']['fee_rate']}" class="form-control"/>
+								<span class="input-group-addon">%，最低抽成金额</span>
+								<input type="text" name="kanjia[fee_min]" value="{$gohome['kanjia']['fee_min']}" class="form-control"/>
+								<span class="input-group-addon">元</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="toggle-pane {if $gohome['kanjia']['type'] == 2}active{/if}" id="fee-kanjia-2">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-9 col-xs-12">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">抽成金额：</label>
+						<div class="col-sm-9 col-xs-12">
+							<div class="input-group">
+								<input type="text" name="kanjia[fee]" value="{$gohome['kanjia']['fee']}" class="form-control"/>
+								<span class="input-group-addon">元</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="toggle-pane {if $gohome['kanjia']['type'] == 3}active{/if}" id="fee-kanjia-3">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-9 col-xs-12">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">抽成比例：</label>
+						<div class="col-sm-9 col-xs-12">
+							<div class="input-group">
+								<input type="text" name="kanjia[fee_rate_3]" value="{$gohome['kanjia']['fee_rate']}" class="form-control"/>
+								<span class="input-group-addon">%，最低抽成金额</span>
+								<input type="text" name="kanjia[fee_min_3]" value="{$gohome['kanjia']['fee_min']}" class="form-control"/>
+								<span class="input-group-addon">元</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">拼团费率计算方式</label>
+			<div class="col-sm-9 col-xs-12 toggle-tabs" data-content=".fee-pintuan-type">
+				<div class="radio radio-inline">
+					<input type="radio" value="1" name="pintuan[type]" id="fee-pintuan-type-1" {if $gohome['pintuan']['type'] == 1 || empty($gohome['pintuan']['type'])}checked{/if}>
+					<label for="fee-pintuan-type-1" class="toggle-role" data-target="fee-pintuan-1">订单百分比抽成</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" value="2" name="pintuan[type]" id="fee-pintuan-type-2" {if $gohome['pintuan']['type'] == 2}checked{/if}>
+					<label for="fee-pintuan-type-2" class="toggle-role" data-target="fee-pintuan-2">固定抽成</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" value="3" name="pintuan[type]" id="fee-pintuan-type-3" {if $gohome['pintuan']['type'] == 3}checked{/if}>
+					<label for="fee-pintuan-type-3" class="toggle-role" data-target="fee-pintuan-3">按代理本单最终入账抽成</label>
+				</div>
+			</div>
+		</div>
+		<div class="toggle-content fee-pintuan-type">
+			<div class="toggle-pane {if $gohome['pintuan']['type'] == 1 || empty($gohome['pintuan']['type'])}active{/if}" id="fee-pintuan-1">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-9 col-xs-12">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">抽成项目：</label>
+						<div class="col-sm-9 col-xs-12">
+							<div class="checkbox checkbox-inline">
+								<input type="checkbox" value="price" name="pintuan[items_yes][]" id="fee-pintuan-items-price" {if in_array('price', $gohome['pintuan']['items_yes'])}checked{/if}>
+								<label for="fee-pintuan-items-price">商品费用</label>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-9 col-xs-12">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">不抽成项目：</label>
+						<div class="col-sm-9 col-xs-12">
+							<div class="checkbox checkbox-inline">
+								<input type="checkbox" value="store_discount_fee" name="pintuan[items_no][]" id="fee-pintuan-items-discount" {if in_array('store_discount_fee', $gohome['pintuan']['items_no'])}checked{/if}>
+								<label for="fee-pintuan-items-discount">商户活动补贴</label>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-9 col-xs-12">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">抽成比例：</label>
+						<div class="col-sm-9 col-xs-12">
+							<div class="input-group">
+								<input type="text" name="pintuan[fee_rate]" value="{$gohome['pintuan']['fee_rate']}" class="form-control"/>
+								<span class="input-group-addon">%，最低抽成金额</span>
+								<input type="text" name="pintuan[fee_min]" value="{$gohome['pintuan']['fee_min']}" class="form-control"/>
+								<span class="input-group-addon">元</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="toggle-pane {if $gohome['pintuan']['type'] == 2}active{/if}" id="fee-pintuan-2">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-9 col-xs-12">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">抽成金额：</label>
+						<div class="col-sm-9 col-xs-12">
+							<div class="input-group">
+								<input type="text" name="pintuan[fee]" value="{$gohome['pintuan']['fee']}" class="form-control"/>
+								<span class="input-group-addon">元</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="toggle-pane {if $gohome['pintuan']['type'] == 3}active{/if}" id="fee-pintuan-3">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-9 col-xs-12">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">抽成比例：</label>
+						<div class="col-sm-9 col-xs-12">
+							<div class="input-group">
+								<input type="text" name="pintuan[fee_rate_3]" value="{$gohome['pintuan']['fee_rate']}" class="form-control"/>
+								<span class="input-group-addon">%，最低抽成金额</span>
+								<input type="text" name="pintuan[fee_min_3]" value="{$gohome['pintuan']['fee_min']}" class="form-control"/>
+								<span class="input-group-addon">元</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">抢购费率计算方式</label>
+			<div class="col-sm-9 col-xs-12 toggle-tabs" data-content=".fee-seckill-type">
+				<div class="radio radio-inline">
+					<input type="radio" value="1" name="seckill[type]" id="fee-seckill-type-1" {if $gohome['seckill']['type'] == 1 || empty($gohome['seckill']['type'])}checked{/if}>
+					<label for="fee-seckill-type-1" class="toggle-role" data-target="fee-seckill-1">订单百分比抽成</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" value="2" name="seckill[type]" id="fee-seckill-type-2" {if $gohome['seckill']['type'] == 2}checked{/if}>
+					<label for="fee-seckill-type-2" class="toggle-role" data-target="fee-seckill-2">固定抽成</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" value="3" name="seckill[type]" id="fee-seckill-type-3" {if $gohome['seckill']['type'] == 3}checked{/if}>
+					<label for="fee-seckill-type-3" class="toggle-role" data-target="fee-seckill-3">按代理本单最终入账抽成</label>
+				</div>
+			</div>
+		</div>
+		<div class="toggle-content fee-seckill-type">
+			<div class="toggle-pane {if $gohome['seckill']['type'] == 1 || empty($gohome['seckill']['type'])}active{/if}" id="fee-seckill-1">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-9 col-xs-12">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">抽成项目：</label>
+						<div class="col-sm-9 col-xs-12">
+							<div class="checkbox checkbox-inline">
+								<input type="checkbox" value="price" name="seckill[items_yes][]" id="fee-seckill-items-price" {if in_array('price', $gohome['seckill']['items_yes'])}checked{/if}>
+								<label for="fee-seckill-items-price">商品费用</label>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-9 col-xs-12">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">不抽成项目：</label>
+						<div class="col-sm-9 col-xs-12">
+							<div class="checkbox checkbox-inline">
+								<input type="checkbox" value="store_discount_fee" name="seckill[items_no][]" id="fee-seckill-items-discount" {if in_array('store_discount_fee', $gohome['seckill']['items_no'])}checked{/if}>
+								<label for="fee-seckill-items-discount">商户活动补贴</label>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-9 col-xs-12">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">抽成比例：</label>
+						<div class="col-sm-9 col-xs-12">
+							<div class="input-group">
+								<input type="text" name="seckill[fee_rate]" value="{$gohome['seckill']['fee_rate']}" class="form-control"/>
+								<span class="input-group-addon">%，最低抽成金额</span>
+								<input type="text" name="seckill[fee_min]" value="{$gohome['seckill']['fee_min']}" class="form-control"/>
+								<span class="input-group-addon">元</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="toggle-pane {if $gohome['seckill']['type'] == 2}active{/if}" id="fee-seckill-2">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-9 col-xs-12">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">抽成金额：</label>
+						<div class="col-sm-9 col-xs-12">
+							<div class="input-group">
+								<input type="text" name="seckill[fee]" value="{$gohome['seckill']['fee']}" class="form-control"/>
+								<span class="input-group-addon">元</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="toggle-pane {if $gohome['seckill']['type'] == 3}active{/if}" id="fee-seckill-3">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-9 col-xs-12">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">抽成比例：</label>
+						<div class="col-sm-9 col-xs-12">
+							<div class="input-group">
+								<input type="text" name="seckill[fee_rate_3]" value="{$gohome['seckill']['fee_rate']}" class="form-control"/>
+								<span class="input-group-addon">%，最低抽成金额</span>
+								<input type="text" name="seckill[fee_min_3]" value="{$gohome['seckill']['fee_min']}" class="form-control"/>
+								<span class="input-group-addon">元</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">好店入驻费率计算方式</label>
+			<div class="col-sm-9 col-xs-12 toggle-tabs" data-content=".fee-haodian-type">
+				<div class="radio radio-inline">
+					<input type="radio" value="1" name="haodian[type]" id="fee-haodian-type-1" {if $gohome['haodian']['type'] == 1 || empty($gohome['haodian']['type'])}checked{/if}>
+					<label for="fee-haodian-type-1" class="toggle-role" data-target="fee-haodian-1">订单百分比抽成</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" value="2" name="haodian[type]" id="fee-haodian-type-2" {if $gohome['haodian']['type'] == 2}checked{/if}>
+					<label for="fee-haodian-type-2" class="toggle-role" data-target="fee-haodian-2">固定抽成</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" value="3" name="haodian[type]" id="fee-haodian-type-3" {if $gohome['haodian']['type'] == 3}checked{/if}>
+					<label for="fee-haodian-type-3" class="toggle-role" data-target="fee-haodian-3">按代理本单最终入账抽成</label>
+				</div>
+			</div>
+		</div>
+		<div class="toggle-content fee-haodian-type">
+			<div class="toggle-pane {if $gohome['haodian']['type'] == 1 || empty($gohome['haodian']['type'])}active{/if}" id="fee-haodian-1">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-9 col-xs-12">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">抽成项目：</label>
+						<div class="col-sm-9 col-xs-12">
+							<div class="checkbox checkbox-inline">
+								<input type="checkbox" value="price" name="haodian[items_yes][]" id="fee-haodian-enter-price" {if in_array('price', $gohome['haodian']['items_yes'])}checked{/if}>
+								<label for="fee-haodian-enter-price">好店入驻费用</label>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="form-group hide">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-9 col-xs-12">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">不抽成项目：</label>
+						<div class="col-sm-9 col-xs-12">
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-9 col-xs-12">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">抽成比例：</label>
+						<div class="col-sm-9 col-xs-12">
+							<div class="input-group">
+								<input type="text" name="haodian[fee_rate]" value="{$gohome['haodian']['fee_rate']}" class="form-control"/>
+								<span class="input-group-addon">%，最低抽成金额</span>
+								<input type="text" name="haodian[fee_min]" value="{$gohome['haodian']['fee_min']}" class="form-control"/>
+								<span class="input-group-addon">元</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="toggle-pane {if $gohome['haodian']['type'] == 2}active{/if}" id="fee-haodian-2">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-9 col-xs-12">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">抽成金额：</label>
+						<div class="col-sm-9 col-xs-12">
+							<div class="input-group">
+								<input type="text" name="haodian[fee]" value="{$gohome['haodian']['fee']}" class="form-control"/>
+								<span class="input-group-addon">元</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="toggle-pane {if $gohome['haodian']['type'] == 3}active{/if}" id="fee-haodian-3">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-9 col-xs-12">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">抽成比例：</label>
+						<div class="col-sm-9 col-xs-12">
+							<div class="input-group">
+								<input type="text" name="haodian[fee_rate_3]" value="{$gohome['haodian']['fee_rate']}" class="form-control"/>
+								<span class="input-group-addon">%，最低抽成金额</span>
+								<input type="text" name="haodian[fee_min_3]" value="{$gohome['haodian']['fee_min']}" class="form-control"/>
+								<span class="input-group-addon">元</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">同城发帖费率计算方式</label>
+			<div class="col-sm-9 col-xs-12 toggle-tabs" data-content=".fee-tongcheng-type">
+				<div class="radio radio-inline">
+					<input type="radio" value="1" name="tongcheng[type]" id="fee-tongcheng-type-1" {if $gohome['tiezi']['type'] == 1 || empty($gohome['tiezi']['type'])}checked{/if}>
+					<label for="fee-tongcheng-type-1" class="toggle-role" data-target="fee-tongcheng-1">订单百分比抽成</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" value="2" name="tongcheng[type]" id="fee-tongcheng-type-2" {if $gohome['tiezi']['type'] == 2}checked{/if}>
+					<label for="fee-tongcheng-type-2" class="toggle-role" data-target="fee-tongcheng-2">固定抽成</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" value="3" name="tongcheng[type]" id="fee-tongcheng-type-3" {if $gohome['tiezi']['type'] == 3}checked{/if}>
+					<label for="fee-tongcheng-type-3" class="toggle-role" data-target="fee-tongcheng-3">按代理本单最终入账抽成</label>
+				</div>
+			</div>
+		</div>
+		<div class="toggle-content fee-tongcheng-type">
+			<div class="toggle-pane {if $gohome['tiezi']['type'] == 1 || empty($gohome['tiezi']['type'])}active{/if}" id="fee-tongcheng-1">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-9 col-xs-12">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">抽成项目：</label>
+						<div class="col-sm-9 col-xs-12">
+							<div class="checkbox checkbox-inline">
+								<input type="checkbox" value="price" name="tongcheng[items_yes][]" id="fee-tongcheng-tiezi-price" {if in_array('price', $gohome['tiezi']['items_yes'])}checked{/if}>
+								<label for="fee-tongcheng-tiezi-price">帖子费用</label>
+							</div>
+							<div class="checkbox checkbox-inline">
+								<input type="checkbox" value="stick_price" name="tongcheng[items_yes][]" id="fee-tongcheng-tiezi-stick-price" {if in_array('stick_price', $gohome['tiezi']['items_yes'])}checked{/if}>
+								<label for="fee-tongcheng-tiezi-stick-price">帖子置顶费用</label>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="form-group hide">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-9 col-xs-12">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">不抽成项目：</label>
+						<div class="col-sm-9 col-xs-12">
+
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-9 col-xs-12">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">抽成比例：</label>
+						<div class="col-sm-9 col-xs-12">
+							<div class="input-group">
+								<input type="text" name="tongcheng[fee_rate]" value="{$gohome['tiezi']['fee_rate']}" class="form-control"/>
+								<span class="input-group-addon">%，最低抽成金额</span>
+								<input type="text" name="tongcheng[fee_min]" value="{$gohome['tiezi']['fee_min']}" class="form-control"/>
+								<span class="input-group-addon">元</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="toggle-pane {if $gohome['tiezi']['type'] == 2}active{/if}" id="fee-tongcheng-2">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-9 col-xs-12">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">抽成金额：</label>
+						<div class="col-sm-9 col-xs-12">
+							<div class="input-group">
+								<input type="text" name="tongcheng[fee]" value="{$gohome['tiezi']['fee']}" class="form-control"/>
+								<span class="input-group-addon">元</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="toggle-pane {if $gohome['tiezi']['type'] == 3}active{/if}" id="fee-tongcheng-3">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-9 col-xs-12">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">抽成比例：</label>
+						<div class="col-sm-9 col-xs-12">
+							<div class="input-group">
+								<input type="text" name="tongcheng[fee_rate_3]" value="{$gohome['tiezi']['fee_rate']}" class="form-control"/>
+								<span class="input-group-addon">%，最低抽成金额</span>
+								<input type="text" name="tongcheng[fee_min_3]" value="{$gohome['tiezi']['fee_min']}" class="form-control"/>
+								<span class="input-group-addon">元</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">帖子置顶费率计算方式</label>
+			<div class="col-sm-9 col-xs-12 toggle-tabs" data-content=".fee-tiezi-type">
+				<div class="radio radio-inline">
+					<input type="radio" value="1" name="tiezi[type]" id="fee-tiezi-type-1" {if $gohome['tiezi_stick']['type'] == 1 || empty($gohome['tiezi_stick']['type'])}checked{/if}>
+					<label for="fee-tiezi-type-1" class="toggle-role" data-target="fee-tiezi-1">订单百分比抽成</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" value="2" name="tiezi[type]" id="fee-tiezi-type-2" {if $gohome['tiezi_stick']['type'] == 2}checked{/if}>
+					<label for="fee-tiezi-type-2" class="toggle-role" data-target="fee-tiezi-2">固定抽成</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" value="3" name="tiezi[type]" id="fee-tiezi-type-3" {if $gohome['tiezi_stick']['type'] == 3}checked{/if}>
+					<label for="fee-tiezi-type-3" class="toggle-role" data-target="fee-tiezi-3">按代理本单最终入账抽成</label>
+				</div>
+			</div>
+		</div>
+		<div class="toggle-content fee-tiezi-type">
+			<div class="toggle-pane {if $gohome['tiezi_stick']['type'] == 1 || empty($gohome['tiezi_stick']['type'])}active{/if}" id="fee-tiezi-1">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-9 col-xs-12">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">抽成项目：</label>
+						<div class="col-sm-9 col-xs-12">
+							<div class="checkbox checkbox-inline">
+								<input type="checkbox" value="stick_price" name="tiezi[items_yes][]" id="fee-tiezi-price" {if in_array('stick_price', $gohome['tiezi_stick']['items_yes'])}checked{/if}>
+								<label for="fee-tiezi-price">帖子置顶费用</label>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="form-group hide">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-9 col-xs-12">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">不抽成项目：</label>
+						<div class="col-sm-9 col-xs-12">
+
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-9 col-xs-12">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">抽成比例：</label>
+						<div class="col-sm-9 col-xs-12">
+							<div class="input-group">
+								<input type="text" name="tiezi[fee_rate]" value="{$gohome['tiezi_stick']['fee_rate']}" class="form-control"/>
+								<span class="input-group-addon">%，最低抽成金额</span>
+								<input type="text" name="tiezi[fee_min]" value="{$gohome['tiezi_stick']['fee_min']}" class="form-control"/>
+								<span class="input-group-addon">元</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="toggle-pane {if $gohome['tiezi_stick']['type'] == 2}active{/if}" id="fee-tiezi-2">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-9 col-xs-12">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">抽成金额：</label>
+						<div class="col-sm-9 col-xs-12">
+							<div class="input-group">
+								<input type="text" name="tiezi[fee]" value="{$gohome['tiezi_stick']['fee']}" class="form-control"/>
+								<span class="input-group-addon">元</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="toggle-pane {if $gohome['tiezi_stick']['type'] == 3}active{/if}" id="fee-tiezi-3">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-9 col-xs-12">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">抽成比例：</label>
+						<div class="col-sm-9 col-xs-12">
+							<div class="input-group">
+								<input type="text" name="tiezi[fee_rate_3]" value="{$gohome['tiezi_stick']['fee_rate']}" class="form-control"/>
+								<span class="input-group-addon">%，最低抽成金额</span>
+								<input type="text" name="tiezi[fee_min_3]" value="{$gohome['tiezi_stick']['fee_min']}" class="form-control"/>
+								<span class="input-group-addon">元</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		{/if}
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">提现周期</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="input-group">
+					<input type="number" name="fee_period" value="{$agent['fee']['fee_period']}" class="form-control"/>
+					<span class="input-group-addon">天</span>
+				</div>
+				<div class="help-block">
+					<strong class="text-danger">提现周期设置为0， 表示不限制提现周期。</strong>
+					<br>
+					例如：提现周期设置为7天，即至少在上次提现7天后，才可以进行下次提现。
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<input type="hidden" name="token" value="{$_W['token']}">
+				<input type="submit" value="提交" class="btn btn-primary">
+			</div>
+		</div>
+	</form>
+	<form class="form-horizontal form form-validate" id="form2" action="" method="post" enctype="multipart/form-data">
+		<input type="hidden" name="form_type" value="extra">
+		<h3>其他设置</h3>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">账户最少余额限制</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="input-group">
+					<div class="input-group-addon">账户余额少于</div>
+					<input type="number" name="amount_min" value="{$agent['amount_min']}" class="form-control"/>
+					<div class="input-group-addon">元，该代理下顾客不能下单</div>
+				</div>
+				<div class="help-block">0表示不限制</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<input type="hidden" name="token" value="{$_W['token']}">
+				<input type="submit" value="提交" class="btn btn-primary">
+			</div>
+		</div>
+	</form>
+</div>
+{/if}
+{itemplate 'public/footer'}

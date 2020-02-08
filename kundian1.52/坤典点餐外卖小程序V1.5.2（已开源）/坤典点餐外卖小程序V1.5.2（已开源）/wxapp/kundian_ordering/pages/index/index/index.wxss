@@ -1,0 +1,176 @@
+page {
+    font-size: 30rpx;
+    background: #f4f4f4;
+}
+
+.clear {
+    clear: both;
+}
+
+.index-slide {
+    width: 100%;
+    height: 400rpx;
+}
+
+swiper {
+    height: 400rpx;
+}
+
+.index-slide .slide-image {
+    width: 100%;
+    height: 100%;
+}
+
+.index-nav {
+    width: 90%;
+    height: 150rpx;
+    background: white;
+    margin-left: 5%;
+    position: relative;
+    top: -75rpx;
+    border-radius: 10rpx;
+}
+
+.index-nav .nav-li {
+    width: 25%;
+    height: 100%;
+    text-align: center;
+    float: left;
+    padding-top: 20rpx;
+}
+
+.index-nav .one {
+    background: #84dd79;
+}
+
+.index-nav .two {
+    background: #fabccb;
+}
+
+.index-nav .three {
+    background: #ece7c9;
+}
+
+.index-nav .four {
+    background: #fabccb;
+}
+
+.index-nav .nav-li .english {
+    font-size: 24rpx;
+}
+
+.index-nav .nav-li image {
+    width: 50rpx;
+    height: 50rpx;
+}
+
+.index-nav .nav-li text {
+    display: block;
+    font-size: 28rpx;
+    color: #131313;
+}
+
+.index-shop {
+    width: 100%;
+    height: auto;
+    background: white;
+    margin-top: 20rpx;
+    position: relative;
+    top: -50rpx;
+}
+
+.index-shop .shop-title {
+    width: 90%;
+    height: 90rpx;
+    line-height: 90rpx;
+    border-bottom: 1rpx solid #f4f4f4;
+    margin-left: 5%;
+}
+
+.index-shop .shop-li {
+    width: 90%;
+    margin-left: 5%;
+    height: 90rpx;
+    border-bottom: 1rpx solid #f4f4f4;
+    line-height: 90rpx;
+    color: gray;
+}
+
+.index-shop .shop-li .li-left {
+    width: 30%;
+    height: 100%;
+    float: left;
+}
+
+.index-shop .shop-li .li-right {
+    width: 70%;
+    height: 100%;
+    float: left;
+}
+
+.index-shop .shop-li .li-right image {
+    float: right;
+    width: 30rpx;
+    height: 30rpx;
+    position: relative;
+    top: 30rpx;
+}
+
+.navbar {
+    width: 90%;
+    height: 172rpx;
+    position: relative;
+    top: -86rpx;
+    margin-left: 5%;
+}
+
+.navbar .row {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    background: white;
+}
+
+.navbar .row image {
+    width: 50rpx;
+    height: 50rpx;
+    margin-top: 20rpx;
+}
+
+.navbar .row text {
+    display: block;
+}
+
+.navbar .row-1 .row-li {
+    width: 100%;
+    height: 100%;
+    float: left;
+}
+
+.navbar .row-2 .row-li {
+    width: 50%;
+    height: 100%;
+    float: left;
+}
+
+.navbar .row-3 .row-li {
+    width: 33.3%;
+    height: 100%;
+    float: left;
+}
+
+.navbar .row-4 .row-li {
+    width: 25%;
+    height: 100%;
+    float: left;
+}
+
+.navbar .row-5 .row-li {
+    width: 20%;
+    height: 100%;
+    float: left;
+}
+
+.nav-title-eng {
+    font-size: 22rpx;
+}

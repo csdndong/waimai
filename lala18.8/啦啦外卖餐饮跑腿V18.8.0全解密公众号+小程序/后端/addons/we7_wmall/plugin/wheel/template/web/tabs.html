@@ -1,0 +1,30 @@
+<div class="second-sidebar-title">{$_W['_plugin']['title']}</div>
+<div class="nav slimscroll">
+	<div class="menu-header">活动</div>
+	<ul class="menu-item">
+		{ifp 'wheel.activity' || 'wheel.record'}
+			<li {if $_W['_action'] == 'activity'}class="active"{/if}>
+				<a href="{php echo iurl('wheel/activity/list');}">活动列表</a>
+			</li>
+			<li {if $_W['_action'] == 'record'}class="active"{/if}>
+				<a href="{php echo iurl('wheel/record/index');}">参与记录</a>
+			</li>
+		{/if}
+	</ul>
+	<div class="menu-header">设置</div>
+	<ul class="menu-item">
+		{ifp 'wheel.scene'}
+			<li {if $_W['_action'] == 'scene'}class="active"{/if}>
+				<a href="{php echo iurl('wheel/scene/index');}">使用场景</a>
+			</li>
+		{/if}
+	</ul>
+	<div class="menu-header">入口</div>
+	<ul class="menu-item">
+		{ifp 'wheel.cover'}
+			<li {if $_W['_action'] == 'cover'}class="active"{/if}>
+				<a href="{php echo iurl('wheel/cover/index');}">入口链接</a>
+			</li>
+		{/if}
+	</ul>
+</div>

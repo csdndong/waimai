@@ -1,0 +1,18 @@
+<view class="weui-cells__title">常见问题</view>
+<view class="weui-cells weui-cells_after-title">
+    <navigator bindtap="tzxq" class="weui-cell weui-cell_access" data-answer="{{item.answer}}" data-title="{{item.question}}" hoverClass="weui-cell_active" wx:for="{{list}}">
+        <view class="weui-cell__bd">{{item.question}}</view>
+        <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+    </navigator>
+</view>
+<view class="foot flex-row flex-y-center">
+    <button class="flex-grow-1" openType="contact">
+        <image src="../../img/zxkf1.png"></image>
+        <view>在线客服</view>
+    </button>
+    <view class="sx"></view>
+    <button bindtap="tel" class="flex-grow-1">
+        <image src="../../img/telephone.png"></image>
+        <view>电话客服</view>
+    </button>
+</view>

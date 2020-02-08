@@ -1,0 +1,125 @@
+{itemplate 'public/header'}
+{if $op == 'list'}
+<form action="./index.php?" class="form-horizontal form-filter" id="form1">
+	{php echo tpl_form_filter_hidden('storebd/getcash/list');}
+	<input type="hidden" name="days" value="{$days}"/>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">提现状态</label>
+		<div class="col-sm-9 col-xs-12">
+			<div class="btn-group">
+				<a href="{php echo ifilter_url('status:0');}" class="btn {if $status == 0}btn-primary{else}btn-default{/if}">全部</a>
+				<a href="{php echo ifilter_url('status:2');}" class="btn {if $status == 2}btn-primary{else}btn-default{/if}">申请中</a>
+				<a href="{php echo ifilter_url('status:1');}" class="btn {if $status == 1}btn-primary{else}btn-default{/if}">提现成功</a>
+				<a href="{php echo ifilter_url('status:3');}" class="btn {if $status == 3}btn-primary{else}btn-default{/if}">已撤销</a>
+			</div>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">申请时间</label>
+		<div class="col-sm-9 col-xs-12 js-daterange" data-form="#form1">
+			<div class="btn-group">
+				<a href="{php echo ifilter_url('days:-2');}" class="btn {if $days == -2}btn-primary{else}btn-default{/if}">不限</a>
+				<a href="{php echo ifilter_url('days:7');}" class="btn {if $days == 7}btn-primary{else}btn-default{/if}">近一周</a>
+				<a href="{php echo ifilter_url('days:30');}" class="btn {if $days == 30}btn-primary{else}btn-default{/if}">近一月</a>
+				<a href="{php echo ifilter_url('days:90');}" class="btn {if $days == 90}btn-primary{else}btn-default{/if}">近三月</a>
+				<a href="javascript:;" class="btn js-btn-custom {if $days == -1}btn-primary{else}btn-default{/if}">自定义</a>
+			</div>
+			<span class="js-btn-daterange {if $days != -1}hide{/if}">
+				{php echo tpl_form_field_daterange('addtime', array('start' => date('Y-m-d H:i', $starttime), 'end' => date('Y-m-d H:i', $endtime)), true);}
+			</span>
+		</div>
+	</div>
+	<div class="form-group form-inline">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">其他</label>
+		<div class="col-sm-9 col-xs-12">
+			{if $_W['is_agent']}
+				<select name="agentid" class="select2 js-select2 form-control width-130">
+					<option value="0">选择代理区域</option>
+					{loop $_W['agents'] $agent}
+						<option value="{$agent['id']}" {if $agentid == $agent['id']}selected{/if}>{$agent['area']}</option>
+					{/loop}
+				</select>
+			{/if}
+			<select name="bd_id" class="form-control select2">
+				<option value="0" {if !$bd_id}selected{/if}>==选择推广员==</option>
+				{loop $bd_user $user}
+					<option value="{$user['id']}" {if $bd_id == $user['id']}selected{/if}>{$user['title']}</option>
+				{/loop}
+			</select>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+		<div class="col-sm-9 col-xs-12">
+			<button class="btn btn-primary">筛选</button>
+		</div>
+	</div>
+</form>
+<form action="" class="form-table form" method="post">
+	<div class="panel panel-table">
+		<div class="panel-body table-responsive js-table">
+			<table class="table table-hover">
+				<thead class="navbar-inner">
+				<tr>
+					<th>申请时间<br>订单号</th>
+					{if $_W['is_agent']}
+						<th>所属城市</th>
+					{/if}
+					<th>推广员</th>
+					<th>微信昵称</th>
+					<th>提现金额</th>
+					<th>手续费</th>
+					<th>实际到账</th>
+					<th>交易状态</th>
+					<th></th>
+				</tr>
+				</thead>
+				<tbody>
+				{loop $storebd $item}
+					<tr>
+						<td>
+							{php echo date('Y-m-d H:i', $item['addtime']);}
+							<br>
+							{$item['trade_no']}
+						</td>
+						{if $_W['is_agent']}
+							<td>{php echo toagent($item['agentid'])}</td>
+						{/if}
+						<td>
+							<img src="{$bd_user[$item['bd_id']]['avatar']}" alt="" width="50" height="50" style="border-radius: 100%"/>
+							{$bd_user[$item['bd_id']]['title']}
+						</td>
+						<td>{$bd_user[$item['bd_id']]['nickname']}</td>
+						<td>{$item['get_fee']}元</td>
+						<td>{$item['take_fee']}元</td>
+						<td>{$item['final_fee']}元</td>
+						<td>
+							{if $item['status'] == 2}
+								<span class="label label-danger">申请中</span>
+							{elseif $item['status'] == 1}
+								<span class="label label-success">提现成功</span>
+								<br>
+								<span class="label label-info label-br">处理完成时间: {php echo date('Y-m-d H:i', $item['endtime'])}</span>
+							{elseif $item['status'] == 3}
+								<span class="label label-warning">已撤销</span>
+								<br>
+								<span class="label label-info label-br">处理完成时间: {php echo date('Y-m-d H:i', $item['endtime'])}</span>
+							{/if}
+						</td>
+						<td align="right">
+							{if $item['status'] == 2}
+								<a href="{php echo iurl('storebd/getcash/transfers', array('id' => $item['id']));}" data-confirm="确定微信打款吗?" class="btn btn-primary btn-sm js-post">微信打款</a>
+								<a href="{php echo iurl('storebd/getcash/status', array('id' => $item['id'], 'status' => 1));}" data-confirm="确定变更提现状态吗?" class="btn btn-default btn-sm js-post">设为已处理</a>
+								<a href="{php echo iurl('storebd/getcash/cancel', array('id' => $item['id']));}" class="btn btn-danger btn-sm js-modal">撤销</a>
+							{/if}
+						</td>
+					</tr>
+				{/loop}
+				</tbody>
+			</table>
+			{$pager}
+		</div>
+	</div>
+</form>
+{/if}
+{itemplate 'public/footer'}

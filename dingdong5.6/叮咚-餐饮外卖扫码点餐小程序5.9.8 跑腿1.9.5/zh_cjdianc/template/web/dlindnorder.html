@@ -1,0 +1,330 @@
+{template 'public/header'}
+{template 'public/comhead'}
+<link rel="stylesheet" type="text/css" href="../addons/zh_cjdianc/template/public/ygcsslist.css">
+<style type="text/css">
+  .ygrow{margin-top: 20px;}
+  .yg5_key>div{float: left;line-height: 34px;}
+  .store_td1{height: 45px;}
+  .store_list_img{width: 60px;height: 60px;}
+  .yg5_tabel{border-color: #e5e5e5;outline: 1px solid #e5e5e5;}
+  .yg5_tr2>td{padding: 15px;border: 1px solid #e5e5e5;text-align: center;}
+  .yg5_tr1>td{
+    border: 1px solid #e5e5e5;
+    padding-left: 15px;
+    background-color: #FAFAFA;
+    font-weight: bold;
+    text-align: center;
+  }
+  .yg5_btn{background-color: #EEEEEE;color: #333;border: 1px solid #E4E4E4;border-radius: 6px;width: 100px;height: 34px;}
+  .orfont1{font-weight: bold;font-size: 24px;}
+  .orfont2{color: #F5B340;font-size: 16px;margin-left: 15px;}
+  .orderback{background-color: #FAFAFA;height: 50px;margin-bottom: 15px;padding: 10px;}
+  .ordermain{font-size: 14px;width: 100%;}
+  .orfont3{font-size: 20px;font-weight: bold;}
+  .orfont4{font-size: 12px;color: #999;}
+  .orderconfirm{border:1px solid #44ABF7;color: #44ABF7;padding: 5px 15px;border-radius: 6px;cursor: pointer;margin-right: 10px;}
+  .orderconfirm:hover{background-color: #44ABF7;color: white;}
+  .orderback2{border-bottom:1px solid #E9E9E9;margin-bottom: 10px;padding-bottom: 10px;}
+  .orderback3{margin-bottom: 10px;padding-bottom: 10px;}
+  .orderback2>div>p{margin-bottom: 5px;}
+  .orderdish{margin-bottom: 10px;height: 15px;width: 100%;}
+  .orderdish>div{float: left;margin-right: 50px;}    
+  .orderbox1,.orderdish1{width: 250px;}
+  .orderdish>div:nth-child(2){width: 80px;}
+  .orderdish>div:nth-child(3){width: 80px;}
+  .orderbox2,.orderdish>div:nth-child(4){width: 80px;}
+  .orderbox2{margin-left: 310px;}
+  .orderaccount{width: 100%;height: 25px;}
+  .orfont5{color: #44ABF7;font-size: 14px;}
+  .orfont6{font-size: 12px;color: #666;}
+  .orfont7{font-weight: bold;font-size: 15px;}
+  .dlorfont7{font-size: 18px;color: #44ABF7;}
+  .orfont8{color: #44ABF7;}
+  .orfont9{color: #666;}
+  .orderpanel1{width: 50%;display: inline-block;}
+  .orderpanel2{width: 30%;display: inline-block;margin-left: 30px;}
+  .ordertelimg{width: 20px;height: 20px;}
+  .ordertelimg1{color: #44ABF7;font-size: 14px;}
+  .ordername{font-size: 20px;font-weight: bold;height: 30px;width: 100%;margin-bottom: 5px;}
+  .orbeizhu{color: #FF7712;}
+  .ordertime{margin-right: 10px;}
+  .orfont10{color: #999;}
+  .orderbtn{border: #FF7F50 1px solid;color: #FF7F50;background-color: #fff;margin-top: -10px;}
+  .orderbtn:hover{background-color: #FF7F50;color: white;}
+  .ordersucess{background-color: #44ABF7;color: white;}
+  .ordersucess:hover{background-color: #44ABF7;color: white;}
+  .ortypeimg{position: absolute;left: 27%;top:53%;z-index: 10;opacity: 0.2;width: 150px;height: 150px;}
+  .ortypeimg>img{width: 100%;height: 100%;}
+  .ortypeimg2{position: absolute;left: 27%;top:53%;z-index: 10;opacity: 0.4;width: 150px;height: 150px;}
+  .ortypeimg2>img{width: 100%;height: 100%;}
+  .orderwu{text-align: center;padding: 20px 0px;}
+  .wufont1{font-size: 18px;color: #666;margin-top: 20px;}
+   .orderconfirm2{color: #fff;padding: 3px 10px;border-radius: 6px;margin-right: 10px;font-size: 12px;margin-top: 5px;background-color: #44ABF7;}
+  .orfontyue1{text-indent: 4em;}
+  .storespan2{font-size: 14px;color: white;margin: 5px;position: relative;background-color: #FF7F50;}
+  .storespan2:hover{color: #fff;}
+  .storespan2:hover .bianji{display: block;}
+    .data_tip,.nav_head{
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+    }
+</style>
+<ul class="nav nav-tabs">
+  <span class="ygxian"></span>
+  <div class="ygdangq">当前位置:</div> 
+  <li  {if $type=='all'} class="active" {/if}><a href="{php echo $this->createWebUrl2('dlindnorder',array('type'=>all));}">全部订单</a></li>
+  <li   {if $type=='wait'} class="active" {/if}><a href="{php echo $this->createWebUrl2('dlindnorder',array('type'=>wait));}">待支付</a></li> 
+  <li   {if $type=='complete'} class="active" {/if}><a href="{php echo $this->createWebUrl2('dlindnorder',array('type'=>complete));}">已完成</a></li> 
+  <li   {if $type=='close'} class="active" {/if}><a href="{php echo $this->createWebUrl2('dlindnorder',array('type'=>close));}">已关闭</a></li> 
+
+</ul>
+
+<div class="row ygrow">
+  <div class="col-lg-11 nav_head">
+    <form action="" method="get" class="col-md-4" style="padding-left: 0">
+      <input type="hidden" name="c" value="site" />
+      <input type="hidden" name="a" value="entry" />
+      <input type="hidden" name="m" value="zh_cjdianc" />
+      <input type="hidden" name="do" value="dlindnorder" />
+      <div class="input-group" style="width: 300px">
+        <input type="text" name="keywords" class="form-control" placeholder="请输入订单编号">
+        <span class="input-group-btn">
+          <input type="submit" class="btn btn-default" name="submit" value="查找"/>
+        </span>
+      </div>
+      <input type="hidden" name="token" value="{$_W['token']}"/>
+    </form>
+    <ul class="nav nav-tabs data_tip col-md-4" style="float: left;margin:0">
+     <li{if $type2=='yesterday'} class="active" {/if}><a href="{php echo $this->createWebUrl2('dlindnorder',array('type2'=>yesterday,'type'=>$type));}">昨天</a></li>
+        <li{if $type2=='today'} class="active" {/if}><a href="{php echo $this->createWebUrl2('dlindnorder',array('type2'=>today,'type'=>$type));}">今天</a></li>
+        <li{if $type2=='week'} class="active" {/if}><a href="{php echo $this->createWebUrl2('dlindnorder',array('type2'=>week,'type'=>$type));}">近七天</a></li>
+        <li{if $type2=='month'} class="active" {/if}><a href="{php echo $this->createWebUrl2('dlindnorder',array('type2'=>month,'type'=>$type));}">本月</a></li>
+    </ul>     
+    <form action="" method="get" class="col-md-4">
+      <input type="hidden" name="c" value="site" />
+      <input type="hidden" name="a" value="entry" />
+      <input type="hidden" name="m" value="zh_cjdianc" />
+      <input type="hidden" name="do" value="dlindnorder" />
+      <div class="input-group" style="width: 100px">
+        {php echo tpl_form_field_daterange('time',$_GPC['time'],true);}
+        <span class="input-group-btn">
+          <input type="submit" class="btn btn-default" name="submit2" value="查找"/>
+          <input type="submit" class="btn btn-sm ordersucess" name="export_submit" value="导出"/>
+          <input type="hidden" name="token" value="{$_W['token']}"/>
+        </span>
+      </div><!-- /input-group -->
+    </form>
+    <form action="" method="POST" class="">
+      <div class="">
+
+<!--         <input type="submit" class="btn btn-sm ordersucess" name="export_submit" value="导出"/> -->
+        <input type="hidden" name="token" value="{$_W['token']}"/>
+        <a href="javascript:void(0);" class="storespan2 btn btn-sm" data-toggle="modal" data-target="#myModals">
+            <span class="fa fa-trash-o"></span>&nbsp;删除订单
+            <span class="bianji" style="left: -15px;">删除全部已关闭订单
+                <span class="arrowdown"></span>
+            </span>                            
+        </a>
+        <div class="modal fade" id="myModals" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+          <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel" style="font-size: 20px;">提示</h4>
+                  </div>
+                  <div class="modal-body" style="font-size: 20px">
+                      确定要删除全部已关闭订单么？
+                  </div>
+                  <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                  <a href="{php echo $this->createWebUrl2('dlindnorder',array('op'=>'sc'));}" type="button" class="btn btn-info" >确定</a>
+                </div>
+              </div>
+          </div>
+      </div>
+      </div>
+    </form>
+  </div><!-- /.col-lg-6 -->
+</div> 
+<div class="main ordermain">
+  <div class="row">
+
+    <div class="col-md-11">
+      {if !$data3}
+      <div class="panel panel-default">
+        <div class="orderwu">
+          <img src="../addons/zh_cjdianc/template/images/noorder.png">
+          <p class="wufont1">暂无指定订单</p>
+          <p class="orfont10">暂时没有筛选条件的订单，稍后再来看看吧！</p>
+        </div>
+      </div>
+      {/if}
+
+      {loop $data3 $key $item}
+      <div class="panel panel-default">
+        <div class="panel-body" style="padding: 0px 15px;">
+          <div class="row" style="position: relative;">
+            {if $item['order']['dn_state']==1 || $item['order']['dn_state']==3}
+            <div class="ortypeimg">
+              <img src="../addons/zh_cjdianc/template/images/daizhifu.png">
+            </div>
+            {else}
+            <div class="ortypeimg2">
+              <img src="../addons/zh_cjdianc/template/images/yizhifu.png">
+            </div>
+            {/if}
+            <div class="col-md-12 orderback">
+              <div class="left">
+                <span class="orfont1 orfont8">#{$item['order']['id']}</span>
+                <a href="{php echo $this->createWebUrl2('dlindnorder',array('op'=>'dy','order_id'=>$item['order']['id']));}"> <button class="btn btn-xs orderbtn">打印小票</button></a>
+              </div>
+              {if $item['order']['dn_state']==1}
+              {if $item['order']['pay_type']==5}
+              <a onclick="if(!confirm('确定收到付款')) return false;" " href="{php echo $this->createWebUrl2('dlindnorder',array('op'=>'receivables','id'=>$item['order']['id']));}"><div class="right orderconfirm">确认收款</div></a>
+              {/if}
+              <a onclick="if(!confirm('确定关闭订单')) return false;" " href="{php echo $this->createWebUrl2('dlindnorder',array('op'=>'close','id'=>$item['order']['id'],table_id=>$item['order']['table_id']));}"><div class="right orderconfirm">关闭订单</div></a>
+              {elseif $item['order']['dn_state']==2&&$item['order']['t_status']!=0}
+              <a onclick="if(!confirm('确定是否重新开台')) return false;" href="{php echo $this->createWebUrl2('dlindnorder',array('op'=>'open','id'=>$item['order']['table_id']));}"><div class="right orderconfirm">重新开台</div></a>
+              {/if}
+              {if $item['order']['dn_state']==1}
+              <div class="right orderconfirm2">待支付</div>
+              {elseif $item['order']['dn_state']==2}
+              <div class="right orderconfirm2">已完成</div>
+              {elseif $item['order']['dn_state']==3}
+              <div class="right orderconfirm2">已关闭</div>
+              {elseif $item['order']['dn_state']==4}
+              <div class="right orderconfirm2">已评价</div>
+              {/if}
+            </div>
+            <div class="col-md-12 orderback2">
+              <div class="ordername">
+                <div class="left ordername1">{$item['order']['name']}--{$item['order']['table_name']}({$item['order']['tablename']}) &nbsp;&nbsp;<span class="orfont4">#{$item['order']['md_name']}</span></div>
+                <a href="{php echo $this->createWebUrl2('dlindnorderinfo',array('id'=>$item['order']['id']));}"><div class="right btn btn-sm btn-default" style="border:none;">查看详情</div></a>
+              </div>
+            </div>
+            <div class="col-md-12 orderback2">
+              <p><span class="orbeizhu">备注：</span>{if $item['order']['note']}{$item['order']['note']}{else}无{/if}</p>
+            </div>
+            <div class="col-md-12 orderback2">
+              <p class="orfont3">商品信息</p>
+              {loop $item['goods'] $item2}
+              <div class="orderdish">
+                <div class="left orderdish1">{$item2['name']}{if $item2['spec']}({$item2['spec']}){/if}</div>
+                <div class="left">¥{$item2['money']}</div>
+                <div class="left">×{$item2['num']}</div>
+                <div class="left">¥{php echo number_format($item2['num']*$item2['money'],2)}</div>
+              </div>
+              {/loop}
+            </div>
+            <div class="col-md-12 orderback2">
+              <p class="orfont3">小计</p>
+              {if $item['order']['mj_money']>0}
+              <div class="orderaccount">
+                <div class="orderbox1 left">满减优惠</div>
+                <div class="orderbox2 left">¥{php echo number_format($item['order']['mj_money'],2)}</div>
+              </div>
+              {/if}
+              {if $item['order']['xyh_money']>0}
+              <div class="orderaccount">
+                <div class="orderbox1 left">新用户立减</div>
+                <div class="orderbox2 left">¥{php echo number_format($item['order']['xyh_money'],2)}</div>
+              </div>
+              {/if}
+              {if $item['order']['yhq_money']>0}
+              <div class="orderaccount">
+                <div class="orderbox1 left">优惠券金额</div>
+                <div class="orderbox2 left">¥{php echo number_format($item['order']['yhq_money'],2)}</div>
+              </div>
+              {/if}
+              {if $item['order']['yhq_money2']>0}
+              <div class="orderaccount">
+                <div class="orderbox1 left">平台优惠</div>
+                <div class="orderbox2 left">¥{php echo number_format($item['order']['yhq_money2'],2)}</div>
+              </div>
+              {/if}
+              {if $item['order']['discount']>0}
+              <div class="orderaccount">
+                <div class="orderbox1 left">总优惠金额</div>
+                <div class="orderbox2 left">¥{php echo number_format($item['order']['discount'],2)}</div>
+              </div>
+              {/if}
+              <div class="orderaccount">
+                <div class="orderbox1 left">支付方式</div>
+                <div class="orderbox2 left">{if $item['order']['pay_type']==1}微信支付{elseif $item['order']['pay_type']==2}余额支付{elseif $item['order']['pay_type']==3}积分支付{else}货到付款{/if}</div>
+              </div>
+            </div>
+            <div class="col-md-12 orderback2">
+              <div class="orderaccount orfont7">
+                <div class="orderbox1 left">本单预计收入</div>
+
+                <div class="orderbox2 left">¥{php echo number_format($item['order']['money']+$item['order']['yhq_money2']-($item['order']['md_poundage']/100*($item['order']['money']+$item['order']['yhq_money2'])),2)}</div>
+
+              </div>
+              <div class="orderaccount orfont6">
+                本单顾客实际支付：¥{$item['order']['money']} {if $item['order']['yhq_money2']>0}(平台优惠:{$item['order']['yhq_money2']}){/if}
+              </div>
+            </div>
+            <div class="col-md-12 orderback3">
+              <div class="right orfont10">
+                <span class="ordertime">下单时间：{$item['order']['time']}</span>
+                订单编号：{$item['order']['order_num']}
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      {/loop}
+    </div>
+
+
+<!--    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading dlorfont7">今日店内订单</div>
+            <div class="panel-body" style="padding: 15px;font-size: 16px;">                
+                <p>已完成订单量：<span class="dlorfont7">{$dn2}</span>单</p>
+                
+                <p>营业额：</p>
+                <p>微信完成<span class="dlorfont7">{$wxdn2}</span>单，收入
+                    <span class="dlorfont7">¥&nbsp;{if $wx['total']}{$wx['total']}{else}0.00{/if}</span>元
+                </p>
+                <p>余额完成<span class="dlorfont7">{$yuedn2}</span>单，收入
+                    <span class="dlorfont7">¥&nbsp;{if $yue['total']}{$yue['total']}{else}0.00{/if}</span>元
+                </p>
+                <p>
+                    积分完成<span class="dlorfont7">{$jfdn2}</span>单，收入
+                    <span class="dlorfont7">¥&nbsp;{if $jf['total']}{$jf['total']}{else}0.00{/if}</span>元
+                </p>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading dlorfont7">昨日店内订单</div>
+            <div class="panel-body" style="padding: 15px;font-size: 16px;">                
+                <p>已完成订单量：<span class="dlorfont7">{$ztdn2}</span>单</p>
+                <p>营业额：</p>
+                <p>微信完成<span class="dlorfont7">{$ztwxdn2}</span>单，收入
+                    <span class="dlorfont7">¥&nbsp;{if $ztwx['total']}{$ztwx['total']}{else}0.00{/if}</span>元
+                </p>
+                <p>余额完成<span class="dlorfont7">{$ztyuedn2}</span>单，收入
+                    <span class="dlorfont7">¥&nbsp;{if $ztyue['total']}{$ztyue['total']}{else}0.00{/if}</span>元
+                </p>
+                <p>积分完成<span class="dlorfont7">{$ztjfdn2}</span>单，收入
+                    <span class="dlorfont7">¥&nbsp;{if $ztjf['total']}{$ztjf['total']}{else}0.00{/if}</span>元
+                </p>
+            </div>
+        </div>        
+    </div> -->
+
+
+  </div>
+</div>
+<div class="text-right we7-margin-top">{$pager}</div>
+  <script type="text/javascript">
+    $(function(){
+        // $("#frame-1").addClass("in");
+        $("#frame-1").show();
+        $("#yframe-1").addClass("wyactive");
+      })
+    </script>
+{template 'common/footer'}

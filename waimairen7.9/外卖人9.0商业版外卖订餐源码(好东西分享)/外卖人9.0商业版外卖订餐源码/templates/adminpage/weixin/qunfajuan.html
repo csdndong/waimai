@@ -1,0 +1,88 @@
+<div style="width: 600px;padding: 2px 15px 15px 15px;
+  overflow: auto;">
+
+	<form id="quanputjuanform" action="" method="post">
+		<div class="labeldiv">
+			<label>
+				<span class="wxyouhuijuan" style="width:500px; color:red;">群发任务提交后，需要等待系统群发完成。注：一天只能群发一次</span>
+				
+			
+			</label>
+		</div>
+		<div style="clear:both;"></div>
+		<div class="labeldiv">
+			<label>
+				<span class="wxyouhuijuan">选择优惠卷:</span>
+				
+				<select name="xzejuan">
+					<option  value="0">选择优惠卷</option>
+				 <{load_data assign="wxjuan" table="wxjuan"    fileds="*"  limit="10" }>  
+                    <{foreach from=$wxjuan['list'] key=myid  item=items}>  
+					<option  value="<{$items['id']}>"><{$items['cartname']}></option>
+					
+                <{/foreach}> 
+				</select>
+				
+			</label>
+		</div>
+		<div style="clear:both;"></div>
+		<div class="labeldiv">
+			<label>
+				<span class="wxyouhuijuan">下单次不少于:</span>
+				
+			<input placeholder="下单次数" name="ordercishu" id="useruid" value="" type="text" />
+			</label>
+		</div>
+		<div style="clear:both;"></div>
+		<div class="labeldiv">
+			<label>
+				<span class="wxyouhuijuan">顾客加入时间:</span>
+				<input  placeholder="加入时间" class="Wdate datefmt" style="width:148px;" type="text" name="joinstarttime" id="joinstarttime" value="<{$joinendtime|date_format:"%Y-%m-%d"}>"  onFocus="WdatePicker({isShowClear:false,readOnly:true});" />
+				<span style="float:left;">至</span>
+				<input  placeholder="加入时间" class="Wdate datefmt" style="width:148px;" type="text" name="joinendtime" id="joinendtime" value="<{$joinendtime|date_format:"%Y-%m-%d"}>"  onFocus="WdatePicker({isShowClear:false,readOnly:true});" />
+				
+			
+			</label>
+		</div>
+		<div style="clear:both;"></div>
+		<div class="labeldiv">
+			<label>
+				<span class="wxyouhuijuan">顾客ID:</span>
+				<input placeholder="顾客ID,多个ID逗号隔开","分开" name="useruid" id="useruid" value="" type="text" />
+			</label>
+		</div>
+		<div style="clear:both;"></div>
+
+		<div class="labeldiv">
+			<label>
+				<span class="wxyouhuijuan">注:</span>
+			<span style="color:red;">同时满足以上条件的顾客积分才会群发，不填则表示不限制。一天只能群发一次</span>
+			</label>
+		</div>
+		<div style="clear:both;"></div>
+	
+			<div class="labeldiv">
+			<label>
+				<span class="wxyouhuijuan"></span>
+				<div   style="width:80px; background:#eb9316; height:40px; line-height:40px; float:left; margin-left:10px; padding:0px 5px; text-align:center;   -moz-border-radius: 4px;
+  border-radius: 4px;color:#fff;" onclick="qunputjuan();" >确认发放</div>
+				
+			</label>
+		</div>
+		<div style="clear:both;"></div>
+	</form>
+	
+</div>
+<script>
+
+</script>
+<style>
+.wxyouhuijuan{font-size:16px; height:40px; line-height:40px; float:left; width:100px;}
+.labeldiv{ font-size:14px; height:40px; line-height:40px;margin-bottom:15px;}
+#quanputjuanform input,#quanputjuanform select{color: #555; float:left; margin-right:8px; width:250px; height:40px; line-height:40px; margin-left:10px; padding:0px 5px;
+  background-color: white;
+  border: 1px solid #CCC;font-size: 14px;-webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  vertical-align: middle;}
+</style>

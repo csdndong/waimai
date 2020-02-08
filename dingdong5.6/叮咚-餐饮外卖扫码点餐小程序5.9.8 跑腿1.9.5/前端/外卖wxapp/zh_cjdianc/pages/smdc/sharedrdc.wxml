@@ -1,0 +1,66 @@
+<view class="head" style="background:{{color}}">
+    <image class="sjlogo" src="{{store.logo}}"></image>
+    <view class="sjname">{{store.name}}</view>
+    <view class="dcsm">等待发起人提交订单哦</view>
+    <navigator class="xgsp" url="smdcxgsp?storeid={{store.id}}&zuid={{zuid}}&dr_id={{drid}}&tableid={{tableid}}">选购商品</navigator>
+</view>
+<view class="main">
+    <view class="pdlist">
+        <view class="pdlisttop flex-row">
+            <image src="{{drlsit.user.user_img}}"></image>
+            <view class="flex-grow-1">
+                <view class="flex-row">
+                    <view class="flex-grow-1 gobyndsingle name">{{drlsit.user.user_name}}
+            <text class="fquser">发起人</text>
+                    </view>
+                </view>
+                <view class="pdlistfot flex-row flex-y-center" wx:for="{{drlsit.user.good}}">
+                    <view class="flex-grow-1 flex-row flex-y-center">
+                        <view class="flex-grow-1">
+                            <view>{{item.name}}</view>
+                            <view class="spec">{{item.spec}}</view>
+                        </view>
+                        <view class="num">x{{item.num}}</view>
+                    </view>
+                    <view class="money">￥{{item.money}}</view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view class="pdlist" wx:for="{{drlsit.son}}" wx:for-item="sonitem">
+        <view class="pdlisttop flex-row">
+            <image src="{{sonitem.user_img}}"></image>
+            <view class="flex-grow-1">
+                <view class="flex-row">
+                    <view class="flex-grow-1 gobyndsingle name">{{sonitem.user_name}}</view>
+                </view>
+                <view class="pdlistfot flex-row flex-y-center" wx:for="{{sonitem.good}}">
+                    <view class="flex-grow-1 flex-row flex-y-center">
+                        <view class="flex-grow-1">
+                            <view>{{item.name}}</view>
+                            <view class="spec">{{item.spec}}</view>
+                        </view>
+                        <view class="num">x{{item.num}}</view>
+                    </view>
+                    <view class="money">￥{{item.money}}</view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view class="hjsp">
+        <text>{{drlsit.people}}人,</text>
+        <text>{{drlsit.good_num}}份商品</text>
+        <text>合计￥{{drlsit.money}}</text>
+    </view>
+</view>
+<button bindtap="sxsj" class="hddb">
+    <image src="../../img/shuaxin.png"></image>
+</button>
+<view class="sdcg" wx:if="{{drlsit.drorder.state==2}}">
+    <image src="../../img/suo.png"></image>
+    <view>订单已锁定</view>
+</view>
+<view class="sdcg" style="z-index: 1100;" wx:if="{{drlsit.drorder.state==3}}">
+    <image src="../../img/suo.png"></image>
+    <view>拼单已结束</view>
+</view>

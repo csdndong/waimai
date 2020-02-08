@@ -1,0 +1,51 @@
+ <{extends file="<{$tempdir}>/public/shopcenter.html"}>   
+ <{block name=extendjs}>
+  <script src="<{$siteurl}>/js/kindeditor/kindeditor.js" type="text/javascript" language="javascript"></script>
+  <script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js"></script>
+    <script>
+  	var mynomenu='baseset';
+  	</script>
+	<style>.content{min-height: 930px;}</style>
+ <{/block}>
+ <{block name=bodylist}> 
+    <div class="conWaiSet fr">
+        	
+            <div class="shopSetTop">
+            	<span>店铺设置</span>
+            </div> 
+            	  <{include file="<{$tempdir}>/shopcenter/usereditmenu.html"}>  
+             <div class="cl"></div>  
+             
+             	<form id="loginForm" method="post" action="<{ofunc type=url link="/shopcenter/usershopnotice"}>" >
+             	<div class="jutiSet">
+             
+       
+       		  
+       		       <table width="100%" border="0"> 
+				   
+                      <tr> 
+					    
+                        <td>
+ 						<textarea name="notice_info"  rows="6" cols="100"  style="padding:20px;"  ><{$shopinfo['notice_info']|default:''}></textarea>
+						</td>
+				       </tr> 
+                      <tr>
+                      	 <input type="hidden" name="uid" value="<{$shopinfo['id']}>">
+                        <td > &nbsp;</td>
+                      </tr>
+                 </table>
+       		  	
+       		  	   <div class="settijiao"> 
+                    <input class="xuanze_right" type="submit" name=""  value="保 存" style="margin-left:0px;" />
+                     
+                        <div class="cl"></div>
+                 </div>
+       		 
+ 
+              </div>
+              
+          </form>
+          <div class="cl"></div>
+</div>
+ 
+ <{/block}>

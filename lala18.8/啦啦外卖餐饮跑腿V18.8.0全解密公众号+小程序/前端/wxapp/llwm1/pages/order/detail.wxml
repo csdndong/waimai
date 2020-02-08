@@ -1,0 +1,271 @@
+<view class="container">
+    <view class="content">
+        <view class="order-status">
+            <view bindtap="chooseStatus" class="status">订单{{order.status_cn}}<view class="icon icon-xiangyou1"></view>
+            </view>
+            <view class="text" wx:if="{{order.log&&order.delivery_status!=7}}">{{order.log.note}}</view>
+            <view class="become-time" wx:if="{{order.status>=2&&order.status<5&&order.order_type==1}}">
+                <view class="icon icon-timefill"></view>
+				配送时间: <view class="time">{{order.delivery_time}}</view>
+            </view>
+            <view class="order-btn" wx:if="{{order.status<5}}">
+                <view catch:tap="onChangeOrderStatus" class="btn more" data-confirm="{{order.is_pay==1?'确定接单吗?':'该订单尚未支付，确定接单吗?'}}" data-id="{{order.id}}" data-type="handle" wx:if="{{order.status==1}}">确认接单</view>
+                <block wx:elif="{{order.status==2||order.status==3}}">
+                    <block wx:if="{{order.order_type==1}}">
+                        <view catch:tap="onChangeOrderStatus" class="btn more" data-confirm="确定通知配送员配送吗?" data-id="{{order.id}}" data-type="notify_deliveryer_collect">通知配送</view>
+                        <block wx:if="{{order.store.delivery_mode==1}}">
+                            <view catch:tap="onChangeOrderStatus" class="btn more" data-confirm="确定通知配送员配送吗?" data-id="{{order.id}}" data-type="direct_deliveryer">指定配送</view>
+                            <view catch:tap="onChangeOrderStatus" class="btn more" data-confirm="确定设置为配送中吗?" data-id="{{item.id}}" data-type="delivery_ing">设为配送中</view>
+                        </block>
+                        <view bind:tap="onJsEvent" class="btn more" data-confirm="确定推送到达达配送?" data-event-type="jsPost" data-href="manage/order/takeout/push_dada?id={{order.id}}" data-success-url="detail?id={{order.id}}" wx:if="{{order.store.data.dada.status==1}}">达达配送</view>
+                    </block>
+                    <view catch:tap="onChangeOrderStatus" class="btn more" data-confirm="确定完成订单吗?" data-id="{{order.id}}" data-type="end" wx:if="{{order.order_type>2}}">完成订单</view>
+                </block>
+                <view catch:tap="onChangeOrderStatus" class="btn more" data-id="{{item.id}}" data-type="reply" wx:if="{{order.is_remind==1}}">回复</view>
+                <block wx:if="{{order.order_type>2}}">
+                    <view catch:tap="onJsEvent" class="btn" data-confirm="确定取消订单吗?" data-event-type="jsPost" data-href="manage/order/takeout/cancel?id={{order.id}}&order_type={{order.order_type}}" wx:if="{{order.is_pay==1&&order.pay_type!='delivery'}}">取消订单并退款</view>
+                    <view catch:tap="onJsEvent" class="btn" data-confirm="确定取消订单吗?" data-event-type="jsPost" data-href="manage/order/takeout/cancel?id={{order.id}}&order_type={{order.order_type}}" wx:else>取消订单</view>
+                </block>
+                <block wx:else>
+                    <view catch:tap="onChangeOrderStatus" class="btn" data-id="{{order.id}}" data-type="cancel" wx:if="{{order.status==1||order.status>1&&config.cancel_after_handle==1}}">取消订单</view>
+                </block>
+            </view>
+            <view class="divide" wx:if="{{order.deliveryer_id>0}}">
+                <view class="divide-line"></view>
+            </view>
+            <view class="deliveryer-container clearfix" wx:if="{{order.deliveryer_id>0}}">
+                <view class="avatar">
+                    <image src="{{order.deliveryer.avatar}}"></image>
+                </view>
+                <view class="deliveryer-info">
+                    <view class="name">
+						{{order.deliveryer.title}}
+						<view class="allocation-icon">{{order.delivery_title}}</view>
+                        <view class="mobile">{{order.deliveryer.mobile}}</view>
+                    </view>
+                </view>
+                <view class="operate">
+                    <view bind:tap="onJsEvent" class="tel" data-event-type="jsPhone" data-phoneNumber="{{order.deliveryer.mobile}}">
+                        <view class="icon icon-telephone"></view>
+                    </view>
+                    <view bind:tap="onJsEvent" class="location" data-event-type="jsUrl" data-url="pages/order/map?id={{order.order.id}}" wx:if="{{order.delivery_handle_type=='app'&&order.log.type=='delivery_assign'}}">
+                        <view class="icon icon-zuobiao"></view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="shop-content">
+            <view class="store-name clearfix">
+                <view class="avatar">
+                    <image src="{{order.store.logo}}"></image>
+                </view>
+                <view class="name">{{order.store.title}}</view>
+                <view class="more">
+                    <view class="icon icon-xiangyou1"></view>
+                </view>
+            </view>
+            <view class="food-list" wx:if="{{1||order.goods.length>0}}">
+                <view class="food-item" wx:for="{{order.goods}}">
+                    <view class="food-item-img">
+                        <image src="{{item.thumb}}"></image>
+                    </view>
+                    <view class="food-item-price">
+                        <view class="now-price">¥{{item.goods_price}}</view>
+                        <view class="old-price">¥{{item.goods_original_price}}</view>
+                    </view>
+                    <view class="food-item-info">
+                        <view class="food-item-name">
+							{{item.goods_title}}
+						</view>
+                        <view class="food-item-num">x{{item.goods_num}}</view>
+                    </view>
+                </view>
+            </view>
+            <view class="order-region-entries">
+                <block wx:if="{{order.order_type<=2}}">
+                    <view class="order-region-entry">
+                        <view class="order-entry-name">配送费</view>
+                        <view class="order-entry-price">¥{{order.delivery_fee}}</view>
+                    </view>
+                    <view class="order-region-entry" wx:if="{{order.box_price>0}}">
+                        <view class="order-entry-name">餐盒费</view>
+                        <view class="order-entry-price">¥{{order.box_price}}</view>
+                    </view>
+                    <view class="order-region-entry">
+                        <view class="order-entry-name">包装费</view>
+                        <view class="order-entry-price">¥{{order.pack_fee}}</view>
+                    </view>
+                </block>
+                <view class="order-region-entry" wx:if="{{order.order_type==3}}">
+                    <view class="order-entry-name">服务费</view>
+                    <view class="order-entry-price">+¥{{order.serve_fee}}</view>
+                </view>
+                <view class="order-region-entry">
+                    <view class="order-entry-name">平台抽取佣金</view>
+                    <view class="order-entry-price">-¥{{order.plateform_serve_fee}}</view>
+                </view>
+                <view class="order-region-entry">
+                    <view class="order-entry-name">平台配送费</view>
+                    <view class="order-entry-price">-¥{{order.plateform_delivery_fee}}</view>
+                </view>
+                <view class="order-region-entry">
+                    <view class="order-entry-name">商户优惠活动</view>
+                    <view class="order-entry-price">-¥{{order.store_discount_fee}}</view>
+                </view>
+                <view class="order-region-entry">
+                    <view class="order-entry-name">平台补贴</view>
+                    <view class="order-entry-price">+¥{{order.plateform_discount_fee}}</view>
+                </view>
+            </view>
+            <view class="divide" wx:if="{{order.activityed.length>0}}">
+                <view class="divide-line"></view>
+            </view>
+            <view class="discount-box" wx:if="{{order.activityed.length>0}}">
+                <view class="discount" wx:for="{{order.activityed}}">
+                    <view class="discount-name">
+                        <view class="icon-b">
+                            <image src="/static/img/{{item.type}}_b.png"></image>
+                        </view>
+						{{item.name}}
+					</view>
+                    <view class="discount-price">{{item.note}}</view>
+                </view>
+            </view>
+            <view class="divide">
+                <view class="divide-line"></view>
+            </view>
+            <view class="price clearfix">
+                <view class="total">
+					预计收入 <view>¥{{order.store_final_fee}}</view>
+                </view>
+                <view class="discount">
+					顾客支付 ¥{{order.final_fee}}
+				</view>
+                <view class="discount">
+					已优惠 ¥{{order.discount_fee}}
+				</view>
+            </view>
+            <view class="divide">
+                <view class="divide-line"></view>
+            </view>
+            <view bind:tap="onJsEvent" class="store-tel" data-event-type="jsPhone" data-phoneNumber="{{order.mobile}}">
+                <view class="icon icon-telephone"></view>
+				联系顾客
+			</view>
+            <view class="order-pay-info {{order.pay_type_class}}"></view>
+        </view>
+        <view class="dispatching" wx:if="{{order.order_type==2||order.order_type==1}}">
+            <view class="time clearfix">
+                <view class="text" wx:if="{{order.order_type==1}}">配送时间</view>
+                <view class="text" wx:elif="{{order.order_type==2}}">自提时间</view>
+                <view class="main">{{order.delivery_day}} {{order.delivery_time}}</view>
+            </view>
+            <view class="address clearfix">
+                <view class="text" wx:if="{{order.order_type==1}}">配送地址</view>
+                <view class="text" wx:elif="{{order.order_type==2}}">自提地址</view>
+                <view class="main">
+                    <block wx:if="{{order.order_type==1}}">
+                        <view>{{order.username}}({{order.sex}}){{order.mobile}}</view>
+                        <view>{{order.address}}</view>
+                    </block>
+                    <block wx:elif="{{order.order_type==2}}">
+                        <view>{{order.store.title}}</view>
+                        <view>{{order.store.address}}</view>
+                    </block>
+                </view>
+            </view>
+            <view class="server clearfix" wx:if="{{order.order_type==1}}">
+                <view class="text">配送服务</view>
+                <view class="main clearfix">
+                    <view class="allocation-icon" wx:if="{{order.delivery_type==2}}">{{order.delivery_title}}</view>
+                    <view class="inline" wx:if="{{order.delivery_type==1}}">由 商家</view>
+                    <view>提供高品质配送服务</view>
+                </view>
+            </view>
+        </view>
+        <view class="order">
+            <block wx:if="{{order.order_type<=2}}">
+                <view class="code">
+                    <view class="text">商户订单号</view>
+                    <view class="main">{{order.serial_sn}}</view>
+                </view>
+                <view class="code">
+                    <view class="text">平台订单号</view>
+                    <view class="main">{{order.ordersn}}</view>
+                </view>
+                <view class="code">
+                    <view class="text">收货码</view>
+                    <view class="main">{{order.code}}</view>
+                </view>
+            </block>
+            <view class="code" wx:if="{{order.order_type==3}}">
+                <view class="text">桌台号</view>
+                <view class="main">{{order.table.title}}号桌</view>
+            </view>
+            <block wx:if="{{order.order_type==4}}">
+                <view class="code">
+                    <view class="text">预定时间</view>
+                    <view class="main">{{order.reserve_time}}</view>
+                </view>
+                <view class="code">
+                    <view class="text">预定桌台</view>
+                    <view class="main">{{order.table_category.title}}</view>
+                </view>
+                <view class="code">
+                    <view class="text">预定类型</view>
+                    <view class="main">{{order.reserve_type_cn}}</view>
+                </view>
+            </block>
+            <view class="code" wx:if="{{order.order_type==1}}">
+                <view class="text">配送时间</view>
+                <view class="main">{{order.delivery_day}} {{order.delivery_time}}</view>
+            </view>
+            <view class="code">
+                <view class="text">支付方式</view>
+                <view class="main">{{order.pay_type_cn}}</view>
+            </view>
+            <view class="code" wx:if="{{order.invoice.title}}">
+                <view class="text">发票抬头</view>
+                <view class="main">{{order.invoice.title}}</view>
+            </view>
+            <view class="code" wx:if="{{order.invoice.recognition}}">
+                <view class="text">纳税人识别号</view>
+                <view class="main">{{order.invoice.recognition}}</view>
+            </view>
+            <view class="note" wx:if="{{order.note}}">
+                <view class="text">订单备注</view>
+                <view class="main">{{order.note}}</view>
+            </view>
+            <view bind:tap="onJsEvent" class="copy" data-event-type="jsCopy" data-text="{{order.ordersn}}">复制</view>
+        </view>
+    </view>
+    <view class="wui-dialog {{showStatus?'wui-dialog-show':''}}">
+        <view bindtap="chooseStatus" class="wui-dialog-mask"></view>
+        <view class="wui-dialog-container">
+            <view class="pop">
+                <view class="pop-title">订单跟踪</view>
+                <view class="pop-container">
+                    <scroll-view scrollY="true">
+                        <view class="wui-steps wui-steps-vsteps wui-steps-3 my-class">
+                            <view class="wui-steps-step {{order.minid==index?'wui-steps-step-first-child':''}} {{order.maxid==index?'wui-steps-step-last-child':''}} {{order.maxid==index?' wui-steps-step-done wui-steps-step-cur':''}}" data-id="{{index}}" wx:for="{{order.logs}}">
+                                <view class="wui-steps-title">
+									{{item.title}}
+									<view class="time">{{item.addtime_cn}}</view>
+                                </view>
+                                <view class="explan">{{item.note}}</view>
+                                <view class="wui-steps-icons">
+                                    <view class="wui-steps-circle"></view>
+                                </view>
+                                <view class="wui-steps-line"></view>
+                            </view>
+                        </view>
+                    </scroll-view>
+                </view>
+                <view bindtap="chooseStatus" class="bottom-fixed close border-1px-t">
+					关闭
+				</view>
+            </view>
+        </view>
+    </view>
+</view>
+<include src="../public/footer.wxml"></include>

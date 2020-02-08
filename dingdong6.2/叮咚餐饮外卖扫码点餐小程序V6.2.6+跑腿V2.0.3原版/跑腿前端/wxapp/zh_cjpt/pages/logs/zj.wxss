@@ -1,0 +1,133 @@
+.head {
+    width: 100%;
+    height: 500rpx;
+}
+
+.head>view {
+    width: 100%;
+    height: 100%;
+}
+
+.head_title>text:nth-child(1) {
+    width: 10%;
+    height: 2rpx;
+    background: #fff;
+    opacity: .5;
+}
+
+.head_title>text:nth-child(3) {
+    width: 10%;
+    height: 2rpx;
+    background: #fff;
+    opacity: .5;
+}
+
+.tx {
+    margin-top: 50rpx;
+}
+
+.tx text {
+    border: 2rpx solid #fff;
+    border-radius: 10rpx;
+    padding: 8rpx 40rpx;
+}
+
+.PutFowardDetails {
+    display: flex;
+    margin-top: 60rpx;
+    bottom: 0;
+    width: 100%;
+}
+
+.PutFowardDetails>view {
+    flex: 2;
+}
+
+.PutFowardDetails>view:nth-child(1) {
+    border-right: 2rpx solid #e5e5e5;
+}
+
+.list_head>text:nth-child(1) {
+    width: 6rpx;
+    height: 30rpx;
+}
+
+.list_head image {
+    width: 50rpx;
+    height: 50rpx;
+    right: 20rpx;
+}
+
+.right_img {
+    width: 20rpx;
+    height: 30rpx;
+}
+
+.PutFoward_list>view:nth-child(1) {
+    width: 70%;
+}
+
+.PutFoward_list>view:nth-child(2) {
+    width: 30%;
+}
+
+.PutFoward_list_1>view:nth-child(1) {
+    width: 40%;
+}
+
+.PutFoward_list_1>view:nth-child(3) {
+    width: 40%;
+}
+
+.PutFoward_list_1>view:nth-child(2) {
+    width: 20%;
+}
+
+.showmodal>view:nth-child(1) {
+    background: #000;
+    opacity: .5;
+}
+
+.showmodal>view:nth-child(2) {
+    width: 90%;
+    height: 500rpx;
+    background: #fff;
+    border-radius: 10rpx;
+}
+
+.TimeSele {
+    width: 100%;
+    height: 80rpx;
+    line-height: 80rpx;
+}
+
+.TimeSele>view:nth-child(1) {
+    width: 30%;
+    border-bottom: 2rpx solid red;
+    margin-left: 10%;
+}
+
+.TimeSele>view:nth-child(3) {
+    width: 30%;
+}
+
+.TimeSele>view:nth-child(2) {
+    width: 20%;
+}
+
+.determine {
+    width: 100%;
+    height: 100rpx;
+    line-height: 100rpx;
+    display: flex;
+}
+
+.determine>view {
+    flex: 2;
+}
+
+.time_show {
+    width: 100%;
+    height: 300rpx;
+    margin-top: 50rpx;
+}

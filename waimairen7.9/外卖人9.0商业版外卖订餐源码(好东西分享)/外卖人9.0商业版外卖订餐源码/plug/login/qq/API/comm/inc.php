@@ -1,0 +1,1 @@
+{"appid":"101315592","appkey":"3a8c091d8f2a5544a980834142f888b4","callback":"http://www.slhhgg.com/plug/login/qq/back.php","storageType":"file","host":"localhost","user":"root","password":"root","database":"test","scope":"get_user_info","errorReport":false}

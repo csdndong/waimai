@@ -1,0 +1,580 @@
+{itemplate 'public/header'}
+{if $op == 'list'}
+<form action="./wagent.php" class="form-horizontal form-filter">
+	{php echo tpl_form_filter_hidden('haodian/store/list');}
+	<input type="hidden" name="ta" value="list"/>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">商户状态</label>
+		<div class="col-sm-9 col-xs-12">
+			<div class="btn-group">
+				<a class="btn {if $haodian_status == -1}btn-primary{else}btn-default{/if}" href="{php echo iurl('haodian/store/list', array('haodian_status' => -1))}">不限</a>
+				{loop $haodian_status_group $status_key $status_item}
+					<a class="btn {if $haodian_status == $status_key}btn-primary{else}btn-default{/if}" href="{php echo iurl('haodian/store/list', array('haodian_status' => $status_key))}">{$status_item['text']}</a>
+				{/loop}
+			</div>
+		</div>
+	</div>
+	<div class="form-group form-inline">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">筛选</label>
+		<div class="col-sm-9 col-xs-12">
+			<select name="cid" id="cid" class="form-control select2" style="width: 200px;">
+				<option value="">商户分类</option>
+				{loop $categorys $li}
+					{if empty($li['child'])}
+						<option value="{$li['id']}" {if $li['id'] == $_GPC['cid']}selected{/if}>{$li['title']}</option>
+					{else}
+						<option value="{$li['id']}" {if $li['id'] == $_GPC['cid']}selected{/if}>{$li['title']}</option>
+						{loop $li['child'] $child}
+							<option value="{$li['id']}:{$child['id']}" {if $li['id'].':'.$child['id'] == $_GPC['cid']}selected{/if}>&nbsp;&nbsp;&nbsp;{$li['title']}-{$child['title']}</option>
+						{/loop}
+					{/if}
+				{/loop}
+			</select>
+			<input class="form-control" name="keyword" id="" type="text" value="{$_GPC['keyword']}" placeholder="请输入商户名称或编号">
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+		<div class="col-sm-9 col-xs-12">
+			<button class="btn btn-primary">筛选</button>
+		</div>
+	</div>
+</form>
+
+<form action="" class="form-table form" method="post">
+	<div class="panel panel-table">
+		<div class="panel-heading">
+			<a href="{php echo iurl('haodian/store/post');}" class="btn btn-primary btn-sm">添加商户</a>
+		</div>
+		<div class="panel-body table-responsive js-table">
+			{if empty($stores)}
+			<div class="no-result">
+				<p>还没有相关数据</p>
+			</div>
+			{else}
+			<table class="table table-hover">
+				<thead class="navbar-inner">
+				<tr>
+					<th width="30">
+						<div class="checkbox checkbox-inline">
+							<input type="checkbox">
+							<label></label>
+						</div>
+					</th>
+					<th>ID</th>
+					<th>门店logo</th>
+					<th>门店名称</th>
+					{if $_W['is_agent']}
+						<th>所属城市</th>
+					{/if}
+					<th>所属分类</th>
+					<th>时间</th>
+					<th>排序</th>
+					<th>状态</th>
+					<th>是否开启外卖</th>
+					<th class="text-right">操作</th>
+				</tr>
+				</thead>
+				<tbody>
+				{loop $stores $item}
+				<tr>
+					<td>
+						<input type="hidden" name="ids[]" value="{$item['id']}">
+						<div class="checkbox checkbox-inline">
+							<input type="checkbox" name="id[]" value="{$item['id']}"/>
+							<label></label>
+						</div>
+					</td>
+					<td>
+						<strong>{$item['id']}</strong>
+					</td>
+					<td>
+						<img src="{$item['logo']}" alt="" style="width: 50px;">
+					</td>
+					<td>
+						<input name="title[]" value="{$item['title']}" class="form-control width-100" required="true">
+					</td>
+					{if $_W['is_agent']}
+						<td>{php echo toagent($item['agentid'])}</td>
+					{/if}
+					<td>
+						<span class="label label-success">{$categorys[$item['haodian_cid']]['title']}</span>
+						{if $item['haodian_child_id'] > 0}
+						<span class="label label-danger">{$categorys[$item['haodian_cid']]['child'][$item['haodian_child_id']]['title']}</span>
+						{/if}
+					</td>
+					<td>
+						<span>入驻：{$item['haodian_starttime_cn']}</span><br>
+						{if $item['haodian_endtime'] != 0}
+							<span>到期：{$item['haodian_endtime_cn']}</span>
+						{else}
+							<span>到期：永久入驻</span>
+						{/if}
+					</td>
+					<td>
+						<input name="displayorder[]" value="{$item['displayorder']}" class="form-control width-100">
+					</td>
+					<td>
+						<span class="{$haodian_status_group[$item['haodian_status']]['css']}">{$haodian_status_group[$item['haodian_status']]['text']}</span>
+					</td>
+					<td>
+						<input type="checkbox" class="js-checkbox" data-on-text="开启" data-off-text="关闭" data-href="{php echo iurl('haodian/store/status', array('id' => $item['id'], 'type' => 'is_waimai'));}" data-name="value" value="1" {if $item['is_waimai'] == 1}checked{/if}>
+					</td>
+					<td style="text-align: right;">
+						{if $item['haodian_status'] != 1}
+							<a href="{php echo iurl('haodian/store/status', array('id' => $item['id'], 'value' => '1', 'type'=>'haodian_status'))}" class="btn btn-default btn-sm js-post" data-confirm="确定审核通过吗?">审核通过</a>
+						{/if}
+						<a href="{php echo iurl('haodian/store/status', array('id' => $item['id'], 'value' => '4', 'type'=>'haodian_status'))}" class="btn btn-default btn-sm js-post" data-confirm="确定审核不通过吗?">不通过</a>
+						<a href="{php echo iurl('haodian/store/post', array('id' => $item['id']))}" class="btn btn-default btn-sm" title="编辑">编辑</a>
+						{if 0}
+							<a href="{php echo iurl('haodian/store/del', array('id' => $item['id']))}" class="btn btn-default btn-sm js-post" data-confirm="确定删除该商户?"> 删除</a>
+						{/if}
+						<a href="{php echo iurl('store/dashboard/index', array('_sid' => $item['id']))}" target="_blank" class="btn btn-default btn-sm" style="color:#D9534F;"><i class="fa fa-cog fa-spin"> </i> 管理</a>
+					</td>
+				</tr>
+				{/loop}
+				</tbody>
+			</table>
+			<div class="btn-region clearfix">
+				<div class="pull-left">
+					<input type="submit" class="btn btn-primary btn-sm" value="提交修改">
+				</div>
+				<div class="pull-right">
+					{$pager}
+				</div>
+			</div>
+			{/if}
+		</div>
+	</div>
+</form>
+{/if}
+{if $op == 'post'}
+<style>
+	#tags{padding-bottom: 10px;}
+	#tags .fa-times{position: absolute;top:-6px;right:-6px;z-index:99;padding: 2px 3px;border-radius:100%;background: #ff2d4b;color: #fff;}
+	#tags .form-group{margin-bottom: 0px;padding-bottom: 0px;}
+</style>
+<div class="page clearfix">
+	<form class="form-horizontal form form-validate" id="form1" action="" method="post" enctype="multipart/form-data">
+		<input type="hidden" name="id" value="{$id}">
+		<ul class="nav nav-tabs" role="tablist">
+			<li role="presentation" {if $_GPC['type'] == 'basic' || !$_GPC['type']}class="active"{/if}><a href="#basic" aria-controls="basic" role="tab" data-toggle="pill">基本信息</a></li>
+		</ul>
+		<div class="tab-content">
+			<div class="tab-pane {if $_GPC['type'] == 'basic' || !$_GPC['type']}active{/if}" role="tabpanel" id="basic">
+				<h3>商户基本信息</h3>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">门店名称</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" class="form-control" name="title" value="{$store['title']}" required="true">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">商品分类</label>
+					<div class="col-sm-9 col-xs-9 col-md-9">
+						{php echo tpl_form_field_tiny_category_2level('category', $categorys['parent'], $categorys['child'], $store['haodian_cid'], $store['haodian_child_id'])}
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">门店LOGO</label>
+					<div class="col-sm-9 col-xs-12">
+						{php echo tpl_form_field_image('logo', $store['logo']);}
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">门店描述</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" class="form-control" name="content" value="{$store['content']}" required="true">
+						<div class="help-block">粉丝分享时调用</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">门店电话</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" class="form-control" name="telephone" value="{$store['telephone']}" required="true">
+					</div>
+				</div>
+				<div id="hour">
+					<div id="hour-tpl" class="clockpicker">
+						{if !empty($store['business_hours'])}
+						{loop $store['business_hours'] $hour}
+						<div class="form-group hour-item">
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">营业时间</label>
+							<div class="col-sm-9 col-xs-4 col-md-3">
+								<div class="input-group">
+									<input type="text" readonly name="business_start_hours[]" class="form-control" placeholder="" value="{$hour['s']}">
+									<span class="input-group-addon">至</span>
+									<input type="text" readonly name="business_end_hours[]" class="form-control" placeholder="" value="{$hour['e']}">
+								</div>
+							</div>
+							<div class="col-sm-9 col-xs-4 col-md-3" style="padding-top:6px">
+								<a href="javascript:;" onclick="$(this).parent().parent().remove()"><i class="fa fa-times-circle" title="删除时间段"> </i></a>
+							</div>
+						</div>
+						{/loop}
+						{else}
+						<div class="form-group hour-item">
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">营业时间</label>
+							<div class="col-sm-9 col-xs-4 col-md-3">
+								<div class="input-group">
+									<input type="text" readonly name="business_start_hours[]" class="form-control" placeholder="">
+									<span class="input-group-addon">至</span>
+									<input type="text" readonly name="business_end_hours[]" class="form-control" placeholder="">
+								</div>
+							</div>
+							<div class="col-sm-9 col-xs-4 col-md-3" style="padding-top:6px">
+								<a href="javascript:;" onclick="$(this).parent().parent().remove()"><i class="fa fa-times-circle" title="删除时间段"> </i></a>
+							</div>
+						</div>
+						{/if}
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+					<div class="col-sm-9 col-xs-9 col-md-9">
+						<a href="javascript:;" id="hour-add"><i class="fa fa-plus-circle"></i> 添加营业时间</a>
+						<div class="help-block">请完善营业时间信息。最多可添加3个时间段。如果开始时间大于结束时间：例如22：00至2：00，则系统会默认营业时间为当天22:00至下一天2:00。</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">好店标签</label>
+					<div class="col-sm-9 col-xs-9 col-md-9">
+						<div id="tags">
+							<div class="form-group tags-item">
+								{if !empty($store['haodian_data']['tags'])}
+								{loop $store['haodian_data']['tags'] $val}
+								<div class="col-sm-9 col-xs-4 col-md-2">
+									<div class="input-group">
+										<a href="javascript: ;" onclick="$(this).parent().parent().remove()"><i class="fa fa-times"></i></a>
+										<input type="text" name="tags[]" class="form-control" placeholder="请不要超过四个字" value="{$val}">
+									</div>
+								</div>
+								{/loop}
+								{/if}
+							</div>
+						</div>
+						<a href="javascript:;" id="tags-add"><i class="fa fa-plus-circle"></i> 添加好店标签</a>
+						<div class="help-block">好店标签最多可添加四个</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">门店特色</label>
+					<div class="col-sm-9 col-xs-9 col-md-9">
+						{php echo tpl_ueditor('description', $store['description']);}
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">门店实景</label>
+					<div class="col-sm-9 col-xs-9 col-md-9 thumbs">
+						<a href="javascript:;" class="btn btn-primary" id="selectThumb">选择图片</a>
+						<div class="help-block">建议图片尺寸:640*120</div>
+						{if !empty($store['thumbs'])}
+						{loop $store['thumbs'] $slide}
+						<div class="col-lg-4">
+							<input type="hidden" name="thumbs[image][]" value="{$slide['image']}">
+							<div class="panel panel-default panel-slide">
+								<div class="btnClose" onclick="$(this).parent().parent().remove()"><i class="fa fa-times"></i></div>
+								<div class="panel-body">
+									<img src="{php echo tomedia($slide['image']);}" alt="" width="100%" height="170">
+									<div>
+										<input class="form-control last pull-right" placeholder="跳转链接" name="thumbs[url][]" value="{$slide['url']}">
+									</div>
+								</div>
+							</div>
+						</div>
+						{/loop}
+						{/if}
+						<div id="slideContainer"></div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">详细地址</label>
+					<div class="col-sm-9 col-xs-9 col-md-9">
+						<input type="text" name="address" class="form-control" value="{$store['address']}" required="true">
+						<div class="help-block">请尽可能详细. 商家自提地址为这里设置的地址.</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">地图标识</label>
+					<div class="col-sm-9 col-xs-9 col-md-9">
+						{php echo tpl_form_field_tiny_coordinate('map', $store['map'], true);}
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">商家QQ</label>
+					<div class="col-sm-9 col-xs-9 col-md-9">
+						<input type="text" class="form-control" name="sns[qq]" value="{$store['sns']['qq']}">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">商家微信</label>
+					<div class="col-sm-9 col-xs-9 col-md-9">
+						<input type="text" class="form-control" name="sns[weixin]" value="{$store['sns']['weixin']}">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">排序</label>
+					<div class="col-sm-9 col-xs-9 col-md-9">
+						<input type="text" class="form-control" name="displayorder" value="{$store['displayorder']}">
+						<div class="help-block">数字越大，越靠前</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">到期时间</label>
+					<div class="col-sm-9 col-xs-12">
+						{php echo tpl_form_field_date('haodian_endtime', $store['haodian_endtime'], true);}
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">商户状态</label>
+					<div class="col-sm-9 col-xs-12">
+						<div class="radio radio-inline">
+							<input type="radio" name="haodian_status" id="haodian-status-6" value="6" {if $store['haodian_status'] == 6  || !$store['haodian_status']}checked{/if}>
+							<label for="haodian-status-6">待入驻</label>
+						</div>
+						<div class="radio radio-inline">
+							<input type="radio" name="haodian_status" id="haodian-status-1" value="1" {if $store['haodian_status'] == 1}checked{/if}>
+							<label for="haodian-status-1">入驻中</label>
+						</div>
+						<div class="radio radio-inline">
+							<input type="radio" name="haodian_status" id="haodian-status-2" value="2" {if $store['haodian_status'] == 2}checked{/if}>
+							<label for="haodian-status-2">暂停中</label>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">是否开启外卖</label>
+					<div class="col-sm-9 col-xs-12">
+						<div class="radio radio-inline">
+							<input type="radio" name="is_waimai" id="waimai-status-1" value="1" {if $store['is_waimai'] == 1  || !$store['is_waimai']}checked{/if}>
+							<label for="waimai-status-1">是</label>
+						</div>
+						<div class="radio radio-inline">
+							<input type="radio" name="is_waimai" id="waimai-status-0" value="0" {if $store['is_waimai'] == 0}checked{/if}>
+							<label for="waimai-status-0">否</label>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<input type="hidden" name="token" value="{$_W['token']}">
+				<input type="submit" value="提交" class="btn btn-primary">
+			</div>
+		</div>
+	</form>
+</div>
+<script>
+require(['clockpicker'], function($){
+	$('.clockpicker :text').clockpicker({autoclose: true});
+
+	$('#selectImage').click(function(){
+		util.uploadMultiPictures(function(images){
+			var s = '';
+			$.each(images, function(){
+				s += '<div class="col-lg-4">'+
+					'	<input type="hidden" name="thumbs[image][]" value="'+this.filename+'">' +
+					'	<div class="panel panel-default panel-slide">'+
+					'		<div class="btnClose" onclick="$(this).parent().parent().remove()"><i class="fa fa-times"></i></div>' +
+					'		<div class="panel-body">'+
+					'			<img src="'+this.url+'" width="100%" height="170">'+
+					'			<div>'+
+					'				<input class="form-control last pull-right" placeholder="跳转链接" name="thumbs[url][]">'+
+					'			</div>'+
+					'		</div>'+
+					'	</div>'+
+					'</div>'
+			});
+			$('#slideContainer').append(s);
+		});
+	});
+
+	$('#selectThumb').click(function(){
+		util.uploadMultiPictures(function(images){
+			var s = '';
+			$.each(images, function(){
+				s += '<div class="col-lg-4">'+
+					'	<input type="hidden" name="thumbs[image][]" value="'+this.filename+'">' +
+					'	<div class="panel panel-default panel-slide">'+
+					'		<div class="btnClose" onclick="$(this).parent().parent().remove()"><i class="fa fa-times"></i></div>' +
+					'		<div class="panel-body">'+
+					'			<img src="'+this.url+'" width="100%" height="170">'+
+					'			<div>'+
+					'				<input class="form-control last pull-right" placeholder="跳转链接" name="thumbs[url][]">'+
+					'			</div>'+
+					'		</div>'+
+					'	</div>'+
+					'</div>'
+			});
+			$('#slideContainer').append(s);
+		});
+	});
+
+	$('#hour-add').click(function(){
+		var hour_length = $('#hour .hour-item').length;
+		if(hour_length < 3) {
+			var html = '<div class="form-group hour-item clockpicker">' +
+				'<label class="col-xs-12 col-sm-3 col-md-2 control-label">营业时间</label>'+
+				'<div class="col-sm-9 col-xs-4 col-md-3">'+
+				'<div class="input-group">'+
+				'<input type="text" readonly name="business_start_hours[]" class="form-control" placeholder=""> '+
+				'<span class="input-group-addon">至</span>'+
+				'<input type="text" readonly name="business_end_hours[]" class="form-control" placeholder=""> '+
+				'</div>'+
+				'</div>'+
+				'<div class="col-sm-9 col-xs-4 col-md-3" style="padding-top:6px">'+
+				'<a href="javascript:;" onclick="$(this).parent().parent().remove()"><i class="fa fa-times-circle" title="删除时间段"> </i></a>'+
+				'</div>'+
+				'</div>';
+			$('#hour').append(html);
+			$('.clockpicker :text').clockpicker({autoclose: true});
+		} else {
+			util.message('最多可添加3个时间段', '', 'error');
+			return false;
+		}
+	});
+
+	$('#tags-add').click(function(){
+		var tags_length = $('#tags .input-group').length;
+		if(tags_length < 4) {
+			var html =
+				'<div class="col-sm-9 col-xs-4 col-md-2">'+
+				'<div class="input-group">'+
+				'<a href="javascript: ;" onclick="$(this).parent().parent().remove()"><i class="fa fa-times"></i></a>'+
+				'<input type="text" name="tags[]" class="form-control" placeholder="请不要超过四个字" value="">'+
+				'</div>'+
+				'</div>';
+			$('#tags .tags-item').append(html);
+		} else {
+			util.message('最多可添加4个好店标签', '', 'error');
+		}
+	});
+});
+</script>
+{/if}
+{if $op == 'order_list'}
+<form action="./wagent.php?" class="form-horizontal form-filter">
+	{php echo tpl_form_filter_hidden('haodian/store/order_list');}
+	<input type="hidden" name="is_pay" value="{$_GPC['is_pay']}"/>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">支付类型</label>
+		<div class="col-sm-9 col-xs-12">
+			<div class="btn-group">
+				<div class="btn-group">
+					<a href="{php echo ifilter_url('is_pay: -1');}" class="btn {if $is_pay == -1}btn-primary{else}btn-default{/if}">不限</a>
+					<a href="{php echo ifilter_url('is_pay: 1');}" class="btn {if $is_pay == 1}btn-primary{else}btn-default{/if}">已支付</a>
+					<a href="{php echo ifilter_url('is_pay: 0');}" class="btn {if $is_pay == 0}btn-primary{else}btn-default{/if}">未支付</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="form-group form-inline">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">其他</label>
+		<div class="col-sm-9 col-xs-12">
+			<div style="display: inline-block">
+				{php echo tpl_form_field_daterange('addtime', array('start' => date('Y-m-d H:i', $starttime), 'end' => date('Y-m-d H:i', $endtime)));}
+			</div>
+			<input type="text" name="keyword" value="{$_GPC['keyword']}" class="form-control" placeholder="商户名称、商户编号">
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+		<div class="col-sm-9 col-xs-12">
+			<button class="btn btn-primary">筛选</button>
+		</div>
+	</div>
+</form>
+
+<form action="" class="form-table form form-validate" method="post">
+	<div class="panel panel-table">
+		<div class="panel-body table-responsive js-table">
+			{if empty($records)}
+				<div class="no-result">
+					<p>还没有相关数据</p>
+				</div>
+			{else}
+				<table class="table table-hover">
+					<thead class="navbar-inner">
+					<tr>
+						<th width="30">
+							<div class="checkbox checkbox-inline">
+								<input type="checkbox">
+								<label></label>
+							</div>
+						</th>
+						<th>门店ID</th>
+						<th>门店logo</th>
+						<th>门店名称</th>
+						{if $_W['is_agent']}
+							<th>所属城市</th>
+						{/if}
+						<th>入驻时长</th>
+						<th>支付金额</th>
+						<th>支付状态</th>
+						<th>时间</th>
+						<th>门店状态</th>
+						<th class="text-right">操作</th>
+					</tr>
+					</thead>
+					<tbody>
+					{loop $records $item}
+						<tr>
+							<input type="hidden" name="ids[]" value="{$item['sid']}">
+							<td>
+								<div class="checkbox checkbox-inline">
+									<input type="checkbox" name="id[]" value="{$item['sid']}"/>
+									<label></label>
+								</div>
+							</td>
+							<td>
+								<strong>{$item['sid']}</strong>
+							</td>
+							<td>
+								<img src="{php echo tomedia($item['logo']);}" alt="" style="width: 50px;">
+							</td>
+							<td>{$item['title']}</td>
+							{if $_W['is_agent']}
+								<td>{php echo toagent($item['agentid'])}</td>
+							{/if}
+							<td>{$item['days']}天</td>
+							<td>￥{$item['final_fee']}</td>
+							<td><span class="{$pay_types[$item['pay_type']]['css']}">{$pay_types[$item['pay_type']]['text']}</span></td>
+							<td>
+								<span>入驻：{php echo date('Y-m-d H:i', $item['haodian_starttime']);}</span><br>
+								{if $item['haodian_endtime'] != 0}
+									<span>到期：{php echo date('Y-m-d H:i', $item['haodian_endtime']);}</span>
+								{else}
+									<span>到期：永久入驻</span>
+								{/if}
+							</td>
+							<td>
+								<span class="{$haodian_status[$item['haodian_status']]['css']}">{$haodian_status[$item['haodian_status']]['text']}</span>
+							</td>
+							<td style="text-align: right;">
+								{if $item['is_pay'] == 0}
+									<a href="{php echo iurl('haodian/store/pay', array('id' => $item['id']))}" class="btn btn-default btn-sm js-post" data-confirm="确定设置为已支付?">设为已支付</a>
+								{/if}
+								{if $item['haodian_status'] != 1}
+									<a href="{php echo iurl('haodian/store/status', array('id' => $item['sid'], 'value' => '1', 'type'=>'haodian_status'))}" class="btn btn-default btn-sm js-post" data-confirm="确定审核通过吗?">审核通过</a>
+								{/if}
+								<a href="{php echo iurl('haodian/store/status', array('id' => $item['sid'], 'value' => '4', 'type'=>'haodian_status'))}" class="btn btn-default btn-sm js-post" data-confirm="确定审核不通过吗?">不通过</a>
+							</td>
+						</tr>
+					{/loop}
+					</tbody>
+				</table>
+				<div class="btn-region clearfix">
+					<div class="pull-left">
+						<input type="submit" class="btn btn-primary btn-sm" value="提交修改">
+					</div>
+					<div class="pull-right">
+						{$pager}
+					</div>
+				</div>
+			{/if}
+		</div>
+	</div>
+</form>
+{/if}
+{itemplate 'public/footer'}

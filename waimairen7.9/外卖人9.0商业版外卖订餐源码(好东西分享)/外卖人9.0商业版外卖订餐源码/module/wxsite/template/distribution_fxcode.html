@@ -1,0 +1,139 @@
+<{extends file="<{$tempdir}>/public/diswxsite.html"}>  
+<{block name=extendcss}> 
+<link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/distribution.css">   
+<link href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<{/block}>
+ <{block name=extendjs}> 
+ <script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+   <script src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/js/template.min.js"></script>    
+<{/block}>
+<{block name=myScrolljs}>
+<{/block}>
+<{block name=sitetitle}>分销二维码<{/block}>
+<{block name=hearnav}>
+<div class="content">
+	<div class="toptitCon" style='position: fixed;top:0;left:0;z-index: 99999;'>
+		<div class="toptitBox">
+			<div class="toptitL"><i></i></div>
+			<div class="toptitC">
+				<h3>分销二维码</h3>
+			</div>
+			<div class="toptitR"></div>
+		</div>
+	</div>
+	<div class="distribution_qrcode_content">
+		<div class="distribution_qrcode_box">
+			<div class="distribution_qrcode_main">
+				<div class="distribution_qrcode">
+					<div class="distribution_qrcode_head_content">
+						<div class="distribution_qrcode_head_left">
+							<div class="distribution_qrcode_head_img"><img <{ofunc type=img  link="<{$userlogo}>"}> /></div>
+							<span><{$username}></span>
+						</div>
+						<{if $WeChatType == 1 }>
+							<div class="distribution_qrcode_head_right" onclick="clickshare();">
+								<i class="fa fa-share-square-o"></i>
+								<span>分享</span>
+							</div>
+						<{/if}>
+					</div>
+					<div class="distribution_qrcode_codeimg">
+						<div class="distribution_qrcode_img" <{if empty($fxcode) }>style='display:none'<{/if}>><img <{ofunc type=img  link="<{$fxcode}>"}>  /></div>
+						<span><{if empty($fxcode) }>生成中，请稍候...<{else}>长按二维码识别<{/if}></span>
+					</div>
+					<div class="distribution_qrcode_code">
+						<span>邀请码</span>
+						<small><{$invitecode}></small>
+					</div>
+					<div class="distribution_qrcode_line"></div>
+					<div class="distribution_qrcode_txt">
+						<ul>
+							<li>1.分享二维码名片给好友、朋友圈；</li>
+							<li>2.微信好友可通过识别/扫描二维码，登录成功后成为你的下线推广员；</li>
+							<li>3.通过APP注册的用户可在注册页面填写上面的邀请码，注册成功后成为你的下线推广员；</li>
+							<li>4.下线推广员在平台下单，自己获得佣金；</li>
+							<li>5.订单完成后返佣金，佣金可提现！</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<{if $WeChatType == 1 }>
+ <div id="zhezhao2" class="zhezhao2"  onclick="zhezhao2();" ></div>
+ <div id="zhehzuoshareimg">
+	 <img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/clicksharebg.png" />
+ </div>
+<style>
+#zhehzuoshareimg img {width:150px; }
+#zhehzuoshareimg{
+	position: absolute;z-index: 99999999999999999999;top:1%; right:25px; display:none;
+} 
+.zhezhao2 {
+   display:none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 99999999999999999999;
+  width:100%;
+  height:100%;
+  background-color: #000;
+  opacity: 0.5;
+  filter: alpha(opacity=50);
+}
+</style>
+
+
+<script>
+    function clickshare(){
+        $("#zhezhao2").show();
+        $("#zhehzuoshareimg").show();
+    }
+    function zhezhao2(){
+        $("#zhezhao2").hide();
+        $("#zhehzuoshareimg").hide();
+    }
+
+  
+   
+
+
+<{/if}> 
+<script>
+$(function(){
+	checkcode();
+});
+//检测生成的分销二维码是否存在
+function checkcode(){
+    var ff = $('.distribution_qrcode_img').css('display');
+ 	if(ff == 'none'){ 
+	    $.ajax({
+			type: 'post',
+			async:false,
+			data:{'uid':'<{$uid}>'},
+			url: '<{ofunc type=url link="/wxsite/checkcode/datatype/json"}>', 
+			dataType: 'json',success: function(content) {   
+				if(content.error == false){
+				    $('.distribution_qrcode_img img').attr('src',content.msg);
+					$('.distribution_qrcode_img').show();
+					$('.distribution_qrcode_codeimg span').text('长按二维码识别');
+				}else{
+ 				    setTimeout( "checkcode();",3000);
+				} 
+			},
+		})  	
+	}
+}
+
+</script> 
+<{/block}>
+<{block name=sharetitle}><{$shareinfo['title']}><{/block}>
+<{block name=sharedesc}><{$shareinfo['describe']}><{/block}>
+<{block name=shareimg}><{$shareinfo['img']}><{/block}>
+<{block name=sharelink}><{$shareinfo['url']}><{/block}>
+
+ 
+ 

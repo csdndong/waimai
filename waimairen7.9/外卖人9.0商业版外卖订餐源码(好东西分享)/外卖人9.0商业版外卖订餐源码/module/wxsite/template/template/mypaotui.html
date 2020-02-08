@@ -1,0 +1,212 @@
+ <{extends file="<{$tempdir}>/public/wxsite.html"}>  
+<{block name=extendcss}> 
+ <link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/order.css">
+<{/block}>
+  <{block name=extendjs}> 
+  <script src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/js/template.min.js"></script>   
+<script id="orderlists" type="text/html">     
+    <li class="list box_inline" >
+  			  	 <!--<div class="colomns wd1" style="width:25%;">-->
+  			  	 	 <!--<^%=list.id%^>-->
+  			    	<!--</div>&ndash;--> 
+  			    	 <div class="colomns wd2" style="width:33.33%;font-size:14px;"><^%=list.addtime%^>
+  			    	</div>
+					 <div class="colomns wd2" style="width:33.33%;font-size:14px;"><^%=list.pttype%^>
+  			    	</div>
+  			    	 <div class="colomns wd3" style="width:33.33%;font-size:14px;margin-left:10px;" onclick="ptdetail('<^%=list.id%^>');">
+                         <span><^%=list.seestatus%^></span><i>&gt;</i> 
+  			    	</div>
+  			    	
+  			  </li>
+</script> 
+ <script> 
+	showLoading();
+   var page =1; 
+ 	 var can_show = true;//控制是否翻页  
+ 	 $(function(){
+ 	 	 can_show=false; 
+ 	       getorder();
+ 	 }); 
+   function getorder(){  
+   		var url = siteurl+'/index.php?ctrl=wxsite&action=paotuiorder&random=@random@';
+		
+   		  $.ajax({ 
+       dataType: "json", 
+       data:{page:page,datatype:'json'}, 
+       url: url.replace('@random@', 1+Math.round(Math.random()*1000)),  
+       success: function(content) {    
+       	 if(content.error == false) 
+      	{  
+      		
+      		 if(content.msg.length > 0){ 
+			 
+			 for(var i=0;i<content.msg.length;i++){
+			 
+			    var htmls = template.render('orderlists', {list:content.msg[i]}); 
+				
+                  $('#orderlist').append(htmls); 
+				 
+			 }
+			  myScroll.refresh();
+  	  		 <!-- $.each(content.msg, function(i,val){   -->
+				
+  	  		 	 
+  	  		 <!-- });  -->
+  	  		  page =Number(page)+1; 
+  	  		  can_show = true; 
+  	     	 }else{ 
+  	  	      can_show = false;//停止翻页 
+			  myScroll.refresh();
+  	       } 
+  	       
+			newhideLoading();
+      	}else{   
+      			 can_show ==  false; 
+    	       error($('#supplierlist'),content.msg); 
+    	       newhideLoading();
+			   myScroll.refresh();
+      	}  
+      	 
+	     }, 
+       error: function(content) {  
+        	can_show ==  false; 
+    	    error($('#supplierlist'),'店铺数据为空'); 
+    	    newhideLoading();
+			myScroll.refresh();
+	     }
+
+     });  
+   } 
+  $(window).scroll(function(){   //滚动获取数据 
+	   if(can_show == true){ 
+       if ($(document).height() - $(this).scrollTop() - $(this).height()<50) 
+       { 
+       	  can_show = false; 
+          getorder();
+		  myScroll.refresh();
+       }  
+     } 
+   }); 
+   
+
+   function showun(datas){
+
+     if(datas.error ==  false){
+
+        $('#span_id'+datas.data).text('删除');
+
+     }
+
+   }
+
+   function showdel(datas){
+
+   	if(datas.error ==  false){ 
+
+   		 $('#gid_'+datas.data).remove();
+
+   	}
+
+  }
+
+  function showorder(obj){
+
+  	window.location.href=siteurl+'/index.php?ctrl=wxsite&action=ordershow&orderid='+$(obj).attr('orderid')+'&random=@random@';  //'ordershow.html?orderid='+$(obj).attr('orderid');//  	alert($(obj).attr('orderid')); 
+
+  }
+
+     function ptdetail(orderid){
+          window.location.href=siteurl+'/index.php?ctrl=wxsite&action=paotuidetail&orderid='+orderid;
+     }
+
+ 	</script>
+
+<{/block}>
+<{block name=myScrolljs}>
+<script> 
+		var myScroll;
+function loaded() {
+	myScroll = new iScroll('wrapper', {
+		//useTransform: false,
+		//hScrollbar:false,
+		//vScrollbar:false,
+		//bounce:false,
+		onBeforeScrollStart: function (e) {
+			var target = e.target;
+			while (target.nodeType != 1) target = target.parentNode;
+
+			if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA' )
+				e.preventDefault();
+		}
+	});
+}
+document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false); 
+document.addEventListener('DOMContentLoaded', function () { setTimeout(loaded, 200); }, false);
+</script>
+<{/block}>
+<{block name=hearnav}>
+<div class="toptitCon">
+<div class="toptitBox addressbox">
+  <div class="toptitL"><i></i></div>
+  <div class="toptitC"><h3>跑腿订单</h3></div>
+ </div>
+ </div>
+<{/block}>
+<{block name=sitetitle}><{$sitename}><{/block}>
+<{block name=blockcontent}> 
+<style>
+.liststyle1 li .colomns {
+  text-align: center;
+ height: auto; 
+  line-height: 40px;
+}
+.liststyle1 li .colomns i{float:right;padding-right: 10px;}
+
+</style>
+  <div id="wrapper" style="top:40px;">
+	<div id="scroller">
+   <div class="container"style="padding-bottom:0px">
+ 
+  <section class="listselect">
+ 	    
+  			<ul class="liststyle1" id="orderlist">
+  			 
+  			  <li class="topheader box_inline" style="background:#fff;height:42px; line-height; color:#333333; border-bottom:1px solid #ccc;">
+  			  	 <!--<div class="colomn wd1" style="color:#333333;width:25%;">
+  			  	 	跑腿订单ID
+  			    	</div>-->
+  			    	 <div class="colomn wd2" style="color:#333333;width:33.33%; ">下单时间
+  			    	</div> <div class="colomn wd2" style="color:#333333;width:33.33%; ">跑腿类型
+  			    	</div>
+  			    	 <div class="colomn wd3" style="color:#333333;width:33.33%;">订单状态
+  			    	</div>
+  			    	
+ 
+
+  			  </li>
+  			  <!--
+  		    <li class="list box_inline">
+  			  	 <div class="colomns wd1">
+  			  	 	 12345
+  			    	</div>
+  			    	 <div class="colomns wd2">2014-10-08 12:51:52
+  			    	</div>
+  			    	 <div class="colomns wd3">订单状态
+  			    	</div>
+  			    	 <div class="colomns wd4">
+  			    	 	<span class="btn">详情</span>
+  			    	</div>
+  			  </li>
+  			  -->
+  			    
+  			</ul> 
+    </section>
+ 
+</div>
+</div>
+</div>
+ 
+ 
+ 
+  
+<{/block}>

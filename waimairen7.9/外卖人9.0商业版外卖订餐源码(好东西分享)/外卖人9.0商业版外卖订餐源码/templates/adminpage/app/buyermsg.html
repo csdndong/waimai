@@ -1,0 +1,36 @@
+<{extends file="<{$tempdir}>/public/admin5.html"}>
+<{block name=extendjs}>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js"></script>
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/datepicker/WdatePicker.js" type="text/javascript" language="javascript"></script>
+<{/block}>
+ <{block name=controlname}>推送事件<{/block}>
+ <{block name=bodylist}>
+<div style="width:auto;overflow-x:hidden;overflow-y:auto">
+	<div class="tags">
+		<div id="tagscontent">
+			<div id="con_one_1">
+				<div class="table_td" style="margin-top:10px;">
+					<form method="post" action="" onsubmit="return remind();" id="delform">
+						<table border="0" cellspacing="2" cellpadding="4" class="list" name="table" id="table" width="100%">
+							<thead>
+								<tr>
+									<th width="60px"><input type="checkbox" id="chkall" name="chkall" onclick="checkall()"></th>
+									<th align="center">信息发送说明</th>
+									<th align="center">发送时间</th>  
+								</tr>
+							</thead>
+							<tbody id="dobacklist">
+								<tr class="s_out" onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+								    <td align="center" ></td>  <td align="center"></td>  <td align="center"></td>  
+								</tr>
+							</tbody>
+						</table>
+					<div class="blank20"></div>
+					</form> 
+				<div class="blank20"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<{/block}>

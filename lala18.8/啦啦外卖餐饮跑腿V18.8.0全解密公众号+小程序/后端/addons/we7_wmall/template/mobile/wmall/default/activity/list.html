@@ -1,0 +1,1172 @@
+{itemplate 'public/header'}
+<style>
+	.page-list{line-height: 1; height: 100%; overflow: hidden; background-color: #fff;}
+	.page-list header{background-color: #FB4E44; position: relative; z-index: 30;}
+	.page-list header a{position: absolute; font-size: .8rem; color: #fff;}
+	.page-list header a i{font-size: .8rem;}
+	.page-list header .back{top: 27%; left: .3rem;}
+	.page-list header .search{top: 27%; right: 3%;}
+	.page-list header .favorfill{top: 27%; right: 10%;}
+	.page-list header h1{margin: 0; color: #fff; font-size: .85rem; font-weight: 500; text-align: center; line-height: 2.2rem;}
+	.page-list .content{padding-top: 92px;}
+	.page-list .menu-tabs-fixed{position: relative; left: 0; width: 100%; z-index: 20; }
+	/*主菜单部分*/
+		.page-list .menu-content{display: none; overflow: hidden; position: relative; height: 90%;}
+		.page-list .menu-content .menu-wrap{height:100%;}
+		/*左侧分类*/
+			.page-list .aside-wrap{height: 100%; width:22%; background-color: #efefef; overflow: hidden; display: inline-block; float: left;}
+			.page-list .aside-wrap .tag-list{width: 100%;}
+			.page-list .aside-wrap .tag-list .tag{width: 100%; height: auto; font-size: 14px; color: #333; text-align: left; position: relative; border: 0; padding: 0; border-radius: 0; display: block; line-height: 1;}
+			.page-list .aside-wrap .tag-list .tag .tag-inner{margin: 0 6px; padding: 13px 0;}
+			.page-list .aside-wrap .tag-list .tag .tag-inner .tag-text{padding: 0 7px; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; text-overflow: ellipsis; overflow: hidden; max-height: 28px;}
+			.page-list .aside-wrap .tag-list .tag .num{position: absolute; right: .1rem; top: .2rem; display: inline-block; width: .6rem; height: .6rem; background-color: #F23650; border-radius: 100%; line-height: .7rem; font-size: .4rem; text-align: center; color: #fff;}
+			.page-list .aside-wrap .tag-list .tag.focus{color: #333; background-color: #fff;}
+		/*右侧菜品*/
+			.page-list .main-wrap{float: left; width: 78%; height: 100%; overflow-x: hidden; overflow-y: auto; position: absolute; right: 0; bottom: 0;}
+			.page-list .main-wrap .foodlistwrap{position: relative; height: 100%;}
+			.page-list .main-wrap .foodlistwrap .foodlist-label{padding-left: .7rem; font-weight: normal; color: #333; position: relative; margin: 0; font-size: .6rem; line-height: 1.8rem;}
+			.page-list .main-wrap .foodlistwrap .foodlist-label:before{content: ""; position: absolute; top: 32%; left: 2%; height: .7rem; width: .05rem; background-color: #FFD161;}
+			.page-list .main-wrap .foodlistwrap .food-item{margin-left: .5rem; padding: .7rem 0 .5rem;}
+			.page-list .main-wrap .foodlistwrap .food-item .food-pic-wrap{position: relative; float: left; min-width: 20%;  width: 2.8rem; height: 2.8rem; text-align: center; line-height: 2.9rem;}
+			.page-list .main-wrap .foodlistwrap .food-item .food-pic-wrap img{display: block; width: 100%; height:100%;}
+			.page-list .main-wrap .foodlistwrap .food-item .food-pic-wrap .food-soldout{position: absolute; left: 0; bottom: 0; width: 100%; height: .8rem; background: rgba(0,0,0,0.4); font-size: .4rem; line-height: .9rem; color: #fff;}
+			.page-list .main-wrap .foodlistwrap .food-item .food-cont-wrap{float: right; max-width: 76%; min-width: 76%;}
+			.page-list .main-wrap .foodlistwrap .food-item .food-cont-wrap .food-cont{position: relative;}
+			.page-list .main-wrap .foodlistwrap .food-item .food-name{max-height: 1.5rem; min-height: 1rem; line-height: .9rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; margin-right: .4rem; color: #2f2f2f; font-size: 14px; overflow: hidden;}
+			.page-list .main-wrap .foodlistwrap .food-item .food-desc{margin: .2rem .5rem 0 0; line-height: .8rem; font-size: .5rem; color: #a9a9a9; display: -webkit-box; overflow: hidden; text-overflow: ellipsis; -webkit-line-clamp: 2; -webkit-box-orient: vertical;}
+			.page-list .main-wrap .foodlistwrap .food-item .food-content-sub{margin: .2rem .5rem 0 0; line-height: .7rem; font-size: .5rem; color: #a9a9a9;}
+			.page-list .main-wrap .foodlistwrap .food-item .food-good{margin-left: .3rem;}
+			.page-list .main-wrap .foodlistwrap .food-item .food-price-region{font-size: 0; margin: .2rem .5rem 0 0;}
+			.page-list .main-wrap .foodlistwrap .food-item .food-price{color: #fe4d3d; font-size: .75rem;}
+			.page-list .main-wrap .foodlistwrap .food-item .food-price span{font-size: .55rem;}
+			.page-list .main-wrap .foodlistwrap .food-item .food-price-gray{color: #a9a9a9;}
+			.page-list .main-wrap .foodlistwrap .food-item .foodop{position: absolute; right: .5rem; bottom: -.3rem;}
+			.page-list .main-wrap .foodlistwrap .food-item .foodop .add-food{float: right; display: inline-block; width: 1.2rem; height: 1.2rem;}
+			.page-list .main-wrap .foodlistwrap .food-item .foodop .add-food i{width: 100%; height: 100%; line-height: 1.3rem; text-align: center; border-radius: 100%; background-color: #FB4E44; color: #fff; font-size: .8rem; font-weight: bold;}
+			.page-list .main-wrap .foodlistwrap .food-item .foodop .food-num{ font-size: .7rem; min-width: 1rem; text-align: center; float: right; height: 1.2rem; line-height: 1.2rem;}
+			.page-list .main-wrap .foodlistwrap .food-item .foodop .remove-food{float: right; width: 1.2rem; height: 1.2rem; display: inline-block;}
+			.page-list .main-wrap .foodlistwrap .food-item .foodop .remove-food i{width: 100%; height: 100%; line-height: 1.3rem; text-align: center; border-radius: 100%; font-size: .8rem; color:#B4B4B4; font-weight: bold; border: 1px solid #DDDFE1;}
+			.page-list .main-wrap .foodlistwrap .food-item .status-desc{position: absolute; right: .5rem; bottom: 0; font-size: .5rem; color: #a9a9a9;}
+			.page-list .main-wrap .foodlistwrap .food-item .status-desc i{font-size: .6rem; margin-left: .2rem;}
+			.page-list .main-wrap .foodlistwrap .food-item .muti-btn{position: absolute; right: .5rem; bottom: 0; width: 2.6rem; height: 1rem; background-color: #FB4E44; border-radius: .9rem; font-size: .5rem; line-height: 1rem; text-align: center; color: #fff;}
+			.page-list .main-wrap .foodlistwrap .food-item .muti-num{position: absolute; width: .6rem; height: .6rem; border-radius: 100%; background-color: #F7766F; font-style: normal; text-align: center; line-height: .6rem; color: #fff; right: -.2rem; top: 0;}
+			.page-list .main-wrap .foodlistwrap .food-item .food-activity{font-size: .5rem; color: #FB4E44; margin-top: .3rem; font-weight: bold;}
+		/*购物车部分*/
+			.page-list .menu-content .mask{position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,.5); z-index: 100;}
+			/*购物车栏*/
+				.page-list .menu-content .cart-wrap .cart{position: fixed; bottom: 0; z-index: 200; width: 100%; height: 51px;  background-color: rgba(51,51,51,0.9); border-top: 1px solid #cacaca;}
+				.page-list .menu-content .cart-wrap .cart .cart-tips{color: #999; padding-left: .6rem;}
+				.page-list .menu-content .cart-wrap .cart .cart-tips .cart-icon{float: left; position: relative; top: -.3rem; margin-right: .7rem; width: 50px; height: 50px; border: .2rem solid #444; border-radius: 100%; text-align: center;  background: #3A3635;}
+				.page-list .menu-content .cart-wrap .cart .cart-tips .cart-icon.show{background-color: #FB4E44; color: #fff;}
+				.page-list .menu-content .cart-wrap .cart .cart-tips .cart-icon i{width: 100%; height: 100%; font-size: 1.3rem; line-height: 48px;}
+				.page-list .menu-content .cart-wrap .cart .cart-tips .cart-icon .cart-num{background-color: #F7766F; width: 15px; height: 15px; line-height: 15px; font-size: .4rem; text-align: center; position: absolute; top: -1px; right: -1px; border-radius: 100%;}
+				.page-list .menu-content .cart-wrap .cart .cart-tips .cart-empty{color: #888; line-height: 2.4rem; font-size: .7rem;}
+				.page-list .menu-content .cart-wrap .cart .cart-noempty .cart-price{font-size: .8rem;  color: #fff; line-height: 1.3rem;}
+				.page-list .menu-content .cart-wrap .cart .cart-noempty .cart-shipping{display: block; font-size: .6rem;}
+				.page-list .menu-content .cart-wrap .cart .cart-btns{position: absolute; top: 0; right: 0; height: 100%;}
+				.page-list .menu-content .cart-wrap .cart .cart-btns .cart-btn-unavail{display: block; height: 100%;}
+				.page-list .menu-content .cart-wrap .cart .cart-btn-unavail .inner{text-align: center; display: block; width: 5rem; height: 100%; line-height: 2.4rem; font-size: .7rem; color: #999; background: transparent;}
+				.page-list .menu-content .cart-wrap .cart .cart-btn-confirm{display: block; height: 100%;}
+				.page-list .menu-content .cart-wrap .cart .cart-btn-confirm .inner{display: block; width: 5rem; height: 100%; line-height: 2.4rem; font-size: .7rem; color: #fff; text-align: center; background: #FB4E44;}
+			/*购物车详细物品栏*/
+				.page-list .menu-content .cart-wrap .cart-dtl{position: fixed; left: 0; bottom: 2.4rem; z-index: 200; width: 100%;} 
+				.page-list .menu-content .cart-wrap .cart-dtl .cart-dtl-head{position: relative; height: 1.5rem; background: #f4f4f4;}
+				.page-list .menu-content .cart-dtl .cart-dtl-head .box-fee{float: left; margin-left: .6rem; line-height: 1.5rem; font-size: .5rem; color: #333;}
+				.page-list .menu-content .cart-dtl .cart-dtl-head .cart-dusbin{float: right; margin-right: .6rem; line-height: 1.5rem; font-size: .5rem; color: #333;}
+				.page-list .menu-content .cart-dtl .cart-dtl-head .cart-dusbin i{margin-right: .1rem; margin-top: -.1rem;}
+				.page-list .menu-content .cart-dtl .cart-dtl-list{max-height: 225px; overflow-x: hidden; overflow-y: auto; padding: 0 .6rem; background-color: #fff;}
+				.page-list .menu-content .cart-dtl .cart-dtl-item{max-height: 65px; overflow: hidden; padding: 0 0 10px 0;}
+				.page-list .menu-content .cart-dtl .cart-dtl-item .cart-dtl-item-inner{overflow: hidden; height: 40px;}
+				.page-list .menu-content .cart-dtl .cart-dtl-item-inner .cart-goods-name{float: left; max-width: 170px; margin-top: 10px; height: 30px; line-height: 30px; overflow: hidden; font-size: .7rem; color: #444; text-overflow: ellipsis; word-wrap: break-word; word-break: break-all; white-space: nowrap;}
+				.page-list .menu-content .cart-dtl .cart-dtl-item-inner .cart-dtl-oprt{float: right; margin: 12px 0 0 0;}
+				.page-list .menu-content .cart-dtl-oprt .add-food{float: right; display: inline-block; width: 1.2rem; height: 1.2rem;}
+				.page-list .menu-content .cart-dtl-oprt .add-food i{width: 100%; height: 100%; line-height: 1.3rem; text-align: center; border-radius: 100%; background-color: #FB4E44; color: #fff; font-size: .8rem; font-weight: bold;}
+				.page-list .menu-content .cart-dtl-oprt .foodop-num{font-size: .7rem; min-width: 1rem; text-align: center; float: right; height: 1.2rem; line-height: 1.2rem;}
+				.page-list .menu-content .cart-dtl-oprt .remove-food{float: right; width: 1.2rem; height: 1.2rem; display: inline-block;}
+				.page-list .menu-content .cart-dtl-oprt .remove-food i{width: 100%; height: 100%; line-height: 1.3rem; text-align: center; border-radius: 100%; font-size: .8rem; color:#B4B4B4; font-weight: bold; border: 1px solid #DDDFE1;}
+				.page-list .menu-content .cart-dtl-price{float: right; max-width: 60px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-right: .5rem; line-height: 48px;}
+				.page-list .menu-content .cart-dtl-item .food-tips{font-size: .5rem; color: #999;}
+		/*规格弹框*/
+			.page-list .menu-content .muti-dialog{width: 90%; position: absolute; z-index: 300; background-color: #fff; top: 50%; left: 50%; transform: translate(-50%,-50%); -webkit-border-radius: 3px;}
+			.page-list .menu-content .muti-dialog .muti-wrap{max-height: 588px; display: -webkit-box;     -webkit-box-orient: vertical; border-radius: .3rem;}
+			.page-list .menu-content .muti-dialog .muti-food-title{line-height: 44px; margin: 0 30px; font-size: .7rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: center;}
+			.page-list .menu-content .muti-dialog .muti-cont{overflow: hidden; font-size: .6rem; -webkit-box-flex: 1;}
+			.page-list .menu-content .muti-dialog .muti-sec{padding: 20px 0 25px;}
+			.page-list .menu-content .muti-dialog .muti-sec-title{ line-height: 20px; margin: 0 10px; }
+			.page-list .menu-content .muti-dialog .muti-choice{margin: 0 5px; overflow: hidden;}
+			.page-list .menu-content .muti-dialog .muti-choice span{float: left; margin: 10px 5px 0; min-width: : 75px; height: 28px; padding: 0 10px; line-height: 26px; border: 1px solid #c4c4c4; box-sizing: border-box; border-radius: 14px; text-align: center; overflow: hidden;}
+			.page-list .menu-content .muti-dialog .muti-choice .selected{border-color: #FB4E44; color: #FB4E44; background-color: #F7E8E8;}
+			.page-list .menu-content .muti-dialog .muti-choose{height: 56px; background-color: #f4f4f4; overflow: hidden;}
+			.page-list .menu-content .muti-dialog .muti-oprt{float: right;}
+			.page-list .menu-content .muti-dialog .muti-oprt-btn{width: 110px; height: 32px; line-height: 32px; margin: 12px 12px 0 0; font-size: 13px; text-align: center; background-color: #FB4E44; color: #fff; border-radius: 16px;}
+			.page-list .menu-content .muti-dialog .muti-oprt-btn i{font-size: 17px; margin-right: .1rem;}
+			.page-list .menu-content .muti-dialog .muti-info{margin-left: 15px; line-height: 56px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
+			.page-list .menu-content .muti-dialog .muti-info .muti-price{font-size: 1rem; color: #FB4E44; vertical-align: middle;}
+			.page-list .menu-content .muti-dialog .muti-info .muti-type{margin-left: 5px; font-size: .6rem; color: #2f2f2f; vertical-align: middle;}
+			.page-list .menu-content .muti-dialog .muti-close{position: absolute; top: 10px; right: 10px;}
+			.page-list .menu-content .muti-dialog .muti-close i{font-size: .8rem;}
+	/*评论部分*/
+		/*模板一*/
+			.page-list .comment-menu-content{position: relative; z-index: 10; -webkit-box-flex: 1; }
+			.page-list .comment-menu-content .inner-content{background-color: #f6f6f6; width: 100%;}
+			/*评分部分*/
+				.page-list .comment-wrap .cmt-detail-info{background-color: #fff; overflow: hidden; margin-top: .46rem; height: 3.7rem; width: 100%;}
+				.page-list .cmt-detail-info .left-cell{float: left; width: 26%; text-align: center;}
+				.page-list .cmt-detail-info .middle-cell{float: left; width: 45%;}
+				.page-list .cmt-detail-info .right-cell{float: right; width: 28%; height: 45px; margin-top: 17px; text-align: center; border-left: 1px solid #d8d8d8;}
+				.page-list .cmt-detail-info .left-cell .detail-info-data{line-height: 1.5rem; margin-top: .63rem; font-size: 1.4rem;}
+				.page-list .cmt-detail-info .left-cell .detail-info-data span{font-size: 1.4rem; color: #FB4E44;}
+				.page-list .cmt-detail-info .left-cell .detail-info-desc{line-height: 1.2rem; font-size: .5rem; color: #656565;}
+				.page-list .cmt-detail-info .middle-cell .detail-info-stars{ overflow: hidden;}
+				.page-list .cmt-detail-info .middle-cell .detail-info-stars:first-child{margin-top: .63rem;}
+				.page-list .cmt-detail-info .middle-cell .detail-info-desc{line-height: 1.2rem; font-size: .5rem; color: #656565;}
+				.page-list .cmt-detail-info .middle-cell .detail-info-stars .detail-info-desc{display: inline-block; vertical-align: middle;}
+				.page-list .middle-cell .appr-status{display: inline-block;  margin: 0 5px 0 8px; vertical-align: middle; position: relative; width: 60px; height: 15px; margin-top: -.35rem;}
+				.page-list .middle-cell .appr-status .stars{position: absolute; width: 100%; }
+				.page-list .middle-cell .appr-status .stars-bg{position: absolute; width: 100%;  color: #FB4E44; overflow: hidden; white-space: nowrap;}
+				.page-list .middle-cell .appr-status i{font-size: 10px; overflow: hidden; white-space: nowrap;}
+				.page-list .middle-cell .detail-info-receive{font-size: 15px; display: inline-block; vertical-align: middle; line-height: 1.2rem;}
+				.page-list .right-cell .detail-info-dvy{font-size: 24px; color: #999;}
+				.page-list .right-cell .detail-info-desc{line-height: 1.2rem; font-size: .5rem; color: #999;}
+				.page-list .cmt-types{padding: 15px 14px; background-color: #fff; margin-top: 10px; margin-bottom: 10px; color: #2f2f2f;}
+				.page-list .cmt-types span{display: inline-block; vertical-align: middle; padding: 0 14px; height: 30px; line-height: 30px; margin: 0 5px 5px 0; background-color: #fff; font-size: .4rem; color: #656565; text-align: center; border-radius: 15px; border: 1px solid #ccc;}
+				.page-list .cmt-types .negative{background-color: #fff; color: #999; border: 1px solid #ccc;}
+				.page-list .cmt-types .selected{border-color: #FB4E44; color: #FB4E44; background-color: #F7E8E8;}
+				.page-list .evaluate-field{background-color: #fff; -webkit-box-flex: 1;}
+				.page-list .evaluate-field .evaluate-item{padding: 15px 15px 12px 15px; }
+				.page-list .evaluate-field .evaluate-sub{line-height: 15px;}
+				.page-list .evaluate-field .evaluate-sub-left{float: left; width: 15%;}
+				.page-list .evaluate-field .evaluate-sub-right{float: left; width: 85%;}
+				.page-list .evaluate-field .evaluate-sub-left img{display: inline-block; width: 40px; height: 40px; border-radius: 50%;}
+				.page-list .evaluate-field .evaluate-sub-right .evaluate-name{color: #2f2f2f; font-size: 16px;}
+				.page-list .evaluate-field .evaluate-sub-right .evaluate-time{font-size: 12px; float: right; color: #898989;}
+				.page-list .evaluate-field .evaluate-stars{margin-top: 6px;}
+				.page-list .evaluate-field .star-box{display: inline-block; width: 60px; height: 17px; position: relative; white-space: nowrap; overflow: hidden; float: left;}
+				.page-list .evaluate-field .star-box i{font-size: 10px;}
+				.page-list .evaluate-field .star-box .stars{position: absolute; width: 100%; height: 100%;}
+				.page-list .evaluate-field .star-box .stars-bg{position: absolute; color: #FB4E44; overflow: hidden; white-space: nowrap; width: 100%; height: 100%;}
+				.page-list .evaluate-field .evaluate-ship-time{color: #898989; font-size: 12px; line-height: 18px; float: left; margin-left: 2px;}
+				.page-list .evaluate-field .evaluate-comment{font-size: 14px; margin-top: 10px; margin-bottom: 6px;}
+				.page-list .evaluate-field .evaluate-bottom{margin: 4px 0; font-size: 12px;}
+				.page-list .evaluate-field .evaluate-bottom i{font-size: 12px;}
+				.page-list .evaluate-field .evaluate-bottom .comment-tag-text{color: #898989;}
+				.page-list .evaluate-field .evaluate-add-comment{padding: 5px 8px; background-color: #f4f4f4; margin: 10px 0; font-size: 12px; color: #656565; line-height: 15px;}
+				.page-list .evaluate-field .comment-pics{float: left; margin-right: 5px; margin-bottom: 5px; width: 175px; height: 175px; }
+				.page-list .evaluate-field .pic-multi .comment-pics{width: 80px; height: 80px;}
+				.page-list .evaluate-field .comment-bottom{margin: 4px 0; font-size: .4rem;}
+				.page-list .evaluate-field .comment-bottom i{font-size: .4rem; margin-right: .4rem;}
+				.page-list .evaluate-field .comment-bottom .comment-favor-text{color: #576895;}
+		/*模板二*/
+			.page-list .comment-menu-content{background-color: #eee; overflow-y: auto; overflow-x: hidden; width: 100%;}
+			.page-list .overview-container{background-color: #fff; margin-bottom: 12px; font-size: 14px; padding: .7rem; display: flex; -webkit-box-align: center; align-items: center; color: #666; width: 100%;}
+			.page-list .overview-container .overview-left{float: left; padding-right: .4rem; border-right: 1px solid #ddd; text-align: center; line-height: 1.5rem; width: 35%;}
+			.page-list .overview-container .overview-left strong{font-size: 30px; line-height: 1; font-weight: 400; color: #f60; display: block;}
+			.page-list .overview-container .overview-left p{margin: 0; line-height: 1; font-size: 12px; color: #999;}
+			.page-list .overview-container .overview-right{float: left; -webkit-box-flex: 1; flex: 1; font-size: 14px; line-height: 1; display: flex; -webkit-box-orient: vertical; -webkit-box-direction: normal; flex-direction: column; -webkit-box-align: center; align-items: center; width: 60%;}
+			.page-list .overview-container .overview-right .overview-line{margin: 4px 0; width: 90%;}
+			.page-list .overview-container .overview-right .overview-line-content{padding-left: 10px;}
+			.page-list .overview-container .overview-right .star-box{position: relative; width: 60px; height:12px; display: inline-block; overflow: hidden;}
+			.page-list .overview-container .overview-right .star-box i{font-size: 10px; line-height: 1;}
+			.page-list .overview-container .overview-right .star-box .stars{position: absolute;}
+			.page-list .overview-container .overview-right .star-box .stars-bg{position: absolute; overflow: hidden; white-space: nowrap; width: 100%; color: #FB4E44;}
+			.page-list .overview-container .overview-right .overview-line-score{color: #f60; padding-left: .2rem;}
+			.page-list .overview-container .overview-right .overview-line-min{font-size: 12px; color: #999; padding-left: .4rem}
+
+			.page-list .detail{padding: .6rem; font-size: 12px; background-color: #fff; position: relative;}
+			.page-list .detail .tag-box{padding-bottom: .3rem;}
+			.page-list .detail .tag-box .tag-item{display: inline-block; margin: .17rem .15rem; padding: .45rem; border-radius: 3px; background-color: #fff; color: #656565; border: 1px solid #ccc;}
+			.page-list .detail .tag-box .tag-item.selected{border-color: #FB4E44; color: #FB4E44; background-color: #F7E8E8;}
+			.page-list .detail .tag-box .tag-item.negative{background-color: #fff; color: #999; border: 1px solid #ccc;}
+			.page-list .index-comment{padding: .4rem 0;}
+			.page-list .index-comment .comment-block-container{position: relative; padding-left: 2.5rem;}
+			.page-list .index-comment .comment-block-time{position: absolute; right: 0; top: .1rem; font-size: .5rem; color: #999;}
+			.page-list .index-comment .comment-block-avatar{position: absolute; top: 0; left: .3rem; width: 1.5rem; height: 1.5rem; border-radius: 50%;}
+			.page-list .index-comment .comment-block-username{font-size: .7rem; margin-top: 0; margin-bottom: .3rem; color: #666; font-weight: 400;}
+			.page-list .index-comment .star-box{position: relative; width: 60px; height:12px; display: inline-block; overflow: hidden;}
+			.page-list .index-comment .star-box i{font-size: 10px; line-height: 1;}
+			.page-list .index-comment .star-box .stars{position: absolute;}
+			.page-list .index-comment .star-box .stars-bg{position: absolute; overflow: hidden; white-space: nowrap; width: 100%; color: #FB4E44;}
+			.page-list .index-comment .comment-block-foods li{display: inline-block; font-size: .5rem; border: 1px solid #ddd; padding: .3rem .5rem; margin: .2rem; border-radius: .2rem; max-width: 2.7rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #999;}
+			.page-list .index-comment .comment-block-photos li{display: inline-block; margin: .2rem;}
+			.page-list .index-comment .comment-block-photos li img{display: inline-block; width: 3rem; height: 3rem;}
+			.page-list .index-comment .comment-block-reply{position: relative; margin: .4rem 0; padding: .5rem; background-color: #f3f3f3; border-radius: .15rem; font-size: .6rem;}
+			.page-list .index-comment .comment-block-reply:after{content: ""; position: absolute; bottom: 100%; left: .7rem; width:0; height: 0; border-style: solid; border-width: 0 .3rem .3rem; border-color: transparent transparent #f3f3f3;}
+	/*店铺部分*/
+		/*模板一*/
+			.page-list .shop-info{position: relative;}
+			.page-list .shop-info .section{margin-bottom: .5rem; padding: 0 .6rem .6rem; background-color: #fff; color: #666;}
+			.page-list .shop-info .section .title{padding: .6rem .7rem; color: #333; font-weight: 400; font-size: .8rem; line-height: .8rem; position: relative; margin: 0 0; text-align: left; margin: 0 -.7rem;}
+			.page-list .shop-info .section .activity-container{display: flex; line-height: 1;}
+			.page-list .shop-info .section .activity-container:not(:last-child){margin: .4rem 0;}
+			.page-list .shop-info .section .activity-description{flex: 1; -webkit-box-flex: 1; font-size: .5rem; line-height: 1;}
+			.page-list .shop-info .section .activity-icon{font-style: normal; font-size: .4rem; color: #fff; margin-right: .3rem; line-height: 1; display: inline-block; box-sizing: border-box; border: 1px solid; border-radius: .1rem;}
+			.page-list .shop-info .section .swiper-container{height: 6rem; padding-bottom: 0;}
+			.page-list .shop-info .section .swiper-slide img{margin: 0 auto; width: 100%; height: 100%;}
+			.page-list .shop-info .section .detail-list li{display: flex; padding: .4rem .2rem .4rem 0; -webkit-box-pack: justify; justify-content: space-between; margin-right: -.4rem; font-size: .6rem;}
+		/*模板二*/
+			.page-list .detail-menu-content{position: relative; z-index: 10;}
+			.page-list .detail-menu-content .inner-content{background-color: #f6f6f6;}
+			.page-list .detail-menu-content .inner-content .detail-region{margin-top: 10px; color: #2f2f2f; background-color: #fff; font-size: 14px;}
+			.page-list .detail-menu-content .inner-content .detail-region .detail-content{padding-left: 15px;}
+			.page-list .detail-menu-content .detail-phone{position: relative; margin-bottom: -1px; padding: 15px 0;}
+			.page-list .detail-menu-content .detail-phone>i{float: left; width: 15px; height: 15px; margin-top: 1px; } 
+			.page-list .detail-menu-content .call-phone{position: absolute; top: 7px; right: 15px; width: 30px; height: 30px; box-sizing: border-box; line-height: 30px; text-align: center; background-color: #FFD161; border-radius: 50%;}
+			.page-list .detail-menu-content .detail-phone>p{margin: 0 0 0 27px; } 
+			.page-list .detail-menu-content .detail-address{padding: 15px 0;}
+			.page-list .detail-menu-content .detail-address>i{float: left; width: 15px; height: 16px; margin-top: 1px;}
+			.page-list .detail-menu-content .rest-text{float: left; margin-left: 12px;}
+			.page-list .detail-menu-content .detail-address>p{float: left; padding-right: 15px; margin: 0 0 0 3px;}
+</style> 
+
+<div class="page page-list">
+	<header>
+		<a href="javascript:;" class="back"><i class="icon icon-back"></i></a>
+		<h1>最爱妈妈菜</h1>
+		<a href="javascript:;" class="favorfill"><i class="icon icon-favorfill"></i></a>
+		<a href="javascript:;" class="search"><i class="icon icon-search"></i></a>
+	</header>
+	<div class="buttons-tab menu-tabs-fixed">
+		<a href="javascript:;" class="button active">商品</a>
+		<a href="javascript:;" class="button">评价</a>
+		<a href="javascript:;" class="button">商家</a>
+	</div>
+	<div class="content">
+		<!-- 主菜单部分 -->
+		<div class="menu-content" id="menu-content">
+			<!-- 菜单 -->
+			<div class="menu-wrap clearfix">
+				<!-- 左侧分类 -->
+				<div class="aside-wrap" id="aside-wrap">
+					<div class="tag-list">
+						<div class="tag focus border-1px-b">
+							<div class="num">1</div>
+							<div class="tag-inner">
+								<span class="tag-text">美味汉堡/卷</span>
+							</div>
+						</div>
+						<div class="tag border-1px-b">
+							<div class="num">1</div>
+							<div class="tag-inner">
+								<span class="tag-text">美味汉堡/卷</span>
+							</div>
+						</div>
+						<div class="tag border-1px-b">
+							<div class="num">1</div>
+							<div class="tag-inner">
+								<span class="tag-text">K Coffee</span>
+							</div>
+						</div>
+						<div class="tag border-1px-b">
+							<div class="tag-inner">
+								<div class="tag-text">配餐(不接受单点)</div>
+							</div>
+						</div>
+						<div class="tag border-1px-b">
+							<div class="tag-inner">
+								<div class="tag-text">开怀畅饮～不接受单点</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- 右侧菜品 -->
+				<div class="main-wrap" id="mian-wrap">
+					<div class="foodlistwrap">
+						<div class="foodlist border-1px-b">
+							<h3 class="foodlist-label">美味汉堡/卷</h3>
+							<div class="food-item clearfix">
+								<div class="food-pic-wrap">
+									<img src="{WE7_WMALL_TPL_URL}static/img/activity/d045f0a3bdae8341f468930f6c524a62114189.jpg.webp" alt="">
+									<span class="food-soldout">已售罄</span>
+								</div>
+								<div class="food-cont-wrap">
+									<div class="food-cont">
+										<div class="food-name">李先生牛肉面</div>
+										<div class="food-desc">当臻选的育肥牛腹/腩肉约会上等牛棒骨和鸡架骨，来一场3小时的文火浪漫炖，再让肉的酥软鲜香，和面的筋道滑爽，登上舌尖，那感觉，简直不能再惊艳</div>
+										<div class="food-content-sub">
+											<span>月售 537</span>
+											<span class="food-good">赞44</span>
+										</div>
+										<div class="food-price-region">
+											<span class="food-price food-price-gray"><span>¥</span>18</span>
+										</div>
+										<!-- <div class="foodop">
+											<a href="javascript:;" class="add-food"><i class="icon icon-add"></i></a>
+											<span class="food-num">1</span>
+											<a href="javascript:;" class="remove-food"><i class="icon icon-move1"></i></a>
+										</div> -->
+										<!-- <span class="status-desc">非可售时间<i class="icon 
+										icon-question1"></i></span> -->
+										<!-- <div class="muti-btn">
+											选规格
+											<em class="muti-num">1</em>
+										</div> -->
+									</div>
+									<div class="food-activity">
+										<span>
+											<i class="icon icon-tag"></i>
+											2.6折 每单限3份
+										</span>
+									</div>
+								</div>
+							</div>
+							<div class="food-item clearfix">
+								<div class="food-pic-wrap">
+									<img src="{WE7_WMALL_TPL_URL}static/img/activity/d045f0a3bdae8341f468930f6c524a62114189.jpg.webp" alt="">
+									<!-- <span class="food-soldout">已售罄</span> -->
+								</div>
+								<div class="food-cont-wrap">
+									<div class="food-cont">
+										<div class="food-name">李先生牛肉面</div>
+										<!-- <div class="food-desc">当臻选的育肥牛腹/腩肉约会上等牛棒骨和鸡架骨，来一场3小时的文火浪漫炖，再让肉的酥软鲜香，和面的筋道滑爽，登上舌尖，那感觉，简直不能再惊艳</div> -->
+										<div class="food-content-sub">
+											<span>月售 537</span>
+											<span class="food-good">赞44</span>
+										</div>
+										<div class="food-price-region">
+											<span class="food-price "><span>¥</span>18</span>
+										</div>
+										<div class="foodop">
+											<a href="javascript:;" class="add-food"><i class="icon icon-add"></i></a>
+											<span class="food-num">1</span>
+											<a href="javascript:;" class="remove-food"><i class="icon icon-move1"></i></a>
+										</div>
+										<!-- <span class="status-desc">非可售时间<i class="icon 
+										icon-question1"></i></span> -->
+										<!-- <div class="muti-btn">
+											选规格
+											<em class="muti-num">1</em>
+										</div> -->
+									</div>
+									<!-- <div class="food-activity">
+										<span>
+											<i class="icon icon-tag"></i>
+											2.6折 每单限3份
+										</span>
+									</div> -->
+								</div>
+							</div>
+							<div class="food-item clearfix">
+								<div class="food-pic-wrap">
+									<img src="{WE7_WMALL_TPL_URL}static/img/activity/d045f0a3bdae8341f468930f6c524a62114189.jpg.webp" alt="">
+									<!-- <span class="food-soldout">已售罄</span> -->
+								</div>
+								<div class="food-cont-wrap">
+									<div class="food-cont">
+										<div class="food-name">李先生牛肉面</div>
+										<!-- <div class="food-desc">当臻选的育肥牛腹/腩肉约会上等牛棒骨和鸡架骨，来一场3小时的文火浪漫炖，再让肉的酥软鲜香，和面的筋道滑爽，登上舌尖，那感觉，简直不能再惊艳</div> -->
+										<div class="food-content-sub">
+											<span>月售 537</span>
+											<span class="food-good">赞44</span>
+										</div>
+										<div class="food-price-region">
+											<span class="food-price "><span>¥</span>18</span>
+										</div>
+										<!-- <div class="foodop">
+											<a href="javascript:;" class="add-food"><i class="icon icon-add"></i></a>
+											<span class="food-num">1</span>
+											<a href="javascript:;" class="remove-food"><i class="icon icon-move1"></i></a>
+										</div> -->
+										<span class="status-desc">非可售时间<i class="icon 
+										icon-question1"></i></span>
+										<!-- <div class="muti-btn">
+											选规格
+											<em class="muti-num">1</em>
+										</div> -->
+									</div>
+									<!-- <div class="food-activity">
+										<span>
+											<i class="icon icon-tag"></i>
+											2.6折 每单限3份
+										</span>
+									</div> -->
+								</div>
+							</div>
+						</div>
+						<div class="foodlist border-1px-b">
+							<h3 class="foodlist-label">K Coffee</h3>
+							<div class="food-item clearfix">
+								<div class="food-pic-wrap">
+									<img src="{WE7_WMALL_TPL_URL}static/img/activity/d045f0a3bdae8341f468930f6c524a62114189.jpg.webp" alt="">
+									<!-- <span class="food-soldout">已售罄</span> -->
+								</div>
+								<div class="food-cont-wrap">
+									<div class="food-cont">
+										<div class="food-name">李先生牛肉面</div>
+										<!-- <div class="food-desc">当臻选的育肥牛腹/腩肉约会上等牛棒骨和鸡架骨，来一场3小时的文火浪漫炖，再让肉的酥软鲜香，和面的筋道滑爽，登上舌尖，那感觉，简直不能再惊艳</div> -->
+										<div class="food-content-sub">
+											<span>月售 537</span>
+											<span class="food-good">赞44</span>
+										</div>
+										<div class="food-price-region">
+											<span class="food-price"><span>¥</span>18</span>
+										</div>
+										<!-- <div class="foodop">
+											<a href="javascript:;" class="add-food"><i class="icon icon-add"></i></a>
+											<span class="food-num">1</span>
+											<a href="javascript:;" class="remove-food"><i class="icon icon-move1"></i></a>
+										</div> -->
+										<!-- <span class="status-desc">非可售时间<i class="icon 
+										icon-question1"></i></span> -->
+										<div class="muti-btn">
+											选规格
+											<em class="muti-num">1</em>
+										</div>
+									</div>
+									<div class="food-activity">
+										<span>
+											<i class="icon icon-tag"></i>
+											2.6折 每单限3份
+										</span>
+									</div>
+								</div>
+							</div>
+							<div class="food-item clearfix">
+								<div class="food-pic-wrap">
+									<img src="{WE7_WMALL_TPL_URL}static/img/activity/d045f0a3bdae8341f468930f6c524a62114189.jpg.webp" alt="">
+									<!-- <span class="food-soldout">已售罄</span> -->
+								</div>
+								<div class="food-cont-wrap">
+									<div class="food-cont">
+										<div class="food-name">李先生牛肉面</div>
+										<!-- <div class="food-desc">当臻选的育肥牛腹/腩肉约会上等牛棒骨和鸡架骨，来一场3小时的文火浪漫炖，再让肉的酥软鲜香，和面的筋道滑爽，登上舌尖，那感觉，简直不能再惊艳</div> -->
+										<div class="food-content-sub">
+											<span>月售 537</span>
+											<span class="food-good">赞44</span>
+										</div>
+										<div class="food-price-region">
+											<span class="food-price "><span>¥</span>18</span>
+										</div>
+										<div class="foodop">
+											<a href="javascript:;" class="add-food"><i class="icon icon-add"></i></a>
+											<span class="food-num">1</span>
+											<a href="javascript:;" class="remove-food"><i class="icon icon-move1"></i></a>
+										</div>
+										<!-- <span class="status-desc">非可售时间<i class="icon 
+										icon-question1"></i></span> -->
+										<!-- <div class="muti-btn">
+											选规格
+											<em class="muti-num">1</em>
+										</div> -->
+									</div>
+									<!-- <div class="food-activity">
+										<span>
+											<i class="icon icon-tag"></i>
+											2.6折 每单限3份
+										</span>
+									</div> -->
+								</div>
+							</div>
+							<div class="food-item clearfix">
+								<div class="food-pic-wrap">
+									<img src="{WE7_WMALL_TPL_URL}static/img/activity/d045f0a3bdae8341f468930f6c524a62114189.jpg.webp" alt="">
+									<!-- <span class="food-soldout">已售罄</span> -->
+								</div>
+								<div class="food-cont-wrap">
+									<div class="food-cont">
+										<div class="food-name">李先生牛肉面</div>
+										<!-- <div class="food-desc">当臻选的育肥牛腹/腩肉约会上等牛棒骨和鸡架骨，来一场3小时的文火浪漫炖，再让肉的酥软鲜香，和面的筋道滑爽，登上舌尖，那感觉，简直不能再惊艳</div> -->
+										<div class="food-content-sub">
+											<span>月售 537</span>
+											<span class="food-good">赞44</span>
+										</div>
+										<div class="food-price-region">
+											<span class="food-price "><span>¥</span>18</span>
+										</div>
+										<!-- <div class="foodop">
+											<a href="javascript:;" class="add-food"><i class="icon icon-add"></i></a>
+											<span class="food-num">1</span>
+											<a href="javascript:;" class="remove-food"><i class="icon icon-move1"></i></a>
+										</div> -->
+										<span class="status-desc">非可售时间<i class="icon 
+										icon-question1"></i></span>
+										<!-- <div class="muti-btn">
+											选规格
+											<em class="muti-num">1</em>
+										</div> -->
+									</div>
+									<!-- <div class="food-activity">
+										<span>
+											<i class="icon icon-tag"></i>
+											2.6折 每单限3份
+										</span>
+									</div> -->
+								</div>
+							</div>
+						</div>
+						<div class="foodlist border-1px-b">
+							<h3 class="foodlist-label">美味汉堡/卷</h3>
+							<div class="food-item clearfix">
+								<div class="food-pic-wrap">
+									<img src="{WE7_WMALL_TPL_URL}static/img/activity/d045f0a3bdae8341f468930f6c524a62114189.jpg.webp" alt="">
+									<span class="food-soldout">已售罄</span>
+								</div>
+								<div class="food-cont-wrap">
+									<div class="food-cont">
+										<div class="food-name">李先生牛肉面</div>
+										<!-- <div class="food-desc">当臻选的育肥牛腹/腩肉约会上等牛棒骨和鸡架骨，来一场3小时的文火浪漫炖，再让肉的酥软鲜香，和面的筋道滑爽，登上舌尖，那感觉，简直不能再惊艳</div> -->
+										<div class="food-content-sub">
+											<span>月售 537</span>
+											<span class="food-good">赞44</span>
+										</div>
+										<div class="food-price-region">
+											<span class="food-price food-price-gray"><span>¥</span>18</span>
+										</div>
+										<!-- <div class="foodop">
+											<a href="javascript:;" class="add-food"><i class="icon icon-add"></i></a>
+											<span class="food-num">1</span>
+											<a href="javascript:;" class="remove-food"><i class="icon icon-move1"></i></a>
+										</div> -->
+										<!-- <span class="status-desc">非可售时间<i class="icon 
+										icon-question1"></i></span> -->
+										<!-- <div class="muti-btn">
+											选规格
+											<em class="muti-num">1</em>
+										</div> -->
+									</div>
+									<div class="food-activity">
+										<span>
+											<i class="icon icon-tag"></i>
+											2.6折 每单限3份
+										</span>
+									</div>
+								</div>
+							</div>
+							<div class="food-item clearfix">
+								<div class="food-pic-wrap">
+									<img src="{WE7_WMALL_TPL_URL}static/img/activity/d045f0a3bdae8341f468930f6c524a62114189.jpg.webp" alt="">
+									<!-- <span class="food-soldout">已售罄</span> -->
+								</div>
+								<div class="food-cont-wrap">
+									<div class="food-cont">
+										<div class="food-name">李先生牛肉面</div>
+										<!-- <div class="food-desc">当臻选的育肥牛腹/腩肉约会上等牛棒骨和鸡架骨，来一场3小时的文火浪漫炖，再让肉的酥软鲜香，和面的筋道滑爽，登上舌尖，那感觉，简直不能再惊艳</div> -->
+										<div class="food-content-sub">
+											<span>月售 537</span>
+											<span class="food-good">赞44</span>
+										</div>
+										<div class="food-price-region">
+											<span class="food-price"><span>¥</span>18</span>
+										</div>
+										<div class="foodop">
+											<a href="javascript:;" class="add-food"><i class="icon icon-add"></i></a>
+											<span class="food-num">1</span>
+											<a href="javascript:;" class="remove-food"><i class="icon icon-move1"></i></a>
+										</div>
+										<!-- <span class="status-desc">非可售时间<i class="icon 
+										icon-question1"></i></span> -->
+										<!-- <div class="muti-btn">
+											选规格
+											<em class="muti-num">1</em>
+										</div> -->
+									</div>
+									<!-- <div class="food-activity">
+										<span>
+											<i class="icon icon-tag"></i>
+											2.6折 每单限3份
+										</span>
+									</div> -->
+								</div>
+							</div>
+							<div class="food-item clearfix">
+								<div class="food-pic-wrap">
+									<img src="{WE7_WMALL_TPL_URL}static/img/activity/d045f0a3bdae8341f468930f6c524a62114189.jpg.webp" alt="">
+									<!-- <span class="food-soldout">已售罄</span> -->
+								</div>
+								<div class="food-cont-wrap">
+									<div class="food-cont">
+										<div class="food-name">李先生牛肉面</div>
+										<!-- <div class="food-desc">当臻选的育肥牛腹/腩肉约会上等牛棒骨和鸡架骨，来一场3小时的文火浪漫炖，再让肉的酥软鲜香，和面的筋道滑爽，登上舌尖，那感觉，简直不能再惊艳</div> -->
+										<div class="food-content-sub">
+											<span>月售 537</span>
+											<span class="food-good">赞44</span>
+										</div>
+										<div class="food-price-region">
+											<span class="food-price "><span>¥</span>18</span>
+										</div>
+										<!-- <div class="foodop">
+											<a href="javascript:;" class="add-food"><i class="icon icon-add"></i></a>
+											<span class="food-num">1</span>
+											<a href="javascript:;" class="remove-food"><i class="icon icon-move1"></i></a>
+										</div> -->
+										<span class="status-desc">非可售时间<i class="icon 
+										icon-question1"></i></span>
+										<!-- <div class="muti-btn">
+											选规格
+											<em class="muti-num">1</em>
+										</div> -->
+									</div>
+									<!-- <div class="food-activity">
+										<span>
+											<i class="icon icon-tag"></i>
+											2.6折 每单限3份
+										</span>
+									</div> -->
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- 购物车 -->
+			<!-- <div class="mask"></div> -->
+			<div class="cart-wrap">
+				<!-- 购物车详情 -->
+				<!-- <div class="cart-dtl">
+					<div class="cart-dtl-head border-1px-t">
+						<span class="box-fee">餐盒费3元</span>
+						<span class="cart-dusbin"><i class="icon icon-delete2"></i>清空购物车</span>
+					</div>
+					<div class="cart-dtl-list">
+						<div class="cart-dtl-list-inner">
+							<div class="cart-dtl-item border-1px-b">
+								<div class="cart-dtl-item-inner">
+									<div class="cart-goods-name">两素一荤</div>
+									<div class="cart-dtl-oprt">
+										<a href="javascript:;" class="add-food"><i class="icon icon-add"></i></a>
+										<span class="foodop-num">1</span>
+										<a href="javascript:;" class="remove-food"><i class="icon icon-move1"></i></a>
+									</div>
+									<span class="cart-dtl-price">¥12</span>
+								</div>
+								<div class="food-tips">
+									含1份原价商品
+								</div>
+							</div>
+							<div class="cart-dtl-item border-1px-b">
+								<div class="cart-dtl-item-inner">
+									<div class="cart-goods-name">两素一荤</div>
+									<div class="cart-dtl-oprt">
+										<a href="javascript:;" class="add-food"><i class="icon icon-add"></i></a>
+										<span class="foodop-num">1</span>
+										<a href="javascript:;" class="remove-food"><i class="icon icon-move1"></i></a>
+									</div>
+									<span class="cart-dtl-price">¥12</span>
+								</div>
+								<div class="food-tips">
+									含1份原价商品
+								</div>
+							</div>
+							<div class="cart-dtl-item border-1px-b">
+								<div class="cart-dtl-item-inner">
+									<div class="cart-goods-name">两素一荤</div>
+									<div class="cart-dtl-oprt">
+										<a href="javascript:;" class="add-food"><i class="icon icon-add"></i></a>
+										<span class="foodop-num">1</span>
+										<a href="javascript:;" class="remove-food"><i class="icon icon-move1"></i></a>
+									</div>
+									<span class="cart-dtl-price">¥12</span>
+								</div>
+								<div class="food-tips">
+									含1份原价商品
+								</div>
+							</div>
+							<div class="cart-dtl-item border-1px-b">
+								<div class="cart-dtl-item-inner">
+									<div class="cart-goods-name">两素一荤</div>
+									<div class="cart-dtl-oprt">
+										<a href="javascript:;" class="add-food"><i class="icon icon-add"></i></a>
+										<span class="foodop-num">1</span>
+										<a href="javascript:;" class="remove-food"><i class="icon icon-move1"></i></a>
+									</div>
+									<span class="cart-dtl-price">¥12</span>
+								</div>
+								<div class="food-tips">
+									含1份原价商品
+								</div>
+							</div>
+							<div class="cart-dtl-item border-1px-b">
+								<div class="cart-dtl-item-inner">
+									<div class="cart-goods-name">两素一荤</div>
+									<div class="cart-dtl-oprt">
+										<a href="javascript:;" class="add-food"><i class="icon icon-add"></i></a>
+										<span class="foodop-num">1</span>
+										<a href="javascript:;" class="remove-food"><i class="icon icon-move1"></i></a>
+									</div>
+									<span class="cart-dtl-price">¥12</span>
+								</div>
+								<div class="food-tips">
+									含1份原价商品
+								</div>
+							</div>
+							<div class="cart-dtl-item border-1px-b">
+								<div class="cart-dtl-item-inner">
+									<div class="cart-goods-name">两素一荤</div>
+									<div class="cart-dtl-oprt">
+										<a href="javascript:;" class="add-food"><i class="icon icon-add"></i></a>
+										<span class="foodop-num">1</span>
+										<a href="javascript:;" class="remove-food"><i class="icon icon-move1"></i></a>
+									</div>
+									<span class="cart-dtl-price">¥12</span>
+								</div>
+								<div class="food-tips">
+									含1份原价商品
+								</div>
+							</div>
+							<div class="cart-dtl-item border-1px-b">
+								<div class="cart-dtl-item-inner">
+									<div class="cart-goods-name">两素一荤</div>
+									<div class="cart-dtl-oprt">
+										<a href="javascript:;" class="add-food"><i class="icon icon-add"></i></a>
+										<span class="foodop-num">1</span>
+										<a href="javascript:;" class="remove-food"><i class="icon icon-move1"></i></a>
+									</div>
+									<span class="cart-dtl-price">¥12</span>
+								</div>
+								<div class="food-tips">
+									含1份原价商品
+								</div>
+							</div>
+						</div>
+					</div>
+				</div> -->
+				<!-- 购物车栏 -->
+				<div class="cart" id="cart">
+					<!-- 购物车内容 -->
+					<div class="cart-tips">
+						<div class="cart-icon show">
+							<i class="icon icon-cart"></i>
+							<div class="cart-num">1</div>
+						</div>
+						<!-- <div class="cart-empty">购物车空空如也~</div> -->
+						<div class="cart-noempty">
+							<span class="cart-price">¥11</span>
+							<br>
+							<span class="cart-shipping">配送费以订单为准</span>
+						</div>
+					</div>
+					<!-- 购买按钮 -->
+					<div class="cart-btns">
+						<!-- <a href="javascript:;" class="cart-btn-unavail">
+							<span class="inner">¥20起送</span>
+						</a> -->
+						<a href="javascript:;" class="cart-btn-confirm">
+							<span class="inner">去结算</span>
+						</a>
+					</div>
+				</div>
+			</div>
+			<!-- 规格弹框 -->
+			<!-- <div class="muti-dialog">
+				<span class="muti-close"><i class="icon icon-close"></i></span>
+				<div class="muti-wrap">
+					<div class="muti-food-title">羊棒骨</div>
+					<div class="muti-cont">
+						<div class="inner">
+							<div class="muti-sec">
+								<p class="muti-sec-title">辣度:</p>
+								<div class="muti-choice">
+									<span class="selected">中辣</span>
+									<span>麻辣</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="muti-choose">
+						<div class="muti-oprt">
+							<div class="muti-oprt-btn"><i class="icon icon-cart_fill_light"></i>加入购物车</div>
+						</div>
+						<div class="muti-info">
+							<span class="muti-price">¥38</span>
+							<span class="muti-type">(中辣)</span>
+						</div>
+					</div>
+				</div>
+			</div> -->
+		</div>
+		<!-- 评论部分 -->
+		<!-- 模板一 -->
+		<!-- <div class="comment-menu-content">
+			<div class="inner-content">
+				<div class="comment-wrap"> -->
+					<!-- 评分部分 -->
+					<!-- <div class="cmt-detail-info border-1px-b">
+						<div class="left-cell">
+							<div class="detail-info-data">
+								<span>4.7</span>
+							</div>
+							<div class="detail-info-desc">商家评价</div>
+						</div>
+						<div class="middle-cell">
+							<div class="detail-info-stars">
+								<div class="detail-info-desc">口味</div>
+								<div class="appr-status">
+									<div class="stars">
+										<i class='icon icon-favor_light'></i><i class='icon icon-favor_light'></i><i class='icon icon-favor_light'></i><i class='icon icon-favor_light'></i><i class='icon icon-favor_light'></i>
+									</div>
+									<div class="stars-bg">
+										<i class='icon icon-favor_fill_light'></i><i class='icon icon-favor_fill_light'></i><i class='icon icon-favor_fill_light'></i><i class='icon icon-favor_fill_light'></i><i class='icon icon-favor_fill_light'></i>
+									</div>
+								</div>
+								<div class="detail-info-receive">4.7</div>
+							</div>
+							<div class="detail-info-stars">
+								<div class="detail-info-desc">包装</div>
+								<div class="appr-status">
+									<div class="stars">
+										<i class='icon icon-favor_light'></i><i class='icon icon-favor_light'></i><i class='icon icon-favor_light'></i><i class='icon icon-favor_light'></i><i class='icon icon-favor_light'></i>
+									</div>
+									<div class="stars-bg">
+										<i class='icon icon-favor_fill_light'></i><i class='icon icon-favor_fill_light'></i><i class='icon icon-favor_fill_light'></i><i class='icon icon-favor_fill_light'></i><i class='icon icon-favor_fill_light'></i>
+									</div>
+								</div>
+								<div class="detail-info-receive">4.8</div>
+							</div>
+						</div>
+						<div class="right-cell">
+							<div class="detail-info-dvy">5.0</div>
+							<div class="detail-info-desc">配送评分</div>
+						</div>
+					</div> -->
+					<!-- 评价类型部分 -->
+					<!-- <div class="cmt-types">
+						<span class="selected">全部</span>
+						<span>有图评价(378)</span>
+						<span>好评(1127)</span>
+						<span>中评(87)</span>
+						<span class="negative">差评(104)</span>
+					</div> -->
+					<!-- 顾客评论列表 -->
+					<!-- <div class="evaluate-field">
+						<ul class="evaluate-list">
+							<li class="evaluate-item border-1px-b">
+								<div class="evaluate-sub clearfix">
+									<div class="evaluate-sub-left">
+										<img src="{WE7_WMALL_TPL_URL}static/img/activity/3f795061e055a631afac2d201ce00bb732768.jpg.webp" alt="">
+									</div>
+									<div class="evaluate-sub-right">
+										<div class="evaluate-sub clearfix">
+											<span class="evaluate-name">BmB397768613</span>
+											<span class="evaluate-time">2017.08.10</span>
+										</div>
+										<div class="evaluate-stars clearfix">
+											<div class="star-box">
+												<div class="stars">
+													<i class='icon icon-favor_light'></i><i class='icon icon-favor_light'></i><i class='icon icon-favor_light'></i><i class='icon icon-favor_light'></i><i class='icon icon-favor_light'></i>
+												</div>
+												<div class="stars-bg">
+													<i class='icon icon-favor_fill_light'></i><i class='icon icon-favor_fill_light'></i><i class='icon icon-favor_fill_light'></i><i class='icon icon-favor_fill_light'></i><i class='icon icon-favor_fill_light'></i>
+												</div>
+											</div>
+											<span class="evaluate-ship-time">38分钟送达</span>
+										</div>
+										<div class="evaluate-comment clearfix">
+											 真的不咋地。烤肉饭、米是米菜是菜吃到最后米永远是白色的真是出淤泥而不染。能不能给点酱！酱！酱！！！白米饭用叫外卖了？#欧巴烤肉饭##山贼烤肉饭#
+										</div>
+										<div class="evaluate-bottom clearfix">
+											<i class="icon icon-tag"></i>
+											<span class="comment-tag-text">整洁卫生</span>
+											<span class="comment-tag-text">货品保存完好</span>
+											<span class="comment-tag-text">整洁卫生</span>
+											<span class="comment-tag-text">整洁卫生</span>
+											<span class="comment-tag-text">整洁卫生</span>
+											<span class="comment-tag-text">整洁卫生</span>
+											<span class="comment-tag-text">整洁卫生</span>
+										</div>
+										<div class="evaluate-add-comment">商家回复(当天):  抱歉亲~请问您备注了么~？如果备注的话我们的后厨人员会给您按照个性化需求满足您啊~实在抱歉！如果没有备注的话下次可以注明~</div>
+									</div>
+								</div>
+							</li>
+							<li class="evaluate-item border-1px-b">
+								<div class="evaluate-sub clearfix">
+									<div class="evaluate-sub-left">
+										<img src="{WE7_WMALL_TPL_URL}static/img/activity/3f795061e055a631afac2d201ce00bb732768.jpg.webp" alt="">
+									</div>
+									<div class="evaluate-sub-right">
+										<div class="evaluate-sub clearfix">
+											<span class="evaluate-name">BmB397768613</span>
+											<span class="evaluate-time">2017.08.10</span>
+										</div>
+										<div class="evaluate-stars clearfix">
+											<div class="star-box">
+												<div class="stars">
+													<i class='icon icon-favor_light'></i><i class='icon icon-favor_light'></i><i class='icon icon-favor_light'></i><i class='icon icon-favor_light'></i><i class='icon icon-favor_light'></i>
+												</div>
+												<div class="stars-bg">
+													<i class='icon icon-favor_fill_light'></i><i class='icon icon-favor_fill_light'></i><i class='icon icon-favor_fill_light'></i><i class='icon icon-favor_fill_light'></i><i class='icon icon-favor_fill_light'></i>
+												</div>
+											</div>
+											<span class="evaluate-ship-time">38分钟送达</span>
+										</div>
+										<div class="evaluate-comment clearfix">
+											虾不新鲜   第一次见黑的...没咋吃  全倒了... 
+										</div>
+										<div class="evaluate-comment-pics clearfix">
+											<div class="comment-pics" style="background: url({WE7_WMALL_TPL_URL}static/img/activity/3f795061e055a631afac2d201ce00bb732768.jpg.webp) center no-repeat;background-size: cover;"></div>
+										</div>
+										<div class="comment-bottom clearfix">
+											<i class="icon icon-good"></i>
+											<span class="comment-favor-text">秘制牛肉饭(新)</span>
+										</div>
+									</div>
+								</div>
+							</li>
+							<li class="evaluate-item border-1px-b">
+								<div class="evaluate-sub clearfix">
+									<div class="evaluate-sub-left">
+										<img src="{WE7_WMALL_TPL_URL}static/img/activity/3f795061e055a631afac2d201ce00bb732768.jpg.webp" alt="">
+									</div>
+									<div class="evaluate-sub-right">
+										<div class="evaluate-sub clearfix">
+											<span class="evaluate-name">酷酷酷盖</span>
+											<span class="evaluate-time">2017.08.10</span>
+										</div>
+										<div class="evaluate-stars clearfix">
+											<div class="star-box">
+												<div class="stars">
+													<i class='icon icon-favor_light'></i><i class='icon icon-favor_light'></i><i class='icon icon-favor_light'></i><i class='icon icon-favor_light'></i><i class='icon icon-favor_light'></i>
+												</div>
+												<div class="stars-bg">
+													<i class='icon icon-favor_fill_light'></i><i class='icon icon-favor_fill_light'></i><i class='icon icon-favor_fill_light'></i><i class='icon icon-favor_fill_light'></i><i class='icon icon-favor_fill_light'></i>
+												</div>
+											</div>
+											<span class="evaluate-ship-time">38分钟送达</span>
+										</div>
+										<div class="evaluate-comment-pics pic-multi clearfix">
+											<div class="comment-pics" style="background: url({WE7_WMALL_TPL_URL}static/img/activity/3f795061e055a631afac2d201ce00bb732768.jpg.webp) center no-repeat;background-size: cover;"></div>
+											<div class="comment-pics" style="background: url({WE7_WMALL_TPL_URL}static/img/activity/3f795061e055a631afac2d201ce00bb732768.jpg.webp) center no-repeat;background-size: cover;"></div>
+											<div class="comment-pics" style="background: url({WE7_WMALL_TPL_URL}static/img/activity/3f795061e055a631afac2d201ce00bb732768.jpg.webp) center no-repeat;background-size: cover;"></div>
+										</div>
+									</div>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div> -->
+		<!-- 模板二 -->
+		<!-- <div class="comment-menu-content">
+			<div class="overview-container clearfix">
+				<div class="overview-left">
+					<strong>4.6</strong>
+					<div>综合评价</div>
+					<p>高于周边商家55.7%</p>
+				</div>
+				<div class="overview-right">
+					<div class="overview-line">
+						<span>服务态度</span>
+						<span class="overview-line-content">
+							<div class="star-box">
+								<div class="stars">
+									<i class='icon icon-favor_light'></i><i class='icon icon-favor_light'></i><i class='icon icon-favor_light'></i><i class='icon icon-favor_light'></i><i class='icon icon-favor_light'></i>
+								</div>
+								<div class="stars-bg">
+									<i class='icon icon-favor_fill_light'></i><i class='icon icon-favor_fill_light'></i><i class='icon icon-favor_fill_light'></i><i class='icon icon-favor_fill_light'></i><i class='icon icon-favor_fill_light'></i>
+								</div>
+							</div>
+						</span>
+						<span class="overview-line-score">4.5</span>
+					</div>
+					<div class="overview-line">
+						<span>菜品评价</span>
+						<span class="overview-line-content">
+							<div class="star-box">
+								<div class="stars">
+									<i class='icon icon-favor_light'></i><i class='icon icon-favor_light'></i><i class='icon icon-favor_light'></i><i class='icon icon-favor_light'></i><i class='icon icon-favor_light'></i>
+								</div>
+								<div class="stars-bg">
+									<i class='icon icon-favor_fill_light'></i><i class='icon icon-favor_fill_light'></i><i class='icon icon-favor_fill_light'></i><i class='icon icon-favor_fill_light'></i><i class='icon icon-favor_fill_light'></i>
+								</div>
+							</div>
+						</span>
+						<span class="overview-line-score">4.6</span>
+					</div>
+					<div class="overview-line">
+						<span>送达时间</span>
+						<span class="overview-line-min">39分钟</span>
+					</div>
+				</div>
+			</div>
+			<div class="detail">
+				<div class="tag-box border-1px-b">
+					<ul>
+						<li class="tag-item selected">全部(452)</li>
+						<li class="tag-item">满意(400)</li>
+						<li class="tag-item negative">不满意(52)</li>
+						<li class="tag-item">有图(42)</li>
+						<li class="tag-item">味道好(31)</li>
+					</ul>
+				</div>
+				<ul>
+					<li class="index-comment border-1px-b">
+						<div class="comment-block-container">
+							<small class="comment-block-time">2017-08-13</small>
+							<img src="{WE7_WMALL_TPL_URL}static/img/activity/3f795061e055a631afac2d201ce00bb732768.jpg.webp" alt="" class="comment-block-avatar">
+							<div class="comment-block-content">
+								<h3 class="comment-block-username">匿名用户</h3>
+								<div class="star-box">
+									<div class="stars">
+										<i class='icon icon-favor_light'></i><i class='icon icon-favor_light'></i><i class='icon icon-favor_light'></i><i class='icon icon-favor_light'></i><i class='icon icon-favor_light'></i>
+									</div>
+									<div class="stars-bg">
+										<i class='icon icon-favor_fill_light'></i><i class='icon icon-favor_fill_light'></i><i class='icon icon-favor_fill_light'></i><i class='icon icon-favor_fill_light'></i><i class='icon icon-favor_fill_light'></i>
+									</div>
+								</div>
+								<div>
+									<ul class="comment-block-foods">
+										<li>夹肉饼</li>
+										<li>青岛啤酒</li>
+										<li>热干面-微辣</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</li>
+					<li class="index-comment border-1px-b">
+						<div class="comment-block-container">
+							<small class="comment-block-time">2017-08-13</small>
+							<img src="{WE7_WMALL_TPL_URL}static/img/activity/3f795061e055a631afac2d201ce00bb732768.jpg.webp" alt="" class="comment-block-avatar">
+							<div class="comment-block-content">
+								<h3 class="comment-block-username">匿名用户</h3>
+								<div class="star-box">
+									<div class="stars">
+										<i class='icon icon-favor_light'></i><i class='icon icon-favor_light'></i><i class='icon icon-favor_light'></i><i class='icon icon-favor_light'></i><i class='icon icon-favor_light'></i>
+									</div>
+									<div class="stars-bg">
+										<i class='icon icon-favor_fill_light'></i><i class='icon icon-favor_fill_light'></i><i class='icon icon-favor_fill_light'></i><i class='icon icon-favor_fill_light'></i><i class='icon icon-favor_fill_light'></i>
+									</div>
+								</div>
+								<ul class="comment-block-photos">
+									<li>
+										<img src="{WE7_WMALL_TPL_URL}static/img/activity/3f795061e055a631afac2d201ce00bb732768.jpg.webp" alt="">
+									</li>
+									<li>
+										<img src="{WE7_WMALL_TPL_URL}static/img/activity/3f795061e055a631afac2d201ce00bb732768.jpg.webp" alt="">
+									</li>
+									<li>
+										<img src="{WE7_WMALL_TPL_URL}static/img/activity/3f795061e055a631afac2d201ce00bb732768.jpg.webp" alt="">
+									</li>
+								</ul>
+								<div class="comment-block-reply">
+									商家回复：不以风骚惊天下，就以美味动世人
+								</div>
+								<div>
+									<ul class="comment-block-foods">
+										<li>夹肉饼</li>
+										<li>青岛啤酒</li>
+										<li>热干面-微辣</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</li>
+					<li class="index-comment border-1px-b">
+						<div class="comment-block-container">
+							<small class="comment-block-time">2017-08-13</small>
+							<img src="{WE7_WMALL_TPL_URL}static/img/activity/3f795061e055a631afac2d201ce00bb732768.jpg.webp" alt="" class="comment-block-avatar">
+							<div class="comment-block-content">
+								<h3 class="comment-block-username">匿名用户</h3>
+								<div class="star-box">
+									<div class="stars">
+										<i class='icon icon-favor_light'></i><i class='icon icon-favor_light'></i><i class='icon icon-favor_light'></i><i class='icon icon-favor_light'></i><i class='icon icon-favor_light'></i>
+									</div>
+									<div class="stars-bg">
+										<i class='icon icon-favor_fill_light'></i><i class='icon icon-favor_fill_light'></i><i class='icon icon-favor_fill_light'></i><i class='icon icon-favor_fill_light'></i><i class='icon icon-favor_fill_light'></i>
+									</div>
+								</div>
+								<ul class="comment-block-photos">
+									<li>
+										<img src="{WE7_WMALL_TPL_URL}static/img/activity/3f795061e055a631afac2d201ce00bb732768.jpg.webp" alt="">
+									</li>
+								</ul>
+								<div class="comment-block-reply">
+									商家回复：不以风骚惊天下，就以美味动世人
+								</div>
+								<div>
+									<ul class="comment-block-foods">
+										<li>夹肉饼</li>
+										<li>青岛啤酒</li>
+										<li>热干面-微辣</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div> -->
+		<!-- 店铺 -->
+		<!-- 模板一 -->
+		<!-- <div class="shop-info">
+			<div class="section">
+				<h3 class="title">活动与属性</h3>
+				<div>
+					<div class="activity-container">
+						<i class="activity-icon" style="background-color: rgb(112, 188, 70); border-color: rgb(112, 188, 70);">新</i>
+						<span class="activity-description">
+							<span>新用户下单立减17.0元(不与其它活动同享)</span>
+						</span>
+					</div>
+					<div class="activity-container">
+						<i class="activity-icon" style="background-color: rgb(240, 155, 155); border-color: rgb(240, 155, 155);">减</i>
+						<span class="activity-description">
+							<span>满30减15，满50减25，满80减40</span>
+						</span>
+					</div>
+				</div>
+			</div>
+			<div class="section">
+				<h3 class="title">商家实景</h3>
+				<div class="swiper-container swiper-container-horizontal" data-space-between="30" data-pagination=".swiper-pagination" data-autoplay="4000">
+					<div class="swiper-wrapper">
+						<div class="swiper-slide">
+							<a href="javascript:;">
+								<img src="{WE7_WMALL_TPL_URL}static/img/activity/3f795061e055a631afac2d201ce00bb732768.jpg.webp" alt="">
+							</a>
+						</div>
+						<div class="swiper-slide">
+							<a href="javascript:;">
+								<img src="{WE7_WMALL_TPL_URL}static/img/activity/3f795061e055a631afac2d201ce00bb732768.jpg.webp" alt="">
+							</a>
+						</div>
+					</div>
+					<div class="swiper-pagination swiper-pagination-bullets"></div>
+				</div>
+			</div>
+			<div class="section">
+				<h3 class="title">商家信息</h3>
+				<ul class="detail-list">
+					<li>晋中德克士君豪店，欢迎光临！</li>
+					<li class="border-1px-t">地址：山西省晋中市榆次区东顺城街君豪国际商城一层</li>
+					<li class="border-1px-t">营业时间：09:00-22:00</li>
+				</ul>
+			</div>
+		</div> -->
+		<!-- 模板二 -->
+		<div class="detail-menu-content">
+			<div class="inner-content">
+				<div class="detail-wrap">
+					<div class="detail-region">
+						<div class="detail-content">
+							<div class="detail-phone border-1px-b">
+								<i class="icon icon-telephone"></i>
+								<span class="call-phone">
+									<i class="icon icon-telephone"></i>
+								</span>
+								<p>15333619728</p>
+							</div>
+							<div class="detail-address">
+								<i class="icon icon-location"></i>
+								<span class="rest-text">商家地址:</span>
+								<p>五一路94号（豪客来对面）</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	$(function(){
+		var windowHeight = $(window).height();
+		var windowHeaderHeight = $('header').height();
+		var windowButtonsHeight = $('.button').height();
+		var windowCartHeight = $('.cart').height();
+		var maxContentHeight = windowHeight - windowHeaderHeight - windowButtonsHeight - windowCartHeight - 51;
+		$('#menu-content').height(maxContentHeight);
+
+	})
+</script>
+{itemplate 'public/footer'}

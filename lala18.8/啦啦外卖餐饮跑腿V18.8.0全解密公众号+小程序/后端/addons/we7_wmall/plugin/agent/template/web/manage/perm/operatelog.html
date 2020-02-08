@@ -1,0 +1,222 @@
+{itemplate 'public/header'}
+{if $op == 'list'}
+<form action="./index.php" class="form-horizontal form-filter">
+	{php echo tpl_form_filter_hidden('perm/operatelog/list');}
+	<input type="hidden" name="days" value="{$days}"/>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">操作人类型</label>
+		<div class="col-sm-9 col-xs-12">
+			<div class="btn-group">
+				<div class="btn-group">
+					<a href="{php echo ifilter_url('role:');}" class="btn {if !$_GPC['role']}btn-primary{else}btn-default{/if}">不限</a>
+					{if $_W['role'] == 'founder'}
+						<a href="{php echo ifilter_url('role:founder');}" class="btn {if $_GPC['role'] == 'founder'}btn-primary{else}btn-default{/if}">创始人</a>
+					{/if}
+					<a href="{php echo ifilter_url('role:manager');}" class="btn {if $_GPC['role'] == 'manager'}btn-primary{else}btn-default{/if}">管理员</a>
+					<a href="{php echo ifilter_url('role:agenter');}" class="btn {if $_GPC['role'] == 'agenter'}btn-primary{else}btn-default{/if}">代理</a>
+					<a href="{php echo ifilter_url('role:clerker');}" class="btn {if $_GPC['role'] == 'clerker'}btn-primary{else}btn-default{/if}">商户</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">操作时间</label>
+		<div class="col-sm-9 col-xs-12 js-daterange" data-form="#form1">
+			<div class="btn-group">
+				<a href="{php echo ifilter_url('days:-2');}" class="btn {if $days == -2}btn-primary{else}btn-default{/if}">不限</a>
+				<a href="{php echo ifilter_url('days:7');}" class="btn {if $days == 7}btn-primary{else}btn-default{/if}">近一周</a>
+				<a href="{php echo ifilter_url('days:30');}" class="btn {if $days == 30}btn-primary{else}btn-default{/if}">近一月</a>
+				<a href="{php echo ifilter_url('days:90');}" class="btn {if $days == 90}btn-primary{else}btn-default{/if}">近三月</a>
+				<a href="javascript:;" class="btn js-btn-custom {if $days == -1}btn-primary{else}btn-default{/if}">自定义</a>
+			</div>
+			<span class="js-btn-daterange {if $days != -1}hide{/if}">
+				{php echo tpl_form_field_daterange('addtime', array('start' => date('Y-m-d H:i', $starttime), 'end' => date('Y-m-d H:i', $endtime)), true);}
+			</span>
+		</div>
+	</div>
+	<div class="form-group form-inline">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">其他</label>
+		<div class="col-sm-9 col-xs-12">
+			<select name="type" class="select2 form-control width-130">
+				<option value="">选择操作类型</option>
+				{loop $logs_all_type $logs_type}
+					<option value="{$logs_type['key']}" {if $_GPC['type'] == $logs_type['key']}selected{/if}>{$logs_type['type']}</option>
+				{/loop}
+			</select>
+			<input type="text" name="keyword" value="{$_GPC['keyword']}" class="form-control" placeholder="请输入操作人姓名">
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+		<div class="col-sm-4 col-xs-4">
+			<input type="submit" value="筛选" class="btn btn-primary">
+		</div>
+	</div>
+</form>
+
+<form action="" class="form-table form" method="post">
+	<div class="panel panel-table">
+		<div class="panel-body table-responsive js-table">
+			{if empty($logs)}
+				<div class="no-result">还没有相关数据</div>
+			{else}
+				<table class="table table-hover">
+					<thead class="navbar-inner">
+					<tr>
+						<th>操作人</th>
+						<th>操作编号</th>
+						<th>操作类型</th>
+						<th>操作详情</th>
+						<th>IP</th>
+						<th>操作时间</th>
+					</tr>
+					</thead>
+					<tbody>
+						{loop $logs $log}
+							<tr>
+								<td>{$log['username']}</td>
+								<td>{$log['type']}</td>
+								<td>{$log['type_cn']}</td>
+								<td>{$log['content']}</td>
+								<td>{$log['ip']}</td>
+								<td>{$log['addtime_cn']}</td>
+							</tr>
+						{/loop}
+					</tbody>
+				</table>
+				<div class="btn-region clearfix">
+					<div class="pull-right">
+						{$pager}
+					</div>
+				</div>
+			{/if}
+		</div>
+	</div>
+</form>
+{/if}
+
+{if $op == 'post'}
+<div class="page clearfix system-perm">
+	<form class="form-horizontal form form-validate" id="form1" action="" method="post" enctype="multipart/form-data">
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">操作员用户名</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="text" name="username" value="{$log['username']}" {if $id > 0}readonly{/if} class="form-control" required="true"/>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">操作员密码</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="password" name="password" value="" class="form-control" {if empty($_GPC['id'])}required="true"{/if}/>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">所属角色</label>
+			<div class="col-sm-9 col-xs-12">
+				<select name="roleid" id="roleid" class="form-control">
+					<option value="0">选择角色</option>
+					{loop $roles $role}
+						<option value="{$role['id']}" {if $role['id'] == $log['roleid']}selected{/if}>{$role['rolename']}</option>
+					{/loop}
+				</select>
+				<div class="help-block">如果您选择了角色，则此用户本身就继承了此角色的所有权限</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">姓名</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" class="form-control" name="realname" value="{$log['realname']}">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">电话</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" class="form-control" name="mobile" value="{$log['mobile']}">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">状态</label>
+					<div class="col-sm-9 col-xs-12">
+						<div class="radio radio-inline">
+							<input type="radio" value="1" name="status" id="status-1" {if $log['status'] == 1}checked{/if}>
+							<label for="status-1">启用</label>
+						</div>
+						<div class="radio radio-inline">
+							<input type="radio" value="0" name="status" id="status-0" {if $log['status'] == 0}checked{/if}>
+							<label for="status-0">禁用</label>
+						</div>
+						<div class="help-block">用户可以在此角色权限的基础上附加其他权限</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">权限</label>
+			<div class="col-sm-9 col-xs-12 perm-container">
+				{loop $all_perms $group $all}
+					<div class="category-perm">
+						<div class="heading">
+							<div class="checkbox checkbox-inline">
+								<input type="checkbox" name="perms[]" value="{$group}" id="{$group}" class="perm-all-item" data-group="{$group}" {if in_array($group, $roles[$log['roleid']]['perms']) || in_array($group, $log['perms'])}checked{/if} {if in_array($group, $roles[$log['roleid']]['perms'])}disabled{/if}>
+								<label for="{$group}">{$all['title']}</label>
+							</div>
+						</div>
+						<div class="perm-list">
+							{loop $all['perms'] $key $perm}
+								<div class="checkbox checkbox-inline">
+									<input type="checkbox" name="perms[]" value="{$key}" id="{$key}" class="perm-item" data-group="{$group}" {if in_array($key, $roles[$log['roleid']]['perms']) || in_array($key, $log['perms'])}checked{/if} {if in_array($key, $roles[$log['roleid']]['perms'])}disabled{/if}>
+									<label for="{$key}">{$perm}</label>
+								</div>
+							{/loop}
+						</div>
+					</div>
+				{/loop}
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-9 col-xs-12">
+				<input type="hidden" name="token" value="{$_W['token']}">
+				<input type="submit" value="提交" class="btn btn-primary">
+			</div>
+		</div>
+	</form>
+</div>
+{/if}
+<script>
+	$(function() {
+		var roles = {php echo json_encode($roles)};
+		$('#roleid').change(function() {
+			var id = $(this).val();
+			var perm = '';
+			if(id > 0) {
+				perm = roles[id]['perms'];
+			}
+			$(':checkbox').removeAttr('disabled').removeAttr('checked').each(function() {
+				var key = $(this).val();
+				if(perm != '' && perm.indexOf(key) != -1) {
+					$(this).attr('disabled',true);
+					$(this).prop('checked', 'checked');
+				}
+			});
+		});
+
+		$(document).on('click', '.perm-all-item', function() {
+			var group = $(this).data('group');
+			if($(this).prop('checked')) {
+				$(".perm-item[data-group='" + group + "'],.perm-all-item[data-group='" + group + "']").prop('checked', 'checked');
+			} else {
+				$(".perm-item[data-group='" + group + "'],.perm-all-item[data-group='" + group + "']").removeProp('checked');
+			}
+		});
+
+		$(document).on('click', '.perm-item', function() {
+			var group = $(this).data('group');
+			var length = $(".perm-item[data-group='" + group + "']:checked").size();
+			if(length > 0) {
+				$(".perm-all-item[data-group='" + group + "']").prop('checked', 'checked');
+			} else {
+				$(".perm-all-item[data-group='" + group + "']").removeProp('checked');
+			}
+		});
+	})
+</script>
+
+{itemplate 'public/footer'}

@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>商品库管理后台</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<link rel="stylesheet" type="text/css" href="<{$siteurl}>/templates/<{$tempdir}>/public/shopcenter/css/commom.css" />
+<link rel="stylesheet" type="text/css" href="<{$siteurl}>/templates/<{$tempdir}>/public/shopcenter/css/main.css" />
+<link rel="stylesheet" type="text/css" href="<{$siteurl}>/templates/<{$tempdir}>/public/shopcenter/css/shangjiaAdmin.css" />
+
+<link rel="stylesheet" type="text/css" href="<{$siteurl}>/templates/<{$tempdir}>/public/sysimg/css.css" />
+<link rel="stylesheet" type="text/css" href="<{$siteurl}>/templates/<{$tempdir}>/public/js/jquery.lightbox.css" /> 
+ 
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/jquery.js" type="text/javascript" language="javascript"></script>
+</head>
+
+<BODY>
+
+	<div style="position: fixed;top: 0;left: 0;right: 0;bottom: 0;z-index: -1;background:url(<{$siteurl}>/templates/<{$tempdir}>/public/shopcenter/images/background.png); background-size:cover;"></div>
+<!---header start--->
+<div class="header" style=" height:50px;">
+  <div class="top" style=" height:50px;">
+      <div class="topLeft fl">
+            	<ul style="padding:0px;">
+                 <li style="width:80px;padding:0px;margin:0px;height:50px;list-style: none; line-height:50px;"><a href="/index.php?ctrl=adminpage&action=shop&module=goodslibrary">商品管理</a></li>
+                 <li style="width:80px;padding:0px;margin:0px;height:50px;list-style: none;  line-height:50px;"><a  href="/index.php?ctrl=adminpage&action=shop&module=swfupload">上传图库</a></li>
+                 <li style="width:80px;padding:0px;margin:0px;height:50px;list-style: none;  line-height:50px;"><a  style="color: #27A9E3;  font-size: 16px;  font-weight: bold;"  href="<{ofunc type=url link="/adminpage/shop/module/showimglist"}>">图库预览</a></li>
+                </ul>
+                 <div class="cl"></div>
+            </div>
+   
+    <div class="topRight fr">  <span style=" height:50px; line-height:50px;cursor: pointer;" class="username" onclick="openlink('<{ofunc type=url link="/adminpage"}>');">返回后台管理<img src="<{$siteurl}>/templates/<{$tempdir}>/public/shopcenter/images/usernameBg.png" /></span> </div>
+    <div class="cl"></div>
+    <div class="shangjiaTop" style=" top:-22px; margin-left:-150px;">
+      <div class="sjglaa" style=" width: 228px;  height: 70px; background: rgba(0, 0, 0, 0) url(<{$siteurl}>/templates/<{$tempdir}>/public/shopcenter/images/goodslibtopbg.png) no-repeat scroll 0 0;"> </div>
+    </div>
+  </div>
+</div>
+
+<!---header end---> 
+
+<div class="content" style="margin-bottom:50px;">
+	
+	
+	
+  <!---content right start---> 
+        <div class="conWaiSet fr">
+ <div class="shopSetTop" style="">
+              <A href="<{ofunc type=url link="/adminpage/shop/module/showimglist"}>">	<span style="color: #000;  font-weight: bold;">普通模式</span></A>
+            <A href="<{ofunc type=url link="/adminpage/shop/module/hshowimglist/page/<{$page}>"}>">	<span>幻灯模式</span></A>
+            </div>
+
+	<DIV id=content style="background: url(<{$siteurl}>/templates/<{$tempdir}>/public/shopcenter/images/fenleiBg.png) repeat; padding:20px 40px;width:930px;">
+       
+	   <div id="showimg">
+	   <ul>
+	 <{foreach from=$imglist item=items}>
+				 <li>
+					<a rel="lightbox" href="<{$imgserver}><{$items['imageurl']}>" target="_blank"><img class="imgclass"  <{ofunc  type=img link="<{$items['imageurl']}>" }> border="0" width="100" height="80"></a>
+					<br /><span imglujing="<{$items['imageurl']}>" class="delkuimg">删除</span>
+				 </li>
+				 
+				 
+		
+		 <{/foreach}> 
+		
+		</ul></div>
+	   <{$pagecontent}>
+	   
+	   
+	   
+	  
+	</DIV>
+
+                
+        </div>
+        <div class="cl"></div>
+        
+        
+       
+        
+        
+        <!---content right end---> 
+ 
+ 
+ </div>
+<style>
+.delkuimg{ cursor: pointer;}
+</style>
+ <script>
+ function openlink(newlinkes){
+    window.location.href=newlinkes;
+}
+
+
+$('.delkuimg').click(function(){
+	var lujing = $(this).attr('imglujing');
+	
+		var url = '/index.php?ctrl=adminpage&action=shop&module=delkuimg&datatype=json';
+		
+		$.ajax({         //script定义
+             url: url,
+			   type: 'post',
+            dataType: "json",
+            async:true,
+            data:{'imglujing':lujing},
+            success:function(content) { 
+			
+             if(content.error == true){ 
+                
+	              alert(content.msg);
+             }else{
+				window.location.reload();
+	         
+             }
+            },
+            error:function(){
+            
+            	alert('数据提交失败');
+            }
+   }); 
+
+
+	   }); 
+ </script>
+ 
+</BODY></html>

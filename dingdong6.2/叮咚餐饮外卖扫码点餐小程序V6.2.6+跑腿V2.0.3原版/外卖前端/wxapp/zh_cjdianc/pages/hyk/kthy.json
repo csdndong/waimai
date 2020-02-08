@@ -1,0 +1,6 @@
+{
+    "navigationBarTitleText": "购买会员",
+    "usingComponents": {
+        "cardlist": "/zh_cjdianc/dist/cardlist/index"
+    }
+}

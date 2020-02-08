@@ -1,0 +1,211 @@
+ <{extends file="<{$tempdir}>/public/wxsite.html"}>  
+<{block name=extendcss}>  
+ <{/block}>
+ <{block name=myScrolljs}>
+<script> 
+var scroll1, scroll2;
+function loaded() { 
+	scroll1 = new iScroll('wrapper',{
+		useTransform: false,
+		onBeforeScrollStart: function (e) {
+			var target = e.target;
+			while (target.nodeType != 1) target = target.parentNode;
+
+			if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA'){
+				e.preventDefault();
+				}
+		}
+	});   
+ }
+
+//document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
+document.addEventListener('DOMContentLoaded', function () { setTimeout(loaded, 200); }, false);
+</script>
+<style>
+.toptitBox .toptitL1 {
+    height: 22px;
+    display: inline-block;
+    width: 3.625%;
+    float: left;
+    margin-top: 5px;
+}
+.toptitBox .toptitL1 i {
+    display: inline-block;
+    width: 100%;
+    height: 22px;
+    background-image: url(/templates/m7/public/wxsite/images/top04.png);
+    background-repeat: no-repeat;
+    background-size: 75%;
+}
+
+</style>
+<script>
+   $(function(){
+	   $('.toptitBox .toptitL1').bind("click", function() {
+		   var fanhui = $('#fanhui').val();	   
+		   if( fanhui == 1){
+				$('.toptitC h3').text('账户信息');
+				$('#shopxieyi').hide();
+				$('.closexieyi').hide();
+				$('.yincang').show();
+				$('#fanhui').val(0);
+		   }else{
+			   history.back();
+		   }  
+	   });
+   })  
+</script>
+  
+<script>
+
+function nextSub(){
+	     if($('.is_click').is(':checked')) {	 
+		}else{
+		    Tmsg('请先阅读并勾选同意商家入驻协议');
+			return false;		
+		}
+		
+		 showLoading();
+		 
+		url = siteurl+'/index.php?ctrl=wxsite&action=saveshop&datatype=json&random=@random@';
+     	  url = url.replace('@random@', 1+Math.round(Math.random()*1000));
+        $.ajax({         //script定义
+                 url: url.replace('@random@', 1+Math.round(Math.random()*1000)),
+                 dataType: "json",
+                 async:true,
+                 data:{'maphone':'<{$shopphone}>','shopname':'<{$shopname}>','shopaddress':'<{$shopaddress}>','shoptype':'<{$shoptype}>','cityid':'<{$cityid}>','shoplicense':'<{$shoplicense}>','username':$("#username").val(),
+				 'password':$("#pwd").val(),'password2':$("#repwd").val(),'subtype':2,'laiyuan':1},
+                 success:function(content) { 
+                 	if(content.error ==  false){
+					
+							newhideLoading();
+							Tmsg('提交成功，请等待管理员审核');
+							 
+								 window.location.href=  siteurl+'/index.php?ctrl=wxsite&action=shangjiaresult&shopid='+content.msg ;
+						 
+                 	}else{
+						newhideLoading();
+                 		Tmsg(content.msg);
+                 	}               
+                 },
+                 error:function(){
+                 newhideLoading();
+                 }
+        });  
+}
+
+
+function  sjruzhu(){
+	
+		   showLoading();
+		 
+		url = siteurl+'/index.php?ctrl=wxsite&action=saveshangjia&datatype=json&random=@random@';
+     	  url = url.replace('@random@', 1+Math.round(Math.random()*1000));
+        $.ajax({         //script定义
+                 url: url.replace('@random@', 1+Math.round(Math.random()*1000)),
+                 dataType: "json",
+                 async:true,
+                 data:{'username':$("#username").val(),'mobile':$("#mobile").val(),'qq':$('#qq').val(),'resname':$('#resname').val(),'addr':$('#addr').val(),'Captcha':$('#Captcha').val(),'regagree':$('#regagree').val()},
+                 success:function(content) { 
+                 	if(content.error ==  false){
+					
+							newhideLoading();
+							Tmsg('提交成功，请等待管理员审核');
+							$('.closegb').live("click", function() {   
+								 $('.popup').slideToggle('slow',function(){$('#mask').remove();$('.popup').remove();}); 
+								 window.location.href=  siteurl+'/index.php?ctrl=wxsite&action=shopSettled' ;
+								 
+							});
+							
+						
+							
+                 	}else{
+						newhideLoading();
+                 		Tmsg(content.msg);
+                 	}                 
+                 },
+                 error:function(){
+                  newhideLoading();
+                 }
+        }); 
+}
+</script>
+<{/block}>
+<{block name=hearnav}>
+<div class="toptitCon">
+ <div class="toptitBox">
+  <div class="toptitL1"><i></i></div>
+  <div class="toptitC"><h3>账户信息</h3></div>
+   <span class="closexieyi"style="color:#fff;float:right;font-size:12px">关闭</span>
+ </div>
+</div>
+<{/block}>
+<{block name=sitetitle}>账户信息<{/block}>
+ <{block name=blockcontent}>   
+ <div id="wrapper" style="top:40px;">
+	<div id="scroller">
+	
+<div class="yincang">	
+<!--------信息进度-------->
+<div class="processCon">
+ <i class="pro_02"></i>
+ <span class="proaL">商家资料</span>
+ <span class="proaC proaA" style="color:#fff!important;">账户信息</span>
+ <span class="proaR">网站审核</span>
+</div>
+ 
+<input type='hidden' name='fanhui' id='fanhui' value='0'>
+<!--------填写信息-------->
+<div class="mesefillinfo">
+ <ul>
+  <li><span>登录帐号：</span><input type="text" id="username" value="" placeholder="请输入登录账号"></li>
+  <li><span>登录密码：</span><input type="password"  id="pwd" value="" placeholder="请输入登录密码"></li>
+  <li><span>确认密码：</span><input type="password"  id="repwd" value="" placeholder="请确认密码"></li>
+ </ul>
+</div>
+<!--------入驻协议-------->
+<div  style="margin:20px 0 10px 15px;"><label style='font-size:13px'><input type="checkbox" class="is_click" >  我已阅读并同意</label><span class="openxieyi" style="color:#f00;font-size:13px">《商家入驻协议》</span></div>
+
+<!--------确认支付-------->
+<div class="mesedete" style="margin-top:20px; margin-bottom:20px;"><input type="button" onclick="nextSub();" value="提交申请"></div>
+</div>		
+<div style="background-color:#fff;">
+	<div id="shopxieyi" style="margin:0 10px;" >
+		<{if empty($xieyiinfo['content'])}>暂无商家协议<{else}><{$xieyiinfo['content']}><{/if}>
+	</div>
+</div>	
+	
+  </div>
+</div> 
+<script>
+	$(function(){
+		
+        $('#shopxieyi').hide();
+		$('.closexieyi').hide();
+		//$('.mesedete input').css('background-color','#c0c0c0');
+		 
+		$('.openxieyi').bind('click',function(){
+			$('.toptitC h3').text('商家入驻协议');
+			$('#shopxieyi').show();
+			$('.closexieyi').show();
+			$('#fanhui').val(1);
+			$('.yincang').hide();
+			scroll1.refresh();
+		});
+		$('.closexieyi').bind('click',function(){
+			$('.toptitC h3').text('账户信息');
+			$('#shopxieyi').hide();
+			$('.closexieyi').hide();
+			$('#fanhui').val(0);
+			$('.yincang').show();
+		});
+		
+		
+	});
+
+
+</script>
+
+
+ 
+<{/block}>

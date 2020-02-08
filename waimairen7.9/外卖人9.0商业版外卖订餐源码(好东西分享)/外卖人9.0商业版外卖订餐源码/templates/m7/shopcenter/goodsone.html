@@ -1,0 +1,658 @@
+<html xmlns="http://www.w3.org/1999/xhtml"><head> 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+<meta http-equiv="Content-Language" content="zh-CN"> 
+<meta content="all" name="robots"> 
+<meta name="description" content=""> 
+<meta content="" name="keywords"> 
+<title></title>  
+<link rel="stylesheet" type="text/css" href="<{$siteurl}>/templates/<{$tempdir}>/public/css/ajaxdialog.css" />
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/jquerynew.js" type="text/javascript" language="javascript"></script>   
+<script src="<{$siteurl}>/js/kindeditor/kindeditor.js" type="text/javascript" language="javascript"></script>
+ <script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/ajaxfileupload.js"> </script>
+ 
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/artDialog.js?skin=blue"></script>
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/datepicker/WdatePicker.js" type="text/javascript" language="javascript"></script>
+
+</head>
+<body >
+	<div class="content">
+	<style>
+	.inputtext{ width:870px;}
+	</style>
+	<script>
+		var submithtml = '<{ofunc type=url link="/shopcenter/savesellcounts/datatype/json/random/@random@"}>';
+	
+	$(function(){
+		$("#savesellcounts").click(function(){
+	//		myajax('<{ofunc type=url link="/shop/savesellcounts/datatype/json"}>',{'savesellcounts':$("#zxscounts").val() });
+			
+		url = submithtml.replace('@random@', 1+Math.round(Math.random()*1000));
+	  
+		
+   $.ajax({         //script定义
+             url: url.replace('@random@', 1+Math.round(Math.random()*1000)),
+            dataType: "json",
+            async:true,
+			type:'post',
+            data:{'savesellcounts':$('#zxscounts').val(),'goodid':$('#zxscounts').attr('goodid')},
+            success:function(content) { 
+			
+		
+             if(content.error == true){ 
+        
+	              alert(content.msg);
+             }else{
+              alert("操作成功！");
+	             
+             }
+            },
+            error:function(){
+            
+            	alert('数据提交失败');
+            }
+   });     
+
+			
+			
+		});
+		
+
+	});
+	</script>
+		<form id="kloginForm" method="post" action="<{ofunc type=url link="/shopcenter/savegoodsall"}>" >
+		 <div class="goodsbase">
+		    <div class="baseinfo">基本信息：</div>	
+		    <div class="basetext"> 
+				<p style='overflow: hidden;text-overflow: ellipsis;white-space: nowrap;'>名称：<{$goodsinfo['name']}></p>
+				<p>单价：<{$goodsinfo['cost']}></p>
+				<p>打包费：<{$goodsinfo['bagcost']}></p>
+				<p>库存：<{$goodsinfo['count']}></p>
+			
+			</div> 
+		    <div class="imgdiv">
+		    	
+		    	
+		    	
+		    	
+		    </div>
+		 </div>
+		 <div class="hangtiao clr" style="height: auto;">
+		    <div class="labeltext getheight">商品单位：</div>	
+		    <div class="inputtext" id="autoheight" style="height: auto;margin-bottom: 1px;">
+		    	<div class="showdiv">
+					<{if !empty($goodsattr)}>
+                    	<{$list = $goodsattr|unserialize}>
+                       <{foreach from=$list key=myid item=items}>	 
+                       <{if !empty($items)}>
+		    	   <input type="radio" name="goodattr"    value="<{$items}>"  <{if $goodsinfo['goodattr']==$items}>checked<{/if}>><{$items}> 
+				     <{/if}>
+                    <{/foreach}>  
+                    <{/if}>
+		    	  
+		    	</div>
+		    </div> 
+		 </div>
+		 <script>
+			$(function(){
+				var height = document.getElementById("autoheight").offsetHeight;
+				$('.getheight').css('height',height);
+				$('.getheight').css('line-height',height+'px');
+			});
+		 </script>
+		 <div class="hangtiao clr">
+		    <div class="labeltext">是否设置规格：</div>	
+		    <div class="inputtext">
+		    	<div class="showdiv">
+		    	   <input type="radio" name="have_det"    value="0"   checked >不包含 
+		    	   <input type="radio" name="have_det"    value="1"  <{if $goodsinfo['have_det']==1}>checked<{/if}>>包含规格   
+		    	</div>
+		    </div> 
+		 </div>
+		 <input type="hidden" name="fggids" value="">
+		 <div id="gg_base_list">
+		     <table style="width:100%;">
+			   <tr> 
+			       
+				  <th style="width:100px;background-color:#27A9E3;height:40px;color:#fff;">规格名</th>
+				  <th style="text-align:left;background-color:#27A9E3;color:#fff;">规格值</th>
+		       </tr>
+			   
+			   <{foreach from=$gglist item=items}>
+			     <{if $items['parent_id'] == 0}>
+			   <tr> 
+			      
+				  <td style="width:100px;text-align:center;background-color:#27A9E3;color:#fff;height:30px;"><{$items['name']}></td>
+				  <td style="text-align:left;background-color:#ccc;">
+				  <{foreach from=$gglist item=itk}>
+				  <{if $itk['parent_id'] == $items['id']}>
+				  <span><input type="checkbox" class="ubcdd" data="<{$items['id']}>" name="choicegg<{$items['id']}>[]" value="<{$itk['id']}>" <{if in_array($itk['id'],$fdidsss)}>checked<{/if}>><{$itk['name']}></span>
+				  <{/if}>
+				  <{/foreach}>
+				 </td>
+		       </tr>
+			   <{/if}>
+			   <{/foreach}>
+			   </table>
+		 
+		 </div>
+		 <div id="det_show_gg">
+		     <table style="width:100%;background-color:#ccc;" >
+			 <thead style="background-color: #27A9E3;"> 
+				 <tr>
+				  <td style="width:10px;">&nbsp;</td>
+				  <td style="width:100px;">规格名称</td>
+				  <td style="text-align:center;width:120px;">库存</td>
+				  <td style="text-align:center;width:120px;">单价</td>
+				  <td style="width:50%;">&nbsp;</td>
+				 </tr>
+				</thead>
+				<tbody id="gg_det_list">
+				  
+				</tbody>
+			 
+			 </table>
+		 </div>
+		 <div class="hangtiao clr" <{if $shoptype == 0}>style='display:none'<{/if}>>
+		    <div class="labeltext">推荐：</div>	
+		    <div class="inputtext">
+		    	<div class="showdiv">
+		    	   <!--<input type="checkbox" name="is_new"    value="1"  <{if $goodsinfo['is_new']==1}>checked<{/if}>>新品 
+		    	   <input type="checkbox" name="is_hot"    value="1"  <{if $goodsinfo['is_hot']==1}>checked<{/if}>>热销  -->
+		    	   <input type="checkbox" name="is_com"  value="1" <{if $goodsinfo['is_com']==1}>checked<{/if}>>推荐 
+		    	</div>
+		    </div> 
+		 </div>
+		 
+        <div class="hangtiao clr" style='display:none'>
+		    <div class="labeltext">支持类型：</div>	
+		    <div class="inputtext">
+		    	<div class="showdiv">
+		    	   <input type="checkbox" name="is_waisong"    value="1"  checked>支持外送
+				   <{if $goodsinfo['shoptype'] == 0  }>
+		    	   <input type="checkbox" name="is_dingtai"    value="1" checked >支持订台	   
+				   <{/if}>
+		    	</div>
+		    </div> 
+		 </div>
+		<div class="hangtiao clr">
+		    <div class="labeltext">销售星期：</div>	
+		    <div class="inputtext">
+		    	<div class="showdiv">
+		    		  <{assign var=myweeks value=","|explode:$goodsinfo['weeks']}> 
+		    		  
+		    	   <input type="checkbox" name="weeks[]" value="1"  <{if in_array(1,$myweeks)}>checked="checked" <{/if}>  >星期一  <!-- <{if in_array($itema['id'],$myweeks)}>checked="checked" <{/if}>  -->
+		    	   <input type="checkbox" name="weeks[]" value="2"  <{if in_array(2,$myweeks)}>checked="checked" <{/if}>  >星期二
+		    	   <input type="checkbox" name="weeks[]" value="3"  <{if in_array(3,$myweeks)}>checked="checked" <{/if}>  >星期三 
+		    	   <input type="checkbox" name="weeks[]" value="4"  <{if in_array(4,$myweeks)}>checked="checked" <{/if}>  >星期四 
+		    	   <input type="checkbox" name="weeks[]" value="5" <{if in_array(5,$myweeks)}>checked="checked" <{/if}>  >星期五 
+		    	   <input type="checkbox" name="weeks[]" value="6"  <{if in_array(6,$myweeks)}>checked="checked" <{/if}>  >星期六 
+		    	   <input type="checkbox" name="weeks[]" value="0"  <{if in_array('0',$myweeks)}>checked="checked" <{/if}> >星期天  
+		    	</div>
+		    </div> 
+		 </div>
+		 
+		 
+		 	 
+		  <div class="hangtiao clr">
+		    <div class="labeltext">开启促销：</div>	
+		    <div class="inputtext">
+		    	<div class="showdiv">
+		    	    <input type="checkbox" name="is_cx"    value="1"   <{if $goodsinfo['is_cx'] == 1}>checked <{/if}> onclick="doshowcx(this);">开启  
+					<span id="zhekougd" <{if $goodsinfo['is_cx'] != 1}>style="display:none;"<{/if}>>折扣:<input type="text" name="cxzhe" value="<{$cxinfo['cxzhe']|default:''}>" style="width:120px;" placeholder="例：95表示9.5折"></span>
+					<span id="zhekougdnum" <{if $goodsinfo['is_cx'] != 1}>style="display:none;"<{/if}>>购买数量:<input type="text" name="cxnum" value="<{$cxinfo['cxnum']|default:'0'}>" style="width:120px;" placeholder=><span style="color:red;">(例：折扣值录入80表示打八折，购买数量录入0表示不限购)</span></span>
+		    	</div>
+		    </div> 
+		 </div>
+		 
+		  <div class="hangtiao clr" id="cxdata" <{if $goodsinfo['is_cx'] != 1}>style="display:none;"<{/if}>>
+		    <div class="labeltext">促销日期：</div>	
+		    <div class="inputtext">
+		    	<div class="showdiv">
+		    	     从<input class="Wdate datefmt" type="text" name="cxstarttime" id="cxstarttime" value="<{$cxinfo['cxstarttime']|date_format:"%Y-%m-%d"|default:""}>"  onFocus="WdatePicker({isShowClear:false,readOnly:true});" />  
+			   		 	  到<input class="Wdate datefmt" type="text" name="ecxendttime" id="ecxendttime" value="<{$cxinfo['ecxendttime']|date_format:"%Y-%m-%d"|default:""}>"  onFocus="WdatePicker({isShowClear:false,readOnly:true});" />                  
+
+		    	</div>
+		    </div> 
+		 </div>
+		 <div class="hangtiao clr" id="cxtime" <{if $goodsinfo['is_cx'] != 1}>style="display:none;"<{/if}>>
+		    <div class="labeltext">促销时间段：</div>	
+		    <div class="inputtext">
+		    	<div class="showdiv">
+		    	    时间段<input type="text" name="cxstime1" value="<{$cxinfo['cxstime1']|default:""}>" style="width:80px;" placeholder="例：08:00">-<input type="text" name="cxetime1" value="<{$cxinfo['cxetime1']|default:""}>" style="width:80px;" placeholder="例：11:30"> 
+			   		时间段<input type="text" name="cxstime2" value="<{$cxinfo['cxstime2']|default:""}>" style="width:80px;">-<input type="text" name="cxetime2" value="<{$cxinfo['cxetime2']|default:""}>" style="width:80px;"> 
+		    	</div>
+		    </div> 
+		 </div>
+		 
+		 
+		  
+		  <div class="hangtiao clr" >
+		    <div class="labeltext">商品简述：</div>	
+		    <div class="inputtext">
+		    	<div class="showdiv" style="    padding-top: 2px; ">
+ <textarea class="Wdate datefmt" rows="2" cols="110"  type="text" name="descgoods" id="descgoods"   ><{$goodsinfo['descgoods']}></textarea>  
+			   		 	 
+		    	</div>
+		    </div> 
+		 </div>
+		 
+		 
+		 <div class="hangtiao clr">
+		    <div class="labeltext">所在分类：</div>	
+		    <div class="inputtext">
+		    	<div class="showdiv">
+		    	    <select name="typeid">
+		    	   	  <{foreach from=$listtype item=items}>
+		    	   	  <option value="<{$items['id']}>" <{if $goodsinfo['typeid'] == $items['id']}>selected<{/if}>><{$items['name']}></option>
+		    	   	  <{/foreach}>
+		    	   	</select> 
+		    	</div>
+		    </div> 
+		 </div>
+		 
+		  <div class="hangtiao clr" style="height:235px;">
+		    <script>KE.show({id:'instro',allowFileManager : true,imageUploadJson:'<{ofunc type=url link="/shopcenter/KEShopupload"}>',fileManagerJson:'<{ofunc type=url link="/shopcenter/KEShopupload"}>',items:['source','|', 'justifyleft', 'justifycenter', 'justifyright','justifyfull', 'insertorderedlist', 'insertunorderedlist', '|', 'fontname', 'fontsize', '|', 'textcolor', 'bgcolor', 'bold','italic', 'underline', 'removeformat', '|', 'image', 'advtable', 'hr','link', 'unlink']});</script><textarea name="instro" id="instro" style='width:970px; height:215px;'><{$goodsinfo['instro']}></textarea>
+		 </div>
+		 <input type="hidden" name="gid" value="<{$goodsinfo['id']}>">
+		 <div class="hangtiao clr">
+		  
+		    <input type="submit" value="确认提交" class="labeltext" style="background-color:#ec7501;text-align:center;cursor: pointer;">  
+		     
+		 </div>
+		 
+		 
+		
+	</form>
+</div>
+	
+<div id="newimg">
+		        	<div class="file_img" style="height:136px;width:160px;">
+                        	 <img <{ofunc type=img  link="<{$goodsinfo['img']}>"}>  width="136" height="130" id="imgshow" <{if  empty($goodsinfo['img'])}> style="display:none;"<{/if}>>  
+               </div>
+                <div class="file_xxiang">
+                        	<input type="hidden" name="goodsimg" id="goodsimg" value="<{$goodsinfo['img']}>" class="skey" style="width:130px;" > 
+                     <div id="div-headpicUpload" style="display:block;"> 
+		                  <form id="form1" name="form1" method="post"  enctype="multipart/form-data" target="ifr-headpic-upload" onsubmit="return checkImagetype('1');">    
+		                  	<div class=""> 
+		               	      	<input name="imgFile" type="file" id="imgFile" style="width:68px;float:left;" name="imgFile" onchange="$('#input1').val($(this).val())"  class="curbtn">
+		               		     <input id="submitImg" type="button" value="上传" class="ss_sc curbtn" style="width:40px;float:left; border:1px solid #ccc;background-color:white;height:22px;line-height:12px;margin-top:5px;margin-left:5px;" > 
+		               		     <input type="button" id="imgdel" value="删除" class="ss_sc curbtn" <{if  empty($goodsinfo['img'])}> style="display:none;"<{/if}>>
+								  <input type="button" id="xuanzekuimg" value="从图库中选择" class="ss_sc curbtn" >
+		               	    </div>  
+		               </form> 
+		             </div>
+		           </div>
+		    </div> 
+	
+<script>
+function doshowcx(obj){
+		if($(obj).is(':checked') == true){
+				$('#zhekougd').show();
+				$('#zhekougdnum').show();
+				$('#cxdata').show();
+				$('#cxtime').show();
+		}else{
+			$('#zhekougd').hide();
+			$('#zhekougdnum').hide();
+				$('#cxdata').hide();
+				$('#cxtime').hide();
+		}
+	}
+
+var json_detlist = <{$productlist|@json_encode}>;
+var checkfisrt = true;
+  $('#tijiaofrom').click(function(){
+  	 $('#kloginForm').submit();
+  });
+	$('#submitImg').click(function(){
+		ajaxFileUpload();
+	});
+	$('#imgdel').click(function(){
+		var newlink = '<{ofunc type=url link="/shopcenter/delgoodsimg/id/<{$goodsinfo['id']}>/datatype/json/random/@random@"}>';
+		   $.ajax({
+     type: 'get',
+     async:false, 
+     url: newlink.replace('@random@', 1+Math.round(Math.random()*1000)), 
+     dataType: 'json',success: function(content) {  
+     	if(content.error == false){ 
+     		  $('#goodsimg').val('');
+ 	             $('#imgshow').attr('src','');
+ 	                $('#imgshow').hide(); 
+ 	                $('#imgdel').hide();
+     	}else{
+     		if(content.error == true)
+     		{
+     		  alert(content.msg);
+     		}else{
+     			diaerror(content); 
+     		}
+     	} 
+		},
+    error: function(content) { 
+       alert('调用文件失败');
+	  }
+   }); 
+		  
+		  
+		  
+		 
+	});
+	function ajaxFileUpload()
+	{
+		$("#loading")
+		.ajaxStart(function(){
+			$(this).show();
+		})
+		.ajaxComplete(function(){
+			$(this).hide();
+		});
+  
+		$.ajaxFileUpload
+		(
+			{
+				url:'<{ofunc type=url link="/shopcenter/shopupload/uploaddir/goods/datatype/json"}>',
+				secureuri:false,
+				fileElementId:'imgFile',
+				dataType: 'json',
+				data:{'type':'goods', 'gid':'<{$goodsinfo['id']}>'},
+				success: function (data, status)
+				{
+					if(typeof(data.error) != 'undefined')
+					{
+						if(data.error == false)
+						{ 
+						 
+							$('#goodsimg').val(data.msg);
+ 	             $('#imgshow').attr('src',data.msg);
+ 	                $('#imgshow').show(); 
+ 	                $('#imgdel').show();
+						}else
+						{
+							alert(data.msg);
+						}
+					}else{
+					  alert(data);
+					}
+				},
+				error: function (data, status, e)
+				{
+					alert(e);
+				}
+			}
+		)
+		
+		return false;
+
+	}
+	
+	
+	
+	$("#xuanzekuimg").click(function(){
+	
+		window.location.href="<{ofunc type=url link="/shopcenter/selectmarketimg/gid/<{$goodsinfo['id']}>"}>";	
+	
+	});
+	
+	</script>
+<script>
+$(function(){
+ initgoods();
+  $('#gg_base_list input').bind('click', function(event) { 
+        var checkall = false;
+		var checkarr = new Array();
+	    $.each($('#gg_base_list input'), function(i, val) {   
+		    if($(val).is(':checked') == true){
+				 if($.inArray($(val).attr('name'),checkarr) !=-1){
+					
+				 }else{
+					checkarr.push($(val).attr('name'));
+				 }	
+			}
+		}); 
+		if(checkarr.length > 2){
+			alert('最多选择2种不同的规格');
+			$(this).attr("checked",false);
+			return;
+		} 
+	   if($(this).is(':checked') == true){
+	       add_guige(this);
+	   }else{
+	       del_guige(this);
+	   } 
+	});
+});
+function initgoods(){
+$('input[name="fggids"]').val('');
+    $('#gg_det_list').html('');
+	
+	var checkshowdet =  $("input[name='have_det']:checked").val();//$('input[name="gg_fids"]').val('');
+	if(checkshowdet == 1){
+	
+	    $('#det_show_gg').show();
+		$('#gg_base_list').show(); 
+	}else{
+	    $('#det_show_gg').hide();
+		$('#gg_base_list').hide(); 
+	}
+	$('input[name="have_det"]').bind('click', function(event) {
+	    var checkid = $("input[name='have_det']:checked").val();
+	   if(checkid == 1){
+	        $('#det_show_gg').show();
+		$('#gg_base_list').show(); 
+	   }else{
+	        $('#det_show_gg').hide();
+		   $('#gg_base_list').hide(); 
+	   } 
+	     
+	});
+	var temparray= new Array();
+	  
+	$.each($('#gg_base_list input:checked'), function(i, newobj) {
+	    if($.inArray( $(this).attr('data'), temparray ) >=0){ 
+		}else{
+		     temparray.push($(this).attr('data'));
+		} 		   	  
+    }); 
+	temparray = temparray.sort(function(a,b){
+return a-b;
+});
+	$('input[name="fggids"]').val(temparray.join(','));  
+	 
+	hua_det(temparray);  
+
+}
+function add_guige(obj){
+   //fggids  存放的是当前所有  规格ID集
+   var nowggid = $(obj).attr('data');
+   var idstring = $('input[name="fggids"]').val();
+     var ids = idstring.split(',');
+   var array= new Array();
+    for(var i=0;i<ids.length;i++){
+	    if(ids[i] !='' && ids[i] != nowggid){
+			array.push(ids[i]);
+		}
+	}
+	array.push(nowggid); 
+	array = array.sort(function(a,b){
+return a-b;
+});
+	$('input[name="fggids"]').val(array.join(',')); 
+	//画规格详情
+	hua_det(array); 
+}
+function del_guige(obj){
+   //fggids  存放的是当前所有  规格ID集
+   var nowggid = $(obj).attr('data');
+   var idstring = $('input[name="fggids"]').val();
+     var ids = idstring.split(',');
+   var array= new Array();
+    for(var i=0;i<ids.length;i++){
+	    if(ids[i] !='' && ids[i] != nowggid){
+			array.push(ids[i]);
+		}
+	} 
+	var checkobj = $("input[name='choicegg"+nowggid+"[]']:checked").val();
+	if(checkobj != undefined){
+		array.push(nowggid);
+	} 
+	array = array.sort(function(a,b){
+return a-b;
+});
+	$('input[name="fggids"]').val(array.join(',')); 
+	//画规格详情
+	hua_det(array);
+}
+function hua_det(arraylist){
+  //界面控制ID  gg_det_list  我吧整个数据存放到1个里   {'gege1':'id','gege2':id,'gege3':id}
+  // 
+  var arrayInfor = new Array();
+   for(var i=0;i<arraylist.length;i++){
+        //需要画的种类
+		//第一列 取第一个    1
+		//第二列  取第二个
+		var order = new Array();  
+		var newcobj = $("input[name='choicegg"+arraylist[i]+"[]']:checked");
+         
+		$(newcobj).each(function (d,cobj) {  
+             order.push($(cobj).val());  
+        });  
+        arrayInfor.push(order);
+   }
+   $('#gg_det_list').html('');
+    
+	if(arrayInfor == null || arrayInfor.length ==0){ 
+	}else{
+		var tempc = getdata_m(arrayInfor);
+		console.log(tempc) 
+		var htmls = '';
+		for(var i=0;i<tempc.length;i++){
+		    var tempids = tempc[i].split(','); 
+			var tempname = '';
+			for(var k=0;k<tempids.length;k++){
+			//console.log($("input[value='"+tempids[k]+"']:checked").parent().parent().text());  
+			   tempname = tempname == ''?$(".ubcdd[value='"+tempids[k]+"']:checked").parent().text():$(".ubcdd[value='"+tempids[k]+"']:checked").parent().text()+','+tempname;
+			}
+			
+			var gdetinfo = checkinstring(tempc[i]);
+			
+			var tempcheck = '<{$ggfids|default:''}>';
+			
+			if(checkfisrt == false){
+			 
+				$('#gg_det_list').append('<tr>'
+								 +'<td style="width:2px;">&nbsp;<input type="hidden" name="gg_sids[]" value="'+tempc[i]+'"><input type="hidden" name="goodsdetids[]" value="'+gdetinfo.id+'"> </td>'
+								  +'<td>'+tempname+'</td>'
+								  +'<td style="text-align:center;"><input type="text" name="gg_sstock[]" value="'+gdetinfo.stock+'"></td>'
+								  +'<td style="text-align:center;"><input type="text" name="gg_scost[]" value="'+gdetinfo.cost+'"></td>'
+								  +'<td><a onClick="delcfm(this)"><i class="fa fa-times-circle-o"></i>删除</a></td>'
+								 +'</tr>'); 
+			}else{//假设第一次加载时需排除  前面删除的 规格
+				 
+				if(tempcheck == $('input[name="fggids"]').val()){
+						 
+						if(gdetinfo.id != 0){
+						         $('#gg_det_list').append('<tr>'
+								 +'<td>&nbsp;<input type="hidden" name="gg_sids[]" value="'+tempc[i]+'"><input type="hidden" name="goodsdetids[]" value="'+gdetinfo.id+'"> </td>'
+								  +'<td>'+tempname+'</td>'
+								  +'<td style="text-align:center;"><input type="text" name="gg_sstock[]" value="'+gdetinfo.stock+'"></td>'
+								  +'<td style="text-align:center;"><input type="text" name="gg_scost[]" value="'+gdetinfo.cost+'"></td>'
+								  +'<td><a onClick="delcfm(this)"><i class="fa fa-times-circle-o"></i>删除</a></td>'
+								 +'</tr>');
+						}
+					}else{
+					 
+							$('#gg_det_list').append('<tr>'
+								 +'<td>&nbsp;<input type="hidden" name="gg_sids[]" value="'+tempc[i]+'"><input type="hidden" name="goodsdetids[]" value="'+gdetinfo.id+'"> </td>'
+								  +'<td>'+tempname+'</td>'
+								  +'<td style="text-align:center;"><input type="text" name="gg_sstock[]" value="'+gdetinfo.stock+'"></td>'
+								  +'<td style="text-align:center;"><input type="text" name="gg_scost[]" value="'+gdetinfo.cost+'"></td>'
+								  +'<td><a onClick="delcfm(this)"><i class="fa fa-times-circle-o"></i>删除</a></td>'
+								 +'</tr>');
+					}
+			}
+			
+			
+		}
+		checkfisrt =false;
+	}
+  
+    
+}
+function checkinstring(tempid){
+	//console.log(json_detlist)
+	if(json_detlist.length < 1){
+		return {'id':0,'stock':0,'cost':0};//":"18","goodsid":"51","":"10","cost":"100.00",
+	}else{
+	    var checkfind = {'id':0,'stock':0,'cost':0};
+	    
+		for(var i=0;i<json_detlist.length;i++){ 
+			var checkid = json_detlist[i].attrids; 
+			var checkidarr = checkid.split(",");
+			var checkid2 = checkidarr[1]+','+checkidarr[0];
+			 
+			if(tempid == checkid || tempid == checkid2){
+				checkfind = json_detlist[i];
+				break;
+			} 
+		}
+		return checkfind;
+	    
+	} 
+}
+function getdata_m(doubleArrays){ 
+                        var len = doubleArrays.length;  
+                        if (len >= 2) {  
+                            var arr1 = doubleArrays[0];  
+                            var arr2 = doubleArrays[1];  
+                            var len1 = doubleArrays[0].length;  
+                            var len2 = doubleArrays[1].length;  
+                            var newlen = len1 * len2;  
+                            var temp = new Array(newlen);  
+                            var index = 0;  
+                            for (var i = 0; i < len1; i++) {  
+                                for (var j = 0; j < len2; j++) {  
+                                    temp[index] = arr1[i] + "," + arr2[j];  
+                                    index++;  
+                                }  
+                            }  
+                            var newArray = new Array(len - 1);  
+                            newArray[0] = temp;  
+                            if (len > 2) {  
+                                var _count = 1;  
+                                for (var i = 2; i < len; i++) {  
+                                    newArray[_count] = doubleArrays[i];  
+                                    _count++;  
+                                }  
+                            }  
+                            //console.log(newArray);  
+                            return getdata_m(newArray);  
+                        }  
+                        else {  
+                            return doubleArrays[0];  
+                        }  
+}
+function delcfm(obj){
+	if(confirm('确认删除规格')){
+	    $(obj).parent().parent().remove();
+	} 
+}
+
+
+</script>	
+<style>
+#gg_det_list input{width:100px;}
+</style>
+	
+</body>
+</html>
+ 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

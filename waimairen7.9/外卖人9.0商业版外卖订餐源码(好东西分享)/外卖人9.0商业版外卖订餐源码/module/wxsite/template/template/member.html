@@ -1,0 +1,248 @@
+<{extends file="<{$tempdir}>/public/wxsite.html"}>
+<{block name=extendcss}>
+<link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/new_shopshow.css">
+<{/block}>
+<{block name=extendjs}>
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/js/wxshop.js"></script>
+<{/block}>
+<{block name=sitetitle}><{$sitename}><{/block}>
+<{block name=hearnav}><{/block}>
+<{block name=myScrolljs}><script>
+    var myScroll;
+    function loaded() {
+        myScroll = new iScroll('wrapper', {
+            useTransform: false,
+            onBeforeScrollStart: function (e) {
+                var target = e.target;
+                while (target.nodeType != 1) target = target.parentNode;
+
+                if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA')
+                    e.preventDefault();
+            }
+        });
+    }
+
+    document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
+    document.addEventListener('DOMContentLoaded', function () { setTimeout(loaded, 200); }, false);
+</script>
+<{/block}>
+<{block name=blockcontent}>
+<style>
+.distributioncore_head_jump {
+    height: 26px;
+    padding: 0 7px 0 10px;
+    margin-top: -13px;
+    display: -webkit-box;
+    display: -moz-box;
+    -webkit-box-align: center;
+    -moz-box-align: center;
+    background: rgba(0,0,0,.25);
+    border-radius: 50px 0 0 50px;
+    position: absolute;
+    top: 12%;
+    right: 0;
+    z-index: 999;
+	font-size: 100%;
+    color: #666;
+    font-family: '微软雅黑';
+}
+.distributioncore_head_jump span {
+    font-size: 12px;
+    color: #fff;
+    display: block;
+}
+.distributioncore_head_jump i {
+    margin-left: 5px;
+    font-size: 14px;
+    color: #fff;
+    display: block;
+}
+</style>
+
+<div id="wrapper" style="top:0px;">
+    <div id="scroller">
+
+
+        <!-------------------------登录------------------------->
+        <!--基本信息-->
+        <div class="peceTopCon" style="position:relative;background-image:<{if $color == 'green'}>url(<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/background02.png)<{elseif $color == 'yellow'}>url(<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/background03.png)<{else}>url(<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/background01.png)<{/if}>">
+            <{if $is_open_distribution == 1 && !empty($member['uid'])}>
+				<div style='top:50%;' class="distributioncore_head_jump" onclick="dolink('<{ofunc type=url link="/wxsite/distribution_center"}>');">
+					<span style='margin-top:0px'>分销中心</span>
+					<i class="fa fa-angle-right"></i>
+				</div>
+			<{/if}>
+			<div class="peceTopImg" onclick="dolink('<{ofunc type=url link="/wxsite/myaccount"}>');">
+			<{if !empty($member['uid']) || $WeChatType == 1}>
+            <img <{ofunc type=img  link="<{$member['logo']|default:$userlogo}>"}> />
+            <{else}>
+            <img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/toux.png" />
+            <{/if}>
+            </div>
+            <span>
+                <{if !empty($member['uid'])}>
+                     <{$member['username']}>
+                 <{else}>
+                立即登录
+                <{/if}>
+            </span>
+        </div>
+    <!-----------------------账户信息----------------------->
+    <div class="peceInfoCon">
+        <ul>
+            <li onclick="dolink('<{ofunc type=url link="/wxsite/memcard"}>');"><{if !empty($member['uid']) || $WeChatType == 1}><span style="color:#fe5858;font-size:16px;font-weight:bold;"><{$member['cost']|default:'0'}></span> <{else}><i class="icon icon_ye"></i> <{/if}><span>账号余额</span></li>
+            <li onclick="dolink('<{ofunc type=url link="/wxsite/juan"}>');"><{if !empty($member['uid']) || $WeChatType == 1}><span style="color:#ff9500;font-size:16px;font-weight:bold;"><{$juanshu|default:'0'}></span><{else}> <i class="icon icon_yhq"></i><{/if}><span>优惠券</span></li>
+            <li onclick="dolink('<{ofunc type=url link="/wxsite/gift"}>');"><{if !empty($member['uid']) || $WeChatType == 1}><span style="color:#5e5cdf;font-size:16px;font-weight:bold;"><{$member['score']|default:'0'}></span><{else}> <i class="icon icon_jf"></i><{/if}><span>积分</span></li>
+        </ul>
+    </div>
+    <!-----------------------功能分类----------------------->
+    <div class="peceFunclaCon">
+        <ul class="peceFun">
+            <li class="peceCla" onclick="dolink('<{ofunc type=url link="/wxsite/address"}>');">
+            <i class="icon icon_dizhi"></i>
+            <ul>
+                <li style="border:none;"><span>管理收货地址</span><i class="fa fa-angle-right"></i></li>
+            </ul>
+            </li>
+        </ul>
+        <ul class="peceFun">
+            <li class="peceCla" onclick="dolink('<{ofunc type=url link="/wxsite/collect"}>');">
+            <i class="icon icon_shouc"></i>
+            <ul>
+                <li><span>我的收藏</span><i class="fa fa-angle-right"></i></li>
+            </ul>
+            </li>
+            <li class="peceCla" onclick="dolink('<{ofunc type=url link="/wxsite/giftlist"}>');">
+            <i class="icon icon_duih"></i>
+            <ul>
+                <li <{if $userextensionsharejuan  == 0 && $WeChatType == 1 }><{else}> style="border:none;"<{/if}>><span>兑换礼品</span><i class="fa fa-angle-right"></i></li>
+            </ul>
+            </li>
+            <{if $userextensionsharejuan  == 0 && $WeChatType == 1 }>
+            <li class="peceCla" onclick="dolink('<{ofunc type=url link="/wxsite/memsharej"}>');">
+                <i class="icon icon_hongb"></i>
+                <ul>
+                    <li style="border:none;"><span>邀请好友送红包</span><i class="fa fa-angle-right"></i></li>
+                </ul>
+            </li>
+            <{/if}>
+        </ul>
+        <ul class="peceFun">
+            <li class="peceCla" onclick="dolink('<{ofunc type=url link="/wxsite/binding"}>');">
+            <i class="icon icon_bdsjh"></i>
+            <ul>
+                <li ><span>绑定手机号</span><b><{if !empty($userinfo['phone'])}>（已绑定<{$phone}>）<{else}>（绑定后才能获取到红包哦）<{/if}></b><i class="fa fa-angle-right"></i></li>
+            </ul>
+            </li>
+			 <{if $WeChatType == 1}>
+            <{if $is_showbd ==1 }>
+            <li class="peceCla" onclick="dolink('<{ofunc type=url link="/wxsite/bangdmem"}>');">
+            <i class="icon icon_bdzh"></i>
+            <ul>
+                <li><span>绑定账号</span><i class="fa fa-angle-right"></i></li>
+            </ul>
+            </li>
+            <{/if}>
+            <{/if}>
+            <{if $member['group']!=3}>
+            <li class="peceCla applyshop">
+            <i class="icon icon_sjrz"></i>
+            <ul>
+                <li style="border-bottom: 0px solid #e6e6e6;" ><span>商家入驻</span><i class="fa fa-angle-right"></i></li>
+            </ul>
+            </li>
+            <{/if}>
+
+        </ul>
+
+        <ul class="peceFun">
+            <{if !empty($member['uid'])}>
+            <li class="peceCla"   onclick="dolink('<{ofunc type=url link="/wxsite/loginout"}>');">
+            <i class="icon icon_outlogin"></i>
+            <ul>
+                <li style="border:none;"><span>退出登录</span><i class="fa fa-angle-right"></i></li>
+            </ul>
+            </li>
+            <{/if}>
+        </ul>
+    </div>
+
+<div style="height:13px;"></div>
+</div>
+</div>
+
+
+
+<script>
+    $(function(){
+        function isWeiXin(){
+            var ua = window.navigator.userAgent.toLowerCase();
+            if(ua.match(/MicroMessenger/i) == 'micromessenger'){
+                return true;
+            }else{
+                return false;
+            }
+        }
+
+        var browser = {
+
+            versions: function () {
+                var u = navigator.userAgent, app = navigator.appVersion;
+
+                return {
+                    trident: u.indexOf('Trident') > -1, //IE内核
+                    presto: u.indexOf('Presto') > -1, //opera内核
+                    webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+                    gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+                    mobile: !!u.match(/AppleWebKit.*Mobile.*/) || !!u.match(/AppleWebKit/), //是否为移动终端
+                    ios: !!u.match(/(i[^;]+;(U;)? CPU.+Mac OS X)/), //ios终端
+                    android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+                    iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者QQHD浏览器
+                    iPad: u.indexOf('iPad') > -1, //是否iPad
+                    webApp: u.indexOf('Safari') == -1 //是否web应该程序，没有头部与底部
+                };
+            } (),
+            language: (navigator.browserLanguage || navigator.language).toLowerCase()
+        }
+        if (browser.versions.mobile ) {
+
+
+            if(isWeiXin()){
+                $("#icon-bangdmem").show();
+            <{if $wxLoginType == 1 }>
+                $("#icon-exit").show();
+            <{else}>
+                $("#icon-exit").hide();
+            <{/if}>
+            }else{
+
+                //	$("#icon-bangdmem").hide();
+                $("#icon-exit").show();
+
+            }
+
+        }
+
+    });
+	$(function(){
+		$('.applyshop').bind('click',function(){
+			var memshopid = '<{$member['shopid']}>';
+			var is_pass = '<{$shoppass}>';
+			//alert(is_pass);
+			if(memshopid > 0){
+				if(is_pass==0){
+					Tmsg('你已提交入驻申请，正在审核中');
+					return false;
+				}else{
+					Tmsg('你已入驻成功，请登录商家端管理店铺');
+					return false;
+				}				
+			}else{
+				var url = '<{ofunc type=url link="/wxsite/shopSettled"}>';
+				window.location.href= url;
+			}
+		});
+	});
+</script>
+
+<{/block}>

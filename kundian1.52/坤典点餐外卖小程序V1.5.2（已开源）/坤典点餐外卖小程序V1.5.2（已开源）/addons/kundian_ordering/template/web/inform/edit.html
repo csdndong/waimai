@@ -1,0 +1,154 @@
+{template 'common/header'}
+<link rel="stylesheet" type="text/css" href="../addons/kundian_ordering/resource/css/style.css" />
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            通知配置
+        </h3>
+    </div>
+
+    <div class="panel-body">
+        <form id="sign-form" class="form-horizontal" role="form" method="post" action="{url 'site/entry/inform',array('m'=>'kundian_ordering','op'=>'saveModel','version_id'=>$_GPC['version_id'])}" name="submit" style="padding: 20px 0;">
+            <div class="form-group">
+                <label for="appkey" class="col-sm-2 control-label">appkey</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control"  name="appkey" id="appkey" value="{$list['appkey']}">
+                    <input type="hidden" name="id" value="{$list['id']}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">secret</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control"  name="secret" value="{$list['secret']}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">短信签名</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control"  name="sign_name" value="{$list['sign_name']}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">短信模板</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control"  name="template_code" value="{$list['template_code']}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">接收手机号</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control"  name="phone" value="{$list['phone']}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">打印机USER</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control"  name="user" value="{$list['user']}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label"></label>
+                <div class="col-sm-8">
+                    <span style="color: gray;">购买打印机地址：https://item.taobao.com/item.htm?id=562789778495</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">打印机UKEY</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control"  name="ukey" value="{$list['ukey']}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">打印机编号SN</label>
+                <div class="col-sm-8">
+                    <!--<input type="text" class="form-control"  name="sn" value="{$list['sn']}">-->
+                    <select class="form-control" name="sn" id="sn">
+                        <?php foreach($printData as $v){?>
+                        <option value="">请选择</option>
+                        <option value="<?php echo $v['sn']?>" <?php if($list['sn']==$v['sn']){echo 'selected';}?>><?php echo $v['sn']?></option>
+                        <?php } ?>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">是否启用打印机</label>
+                <div class="col-sm-8">
+                    {if $list['print_is_open']==1}
+                    <input type="checkbox" checked class="js-switch" value="1" name="print_is_open">
+                    {else}
+                    <input type="checkbox" class="js-switch" name="print_is_open" value="1">
+                    {/if}
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label"></label>
+                <div class="col-sm-8">
+                    <span style="color: gray;">如果要使用使用短信发送订单消息，请配置短信通知相关配置。如需使用微信模板消息
+                        推送信息，请配置好微信公众号相关配置信息</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">微信公众号APPID</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control"  name="wx_appid" value="{$list['wx_appid']}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">微信公众号SECRET</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control"  name="wx_secret" value="{$list['wx_secret']}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">微信公众号模板消息ID</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control"  name="wx_template_id" value="{$list['wx_template_id']}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">微信小程序模板消息ID</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control"  name="wx_small_template_id" value="{$list['wx_small_template_id']}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">接收微信公众号的用户的openid</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control"  name="get_openid" value="{$list['get_openid']}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label"></label>
+                <div class="col-sm-8">
+                    <span style="color: gray;">请到用户管理中获取需要接收的用户的微信公众号openid</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">消息通知分类</label>
+                <div class="col-sm-8">
+                    {if $list['msg_type']==1}
+                    <input type="radio" name="msg_type" value="0"> 短信通知
+                    <input type="radio" name="msg_type" value="1" checked> 模板消息通知
+                    {else}
+                    <input type="radio" name="msg_type" value="0" checked> 短信通知
+                    <input type="radio" name="msg_type" value="1"> 模板消息通知
+                    {/if}
+                </div>
+            </div>
+
+
+            <div class="form-group">
+
+                <div class="col-sm-offset-2 col-sm-10">
+                    <input type="submit" name="submit" class="btn btn-default">
+                    <!--<a class="btn btn-default" href="{url 'site/entry/inform',array('m'=>'kundian_ordering')}">返回</a>-->
+                </div>
+            </div>
+
+
+
+        </form>
+    </div>
+</div>
+
+{template 'common/footer'}

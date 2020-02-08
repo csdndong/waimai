@@ -1,0 +1,206 @@
+ <{extends file="<{$tempdir}>/public/admin.html"}> 
+   <{block name=extendjs}>
+     <link rel="stylesheet" type="text/css" href="<{$siteurl}>/templates/<{$tempdir}>/public/css/admin1.css"> 
+     <link rel="stylesheet" type="text/css" href="<{$siteurl}>/templates/<{$tempdir}>/public/js/datepicker/skin/WdatePicker.css"> 
+ <script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/datepicker/WdatePicker.js" type="text/javascript" language="javascript"></script>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js"></script>
+ <{/block}>
+ <{block name=controlname}>【<{$shopinfo['shopname']}>】商品列表<{/block}>
+ <{block name=bodylist}>
+
+      <div style="width:auto;overflow-x:hidden;overflow-y:auto">  
+      	 
+      	<div class="search">
+      		 
+            
+            <div class="search_content">
+            	 
+            	 <form method="get" name="form1" action="<{ofunc type=url link="/adminpage/card/module/virtualgoods"}>">
+            	   <input type="hidden" name="ctrl" value="adminpage">
+            	   <input type="hidden" name="action" value="card">
+             	   <input type="hidden" name="module" value="virtualgoods">
+            	   <input type="hidden" name="id" value="<{$shopinfo['id']}>">
+            	   <label>名称</label>
+            	   <input type="text" name="name" value="<{$name|default:''}>"> 
+               
+				 
+				  
+            	    <input type="submit" value="提交查询" class="button">  
+            	 </form>
+            </div>       
+        
+      	</div>
+      	<style>
+		.selectobjlist{height:auto!Important;padding:10px; border:none!Important;}
+		.selectobjlist li{ margin-right:0px!Important; width:33%!Important; text-align:left; float:left; height:auto;  }
+		.selectobjlist font{cursor:pointer;}
+		</style>
+      	
+           <div class="tags">
+
+      	  
+          <div id="tagscontent">
+
+            <div id="con_one_1">
+
+              <div class="table_td" style="margin-top:10px;">
+
+              <form method="post" action="" onsubmit="return remind();"  id="delform">
+ 
+ 
+ 						
+			 
+			
+			 
+                    <ul class="selectobjlist">
+                       <{foreach from=$selectlist item=items}> 
+                          <li>
+ 						  
+  					  <font color=red><{$items['name']}></font>
+  					 &nbsp;  <font  onclick="addshopsellcount('<{$items['id']}>','<{$items['virtualsellcount']|default:0}>');"  color=red style="font-weight:bold; font-size:16px;">增</font>&nbsp;&nbsp;&nbsp;
+					
+ 					<font onclick="addcomment('<{$items['id']}>');"  color=#0086ae style="font-weight:bold; font-size:16px;">评</font>
+					 
+					  </li> 
+ 					  
+                        <{/foreach}> 
+
+					</ul>
+ 
+				 
+			
+			
+			
+                <div class="blank20"></div>
+
+                 
+                </form>
+
+                <div class="page_newc">
+                        <div class="show_page"><ul>
+				 
+						<{$pagecontent}>
+					 
+						</ul></div>
+                 </div>
+<div class="page_newc">
+						
+									<div class="select_page" style="color:red;width:800px;">
+									<a style="color#FF6600;width:800px;" href="jvascript:void(0);"  >
+									温馨提示：①增：增加商品虚拟总销量(展示商品总销量=虚拟商品总销量+实际商品总销量)
+									<br />  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+									②评：评论商品，增加商品虚拟评论
+									</a> 
+										  </div>
+								 
+								 </div>
+                <div class="blank20"></div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        
+  </div>
+  
+  
+  
+  
+  
+ 
+</div>  
+
+<script>
+var dialogs ;
+function addshopsellcount(goodid,virtualsellcount){
+var	htmls = '<form method="post" id="doshwoform" action="#" style="text-align:center;"><table>';
+	htmls += '<tbody><tr>';
+	htmls += '<td height="50px">虚拟总销量:</td>';
+	htmls += '<td> <input type="text" name="savesellcounts" value="'+virtualsellcount+'" style="width:100px;"></td></tr>';
+	htmls += '</tbody></table> ';
+  htmls += '<input type="hidden" value="'+goodid+'" name="goodid"> ';
+	htmls += '<input type="button" value="确认提交" class="button" id="savegoodssellcounts" ></form>';
+  art.dialog({
+    id: 'testID3',
+    title:'增加商品虚拟总销量',
+    content: htmls
+  });
+}
+
+$('#savegoodssellcounts').live('click',function(){ 
+	$.post('<{ofunc type=url link="/shopcenter/savesellcounts/datatype/json"}>', $('#doshwoform').serialize() ,function (data, textStatus){  
+			if(data.error == false){
+     		diasucces(data.msg,'');
+     	}else{
+     		if(data.error == true)
+     		{
+     			diaerror(data.msg); 
+     		}else{
+     			diaerror(data); 
+     		}
+     	} 
+	 }, 'json'); 
+});
+
+
+
+function addcomment(goodid){
+
+var	htmls = ' <form id="upform"  method="post" name="upform" action="<{ofunc type=url link="/adminpage/card/module/savevirtualgoodcom"}>" style="text-align:center;padding:20px;">   ';
+	 htmls += '	<table>';
+	 		
+	 htmls += '		<tr><th colspan="2" style="text-align:left;">增加商品虚拟评价</th></tr>';
+	 		
+	 htmls += '		<tr style="height:52px;line-height:52px;">';
+	 htmls += '			<td  >评分:</td><td>';
+	htmls += '			<input type="radio" name="point" value="1"  >1分&nbsp;';
+	htmls += '			<input type="radio" name="point" value="2"  >2分&nbsp;';
+	htmls += '			<input type="radio" name="point" value="3"  >3分&nbsp;';
+	htmls += '			<input type="radio" name="point" value="4"  >4分&nbsp;';
+	htmls += '			<input type="radio" name="point" value="5"  >5分&nbsp;';
+	htmls += '		</td>';
+	htmls += ' 		</tr>';
+	htmls += ' 	  <tr> 	<td>评论内容</td><td><textarea rows="3" cols="60" type="text" name="content" value=""> </textarea></tr>';
+	 			 
+	htmls += ' 	 <tr  style="height:52px;line-height:52px;"> <td>评价时间</td><td>';
+   htmls += ' <input class="Wdate datefmt" type="text" name="addtime" id="addtime" value="<{$smarty.now|date_format:"%Y-%m-%d"}>"  onFocus="WdatePicker({isShowClear:false,readOnly:true});" />';
+	htmls += '	 </td></tr>';
+	htmls += ' 	 <tr  style="height:52px;line-height:52px;" > <td>评论人</td><td><input type="text" name="virtualname" value=""> </td></tr>';
+	 			  	
+	htmls += ' 		</table>   ';
+ 	htmls += '  <input type="hidden" value="'+goodid+'" name="goodid"> ';
+	htmls += ' 	<input type="button" id="savexunigoodscomm" value="确认提交" class="button">  '; 
+	htmls += '  </form>';
+ 
+  art.dialog({
+    id: 'testID3',
+    title:'增加商品虚拟评价',
+    content: htmls
+  });
+}
+
+$('#savexunigoodscomm').live('click',function(){ 
+	$.post('<{ofunc type=url link="/adminpage/card/module/savevirtualgoodcom/datatype/json"}>', $('#upform').serialize() ,function (data, textStatus){  
+			if(data.error == false){
+     		diasucces(data.msg,'');
+     	}else{
+     		if(data.error == true)
+     		{
+     			diaerror(data.msg); 
+     		}else{
+     			diaerror(data); 
+     		}
+     	} 
+	 }, 'json'); 
+});
+
+	</script>
+
+ 
+
+<!--newmain 结束-->
+<{/block}>

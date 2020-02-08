@@ -1,0 +1,56 @@
+page {
+    background: #fff;
+}
+
+.main {
+    padding: 30rpx;
+}
+
+.mainhead {
+    padding: 20rpx 30rpx;
+    background: #F2F2F2;
+    border-radius: 20rpx;
+}
+
+.mainhead textarea {
+    width: 100%;
+    height: 150rpx;
+}
+
+.zs {
+    text-align: right;
+    color: #999;
+}
+
+.bz {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.bzitem {
+    padding: 5rpx 25rpx;
+    border-radius: 30rpx;
+    margin-right: 20rpx;
+    margin-top: 20rpx;
+}
+
+.selsect {
+    border: 1rpx solid #f4f4f4;
+    color: #fff;
+}
+
+.default {
+    border: 1rpx solid #999;
+    color: #666;
+}
+
+.weui-btn-area {
+    margin: 3em 15px 0.3em;
+}
+
+button {
+    font-size: 33rpx;
+}

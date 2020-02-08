@@ -1,0 +1,160 @@
+{itemplate 'public/header'}
+{if $op == 'config'}
+<div class="page clearfix task-calendar">
+	<form action="./index.php" class="form-horizontal form form-validate" id="form1" style="max-width: 100%;">
+		{php echo tpl_form_filter_hidden('seckill/goods/list');}
+		<h3>任务设置</h3>
+		<div class="form-group">
+			<div class="col-sm-1 col-xs-1">
+				<select name="year" class="form-control">
+					<option value=""></option>
+				</select>
+			</div>
+			<span class="pull-left select-time">年</span>
+			<div class="col-sm-1 col-xs-1">
+				<select name="month" class="form-control">
+					<option value=""></option>
+				</select>
+			</div>
+			<span class="pull-left select-time">月</span>
+		</div>
+	</form>
+	<form class="form-horizontal form form-validate" style="max-width: 100%" action="" method="post" enctype="multipart/form-data">
+		<div class="header">
+			批量设置:
+			<div class="checkbox checkbox-inline">
+				<input type="checkbox" value="all" id="month">
+				<label for="month">全月</label>
+			</div>
+			<div class="checkbox checkbox-inline">
+				<input type="checkbox" value="1" id="week-1">
+				<label for="week-1">周一</label>
+			</div>
+			<div class="checkbox checkbox-inline">
+				<input type="checkbox" value="2" id="week-2">
+				<label for="week-2">周二</label>
+			</div>
+			<div class="checkbox checkbox-inline">
+				<input type="checkbox" value="3" id="week-3">
+				<label for="week-3">周三</label>
+			</div>
+			<div class="checkbox checkbox-inline">
+				<input type="checkbox" value="4" id="week-4">
+				<label for="week-4">周四</label>
+			</div>
+			<div class="checkbox checkbox-inline">
+				<input type="checkbox" value="1" id="week-5">
+				<label for="week-5">周五</label>
+			</div>
+			<div class="checkbox checkbox-inline">
+				<input type="checkbox" value="6" id="week-6">
+				<label for="week-1">周六</label>
+			</div>
+			<div class="checkbox checkbox-inline">
+				<input type="checkbox" value="7" id="week-7">
+				<label for="week-1">周日</label>
+			</div>
+			<a href="javascript:;" class="btn btn-success btn-sm btn-batch-set">批量设置</a>
+			<a href="javascript:;" class="btn btn-default btn-sm btn-batch-delete ">批量取消</a>
+			<a href="javascript:;" class="btn btn-danger btn-sm btn-clear">清空当月</a>
+		</div>
+		<div class="weeks">
+			<div class="col-sm-2">日</div>
+			<div class="col-sm-2">一</div>
+			<div class="col-sm-2">二</div>
+			<div class="col-sm-2">三</div>
+			<div class="col-sm-2">四</div>
+			<div class="col-sm-2">五</div>
+			<div class="col-sm-2">六</div>
+		</div>
+		<div class="dates">
+			<div class="col-sm-2 date-item empty"></div>
+			<div class="col-sm-2 date-item">
+				<div class="date">01</div>
+				<div class="link">
+					<a href="" class="btn-edit" title="编辑秒杀"><i class="icon icon-pencil-square-o"></i></a>
+					<a href="" class="btn-goods" title="查看商品"><i class="icon icon-pencil-square-o"></i></a>
+					<a href="javascript:;" class="btn-delete" title="取消"><i class="icon icon-pencil-square-o"></i></a>
+				</div>
+				<a href="javascript:;" class="btn btn-default btn-set">选择</a>
+			</div>
+			<div class="col-sm-2 date-item select">
+				<div class="date">02</div>
+				<div class="link">
+					<a href="" class="btn-edit" title="编辑秒杀"><i class="icon icon-pencil-square-o"></i></a>
+					<a href="" class="btn-goods" title="查看商品"><i class="icon icon-pencil-square-o"></i></a>
+					<a href="javascript:;" class="btn-delete" title="取消"><i class="icon icon-pencil-square-o"></i></a>
+				</div>
+				<a href="javascript:;" class="btn btn-set  btn-set-has">
+					[4]元旦秒杀
+				</a>
+			</div>
+			<div class="col-sm-2 date-item">
+				<div class="date">01</div>
+				<div class="link">
+					<a href="" class="btn-edit" title="编辑秒杀"><i class="icon icon-pencil-square-o"></i></a>
+					<a href="" class="btn-goods" title="查看商品"><i class="icon icon-pencil-square-o"></i></a>
+					<a href="javascript:;" class="btn-delete" title="取消"><i class="icon icon-pencil-square-o"></i></a>
+				</div>
+				<a href="javascript:;" class="btn btn-default btn-set">选择</a>
+			</div>
+			<div class="col-sm-2 date-item select">
+				<div class="date">02</div>
+				<div class="link">
+					<a href="" class="btn-edit" title="编辑秒杀"><i class="icon icon-pencil-square-o"></i></a>
+					<a href="" class="btn-goods" title="查看商品"><i class="icon icon-pencil-square-o"></i></a>
+					<a href="javascript:;" class="btn-delete" title="取消"><i class="icon icon-pencil-square-o"></i></a>
+				</div>
+				<a href="javascript:;" class="btn btn-set  btn-set-has">
+					[4]元旦秒杀
+				</a>
+			</div>
+			<div class="col-sm-2 date-item">
+				<div class="date">01</div>
+				<div class="link">
+					<a href="" class="btn-edit" title="编辑秒杀"><i class="icon icon-pencil-square-o"></i></a>
+					<a href="" class="btn-goods" title="查看商品"><i class="icon icon-pencil-square-o"></i></a>
+					<a href="javascript:;" class="btn-delete" title="取消"><i class="icon icon-pencil-square-o"></i></a>
+				</div>
+				<a href="javascript:;" class="btn btn-default btn-set">选择</a>
+			</div>
+			<div class="col-sm-2 date-item select">
+				<div class="date">02</div>
+				<div class="link">
+					<a href="" class="btn-edit" title="编辑秒杀"><i class="icon icon-pencil-square-o"></i></a>
+					<a href="" class="btn-goods" title="查看商品"><i class="icon icon-pencil-square-o"></i></a>
+					<a href="javascript:;" class="btn-delete" title="取消"><i class="icon icon-pencil-square-o"></i></a>
+				</div>
+				<a href="javascript:;" class="btn btn-set  btn-set-has">
+					[4]元旦秒杀
+				</a>
+			</div>
+			<div class="col-sm-2 date-item">
+				<div class="date">01</div>
+				<div class="link">
+					<a href="" class="btn-edit" title="编辑秒杀"><i class="icon icon-pencil-square-o"></i></a>
+					<a href="" class="btn-goods" title="查看商品"><i class="icon icon-pencil-square-o"></i></a>
+					<a href="javascript:;" class="btn-delete" title="取消"><i class="icon icon-pencil-square-o"></i></a>
+				</div>
+				<a href="javascript:;" class="btn btn-default btn-set">选择</a>
+			</div>
+			<div class="col-sm-2 date-item select">
+				<div class="date">02</div>
+				<div class="link">
+					<a href="" class="btn-edit" title="编辑秒杀"><i class="icon icon-pencil-square-o"></i></a>
+					<a href="" class="btn-goods" title="查看商品"><i class="icon icon-pencil-square-o"></i></a>
+					<a href="javascript:;" class="btn-delete" title="取消"><i class="icon icon-pencil-square-o"></i></a>
+				</div>
+				<a href="javascript:;" class="btn btn-set  btn-set-has">
+					[4]元旦秒杀
+				</a>
+			</div>
+		</div>
+	</form>
+</div>
+{/if}
+{itemplate 'public/footer'}
+
+
+
+

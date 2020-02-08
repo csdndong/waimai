@@ -1,0 +1,111 @@
+<view class="page-orderlist">
+    <view class="nav-tab flex border-1px-b">
+        <view bind:tap="onChange" class="nav-item {{status==3?'active':''}}" data-index="3">待抢</view>
+        <view bind:tap="onChange" class="nav-item {{status==7?'active':''}}" data-index="7">待取货</view>
+        <view bind:tap="onChange" class="nav-item {{status==4?'active':''}}" data-index="4">配送中</view>
+    </view>
+    <view class="order-wrap" style="margin-top: 50px">
+        <view class="order-item" wx:if="{{activityItem.list.length>0}}" wx:for="{{activityItem.list}}">
+            <view bind:tap="onDetail" data-id="{{item.id}}" data-status="{{item.status}}" data-transfer_delivery_status="{{item.transfer_delivery_status}}">
+                <view class="distance border-1px-b flex">
+                    <view class="flex">
+                        <view class="order-number">#{{item.serial_sn}}</view>
+                        <view class="flex">
+                            <image mode="widthFix" src="/static/img/start.png"></image>
+                            <text>-{{item.store2deliveryer_distance}}km-</text>
+                            <image mode="widthFix" src="/static/img/ds.png"></image>
+                            <text>-{{item.store2user_distance}}km-</text>
+                            <image mode="widthFix" src="/static/img/end.png"></image>
+                        </view>
+                    </view>
+                    <view class="price border-1px-l">¥ {{item.plateform_deliveryer_fee}}</view>
+                </view>
+                <view class="address">
+                    <view class="address-item store ">
+                        <view class="title">取：</view>
+                        <view class="detail">
+                            <view>{{item.store.title}}</view>
+                            <view class="address-store ellipsis">{{item.store.address}}</view>
+                        </view>
+                    </view>
+                    <view class="address-item customer ">
+                        <view class="title">送：</view>
+                        <view class="detail">
+								{{item.address}}
+							</view>
+                    </view>
+                </view>
+            </view>
+            <view class="time flex ">
+                <view class="time-item">下单 {{item.addtime_cn}}</view>
+                <view class="time-item">配送 {{item.delivery_day}} {{item.delivery_time}}</view>
+            </view>
+            <view class="remark" wx:if="{{item.note}}">
+                <view class="name">备注：</view>
+                <view class="content">{{item.note}}</view>
+            </view>
+            <view bind:tap="onChangeOrderStatus" class="rap-btn" data-confirm="确定抢单吗" data-id="{{item.id}}" data-type="delivery_assign" wx:if="{{item.delivery_status==3}}">抢单</view>
+            <block wx:elif="{{item.delivery_status==4||item.delivery_status==7||item.delivery_status==8}}">
+                <view class="btn-groups flex" wx:if="{{item.transfer_delivery_status==1}}">
+                    <view bind:tap="onChangeOrderStatus" class="btn-item" data-confirm="确定拒绝转单吗" data-id="{{item.id}}" data-reply="refuse" data-type="direct_transfer_reply">
+                        <view class="rap-btn danger">拒绝转单</view>
+                    </view>
+                    <view bind:tap="onChangeOrderStatus" class="btn-item" data-confirm="确定接受转单吗" data-id="{{item.id}}" data-reply="agree" data-type="direct_transfer_reply">
+                        <view class="rap-btn">接受转单</view>
+                    </view>
+                </view>
+                <block wx:else>
+                    <view class="btn-groups flex" wx:if="{{item.delivery_status==8||item.delivery_status==7}}">
+                        <view class="btn-item phone flex">
+                            <view class="name">店</view>
+                            <view bind:tap="onJsEvent" class="tel" data-event-type="jsPhone" data-phoneNumber="{{item.store.telephone}}">{{item.store.telephone}}</view>
+                        </view>
+                        <view bind:tap="onChangeOrderStatus" class="btn-item" data-confirm="确认已取货吗" data-id="{{item.id}}" data-type="delivery_takegoods">
+                            <view class="rap-btn">确认取货</view>
+                        </view>
+                    </view>
+                    <view class="btn-groups flex" wx:else>
+                        <view class="btn-item customer phone flex">
+                            <view class="name">客</view>
+                            <view bind:tap="onJsEvent" class="tel" data-event-type="jsPhone" data-phoneNumber="{{item.mobile}}">{{item.mobile}}</view>
+                        </view>
+                        <view bind:tap="onChangeOrderStatus" class="btn-item" data-confirm="确认已送达吗" data-id="{{item.id}}" data-type="delivery_success">
+                            <view class="rap-btn">确认送达</view>
+                        </view>
+                    </view>
+                </block>
+            </block>
+            <block wx:if="{{item.is_pay==1}}">
+                <view class="have-pay" wx:if="{{item.pay_type!='delivery'}}"></view>
+                <view class="delivery-pay" wx:elif="{{item.pay_type=='delivery'}}"></view>
+            </block>
+        </view>
+        <view class="wui-loadmore" wx:if="{{showLoading}}">
+            <view class="wui-loading"></view>
+            <view class="wui-loadmore-tips">正在加载中</view>
+        </view>
+        <view class="nodata" wx:if="{{activityItem.empty}}">
+            <view class="nodata-container">
+                <view class="box-icon">
+                    <view class="icon icon-order"></view>
+                </view>
+                <block wx:if="{{status==3}}">
+                    <block wx:if="{{deliveryer.work_status==1}}">
+                        <block wx:if="{{deliveryer.perm_takeout==1}}">
+                            <view class="text" wx:if="{{!can_collect_order}}">当前调度模式不允许抢单,请等待管理员或系统派单</view>
+                            <view class="text" wx:else>暂无数据</view>
+                        </block>
+                        <view class="text" wx:else>暂无数据</view>
+                    </block>
+                    <view class="text" wx:else>您当前处于收工状态,不能抢单</view>
+                </block>
+                <view class="text" wx:else>暂无数据</view>
+            </view>
+        </view>
+        <view class="wui-loadmore wui-loadmore-nomore" wx:elif="{{activityItem.loaded==1}}">
+            <view class="wui-loadmore-tips">已加载全部数据</view>
+            <view class="wui-loadmore-line"></view>
+        </view>
+    </view>
+</view>
+<include src="../public/footer.wxml"></include>

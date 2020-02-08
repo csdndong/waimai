@@ -1,0 +1,1257 @@
+@charset "utf-8";
+html {
+	font-size: 62.5%;
+	padding-bottom: 60px;
+}
+
+body {
+	-webkit-user-select: none;
+	-webkit-text-size-adjust: none;
+	background-color: #f2f2f2;
+	position: relative;
+}
+
+body,
+ul,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+img,
+input,
+i,
+b,
+* {
+	margin: 0px;
+	padding: 0px;
+	list-style: none;
+	border: 0px;
+	font-size: 100%;
+	color: #666;
+	font-family: '微软雅黑';
+}
+
+.topR i,
+.merchaclasCon ul li i,
+.merchaname i,
+.mergroshopname i,
+.merchagroupeval i,
+.merchadetainfoaddL i,
+.merchadetainfoaddR i,
+.merchadetainfofun ul li i,
+.merchaprorL i,
+.merchapogrputit i,
+.foryourecoeval i,
+.plaordconmche i,
+.plaordpracL i,
+.aldemenulisttj span i,
+.conordndate i,
+.conordntime i,
+.titR i,
+.hotelistname i,
+.hotelisttype i,
+.hoteladdL i,
+.hoteladdR i,
+.hoteldetailsCon i,
+.hoteldetailsL ul li i,
+.hotelbookphoImg span i,
+.hoteltimL i,
+.hotelshopinfoCon ul li i,
+.hotelactiCon ul li i,
+.hotelbosuCon i,
+.balchapaymaR i,
+.buycouname i,
+.groupguarCon ul li i,
+.orderevalspec ul li i,
+.orderuplimg span i,
+.orderdetaguar ul li i,
+.orderdetaaddC span i,
+.groupordertit i,
+.flashsaletmie i,
+.groupshgeCon i,
+.groupshliR i,
+.groupshliNo i,
+.groupcopaL i,
+.takeordertit i,
+.takeorderstaL i,
+.takesettla i,
+.takediavprom i,
+.takeseltim ul li i,
+.flashsaleintitL i,
+.flashsaleintitRl i,
+.citySellingtit i,
+.citybottomBox ul li i,
+.citybottomClas i,
+.citybottomcou i,
+.cityNogoods i,
+.citygrouprom i,
+.ciytcuseCon ul li i,
+.memcenorderL i,
+.memcenorderBox ul li i,
+.memcenlinkCon ul li i,
+.integralClass ul li i,
+.produdetainfoname span i,
+.produdetainfoselR i,
+.produdetashopT i,
+.produdetaFun span i,
+.produdetailsTwoSerL i,
+.produdetaViopCon ul li i,
+.flashsaleCounCon i,
+.flashsaleCon .flashsaleBox .flashsaleBut i,
+.addmaNoCon i,
+.takeShopSort ul li .icon-px,
+.myaddressBox i,
+.difaultl li i,
+.newadd li ul li i,
+businnotact ul li i,
+.businessaddtim ul li i,
+.businessaddtim ul li span i,
+.doorServTopt i,
+.doorServBom ul li i,
+.doorServBuAdd ul li i,
+.doorShopInfoLab i,
+.poiExcInfo i,
+.memcenorderBox ul li i,
+.myOrderCon ul li i,
+.payOrdAddCon i,
+.hotOrdInfo ul li i,
+.doorOrdInfoTel ul li i,
+.recServWhoLtit i,
+.signinEnter ul li i {
+	background-repeat: no-repeat;
+	background-size: 100%;
+}
+
+.hide {
+	display: none;
+}
+
+.fl {
+	float: left;
+}
+
+.fr {
+	float: right;
+}
+
+.gray {
+	-webkit-filter: grayscale(100%);
+	-moz-filter: grayscale(100%);
+	-ms-filter: grayscale(100%);
+	-o-filter: grayscale(100%);
+}
+
+
+/*------------------------------------------------------------各类图标------------------------------------------------------------*/
+
+.icon-bt {
+	background-image: url(../images/icon-bt.png);
+}
+
+.icon-code {
+	background-image: url(../images/icon-code.png);
+}
+
+.icon-cy {
+	background-image: url(../images/icon-cy.png);
+}
+
+.icon-dd {
+	width: 14px;
+	height: 16px;
+	background-image: url(../images/icon-dd.png);
+}
+
+.icon-dd1 {
+	background-image: url(../images/icon-dd1.png);
+}
+
+.icon-dzw {
+	background-image: url(../images/icon-dzw.png);
+}
+
+.icon-dz {
+	background-image: url(../images/icon-dz.png);
+}
+
+.icon-dw {
+	background-image: url(../images/icon-dw.png);
+}
+
+.icon-dw1 {
+	background-image: url(../images/icon-dw1.png);
+}
+
+.icon-dw2 {
+	background-image: url(../images/icon-dw2.png);
+}
+
+.icon-dw3 {
+	background-image: url(../images/icon-dw3.png);
+}
+
+.icon-dw4 {
+	width: 12px;
+	height: 16px;
+	background-image: url(../images/icon-dw4.png);
+}
+
+.icon-dw5 {
+	background-image: url(../images/icon-dw5.png);
+}
+
+.icon-dw6 {
+	background-image: url(../images/icon-dw6.png);
+}
+
+.icon-dw7 {
+	background-image: url(../images/icon-dw7.png);
+}
+
+.icon-dw8 {
+	background-image: url(../images/icon-dw8.png);
+}
+
+.icon-dw9 {
+	background-image: url(../images/icon-dw9.png);
+}
+
+.icon-dw10 {
+	background-image: url(../images/icon-dw10.png);
+}
+
+.icon-dc {
+	background-image: url(../images/icon-dc.png);
+}
+
+.icon-dc1 {
+	background-image: url(../images/icon-dc1.png);
+}
+
+.icon-ddf1 {
+	background-image: url(../images/icon-ddf1.png);
+}
+
+.icon-dh {
+	background-image: url(../images/icon-dh.png);
+}
+
+.icon-dh1 {
+	background-image: url(../images/icon-dh1.png);
+}
+
+.icon-dh2 {
+	background-image: url(../images/icon-dh2.png);
+}
+
+.icon-dh3 {
+	background-image: url(../images/icon-dh3.png);
+}
+
+.icon-dh4 {
+	background-image: url(../images/icon-dh4.png);
+}
+
+.icon-dp {
+	background-image: url(../images/icon-dp.png);
+}
+
+.icon-dp1 {
+	background-image: url(../images/icon-dp1.png);
+}
+
+.icon-dfk {
+	background-image: url(../images/icon-dfk.png);
+}
+
+.icon-dsy {
+	background-image: url(../images/icon-dsy.png);
+}
+
+.icon-dpj {
+	background-image: url(../images/icon-dpj.png);
+}
+
+.icon-fp {
+	background-image: url(../images/icon-fp.png);
+}
+
+.icon-fdj {
+	background-image: url(../images/icon-fdj.png);
+}
+
+.icon-fdj1 {
+	background-image: url(../images/icon-fdj1.png);
+}
+
+.icon-gth {
+	background-image: url(../images/icon-gth.png);
+}
+
+.icon-gd {
+	background-image: url(../images/icon-gd.png);
+}
+
+.icon-gb {
+	background-image: url(../images/icon-gb.png);
+}
+
+.icon-gw {
+	background-image: url(../images/icon-gw.png);
+}
+
+.icon-gywm {
+	background-image: url(../images/icon-gywm.png);
+}
+
+.icon-hd {
+	background-image: url(../images/icon-hd.png);
+}
+
+.icon-hf {
+	background-image: url(../images/icon-hf.png);
+}
+
+.icon-hy {
+	background-image: url(../images/icon-hy.png);
+}
+
+.icon-home {
+	background-image: url(../images/icon-home.png);
+}
+
+.icon-home1 {
+	background-image: url(../images/icon-home1.png);
+}
+
+.icon-home2 {
+	background-image: url(../images/icon-home2.png);
+}
+
+.icon-jm {
+	background-image: url(../images/icon-jm.png);
+}
+
+.icon-jd {
+	background-image: url(../images/icon-jd.png);
+}
+
+.icon-jd2 {
+	background-image: url(../images/icon-jd2.png);
+}
+
+.icon-jz {
+	background-image: url(../images/icon-jz.png);
+}
+
+.icon-js {
+	background-image: url(../images/icon-js.png);
+}
+
+.icon-jian {
+	background-image: url(../images/icon-jian.png);
+}
+
+.icon-jfsc {
+	background-image: url(../images/icon-jfsc.png);
+}
+
+.icon-jfmx1 {
+	background-image: url(../images/icon-jfmx1.png);
+}
+
+.icon-jfmx2 {
+	background-image: url(../images/icon-jfmx2.png);
+}
+
+.icon-jfgz1 {
+	background-image: url(../images/icon-jfgz1.png);
+}
+
+.icon-jfgz2 {
+	background-image: url(../images/icon-jfgz2.png);
+}
+
+.icon-ktv {
+	background-image: url(../images/icon-ktv.png);
+}
+
+.icon-ktv2 {
+	background-image: url(../images/icon-ktv2.png);
+}
+
+.icon-kf {
+	background-image: url(../images/icon-kf.png);
+}
+
+.icon-lb {
+	background-image: url(../images/icon-lb.png);
+}
+
+.icon-list {
+	background-image: url(../images/icon-list.png);
+}
+
+.icon-myy {
+	background-image: url(../images/icon-myy.png);
+}
+
+.icon-pass {
+	background-image: url(../images/icon-pass.png);
+}
+
+.icon-phone {
+	background-image: url(../images/icon-phone.png);
+}
+
+.icon-pk {
+	background-image: url(../images/icon-pk.png);
+}
+
+.icon-px1 {
+	background-image: url(../images/icon-px1.png);
+}
+
+.icon-px2 {
+	background-image: url(../images/icon-px2.png);
+}
+
+.icon-px3 {
+	background-image: url(../images/icon-px3.png);
+}
+
+.icon-qd {
+	background-image: url(../images/icon-qd.png);
+}
+
+.icon-qb {
+	background-image: url(../images/icon-qb.png);
+}
+
+.icon-qianbi {
+	background-image: url(../images/icon-qianbi.png);
+}
+
+.icon-rmtg {
+	background-image: url(../images/icon-rmtg.png);
+}
+
+.icon-rq {
+	background-image: url(../images/icon-rq.png);
+}
+
+.icon-rq1 {
+	background-image: url(../images/icon-rq1.png);
+}
+
+.icon-rz {
+	background-image: url(../images/icon-rz.png);
+}
+
+.icon-search {
+	background-image: url(../images/010.png);
+}
+
+.icon-sj {
+	background-image: url(../images/icon-sj.png);
+}
+
+.icon-sj1 {
+	background-image: url(../images/icon-sj1.png);
+}
+
+.icon-sj2 {
+	background-image: url(../images/icon-sj2.png);
+}
+
+.icon-sj3 {
+	background-image: url(../images/icon-sj3.png);
+}
+
+.icon-sj4 {
+	background-image: url(../images/icon-sj4.png);
+}
+
+.icon-sc {
+	background-image: url(../images/icon-sc.png);
+}
+
+.icon-sf {
+	background-image: url(../images/icon-sf.png);
+}
+
+.icon-sz {
+	background-image: url(../images/icon-sz.png);
+}
+
+.icon-sbt {
+	background-image: url(../images/icon-sbt.png);
+}
+
+.icon-spxq {
+	width: 14px;
+	height: 16px;
+	background-image: url(../images/icon-spxq.png);
+}
+
+.icon-tg {
+	background-image: url(../images/icon-tg.png);
+}
+
+.icon-tg1 {
+	background-image: url(../images/icon-tg1.png);
+}
+
+.icon-tg3 {
+	background-image: url(../images/icon-tg3.png);
+}
+
+.icon-tgx {
+	background-image: url(../images/icon-tgx.png);
+}
+
+.icon-tgq {
+	background-image: url(../images/icon-tgq.png);
+}
+
+.icon-tj {
+	background-image: url(../images/icon-tj.png);
+}
+
+.icon-tjdz {
+	background-image: url(../images/icon-tjdz.png);
+}
+
+.icon-tc {
+	background-image: url(../images/icon-tc.png);
+}
+
+.icon-tcg1 {
+	background-image: url(../images/icon-tcg1.png);
+}
+
+.icon-ts {
+	background-image: url(../images/icon-ts.png);
+}
+
+.icon-tksh {
+	background-image: url(../images/icon-tksh.png);
+}
+
+.icon-user {
+	background-image: url(../images/icon-user.png);
+}
+
+.icon-vrz {
+	background-image: url(../images/icon-vrz.png);
+}
+
+.icon-wm {
+	background-image: url(../images/icon-wm.png);
+}
+
+.icon-wm1 {
+	background-image: url(../images/icon-wm1.png);
+}
+
+.icon-wm3 {
+	background-image: url(../images/icon-wm3.png);
+}
+
+.icon-wmc {
+	background-image: url(../images/icon-wmc.png);
+}
+
+.icon-wxzf {
+	background-image: url(../images/icon-wxzf.png);
+}
+
+.icon-wifi {
+	background-image: url(../images/icon-wifi.png);
+}
+
+.icon-wc {
+	background-image: url(../images/icon-wc.png);
+}
+
+.icon-wc1 {
+	background-image: url(../images/icon-wc1.png);
+}
+
+.icon-xpf {
+	background-image: url(../images/icon-xpf.png);
+}
+
+.icon-xj {
+	background-image: url(../images/icon-xj.png);
+}
+
+.icon-yd {
+	background-image: url(../images/icon-yd.png);
+}
+
+.icon-yd1 {
+	background-image: url(../images/icon-yd1.png);
+}
+
+.icon-yhq {
+	background-image: url(../images/icon-yhq.png);
+}
+
+.icon-yhq1 {
+	background-image: url(../images/icon-yhq1.png);
+}
+
+.icon-yhk {
+	background-image: url(../images/icon-yhk.png);
+}
+
+.icon-yhx {
+	background-image: url(../images/icon-yhx.png);
+}
+
+.icon-yh {
+	background-image: url(../images/icon-yh.png);
+}
+
+.icon-yf {
+	background-image: url(../images/icon-yf.png);
+}
+
+.icon-yysj {
+	background-image: url(../images/icon-yysj.png);
+}
+
+.icon-zf {
+	background-image: url(../images/icon-zf.png);
+}
+
+.icon-zfb {
+	background-image: url(../images/icon-zfb.png);
+}
+
+.icon-zk {
+	background-image: url(../images/icon-zk.png);
+}
+
+.icon-zhcz1 {
+	background-image: url(../images/icon-zhcz1.png);
+}
+
+.icon-zhcz2 {
+	background-image: url(../images/icon-zhcz2.png);
+}
+
+.lab-yxtj {
+	background-image: url(../images/lab-01.png);
+}
+
+.lab-jxtj {
+	background-image: url(../images/lab-02.png);
+}
+
+.collec-01 {
+	background-image: url(../images/002.png);
+}
+
+.collec-02 {
+	background-image: url(../images/003.png);
+}
+
+.collec-03 {
+	background-image: url(../images/014.png);
+}
+
+.but_01 {
+	background-image: url(../images/but_01.png);
+}
+
+.but_02 {
+	background-image: url(../images/but_02.png);
+}
+
+.but_03 {
+	background-image: url(../images/but_03.png);
+}
+
+.but_04 {
+	background-image: url(../images/but_004.png);
+}
+
+.but_05 {
+	background-image: url(../images/but_05.png);
+}
+
+.but_06 {
+	background-image: url(../images/but_06.png);
+}
+
+.but_07 {
+	background-image: url(../images/but_07.png);
+}
+
+.but_08 {
+	background-image: url(../images/but_08.png);
+}
+
+.but_09 {
+	background-image: url(../images/but_09.png);
+}
+
+.but_10 {
+	background-image: url(../images/but_10.png);
+}
+
+.but_11 {
+	background-image: url(../images/but_11.png);
+}
+
+.but_12 {
+	background-image: url(../images/but_12.png);
+}
+
+.but_13 {
+	background-image: url(../images/but_13.png);
+}
+
+.but_14 {
+	background-image: url(../images/but_14.png);
+}
+
+.but_15 {
+	background-image: url(../images/but_15.png);
+}
+
+.but_16 {
+	background-image: url(../images/but_16.png);
+}
+
+.but_17 {
+	background-image: url(../images/but_17.png);
+}
+
+.but_18 {
+	background-image: url(../images/but_18.png);
+}
+
+.but_19 {
+	background-image: url(../images/but_19.png);
+}
+
+.but_20 {
+	background-image: url(../images/but_20.png);
+}
+
+.exp_01 {
+	background-image: url(../images/exp_01.png);
+}
+
+.exp_02 {
+	background-image: url(../images/exp_02.png);
+}
+
+.ins_01 {
+	width: 17px;
+	height: 17px;
+	background-image: url(../images/ins_01.png);
+}
+
+.ins_02 {
+	width: 12px;
+	height: 12px;
+	background-image: url(../images/ins_02.png);
+}
+
+.cou_01 {
+	background-image: url(../images/cou_01.png);
+}
+
+.cou_02 {
+	background-image: url(../images/cou_02.png);
+}
+
+.cuse_01 {
+	background-image: url(../images/cuse_01.png);
+}
+
+.cuse_02 {
+	background-image: url(../images/cuse_02.png);
+}
+
+.cuse_03 {
+	background-image: url(../images/cuse_03.png);
+}
+
+.cuse_04 {
+	background-image: url(../images/cuse_04.png);
+}
+
+.mycou_00 {
+	background-image: url(../images/mycou_00.png);
+}
+
+.mycou_01 {
+	background-image: url(../images/mycou_01.png);
+}
+
+.mycou_02 {
+	background-image: url(../images/mycou_02.png);
+}
+
+.mycou_03 {
+	background-image: url(../images/mycou_03.png);
+}
+
+
+/*-------------------------------------------------------------------------------------------------------------------------------*/
+
+/*------------------------------------------------------------标题开始------------------------------------------------------------*/
+
+.titCon {
+	width: 100%;
+	background-color: #ff6e6e;
+	overflow: hidden;
+}
+
+.titBox {
+	width: 94.4444%;
+	margin: 0 auto;
+	line-height: 42px;
+	overflow: hidden;
+}
+
+.titL {
+	width: 19.1176%;
+	float: left;
+}
+
+.titL span {
+	width: 74.6666%;
+	display: block;
+	font-size: 1.4rem;
+	color: #fff;
+	float: left;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	margin-right: 5%;
+	overflow: hidden;
+}
+
+.titL i {
+	color: #fff;
+	font-size: 2rem;
+}
+
+.titL .fa-angle-down {
+	font-size: 1.6rem;
+	margin-top: 13px;
+	float: left;
+}
+
+.titC {
+	width: 61.7647%;
+	float: left;
+	text-align: center;
+}
+
+.titC h2 {
+	font-weight: normal;
+	font-size: 1.4rem;
+	color: #fff;
+}
+
+.titC .topsearch1 {
+	width: 109.5238%;
+	line-height: 24px;
+	padding-left: 12.8571%;
+	margin-left: -9%;
+	font-size: 1.2rem;
+	border-radius: 50px;
+	background-image: url(../images/icon-fdj.png);
+	background-repeat: no-repeat;
+	background-position: 6px center;
+	background-size: 5%;
+	z-index: 99;
+	position: relative;
+}
+
+.titC .topsearch2 {
+	width: 90%;
+	line-height: 28px;
+	padding-left: 16.8571%;
+	margin-left: 6%;
+	font-size: 1.2rem;
+	color: #fff;
+	background-color: transparent;
+	background-image: url(../images/searchbg01.png);
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	z-index: 99;
+	position: relative;
+}
+
+.titC .topsearch2::-webkit-input-placeholder {
+	color: #fff;
+}
+
+.titC .topsearch2:-moz-placeholder {
+	color: #fff;
+}
+
+.titC .cityinp {
+	width: 130%;
+	height: 24px;
+	font-size: 1.2rem;
+	padding-left: 15%;
+	background-color: #def7ee;
+	border-radius: 5px;
+	background-image: url(../images/icon-fdj.png);
+	background-repeat: no-repeat;
+	background-position: 3% center;
+	background-size: 5%;
+	margin-left: -19%;
+}
+
+.titR {
+	width: 19.1176%;
+	float: right;
+	text-align: right;
+}
+
+.titR .collec-01,
+.collec-02 {
+	display: inline-block;
+	width: 19px;
+	height: 18px;
+	vertical-align: -5px;
+}
+
+.titR .icon-dw1 {
+	display: inline-block;
+	width: 12px;
+	height: 16px;
+	vertical-align: -4px;
+}
+
+.titR .icon-gd {
+	display: inline-block;
+	width: 22px;
+	height: 22px;
+	vertical-align: -7px;
+}
+
+.titR .icon-fdj1 {
+	display: inline-block;
+	width: 19px;
+	height: 19px;
+	vertical-align: -3px;
+}
+
+.titR span {
+	font-size: 1.4rem;
+	color: #fff;
+}
+
+.titR i {
+	font-size: 1.4rem;
+	color: #fff;
+}
+
+.titR .integralExch {
+	display: inline-block;
+	padding: 0 7.6923%;
+	height: 23px;
+	line-height: 23px;
+	font-size: 1.2rem;
+	border-radius: 3px;
+	background-color: #03b37c;
+}
+
+
+/*------------------------------------------------------------标题结束------------------------------------------------------------*/
+
+
+/*------------------------------------------------------------下单开始------------------------------------------------------------*/
+
+
+/*---------------------------下单---------------------------*/
+
+
+/*--------消费金额--------*/
+
+.plaordconmCon {
+	width: 100%;
+	padding-bottom: 10px;
+	background-color: #f0f0f0;
+}
+
+.plaordconmCon .plaordconmBox {
+	width: 94.4444%;
+	padding: 0 2.7777%;
+}
+
+.plaordconmCon .plaordconmBox .plaordconm {
+	width: 94.4444%;
+	height: 18px;
+	padding: 3% 2.7777%;
+	margin-top: 10px;
+	background:#fff;
+	/*background-size: 100% 100%;*/
+	overflow: hidden;
+}
+
+.plaordconmCon .plaordconmBox .plaordconm span {
+	font-size: 1.5rem;
+	color: #4c4c4c;
+	float: left;
+}
+
+.plaordconmCon .plaordconmBox .plaordconm input {
+	height: 18px;
+	font-size: 1.5rem;
+	color: #4c4c4c;
+	text-align: right;
+	float: right;
+}
+
+.plaordconmCon .plaordconmBox .plaordconmche {
+	width: 100%;
+	line-height: 20px;
+	margin-top: 10px;
+	overflow: hidden;
+}
+
+.plaordconmCon .plaordconmBox .plaordconmche span {
+	font-size: 1.2rem;
+	color: #999999;
+	float: left;
+	margin-left: 1.4705%;
+}
+
+.plaordconmCon .plaordconmBox .plaordconmche i {
+	display: block;
+	width: 16px;
+	height: 16px;
+}
+
+.plaordconmCon .plaordconmBox .plaordconmche input {
+	width: 16px;
+	height: 16px;
+	background-size: 100%;
+	-webkit-appearance: none;
+	float: left;
+}
+
+
+/*--------优惠活动--------*/
+
+.plaordpracCon {
+	width: 100%;
+	background-color: #fff;
+	border-top: 1px solid #cccccc;
+	border-bottom: 1px solid #cccccc;
+	overflow: hidden;
+}
+
+.plaordpracBox {
+	width: 97.2222%;
+	float: right;
+	overflow: hidden;
+}
+
+.plaordpracBox ul li {
+	width: 100%;
+	line-height: 40px;
+	border-bottom: 1px solid #cccccc;
+	overflow: hidden;
+}
+
+.plaordpracBox ul .borno {
+	border-bottom: 0px;
+}
+
+.plaordpracBox ul li .plaordpracL {
+	width: 55%;
+	float: left;
+	overflow: hidden;
+}
+
+.plaordpracBox ul li .plaordpracL i {
+	width: 20px;
+	height: 20px;
+	display: inline-block;
+	vertical-align: -4px;
+}
+
+.plaordpracBox ul li .plaordpracL span {
+	margin-left: 4.0816px;
+	color: #333333;
+	font-size: 1.4rem;
+}
+
+.plaordpracBox ul li .plaordpracR {
+	width: 38%;
+	padding: 0 2.8571% 0 0;
+	float: right;
+}
+
+.plaordpracBox ul li .plaordpracR span {
+	display: block;
+	width: 80%;
+	font-size: 1.2rem;
+	color: #cccccc;
+	text-align: right;
+	float: left;
+	margin-top: 2px;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
+.plaordpracBox ul li .plaordpracR .foncol2 {
+	color: #ff4200;
+}
+
+.plaordpracBox ul li .plaordpracR .plaordcheck {
+	width: 22px;
+	height: 22px;
+	float: right;
+	margin-top: 10px;
+	-webkit-appearance: none;
+	background-size: 100%;
+}
+
+
+/*--------实付金额--------*/
+
+.plaordpaidCon {
+	width: 100%;
+	background-color: #fff;
+	border-top: 1px solid #cccccc;
+	border-bottom: 1px solid #cccccc;
+	margin-top: 10px;
+	overflow: hidden;
+}
+
+.plaordpaidCon .plaordpaidBox {
+	width: 94.4444%;
+	line-height: 40px;
+	padding: 0 2.77777%;
+	overflow: hidden;
+}
+
+.plaordpaidCon .plaordpaidBox span {
+	font-size: 1.5rem;
+	color: #999999;
+}
+
+.plaordpaidCon .plaordpaidBox .plaordpaidR {
+	float: right;
+}
+
+.plaordpaidCon .plaordpaidBox .foncol3 {
+	color: #ff4200;
+}
+
+
+/*--------支付方式--------*/
+
+.plaordcho {
+	width: 94.4444%;
+	padding: 0 2.77777%;
+	line-height: 38px;
+	color: #999999;
+	font-size: 1.4rem;
+	background-color: #f0f0f0;
+	overflow: hidden;
+}
+
+.plaordpracBox ul li .plaordpracR .plaordradio {
+	width: 25px;
+	height: 25px;
+	float: right;
+	margin-top: 10px;
+	-webkit-appearance: none;
+	background-size: 100%;
+}
+
+
+/*--------确认按钮--------*/
+
+.confirmbuttonO {
+	width: 100%;
+	margin-top: 15px;
+	overflow: hidden;
+}
+
+.confirmbuttonO .confirmprom {
+	padding: 0 2.7777%;
+	font-size: 1.4rem;
+	line-height: 35px;
+	text-align: right;
+}
+
+.confirmbuttonO .confirmprom span {
+	color: #01cd88;
+}
+
+.confirmbuttonO .confirmprom i {
+	margin-left: 2.2058%;
+	color: #01cd88;
+}
+
+.confirmbutton {
+	width: 100%;
+	height: 175px;
+	background-color: #fff;
+	overflow: hidden;
+}
+
+.confirmbuttonCon {
+	width: 100%;
+	height: 175px;
+	background-color: #fff;
+	margin-top: 10px;
+	border-top: 1px solid #cccccc;
+	overflow: hidden;
+}
+
+.confirmbuttonBox {
+	width: 94.4444%;
+	padding: 0 2.77777%;
+	overflow: hidden;
+}
+
+.confirmbuttonBox input {
+	width: 100%;
+	height: 40px;
+	color: #fff;
+	font-size: 1.5rem;
+	margin-top: 10px;
+	border-radius: 4px;
+}
+
+.confirmbuttonBox .confirm {
+	background-color: #f6d0a9;
+}
+
+.confirmbuttonBox .inputbg1 {
+	background-color: #2dbb19;
+}
+
+.confirmbuttonBox .inputbg2 {
+	background-color: #ff9500;
+}
+
+.confirmbuttonBox .inputbg3 {
+	background-color: #ff8400;
+}
+
+
+/*------------------------------------------------------------下单结束------------------------------------------------------------*/
+
+

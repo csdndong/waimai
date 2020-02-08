@@ -1,0 +1,47 @@
+<view class="integral">
+    <view class="banner" wx:if="{{lblist.length!=0}}">
+        <view class="swiper-container">
+            <swiper autoplay="true" circular="true" class="swiper" duration="500" indicatorDots="true" interval="5000">
+                <swiper-item data-index="{{index}}" wx:for="{{lblist}}" wx:key="unique">
+                    <image bindtap="jumps" class="img" data-appid="{{item.appid}}" data-id="{{item.id}}" data-name="{{item.title}}" data-src="{{item.src}}" data-type="{{item.item}}" data-wb_src="{{item.src2}}" src="{{item.logo}}"></image>
+                </swiper-item>
+            </swiper>
+        </view>
+    </view>
+    <view class="list flex-center">
+        <view class="listleft flex1">
+            <image class="cost" src="../../img/cost.png"></image>
+            <view>积分<text class="incolor1">{{integral}}</text>
+            </view>
+        </view>
+        <view bindtap="record" class="listright flex1">
+            <image class="cost" src="../../img/gssj.png"></image>
+            <view>兑换记录</view>
+        </view>
+    </view>
+    <view class="fenlei flex2">
+        <view bindtap="cxfl" class="fenlist flex3" id="{{item.id}}" wx:for="{{fenlei}}" wx:key="*this">
+            <image class="fenimg" mode="aspectFill" src="{{item.img}}"></image>
+            <view class="fename gobyndsingle">{{item.name}}</view>
+        </view>
+    </view>
+    <view class="commodity">
+        <view class="comtitle">大家都在兑</view>
+        <view class="comlist flex2" wx:if="{{commodity.length!=0}}">
+            <view bindtap="interinfo" class="comone" id="{{item.id}}" wx:for="{{commodity}}" wx:key="*this">
+                <view class="onetitle gobyndsingle">{{item.name}}</view>
+                <view class="flex-center">
+                    <view class="comnum">{{item.money}}</view>
+                    <view class="comcost">积分</view>
+                    <view class="comred" wx:if="{{item.type=='1'}}">虚拟</view>
+                    <view class="comred" wx:if="{{item.type=='2'}}">实物</view>
+                </view>
+                <view class="comimgwai flex1">
+                    <image class="comimg" mode="aspectFit" src="{{item.img}}"></image>
+                </view>
+            </view>
+            <view class="comone flex2"></view>
+        </view>
+        <view class="wsj" wx:else>此分类暂无数据</view>
+    </view>
+</view>

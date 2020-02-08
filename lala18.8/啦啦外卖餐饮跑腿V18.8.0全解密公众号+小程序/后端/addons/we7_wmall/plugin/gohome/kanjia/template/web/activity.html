@@ -1,0 +1,137 @@
+{itemplate 'public/header'}
+<form action="./index.php" class="form-horizontal form-filter" id="form1">
+	{php echo tpl_form_filter_hidden('kanjia/activity/list');}
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">活动状态</label>
+		<div class="col-sm-9 col-xs-12">
+			<div class="btn-group">
+				<div class="btn-group">
+					<a href="{php echo ifilter_url('status:-1');}" class="btn {if $status == -1}btn-primary{else}btn-default{/if}">不限</a>
+					{loop $goods_status $val $item}
+						<a href="{php echo ifilter_url('status:'. $val);}" class="btn {if $status == $val}btn-primary{else}btn-default{/if}">{$item['text']}</a>
+					{/loop}
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="form-group form-inline">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">筛选</label>
+		<div class="col-sm-9 col-xs-12">
+			{if $_W['is_agent']}
+			<select name="agentid" class="select2 js-select2 form-control width-130">
+				<option value="0">选择代理区域</option>
+				{loop $_W['agents'] $agent}
+				<option value="{$agent['id']}" {if $agentid == $agent['id']}selected{/if}>{$agent['area']}</option>
+				{/loop}
+			</select>
+			{/if}
+			<select class="form-control" id="sid" name="sid">
+				<option value="">所属商户</option>
+				{loop $stores $store}
+				<option value="{$store['id']}" {if $store['id'] == $_GPC['sid']}selected{/if}>{$store['title']}</option>
+				{/loop}
+			</select>
+			<select name="cateid" id="cid" class="form-control">
+				<option value="">所属分类</option>
+				{loop $categorys $category}
+				<option value="{$category['id']}" {if $category['id'] == $_GPC['cateid']}selected{/if}>{$category['title']}</option>
+				{/loop}
+			</select>
+			<input class="form-control" name="keyword" id="" type="text" value="{$_GPC['keyword']}" placeholder="商品名称">
+		</div>
+	</div>
+	<div class="form-group" style="border-bottom: none">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+		<div class="col-sm-9 col-xs-12">
+			<button class="btn btn-primary">筛选</button>
+		</div>
+	</div>
+</form>
+<form action="" class="form-table form form-validate" method="post">
+	<div class="panel panel-table">
+		<div class="panel-body table-responsive js-table">
+			{if empty($goods)}
+			<div class="no-result">
+				<p>还没有相关数据</p>
+			</div>
+			{else}
+			<table class="table table-hover">
+				<thead class="navbar-inner">
+				<tr>
+					<th width="30">
+						<div class="checkbox checkbox-inline">
+							<input type="checkbox">
+							<label></label>
+						</div>
+					</th>
+					<th>排序</th>
+					<th>缩略图</th>
+					<th>所属商户</th>
+					<th>所属分类</th>
+					<th>商品名称</th>
+					<th>商品原价</th>
+					<th>商品库存</th>
+					<th>开始时间<br>结束时间</th>
+					<th>活动状态</th>
+					<th>操作</th>
+				</tr>
+				</thead>
+				<tbody>
+				{loop $goods $item}
+				<tr>
+					<td>
+						<input type="hidden" name="ids[]" value="{$item['id']}">
+						<div class="checkbox checkbox-inline">
+							<input type="checkbox" name="id[]" value="{$item['id']}">
+							<label></label>
+						</div>
+					</td>
+					<td>
+						<input type="text" name="malldisplayorder[]" class="form-control width-100" value="{$item['malldisplayorder']}">
+					</td>
+					<td>
+						<img src="{php echo tomedia($item['thumb']);}" alt=""  width="48" style="border-radius: 3px;">
+					</td>
+					<td>
+						{$stores[$item['sid']]['title']}
+					</td>
+					<td>
+						{$categorys[$item['cateid']]['title']}
+					</td>
+					<td>
+						<input type="text" name="name[]" class="form-control width-100" value="{$item['name']}">
+					</td>
+					<td>
+						<input type="text" name="oldprice[]" class="form-control width-100" value="{$item['oldprice']}">
+					</td>
+					<td>
+						<input type="text" name="total[]" class="form-control width-100" value="{$item['total']}">
+					</td>
+					<td>
+						{php echo date('Y-m-d H:i:s',$item['starttime']);}<br>
+						{php echo date('Y-m-d H:i:s',$item['endtime']);}
+					</td>
+					<td>
+						<span class="label {$goods_status[$item['status']]['css']}">{$goods_status[$item['status']]['text']}</span>
+					</td>
+					<td>
+						<a href="{php echo iurl('kanjia/activity/del', array('id' => $item['id']))}" class="btn btn-danger btn-sm js-remove" data-confirm="确定删除该分类?">删除</a>
+					</td>
+				</tr>
+				{/loop}
+				</tbody>
+			</table>
+			<div class="btn-region clearfix">
+				<div class="pull-left">
+					<input name="token" type="hidden" value="{$_W['token']}" />
+					<input type="submit" class="btn btn-primary btn-sm" name="submit" value="提交" />
+				</div>
+				<div class="pull-right">
+					{$pager}
+				</div>
+			</div>
+			{/if}
+		</div>
+	</div>
+</form>
+{itemplate 'public/footer'}

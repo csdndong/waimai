@@ -1,0 +1,51 @@
+{itemplate 'public/header'}
+{if $op == 'index'}
+<form action="" class="form-table form form-validate" method="post">
+	<div class="panel panel-table">
+		<div class="panel-body table-responsive js-table">
+			{if empty($testers)}
+				<div class="no-result">
+					<p>还没有相关数据</p>
+				</div>
+			{else}
+				<table class="table table-hover">
+					<thead>
+					<tr>
+						<th>
+							<div class="checkbox checkbox-inline">
+								<input type="checkbox" name="ids[]" value=""/>
+								<label></label>
+							</div>
+						</th>
+						<th>微信号</th>
+						<th>添加时间</th>
+						<th class="text-right">操作</th>
+					</tr>
+					</thead>
+					{loop $testers $item}
+						<tr>
+							<td>
+								<div class="checkbox checkbox-inline">
+									<input type="checkbox" name="id[]" value="{$item['wechatid']}"/>
+									<label></label>
+								</div>
+							</td>
+							<td>{$item['wechatid']}</td>
+							<td>{php echo date('Y-m-d H:i:s', $item['addtime'])}</td>
+							<td class="text-right">
+								<a href="{php echo iurl('wxapp/memberauth/del', array('id' => $item['wechatid']))}" class="btn btn-default btn-sm js-remove" data-confirm="确定删除吗?">删除</a>
+							</td>
+						</tr>
+					{/loop}
+				</table>
+				<div class="btn-region clearfix">
+					<div class="pull-left">
+						<a href="{php echo iurl('wxapp/memberauth/del')}" class="btn btn-primary btn-danger js-batch" data-batch="remove" data-confirm="确定删除吗">删除</a>
+					</div>
+				</div>
+			{/if}
+		</div>
+	</div>
+</form>
+{/if}
+{itemplate 'public/footer'}

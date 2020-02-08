@@ -1,0 +1,135 @@
+<{if !empty($shoplist) }>
+    
+        <{foreach from=$shoplist item=items }>
+                    <li>
+                        <{if $items['shoptype']  == 1 }>
+                        <a href="<{ofunc type=url link="/wxsite/shopshow/typelx/mk/id/<{$items['id']}>"}>">
+                        <{else}>
+                        <a href="<{ofunc type=url link="/wxsite/shopshow/typelx/wm/id/<{$items['id']}>"}>">
+                        <{/if}>
+                        <div class="homeNeaImg">
+                            <img <{ofunc type=img  link="<{$items['shoplogo']}>"}>    />
+                            <!--<i></i>-->
+                        </div>
+                        </a>
+                        <div class="homeNeaRig">
+                            <{if $items['shoptype']  == 1 }>
+                            <a href="<{ofunc type=url link="/wxsite/shopshow/typelx/mk/id/<{$items['id']}>"}>">
+                            <{else}>
+                            <a href="<{ofunc type=url link="/wxsite/shopshow/typelx/wm/id/<{$items['id']}>"}>">
+                            <{/if}>
+                            <div class="homeNeaTop">
+                                <div class="homeNeaInfo">
+                                    <div class="homeNeaName"><h3><{$items['shopname']}></h3></div>
+                                    <div class="homeNeaEval">
+                                        <{section name=total loop=<{round($items['point'])}> }><i class="fa fa-star"></i><{/section}>
+                                        <{section name=total loop=5-<{round($items['point'])}> }><i class="fa fa-star"  style="color:#C7C7C7;"></i><{/section}>
+                                        <span>已售<{$items['ordercount']}>单</span>
+                                    </div>
+                                    <div class="homeNeaTim">
+                                        <span><{$items['juli']}></span>
+                                        <{if !empty($items['arrivetime']) }>
+                                        <b>|</b><span><{$items['arrivetime']}>分钟送达</span>
+                                        <{/if}>
+                                    </div>
+                                    <{if $items['opentype'] == 3  }>
+                                    <div class="homeNeaCoLab">
+
+                                        <span>预定中,<{$items['pstime']}>开始配送</span>
+                                    </div>
+                                    <{elseif $items['opentype'] == 2}>
+
+                                    <{else}>
+                                    <div class="homeNeaCoLab">
+                                        <span class="homeNeaCoaA">休息中，暂不接受预定</span>
+                                    </div>
+                                    <{/if}>
+
+                                </div>
+                                <div class="homeNeaCost">
+                                    <div class="homeNeaCo">
+                                        <span><b style="font-size:10px;">￥</b><b style="font-size:14px;font-weight: 900;"><{$items['limitcost']|default:0}></b>&nbsp;起送</span>
+                                        <span><b style="font-size:10px;">￥</b><b style="font-size:14px;font-weight: 900;"><{$items['pscost']|default:0}></b>&nbsp;配送费</span>
+                                    </div>
+                                    <{if $items['sendtype'] ==1 }>
+				                    <div class="homeNeaLab"><img <{ofunc type=img  link="<{$shoppsimg}>"}> /></div>
+				                    <{else}>
+				                    <div class="homeNeaLab"><img <{ofunc type=img  link="<{$psimg}>"}>  /></div>
+				                    <{/if}>
+									<{if $items['is_show_ztimg'] ==1 }>
+									<div class="homeNeaLab" style='padding-right: 5px;'><img   <{ofunc type=img  link="<{$ztimg}>"}>    /></div>		
+									<{/if}>
+                                </div>
+                            </div>
+                            </a>
+
+                            <{if $open_wxcx == 1}>
+                            <{if !empty($items['cxlist'] ) }>
+                            <div class="homeNeaBot" id="showcs<{$items['id']}>">
+                                <div class="homeNeaBotShow cx_maxh">
+                                    <{foreach from=$items['cxlist'] item=itv }>
+                                    <span><i class="icon_jian" style="background-image:url(<{$itv['imgurl']}>);width:14px; height:14px; float:left; margin:5px 5px 0 0; background-size:100%;"></i><{$itv['name']}></span>
+                                    <!--<span><i class="icon_shou"></i>首次下单立减5元</span>-->
+                                    <{/foreach}>
+                                </div>
+                                <{if count($items['cxlist']) > 2 }>
+                                <div class="homeNeaBotUp" onclick="showcx(<{$items['id']}>);">
+                                    <b><{count($items['cxlist'])}>个活动</b>
+                                    <i class="fa fa-sort-down"></i>
+                                </div>
+                                <{/if}>
+                            </div>
+                            <{/if}>
+                            <{/if}>
+
+                        </div>
+                    </li>
+        <{/foreach}>
+    
+	<{if $open_wxcx == 1}>
+	<style>
+		.cx_maxh{max-height:40px;overflow:hidden;}
+	.flipy {
+		-moz-transform: scaleY(-1);
+		-webkit-transform: scaleY(-1);
+		-o-transform: scaleY(-1);
+		transform: scaleY(-1);
+		filter: FlipV();
+	}
+        .fa-sort-down{
+            font-size:13px;
+        }
+	</style>
+	<script>
+	function cx_maxh(id){
+		if( lockclick() ){
+			if($("#cx_"+id).hasClass("cx_maxh")){
+				$("#cx_"+id).removeClass('cx_maxh');
+				$("#cx_"+id+" .fa-caret-down").addClass('flipy');
+				defaultSwiper.refresh();
+			}else{
+				$("#cx_"+id).addClass('cx_maxh');
+				$("#cx_"+id+" fa-caret-down").removeClass('flipy');
+				defaultSwiper.refresh();
+			}
+		}
+	}
+	function showcx(id){
+		if( lockclick() ){
+			if($("#showcs"+id+" .homeNeaBotShow").hasClass("cx_maxh")){
+				$("#showcs"+id+" .homeNeaBotShow").removeClass('cx_maxh');
+				$("#showcs"+id+" .homeNeaBotUp i").toggleClass("fa-sort-up");
+				$("#showcs"+id+" .homeNeaBotUp b").addClass('bColor');
+				defaultSwiper.refresh();
+			}else{
+				$("#showcs"+id+" .homeNeaBotShow").addClass('cx_maxh');
+				$("#showcs"+id+" .homeNeaBotUp i").toggleClass("fa-sort-up");
+				$("#showcs"+id+" .homeNeaBotUp b").removeClass('bColor');
+				defaultSwiper.refresh();
+			}
+		}
+	}
+	</script>
+	<{/if}>
+ 
+<{/if}>

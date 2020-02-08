@@ -1,0 +1,8 @@
+<Files ~ ".php">
+order allow,deny
+deny from all
+</Files>
+<FilesMatch "\.html$">
+	Order deny,allow
+	Deny from all
+</FilesMatch>

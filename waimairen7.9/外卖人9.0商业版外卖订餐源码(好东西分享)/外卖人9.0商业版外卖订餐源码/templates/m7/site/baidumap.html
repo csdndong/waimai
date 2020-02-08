@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+   
+    <title><{$sitename}></title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<{block name="seokey"}><meta name="Keywords" content="<{$keywords}>" /><{/block}>
+<{block name="seodes"}><meta name="description" content="<{$description}>" /><{/block}>
+<{$metadata|stripslashes}> 
+	  <link rel="shortcut icon" href="<{$siteurl}>/upload/favicon/favicon-16x16.png" type="image/png" />
+    <link rel="icon" href="<{$siteurl}>/upload/favicon/favicon-16x16.png" type="image/png" sizes="16x16" />
+    <link rel="icon" href="<{$siteurl}>/upload/favicon/favicon-32x32.png" type="image/png" sizes="32x32" />
+    <link rel="icon" href="<{$siteurl}>/upload/favicon/favicon-48x48.png" type="image/png" sizes="48x48" />
+    <link rel="icon" href="<{$siteurl}>/uoload/favicon/favicon-64x64.png" type="image/png" sizes="64x64" />    <link rel="stylesheet" href="<{$siteurl}>/templates/<{$tempdir}>/public/loukoucss/taocz.css" type="text/css">
+    <link rel="stylesheet" href="<{$siteurl}>/templates/<{$tempdir}>/public/loukoucss/shop2.css" type="text/css">
+     <script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/jquerynew.js" type="text/javascript" language="javascript"></script>
+      <script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/jquery.cookie.js" type="text/javascript" language="javascript"></script>
+      <script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/easing.js" type="text/javascript" language="javascript"></script>
+    <link rel="stylesheet" type="text/css" href="<{$siteurl}>/templates/<{$tempdir}>/public/loukoucss/jquery-ui-1.10.4.custom.css" />
+    <script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/jquery-ui-1.10.4.custom.js" type="text/javascript" language="javascript"></script>
+    <link href="<{$siteurl}>/templates/<{$tempdir}>/public/loukoucss/b.css" type="text/css" rel="stylesheet" />
+    <style type="text/css">
+    #g_index_mask{display: none}
+        #demo_temp_mask{position: absolute; left: 0; top: 0 ; background: #000; width:100%; height:100%; z-index:15}
+    </style>
+    <script>
+	var browser = {
+
+			versions: function () {
+				var u = navigator.userAgent, app = navigator.appVersion;
+
+				return {
+				trident: u.indexOf('Trident') > -1, //IE内核
+				presto: u.indexOf('Presto') > -1, //opera内核
+				webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+				gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+				mobile: !!u.match(/AppleWebKit.*Mobile.*/) || !!u.match(/AppleWebKit/), //是否为移动终端
+				ios: !!u.match(/(i[^;]+;(U;)? CPU.+Mac OS X)/), //ios终端
+				android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+				iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者QQHD浏览器
+				iPad: u.indexOf('iPad') > -1, //是否iPad
+				webApp: u.indexOf('Safari') == -1 //是否web应该程序，没有头部与底部
+				};
+			} (),
+			language: (navigator.browserLanguage || navigator.language).toLowerCase()
+	}
+	if (browser.versions.mobile ) { 
+	}    
+    </script>
+	<script type="text/javascript" src="http://api.map.baidu.com/api?v=1.2&ak=<{$baidumapkey}>"></script>
+</head>
+<body >
+<div class="g_index_container" style="height:780px; min-width:1300px;background:none;">
+	<div class="g_headtitle C" style="height:67px; line-height:67px; background:#f38383;">
+		<a href="#" class="title" style="top:12px; left:20px;"><img style="width:154px; height:42px;" src="<{$sitelogo}>" /></a>
+		<a href="#" class="title" style="top:22px; left:200px;"><img src="<{$siteurl}>/templates/<{$tempdir}>/public/images/xiehoumeishi.png" /></a>
+		<div class="lAR" style="height:67px; line-height:67px; right:30px;">
+		
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="login-content">
+				
+				 <{if !empty($member['uid'])}>
+			    		    	<a href="<{ofunc type=url link="/member/index"}>" title="会员中心">会员中心</a>
+			    		    <{else}>
+				        <a style="padding-left:25px;background:url(<{$siteurl}>/templates/<{$tempdir}>/public/images/dituloginBg.png) left no-repeat; " href="<{ofunc type=url link="/member/login"}>">登录</a>
+						&nbsp;&nbsp;&nbsp;<a  style="padding-left:25px;background:url(<{$siteurl}>/templates/<{$tempdir}>/public/images/dituzhuceBg.png) left no-repeat; "  href="<{ofunc type=url link="/member/regester"}>">注册</a>
+			        	  <{/if}>
+				</span>
+		</div>
+	</div>
+	<div class="g_index_head C" style="background:#fff; height:62px; line-height:62px;  border-bottom:none;top:67px;">
+		<div class="g_index_head_city  l" style="height:62px; line-height:62px;color:#0d0d0d; width:auto; background:url(<{$siteurl}>/templates/<{$tempdir}>/public/images/weizhiBg.png) left no-repeat;   margin-left:25px; padding-left:20px;">当前位置 :&nbsp;&nbsp;
+		
+		<span  style=" background:url(<{$siteurl}>/templates/<{$tempdir}>/public/images/weizhidrwo.png) #f1f1f1  right no-repeat; color:#0d0d0d;border-radius:0px; padding:0px; text-align:center; padding:0px 30px 0px 20px; height:39px; line-height:39px;">
+		
+		<{$cityname}>
+	
+		</span></div>
+	 
+		<div class="g_index_head_place l"  style="height:62px; line-height:62px;"><input style="background:#f1f1f1; width:434px; height:37px; margin:12px 0px;" placeholder="请输入你的订餐位置" id="autocomplete" type="text" value="请输入您所在的地点，小区/路名/宾馆/大厦等" onFocus="if (value =='请输入您所在的地点，小区/路名/宾馆/大厦等'){value =''};$('.g_notice_noplace').hide();$('.js_app_mask , .js_app_notice_1 , .js_app_notice_2').css({display:'none'});$('#autocomplete').removeClass('notice');" onBlur="if (value ==''){value='请输入您所在的地点，小区/路名/宾馆/大厦等'}" /><a href="javascript:void(0)" style="margin-top:12px; background:url(<{$siteurl}>/templates/<{$tempdir}>/public/images/sousuoBg.png) center no-repeat; width:40px; height:39px; border-radius:0px; border:none; right no-repeat;" class="hover" id="confirm_address">&nbsp;</a></div>
+
+        
+        <div class="g_notice_noplace" style="display: none">
+            <img src="<{$siteurl}>/templates/<{$tempdir}>/public/images/notice_noneplace.png" />
+        </div>
+
+		
+	<div class="g_hot_place" style="top: 12px;
+right: 0px;
+width: 460px; text-align:left;" >
+		<span class="tit" style="color: #d54444; ">热门地址 : </span>
+                
+        	</div>
+	</div>
+	
+	 
+	 	
+		<div style="position: absolute;
+z-index: 52;
+top: 180px;
+right: 10px;
+width: 60px;
+height: 60px;
+cursor: pointer;" id="changetowaima"><img src="<{$siteurl}>/templates/<{$tempdir}>/public/images/4.png" /></div>
+		<div style="position: absolute;
+z-index: 52;
+top: 250px;
+right: 10px;
+width: 60px;
+height: 60px;
+cursor: pointer;" id="changetomarket"><img src="<{$siteurl}>/templates/<{$tempdir}>/public/images/555.png" /></div>
+		<div style="position: absolute;
+z-index: 52;
+top: 320px;
+right: 10px;
+width: 60px;
+height: 60px;
+cursor: pointer;" id="changetoplate"><img src="<{$siteurl}>/templates/<{$tempdir}>/public/images/6.png" /></div>
+		
+		
+		
+	 	<div class="g_his_box" style="top:400px;"><img src="<{$siteurl}>/templates/<{$tempdir}>/public/images/5.png" /></div>
+	 	
+	 
+	 	
+	 	<div class="g_his_panel" style="top:400px;">
+			<h1>历史地址<span class="close">关闭</span></h1>
+			
+			
+				<{foreach from=$cookmalist key=myid item=items}>
+	     	<{if !empty($items)}>
+	     	 <{if $myid < 5 }>
+	     	 	<a href="<{ofunc type=url link="/site/setuserlng/lng/<{$cooklnglist[$myid]|default:'0'}>/lat/<{$cooklatlist[$myid]|default:'0'}>/mapname/<{$items}>"}>" data-site-id="9" data-site-name="常州" data-address-id="70466" data-address-name="金钱豹(火锅店)" class="select_his_addr">
+				<span class="his_add"><{$items}></span>
+				<span class="his_num">周边共有<b><{$cookshuliang[$myid]|default:'0'}></b>家餐厅</span>
+			</a> 
+	     	 <{/if}>
+	     	 <{/if}>
+	     	<{/foreach}>
+                        	 
+                        	 	</div>
+		
+    
+	<div class="g_index_city_box" style="top:135px;">
+		<div class="g_index_city_item">
+		</div>
+	</div>
+	
+	<div id="g_index_place"><input type="text" value="请输入地址" /></div>
+	
+	<div id="g_index_map" style="top:129px; height:655px;"></div>
+</div>	
+<div class="g_footer" style="color:#fff; margin-bottom:20px;">
+	<p>
+	   <{if !empty($toplink)}>
+	 	     	<{$toplink = $toplink|unserialize}>
+       <{foreach from=$toplink key=myid item=items}> 
+			        
+	<a href="<{$items['typeurl']}>" class="shjm"><{$items['typename']}></a><span> |</span> 
+	
+	  <{/foreach}>
+		  <{/if}>
+         	
+	</p>
+	Copyright©2009-2014 <{$sitename}>  | <{$beian}>  <{$footerdata|stripslashes}>
+</div>
+<style>
+.g_footer p a,.g_footer p{color:#fff;}
+</style>
+<div class="mem-dlg js_DIA join " id="join" style="width:500px;"></div>
+
+ 
+
+<script type="text/javascript">
+	
+	
+ 
+	
+	
+	
+	
+var maptype = 0;//0外卖  1超市   2  订台
+var getshopmapurl = '<{ofunc type=url link="/site/setuserlng/mapname/@mapname@/lat/@lat@/lng/@lng@/random/@random@/maptype/@maptype@"}>';  
+$(function(){
+    /*------ Start Init -------*/
+    var map , pinLng , pinLat , pinUrl = "javascript:void(0)" , pinName , pinAddr , pinNumber , myCompOverlay, myCompOverlay2 , marker,relng,relat,rename;
+ var arealist = <{$arealist|@json_encode}>;
+ 
+	$(".g_index_city_box").fadeOut(0);
+	map = new BMap.Map("g_index_map");
+	map.enableScrollWheelZoom(); 
+	map.enableContinuousZoom(); 
+	var top_left_navigation = new BMap.NavigationControl();  //左上角，添加默认缩放平移控件
+	map.addControl(top_left_navigation);     
+	map.centerAndZoom("<{$cityname}>",15);
+    //加载城市选择
+    var city_item_html = '<h1>城市选择<span class="close">关闭</span></h1>';
+    
+    for (var i=0;i<arealist.length;i++) {
+        city_item_html += '<a href="javascript:void(0)" data-site-id="'+arealist[i].id+'" data-lng="'+arealist[i].lng+'" data-lat="'+arealist[i].lat+'">'+arealist[i].name+'</a>';
+    } 
+    $(".g_index_city_item").html(city_item_html);
+
+ 
+
+    /*------ End Init -------*/
+
+ 
+
+    /*------ Start AutoComplete -------*/
+  
+    $("#autocomplete").autocomplete({
+        source: function(request, response) {
+            $.ajax({
+                url: '<{$siteurl}>/index.php?ctrl=site&action=getsearmap&datatype=json',
+                data: 'searchvalue=' + encodeURI(request.term),
+                dataType: "json",
+                success: function(data, textStatus, jqXHR) {
+                    response($.map(data.msg, function(item, index) {
+                        return {
+                            value: item.datacontent,
+                            label: item.datacontent,
+                            address_id:item.parent_id,
+                            address_lng:item.lng,
+                            address_lat:item.lat
+                        };
+                    }));
+                }
+            });
+        },
+        minLength: 1,
+        focus: function(event, ui) {
+//            address_id = ui.item.address_id;
+//            $('#autocomplete').val(ui.item.value); //选中item的文本
+        },
+        select: function(event, ui) {
+            $("#autocomplete").val(ui.item.value); //选中item的文本
+            address_id = ui.item.address_id;
+            address_id_name = ui.item.value;
+             relng = ui.item.address_lng;
+             relat = ui.item.address_lat;
+            rename = ui.item.value; 
+            var temppoint =   new BMap.Point(relng,relat); 
+            map.centerAndZoom(temppoint,15); 
+            map.removeOverlay(myCompOverlay);
+            map.removeOverlay(marker);
+            var point = map.getCenter();
+            var myIcon = new BMap.Icon("<{$siteurl}>/templates/<{$tempdir}>/public/images/3.png", new BMap.Size(60,60));
+            marker = new BMap.Marker(point,{icon:myIcon});
+            map.addOverlay(marker);
+            marker.enableDragging();
+            marker.setAnimation(BMAP_ANIMATION_BOUNCE);
+            marker.addEventListener("mouseup",doMouseUp);
+           
+        }
+//        change: function(event, ui) {
+//            alert(3);
+//            address_id = ui.item.address_id;
+//            $('#autocomplete').val(ui.item.value); //选中item的文本
+//        },
+//        close: function(event, ui) {
+//            alert(4);
+//            address_id = ui.item.address_id;
+//            $('#autocomplete').val(ui.item.value); //选中item的文本
+//        }
+    }); 
+
+    $("#autocomplete").change(function(){
+        address_id = "";
+        address_id_name = "";
+    })
+
+	$("#autocomplete").focus(function(){
+		city_panel_hide();
+	})
+
+ 	//选中回车事件
+	$('#autocomplete').keydown(function(e){
+		if(e.keyCode==13){
+            confirm_address();
+		}
+	});
+ 	/*------ End AutoComplete -------*/
+
+$('#changetowaima').bind("click", function() {   
+	  
+		maptype = 0;
+		map.centerAndZoom("<{$cityname}>",15);
+		  
+            map.removeOverlay(myCompOverlay);
+            map.removeOverlay(marker);
+            var point = map.getCenter();
+            var myIcon = new BMap.Icon("<{$siteurl}>/templates/<{$tempdir}>/public/images/3.png", new BMap.Size(60,60));
+            marker = new BMap.Marker(point,{icon:myIcon});
+            map.addOverlay(marker);
+            marker.enableDragging();
+            marker.setAnimation(BMAP_ANIMATION_BOUNCE);
+            marker.addEventListener("mouseup",doMouseUp);
+       
+	 
+ });
+ $('#changetomarket').bind("click", function() {   
+ 	  map.centerAndZoom("<{$cityname}>",15);
+	 maptype = 1;
+	   
+            map.removeOverlay(myCompOverlay);
+            map.removeOverlay(marker);
+            var point = map.getCenter();
+            var myIcon = new BMap.Icon("<{$siteurl}>/templates/<{$tempdir}>/public/images/3.png", new BMap.Size(60,60));
+            marker = new BMap.Marker(point,{icon:myIcon});
+            map.addOverlay(marker);
+            marker.enableDragging();
+            marker.setAnimation(BMAP_ANIMATION_BOUNCE);
+            marker.addEventListener("mouseup",doMouseUp);
+     
+	 
+	 
+ });
+ $('#changetoplate').bind("click", function() {   
+ 	map.centerAndZoom("<{$cityname}>",15);
+ 	 maptype = 2;
+	 
+            map.removeOverlay(myCompOverlay);
+            map.removeOverlay(marker);
+            var point = map.getCenter();
+            var myIcon = new BMap.Icon("<{$siteurl}>/templates/<{$tempdir}>/public/images/3.png", new BMap.Size(60,60));
+            marker = new BMap.Marker(point,{icon:myIcon});
+            map.addOverlay(marker);
+            marker.enableDragging();
+            marker.setAnimation(BMAP_ANIMATION_BOUNCE);
+            marker.addEventListener("mouseup",doMouseUp);
+       
+		 
+ });
+
+ 	
+    /*------ Start 城市选择 -------*/
+    function city_panel_hide(){
+    	$(".g_index_head_city").removeClass("hover");
+    	$(".g_index_city_box").fadeOut( 200);
+    }
+
+    $(".g_index_head_city span").click(function(){
+    	$(this).parent(".g_index_head_city").addClass("hover");
+    	$(".g_index_city_box").fadeIn( 200);
+    })
+
+    //切换城市
+    $(document).on("click",".g_index_city_item a",function(){
+    	$(".g_index_head_city span").text($(this).text());
+    	city_panel_hide();
+        site_id = $(this).data("site-id");
+        site_id_name = $(this).text();
+        address_id = "";
+        address_id_name = "";
+        $("#autocomplete").val("");
+        setcookie('site_id',site_id);
+        setcookie('site_id_name',site_id_name);
+        setcookie('address_id',null);
+        setcookie('address_id_name',null);
+        //切换热门地址
+        
+        
+        for(var i=0;i<arealist.length;i++) {
+            if (site_id == arealist[i].id) {
+                if (arealist[i].comarea.length > 0) {
+                    var content = '<span class="tit" style="color:#d54444;">热门地址 : </span>';
+                    for(var j=0; j<arealist[i].comarea.length; j++) {
+                        content += '<a href="<{ofunc type=url link="/site/setuserlng/lng/'+arealist[i].comarea[j].lng+'/lat/'+arealist[i].comarea[j].lat+'/mapname/'+arealist[i].comarea[j].name+'"}>" class="select_hot_addr" style="color:#e35000;" address_id="'+arealist[i].comarea[j].id+'">'+arealist[i].comarea[j].name+'</a>';
+                    }
+                    $(".g_hot_place").html('');
+                    $(".g_hot_place").html(content);
+                    $(".g_hot_place").show();
+                } else {
+                    $(".g_hot_place").hide();
+                }
+            }
+        } 
+        
+        //data-lng="'+arealist[i].lng+'"
+        //data-lng="'+arealist[i].lng+'"
+        var teppoint =  new BMap.Point($(this).attr('data-lng'), $(this).attr('data-lat')); ;
+        map.centerAndZoom(teppoint,15);
+
+        setTimeout(function(){
+            map.removeOverlay(myCompOverlay);
+            map.removeOverlay(marker);
+            var point = map.getCenter();
+            var myIcon = new BMap.Icon("<{$siteurl}>/templates/<{$tempdir}>/public/images/3.png", new BMap.Size(60,60));
+            marker = new BMap.Marker(point,{icon:myIcon});
+            map.addOverlay(marker);
+            marker.enableDragging();
+            marker.setAnimation(BMAP_ANIMATION_BOUNCE);
+            marker.addEventListener("mouseup",doMouseUp);
+        },500)
+
+    })
+    //getcookie
+    var tempsiteid = getcookie("site_id");
+    if(tempsiteid==null||tempsiteid==""){
+    	 $('.g_index_city_item a').eq(0).trigger('click');
+    }else{
+    	var checkclick = false;
+      for (var i=0;i<arealist.length;i++) {
+     	   if(tempsiteid == arealist[i].id){
+     	     $('.g_index_city_item a').eq(i).trigger('click');
+     	     checkclick = true;
+     	   }
+      }
+      if(checkclick ==  false){
+        $('.g_index_city_item a').eq(0).trigger('click');
+      }
+    }
+   
+
+    $(".g_index_city_item .close").click(function(){
+    	city_panel_hide();
+    })
+    /*------ End 城市选择 -------*/
+
+  
+    /*------ Start 自己定位坐标 -------*/
+ 
+ 
+
+	//添加覆盖物
+	function complexOverLay(data){
+		function ComplexCustomOverlay(point ){
+		  this._point = point;
+		}
+		ComplexCustomOverlay.prototype = new BMap.Overlay();
+		ComplexCustomOverlay.prototype.initialize = function(map){
+		  this._map = map;
+		  var div = this._div = document.createElement("div");
+		  div.style.position = "absolute";
+		  div.style.zIndex = BMap.Overlay.getZIndex(this._point.lat);
+		  div.style.backgroundColor = "white";
+		  div.style.border = "1px solid #dddddd";
+		  div.style.color = "#666666";
+		  div.style.width = "200px";
+		  div.style.borderRadius = "6px";
+		  div.style.padding = "25px 20px 0px 20px";
+		  div.style.boxShadow = "0 1px 6px rgba(0,0,0,0.35)";
+		  div.style.lineHeight = "18px";
+		  div.style.zindex = "999999999";
+		  
+          var aLink = this._aLink = document.createElement("a");
+          var templink = "";
+          var temptypename = maptype == 2?"点菜":"外卖";
+             temptypename   = maptype == 1?"超市":temptypename;
+              
+        
+            if (data.error == false) {
+            	   
+                div.innerHTML="<span style='font-size:13pt;color:#FF6000'>"+ data.msg.region_name +"</span><br /><span style='font-size:9pt;color:#999;margin:5px 0;display:inline-block'>"+ data.msg.region_addr +"</span><br /><span style='font-size:13pt;color:#999;margin:10px 0;display:inline-block'>周边共有 <b style='color:#FF6000' >"+ data.msg.store_num +" </b>家"+temptypename+"</span>";
+                relng = this._point.lng;
+                relat = this._point.lat;
+                rename = data.msg.region_addr;
+                /*
+                try{
+                    aLink.addEventListener("click",confirm_address) ;
+                }catch(e){
+                    aLink.attachEvent("click",confirm_address) ;
+                }  
+                */
+                templink = getshopmapurl.replace('@lat@',relat).replace('@lng@', relng).replace('@mapname@', encodeURI(rename)).replace('@maptype@',maptype); 
+            } else {
+            	 
+                div.innerHTML="<span style='font-size:13pt;color:#999;margin:10px 0;display:inline-block'>周边没有可送达的"+temptypename+"</span>";
+                address_id = "";
+                address_id_name = "";
+                templink = "#";
+            }
+
+
+          aLink.style.display ="block";
+          aLink.style.width = '100%';
+          aLink.style.lineHeight = '35px';
+          aLink.style.height = '35px';
+          aLink.style.borderRadius = '5px';
+          aLink.style.textAlign = 'center';
+          aLink.style.fontSize = '11pt';
+          aLink.style.background = '#92C424';
+          aLink.style.margin = '20px 0';
+          aLink.style.color = '#ffffff';
+          aLink.innerHTML ="查看餐厅";
+        
+          aLink.style.textDecoration ="none";
+          aLink.href =templink;
+          div.appendChild(aLink);
+            //搜索框内容改变，样式改变
+            $("#autocomplete").val(address_id_name);
+            $('.g_notice_noplace').hide();
+            $("#autocomplete").removeClass("notice");
+		 // div.style.whiteSpace = "nowrap";
+		  div.style.MozUserSelect = "none";
+		  div.style.fontSize = "12px"
+
+		 
+		  var arrow = this._arrow = document.createElement("div");
+      	  arrow.style.background = "url(<{$siteurl}>/templates/<{$tempdir}>/public/images/toolsub.png)";
+       	  arrow.style.position = "absolute";
+      	  arrow.style.width = "30px";
+          arrow.style.height = "18px";
+          arrow.style.bottom = "-18px";
+          arrow.style.left = "100px";
+          div.appendChild(arrow);
+
+		  map.getPanes().labelPane.appendChild(div);
+		  return div;
+		}
+	    ComplexCustomOverlay.prototype.draw = function(){
+	          var map = this._map;
+	          var pixel = map.pointToOverlayPixel(this._point);
+	          this._div.style.left = pixel.x - parseInt(this._arrow.style.left)  -12 + "px";
+	          this._div.style.top  = pixel.y - 220 + "px";
+	        }
+		myCompOverlay = new ComplexCustomOverlay(new BMap.Point(pinLng,pinLat));
+		map.addOverlay(myCompOverlay);
+	}
+    //点击地图移动PIN
+
+    //绑定地图单击事件
+
+    map.addEventListener("click", clickMap);
+
+
+    var timeChk ;
+    var _chk = true ; 
+
+    function clickMap(event){
+
+        if (!_chk) {
+            return false;
+        }
+
+        _chk  = false;
+
+
+
+        map.removeOverlay(myCompOverlay);
+        map.removeOverlay(marker);
+        
+ 
+        pinLng = event.point.lng;
+        pinLat = event.point.lat;
+
+ 
+        var myIcon = new BMap.Icon("<{$siteurl}>/templates/<{$tempdir}>/public/images/3.png", new BMap.Size(60,60));
+        marker = new BMap.Marker(event.point,{icon:myIcon});
+        map.addOverlay(marker);
+        marker.enableDragging();
+        marker.setAnimation(BMAP_ANIMATION_BOUNCE);
+        marker.addEventListener("mouseup",doMouseUp); 
+        $.ajax({
+            url: '<{$siteurl}>/index.php?ctrl=site&action=ajaxlngtlat&datatype=json&maptype='+maptype,
+            data: 'lng='+pinLng+'&lat='+pinLat,
+            dataType: "json",
+            success: function(data) {
+                complexOverLay(data);
+                _chk  = true;
+            }
+        });
+
+
+    }
+	//Pin触发
+	function doMouseUp(event){
+        if (!_chk) {
+            return false;
+        }
+        _chk  = false;
+		if(myCompOverlay){
+			map.removeOverlay(myCompOverlay);
+		}
+ 
+		pinLng = event.point.lng;
+		pinLat = event.point.lat; 
+        $.ajax({
+            url: '<{$siteurl}>/index.php?ctrl=site&action=ajaxlngtlat&datatype=json&maptype='+maptype,
+            data: 'lng='+pinLng+'&lat='+pinLat,
+            dataType: "json",
+            success: function(data) {
+                complexOverLay(data);
+                _chk  = true;
+            }
+        });
+ 	}
+
+	 
+ 
+    /*------ End 自己定位坐标 -------*/
+
+    /*--增加点--*/
+    $(".g_point_c").click(function(){
+        //$("#demo_temp_mask").hide();
+        $('.g_notice_noplace').hide();
+        $('.js_app_mask , .js_app_notice_1 , .js_app_notice_2').css({display:'none'});
+ 
+        $("#autocomplete").removeClass("notice");
+        	if($("#g_index_mask").css("display") == "block"){
+        		anEnd();
+        	}
+        	map.removeOverlay(myCompOverlay);
+        	map.removeOverlay(marker);
+        	var point = map.getCenter();
+    		map.centerAndZoom(point, 15);
+    		var myIcon = new BMap.Icon("<{$siteurl}>/templates/<{$tempdir}>/public/images/3.png", new BMap.Size(60,60));
+    		marker = new BMap.Marker(point,{icon:myIcon});   
+     		map.addOverlay(marker);              
+    		marker.enableDragging(); 
+    		marker.setAnimation(BMAP_ANIMATION_BOUNCE);
+    		marker.addEventListener("mouseup",doMouseUp);
+        })
+
+
+     /*------ Start 动画 -------*/
+    function anInit(){
+    	$("#g_index_mask").css({display:"none",opacity:1});
+    	$(".app_demo").css({top:'-3000px'});
+    	$(".text_demo").css({right:'-3000px'});
+    	$(".down_demo").css({left:'-3000px'});
+    	$(".g_desk").css({top:'3000px'});
+    } 
+
+    function anDo(){
+    	$("#g_index_mask").css({display:"block",opacity:1});
+    	$(".app_demo").stop(true,false).animate({top:'40px'},600,'easeOutQuint').dequeue();;
+    	$(".text_demo").stop(true,false).animate({right:'55px'},1200,'easeOutExpo').dequeue();;
+    	$(".down_demo").stop(true,false).animate({left:'710px'},1800,'easeOutExpo').dequeue();;
+    	$(".g_desk").stop(true,false).animate({top:'0'},2400,'easeOutExpo').dequeue();;
+    }
+
+    function anEnd(){
+
+    	$(".app_demo").stop(true,false).animate({top:'-1000px'},1500,'easeOutQuint').dequeue();
+    	$(".text_demo").stop(true,false).animate({right:'-500px'},1500,'easeOutExpo').dequeue();
+    	$(".down_demo").stop(true,false).animate({left:'-500px'},1500,'easeOutExpo').dequeue();
+    	$(".g_desk").stop(true,false).animate({top:'1000px'},1500,'easeOutExpo');
+    	$("#g_index_mask").animate({opacity:0},1000,function(){
+    		$("#g_index_mask").css({display:"none"});
+    	})
+
+
+    }
+    anInit();
+    anDo();
+
+ 
+ //   $(".g_app_icon").click(function(){
+ 
+ //   	anInit();
+  //  	anDo();
+ //   })
+
+
+    /*------ Start 引导动画 -------*/
+ 	function YDDH(id){
+ 		if(id == 1){
+ 			//第一次进去
+            if (getcookie("YDDH1")) {
+                return false;
+            }
+            $("body").append("<div class='js_app_mask' style='width:100%;height:100%;background:#000;display:none; z-index:1111;position:fixed;left:0;top:0'></div>");
+            $(".js_app_mask").css({display:"block",opacity:0}).animate({opacity:0.7},1000);
+ 			$("body").append("<div class='js_app_notice_1 js_obj'><img src='<{$siteurl}>/templates/<{$tempdir}>/public/images/YDDH1.png' /></div>");
+ 			$(".g_index_head ").css({zIndex:2000});
+            setcookie("YDDH1", 1);
+ 		}else{
+ 			//地图定位
+            if (getcookie("YDDH2")) {
+                $("#autocomplete").addClass("notice");
+                $(".g_notice_noplace").show();
+
+                //
+
+
+
+                return false;
+            }
+            $("body").append("<div class='js_app_mask' style='width:100%;height:100%;background:#000;display:none; z-index:1111;position:fixed;left:0;top:0'></div>");
+            $(".js_app_mask").css({display:"block",opacity:0}).animate({opacity:0.7},1000);
+ 			var x = $(".g_point_c").offset().left - 800;
+ 			var y = $(".g_point_c").offset().top - 30;
+ 			$("body").append("<div class='js_app_notice_2 js_obj' style='left:"+x+"px;top:"+y+"px'><img src='<{$siteurl}>/templates/<{$tempdir}>/public/images/YDDH2.png' /></div>");
+ 			$(".g_point_c").css({zIndex:2000});
+            setcookie("YDDH2", 1);
+ 		}
+ 		
+ 	}
+
+ 	$(document).on("click",".js_app_mask , .js_obj",function(){
+ 		$(".js_obj , .js_app_mask").remove();
+ 		$(".g_index_head ").css({zIndex:30});
+ 		$(".g_point_c").css({zIndex:52});
+ 	})
+ 	/*------ End 引导动画 -------*/
+ 
+ 	 /*------ Start 历史记录 -------*/
+    function palce_panel_hide(){
+    	//$(".g_his_panel").removeClass("hover");
+    	$(".g_his_panel").fadeOut( 200);
+    }
+
+    $(".g_his_box").click(function(){
+    	$(".g_his_panel").fadeIn( 200);
+    })
+
+    $(".g_his_panel .close").click(function(){
+    	palce_panel_hide();
+    })
+
+    /*------ End 历史记录 -------*/
+
+    //引导动画
+    YDDH(1);
+
+    //选择热点地址
+    /*
+    $(document).on("click",".select_hot_addr",function(){
+        address_id = $(this).attr("address_id");
+        address_id_name = $(this).html();
+        confirm_address();
+    })
+
+    //选择历史地址
+    $(document).on("click",".select_his_addr",function(){
+        site_id = $(this).data("site-id");
+        site_id_name = $(this).data("site-name");
+        setcookie('site_id',site_id);
+        setcookie('site_id_name',site_id_name);
+        address_id = $(this).data("address-id");
+        address_id_name = $(this).data("address-name");
+        confirm_address();
+    }) */
+
+    $("#confirm_address").click(function(){
+        confirm_address();
+    })
+
+     //确认地址
+    function confirm_address() { 
+  
+        if($("#autocomplete").val() == "" || $("#autocomplete").val() == "请输入您所在的地点，小区/路名/宾馆/大厦等"){
+            $(".g_notice_noplace , .js_app_notice_2  , .js_app_notice_1 , .js_app_mask").css({display:"none"});
+			$('.g_notice_noplace').show();
+        }else{
+	
+			if( relat ==  undefined || relng == undefined || rename == undefined ){
+			    $(".g_notice_noplace , .js_app_notice_2  , .js_app_notice_1 , .js_app_mask").css({display:"none"});
+				$('.g_notice_noplace').show();
+			}else{
+				 var temp_linksss = getshopmapurl.replace('@lat@',relat).replace('@lng@', relng).replace('@mapname@', encodeURI(rename)).replace('@maptype@',maptype); 
+				window.location.href= temp_linksss;
+			}
+		 }
+    }
+
+
+})
+function setcookie(name,value){
+    $.cookie(name,value,{expires:365});
+}
+
+function getcookie(name){
+    return $.cookie(name);
+}
+
+</script>
+</body>
+</html>

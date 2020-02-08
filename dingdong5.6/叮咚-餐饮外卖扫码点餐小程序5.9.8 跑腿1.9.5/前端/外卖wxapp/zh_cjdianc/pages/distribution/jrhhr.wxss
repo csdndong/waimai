@@ -1,0 +1,159 @@
+page {
+    background: #F5F5F5;
+}
+
+.banner1 {
+    margin-top: 10rpx;
+    background-color: white;
+    padding: 0rpx 20rpx;
+    font-size: 28rpx;
+}
+
+.huanying {
+    font-size: 30rpx;
+    padding: 25rpx 0rpx;
+    border-bottom: 2rpx solid #eee;
+}
+
+.huanying>text {
+    color: #ff4544;
+}
+
+.bannerbox {
+    display: flex;
+    align-items: center;
+    height: 80rpx;
+    border-bottom: 2rpx solid #eee;
+    padding: 0px 15px;
+    font-size: 30rpx;
+    background: #fff;
+}
+
+.bannerbox>view {
+    width: 170rpx;
+    color: #666;
+}
+
+.bannerbox>input {
+    border: none;
+    outline: none;
+}
+
+.integral {
+    width: 100%;
+    overflow-x: hidden;
+    padding-bottom: 150rpx;
+}
+
+.banner {
+    width: 100%;
+    height: 360rpx;
+}
+
+.swiper-container {
+    position: relative;
+}
+
+.swiper-container .swiper {
+    height: 360rpx;
+}
+
+.swiper-container .swiper .img {
+    width: 100%;
+    height: 100%;
+}
+
+.weui-cells__title {
+    margin: 15rpx 0;
+    font-size: 28rpx;
+}
+
+.weui-cell {
+    font-size: 30rpx;
+    padding: 5rpx 30rpx;
+}
+
+.weui-select {
+    border-right: none;
+}
+
+.flex1 {
+    border-top: 1rpx solid #d5d5d5;
+    border-bottom: 1rpx solid #d5d5d5;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.flex1 view:nth-child(1) {
+    border-right: 1rpx solid #d5d5d5;
+}
+
+.flex3 {
+    background: #fff;
+    width: 50%;
+    box-sizing: border-box;
+    padding: 30rpx 0;
+    font-size: 30rpx;
+}
+
+.flex3 image {
+    width: 70rpx;
+    height: 70rpx;
+}
+
+.flex3 view:nth-child(2) {
+    color: #999;
+    margin: 20rpx 0 10rpx;
+}
+
+.flex3 view:nth-child(3) {
+    color: #ff4544;
+    font-size: 28rpx;
+}
+
+.hhr {
+    background: #fff;
+    padding: 15px;
+    font-size: 28rpx;
+    color: #666;
+}
+
+.hhr text {
+    color: #ff4544;
+    font-weight: bold;
+    margin-right: 10rpx;
+}
+
+.hhr view {
+    margin-bottom: 10rpx;
+}
+
+.weui-btn-area {
+    margin: 0;
+    padding: 30rpx;
+    background: #fff;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.weui-btn {
+    line-height: 2.7;
+    background: #ED414A;
+    color: #fff;
+}
+
+.read {
+    display: flex;
+    align-items: center;
+    padding: 20rpx 30rpx;
+    color: #999;
+    font-size: 28rpx;
+}
+
+.readfont {
+    color: #ff6161;
+}

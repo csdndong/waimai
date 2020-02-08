@@ -1,0 +1,54 @@
+<div class="second-sidebar-title">配送员</div>
+<div class="nav slimscroll">
+	{ifp 'deliveryer.plateform' || 'deliveryer.getcash' || 'deliveryer.current'}
+		<div class="menu-header">平台</div>
+		<ul class="menu-item">
+			{ifp 'deliveryer.plateform'}
+				<li {if $_W['_action'] == 'plateform'}class="active"{/if}>
+					<a href="{php echo iurl('deliveryer/plateform/list');}">配送员</a>
+				</li>
+			{/if}
+			<li class="hide" {if $_W['_action'] == 'location'}class="active"{/if}>
+				<a href="{php echo iurl('deliveryer/location/list');}">配送员位置</a>
+			</li>
+			{ifp 'deliveryer.getcash'}
+				<li {if $_W['_action'] == 'getcash'}class="active"{/if}>
+					<a href="{php echo iurl('deliveryer/getcash/list');}">提现申请</a>
+				</li>
+			{/if}
+			{ifp 'deliveryer.current'}
+				<li {if $_W['_action'] == 'current'}class="active"{/if}>
+					<a href="{php echo iurl('deliveryer/current/list');}">账户明细</a>
+				</li>
+			{/if}
+		</ul>
+	{/if}
+	{ifp 'deliveryer.comment'}
+		<div class="menu-header">评价</div>
+		<ul class="menu-item">
+			<li {if $_W['_action'] == 'comment'}class="active"{/if}>
+				<a href="{php echo iurl('deliveryer/comment/list');}">配送评价</a>
+			</li>
+		</ul>
+	{/if}
+	<div class="menu-header">回收站</div>
+	<ul class="menu-item">
+		<li {if $_W['_action'] == 'storage'}class="active"{/if}>
+			<a href="{php echo iurl('deliveryer/storage/list');}">配送员回收站</a>
+		</li>
+	</ul>
+	{ifp 'deliveryer.cover'}
+		<div class="menu-header">入口</div>
+		<ul class="menu-item">
+			<li {if $_W['_action'] == 'cover'}class="active"{/if}>
+				<a href="{php echo iurl('deliveryer/cover/list');}">注册&登录</a>
+			</li>
+		</ul>
+	{/if}
+	<div class="menu-header">其他</div>
+	<ul class="menu-item">
+		<li {if $_W['_action'] == 'notice'}class="active"{/if}>
+			<a href="{php echo iurl('deliveryer/notice/list');}">公告列表</a>
+		</li>
+	</ul>
+</div>

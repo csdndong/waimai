@@ -1,0 +1,126 @@
+<{extends file="<{$tempdir}>/public/admin.html"}>
+<{block name=extendjs}>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js"></script>
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/datepicker/WdatePicker.js" type="text/javascript" language="javascript"></script>
+<{/block}>
+ <{block name=controlname}>充值余额送列表<{/block}>
+ <{block name=bodylist}>
+
+      <div style="width:auto;overflow-x:hidden;overflow-y:auto">
+
+      	  <div class="search">
+
+
+            <div class="search_content">
+
+            	 <form method="post" name="form1" action="<{ofunc type=url link="/adminpage/card/module/rechargezend"}>">
+
+             
+			  <label>充值金额</label>
+            	   <input type="text" name="cost" value="<{$cost}>" style="width:130px;"> 
+			 
+			  
+            	 
+
+            	    <input type="submit" value="提交查询" class="button">
+            	 </form>
+            </div>
+
+      	</div>
+
+
+
+
+
+
+           <div class="tags">
+
+
+
+          <div id="tagscontent">
+
+            <div id="con_one_1">
+
+              <div class="table_td" style="margin-top:10px;">
+
+              <form method="post" action="" onsubmit="return remind();" id="delform">
+
+                  <table border="0" cellspacing="2" cellpadding="4" class="list" name="table" id="table" width="100%">
+
+                    <thead>
+
+                      <tr>
+
+                        <th width="60px"><input type="checkbox" id="chkall" name="chkall" onclick="checkall()"></th>
+
+                        <th align="center">id</th>
+                         <th align="center">充值金额</th>
+                         <th align="center">是否赠送金额</th>
+                         <th align="center">是否赠送优惠券</th>
+                         <th align="center">排序</th> 
+                         <th align="center">操作</th> 
+
+                      </tr>
+
+                    </thead>
+
+                     <tbody>
+                       <{foreach from=$rechargelist item=items}>
+                      <tr class="s_out" onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                        <td align="center" ><input type="checkbox" name="id[]" value="<{$items['id']}>"></td>
+                        <td align="center"><{$items['id']}></td>
+                        <td align="center"> <{$items['cost']}> </td>
+                        <td align="center"  ><{if $items['is_sendcost'] == 1 }>赠送<{$items['sendcost']}><{else}>否<{/if}></td>
+                           <td align="center"><{if $items['is_sendjuan']==1}>赠送优惠券总金额：<{$items['sendjuancost']}>元<{else}>否<{/if}></td>
+                         <td align="center"><{$items['orderid']}></td>
+						<td align="center">
+                        	<a href="<{ofunc type=url link="/adminpage/card/module/addrechargecost/id/<{$items['id']}>"}>" ><img style='margin-bottom: -8px;' src="<{$siteurl}>/templates/<{$tempdir}>/public/images/admin/edit.jpg"></a>
+                        	<a onclick="return remind(this);" href="<{ofunc type=url link="/adminpage/card/module/delrechargecost/id/<{$items['id']}>/datatype/json"}>"><img style='margin-bottom: -8px;' src="<{$siteurl}>/templates/<{$tempdir}>/public/images/admin/del.jpg"></a>
+							</td>                        
+
+						</tr>
+                       <{/foreach}>
+
+                    </tbody>
+
+                  </table>
+
+                <div class="blank20"></div>
+
+                </form>
+
+                <div class="page_newc">
+				
+					<div class="select_page"><a href="#" onclick="checkword(true);">全选</a>/<a href="#" onclick="checkword(false);">取消</a> 
+						  <a onclick="return remindall(this);" href="<{ofunc type=url link="/adminpage/card/module/delrechargecost/datatype/json"}>" class="delurl">删除</a>  
+						  <{if $shuliang < 9}>
+                                                  <a href="<{ofunc type=url link="/adminpage/card/module/addrechargecost"}>" class="delurl">添加充值送余额/优惠券</a>
+                                                  <{else}>
+                                                   <a href="#" class="delurl">添加充值送余额/优惠券</a>
+                                                   <script>
+                                                         $('.delurl').click(function(){
+                                                            alert('充值送余额/优惠券最多为9个')
+                                                         })
+                                                   </script>
+                                                  <{/if}>
+                                        </div>
+				 
+                 	     </div>
+                       <div class="show_page"><ul><{$pagecontent}></ul></div>
+                 </div>
+
+                <div class="blank20"></div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+  </div>
+
+</div>
+<{/block}>

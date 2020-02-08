@@ -1,0 +1,130 @@
+{itemplate 'public/header'}
+{if $op == 'index'}
+<div class="page remaining-more">
+	<header class="bar bar-nav">
+		<a class="pull-left back" href="javascript:;"><i class="icon icon-arrow-left"></i></a>
+		<h1 class="title">限时抢购</h1>
+	</header>
+	{php get_mall_menu()}
+	<div class="content lazyload-container">
+		<div class="remaining-image">
+			<div class="swiper-container" data-space-between='10' data-pagination='.swiper-pagination' data-autoplay="1000">
+				<div class="swiper-wrapper">
+					{loop $task['slide'] $slide}
+					<div class="swiper-slide">
+						<a href="{slide['link']}"><img src="{php echo tomedia($slide['thumb'])}" alt=""></a>
+					</div>
+					{/loop}
+				</div>
+			</div>
+		</div>
+		<div class="rob-time">
+			<ul class="row">
+				{loop $task['times'] $time}
+				<li class="col-25 active border-1px-r">
+					<span>{$time}:00</span>
+					<span>即将开始</span>
+				</li>
+				{/loop}
+			</ul>
+		</div>
+		<div class="goods-list">
+			{loop $task['goods'] $good}
+			<div class="goods-item border-1px-b row">
+				<div class="col-20">
+					<img src="{WE7_WMALL_TPL_URL}static/img/hm.gif" class="goods-popup lazyload" data-id="{$good['goods_id']}" data-original="{$good['thumb']}" alt="" />
+				</div>
+				<div class="col-80">
+					<div class="store-title">
+						{$good['store_title']}
+					</div>
+					<div class="goods-title">
+						{$good['name']}
+					</div>
+					<div class="rob-info">
+						<span class="tab-red">已抢0份</span>
+						<span class="goods-remaining">剩余{$good['discount_total']}份</span>
+					</div>
+					<div class="price">
+						<i>￥</i>
+						<span class="now-price">{$good['discount_price']}</span>
+						<span class="original-price">￥{$good['price']}</span>
+					</div>
+				</div>
+				<a href="{php echo imurl('wmall/store/goods', array('sid' => $good['sid'], 'goods_id' => $good['goods_id']))}" class="button-fill-danger">立即抢购</a>
+			</div>
+			{/loop}
+		</div>
+	</div>
+</div>
+{/if}
+<script id="goods-detail" type="text/html">
+	<div class="popup popup-goods-detail">
+		<div class="content-block">
+			<div class="goods-img">
+				<{# if(!d.slides.length){ }>
+				<img src="<{d.thumb_}>" width= alt=""/>
+				<{# } else { }>
+				<div class="swiper-container" data-space-between='0' data-pagination='.swiper-pagination'>
+					<div class="swiper-wrapper">
+						<{# for(var j = 0, len = d.slides.length; j < len; j++){ }>
+						<div class="swiper-slide"><img src="<{d.slides[j]}>" alt=""></div>
+						<{# } }>
+					</div>
+					<div class="swiper-pagination"></div>
+				</div>
+				<{# } }>
+				<a href="#" class="close-popup" data-popup=".popup-goods-detail"><span class="icon icon-close"></span></a>
+			</div>
+			<div class="goods-name">
+				<{d.name}>
+			</div>
+			<div class="sell-info">已售<{d.sailed}>&nbsp;&nbsp;好评<{d.comment_good}></div>
+			<{# if(d.is_options == 0){ }>
+			<div class="row no-gutter goods-num">
+				<div class="col-50 price">￥<span class="fee"><{d.price}></span></div>
+				<div class="col-50 text-right operate-num">
+					<a href="{php echo imurl('wmall/store/goods')}&sid=<{d.sid}>&goods_id=<{d.goods_id}>" class="button button-danger button-fill col-50 pull-right">抢购</a>
+				</div>
+			</div>
+			<{# } }>
+			<div class="goods-evaluate">商品评价</div>
+			<div class="praise text-center">好评率 <span class="rate"><{d.comment_good_percent}></span><span class="num">(共<{d.comment_total}>人评价)</span></div>
+			<div class="progress">
+				<div class="progress-bar">
+					<div class="progress-active" style="width:<{d.comment_good_percent}>;"></div>
+				</div>
+			</div>
+			<div class="goods-desc">商品描述</div>
+			<div class="goods-desc-con">
+				<{d.description}><br>
+				温馨提示: 图片仅供参考,请以实物为准;<br>
+				高峰时段及恶劣天气,请提前下单
+			</div>
+		</div>
+	</div>
+</script>
+<script>
+	require(['laytpl'], function(laytpl){
+		$(document).on('click', '.goods-popup', function(){
+			var id = $(this).data('id');
+			$.showIndicator();
+			$.post("{php echo imurl('seckill/index/detail');}", {id: id}, function(data) {
+				var result = $.parseJSON(data);
+				if(result.message.errno != 0) {
+					$.hideIndicator();
+					$.toast(result.message.message);
+				} else {
+					var gettpl = $('#goods-detail').html();
+					laytpl(gettpl).render(result.message.message, function(html){
+						$.hideIndicator();
+						$.popup(html);
+						$(".swiper-container").swiper({autoplay: 1000});
+					});
+				}
+				return false;
+			});
+		});
+	});
+</script>
+{itemplate 'public/footer'}

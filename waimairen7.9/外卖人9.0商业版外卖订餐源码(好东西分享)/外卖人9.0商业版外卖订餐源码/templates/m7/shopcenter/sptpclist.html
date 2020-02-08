@@ -1,0 +1,134 @@
+ <{extends file="<{$tempdir}>/public/shopcenter.html"}>   
+<{block name=extendjs}>
+ <script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js"></script>
+ <script>
+  	  var mynomenu='basecx';
+  </script> 
+<{/block}>
+ <{block name=bodylist}>
+<style>
+.nava{
+    background-color: #fff!important;
+    padding: 5px 40px!important;
+    color: #000!important;
+    border-radius: 14px!important;
+    cursor: pointer!important;
+}
+.shopSetTop span{
+    padding: 5px 40px!important;
+	cursor: pointer!important;
+}
+.shopSetTop{
+    padding-left: 10px;
+}
+</style>  
+  <!---content right start---> 
+        <div class="conWaiSet fr">
+        	
+            <div class="shopSetTop">
+            	<span  onclick="openlink('<{ofunc type=url link="/shopcenter/cxrule"}>');">促销规则列表</span>
+				<span class='nava'  onclick="openlink('<{ofunc type=url link="/shopcenter/sptpclist"}>');">店内海报列表</span>
+            </div>
+            
+            <div class="cxruleset" style="height: 100px;font-size:12px;color:#fff">
+            	<div class="cxrule_btn">
+                    <div class="cxruleButton "   onclick="openlink('<{ofunc type=url link="/shopcenter/addzt"}>');">添加海报</div>							        				 
+				    <div style='margin:10px 0'>提示：店内海报最多添加5个，上传海报图片时请使用长宽比为3:1的图片</div>		
+				</div>
+                		
+                <div class="cl"></div>
+            </div>
+             <div class="cl"></div>
+                       
+                <form action="" method="post">
+                 <div class="caidanSet">
+    
+                	<div class="div_orderList">
+                    	
+                        <div class="cxrule_show">
+                    
+                        <div class="cxrule_show_goodli">
+						   
+                            <div class="cxrule_goodname" style='width:300px'>
+                                <span>海报名称</span>
+                            </div>
+                            <div class="cxrule_shuoming" style='width:300px'>
+                                 <span>海报图片</span>
+                            </div>
+                            <div class="cxrule_pri" style='width:125px'>
+                                 <span>状态</span>
+                            </div>                            
+                            <div class="cxrule_day_num" style='width:125px'>
+                                 <span>排序</span>
+                            </div>
+                             <div class="cxrule_cz" style='width:150px'>
+                                 <span>操作</span>
+                            </div>
+                        </div>
+                        
+                        <div class="cl"></div>
+                        
+                        
+                    	<div class="cxrule_list	">
+                       		 
+                          	 
+                         <{foreach from=$ztlist key=myid item=items}>  
+                          
+                          <div class="cxrule_goodlist">
+						     
+                            <div class="cxrule_name" style="overflow: hidden;width:299px">
+                                <span>
+								    <{$items['title']}>								 								
+								</span>
+                            </div>
+                            <div class="cxrule_sm" style='width:299px'>
+                                <img <{ofunc type=img link="<{$items['ztimg']}>" }> style='width: 125px;height: 40px;padding-top: 6px;'>
+                            </div>
+                            <div class="cxrule_price" style='width:125px'>
+                                 <span>
+									 <{if $items['is_show'] == 1}>显示<{/if}>
+									 <{if $items['is_show'] == 2}>隐藏<{/if}>
+								 </span>
+                            </div>                           
+                            <div class="cxrule_dayNum" style='width:125px'>
+                                 <span> 								  
+									 <{$items['sort']}>	
+						         </span>
+                            </div>
+							<!--已结束的不能编辑  只能删除-->
+                             <div class="cxrule_caozuo"  style='width:150px'>						  
+                                 <span style=" background:#27a9e3; padding:8px; color:#fff;">
+								 <a href="<{ofunc type=url link="/shopcenter/addzt/id/<{$items['id']}>"}>">编辑</a>
+								 </span>
+                                  <span style=" background:#ec7501; padding:8px; color:#fff;margin-left: 10px;">
+								 <a onclick="return remind(this);"href="<{ofunc type=url link="/shopcenter/delzt/id/<{$items['id']}>/datatype/json"}>"> 删除</a></span>	   
+                            </div>
+                          </div>
+                    
+                        
+                        
+                     <{/foreach}> 
+                      
+                      
+                    </div>
+                        <div class="cl"></div>
+                        
+                        
+                    </div>
+         
+                    </div>
+                    
+       			 </div>
+                 
+                 
+              </form>  
+                
+                
+        </div>
+        <div class="cl"></div>
+
+<script>
+
+	
+</script>
+<{/block}>

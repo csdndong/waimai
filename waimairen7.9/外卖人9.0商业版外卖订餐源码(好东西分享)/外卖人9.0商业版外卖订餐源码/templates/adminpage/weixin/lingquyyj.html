@@ -1,0 +1,99 @@
+<div style="width: 600px;padding: 2px 15px 15px 15px;
+  overflow: auto;">
+
+	<form id="lingqujuanform" action="" method="post">
+		<div class="labeldiv">
+			<label>
+				<span class="wxyouhuijuan">领取规则:</span>
+				
+				<select name="lqrule">
+					<option <{if $juaninfo['lqrule'] == 0 }> selected  <{/if}> value="0">限制每天领取次数</option>
+					<option  <{if $juaninfo['lqrule'] == 1 }> selected  <{/if}> value="1">限制总共领取次数</option>
+				</select>
+				
+			</label>
+		</div>
+		<div style="clear:both;"></div>
+		<div class="labeldiv">
+			<label>
+				<span class="wxyouhuijuan">领取次数:</span>
+				<input placeholder="可以领取多少次" name="lqcishu" id="lqcishu" value="<{if $juaninfo['lqrule'] == 0 }><{$juaninfo['limitdayshu']}><{else}><{$juaninfo['limitzongshu']}><{/if}>" type="text" />用户能领取多少次
+				
+			</label>
+		</div>
+		<div style="clear:both;"></div>
+		<div class="labeldiv">
+			<label>
+				<span class="wxyouhuijuan">领取链接:</span>
+				<input placeholder="" name="lqlianjie" id="lqlianjie" value="<{ofunc type=url link="/wxsite/getjuan"}>" type="text" />
+			</label>
+		</div>
+		<div style="clear:both;"></div>
+			<div class="labeldiv" style="margin-bottom:35px;">
+			<label>
+				<span class="wxyouhuijuan">注:</span>
+				<span class="wxyouhuijuan" style="float:left; width:490px;margin-left:10px; line-height:20px; color:#555;">用户进入此链接，即可获取优惠券。链接可用于自定义菜单、图文消息、群发消息、分享信息等一切可以在微信上跳转的地方使用，其它浏览器打开无效！</span>
+				
+			</label>
+		</div>
+		<div style="clear:both;"></div>
+	<div class="labeldiv" style="margin-bottom:55px;">
+			<label>
+				<span class="wxyouhuijuan">分享优惠卷:</span>
+				<span class="wxyouhuijuan" style="float:left; width:490px;margin-left:10px; line-height:20px; color:#555;">第一步：登录微信公众平台，进入“公众号设置”的“功能设置”里填写“JS接口安全域名”。 安全域名为：waimairen.com:7080和waimairen.com。 点击查看详细设置教程
+第二步：进入公众号密钥绑定，配置你的公众号信息。注：订阅号必须通过认证</span>
+				
+			</label>
+		</div>
+		<div style="clear:both;"></div>
+		<div class="labeldiv">
+			<label>
+				<span class="wxyouhuijuan">分享标题:</span>
+				<input placeholder="" style="width:150px;" name="sharetitle" id="sharetitle" value="<{if empty($juaninfo['sharetitle']) }><{$juaninfo['cartname']}><{else}><{$juaninfo['sharetitle']}><{/if}> " type="text" />分享时显示的标题文字，不填默认是优惠券名称
+			</label>
+		</div>
+		<div style="clear:both;"></div>
+		<div class="labeldiv">
+			<label>
+				<span class="wxyouhuijuan">分享摘要:</span>
+				<input placeholder="" style="width:150px;" name="sharezhaiyao" id="sharezhaiyao" value="<{if empty($juaninfo['sharezhaiy'] ) }><{$juaninfo['cartdesrc']}><{else}><{$juaninfo['sharezhaiy']}><{/if}>" type="text" />分享时显示的摘要文字，不填默认是优惠券描述
+			</label>
+		</div>
+		<div style="clear:both;"></div>
+			<div class="labeldiv">
+			<label>
+				<span class="wxyouhuijuan">分享图片:</span>
+				
+				  	<img src="<{$juaninfo['shareimg']}>" width="40" height=="40" id="imgshow" <{if  empty($juaninfo['shareimg'])}> style="display:none;"<{/if}>>
+                      	<input type="hidden" name="imgurl" id="imgurl" value="<{$juaninfo['shareimg']}>" class="skey" style="width:150px;" >
+                      	<span onclick="uploads();">上传图片</span>
+				
+				分享时显示的图片
+			</label>
+		</div>
+		<div style="clear:both;"></div>
+			<div class="labeldiv">
+			<label>
+				<span class="wxyouhuijuan"></span>
+				<div   style="width:80px; background:#eb9316; height:40px; line-height:40px; float:left; margin-left:10px; padding:0px 5px; text-align:center;   -moz-border-radius: 4px;
+  border-radius: 4px;color:#fff;" onclick="xglqwxyyj(<{$juaninfo['id']}>);" >保存</div>
+				
+			</label>
+		</div>
+		<div style="clear:both;"></div>
+	</form>
+	
+</div>
+<script>
+
+</script>
+<style>
+.wxyouhuijuan{ font-size:16px; height:40px; line-height:40px; float:left; width:100px;}
+.labeldiv{ font-size:14px; height:40px; line-height:40px;margin-bottom:15px;}
+#lingqujuanform input,#lingqujuanform select{ margin-right:8px;color: #555; float:left; width:250px; height:40px; line-height:40px; margin-left:10px; padding:0px 5px;
+  background-color: white;
+  border: 1px solid #CCC;font-size: 14px;-webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  vertical-align: middle;}
+</style>

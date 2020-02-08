@@ -1,0 +1,60 @@
+page {
+    font-size: 14px;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    background-color: #F5F5F5;
+}
+
+.content {
+    margin-top: 10px;
+}
+
+.content .list {
+    background: #fff;
+    padding: 3px 0;
+    padding-left: 15px;
+}
+
+.content .list .item {
+    padding: 10px 0;
+    font-size: 14px;
+}
+
+.content .list .item .item-title {
+    float: left;
+    display: inline-block;
+    width: 30%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    height: 24px;
+    line-height: 24px;
+}
+
+.content .list .item .item-inner {
+    float: left;
+    width: 60%;
+    position: relative;
+}
+
+.content .list .item .item-inner .item-remark {
+    position: absolute;
+    right: -20px;
+    top: 50%;
+    transform: translate(0,-50%);
+    color: #888;
+    z-index: 100;
+}
+
+.save-btn {
+    padding: 0 15px;
+    box-sizing: border-box;
+    margin-top: 20px;
+}
+
+.save-btn button {
+    height: 44px;
+    line-height: 44px;
+    font-size: 15px;
+}

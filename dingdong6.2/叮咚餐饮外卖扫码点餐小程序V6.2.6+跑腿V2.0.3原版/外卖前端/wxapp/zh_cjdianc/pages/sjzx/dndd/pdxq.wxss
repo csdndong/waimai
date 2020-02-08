@@ -1,0 +1,4 @@
+@import"/zh_cjdianc/pages/sjzx/dndd/pdfl.wxss";
+.headtitle{position: fixed;width:100%;top:0;z-index: 999;}
+.weui-cells_after-title{margin-top: 110rpx;}
+.hdwidth {min-width: 300rpx;}

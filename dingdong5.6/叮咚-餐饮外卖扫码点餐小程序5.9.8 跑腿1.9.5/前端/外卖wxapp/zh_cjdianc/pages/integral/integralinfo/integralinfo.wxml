@@ -1,0 +1,52 @@
+<view class="info">
+    <view class="header">
+        <image class="infoimg" mode="aspectFill" src="{{spinfo.img}}"></image>
+    </view>
+    <view class="infoname">
+        <view class="infotitle">
+            <view>{{spinfo.name}}</view>
+            <view class="sysl">剩余{{spinfo.number}}个</view>
+        </view>
+        <view class="infocost">
+            <text class="money">{{spinfo.money}}</text>
+            <text>积分</text>
+            <text class="money1" wx:if="{{spinfo.type=='1'}}">￥{{spinfo.hb_moeny}}</text>
+        </view>
+    </view>
+    <view class="section">
+        <view class="secheader">详情说明</view>
+        <view class="sectioninfo">
+            <view>
+                <view class="infotitle">商品简介</view>
+                <rich-text nodes="{{spinfo.goods_details}}"></rich-text>
+            </view>
+            <view>
+                <view class="infotitle">兑换流程</view>
+                <rich-text nodes="{{spinfo.process_details}}"></rich-text>
+            </view>
+            <view>
+                <view class="infotitle">注意事项</view>
+                <rich-text nodes="{{spinfo.attention_details}}"></rich-text>
+            </view>
+        </view>
+    </view>
+    <view class="foot"></view>
+    <view class="footer">
+        <button class="footbtn" style="opacity:0.6" wx:if="{{spinfo.number=='0'}}">抱歉！您来晚了</button>
+        <button bindtap="duihuan" class="footbtn" disabled="{{djdh}}" style="background:{{color}}" wx:else>马上兑换</button>
+    </view>
+    <view class="bomb flex3" hidden="{{bomb}}">
+        <view class="bomb_box">
+            <view class="bomb_title">确定使用{{spinfo.money}}积分兑换？</view>
+            <view class="bomb_con" wx:if="{{spinfo.type=='1'}}">兑换成功后将自动为您余额充值
+        <text style="color:#ED414A">{{spinfo.hb_moeny}}</text>
+            </view>
+            <view class="bomb_con" wx:if="{{spinfo.type=='2'}}">兑换实物将使用您的收货地址邮寄给您</view>
+            <view class="bomb_foot">
+                <view bindtap="cancel" class="cancel">取消</view>
+                <view bindtap="caomfirm" class="caomfirm" wx:if="{{spinfo.type=='1'}}">兑换</view>
+                <view bindtap="caomfirm" class="caomfirm" wx:if="{{spinfo.type=='2'}}">兑换</view>
+            </view>
+        </view>
+    </view>
+</view>

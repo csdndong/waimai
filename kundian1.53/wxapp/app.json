@@ -1,0 +1,60 @@
+{
+  "pages": [
+    "kundian_ordering/pages/index/index/index",
+    "kundian_ordering/pages/out/take_out/index",
+    "kundian_ordering/pages/out/sub_order/index",
+    "kundian_ordering/pages/desk/diancan/index",
+    "kundian_ordering/pages/desk/sure_order/index",
+    "kundian_ordering/pages/desk/order_details/index",
+    "kundian_ordering/pages/desk/tables/index",
+    "kundian_ordering/pages/desk/select_items/index",
+    "kundian_ordering/pages/fastFood/sub_order/index",
+    "kundian_ordering/pages/fastFood/index/index",
+    "kundian_ordering/pages/make/index/index",
+    "kundian_ordering/pages/pay/index/index",
+    "kundian_ordering/pages/order/index/index",
+    "kundian_ordering/pages/user/index/index",
+    "kundian_ordering/pages/user/order/index",
+    "kundian_ordering/pages/address/index",
+    "kundian_ordering/pages/login/index"
+  ],
+  "permission": {
+    "scope.userLocation": {
+      "desc": "你的位置信息将用于小程序位置接口的效果展示"
+    }
+  },
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "外卖点餐",
+    "navigationBarBackgroundColor": "white",
+    "backgroundColor": "#f5f5f5",
+    "enablePullDownRefresh": true
+  },
+  "tabBar": {
+    "color": "#bfbfbf",
+    "selectedColor": "#0081ff",
+    "borderStyle": "black",
+    "backgroundColor": "#fff",
+    "list": [
+      {
+        "pagePath": "kundian_ordering/pages/index/index/index",
+        "text": "首页",
+        "iconPath": "kundian_ordering/img/tabbar/icon-1.png",
+        "selectedIconPath": "kundian_ordering/img/tabbar/icon-1-active.png"
+      },
+      {
+        "pagePath": "kundian_ordering/pages/order/index/index",
+        "text": "订单",
+        "iconPath": "kundian_ordering/img/tabbar/icon-3.png",
+        "selectedIconPath": "kundian_ordering/img/tabbar/icon-3-active.png"
+      },
+      {
+        "pagePath": "kundian_ordering/pages/user/index/index",
+        "text": "我的",
+        "iconPath": "kundian_ordering/img/tabbar/icon-5.png",
+        "selectedIconPath": "kundian_ordering/img/tabbar/icon-5-active.png"
+      }
+    ]
+  },
+  "sitemapLocation": "sitemap.json"
+}

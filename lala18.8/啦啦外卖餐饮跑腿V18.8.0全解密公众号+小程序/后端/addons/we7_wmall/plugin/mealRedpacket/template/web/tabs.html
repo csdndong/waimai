@@ -1,0 +1,37 @@
+<div class="second-sidebar-title">{$_W['_plugin']['title']}</div>
+<div class="nav slimscroll">
+	{if check_plugin_exist('mealRedpacket')}
+		<div class="menu-header">套餐红包</div>
+		<ul class="menu-item">
+			{ifp 'mealRedpacket.meal'}
+				<li {if $_W['_action'] == 'meal'}class="active"{/if}>
+					<a href="{php echo iurl('mealRedpacket/meal')}">套餐管理</a>
+				</li>
+			{/if}
+			{ifp 'mealRedpacket.mealorder'}
+				<li {if $_W['_action'] == 'mealorder'}class="active"{/if}>
+					<a href="{php echo iurl('mealRedpacket/mealorder')}">购买记录</a>
+				</li>
+			{/if}
+		</ul>
+		<div class="menu-header">套餐红包Plus</div>
+		<ul class="menu-item">
+			{ifp 'mealRedpacket.plus'}
+				<li {if $_W['_action'] == 'plus'}class="active"{/if}>
+					<a href="{php echo iurl('mealRedpacket/plus')}">套餐管理</a>
+				</li>
+			{/if}
+			{ifp 'mealRedpacket.plusorder'}
+				<li {if $_W['_action'] == 'plusorder'}class="active"{/if}>
+					<a href="{php echo iurl('mealRedpacket/plusorder')}">购买记录</a>
+				</li>
+			{/if}
+		</ul>
+		<div class="menu-header">入口</div>
+		<ul class="menu-item">
+			<li {if $_W['_action'] == 'urls'}class="active"{/if}>
+				<a href="{php echo iurl('mealRedpacket/urls')}" title="套餐红包购买链接">套餐红包入口</a>
+			</li>
+		</ul>
+	{/if}
+</div>

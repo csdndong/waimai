@@ -1,0 +1,119 @@
+<form bindreset="formReset" bindsubmit="formSubmit" reportSubmit="true">
+    <view class="container">
+        <view class="head" wx:if="{{ad.length>0}}">
+            <swiper autoplay="{{autoplay}}" duration="{{duration}}" indicatorDots="{{indicatorDots}}" interval="{{interval}}">
+                <swiper-item wx:for="{{ad}}">
+                    <image class="slide-image" mode="aspectFill" src="{{item.logo}}"></image>
+                </swiper-item>
+            </swiper>
+        </view>
+        <view class="body">
+            <view class="text_list">
+                <view>商户名称</view>
+                <view>
+                    <input name="name_title" placeholder="请输入店铺名称" value="{{name}}"></input>
+                </view>
+            </view>
+            <view class="text_list">
+                <view>商户地址</view>
+                <view bindtap="choose_address">
+                    <text wx:if="{{address==null}}">请选择商户地址</text>
+                    <text wx:else>{{address}}</text>
+                </view>
+            </view>
+            <view class="text_list">
+                <view>简单介绍</view>
+                <view>
+                    <textarea maxlength="100" name="name_prompt" placeholder="简单介绍下您的铺子" value="{{details}}"></textarea>
+                </view>
+            </view>
+            <view class="text_list">
+                <view>联系人</view>
+                <view>
+                    <input name="name_wor" placeholder="您的姓名" value="{{link_name}}"></input>
+                </view>
+            </view>
+            <view class="text_list">
+                <view>联系方式</view>
+                <view>
+                    <input bindinput="code" name="name_tel" placeholder="您的手机号" type="number" value="{{link_tel}}"></input>
+                </view>
+            </view>
+            <view class="text_list" wx:if="{{CheckSms.is_dxyz==1}}">
+                <view>验证码</view>
+                <view>
+                    <input name="code" placeholder="请输入短信验证码" type="number"></input>
+                    <view bindtap="sendmessg" class="code" wx:if="{{getmsg=='获取验证码'}}">{{getmsg}}</view>
+                    <view class="code" style="color:#999;font-size:22rpx" wx:else>{{getmsg}}</view>
+                </view>
+            </view>
+            <view class="upload_id">
+                <view>请上传商户logo</view>
+                <view>
+                    <view bindtap="choose" data-type="1" wx:if="{{upload_one==null}}">
+                        <image class="sele_img" mode="widthFix" src="../../img/logo.png"></image>
+            商户logo
+          </view>
+                    <view bindtap="choose" data-type="1" wx:else>
+                        <image class="prompt_img" mode="widthFix" src="{{bdupload_one}}"></image>
+                    </view>
+                </view>
+            </view>
+            <view class="upload_id">
+                <view>请上传您的身份证正反面照片</view>
+                <view>
+                    <view bindtap="choose" data-type="2" wx:if="{{upload_two==null}}">
+                        <image class="sele_img" mode="widthFix" src="../../img/zhenmian@2x.png"></image>
+            身份证正面
+          </view>
+                    <view bindtap="choose" data-type="2" wx:else>
+                        <image class="prompt_img" mode="aspectFill" src="{{bdupload_two}}"></image>
+                    </view>
+                    <view bindtap="choose" data-type="3" wx:if="{{upload_three==null}}">
+                        <image class="sele_img" mode="widthFix" src="../../img/fanmian@2x.png"></image>
+            身份证反面
+          </view>
+                    <view bindtap="choose" data-type="3" wx:else>
+                        <image class="prompt_img" mode="widthFix" src="{{bdupload_three}}"></image>
+                    </view>
+                </view>
+            </view>
+            <view class="upload_id">
+                <view>请上传您的营业执照</view>
+                <view>
+                    <view bindtap="choose" data-type="4" wx:if="{{upload_four==null}}">
+                        <image class="sele_img" mode="widthFix" src="../../img/yingye@2x.png"></image>
+            营业执照
+          </view>
+                    <view bindtap="choose" data-type="4" wx:else>
+                        <image class="prompt_img" mode="widthFix" src="{{bdupload_four}}"></image>
+                    </view>
+                </view>
+            </view>
+            <view class="ruzhu" wx:if="{{array==true}}">
+                <view>入驻时间</view>
+                <view>
+                    <view bindtap="sele_arr" data-index="{{index}}" wx:if="{{day==null}}" wx:for="{{arr}}">
+                        <text>入驻平台{{item.days}}天</text>
+                        <icon type="success" wx:if="{{ac_index==index}}"></icon>
+                        <icon type="cancel" wx:else></icon>
+                        <text style="color:{{color}}">￥{{item.money}}</text>
+                    </view>
+                    <view wx:if="{{day!=null}}">
+                        <text>入驻平台{{day}}天</text>
+                        <icon type="success"></icon>
+                        <text></text>
+                    </view>
+                </view>
+            </view>
+            <view class="prompt">请仔细填写联系方式，保证我们能尽快联系到您</view>
+            <view class="protocol rel">
+                <icon bindtap="selse_succ" class="ab ud" color="{{color}}" type="success" wx:if="{{succ==true}}"></icon>
+                <icon bindtap="selse_succ" class="ab ud" color="#e5e5e5" type="success" wx:if="{{succ==false}}"></icon>
+                <text>我已阅读并了解</text>
+                <text bindtap="xieyi" style="color:{{color}}">【入驻申请协议】</text>
+            </view>
+            <button formType="submit" style="background:{{color}}">立即申请入驻</button>
+        </view>
+    </view>
+</form>

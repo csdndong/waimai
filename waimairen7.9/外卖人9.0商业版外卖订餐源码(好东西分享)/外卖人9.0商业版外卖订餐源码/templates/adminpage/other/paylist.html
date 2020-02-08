@@ -1,0 +1,107 @@
+ <{extends file="<{$tempdir}>/public/admin6.html"}>
+   <{block name=extendjs}>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js"></script>
+ <{/block}>
+ <{block name=controlname}>支付接口列表<{/block}>
+ <{block name=bodylist}>
+ <style>
+#close{text-align: center;  color: #f5f5f5;background-color: red;font-weight: bold; position: absolute;top: -10px;right: -10px; width: 25px;height: 25px;border-radius: 20px;line-height: 25px;}
+.search_content div{display:inline-block}
+#addact{background: #169bd5;padding: 5px 21px;margin-top: 8px;border-radius: 5px;color: #fff;}
+</style>
+ <div style="width:auto;overflow-x:hidden;overflow-y:auto">
+
+           <div class="tags">
+          <div id="tagscontent">
+
+            <div id="con_one_1">
+
+              <div class="table_td" style="margin-top:10px;">
+
+              <form method="post" action="" onsubmit="return remind();">
+
+                  <table border="0" cellspacing="2" cellpadding="4" class="list" name="table" id="table" width="100%">
+
+                    <thead>
+
+                      <tr>
+
+                       <th align="center">文件夹名称</th>
+                        <th align="center">接口描述</th>
+
+                        <th align="center">接口名称</th>
+                        <th align="center">支付范围</th>
+                         <th align="center">状态</th>
+                        <th align="center">操作</th>
+
+                      </tr>
+
+                    </thead>
+
+                     <tbody>
+
+                      <{foreach from=$apilist item=items}>
+					  <{if in_array($items['data']['apiname'],$typearr)}> 
+                      <tr class="s_out" onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+
+                        <td align="center"><{$items['filename']}></td>
+                        <td align="center"  width="300px"> <{$items['data']['name']}> </td>
+                        <td align="center"><{$items['data']['apiname']}></td>
+                         <td align="center"><{if $items['data']['forpay'] == 1}>网站<{elseif $items['data']['forpay'] == 2}>手机/app<{elseif $items['data']['forpay'] == 4}>app <{else}>所有<{/if}> </td>
+                        <td align="center"><{if in_array($items['data']['name'],$installlist)}>
+                        	已安装
+                        	<{else}>
+                        	未安装 <{/if}></td>
+
+                        <td align="center">
+                        	<{if in_array($items['data']['name'],$installlist)}> 
+                            	<a   href="<{ofunc type=url link="/adminpage/other/module/installpay/idtype/<{$items['data']['apiname']}>"}>"><img src="<{$siteurl}>/templates/<{$tempdir}>/public/images/admin/edit.jpg"></a>
+                          	  <a onclick="return remind(this);" href="<{ofunc type=url link="/adminpage/other/module/delpay/idtype/<{$items['data']['apiname']}>/datatype/json"}>"><img src="<{$siteurl}>/templates/<{$tempdir}>/public/images/admin/del.jpg"></a></td>
+                          <{else}>
+                        		  <a  href="<{ofunc type=url link="/adminpage/other/module/installpay/idtype/<{$items['data']['apiname']}>"}>">安装</a>
+                          <{/if}>
+                      </tr>
+					  <{/if}>
+                       <{/foreach}>
+
+                    </tbody>
+
+                  </table>
+
+                <div class="blank20"></div>
+
+
+                </form>
+
+                 <div style='padding-left:50px;color:red;' >特别说明：配置文件配置成功后，请修改对应配置文件为可读不可修改， plug\pay\文件夹名\instro.txt 里有配置文件说明 </div>
+
+                <div class="blank20"></div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+  </div>
+
+</div>
+ <script>
+	 var dialogs ;
+	 function installlogin(taskid,apidname)
+	 {
+	 	 dialogs = art.dialog.open(siteurl+'/index.php?ctrl=adminpage&action=other&module=installpay&idtype='+taskid);
+	 	 dialogs.title(apidname);
+	 }
+	 function uploadsucess(msg){
+
+    	dialogs.close();
+       window.location.reload();
+  }
+
+</script>
+<!--newmain 结束-->
+<{/block}>

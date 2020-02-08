@@ -1,0 +1,548 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.0598128.com" versionCode="0.8,1.0">
+	<application setting="false">
+		<name><![CDATA[点餐外卖]]></name>
+		<identifie><![CDATA[kundian_ordering]]></identifie>
+		<version><![CDATA[1.5.2]]></version>
+		<type><![CDATA[biz]]></type>
+		<ability><![CDATA[点餐外卖]]></ability>
+		<description><![CDATA[点餐外卖]]></description>
+		<author><![CDATA[好源码网]]></author>
+		<url><![CDATA[https://www.0598128.com]]></url>
+	</application>
+
+	<platform>
+		<subscribes>
+		</subscribes>
+
+		<handles>
+		</handles>
+
+		<rule embed="false" />
+		<card embed="false" />
+		
+		<supports>
+			<item type="wxapp" />
+		</supports>
+        <plugins></plugins> 
+        <plugin-main name="" />
+
+	</platform>
+
+	<bindings>
+		<menu>
+			<entry title="轮播图管理" do="slide" state="" direct="false"/>
+			<entry title="产品管理" do="product" state="" direct="false"/>
+			<entry title="礼品券" do="giftToken" state="" direct="false"/>
+			<entry title="订单管理" do="order" state="" direct="false"/>
+			<entry title="通知配置" do="setInform" state="" direct="false"/>
+			<entry title="订餐管理" do="makeOrder" state="" direct="false"/>
+			<entry title="基本设置" do="about" state="" direct="false"/>
+			<entry title="用户管理" do="user" state="" direct="true"/>
+			<entry title="员工管理" do="cancelPerson" state="" direct="true"/>
+			<entry title="打印机管理" do="print" state="" direct="false"/>
+			<entry title=" 餐 台" do="desk" state="" direct="false"/>
+		</menu>
+		<page>
+			<entry title="首页" do="/kundian_ordering/pages/index/index" state="" direct="false"/>
+		</page>
+
+	</bindings>
+
+	<permissions>
+	</permissions>
+
+	<install><![CDATA[
+CREATE TABLE IF NOT EXISTS `ims_cqkundian_ordering_about` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '自增id',
+  `uniacid` int(11) NOT NULL COMMENT '小程序id',
+  `logo_img` text NOT NULL COMMENT 'logo',
+  `merchant_name` char(200) NOT NULL COMMENT '名称',
+  `merchant_desc` text NOT NULL COMMENT '简介',
+  `wxchat` char(100) NOT NULL COMMENT '微信',
+  `phone` char(20) NOT NULL COMMENT '联系电话',
+  `in_time` char(50) NOT NULL COMMENT '营业时间',
+  `address` char(200) NOT NULL COMMENT '地址',
+  `begin_price` float NOT NULL COMMENT '起送价',
+  `send_price` float NOT NULL COMMENT '配送费',
+  `tags` char(200) NOT NULL COMMENT '提示',
+  `longitude` char(200) NOT NULL COMMENT '经度',
+  `latitude` char(200) NOT NULL COMMENT '伟度',
+  `send_time` int(11) NOT NULL COMMENT '配送时间',
+  `is_jian_send_price` tinyint(1) NOT NULL COMMENT '是否开启满减配送费',
+  `man_price` float NOT NULL COMMENT '满多少减',
+  `center_banner` text NOT NULL COMMENT '个人中心banner',
+  `ordering_title` char(100) NOT NULL COMMENT '预定页title',
+  `business_mode` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否开启快餐',
+  `package_price` float NOT NULL DEFAULT '0' COMMENT '打包费',
+  PRIMARY KEY (`id`),
+  KEY `id` (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE IF NOT EXISTS `ims_cqkundian_ordering_address` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` int(11) NOT NULL,
+  `region` char(100) NOT NULL,
+  `address` char(200) NOT NULL,
+  `name` char(50) NOT NULL,
+  `phone` char(20) NOT NULL,
+  `uniacid` int(11) NOT NULL,
+  `is_default` tinyint(1) NOT NULL COMMENT '1默认 0其他',
+  PRIMARY KEY (`id`),
+  KEY `id` (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE IF NOT EXISTS `ims_cqkundian_ordering_batch` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '自增id',
+  `title` char(100) NOT NULL COMMENT '标题',
+  `count` int(11) NOT NULL COMMENT '张数',
+  `prefix` char(20) NOT NULL COMMENT '批次编号前缀',
+  `status` tinyint(1) NOT NULL COMMENT '1/启用 2/未启用',
+  `create_time` int(11) NOT NULL COMMENT '创建时间',
+  `uniacid` int(11) NOT NULL COMMENT '小程序id',
+  `lid` int(11) NOT NULL COMMENT '等级id',
+  `rank` int(11) NOT NULL COMMENT '排序',
+  `is_create` tinyint(1) NOT NULL COMMENT '1/未生成 2/已生成',
+  `expire_time` int(11) NOT NULL COMMENT '过期时间',
+  `price` float NOT NULL COMMENT '单价',
+  PRIMARY KEY (`id`),
+  KEY `id` (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE IF NOT EXISTS `ims_cqkundian_ordering_cancel_person` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '自增id',
+  `phone` char(20) NOT NULL COMMENT 'phone',
+  `pwd` char(50) NOT NULL COMMENT '密码',
+  `create_time` int(11) NOT NULL COMMENT '创建时间',
+  `status` tinyint(1) NOT NULL COMMENT '0/未启用 1/已启用',
+  `uniacid` int(11) NOT NULL COMMENT '小程序id',
+  `rank` int(11) NOT NULL COMMENT '排序',
+  `uid` int(11) NOT NULL COMMENT '用户id',
+  `wx_openid` char(200) NOT NULL COMMENT '接收信息',
+  `type` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id` (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE IF NOT EXISTS `ims_cqkundian_ordering_cancel_record` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '自增id',
+  `tid` int(11) NOT NULL COMMENT '卡号id',
+  `card_num` char(50) NOT NULL COMMENT '卡号id',
+  `cid` int(11) NOT NULL COMMENT '核销员id',
+  `phone` char(100) NOT NULL COMMENT '核销员电话',
+  `create_time` int(11) NOT NULL COMMENT '创建时间',
+  `uniacid` int(11) NOT NULL COMMENT '小程序id',
+  PRIMARY KEY (`id`),
+  KEY `id` (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE IF NOT EXISTS `ims_cqkundian_ordering_cart` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '自增id',
+  `pid` int(11) NOT NULL COMMENT '商品id',
+  `uid` int(11) NOT NULL COMMENT '用户id',
+  `create_time` int(11) NOT NULL COMMENT '添加时间',
+  `count` int(11) NOT NULL COMMENT '数量',
+  `price` float NOT NULL COMMENT '单价',
+  `uniacid` int(11) NOT NULL COMMENT '小程序id',
+  `goods_name` char(200) NOT NULL COMMENT '商品名称',
+  `type_id` int(11) NOT NULL COMMENT '商品分类',
+  PRIMARY KEY (`id`),
+  KEY `id` (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE IF NOT EXISTS `ims_cqkundian_ordering_customer` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '自增id',
+  `customer_name` char(100) NOT NULL COMMENT '客户名称',
+  `phone` char(20) NOT NULL COMMENT '联系电话',
+  `create_time` int(11) NOT NULL COMMENT '创建时间',
+  `buy_count` int(11) NOT NULL COMMENT '购买数量',
+  `address` char(200) NOT NULL COMMENT '地址',
+  `price` float NOT NULL COMMENT '金额',
+  `remark` char(200) NOT NULL COMMENT '备注',
+  `uniacid` int(11) NOT NULL COMMENT '小程序id',
+  `rank` int(11) NOT NULL COMMENT '排序',
+  PRIMARY KEY (`id`),
+  KEY `id` (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE IF NOT EXISTS `ims_cqkundian_ordering_desk` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `name` char(100) NOT NULL COMMENT '餐桌名称',
+  `person` int(11) NOT NULL COMMENT '容纳人数',
+  `create_time` int(11) NOT NULL COMMENT '创建时间',
+  `code` text NOT NULL COMMENT '餐桌二维码',
+  `uniacid` int(11) NOT NULL COMMENT '小程序id',
+  `rank` int(11) NOT NULL COMMENT '排序',
+  `status` tinyint(1) NOT NULL COMMENT '0/未开餐 1/已开餐 2/已结账',
+  PRIMARY KEY (`id`),
+  KEY `id` (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE IF NOT EXISTS `ims_cqkundian_ordering_desk_order` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `order_number` char(50) NOT NULL COMMENT '订单编号',
+  `desk_id` int(11) NOT NULL COMMENT '餐桌id',
+  `person_count` int(11) NOT NULL COMMENT '用餐人数',
+  `person_price` float NOT NULL COMMENT '餐位费',
+  `total_price` float NOT NULL COMMENT '订单总价',
+  `discount` float NOT NULL COMMENT '折扣',
+  `body` char(100) NOT NULL COMMENT '订单说明',
+  `create_time` int(11) NOT NULL COMMENT '用餐时间',
+  `status` tinyint(1) NOT NULL COMMENT '0/未结算 1/已结算',
+  `pay_time` int(11) NOT NULL COMMENT '结算时间',
+  `pay_method` char(50) NOT NULL COMMENT '支付方式',
+  `pra_price` float NOT NULL COMMENT '实际支付金额',
+  `uniacid` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id` (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE IF NOT EXISTS `ims_cqkundian_ordering_desk_order_detail` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `order_id` int(11) NOT NULL COMMENT '订单id',
+  `uid` int(11) NOT NULL COMMENT '用户uid',
+  `openid` char(100) NOT NULL COMMENT '用户openid',
+  `goods_name` char(100) NOT NULL COMMENT '商品名称',
+  `price` float NOT NULL COMMENT '单价',
+  `count` int(11) NOT NULL COMMENT '数量',
+  `create_time` int(11) NOT NULL,
+  `status` tinyint(1) NOT NULL COMMENT '0/准备中 1/已上菜 2/已退菜',
+  `goods_id` int(11) NOT NULL COMMENT '商品id',
+  `uniacid` int(11) NOT NULL,
+  `cover` text NOT NULL,
+  `order_type` tinyint(2) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `id` (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE IF NOT EXISTS `ims_cqkundian_ordering_exchange` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '自增id',
+  `pid` int(11) NOT NULL COMMENT '商品id',
+  `tid` int(11) NOT NULL COMMENT '卡券id',
+  `uid` int(11) NOT NULL COMMENT '用户id',
+  `address` char(200) NOT NULL COMMENT '收货地址',
+  `name` char(100) NOT NULL COMMENT '收货人',
+  `phone` char(20) NOT NULL COMMENT '联系电话',
+  `uniacid` int(11) NOT NULL COMMENT '小程序id',
+  `status` tinyint(1) NOT NULL COMMENT '0/兑换中，1兑换成功',
+  `order_id` int(11) NOT NULL COMMENT '订单id',
+  PRIMARY KEY (`id`),
+  KEY `id` (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE IF NOT EXISTS `ims_cqkundian_ordering_giftlevel` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '自增id',
+  `price` float NOT NULL COMMENT '面值',
+  `status` tinyint(1) NOT NULL COMMENT '1/启用 2/未启用',
+  `create_time` int(11) NOT NULL COMMENT '创建时间',
+  `remark` char(200) NOT NULL COMMENT '备注',
+  `rank` int(11) NOT NULL COMMENT '排序',
+  `uniacid` int(11) NOT NULL COMMENT '小程序id',
+  PRIMARY KEY (`id`),
+  KEY `id` (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE IF NOT EXISTS `ims_cqkundian_ordering_goods` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `type_id` int(11) NOT NULL COMMENT '分类id',
+  `goods_name` char(100) NOT NULL COMMENT '商品名称',
+  `goods_number` char(50) NOT NULL COMMENT '商品编号',
+  `cover` text NOT NULL COMMENT '封面',
+  `slide_src` text NOT NULL COMMENT '轮播图',
+  `is_put_away` tinyint(1) NOT NULL COMMENT '0/不上架 1上架',
+  `rank` int(11) NOT NULL COMMENT '排序',
+  `create_time` int(11) NOT NULL COMMENT '创建时间',
+  `price` float NOT NULL COMMENT '价格',
+  `old_price` float NOT NULL COMMENT '原价',
+  `count` int(11) NOT NULL COMMENT '库存',
+  `sale_count` int(11) NOT NULL COMMENT '销量',
+  `detail_desc` text NOT NULL COMMENT '描述',
+  `uniacid` int(11) NOT NULL COMMENT '小程序id',
+  PRIMARY KEY (`id`),
+  KEY `id` (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE IF NOT EXISTS `ims_cqkundian_ordering_goods_type` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `type_name` char(50) NOT NULL COMMENT '分类名称',
+  `uniacid` int(11) NOT NULL,
+  `rank` int(11) NOT NULL COMMENT '排序',
+  `status` tinyint(1) NOT NULL COMMENT '0/不显示 1/显示',
+  PRIMARY KEY (`id`),
+  KEY `id` (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE IF NOT EXISTS `ims_cqkundian_ordering_make_order` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '自增id',
+  `uid` int(11) NOT NULL COMMENT '用户id',
+  `uniacid` int(11) NOT NULL COMMENT '小程序id',
+  `create_time` int(11) NOT NULL COMMENT '创建时间',
+  `name` char(100) NOT NULL COMMENT '姓名',
+  `phone` char(20) NOT NULL COMMENT '联系电话',
+  `use_date` char(100) NOT NULL COMMENT '用餐日期',
+  `use_time` char(100) NOT NULL COMMENT '用餐时间',
+  `person_count` int(11) NOT NULL COMMENT '用餐人数',
+  `remark` char(200) NOT NULL COMMENT '备注',
+  `total_price` float NOT NULL COMMENT '总价',
+  `is_pay` tinyint(1) NOT NULL COMMENT '0/未支付 1/已支付',
+  `is_use` tinyint(1) NOT NULL COMMENT '0/未用餐 1/已用餐 2/申请取消 3/已取消',
+  PRIMARY KEY (`id`),
+  KEY `id` (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE IF NOT EXISTS `ims_cqkundian_ordering_make_order_detail` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '自增id',
+  `mid` int(11) NOT NULL COMMENT '预约id',
+  `pid` int(11) NOT NULL COMMENT '商品id',
+  `product_name` char(200) NOT NULL COMMENT '商品名称',
+  `cover` text NOT NULL COMMENT '商品图片',
+  `price` float NOT NULL COMMENT '单价',
+  `count` int(11) NOT NULL COMMENT '数量',
+  `uniacid` int(11) NOT NULL COMMENT '小程序id',
+  PRIMARY KEY (`id`),
+  KEY `id` (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE IF NOT EXISTS `ims_cqkundian_ordering_msg_config` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '自增id',
+  `uniacid` int(11) NOT NULL COMMENT '小程序id',
+  `appkey` char(200) NOT NULL COMMENT 'appkey',
+  `secret` char(200) NOT NULL COMMENT '密钥',
+  `sign_name` char(200) NOT NULL COMMENT '短信签名',
+  `phone` char(20) NOT NULL COMMENT '接收短信手机号',
+  `template_code` char(50) NOT NULL COMMENT '短信模板',
+  `user` char(200) NOT NULL COMMENT '打印机用户',
+  `ukey` char(200) NOT NULL COMMENT '打印机key',
+  `sn` char(200) NOT NULL COMMENT '打印机编号',
+  `print_is_open` tinyint(1) NOT NULL COMMENT '是否开启打印机',
+  `wx_appid` char(200) NOT NULL COMMENT '微信公众号appid',
+  `wx_secret` char(200) NOT NULL COMMENT '微信公众号密钥',
+  `wx_template_id` char(200) NOT NULL COMMENT '微信公众号模板消息id',
+  `wx_small_template_id` char(200) NOT NULL COMMENT '微信小程序模板id',
+  `msg_type` char(200) NOT NULL COMMENT '发送消息类型',
+  `get_openid` char(200) NOT NULL COMMENT '收取信息的openid',
+  `wx_cert` text NOT NULL COMMENT '微信证书',
+  `wx_key` text NOT NULL COMMENT '微信证书key',
+  `wx_order_template_id` char(200) NOT NULL COMMENT '模板消息id',
+  `wx_cancel_order_template` char(200) NOT NULL COMMENT '取消订单模板消息id',
+  `coupon_id` char(200) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`),
+  KEY `id` (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE IF NOT EXISTS `ims_cqkundian_ordering_nav` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` char(50) NOT NULL COMMENT '标题',
+  `eng_title` char(50) NOT NULL COMMENT '英文标题',
+  `icon` text NOT NULL COMMENT '图标',
+  `color` char(30) NOT NULL COMMENT '颜色',
+  `path` char(100) NOT NULL COMMENT '跳转路径',
+  `rank` int(11) NOT NULL COMMENT '排序',
+  `uniacid` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id` (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE IF NOT EXISTS `ims_cqkundian_ordering_order` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '自增id',
+  `order_number` char(50) NOT NULL COMMENT '订单编号',
+  `price` float NOT NULL COMMENT '订单总价',
+  `create_time` int(11) NOT NULL COMMENT '创建时间',
+  `pay_time` int(11) NOT NULL COMMENT '支付时间',
+  `is_pay` tinyint(1) NOT NULL COMMENT '0/未支付 1已支付',
+  `uid` int(11) NOT NULL COMMENT '用户id',
+  `name` char(20) NOT NULL COMMENT '收货人',
+  `phone` char(20) NOT NULL COMMENT '联系电话',
+  `address` char(200) NOT NULL COMMENT '收货地址',
+  `is_send` tinyint(1) NOT NULL COMMENT '0/未发货 1/已发货',
+  `sent_time` int(11) NOT NULL COMMENT '发货时间',
+  `gift_sub_price` float NOT NULL COMMENT '卡券抵消金额',
+  `pra_price` float NOT NULL COMMENT '实际支付金额',
+  `pay_method` char(100) NOT NULL COMMENT '支付方式',
+  `uniacid` int(11) NOT NULL COMMENT '小程序id',
+  `is_change` tinyint(11) NOT NULL COMMENT '1购买 2/兑换',
+  `tid` int(11) NOT NULL,
+  `send_number` char(100) NOT NULL COMMENT '物流编号',
+  `remark` char(100) NOT NULL COMMENT '物流编号',
+  `pei_time` char(100) NOT NULL COMMENT '物流编号',
+  `fast_food_number` varchar(6) NOT NULL DEFAULT '' COMMENT '快餐，模式取餐号',
+  `is_fast_food` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否快餐订单',
+  `package_price` float NOT NULL DEFAULT '0' COMMENT '打包费',
+  `uniontid` char(200) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`),
+  KEY `id` (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE IF NOT EXISTS `ims_cqkundian_ordering_order_detail` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '自增id',
+  `pid` int(11) NOT NULL COMMENT '商品编号',
+  `order_id` int(11) NOT NULL COMMENT '订单编号',
+  `num` int(11) NOT NULL COMMENT '购买数量',
+  `total_price` float NOT NULL COMMENT '价格',
+  `uniacid` int(11) NOT NULL COMMENT '小程序id',
+  PRIMARY KEY (`id`),
+  KEY `id` (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE IF NOT EXISTS `ims_cqkundian_ordering_print` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `sn` char(200) NOT NULL,
+  `key` char(200) NOT NULL,
+  `name` char(200) NOT NULL,
+  `carnum` char(100) NOT NULL,
+  `create_time` int(11) NOT NULL,
+  `uniacid` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id` (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE IF NOT EXISTS `ims_cqkundian_ordering_product` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '自增id',
+  `product_name` char(200) NOT NULL COMMENT '产品名称',
+  `old_price` float NOT NULL COMMENT '原价',
+  `price` float NOT NULL COMMENT '现价',
+  `sale_count` int(11) NOT NULL COMMENT '销量',
+  `count` int(11) NOT NULL COMMENT '库存',
+  `create_time` int(11) NOT NULL COMMENT '创建时间',
+  `is_putaway` tinyint(1) NOT NULL COMMENT '1/上架 0/未上架',
+  `cover` text NOT NULL COMMENT '封面',
+  `tid` int(11) NOT NULL COMMENT '分类id',
+  `uniacid` int(11) NOT NULL COMMENT '小程序id',
+  `rank` int(11) NOT NULL COMMENT '排序',
+  `is_change` tinyint(1) NOT NULL COMMENT '1/参加 0/不参加',
+  `slide_src` text NOT NULL COMMENT '轮播图片',
+  `detail_desc` text NOT NULL COMMENT '详细描述',
+  `is_recommend` tinyint(1) NOT NULL COMMENT '0/不推荐，1推荐',
+  PRIMARY KEY (`id`),
+  KEY `id` (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE IF NOT EXISTS `ims_cqkundian_ordering_product_type` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '自增id',
+  `type_name` char(50) NOT NULL COMMENT '分类名称',
+  `icon` text NOT NULL COMMENT '分类图标',
+  `create_time` int(11) NOT NULL COMMENT '创建时间',
+  `is_use` tinyint(1) NOT NULL COMMENT '1/未启用2/已启用',
+  `is_recommend` tinyint(1) NOT NULL COMMENT '1/不推荐 2/推荐',
+  `rank` int(11) NOT NULL COMMENT '排序',
+  `uniacid` int(11) NOT NULL COMMENT '小程序',
+  PRIMARY KEY (`id`),
+  KEY `id` (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE IF NOT EXISTS `ims_cqkundian_ordering_sale` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '自增id',
+  `cid` int(11) NOT NULL COMMENT '公司id',
+  `count` int(11) NOT NULL COMMENT '购买数量',
+  `price` float NOT NULL COMMENT '总价',
+  `remark` char(200) NOT NULL COMMENT '备注',
+  `tid` text NOT NULL COMMENT '卡券id',
+  `uniacid` int(11) NOT NULL COMMENT '小程序id',
+  `create_time` int(11) NOT NULL COMMENT '添加时间',
+  PRIMARY KEY (`id`),
+  KEY `id` (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE IF NOT EXISTS `ims_cqkundian_ordering_slide` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '自增id',
+  `title` char(100) NOT NULL COMMENT '标题',
+  `src` text NOT NULL COMMENT '路径',
+  `path` text NOT NULL COMMENT '跳转路径',
+  `status` tinyint(1) NOT NULL COMMENT '1/显示 2/隐藏',
+  `create_time` int(11) NOT NULL COMMENT '创建时间',
+  `rank` int(11) NOT NULL COMMENT '排序',
+  `uniacid` int(11) NOT NULL COMMENT '小程序id',
+  PRIMARY KEY (`id`),
+  KEY `id` (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE IF NOT EXISTS `ims_cqkundian_ordering_token` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '自增id',
+  `card_num` char(200) NOT NULL COMMENT '卡号',
+  `password` char(200) NOT NULL COMMENT '密码',
+  `is_use` tinyint(1) NOT NULL COMMENT '0/未使用 1/已使用',
+  `create_time` int(11) NOT NULL COMMENT '创建时间',
+  `bid` int(11) NOT NULL COMMENT '批次id',
+  `uniacid` int(11) NOT NULL COMMENT '小程序id',
+  `is_sale` tinyint(1) NOT NULL COMMENT '0/未售出 1/已售出',
+  `cid` int(11) NOT NULL COMMENT '客户id',
+  PRIMARY KEY (`id`),
+  KEY `id` (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE IF NOT EXISTS `ims_cqkundian_ordering_user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '自增id',
+  `uid` int(11) NOT NULL COMMENT '微擎用户id',
+  `nickname` char(50) NOT NULL COMMENT '微信昵称',
+  `avatarurl` text NOT NULL COMMENT '头像',
+  `create_time` int(11) NOT NULL COMMENT '创建时间',
+  `phone` char(20) NOT NULL COMMENT '联系电话',
+  `sex` tinyint(1) NOT NULL COMMENT '1/男 2/女',
+  `address` char(200) NOT NULL COMMENT '地址',
+  `rank` int(11) NOT NULL COMMENT '排序',
+  `uniacid` int(11) NOT NULL COMMENT '小程序id',
+  `order_count` int(11) NOT NULL COMMENT '订单数量',
+  `wx_openid` char(50) NOT NULL COMMENT '微信公众号openid',
+  `openid` char(100) NOT NULL COMMENT '微信公众号openid',
+  PRIMARY KEY (`id`),
+  KEY `id` (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+
+]]></install>
+	<uninstall><![CDATA[DROP TABLE IF EXISTS `ims_cqkundian_ordering_about`;
+DROP TABLE IF EXISTS `ims_cqkundian_ordering_address`;
+DROP TABLE IF EXISTS `ims_cqkundian_ordering_batch`;
+DROP TABLE IF EXISTS `ims_cqkundian_ordering_cancel_person`;
+DROP TABLE IF EXISTS `ims_cqkundian_ordering_cancel_record`;
+DROP TABLE IF EXISTS `ims_cqkundian_ordering_cart`;
+DROP TABLE IF EXISTS `ims_cqkundian_ordering_customer`;
+DROP TABLE IF EXISTS `ims_cqkundian_ordering_desk`;
+DROP TABLE IF EXISTS `ims_cqkundian_ordering_desk_order`;
+DROP TABLE IF EXISTS `ims_cqkundian_ordering_desk_order_detail`;
+DROP TABLE IF EXISTS `ims_cqkundian_ordering_exchange`;
+DROP TABLE IF EXISTS `ims_cqkundian_ordering_giftlevel`;
+DROP TABLE IF EXISTS `ims_cqkundian_ordering_goods`;
+DROP TABLE IF EXISTS `ims_cqkundian_ordering_goods_type`;
+DROP TABLE IF EXISTS `ims_cqkundian_ordering_make_order`;
+DROP TABLE IF EXISTS `ims_cqkundian_ordering_make_order_detail`;
+DROP TABLE IF EXISTS `ims_cqkundian_ordering_msg_config`;
+DROP TABLE IF EXISTS `ims_cqkundian_ordering_nav`;
+DROP TABLE IF EXISTS `ims_cqkundian_ordering_order`;
+DROP TABLE IF EXISTS `ims_cqkundian_ordering_order_detail`;
+DROP TABLE IF EXISTS `ims_cqkundian_ordering_print`;
+DROP TABLE IF EXISTS `ims_cqkundian_ordering_product`;
+DROP TABLE IF EXISTS `ims_cqkundian_ordering_product_type`;
+DROP TABLE IF EXISTS `ims_cqkundian_ordering_sale`;
+DROP TABLE IF EXISTS `ims_cqkundian_ordering_slide`;
+DROP TABLE IF EXISTS `ims_cqkundian_ordering_token`;
+DROP TABLE IF EXISTS `ims_cqkundian_ordering_user`;
+]]></uninstall>
+	<upgrade><![CDATA[upgrade.php]]></upgrade>
+
+</manifest>

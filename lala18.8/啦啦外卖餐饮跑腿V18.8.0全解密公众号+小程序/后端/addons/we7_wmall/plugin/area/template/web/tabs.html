@@ -1,0 +1,23 @@
+<div class="second-sidebar-title">{$_W['_plugin']['title']}</div>
+<div class="nav slimscroll">
+	{ifp 'area.area'}
+		<div class="menu-header">配送区域</div>
+		<ul class="menu-item">
+			{ifp 'area.area'}
+			<li {if $_W['_action'] == 'area'}class="active"{/if}>
+				<a href="{php echo iurl('area/area');}">区域列表</a>
+			</li>
+			{/if}
+		</ul>
+	{/if}
+	{ifp 'area.config'}
+		<div class="menu-header">设置</div>
+		<ul class="menu-item">
+			{ifp 'area.config'}
+				<li {if $_W['_action'] == 'config'}class="active"{/if}>
+					<a href="{php echo iurl('area/config/index');}">基础设置</a>
+				</li>
+			{/if}
+		</ul>
+	{/if}
+</div>

@@ -1,0 +1,6 @@
+{
+    "navigationBarTitleText": "提现明细",
+    "usingComponents": {
+        "cardlist": "/zh_cjdianc/dist/cardlist/index"
+    }
+}

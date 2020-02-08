@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>{if empty($_W['page']['title'])}{$_W['we7_wmall']['config']['mall']['title']}{else}{$_W['page']['title']}{/if}</title>
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<link rel="stylesheet" href="{$_W['siteroot']}addons/we7_wmall/static/js/components/light7/light7.min.css" />
+	<link rel="stylesheet" href="{$_W['siteroot']}addons/we7_wmall/template/mobile/wmall/{$_W['mobile_tpl']}/static/css/index.css?t={php echo time();}" />
+	<script type='text/javascript' src='{$_W['siteroot']}addons/we7_wmall/static/css/iconfont.js' charset='utf-8'></script>
+	<link rel="stylesheet" href="{$_W['siteroot']}addons/we7_wmall/static/css/iconfont.css"/>
+	<script type='text/javascript' src="{$_W['siteroot']}addons/we7_wmall/static/js/components/jquery/jquery-2.2.1.min.js"></script>
+	<script type='text/javascript' src='{$_W['siteroot']}addons/we7_wmall/static/js/components/light7/light7.min.js?t=1000' charset='utf-8'></script>
+	<script type="text/javascript" src="{$_W['siteroot']}addons/we7_wmall/static/js/components/light7/light7-swiper.min.js"></script>
+	<script type="text/javascript" src="{$_W['siteroot']}addons/we7_wmall/static/js/components/light7/i18n/cn.min.js"></script>
+	<script type="text/javascript" src="{$_W['siteroot']}addons/we7_wmall/static/js/components/light7/common.js?t=100000"></script>
+</head>
+<body>
+	<div class="page">
+		{$description}
+	</div>
+</body>
+<script>
+$(function(){
+	$.init();
+})
+</script>
+</html>

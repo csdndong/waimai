@@ -1,0 +1,209 @@
+ <{extends file="<{$tempdir}>/public/site.html"}>   
+<{block name=extendjs}>
+ 
+<{/block}>
+<{block name=sitetitle}>下单成功提示<{/block}>
+ <{block name=bodylist}>
+ <style>
+ .watizhifu{ width:1200px; margin:0 auto; margin-top:20px; margin-bottom:20px; height:460px; background:#ffffff; border-top:2px solid #f38383;}
+ .dengdaipay{width:630px;  padding-left:80px; margin-left:320px; background:url(<{$siteurl}>/templates/<{$tempdir}>/public/images/waitpayBg.png) left center no-repeat;}
+ .watizhifu h1 { color:#141212; margin-top:73px; font-family:微软雅黑;font-size:24px;}
+ .watizhifu .ddje { color:#141212; margin-top:13px; font-family:微软雅黑;font-size:14px;}
+ .gfsorder{ margin-top:40px; margin-left:400px; font-family:微软雅黑; font-size:14px; color:#ffffff;}
+ .gfsorder a{color:#ffffff;}
+ .gzdd{ text-align:center; line-height:35px; float:left; margin-right:14px; width:118px; height:35px; background:#f38383;}
+ .fhct{text-align:center; line-height:35px;float:left; margin-right:14px; width:118px; height:35px; background:#689bce;}
+ .whonawaimai{text-align:center; line-height:35px;float:left; margin-right:14px; width:118px; height:35px; background:#d5aa3f;}
+ .orderzhuyi{width:1148px; height:57px; line-height:57px; background:#f7f7f7; margin:50px auto 0px; text-align:center; color:#141212; font-size:14px; font-family:微软雅黑;}
+ </style>
+ 
+ <div class="watizhifu">
+	<div id="wx_pay"   style="position: absolute;height: 200px;width: 200px;margin-top:20px;margin-left:50px;display:none;">
+       <div style="text-align:center;"><h3>微信扫码支付</h3></div>
+	   <div style="text-align:center;"><img src="" style="width:160px;height:160px;margin-left:15px;"></img></div> 
+    </div>
+	<div  class="dengdaipay">
+	 <{if $orderinfo['paytype'] == 1 }>
+		
+		<{if $orderinfo['is_goshop'] == 0}>
+		<h1>订单已成功提交，请选择下面的支付方式进行支付</h1>
+			<div class="ddje">
+			订单总金额<span style="color:#f38383;"><{$orderinfo['allcost']}></span>元，支付后商家才能收到订单哦！
+		</div>
+		<{else}>
+		<h1>订单已成功提交，请及时到商家消费</h1>
+			<div class="ddje">
+			订单总金额<span style="color:#f38383;"><{$orderinfo['allcost']}></span>元，欢迎下次下单!
+		</div>
+		<{/if}>
+		
+		
+	<{else}>
+		<{if $orderinfo['is_goshop'] == 0}>
+		<h1>订单已成功提交，请耐心等待商家配送</h1>
+			<div class="ddje">
+			订单总额<span style="color:#f38383;"><{$orderinfo['allcost']}></span>元，可以先准备好零钱哦~
+		</div>
+		<{else}>
+		<h1>订单已成功提交，请及时到商家消费</h1>
+			<div class="ddje">
+			订单总金额<span style="color:#f38383;"><{$orderinfo['allcost']}></span>元，欢迎下次下单!
+		</div>
+		<{/if}>
+	<{/if}>
+	
+ </div>
+ <div class="gfsorder">
+ 
+	<div class="gzdd">
+		<a href="<{ofunc type=url link="/order"}>">跟踪订单</a>
+	</div>
+	
+	<div class="fhct">
+		<a href="<{ofunc type=url link="/site/index"}>">返回餐厅</a>
+	</div>
+ <{if $orderinfo['is_goshop'] == 0 }>	
+	<div class="whonawaimai">
+		<a href="javascript:void();"  class="activity-shuiqunawaimai" onclick="_gaq.push(['_trackEvent', 'middle-activities', 'click', 'shuiqunawaimai']);" >谁去拿外卖</a>
+	</div>
+	<{/if}>
+ <div style="clear:both;"></div>
+ </div>
+	 <{if $orderinfo['paytype'] == 1 && $orderinfo['status'] < 2 && $orderinfo['paystatus'] == 0 }>
+  <div class="waitpaycontent">
+  	 <{foreach from=$paylist item=items}>
+                 	    <{if $items['loginname'] == 'open_acout'}>
+							  <{if $member['uid'] > 0 && $member['cost'] >= $orderinfo['allcost'] }>
+								  <input type="radio" name="paydotype" value="<{$items['loginname']}>"><{if empty($items['logourl'])}><{$items['logindesc']}><{else}><img src="<{$items['logourl']}>"> <{/if}>  <{$member['cost']}>元
+							  <{/if}>
+                 	    <{else}>
+                 	     <input type="radio" name="paydotype" value="<{$items['loginname']}>"><{if empty($items['logourl'])}><{$items['logindesc']}><{else}><img src="<{$items['logourl']}>"> <{/if}> 
+                 	     <{/if}>
+                    <{/foreach}>
+  	
+  </div>
+
+ 
+	  <div class="waitpaycontent">
+			   
+				 <div class="login-button hc_login_btn_div  ">提交支付</div> 
+			  
+	</div>
+	
+	
+<script>
+ $(function(){ 
+     var tempccurl = '<{$siteurl}>/index.php?ctrl=site&action=wx_orderpay&datatype=json&random=@random@&orderid=<{$orderinfo['id']}>';
+      $.ajax({
+       type: 'POST',
+       async:false,
+       url: tempccurl.replace('@random@', 1+Math.round(Math.random()*1000)),
+       data: '',
+      dataType: 'json',success: function(content) { 
+      	if(content.error == true)
+      	{
+      		$('#wx_pay').hide();
+      	}else if(content.error == false)
+      	{
+		    $('#wx_pay').show();
+      		$('#wx_pay').find('img').eq(0).attr('src',"<{$siteurl}>/plug/pay/weixin/qrcode.php?data="+content.msg);//.hide();
+      	}else{
+      	  $('#wx_pay').hide();
+      	} 
+		  },
+      error: function(content) { 
+      	$('#wx_pay').hide();
+	   }
+    });  
+	setTimeout("checkpay()", 3000); 
+ }); 
+ function checkpay(){
+	var tempccurl = '<{$siteurl}>/index.php?ctrl=site&action=ajaxcheckpay&datatype=json&random=@random@&orderid=<{$orderinfo['id']}>';
+      $.ajax({
+       type: 'POST',
+       async:false,
+       url: tempccurl.replace('@random@', 1+Math.round(Math.random()*1000)),
+       data: '',
+      dataType: 'json',success: function(content) { 
+      	if(content.error == true)
+      	{
+      		setTimeout("checkpay()", 3000); 
+      	}else if(content.error == false)
+      	{
+		    location.reload();  
+      	}else{
+      	  setTimeout("checkpay()", 3000); 
+      	} 
+		  },
+      error: function(content) { 
+      	setTimeout("checkpay()", 3000); 
+	   }
+    });
+ }
+</script>
+	
+	 <{/if}>
+ 
+ <div class="orderzhuyi">
+  <{if $orderinfo['is_goshop'] == 0 }>
+	预测送餐时间为<{$orderinfo['posttime']|date_format:"%Y-%m-%d %H:%M"}>，请检查您的电话<{$orderinfo['buyerphone']}>是否开机。
+	<{else}>	
+	您的预定时间为 <{$orderinfo['addtime']|date_format:"%Y-%m-%d %H:%M"}>  ，如不能去消费请提前通知商家
+	<{/if}>
+	
+ </div>
+ 
+ </div>
+ 
+ 
+ 
+ 
+ 
+ <style>
+	.watipaydiv{margin: 0 auto;
+padding: 0;
+width: 1200px;
+margin-bottom: 10px;
+overflow: hidden;
+height:400px;}
+.waitpaytitle{
+	padding-top:30px;
+  width:1200px;
+  text-align:center;
+  font-size:18px;
+  height:30px;
+  line-height:30px;
+  font-weight:bold;
+}
+.waitpaycontent{
+	padding-top:20px;
+  width:1200px;
+	 height:30px;
+  line-height:30px;
+   text-align:center;
+}
+	</style>
+	
+	
+	
+	
+
+ 
+<div id="content">
+ 
+
+<script type="text/javascript">
+$('.login-button').click(function(){
+	//
+	if("undefined" == typeof $("input[name='paydotype']:checked").val()){
+	  alert('请先选择 支付方式');
+	  return;
+	} 
+	var url = '<{ofunc type=url link="/site/gotopay/orderid/<{$orderinfo['id']}>/paydotype/@paydotype@"}>';
+	url = url.replace('@paydotype@', $("input[name='paydotype']:checked").val());  
+	window.open(url);  
+})
+
+</script></div> 
+  
+<{/block}>

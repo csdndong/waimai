@@ -1,0 +1,73 @@
+{itemplate 'public/header'}
+<div class="page" id="page-statcenter">
+	<header class="bar bar-nav common-bar-nav">
+		<a href="javascript:;" class="pull-left back"><i class="icon icon-arrow-left"></i></a>
+		<h1 class="title">商户统计</h1>
+	</header>
+	<div class="content">
+		<div class="store-takeout">外卖</div>
+		<ul class="store-data">
+			<li>
+				<a href="javascript:;">
+					<div class="store-data-sum">{$stat['wmall']['num']}</div>
+					<div class="store-data-info">今日有效订单</div>
+				</a>
+			</li>
+			<li>
+				<a href="javascript:;">
+					<div class="store-data-sum">{$stat['wmall']['total_fee']}</div>
+					<div class="store-data-info">今日总营业额</div>
+				</a>
+			</li>
+			<li>
+				<a href="javascript:;">
+					<div class="store-data-sum">{$stat['wmall']['final_fee']}</div>
+					<div class="store-data-info">今日总收入</div>
+				</a>
+			</li>
+		</ul>
+		<div class="store-tangshi">店内</div>
+		<ul class="store-data">
+			<li>
+				<a href="javascript:;">
+					<div class="store-data-sum">{$stat['tangshi']['num']}</div>
+					<div class="store-data-info">今日有效订单</div>
+				</a>
+			</li>
+			<li>
+				<a href="javascript:;">
+					<div class="store-data-sum">{$stat['tangshi']['total_fee']}</div>
+					<div class="store-data-info">今日总营业额</div>
+				</a>
+			</li>
+			<li>
+				<a href="javascript:;">
+					<div class="store-data-sum">{$stat['tangshi']['final_fee']}</div>
+					<div class="store-data-info">今日总收入</div>
+				</a>
+			</li>
+		</ul>
+		<div class="tangshi-takeout">当面付</div>
+		<ul class="store-data">
+			<li>
+				<a href="javascript:;">
+					<div class="store-data-sum">{$stat['paybill']['num']}</div>
+					<div class="store-data-info">今日有效订单</div>
+				</a>
+			</li>
+			<li>
+				<a href="javascript:;">
+					<div class="store-data-sum">{$stat['paybill']['total_fee']}</div>
+					<div class="store-data-info">今日总营业额</div>
+				</a>
+			</li>
+			<li>
+				<a href="javascript:;">
+					<div class="store-data-sum">{$stat['paybill']['final_fee']}</div>
+					<div class="store-data-info">今日总收入</div>
+				</a>
+			</li>
+		</ul>
+	</div>
+</div>
+{itemplate 'public/footer'}

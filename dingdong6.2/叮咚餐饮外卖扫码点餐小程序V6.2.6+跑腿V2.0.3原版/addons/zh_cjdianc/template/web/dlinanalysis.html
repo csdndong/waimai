@@ -1,0 +1,574 @@
+{template 'public/header'}
+
+{template 'public/comhead'}
+
+<link rel="stylesheet" type="text/css" href="https://static.jianshukeji.com/hcode/images/favicon.ico">
+
+<style type="text/css">
+
+    .yg9_content{padding:0px;}
+
+    .yg9_content>li>.col-xs-12{
+
+        height: 130px;
+
+        box-shadow: 0px 0px 8px rgba(0,0,0,0.1);
+
+        border-radius: 6px;
+
+    }    
+
+    .yg9_content>li:nth-child(1)>.col-xs-12{
+
+        background-color: #32CC7F;
+
+        color: white;
+
+        /*background:url(../addons/zh_dianc/template/images/tuceng4.png) no-repeat center;
+
+        background-size: 100%;*/
+
+    }
+
+    .yg9_content>li:nth-child(2)>.col-xs-12{
+
+        background-color: #f17c67;
+
+        color: white;
+
+    }
+
+    .yg9_content>li:nth-child(3)>.col-xs-12{
+
+        background-color: #99CC33;
+
+        color: white;
+
+    }
+
+    .yg9_content>li:nth-child(4)>.col-xs-12{
+
+        background-color: #6C6FBF;
+
+        color: #fff;
+
+    }
+
+    .tmoney{font-size: 26px;margin-top: 30px;text-align: center;}
+
+    .today{font-size: 14px;text-align: center;cursor: pointer;}
+
+    
+
+    .todaybox2,.todaybox3,.todaybox4,.todaybox1{position: absolute;left: -10%;top: 5px;z-index: 10;width: 200px;height: 65px;padding: 10px;
+
+        background-color: rgba(0,0,0,0.7);border-radius: 6px;color: white;font-size: 12px;text-indent: 1em;display: none;}
+
+    .arrow-down{width: 0;height: 0;border-bottom: 10px solid rgba(0,0,0,0.7);  border-left: 10px solid transparent;transform: rotate(45deg);
+
+        position: absolute;left: 50%;top: 60px;
+
+    }
+
+    .backimg{
+
+        width: 71px;
+
+        height: 74px;
+
+        margin-top: 30px;
+
+    }
+
+    .yingye{text-align: center;}
+
+</style>
+
+<script type="text/javascript" src="../addons/zh_dianc/template/public/highcharts.js"></script>
+
+<div class="main">
+
+    <div class="panel panel-default">
+
+        <div class="panel-heading">数据概况信息</div>
+
+            <div class="panel-body">        
+
+            <ul class="col-xs-12 yg9_content" style="margin-bottom: 10px;">
+
+                <li class="col-xs-3">
+
+                    <div class="col-xs-12">
+
+                        <div class="col-xs-4">
+
+                            <img class="backimg" src="../addons/zh_dianc/template/images/wx.png">
+
+                        </div>
+
+                        <div class="col-xs-8">
+
+                            <p class="tmoney">¥&nbsp;{if $total}{$total}{else}0.00{/if}</p>
+
+                            <p class="today jinri1">今日微信支付营业额
+
+                                <i class="fa fa-question-circle" aria-hidden="true"></i>
+
+                                <div class="todaybox1">指来自外卖、店内、预约、优惠买单等业务中，状态为已完成的微信支付订单总金额
+
+                                    <div class="arrow-down"></div>
+
+                                </div>                                
+
+                            </p>
+
+                            
+
+                        </div>
+
+                    </div>
+
+                </li>
+
+                <li class="col-xs-3">
+
+                    <div class="col-xs-12">
+
+                        <div class="col-xs-4">
+
+                            <img class="backimg" src="../addons/zh_dianc/template/images/yue.png">
+
+                        </div>
+
+                        <div class="col-xs-8">
+
+                             <p class="tmoney">¥&nbsp;{if $total2}{$total2}{else}0.00{/if}</p>
+
+                            <p class="today jinri2">今日余额支付营业额
+
+                                <i class="fa fa-question-circle" aria-hidden="true"></i>
+
+                                <div class="todaybox2">指来自外卖、店内、预约、优惠买单等业务中，状态为已完成的余额支付有效订单总金额
+
+                                    <div class="arrow-down"></div>
+
+                                </div>
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </li>
+
+                <li class="col-xs-3">
+
+                    <div class="col-xs-12">
+
+                        <div class="col-xs-4">
+
+                            <img class="backimg" src="../addons/zh_dianc/template/images/jf.png">
+
+                        </div>
+
+                        <div class="col-xs-8">
+
+                            <p class="tmoney">¥&nbsp;{if $total3}{$total3}{else}0.00{/if}</p>
+
+                            <p class="today jinri3">今日积分支付营业额
+
+                                <i class="fa fa-question-circle" aria-hidden="true"></i>
+
+                                <div class="todaybox3">指来自外卖、店内、预约、优惠买单等业务中，状态为已完成的余额支付有效订单总金额
+
+                                    <div class="arrow-down"></div>
+
+                                </div>
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </li>
+
+         <!--        <li class="col-xs-3">
+
+                    <div class="col-xs-12">
+
+                    <div class="col-xs-6">
+
+                            <img class="backimg" src="../addons/zh_dianc/template/images/xinxi4.png">
+
+                        </div>
+
+                        <div class="col-xs-6">
+
+                            <p class="tmoney">¥&nbsp;{if $tk}{$tk}{else}0.00{/if}</p>
+
+                            <p class="today jinri4">今日新增退款
+
+                                <i class="fa fa-question-circle" aria-hidden="true"></i>
+
+                                <div class="todaybox4">指来自外卖、店内状态为已退款的订单数量
+
+                                    <div class="arrow-down"></div>
+
+                                </div>
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </li> -->
+
+            </ul>
+
+        </div>        
+
+    </div>
+
+ <!--    <div class="panel panel-default">
+
+        <div class="panel-heading">数据概况信息</div>
+
+        <div class="panel-body">        
+
+            <ul class="col-xs-12 yg9_content" style="margin-bottom: 10px;">
+
+                <li class="col-xs-3">
+
+                    <div class="col-xs-12">
+
+                        <div class="col-xs-6">
+
+                            <img class="backimg" src="../addons/zh_dianc/template/images/xinxi1.png">
+
+                        </div>
+
+                        <div class="col-xs-6">
+
+                            <p class="tmoney">¥&nbsp;{if $total}{$total}{else}0.00{/if}</p>
+
+                            <p class="today jinri1">今日营业总额
+
+                                <i class="fa fa-question-circle" aria-hidden="true"></i>
+
+                                <div class="todaybox1">指来自外卖、店内、预约、优惠买单等业务中，状态为已完成的订单总金额
+
+                                    <div class="arrow-down"></div>
+
+                                </div>                                
+
+                            </p>
+
+                            
+
+                        </div>
+
+                    </div>
+
+                </li>
+
+                <li class="col-xs-3">
+
+                    <div class="col-xs-12">
+
+                        <div class="col-xs-6">
+
+                            <img class="backimg" src="../addons/zh_dianc/template/images/xinxi2.png">
+
+                        </div>
+
+                        <div class="col-xs-6">
+
+                            <p class="tmoney">{$total2}</p>
+
+                            <p class="today jinri2">今日有效订单
+
+                                <i class="fa fa-question-circle" aria-hidden="true"></i>
+
+                                <div class="todaybox2">指来自外卖、店内、预约、优惠买单等业务中，状态为已完成的有效订单数量
+
+                                    <div class="arrow-down"></div>
+
+                                </div>
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </li>
+
+                <li class="col-xs-3">
+
+                    <div class="col-xs-12">
+
+                        <div class="col-xs-6">
+
+                            <img class="backimg" src="../addons/zh_dianc/template/images/xinxi3.png">
+
+                        </div>
+
+                        <div class="col-xs-6">
+
+                            <p class="tmoney">¥&nbsp;{if $cz}{$cz}{else}0.00{/if}</p>
+
+                            <p class="today jinri3">今日新增储值
+
+                                <i class="fa fa-question-circle" aria-hidden="true"></i>
+
+                                <div class="todaybox3">指来自用户有效充值的金额
+
+                                    <div class="arrow-down"></div>
+
+                                </div>
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </li>
+
+                <li class="col-xs-3">
+
+                    <div class="col-xs-12">
+
+                    <div class="col-xs-6">
+
+                            <img class="backimg" src="../addons/zh_dianc/template/images/xinxi4.png">
+
+                        </div>
+
+                        <div class="col-xs-6">
+
+                            <p class="tmoney">¥&nbsp;{if $tk}{$tk}{else}0.00{/if}</p>
+
+                            <p class="today jinri4">今日新增退款
+
+                                <i class="fa fa-question-circle" aria-hidden="true"></i>
+
+                                <div class="todaybox4">指来自外卖、店内状态为已退款的订单数量
+
+                                    <div class="arrow-down"></div>
+
+                                </div>
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </li>
+
+            </ul>
+
+        </div>        
+
+    </div> -->
+
+
+
+    <!-- ——————————————数据统计图———————————————— -->
+
+  <!--   <div class="panel panel-default">
+
+        <div class="panel-heading">商家营业额</div>
+
+        <div class="panel-body">        
+
+            <div class="col-xs-12 yg9_content" style="margin-bottom: 10px;">
+
+                <div id="container" style="height:400px;margin:0 auto;"></div>
+
+            </div>
+
+        </div>
+
+    </div> -->
+
+ </div>
+
+<script type="text/javascript">
+
+    
+
+    $(function(){
+
+        $("#frame-5").show();
+        $("#yframe-5").addClass("wyactive");
+        $(".jinri1").mouseover(function(){
+            $(".todaybox1").show();
+        })
+        $(".jinri1").mouseout(function(){
+            $(".todaybox1").hide();
+        })
+        $(".jinri2").mouseover(function(){
+            $(".todaybox2").show();
+        })
+        $(".jinri2").mouseout(function(){
+            $(".todaybox2").hide();
+        })
+        $(".jinri3").mouseover(function(){
+            $(".todaybox3").show();
+        })
+        $(".jinri3").mouseout(function(){
+            $(".todaybox3").hide();
+        })
+        $(".jinri4").mouseover(function(){
+            $(".todaybox4").show();
+        })
+        $(".jinri4").mouseout(function(){
+            $(".todaybox4").hide();
+        })
+        //折线图
+
+        Highcharts.setOptions({                                                     
+
+        global: {                                                               
+
+            useUTC: false                                                       
+
+        }                                                                       
+
+    });                                                                         
+
+                                                                                
+
+    var chart;                                                                  
+
+    $('#container').highcharts({                                                
+
+        chart: {                                                                
+
+            type: 'spline',                                                     
+
+            animation: Highcharts.svg, // don't animate in old IE               
+
+            marginRight: 0,                                                    
+
+            // events: {                                                           
+
+            //  load: function() {                                              
+
+                                                                                
+
+            //      // set up the updating of the chart each second             
+
+            //      var series = this.series[0];                                
+
+            //      setInterval(function() {                                    
+
+            //          var x = (new Date()).getTime(), // current time         
+
+            //              y = Math.random();                                  
+
+            //          series.addPoint([x, y], true, true);                    
+
+            //      }, 1000);                                                   
+
+            //  }                                                               
+
+            // }                                                                   
+
+        },                                                                      
+
+        title: {
+
+            text: '2018年1月营业额'
+
+        },            
+
+        xAxis: { 
+
+            type: '0',
+
+            tickPixelInterval: 100
+
+        },
+
+        yAxis: {
+
+            title: {
+
+                text: '2018年1月营业额'
+
+            },
+
+            plotLines: [{
+
+                value: 0,
+
+                width: 1,
+
+                color: '#808080'
+
+            }]
+
+        },
+
+        tooltip: {
+
+            formatter: function() {                                             
+
+                    return '<b>'+this.x+'月'+ this.series.name+'</b><br/><p class="yingye">'+this.y+'</p>';
+
+            }
+
+        },
+
+        legend: {
+
+            enabled: false
+
+        },
+
+        exporting: {
+
+            enabled: false
+
+        },
+
+        series: [{
+
+            name: '营业额',
+
+            data: (function() {
+
+                var data = [];
+
+                for (var i = 0; i <12; i++) {
+
+                    var y = 0;
+
+                    data.push({
+
+                        y: parseInt(Math.random()*1000),
+
+                        x: i+1                                             
+
+                    });
+
+                } 
+
+                return data;
+
+            })()
+
+        }]
+
+    });
+
+    }); 
+
+</script>
+

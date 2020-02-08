@@ -1,0 +1,211 @@
+ <{extends file="<{$tempdir}>/public/wxsite.html"}>  
+<{block name=extendcss}> 
+ <{/block}>
+ <{block name=extendjs}> 
+  <script src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/js/template.min.js"></script>    
+<{/block}>
+<{block name=myScrolljs}>
+<script> 
+		var myScroll;
+function loaded() {
+	myScroll = new iScroll('wrapper', {
+		useTransform: false,
+		onBeforeScrollStart: function (e) {
+			var target = e.target;
+			while (target.nodeType != 1) target = target.parentNode;
+
+			if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA')
+				e.preventDefault();
+		}
+	});
+}
+document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false); 
+document.addEventListener('DOMContentLoaded', function () { setTimeout(loaded, 200); }, false);
+</script>
+<{/block}>
+ <{block name=hearnav}>
+<div class="toptitCon">
+ <div class="toptitBox">
+  <div class="toptitL"><i></i></div>
+  <div class="toptitC"><h3>余额充值</h3></div>
+ </div>
+</div>
+<{/block}>
+<{block name=sitetitle}><{$sitename}><{/block}>
+<{block name=blockcontent}> 
+ <div id="wrapper" style="top:40px;">
+	<div id="scroller">
+		
+
+<!--订单名称-->
+<div class="balchaordcon">
+ <div class="balchaordBox">
+  <ul>
+   <li><a>订单名称：</a><span>余额充值</span></li>
+   <li><a>订单金额：</a><span>￥<{$cost}></span></li>
+  
+  </ul>
+ </div>
+</div>
+<div class="balchaordec"><i></i></div>
+<!--支付方式-->
+<div class="balchapaymamoy">
+ <ul>
+  <li><span>还需支付：</span></li>
+  <li><b>￥<{$cost}></b></li>
+ </ul>
+</div>
+
+<{foreach from=$paylist   item=items}>
+<{if  $items['loginname'] == 'weixin'  }>
+<div class="balchapayma" id="weixinpay" data="<{$items['loginname']}>">
+ <ul>
+  <li class="balchapaymaL"><i class="balchawx"></i></li>
+  <li class="balchapaymaC"><span>微信支付</span></li>
+  <li class="balchapaymaR"><label><input type="radio" name="one"><i class="balchacirc2"></i></label></li>
+ </ul>
+</div>
+<{/if}>
+<{if  $items['loginname'] == 'alimobile'   }>
+<div class="balchapayma" id="alimobilepay" data="<{$items['loginname']}>">
+ <ul>
+  <li class="balchapaymaL"><i class="balchazfb"></i></li>
+  <li class="balchapaymaC"><span>支付宝支付</span></li>
+  <li class="balchapaymaR"><label><input type="radio" name="one"><i class="balchacirc2"></i></label></li>
+ </ul>
+</div>
+<{/if}>
+<{/foreach}>
+  <input type="hidden" name="paydotype" value="">
+<div class="intexchabutt"><input type="button" value="确认支付" id="dopay" class="intexbg1"></div>
+
+
+
+		 <div style="height:20px;"></div>
+	</div>
+</div>
+
+ <script>
+ 
+	 
+ $(".balchapayma").bind('click',function(){
+	$(".balchacirc1").removeClass('balchacirc2');
+	$(this).find('.balchacirc1').addClass('balchacirc2');
+  });
+ 
+ $('#dopay').bind("click", function() { 
+	var paydotype = $('input[name="paydotype"]').val();
+	if(paydotype == '' || paydotype == 'undefined'){
+		Tmsg("请选择在线支付方式！");
+	}
+if( paydotype == 'weixin' ){			
+ 	 var uass = window.navigator.userAgent.toLowerCase(); 
+	 if(uass.match(/MicroMessenger/i) == 'micromessenger'){ 
+		 callpay();
+	 }
+			 			
+								
+	
+}else{
+		 
+			var url = '<{ofunc type=url link="/wxsite/rechargepayonline/cost/<{$cost}>"}>';
+ 			window.location.href= url;
+		 
+}
+ 
+
+       });
+ </script>
+  
+<script type="text/javascript">
+$(function(){
+	
+	function isWeiXin(){
+	    var ua = window.navigator.userAgent.toLowerCase();
+	    if(ua.match(/MicroMessenger/i) == 'micromessenger'){
+	        return true;
+	    }else{
+	        return false;
+	    }
+	}
+	
+ 	var browser = {
+
+			versions: function () {
+			var u = navigator.userAgent, app = navigator.appVersion;
+
+			return {
+			trident: u.indexOf('Trident') > -1, //IE内核
+			presto: u.indexOf('Presto') > -1, //opera内核
+			webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+			gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+			mobile: !!u.match(/AppleWebKit.*Mobile.*/) || !!u.match(/AppleWebKit/), //是否为移动终端
+			ios: !!u.match(/(i[^;]+;(U;)? CPU.+Mac OS X)/), //ios终端
+			android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+			iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者QQHD浏览器
+			iPad: u.indexOf('iPad') > -1, //是否iPad
+			webApp: u.indexOf('Safari') == -1 //是否web应该程序，没有头部与底部
+			};
+			} (),
+			language: (navigator.browserLanguage || navigator.language).toLowerCase()
+			}
+			if (browser.versions.mobile ) {
+			            if(isWeiXin()){
+							$("#alimobilepay").hide();
+							$("#weixinpay").show();
+							$('input[name="paydotype"]').val('weixin');
+							 
+							
+					    }else{
+							$("#weixinpay").hide();
+							$("#alimobilepay").show();
+							$('input[name="paydotype"]').val('alimobile');
+									  
+						}
+			        }
+				
+})
+
+
+function jsApiCall()
+							{
+								WeixinJSBridge.invoke(
+									'getBrandWCPayRequest',
+									<{$wxdata|default:"''"}>,
+									function(res){
+										WeixinJSBridge.log(res.err_msg);
+									//  Tmsg(res.err_msg);
+										var dostring = res.err_msg;
+										var temparr = dostring.split(':');
+										if(temparr.length == 2){
+										  // Tmsg(temparr[1]);
+										   if(temparr[1] == 'ok'){
+											var url = '<{ofunc type=url link="/wxsite/costlog"}>';   // 支付成功后跳转到余额明细页面
+											  window.location.href = url; 
+										   }
+										}else{
+										   Tmsg(res.err_msg);
+										}
+										//alert(res.err_code+res.err_desc+res.err_msg);
+									}
+								);
+							}
+
+							function callpay()
+							{
+ 								if (typeof WeixinJSBridge == "undefined"){
+									if( document.addEventListener ){
+										document.addEventListener('WeixinJSBridgeReady', jsApiCall, false);
+									}else if (document.attachEvent){
+										document.attachEvent('WeixinJSBridgeReady', jsApiCall); 
+										document.attachEvent('onWeixinJSBridgeReady', jsApiCall);
+									}
+								}else{
+									jsApiCall();
+								}
+							}						
+		
+			
+
+</script>
+<{/block}>

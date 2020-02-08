@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"> 
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title> 添加商品到分店</title>
+ <script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/jquerynew.js" type="text/javascript" language="javascript"></script>
+ <script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/allj.js" type="text/javascript" language="javascript"></script>
+</head>
+<body style="height:450px;width:600px;"> 
+	<div class="top_link">
+	     <span id="bldsearch1" style='float:right;line-height:25px'>搜索</span>
+		<input type="text" value='<{$name}>'  placeholder="输入商品名称" id="bldsearch"  value="" style="padding:0px 10px;width:150px; height:20px; line-height:20px;float: right;"/>
+		
+		<ul style='margin-top: 30px;'>
+			 <li><a href="<{ofunc type=url link="/shopcenter/alltoshopgoods/fenleiid/<{$fenleiid}>"}>" <{if empty($kutypeid)}> class="current" <{/if}>>所有</a></li>
+			 <{foreach from=$typelist item=items}>
+			 <li><a href="<{ofunc type=url link="/shopcenter/alltoshopgoods/kutypeid/<{$items['id']}>/fenleiid/<{$fenleiid}>"}>" <{if $kutypeid == $items['id']}> class="current" <{/if}>><{$items['name']}></a></li>
+			 <{/foreach}>
+		</ul>
+   </div>
+   <script>
+//输入即使搜索商品
+$("#bldsearch1").click(function(){
+	var  name= $('#bldsearch').val();
+	if(name.length > 0){
+	 var siteurl = '<{$siteurl}>';
+	 var fenleiid = '<{$fenleiid}>';
+	 window.location.href= siteurl+'/index.php?ctrl=shopcenter&action=alltoshopgoods&fenleiid='+fenleiid+'&datatype=json&name='+name;  
+	}											   								
+});
+</script>
+<table style="width:600px;">
+	<tr>
+		<th align="left" style="width:50px;">选择<input type='checkbox' onclick='checkall();'></th>
+		<th  align="left">商品名</th>
+		<th  align="left" style="width:100px;">价格</th>
+	</tr>
+	<{foreach from=$list item=items}>
+		<tr >
+		<td style="border-top:1px solid #ccc;height:30px;" ><input type="checkbox" name="selectmyid" value="1" data="<{$items['id']}>" onchange="dochoicethis(this);" <{if in_array($items['id'],$checkids)}>checked<{/if}>></td>
+		<td style="border-top:1px solid #ccc;"><{$items['name']}></td>
+		<td style="border-top:1px solid #ccc;"><{$items['cost']}></td>
+	</tr>
+	<{/foreach}>
+	<tr>
+		<td colspan="3">
+			<div class="page_content">
+				<{$pagecontent}>
+			</div>
+		</td>		
+	</tr>
+		 
+</table>
+<script>
+        function checkall(){
+		      
+            var ch=document.getElementsByName("selectmyid");
+            
+                for(var i=0;i<ch.length;i++){
+                    ch[i].checked=true;
+					dochoicethis(ch[i]);
+                }
+
+		    
+		} 
+       
+	    function dochoicethis(obj){
+	      var  fenleiid = '<{$fenleiid}>';
+		
+	   	  var goodsid = $(obj).attr('data');
+		
+		  
+	   	 var yangshiid = 0;
+	     if($(obj).is(':checked') == true){
+	   	    yangshiid = 1;
+	     } 
+	     var linkurl = '<{ofunc type=url link="/shopcenter/adgoodstoshop/datatype/json/random/@random@"}>';
+	     $.ajax({
+                type: 'POST',
+                async:false,
+                url: linkurl.replace('@random@', 1+Math.round(Math.random()*1000)),
+                data: {'goodsid':goodsid,'fenleiid':fenleiid,'yangshiid':yangshiid},
+               dataType: 'json',success: function(content) { 
+               	if(content.error == true)
+               	{
+               	   alert(content.msg);
+               	}else if(content.error == false)
+               	{
+               	   if(yangshiid ==  0){
+               	     parent.deltogoods(goodsid,fenleiid); 
+               	   }else{
+               	   	parent.addtogoods(content.msg,fenleiid); 
+               	  }
+               	}else{
+               	  
+               	} 
+		           },
+               error: function(content) { 
+               	alert('操作失败');
+	             }
+      });  
+	     
+	   	     
+	  }
+	</script>
+<style>
+	a:link {
+color: #0076cf;
+text-decoration: none;
+}
+a {
+margin: 0px;
+padding: 0px;
+border: 0px;
+color: #0076cf;
+text-decoration: none;
+outline: none;
+blr: expression(this.onFocus=this.blur());
+}
+	.page_content a{
+	  margin-left:5px;
+	}
+	.page_content a.current{
+	  color:red;
+	}
+	.top_link{
+	  line-height:40px;
+	  width:100%;
+	  overflow:hidden;
+	}
+	.top_link li{
+	  float:left;
+	  list-style: none;
+	  margin-left:10px;
+	}
+	.top_link li a{
+	  padding:5px 5px 5px 5px;
+	}
+	.top_link li a.current,.top_link li a:hover{
+	  background-color:#f60;
+	  color:#fff;
+	}
+	 
+</style>
+</body>
+</html>

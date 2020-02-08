@@ -1,0 +1,157 @@
+{itemplate 'public/header'}
+{if $op == 'list'}
+<form action="./index.php?" class="form-horizontal form-filter" id="form1">
+	{php echo tpl_form_filter_hidden('member/address');}
+	<input name="status" type="hidden" value="{$status}">
+	<div class="form-group form-inline">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">是否有经纬度</label>
+		<div class="col-sm-9 col-xs-12">
+			<div class="btn-group">
+				<a class="btn {if empty($status)}btn-primary{else}btn-default{/if}" href="{php echo iurl('member/address', array('status' => 0))}">不限</a>
+				<a class="btn {if $status == 1}btn-primary{else}btn-default{/if}" href="{php echo iurl('member/address', array('status' => 1))}">有</a>
+				<a class="btn {if $status == 2}btn-primary{else}btn-default{/if}" href="{php echo iurl('member/address', array('status' => 2))}">无</a>
+			</div>
+		</div>
+	</div>
+	<div class="form-group form-inline">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">搜索</label>
+		<div class="col-sm-9 col-xs-12">
+			<input class="form-control" name="keyword" placeholder="输入收货人名/手机号/uid" type="text" value="{$_GPC['keyword']}">
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+		<div class="col-sm-9 col-xs-12">
+			<button class="btn btn-primary">筛选</button>
+		</div>
+	</div>
+</form>
+<form action="" class="form-table form" method="post">
+	<div class="panel panel-table">
+		<div class="panel-body table-responsive js-table">
+			{if empty($addresses)}
+				<div class="no-result">还没有相关数据</div>
+			{else}
+				<table class="table table-hover">
+					<thead class="navbar-inner">
+						<tr>
+							<th width="40">
+								<div class="checkbox checkbox-inline">
+									<input type="checkbox" name="ids[]"/>
+									<label></label>
+								</div>
+							</th>
+							<th>会员uid</th>
+							<th>收货人</th>
+							<th>性别</th>
+							<th>手机号</th>
+							<th>地址/门牌号</th>
+							<th>是否有经纬度</th>
+							<th>经度/纬度</th>
+							<th style="width: 200px; text-align: right;">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						{loop $addresses $address}
+							<tr>
+								<td>
+									<div class="checkbox checkbox-inline">
+										<input type="checkbox" name="ids[]" value="{$address['id']}"/>
+										<label></label>
+									</div>
+								</td>
+								<td>{$address['uid']}</td>
+								<td>{$address['realname']}</td>
+								<td>{$address['sex']}</td>
+								<td>{$address['mobile']}</td>
+								<td>{$address['address']}<br>{$address['number']}</td>
+								<td>
+									{if !empty($address['location_x']) && !empty($address['location_y'])}
+										<span class="label label-success">有</span>
+									{else}
+										<span class="label label-danger">无</span>
+									{/if}
+								</td>
+								<td>
+									{if !empty($address['location_x']) && !empty($address['location_y'])}
+										{$address['location_x']}
+										<br/>
+										{$address['location_y']}
+									{/if}
+								</td>
+								<td align="right">
+									<a href="{php echo iurl('member/address/post', array('id' => $address['id']))}" class="btn btn-default btn-sm">编辑</a>
+									<a href="{php echo iurl('member/address/del', array('id' => $address['id']))}" class="btn btn-danger btn-sm js-remove" data-confirm="删除后将不可恢复，确定删除吗">删除</a>
+								</td>
+							</tr>
+						{/loop}
+					</tbody>
+				</table>
+				<div class="btn-region clearfix">
+					<div class="pull-left">
+						<a href="{php echo iurl('member/address/del')}" class="btn btn-primary btn-danger js-batch" data-batch="remove" data-confirm="删除后将不可恢复，确定删除吗">删除</a>
+						<a href="{php echo iurl('member/address/del_no_location')}" class="btn btn-warning js-post" data-confirm="当前共有{$no_location}条收货地址无经纬度，确认删除吗">删除无经纬度的地址</a>
+					</div>
+					<div class="pull-right">
+						{$pager}
+					</div>
+				</div>
+			{/if}
+		</div>
+	</div>
+</form>
+{/if}
+{if $op == 'post'}
+<div class="page clearfix">
+	<h2>编辑会员收货地址</h2>
+	<form class="form-horizontal form form-validate" id="form1" action="" method="post" enctype="multipart/form-data">
+		<div class="alert alert-info">提示：修改顾客地址后请务必修改对应的<strong>经纬度</strong>！</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">收货人</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="text" name="realname" value="{$address['realname']}" class="form-control" required="true">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">性别</label>
+			<div class="col-sm-8 col-lg-9 col-xs-12">
+				<select name="sex" class="form-control">
+					<option value="">==请选择性别==</option>
+					<option value="先生" {if $address['sex'] == '先生'}selected{/if}>先生</option>
+					<option value="女士" {if $address['sex'] == '女士'}selected{/if}>女士</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">手机号</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="text" name="mobile" value="{$address['mobile']}" class="form-control" placeholder="请输入正确的手机号">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">地址</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="text" name="address" value="{$address['address']}" class="form-control" placeholder="请输入正确的地址">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">经纬度</label>
+			<div class="col-sm-9 col-xs-12">
+				{php echo tpl_form_field_tiny_coordinate('map', array('lng' => $address['location_y'], 'lat' => $address['location_x']));}
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">门牌号</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="text" name="number" value="{$address['number']}" class="form-control" placeholder="请输入正确的门牌号">
+			</div>
+		</div>
+		<div class="form-group col-sm-12">
+			<input type="submit" value="提交" class="btn btn-primary">
+			<input type="hidden" name="token" value="{$_W['token']}" />
+		</div>
+	</form>
+</div>
+{/if}
+{itemplate 'public/footer'}
+

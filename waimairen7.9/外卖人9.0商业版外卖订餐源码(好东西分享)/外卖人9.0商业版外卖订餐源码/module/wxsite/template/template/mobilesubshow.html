@@ -1,0 +1,210 @@
+ <{extends file="<{$tempdir}>/public/wxsite.html"}>  
+<{block name=extendcss}> 
+<link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/mycss.css">   
+<link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/order.css">  
+<{/block}>
+ <{block name=extendjs}> 
+  <{if empty($order)}>
+  <script>
+$(function(){
+
+       error($('#supplierlist'),'未获取到订单'); 
+  
+});
+  </script>
+  <{/if}>
+<{/block}>
+<{block name=sitetitle}><{$sitename}><{/block}>
+<{block name=hearnav}>
+
+<div class="toptitCon">
+ <div class="toptitBox">
+  <div class="toptitL" id='orderdet'><i></i></div>
+  <div class="toptitC"><h3><{if $order['paytype'] == 1 && $order['paystatus'] == 0}>订单支付<{else}>提交成功<{/if}></h3></div>
+ </div>
+</div>
+<{/block}>
+
+<{block name=myScrolljs}>
+<script> 
+$('#orderdet').live('click',function(){
+    <{if $order['shoptype'] == 100}>
+		var url = '<{ofunc type=url link="/wxsite/paotuidetail/orderid/<{$order['id']}>"}>';
+		location.href= url;
+	<{else}>
+		var url = '<{ofunc type=url link="/wxsite/ordershow/orderid/<{$order['id']}>"}>';
+
+		location.href= url;
+	<{/if}>
+})
+ $(function(){
+	  <{if ($order['paytype'] == 1 && $order['paystatus'] == 1) || $order['paytype'] == 0 }>
+		<{if $order['shoptype'] == 100}>
+			var url = '<{ofunc type=url link="/wxsite/paotuidetail/orderid/<{$order['id']}>"}>';
+			window.location.href= url;
+		<{else}>
+			var url = '<{ofunc type=url link="/wxsite/ordershow/orderid/<{$order['id']}>"}>';
+			window.location.href= url;
+		<{/if}>
+	<{/if}>
+ });
+		var myScroll;
+function loaded() {
+	myScroll = new iScroll('wrapper', {
+		useTransform: false,
+		onBeforeScrollStart: function (e) {
+			var target = e.target;
+			while (target.nodeType != 1) target = target.parentNode;
+
+			if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA')
+				e.preventDefault();
+		}
+	});
+}
+document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false); 
+document.addEventListener('DOMContentLoaded', function () { setTimeout(loaded, 200); }, false);
+
+ 
+</script>
+ <{/block}>
+<{block name=blockcontent}> 
+  
+
+	 <div id="wrapper" style="top:40px;"> 
+	<div id="scroller">
+	
+	
+<{if $order['paytype'] == 1 && $order['paystatus'] == 0}>
+<!--订单名称-->
+  <div class="balchaordcon">
+ <div class="balchaordBox">
+  <ul>
+   <li><a>订单编号：</a><span><{$order['dno']}></span></li>
+   <li><a>订单金额：</a><span>￥<{$order['allcost']}></span></li>
+  </ul>
+ </div>
+</div>
+<div class="balchaordec"><i></i></div>
+<!--支付方式-->
+<div class="balchapaymamoy">
+ <ul>
+  <li><span>还需支付：</span></li>
+  <li><b>￥<{$order['allcost']}></b></li>
+ </ul>
+</div>
+
+
+
+
+
+
+<{foreach from=$paylist   item=items}>
+<{if  $items['loginname'] == 'weixin'  }>
+<div id="wxPayBox" style="display:none;" class="balchapayma"  data="<{$items['loginname']}>">
+ <ul>
+  <li class="balchapaymaL"><i class="balchawx"></i></li>
+  <li class="balchapaymaC"><span>微信支付</span></li>
+  <li class="balchapaymaR"><label><input type="radio" name="one"><i class="balchacirc1"></i></label></li>
+ </ul>
+</div>
+<{/if}>
+ <{/foreach}>
+
+<{foreach from=$paylist   item=items}>
+<{if  $items['loginname'] == 'alimobile'   }>
+<div class="balchapayma"  data="<{$items['loginname']}>">
+ <ul>
+  <li class="balchapaymaL"><i class="balchazfb"></i></li>
+  <li class="balchapaymaC"><span>支付宝支付</span></li>
+  <li class="balchapaymaR"><label><input type="radio" name="one"><i class="balchacirc1"></i></label></li>
+ </ul>
+</div>
+<{/if}>
+<{/foreach}>
+ 
+<{foreach from=$paylist   item=items}>
+<{if  $items['loginname'] == 'open_acout' && $member['uid'] > 0  &&$member['cost'] >= $order['allcost'] }>
+<div class="balchapayma"  data="<{$items['loginname']}>">
+ <ul>
+  <li class="balchapaymaL"><i class="balchayhk"></i></li>
+  <li class="balchapaymaC"><span>余额支付</span><b>账户余额：<{$member['cost']}>元</b></li>
+  <li class="balchapaymaR"><label><input type="radio" name="one"><i class="balchacirc1"></i></label></li>
+ </ul>
+</div>
+<{/if}>
+ <{/foreach}>
+<input type="hidden" name="paydotype" value="">
+<div class="intexchabutt" id="dopay" style="margin-top:20px;"><input type="button" value="确认支付" class="intexbg1"></div>
+ 
+	 
+ <script type="text/javascript"> 
+ 
+ 
+ $(".balchapayma").bind('click',function(){
+	$(".balchacirc1").removeClass('balchacirc2');
+	$(this).find('.balchacirc1').addClass('balchacirc2');
+	$('input[name="paydotype"]').val($(this).attr('data'));
+ });
+var waitdopaytime = <{$order['addtime']+900-time()}>;//等待支付时间
+ var biaoqianval = false;
+function bqzhi(){
+	biaoqianval  = false;
+}
+function downtime(){
+	waitdopaytime = Number(waitdopaytime)-1;
+}
+	
+ 
+ 	var nowbid = "";
+ 	 $(function(){ 
+	  
+		setInterval("downtime()", 1000);
+       $('#dopay').bind("click", function() {   
+	   showLoading();
+	    
+	   if(biaoqianval == false){
+				biaoqianval  = true; 
+					 setTimeout("bqzhi()", 500 );
+					
+					if(waitdopaytime < 1){
+						newhideLoading();
+						Tmsg('下单后15分钟未支付该订单，订单可能关闭,请重新下单');
+						return;
+					}else{ 
+						if($('input[name="paydotype"]').val() == ''){
+							newhideLoading();
+						   Tmsg('请选择在线支付方式');
+						   return;
+						 }
+						 if($('input[name="paydotype"]').val() == 'weixin'){
+							  
+							   
+						 }else{ //支付宝支付
+							 
+								var url = '<{ofunc type=url link="/wxsite/gotopay/orderid/<{$order['id']}>/paydotype/@paydotype@"}>';
+								 url = url.replace('@paydotype@', $('input[name="paydotype"]').val());  
+								setTimeout("newhideLoading()",200); 
+								 window.location.href= url;
+							 
+							 
+						}
+							 
+					}
+					 
+					
+       	}
+       	
+       });
+ 	 });
+
+	 
+</script>  
+ 	<{/if}>
+
+</div>
+
+</div>
+ 
+<{/block}>
+ 
+	

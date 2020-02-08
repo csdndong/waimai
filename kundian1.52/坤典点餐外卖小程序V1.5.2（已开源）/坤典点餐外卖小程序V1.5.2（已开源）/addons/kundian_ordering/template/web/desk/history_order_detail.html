@@ -1,0 +1,84 @@
+{template 'web/common/common'}
+{template 'web/desk/navbar'}
+<link rel="stylesheet" type="text/css" href="../addons/kundian_ordering/resource/css/style.css" />
+<link rel="stylesheet" type="text/css" href="../addons/{php echo $_GPC['m']}/resource/swal/dist/sweetalert2.min.css" />
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            订单详情
+        </h3>
+    </div>
+    <div class="panel-body">
+        <form id="sign-form" class="form-horizontal" role="form" method="post" action="{url 'site/entry/order',array('m'=>'kundian_ordering','op'=>'saveModel','version_id'=>$_GPC['version_id'])}" name="submit" style="padding: 20px 0;">
+            <input type="hidden" name="id" value="{$orderData['id']}">
+            <table class="table-striped table-bordered table-hover dataTables-example table">
+                <thead>
+                    <caption>订单信息</caption>
+                    <tr>
+                        <td>订单编号</td>
+                        <td>用餐人数</td>
+                        <td>餐位费</td>
+                        <td>订单总价</td>
+                        <td>订单实际支付金额</td>
+                    </tr>
+                    <tr>
+                        <td>{$orderData['order_number']}</td>
+                        <td>{$orderData['person_count']}</td>
+                        <td>￥{$orderData['person_price']}</td>
+                        <td>￥{$orderData['total_price']}</td>
+                        <td>￥{$orderData['pra_price']}</td>
+                    </tr>
+
+                    <tr>
+                        <td>下单时间</td>
+                        <td>订单状态</td>
+                        <td>支付时间</td>
+                    </tr>
+                    <tr>
+                        <td><?php echo $orderData['create_time'];?></td>
+                        <td>
+                            <?php if($orderData['status']==0){?>
+                            未支付
+                            <?php }else{?>
+                            已结算
+                            <?php }?>
+                        </td>
+                        <td><?php echo $orderData['pay_time'];?></td>
+                    </tr>
+                </thead>
+
+            </table>
+
+            <table class="table-striped table-bordered table-hover dataTables-example table">
+                <thead>
+                <caption>商品信息</caption>
+                <tr>
+                    <td>id</td>
+                    <td>商品名称</td>
+                    <td>封面</td>
+                    <td>价格</td>
+                    <td>数量</td>
+                    <td>总价</td>
+                </tr>
+                <?php foreach($orderDetail as $v){?>
+                <tr>
+                    <td><?php echo $v['id']?></td>
+                    <td><?php echo $v['goods_name'];?></td>
+                    <td><img src="<?php echo $v['cover'];?>" style="width: 40px;height: 40px;" alt=""></td>
+                    <td>￥<?php echo $v['price'];?></td>
+                    <td><?php echo $v['count'];?></td>
+                    <td>￥<?php echo $v['count']*$v['price'];?></td>
+                </tr>
+                <?php } ?>
+                </thead>
+            </table>
+
+        </form>
+    </div>
+</div>
+{template 'common/footer'}
+<script>
+    require(["../addons/{php echo $_GPC['m']}/resource/swal/dist/sweetalert2.min.js"],function(){
+    })
+</script>
+

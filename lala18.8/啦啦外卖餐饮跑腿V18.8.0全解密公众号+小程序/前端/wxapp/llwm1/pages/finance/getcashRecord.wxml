@@ -1,0 +1,34 @@
+<view class="page-getcashRecord">
+    <view class="buttons-tab border-1px-b">
+        <view bind:tap="onChangeType" class="tabs {{status==0?'active':''}}" data-type="0">全部</view>
+        <view bind:tap="onChangeType" class="tabs {{status==1?'active':''}}" data-type="1">提现成功</view>
+        <view bind:tap="onChangeType" class="tabs {{status==2?'active':''}}" data-type="2">申请中</view>
+        <view bind:tap="onChangeType" class="tabs {{status==3?'active':''}}" data-type="3">已撤销</view>
+    </view>
+    <view class="content">
+        <view class="getcash-list" wx:if="{{!record.empty}}">
+            <view bind:tap="onJsEvent" class="getcash-item border-1px-b" data-event-type="jsUrl" data-url="pages/finance/getcashRecordDetail?id={{item.id}}" wx:for="{{record.data}}">
+                <view class="left">
+                    <view class="text">{{item.status_cn}}</view>
+                    <view class="time">{{item.addtime}}</view>
+                </view>
+                <view class="right">
+                    <view class="price {{item.status==1?'add':'del'}}"> {{item.get_fee}} </view>
+                    <view class="fee_price">手续费：¥{{item.take_fee}}</view>
+                </view>
+            </view>
+            <view class="wui-loadmore wui-loadmore-nomore" wx:if="{{record.loaded}}">
+                <view class="wui-loadmore-tips">我是有底线的</view>
+                <view class="wui-loadmore-line"></view>
+            </view>
+            <view class="wui-loadmore" wx:if="{{showLoading}}">
+                <view class="wui-loading"></view>
+                <view class="wui-loadmore-tips">正在加载中</view>
+            </view>
+        </view>
+        <view class="no-data" wx:else>
+            <image mode="widthFix" src="/static/img/no_order.png"></image>
+            <view class="tip">暂无数据</view>
+        </view>
+    </view>
+</view>

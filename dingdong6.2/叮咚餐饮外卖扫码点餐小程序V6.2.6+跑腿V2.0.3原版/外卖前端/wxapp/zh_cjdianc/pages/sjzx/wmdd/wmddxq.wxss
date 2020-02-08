@@ -1,0 +1,2 @@
+@import"/wxss/f0_4.wxss";
+.ddxh{ font-size: 38rpx; margin-right: 20rpx; }

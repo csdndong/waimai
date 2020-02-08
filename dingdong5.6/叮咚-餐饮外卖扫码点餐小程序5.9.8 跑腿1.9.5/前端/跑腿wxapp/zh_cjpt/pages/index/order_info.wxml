@@ -1,0 +1,146 @@
+<view class="container">
+    <view class="store_info pa ba_f">
+        <view class="dis_in">
+            <image class="logo" mode="aspectFill" src="{{order_info.store_logo}}"></image>
+        </view>
+        <view class="dis_in info">
+            <view class="fon_30 dis_in">{{order_info.sender_name}}</view>
+            <view class="fon_24 dis_in color_6">{{order_info.sender_address}}</view>
+        </view>
+        <view bindtap="phone" class="dis_in fon_24 t_r" data-tel="{{order_info.sender_tel}}">
+            <view class="dis_in" style="line-height:40rpx;margin-top:36rpx;padding:10rpx 20rpx;background:{{color}};border-radius:40rpx;">
+                <image class="dis_in" mode="aspectFill" src="../img/phone2.png" style="width:40rpx;height:40rpx;"></image>
+                <text class="dis_in color_f" style="margin-left:10rpx;">拨打电话</text>
+            </view>
+        </view>
+    </view>
+    <view class="overview mar_t ba_f pa">
+        <view class="progress rel pa_0 bor_bottom" wx:if="{{order_info.state!=5}}">
+            <view class="speed ab lr">
+                <text class="ab" style="width:{{width}};background:{{color}}"></text>
+                <text></text>
+            </view>
+            <view class="fon_28 dis_in t_c process" wx:for="{{order_statu}}">
+                <image class="icon rel" mode="aspectFill" src="{{item.img}}" style="z-index:600;"></image>
+                <view>{{item.name}}</view>
+            </view>
+        </view>
+        <view class="map_box mar_t">
+            <map circles="{{circles}}" id="navi_map" latitude="{{latitude}}" longitude="{{longitude}}" markers="{{markers}}" polyline="{{polyline}}" scale="16"></map>
+        </view>
+        <view class="over_infos mar_t">
+            <view class="dis_in t_c">
+                <view class="fon_30 wei" style="color:{{color}}">{{order_info.distance}}km</view>
+                <view class="fon_24 color_9">此单据您</view>
+            </view>
+            <view class="dis_in t_c">
+                <view class="fon_30 wei" style="color:red;">￥{{order_info.ps_money}}</view>
+                <view class="fon_24 color_9">本单佣金</view>
+            </view>
+        </view>
+    </view>
+    <view class="pa_1 ba_f mar_t">
+        <view class="order_info pa_0 bor_bottom">
+            <view class="dis_in fon_28 color_f">
+                <text class="dis_in t_c" style="background:{{color}}">取</text>
+            </view>
+            <view class="dis_in fon_30">
+                <view>{{order_info.sender_name}}</view>
+                <view class="gobyndsingle color_6 fon_24 mar_t">{{order_info.sender_address}}</view>
+            </view>
+            <view class="dis_in color_6 fon_28 t_r">
+                <view bindtap="routes" class="dis_in wid_50" data-address="{{order_info.sender_address}}" data-lat="{{order_info.sender_lat}}" data-lng="{{order_info.sender_lng}}" data-name="{{order_info.sender_name}}">
+                    <image class="icon" mode="aspectFill" src="../img/address.png"></image>
+                    <view>导航</view>
+                </view>
+                <view bindtap="phone" class="dis_in wid_50" data-tel="{{order_info.sender_tel}}">
+                    <image class="icon" mode="aspectFill" src="../img/phone.png"></image>
+                    <view>电话</view>
+                </view>
+            </view>
+        </view>
+        <view class="order_info pa_0 bor_bottom">
+            <view class="dis_in fon_28 color_f">
+                <text class="dis_in t_c" style="background:orange">送</text>
+            </view>
+            <view class="dis_in fon_30">
+                <view class=" fon_24" style="line-height:50rpx;">{{order_info.receiver_address}}</view>
+            </view>
+            <view class="dis_in color_6 fon_28 t_r">
+                <view bindtap="routes" class="dis_in wid_50" data-address="{{order_info.receiver_address}}" data-lat="{{order_info.receiver_lat}}" data-lng="{{order_info.receiver_lng}}" data-name="{{order_info.receiver_name}}">
+                    <image class="icon" mode="aspectFill" src="../img/address1.png"></image>
+                    <view>导航</view>
+                </view>
+                <view bindtap="phone" class="dis_in wid_50" data-tel="{{order_info.receiver_tel}}">
+                    <image class="icon" mode="aspectFill" src="../img/phone1.png"></image>
+                    <view>电话</view>
+                </view>
+            </view>
+        </view>
+        <view class="pa_0 fon_28 bor_bottom">
+            <image class="icon dis_in" mode="aspectFill" src=""></image>
+            <text class="color_3 dis_in mar_l wei">联系人:</text>
+            <text class="color_3 mar_l dis_in wei" style="color:{{color}}">{{order_info.receiver_name}}</text>
+        </view>
+    </view>
+    <view class="ba_f pa_1 mar_t">
+        <view class="pa_0 fon_30 wei color_6 bor_bottom">订单信息</view>
+        <view class="pa_0 fon_28  bor_bottom">
+            <text class="color_6">订单状态:</text>
+            <text class="color_9 mar_l wei" style="color:{{color}}" wx:if="{{order_info.state==1}}">待抢单</text>
+            <text class="color_9 mar_l wei" style="color:{{color}}" wx:if="{{order_info.state==2}}">待取餐</text>
+            <text class="color_9 mar_l wei" style="color:{{color}}" wx:if="{{order_info.state==3}}">配送中</text>
+            <text class="color_9 mar_l wei" style="color:{{color}}" wx:if="{{order_info.state==4}}">已完成</text>
+            <text class="color_9 mar_l wei" style="color:{{color}}" wx:if="{{order_info.state==5}}">已取消</text>
+        </view>
+        <view class="pa_0 fon_28 bor_bottom">
+            <text class="color_6">运单号:</text>
+            <text class="color_9 mar_l">{{order_info.ps_num}}</text>
+        </view>
+        <view class="pa_0 fon_28 bor_bottom">
+            <text class="color_6">订单号:</text>
+            <text class="color_9 mar_l">{{order_info.order_id}}</text>
+        </view>
+        <view class="pa_0 fon_28 bor_bottom">
+            <text class="color_6">下单时间:</text>
+            <text class="color_9 mar_l">{{order_info.time}}</text>
+        </view>
+        <view class="pa_0 fon_28">
+            <text class="color_6">订单备注:</text>
+            <text class="color_9 mar_l" wx:if="{{order_info.note!=''}}">{{order_info.note}}</text>
+            <text class="color_9 mar_l" wx:else>无</text>
+        </view>
+    </view>
+    <view class="mar_t pa_1 ba_f">
+        <view class="color_6 goods fon_30 pa_0 bor_bottom wei">
+            <text>商品信息</text>
+            <text class="t_c">份数</text>
+            <text class="t_c">价格</text>
+        </view>
+        <view class="color_9 goods fon_28 pa_0 bor_bottom" wx:for="{{goodNum}}">
+            <text class="gobyndsingle">{{item.name}}</text>
+            <text class="t_c">x{{item.num}}</text>
+            <text class="t_c">￥{{item.price}}</text>
+        </view>
+        <view class="color_6 goods fon_30 pa_0">
+            <text>订单合计</text>
+            <text class="t_c"></text>
+            <text class="t_c">￥{{order_info.price}}</text>
+        </view>
+        <view class="color_6 goods fon_30 pa_0">
+            <text>订单优惠</text>
+            <text class="t_c"></text>
+            <text class="t_c">￥{{order_info.yh_money}}</text>
+        </view>
+        <view class="color_6 goods fon_30 pa_0 wei">
+            <text>顾客实付</text>
+            <text class="t_c"></text>
+            <text class="t_c" style="color:red;">￥{{order_info.goods_price}}</text>
+        </view>
+    </view>
+    <button bindtap="robbing" class="color_f fon_30 mar_t" style="background:{{color}}" wx:if="{{order_info.state==1}}">立即抢单</button>
+    <button bindtap="g_shop" class="color_f fon_30 mar_t" style="background:{{color}}" wx:if="{{order_info.state==2}}">确认到店</button>
+    <button bindtap="service" class="color_f fon_30 mar_t" style="background:{{color}}" wx:if="{{order_info.state==3}}">确认送达</button>
+    <button class="color_f fon_30 mar_t" style="background:{{color}}" wx:if="{{order_info.state==4}}">订单已完成</button>
+    <button class="color_f fon_30 mar_t" style="background:{{color}}" wx:if="{{order_info.state==5}}">订单已取消</button>
+</view>

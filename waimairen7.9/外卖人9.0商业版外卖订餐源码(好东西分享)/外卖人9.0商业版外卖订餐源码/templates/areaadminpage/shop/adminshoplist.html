@@ -1,0 +1,262 @@
+ <{extends file="<{$tempdir}>/public/admin.html"}> 
+   <{block name=extendjs}>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js"></script>
+ <{/block}>
+ <{block name=controlname}>店铺列表<{/block}>
+ <{block name=bodylist}>
+<div class="managShopCon">
+	<div class="managShopBox">
+		<div class="managShopMain">
+			<div class="managShopClas">
+				<ul>
+					<li class="maShClaA"><a href="<{ofunc type=url link="/areaadminpage/shop/module/adminshoplist"}>">店铺列表</a></li>
+					<li><a href="<{ofunc type=url link="/areaadminpage/shop/module/addshop"}>">添加店铺</a></li>
+					<li><a href="<{ofunc type=url link="/areaadminpage/shop/module/adoptshop"}>">待审核店铺</a></li>
+					<li><a href="<{ofunc type=url link="/areaadminpage/shop/module/openset"}>">整站开关店铺</a></li>
+				</ul>
+			</div>
+			<div class="managShopSeaBox">
+				<form method="get" name="form1" action="<{ofunc type=url link="/areaadminpage/shop/module/adminshoplist"}>">
+					<div class="managShopSeaL">
+						<input type="hidden" name="ctrl" value="areaadminpage">
+					   <input type="hidden" name="action" value="shop">
+					   <input type="hidden" name="module" value="adminshoplist">
+						<ul>
+							<li><span>店铺名：</span><input type="text" name="shopname" value="<{$shopname|default:''}>"> </li>
+							<li><span>用户名：</span><input type="text" name="username" value="<{$username|default:''}>"> </li>
+							<li><span>手机：</span><input type="text" name="phone" value="<{$phone|default:''}>">
+							<input type="submit" value="提交查询" class="managBut"></li>
+						</ul>
+					</div>
+				</form>
+			</div>
+			<div class="managShopList">
+			 <form method="post" action="" onsubmit="return remind();"  id="delform">
+				<table>
+					<thead>
+						<tr>
+							<td width="36">
+								<div class="managShopChek">
+									<input type="checkbox" id="chkall" name="chkall" onclick="checkall()">
+								</div>
+							</td>
+							<td width="190">店铺名称</td>
+							<td width="104">入驻资料</td>
+							<td width="104">会员名称</td>
+							<td width="146">设置店铺标签</td>
+							<td width="42">营业</td>
+							<td width="168">佣金/结算额</td>
+							<td width="54">排序</td>
+							<td width="80">有效时间</td>
+							<td width="96">配送设置</td>
+							<td width="136">操作</td>
+						</tr>
+					</thead>
+					<tbody>
+					
+					<{load_data assign="list" table="shop" showpage="true"  where="is_pass='1' <{$where}>"  orderby=" sort asc "  }>
+					<{foreach from=$list['list'] item=items}> 
+						<tr  onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+							<td>
+								<div class="managShopChek">
+									<input type="checkbox" name="id[]" value="<{$items['id']}>"> 
+								</div>
+							</td>
+							<td><{$items['shopname']}>[<span><{$shoptype[$items['shoptype']]}></span>]</td>
+							<td><a  onclick="showshopdetail('<{$items['id']}>','<{$items['shopname']}>');"  href="javascript:;">查看详情</a></td>
+							<td><{load_data assign="userinfo" table="member" type="one" where="uid='<{$items['uid']}>'" fileds="username,shopcost,backacount" }> 
+                          	<{$userinfo['username']}> </td>
+							<td><a class="manMargR"  onclick="starttask('<{$items['id']}>','<{$items['shopname']}>');"  href="javascript:;">设置</a>
+							<a  onclick="setps('<{$items['id']}>','<{$items['shopname']}>');" href="javascript:;">订单通知</a></td>
+							<td><{if $items['is_open'] == 1}>是<{else}>否<{/if}></td>
+							<td><a href="#" onclick="addcost(<{$items['uid']}>);">增</a><{if $items['yjin']=='0'}>默认<{$yjin}><{else}><{$items['yjin']}><{/if}>/<{$userinfo['shopcost']|default:'0'}>
+							<a class="manMargL" onclick="setyjin('<{$items['id']}>','<{$items['shopname']}>','<{$items['yjin']}>','<{$yjin}>','<{$userinfo['backacount']|default:''}>','<{$items['zitiyjb']}>','<{$items['zitilimityj']}>','<{$items['zitianyj']}>');" href="#">设置</a></td>
+ 							<td><input  name="pxinput" data="<{$items['id']}>" value="<{$items['sort']}>"  type="text" value="1" class="managShopInp"></td>
+							<td><a href="#" onclick="doshow('<{$items['id']}>','<{intval(($items['endtime']-time())/86400)}>');"> <{if $items['endtime'] > 0}>    <{intval(($items['endtime']-time())/86400)}>    <{else}>设置 <{/if}></a></td>
+							<td><a onclick="psset('<{$items['id']}>','<{$items['shopname']}>');" href="javascript:;">配送设置</a></td>
+							<td><a class="getInto"  target="_blank" href="<{ofunc type=url link="/areaadminpage/shop/module/resetdefualt/shopid/<{$items['id']}>"}>">进入商家后台</a></td>
+						</tr>
+						<{/foreach}>  
+						 
+						 
+					</tbody>
+				</table>
+				
+				</form>
+			
+			</div>
+			<div class="pagingCon">
+ 				<ul>
+					<{$list['pagecontent']}>
+				</ul>
+ 			</div>
+		</div>
+	</div>
+</div>
+<style>
+.popLayCon .popLayBox .popLayOrdCon .popLayIncr ul li input{float:none;}
+</style> 
+ 
+ 
+<script>
+	 	var dialogs ;
+	 function starttask(shopid,shopname)
+	 {
+	 	 dialogs = art.dialog.open(siteurl+'/index.php?ctrl=areaadminpage&action=shop&module=shopbiaoqian&id='+shopid,{height:'600px',width:'500px'},false); 
+		 dialogs.title('设置');
+	 }
+	  function showshopdetail(shopid,shopname)
+	 {
+	 	 dialogs = art.dialog.open(siteurl+'/index.php?ctrl=areaadminpage&action=shop&module=showshopdetail&id='+shopid,{height:'402px',width:'480px'},false);
+	 	 dialogs.title('查看【'+shopname+'】入驻资料'); 
+	 }
+function uploadsucess(linkurl){
+ 	dialogs.close(); 
+ 	window.location.reload(); 
+}
+function uploaderror(msg){
+	 alert(msg); 
+}
+function addcost(uid){
+	 
+	  var	htmls = '<form method="post" id="subyjxx" action="#" > ';
+	    htmls += ' <div class="popLayCon"> ';
+		htmls += '	<div class="popLayBox">';
+		htmls += '		<div class="popLayOrdCon">';
+		htmls += '			<div class="popLayIncr">';
+		htmls += '				<ul>';
+		htmls += '					<li><span>充值金额：</span><input name="cost" type="text" value="" class="w98"><b>元</b></li>';
+		htmls += '				</ul>';
+		htmls += '			</div>';
+		htmls += '<input type="hidden" value="'+uid+'" name="uid"> ';
+		htmls += '			<div class="popLayOrdBut"><input type="button" id="buttonsubyjcc"  value="保存设置"></div>';
+		htmls += '		</div>';
+		htmls += '	</div>';
+		htmls += ' </div>'; 
+		htmls += '</form>';
+	  art.dialog({
+		id: 'testID4',
+		title:'为店铺充值',
+		content: htmls
+	  });
+}
+$('#buttonsubyjcc').live('click',function(){ 
+	$.post('<{ofunc type=url link="/areaadminpage/order/module/adminpay/datatype/json"}>', $('#subyjxx').serialize() ,function (data, textStatus){  
+			if(data.error == false){
+     	  	diasucces('操作成功','');
+     	}else{
+     		if(data.error == true)
+     		{
+     			diaerror(data.msg); 
+     		}else{
+     			diaerror(data); 
+     		}
+     	} 
+	 }, 'json'); 
+});
+
+function setyjin(shopid,shopname,myongjin,defaultyj,yinhang,zitiyjb,zitilimityj,zitianyj)
+{
+	var mytj = myongjin==0?defaultyj:myongjin;
+  var	htmls = '<form method="post" id="subyj" action="#">';
+		htmls += '  <div class="popLayCon  ">';
+		htmls += '	<div class="popLayBox">';
+		htmls += '		<div class="popLayOrdCon">';
+		htmls += '			<div class="popLayIncr">';
+		htmls += '				<ul>';
+		htmls += '					<li><span>外卖佣金比例：</span><input type="text"  name="yjin" value="'+mytj+'" class="w78"></li>';
+		htmls += '					<li><span>自取佣金比例：</span><input type="text"  name="zitiyjb" value="'+zitiyjb+'" class="w78"></li>';
+		htmls += '					<li><span>自取佣金限制：</span>自取订单佣金每单若不满<input type="text"  name="zitilimityj" value="'+zitilimityj+'" class="w78">元按<input type="text"  name="zitianyj" value="'+zitianyj+'" class="w78">元计算</li>';
+		htmls += '					<li><span>店铺提现账号：</span><input type="text"  name="backacount" value="'+yinhang+'" class="w178"></li>';		 
+		
+		htmls += '				</ul>';
+		htmls += '			</div>';
+		htmls += '			<div class="popLayOrdBut"><input type="button" id="buttonsubyj" value="保存设置"></div>';
+		htmls += '		</div>';
+		htmls += '	</div>';
+		htmls += '</div>';
+ 
+	htmls += '<input type="hidden" value="'+shopid+'" name="shopid"> ';
+	htmls += '</form>';
+  art.dialog({
+    id: 'testID4',
+    title:'设置'+shopname+'佣金',
+    content: htmls
+  });
+} 
+$('#buttonsubyj').live('click',function(){ 
+	$.post('<{ofunc type=url link="/areaadminpage/shop/module/savesetshopyjin/datatype/json"}>', $('#subyj').serialize() ,function (data, textStatus){  
+			if(data.error == false){
+     	  	diasucces('操作成功','');
+     	}else{
+     		if(data.error == true)
+     		{
+     			diaerror(data.msg); 
+     		}else{
+     			diaerror(data); 
+     		}
+     	} 
+	 }, 'json'); 
+});
+$("input[name='pxinput']").live("change", function() {   
+	$.post('<{ofunc type=url link="/areaadminpage/shop/module/adminshoppx/datatype/json"}>', {'id':$(this).attr('data'),'pxid':$(this).val()},function (data, textStatus){  
+			if(data.error == false){
+     		diasucces("保存成功！");
+     	}else{
+     		if(data.error == true)
+     		{
+     			diaerror(data.msg); 
+     		}else{
+     			diaerror(data); 
+     		}
+     	} 
+	 }, 'json'); 
+});
+function doshow(shopid,shoptian){
+var	htmls = '<form method="post" id="doshwoform" action="#" >';
+	htmls += '	<div class="popLayCon">			 ';
+	htmls += '		<div class="popLayBox">';
+	htmls += '			<div class="popLayOrdCon">';
+	htmls += '				<div class="popLayIncr">';
+	htmls += '					<ul>';
+	htmls += '						<li><span>有效天数：</span><input type="text"  name="mysetclosetime" value="'+shoptian+'"  class="w98"><b>天</b></li>';
+	htmls += '					</ul>';
+	htmls += '				</div>';
+	htmls += '				<div class="popLayOrdBut"><input type="button"  id="dosetclosetime" value="保存设置"></div>';
+	htmls += '			</div>';
+	htmls += '		</div>';
+	htmls += '	</div>';
+  htmls += '<input type="hidden" value="'+shopid+'" name="shopid"> ';
+	htmls += '</form>';
+  art.dialog({
+    id: 'testID3',
+    title:'设置开店有效时间',
+    content: htmls
+  });
+}
+$('#dosetclosetime').live('click',function(){ 
+	$.post('<{ofunc type=url link="/areaadminpage/shop/module/shopactivetime/datatype/json"}>', $('#doshwoform').serialize() ,function (data, textStatus){  
+			if(data.error == false){
+     		diasucces(data.msg,'');
+     	}else{
+     		if(data.error == true)
+     		{
+     			diaerror(data.msg); 
+     		}else{
+     			diaerror(data); 
+     		}
+     	} 
+	 }, 'json'); 
+});
+function setps(shopid,shopname)
+{
+	 	 dialogs = art.dialog.open(siteurl+'/index.php?ctrl=areaadminpage&action=shop&module=setnotice&shopid='+shopid,{height:'280px',width:'420px'},false);
+		 dialogs.title('订单通知');		 
+} 	
+function psset(shopid,shopname){
+	 dialogs = art.dialog.open(siteurl+'/index.php?ctrl=areaadminpage&action=area&module=setps&shopid='+shopid,{height:'450px',width:'600px'},false); 
+	 dialogs.title('配送设置');		
+} 
+</script>
+<!--newmain 结束-->
+<{/block}>

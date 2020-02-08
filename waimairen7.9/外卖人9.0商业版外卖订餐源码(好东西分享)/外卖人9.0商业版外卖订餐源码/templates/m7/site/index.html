@@ -1,0 +1,343 @@
+ <{extends file="<{$tempdir}>/public/site.html"}>   
+<{block name=extendjs}>
+ <script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/v5_plugin.js.pagespeed.jm.inM6bedmF7.js"></script>
+  <script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/jquery.cookie.js" type="text/javascript" language="javascript"></script> 
+   <script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/slides.jquery.js"> </script>
+   <script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/r.js"> </script>
+    <script>
+	$(function(){
+			$('#bannerBox').slides({
+				preload: true,
+				preloadImage: '/upload/images/shop/loading.gif',
+				play: 5000,
+				pause: 2500,
+				hoverPause: true,
+				generatePagination:true
+			});
+		});
+
+</script>
+<{/block}>
+<{block name=extendcss}>
+<link rel="stylesheet" type="text/css" href="<{$siteurl}>/templates/<{$tempdir}>/public/css/floor.css"> 
+<link rel="stylesheet" type="text/css" href="<{$siteurl}>/templates/<{$tempdir}>/public/css/newtype.css"> 
+<{/block}>
+<{block name=sitetitle}><{$mapname}><{/block}>
+ <{block name=bodylist}>
+ 	 <{load_data assign="lunbo" table="adv"    fileds="*"  limit="5" where="advtype='lunbo' and  module='<{$sitetemp}>'    and ( cityid = '<{$CITY_ID}>'   )    "}>  
+	<{if !empty($lunbo['list'])}>
+	  
+		<div class="wrapper" style="margin-top:10px;height:200px;">
+	     <div style="position: absolute;  height:200px;  width: 1200px;     overflow: hidden;  ">
+			<div id="bannerBox">
+					 <div  class="slides_container" style="height:200px;"> 
+						<{foreach from=$lunbo['list'] item=items}>
+						<a href="<{$items['linkurl']}>" target="_blank" style="height:200px;width:1200px;"><img style="height:200px;width:1200px;" <{ofunc type=img  link="<{$items['img']}>"}> width="1200" height="90"></a> 
+						<{/foreach}> 
+				    </div>
+					 
+			</div>
+			</div>
+		</div>
+
+	<{/if}>
+
+  <div style="height:20px;"></div>
+<div class="wrapper"> 
+
+<{if !empty($moretypelist)}>
+
+	<div class="excavator-filter ng-scope" data="cate"  >
+	
+		<div class="excavator-filter-name">商家分类:</div> 
+		<span data="0" class="excavator-filter-item  <{if empty($cate) }>focus<{/if}> "   >不限</span> 
+			   <{foreach from=$moretypelist item=items}>
+							<span    data="<{$items['param']}>" class="excavator-filter-item ng-binding ng-scope  <{if $cate ==  $items['param']}>focus<{/if}>   " > <{$items['name']}></span>					
+					  <{/foreach}>			
+		  	
+	</div>
+	
+ <{/if}>	
+<script> 
+$(function(){
+	$(".allcai").click(function(){ 
+		$(".dropmenu").toggle(); 
+	}); 
+	$('.excavator-filter span').click(function(){
+		$(this).addClass('focus').siblings().removeClass('focus');
+ 		makelink();
+	}); 
+	function makelink(){
+	  var findobj = $('.excavator-filter'); 
+	  var newstr = '';
+	
+   $.each(findobj, function(i, newobj) {
+		 newstr +='&'+$(this).attr('data')+'=';
+			var checkid = $(this).find('span.focus').length;
+			if(checkid > 0){
+				newstr+=$(this).find('span.focus').eq(0).attr('data');
+			}else{
+				newstr+=0;
+			}		  	
+		    				   	  
+	}); 
+	   window.location.href="<{$siteurl}>/index.php?ctrl=site&action=index"+newstr;
+	}
+	 
+	
+});
+
+</script>
+ 	 
+	
+ 	<script>
+	
+	
+	
+//添加店铺收藏
+function myFavorite2(shopid,obj)
+{ 
+  var url = siteurl+'/index.php?ctrl=shop&action=addcollect&datatype=json&collectid='+shopid+'&type=0'; 
+  var backinfo = ajaxback(url,{});
+  if(backinfo.flag == false){ 
+     		$(obj).hide(); 
+     		$(obj).next().show(); 
+     	//	$('#CancelFavShop').show();
+   }else{ 
+   	diaerror(backinfo.content); 
+  }  
+}  
+//删除店铺收藏
+function delFav(shopid,obj)
+{ 
+	var url = siteurl+'/index.php?ctrl=shop&action=delcollect&datatype=json&collectid='+shopid+'&type=0'; 
+  var backinfo = ajaxback(url,{});
+  if(backinfo.flag == false){ 
+      $(obj).hide(); 
+	  $(obj).prev().show(); 
+     // $('#CancelFavShop').hide();
+   }else{ 
+   	 diaerror(backinfo.content); 
+  }  
+}
+	
+	
+	</script>
+ 	  
+	<!---循环体-->
+ 	
+ 	
+ 	<div style="clear:both;"></div>
+ 	
+ 	
+  
+    <div class="rest-list">
+    <ul class="list clearfix" style="min-height:395px;">
+       <{foreach from=$shoplist key=mykey item=items}>
+        <li class="fl rest-li" >  	<div class="j-rest-outer rest-outer transition ">
+      <div class="restaurant" >
+        <a class="rest-atag" href="<{ofunc type=url link="/shop/index/id/<{$items['shopid']}>/gid/<{$items['id']}>"}>" target="_blank">
+          <div class="top-content">
+            <div class="preview">
+              <img  class="scroll-loading" <{ofunc type=img  link="<{$items['shoplogo']}>"}> data-max-width="208" data-max-height="156"  />
+              <div class="rest-tags">
+              </div>
+            </div>
+            <div class="content">
+              <div class="name">
+                <span title="<{$items['shopname']}>">
+    <{$items['shopname']}>
+    
+                </span>
+              </div>
+  		          <div class="rank clearfix">
+  	              <span class="star-ranking fl">
+  	                <!-- 5颗星60px长度，算此时星级的长度 -->
+  	                <!-- 算出空白填充的部分长度 -->
+					<{assign var=pointwidth value=14.4*$items['point'] }>
+  	                <span class="star-score"  style="width:<{$pointwidth}>px"></span>
+  	              </span>
+                  <span class="score-num fl"><{$items['point']}>分</span>
+  	              <span class="total cc-lightred-new fr">
+销量<{$items['sellcount']}>单
+  	              </span>
+  		          </div>
+              <div class="price">
+                <span class="start-price">起送:￥<{$items['limitcost']}></span>
+                <span class="send-price">
+				<{if $items['pscost'] == '' }>
+                  免配送费
+				 <{else}>
+				 配送费:￥<{$items['pscost']}>
+				 <{/if}>
+                </span>
+                <span class="send-time"><i class="icon i-poi-timer"></i>
+                 <{if !empty($items['arrivetime']) }><{$items['arrivetime']}>分钟<{/if}>	
+		 
+                </span>
+              </div>
+			  
+			     <div class="price" >
+                <span class="start-price" style="width:100%;margin-top:20px;">
+				
+				
+				 <{foreach from=$mainattr item=itat}>
+                            <{if $itat['type']=='img'}>
+                            <{foreach from=$items['attrdet'] item=itaa}>
+                            <{if $itat['id'] == $itaa['firstattr']}>
+                            <em class="pay-min-icon premium-icon" data-msg="<{$itat['name']}><{$itat['instro']}>"><img style="width:20px; height:20px;" alt="<{$itat['name']}>" title="<{$itat['instro']}>" <{ofunc type=img  link="<{$itaa['value']}>"}>></em>
+                            <{/if}>
+                            <{/foreach}>
+                            <{/if}>
+                            <{/foreach}>
+				
+				</span>
+              
+             
+              </div>
+			  
+			  
+            </div>
+            <div class="clear"></div>
+          </div>
+      
+        </a>
+   
+    </div>
+    </div>
+</li>
+	<{/foreach}>	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+    </ul>
+  </div>
+  
+
+   
+	
+ 	
+
+	
+
+ 
+ 	
+ 	
+ 	
+ 	 	<div style="clear:both;"></div>
+ 	
+ 	
+ 	
+ 	
+</div>
+
+<script>
+
+
+	
+					
+					$(".floor-content .floor-goods").mouseover(function(){
+	
+						$(this).find($(".iscollect")).show();
+						
+					});
+					$(".floor-content .floor-goods").mouseout(function(){
+					
+						$(this).find($(".iscollect")).hide();
+						
+					});
+				
+
+
+
+ $(function(){
+ 
+	var shopzongshu = <{$shopzongshu}>;
+	$("#shopzongshu").text(shopzongshu);
+ 
+		<{if $locationtype == 1}>
+ 	   var lng = '<{$lng}>';
+ 	   var lat = '<{$lat}>';
+ 	   var CITY_ID = '<{$CITY_ID}>';
+ 		
+		if(lng == ''  || lat == '' ||  CITY_ID == ''  ){
+			 window.location.href= '<{ofunc type=url link="/site/guide"}>';
+		}
+ 	<{else}>
+		var myaddressid = '<{$myaddress}>';
+		if(myaddressid == null|| myaddressid==''){
+			 window.location.href= '<{ofunc type=url link="/site/guide"}>';
+		}
+	<{/if}>
+ 
+  $("#mygunclick").click(function(e) {
+    //
+    var offset = $(this).offset();
+    var relativeX = (e.pageX - offset.left);
+    var bili = Number(relativeX)/Number($(this).width())*100; 
+    bili = Math.ceil(bili);
+    var checknowid = $('#limitcost').val();
+    if(bili > 75){
+    	//30
+    	 $('#blue_bar').css({'width':'93%'});
+    	$('#limitcost').val(30);
+    	$('#showlimittext').text('30元以上');
+    	if(checknowid != 30){
+    		dosetdata();
+    	}
+       
+    }else if(bili > 50){
+       //20
+       $('#blue_bar').css({'width':'75%'});
+       $('#limitcost').val(20);
+       $('#showlimittext').text('20元以上');
+       if(checknowid != 20){
+    		dosetdata();
+    	}
+    }else if(bili > 25){
+      //10
+      $('#blue_bar').css({'width':'50%'});
+       $('#limitcost').val(10);
+       $('#showlimittext').text('10元以上');
+       if(checknowid != 10){
+    		dosetdata();
+    	}
+    }else if(bili > 5){
+    	 $('#blue_bar').css({'width':'25%'});
+       $('#limitcost').val(5);
+       $('#showlimittext').text('5元以上');
+       if(checknowid != 5){
+    	   	dosetdata();
+    	}
+    }else{
+    	$('#blue_bar').css('width','0px');
+    	$('#limitcost').val(0);
+    	$('#showlimittext').text('不限制');
+    	if(checknowid != 0){
+    	   	dosetdata();
+    	}
+    }
+     
+  }); 
+});
+  function dosetdata(){
+  	    var url = siteurl+"/index.php?ctrl=site&action=indexlist"; 
+	   $.post(url, $('#doselectform').serialize(),function (data, textStatus){  
+	     	$('#shopList').html(data);  
+	  }, 'html'); 
+  }
+	function tabCutover02(obj,tempobj){
+		$(obj).addClass('current').siblings().removeClass('current');
+		$(obj).parent().parent().find($('.'+tempobj)).addClass('floor-con-show').siblings().removeClass('floor-con-show');
+	}
+</script>
+<div style="height:20px;"></div>
+<!--区域店铺-->
+<{/block}>

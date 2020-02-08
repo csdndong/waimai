@@ -1,0 +1,124 @@
+<{extends file="<{$tempdir}>/public/site.html"}>   
+<{block name=sitetitle}>
+找回密码
+<{/block}>
+ <{block name=bodylist}> 
+ 
+ 	<div style="height:10px;"></div>
+	<form id="loginForm" method="post" action="">
+  <div class="hc_content">
+		<div class="hc_login">
+			<div class="hc_login_head"><span class="hc_login_head_span">找回密码</span></div>
+			<div class="hc_login_content">
+					<div class="findPassWordDiv">
+						<div style="height:80px;line-height:80px;">
+							<span class="hc_login_div_span">手机号：</span>
+							<input  id="phone" class="hc_login_input" style="line-height: 39px; padding: 0 5px; margin: 0; border: 0; width: 252px; height: 39px; outline: none;" type="text" placeholder="请输入手机号" name="phone">
+							<p class="tip"></p>
+						</div>
+						<div style="height:80px;line-height:80px;">
+							<span class="hc_login_div_span" style="margin-left:62px;">验证码：</span>
+							<input  id="code" class="" style="border:1px solid #C6C6C6;border-radius:5px;width:100px;height:39px;line-height:39px;" type="text" placeholder="请输入验证码" name="code">
+							<input type="button" style="margin-left:10px; width:111px;height:40px;background-image: url(<{$siteurl}>/templates/<{$tempdir}>/public/img/vecobut.png);border:none;" class="vecobut" value="获取验证码" time="0"  onclick="clickyanzheng()" id="btnSendCode">
+							<p class="tip"></p>
+						</div>
+						<div style="height:80px;line-height:80px;">
+							<span class="hc_login_div_span">新密码：</span>
+							<input  id="newpwd" class="hc_login_input" style="line-height: 39px; padding: 0 5px; margin: 0; border: 0; width: 252px; height: 39px; outline: none;" type="password" placeholder="请输入新密码" name="newpwd">
+							<p class="tip"></p>
+						</div>
+						<div style="height:80px;line-height:80px;">
+							<span class="hc_login_div_span">确认密码：</span>
+							<input  id="newpwd1" class="hc_login_input" style="line-height: 39px; padding: 0 5px; margin: 0; border: 0; width: 252px; height: 39px; outline: none;" type="password" placeholder="请再次输入密码" name="newpwd1">
+							<p class="tip"></p>
+						</div>
+						<div class="login-button hc_login_btn_div "><input type="button" class="login-button hc_login_btn_div" onclick="nextzhpwd();" value="确 认"></div>
+						<div class="clear"></div>
+					</div>
+				<div class="clear"></div>
+			</div>
+
+		</div>
+
+
+
+	</div>
+</form>
+<script>
+var regestercode = '<{$regestercode}>';
+function noshow(msg){  
+    	Tmsg(msg);
+}
+//获取手机验证码
+function clickyanzheng(){ 
+     if(lockclick()){ 
+        var tempurl = siteurl+'/index.php?ctrl=member&action=forgetpwd&random=@random@&phone=@phone@';
+   	 	     tempurl = tempurl.replace('@random@', 1+Math.round(Math.random()*1000)).replace('@phone@',$('#phone').val());
+	         $.getScript(tempurl);  
+     }			  
+}
+function showsend(phone,time,uid){
+    $('input[name="phone"]').val(phone);
+    $('#btnSendCode').attr('time',time);
+    $('#btnSendCode').attr('value','剩余90秒');
+    setTimeout("btntime();",1000);
+}
+function  btntime(){
+    var nowtime = Number($('#btnSendCode').attr('time'));
+    if(nowtime > 0){
+        $('#btnSendCode').attr('disabled',true);
+        $('#btnSendCode').addClass('seinpbg1');
+        var c = Number(nowtime)-1;
+        $('#btnSendCode').attr('time',c);
+        var  mx = 120-(120 - Number(c));
+        $('#btnSendCode').attr('value','剩余'+mx+'秒');
+        setTimeout("btntime();",1000);
+    }else{
+        $('#btnSendCode').attr('disabled',false);
+        $('#btnSendCode').removeClass('seinpbg1');
+        $('#btnSendCode').attr('value','重新获取');
+        sim = 1;
+    }
+}
+	function nextzhpwd(){
+		var phone = $('input[name="phone"]').val();
+        var code = $('input[name="code"]').val();
+        var newpwd = $('input[name="newpwd"]').val();
+        var newpwd1 = $('input[name="newpwd1"]').val();
+        if(phone==''){
+            alert("请输入手机号");
+            return false;
+        }
+        if(code==''){
+            alert("请输入验证码");
+            return false;
+        }
+        if(newpwd==''){
+            alert("请输入新密码");
+            return false;
+        }
+        if(newpwd1==''){
+            alert("请再次输入新密码");
+            return false;
+        }
+        if(newpwd1 != newpwd){
+            alert("两次密码不一致");
+            return false;
+        }
+		 
+		var  url = '<{$siteurl}>/index.php?ctrl=member&action=savepcpwd&datatype=json&random=@random@';
+        $.post(url.replace('@random@', 1+Math.round(Math.random()*1000)),{"phone":phone,"code":code,"newpwd":newpwd,"newpwd1":newpwd1},function(e){
+         
+            if(e.error==false){
+                alert("修改成功");
+                window.location.href = '<{$siteurl}>/index.php?ctrl=member&action=login';
+            }else{
+            	alert(e.msg);
+            	return false;
+            }
+        },'json')
+    }
+ 
+
+ </script>
+<{/block}>

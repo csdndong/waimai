@@ -1,0 +1,103 @@
+<{extends file="<{$tempdir}>/public/admin.html"}> 
+<{block name=extendjs}>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js"></script>
+<script src="<{$siteurl}>/js/kindeditor/kindeditor.js" type="text/javascript" language="javascript"></script>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/ajaxfileupload.js"> </script>
+<{/block}>
+ <{block name=controlname}>分销设置<{/block}>
+ <{block name=bodylist}> 
+<script>
+$(function(){   
+    cck();
+	$('input[name="is_open_distribution"]').live('click',function(){
+		cck();		 
+	})
+
+	$('input[name="distribution_grade"]').live('click',function(){
+		cck();
+	})
+function cck(){
+    var is_open_distribution = $('input[name="is_open_distribution"]:checked').val()	     
+	if(is_open_distribution == 1){
+		$('.disset').show();
+	}else{	    
+		$('.disset').hide(); 
+	}
+	var distribution_grade = $('input[name="distribution_grade"]:checked').val()	     
+	if(is_open_distribution == 1){
+		if(distribution_grade == 1){
+			$('.grade1').show();
+			$('.grade2').hide();
+			$('.grade3').hide();
+		}else if(distribution_grade == 2){
+			$('.grade1').show();
+			$('.grade2').show();
+			$('.grade3').hide(); 
+		}else{
+			$('.grade1').show();
+			$('.grade2').show();
+			$('.grade3').show();
+		}
+	}
+}	
+	
+	
+})
+</script>	
+	   <div style="width:auto;overflow-x:hidden;overflow-y:auto"> 
+          <div id="tagscontent">
+            <form method="post" name="form1" action="<{ofunc type=url link="/adminpage/card/module/savedistributionset/datatype/json"}>" onsubmit="return subform('',this);">
+              <div>
+                <table border="0" cellspacing="2" cellpadding="4" class="list" name="table" id="table" width="100%">
+                  <tbody>
+				    <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                        <td class="left">是否开启：</td>
+                        <td><input type="radio" name="is_open_distribution"   value="1"  <{if $is_open_distribution== 1}>checked<{/if}>>&nbsp;开启&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <input type="radio" name="is_open_distribution"   value="0"  <{if $is_open_distribution== 0}>checked<{/if}>>&nbsp;关闭</td>
+                     </tr>
+					<tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+						<td class="left">手续费率：</td>
+						<td>用户提现分销佣金时，需收取提现金额的<input type="input" name="fxfeelv" value="<{$fxfeelv|default:0}>"  class="skey" style="width:50px;">%的手续费&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style='color:#999'>(录入0表示不收取手续费，提现到账户余额时不收取手续费) </span></td>
+					</tr>  
+					<tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+						<td class="left">最低提现金额：</td>
+						<td>用户提现分销佣金时，最低提现<input type="input" name="minfxtxcost" value="<{$minfxtxcost|default:0}>"  class="skey" style="width:50px;">元&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style='color:#999'>(录入0表示不限制) </span></td>
+					</tr>  
+					<tr class='disset' onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+						<td class="left">分销等级：</td>
+						<td>
+							<input type="radio" name="distribution_grade"   value="1"  <{if $distribution_grade== 1}>checked<{/if}>>&nbsp;一级
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<input type="radio" name="distribution_grade"   value="2"  <{if $distribution_grade== 2}>checked<{/if}>>&nbsp;二级
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<input type="radio" name="distribution_grade"   value="3"  <{if $distribution_grade== 3}>checked<{/if}>>&nbsp;三级
+						</td>
+					</tr>
+					<tr class='grade1 disset'  onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+						<td class="left">一级佣金比例：</td>
+						<td><input type="input" name="distribution_yj1" value="<{$distribution_yj1|default:0}>"  class="skey" style="width:50px;">% </td>
+					</tr> 
+					<tr class='grade2 disset'  onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+						<td class="left">二级佣金比例：</td>
+						<td><input type="input" name="distribution_yj2" value="<{$distribution_yj2|default:0}>"  class="skey" style="width:50px;">% </td>
+					</tr>
+					<tr class='grade3 disset'  onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+						<td class="left">三级佣金比例：</td>
+						<td><input type="input" name="distribution_yj3" value="<{$distribution_yj3|default:0}>"  class="skey" style="width:50px;">% </td>
+					</tr>
+					 
+					 
+                     		
+                  </tbody>
+				  
+                </table>
+              </div>
+              <div class="blank20"></div>
+              <input type="hidden" name="tijiao" id="tijiao" value="do" class="skey" style="width:250px;">
+              <input type="hidden" name="saction" id="saction" value="savedistributionset" class="skey" style="width:250px;">
+               <input type="submit" value="确认提交" class="button">  
+            </form>
+          </div>
+        </div> 
+    </div>  
+ <{/block}>

@@ -1,0 +1,83 @@
+{itemplate 'public/header'}
+<div class="page clearfix">
+	<h2>基础设置</h2>
+	<form class="form-horizontal form form-validate" id="form1" action="" method="post" enctype="multipart/form-data">
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">UU跑腿第三方配送</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="radio radio-inline">
+					<input type="radio" name="status" id="status-1" value="1" {if $uupaotui['status'] == 1}checked{/if}>
+					<label for="status-1">开启</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" name="status" id="status-0" value="0" {if !$uupaotui['status']}checked{/if}>
+					<label for="status-0">关闭</label>
+				</div>
+				<span class="help-block"></span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">结算方式</label>
+			<div class="col-sm-9 col-xs-12 ">
+				<div class="radio radio-inline balance-type">
+					<input type="radio" name="type" id="type-store" value="store" {if $uupaotui['type'] == 'store' || !$uupaotui['type']}checked{/if}>
+					<label for="type-store">商户</label>
+				</div>
+				<div class="radio radio-inline balance-type">
+					<input type="radio" name="type" id="type-plateform" value="plateform" {if $uupaotui['type'] == 'plateform'}checked{/if}>
+					<label for="type-plateform">平台</label>
+				</div>
+				<span class="help-block">选择“平台”则所有平台配送的订单使用平台的UU跑腿账号，平台与UU跑腿方结算；“平台”模式下使用店内配送模式的商户如果使用UU跑腿配送则需要绑定商户自己的UU跑腿账号。 </br>选择“商户”则商户使用自己的UU跑腿账号直接与UU跑腿方结算。</span>
+			</div>
+		</div>
+		<div class="type-plateform {if $uupaotui['type'] == 'store' || !$uupaotui['type']}hide{/if}">
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">UU跑腿使用的应用的appid</label>
+				<div class="col-sm-9 col-xs-12">
+					<input type="text" name="appid" class="form-control" value="{$uupaotui['appid']}" placeholder="应用的appid" required="true">
+					<div class="help-block">本平台绑定的UU跑腿的应用的appid</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">UU跑腿使用的应用的appkey</label>
+				<div class="col-sm-9 col-xs-12">
+					<input type="text" name="appkey" class="form-control" value="{$uupaotui['appkey']}" placeholder="应用的appkey" required="true">
+					<div class="help-block">本平台绑定的UU跑腿的应用的appkey</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">UU跑腿使用的应用的openid</label>
+				<div class="col-sm-9 col-xs-12">
+					<input type="text" name="openid" class="form-control" value="{$uupaotui['openid']}" placeholder="应用的openid" required="true">
+					<div class="help-block">本平台绑定的UU跑腿的应用的openid</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">运营所在城市</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="text" name="city" class="form-control" value="{$uupaotui['city']}" placeholder="城市名称" required="true">
+				<div class="help-block">运营所在城市名称（市级）(如郑州市就填”郑州市“，必须带上“市”)</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<input type="hidden" name="token" value="{$_W['token']}">
+				<input type="submit" value="提 交" class="btn btn-primary">
+			</div>
+		</div>
+	</form>
+</div>
+<script>
+	$(function(){
+		$('.balance-type').click(function() {
+			var type = $(this).find('input').val();
+			if(type == 'plateform') {
+				$('.type-plateform').removeClass('hide');
+			} else {
+				$('.type-plateform').addClass('hide');
+			}
+		})
+	})
+</script>
+{itemplate 'public/footer'}

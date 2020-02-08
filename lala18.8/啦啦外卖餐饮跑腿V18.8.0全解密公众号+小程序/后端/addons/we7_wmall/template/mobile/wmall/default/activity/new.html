@@ -1,0 +1,627 @@
+{itemplate 'public/header'}
+<style>
+	.page-index{line-height: 1;}
+
+	.page-index .home-header{position: absolute; left: 0; top: 0; width: 100%; z-index: 2; text-align: center;}
+	.page-index .home-header .header-loc{display: inline-block; height: 1.3rem; margin-top: .6rem; padding: 0 .2rem; background: rgba(0,0,0,.3); color: #fff; border-radius: .5rem; line-height: 1.3rem;}
+	.page-index .home-header .header-loc .icon-location{font-size: .6rem; vertical-align: middle; overflow: hidden;}
+	.page-index .home-header .header-loc .header-loc-text{box-sizing: border-box; display: inline-block; max-width: 100%; vertical-align: middle; ; font-size: .6rem; max-width: 100px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
+	.page-index .home-header .search-btn{display: inline-block; height: 1.3rem; box-sizing: border-box; margin-top: .6rem; width: 45%; background-color: #fff; text-align: left; border-radius: .5rem; margin-left: .4rem; line-height: 1.3rem;}
+	.page-index .home-header .search-btn .icon-search{padding-left: .3rem;}
+	.page-index .home-header .search-btn input{display: inline-block; width: 80%; height: 73%; outline: 0; border: 0; font-size: .4rem; line-height: 1rem;}
+	.page-index .slide-wrap{z-index: 1; height: auto; max-height: 8.5rem; position: relative;}
+	.page-index .slide-wrap a{width: 100%; max-height: 100%; display: inline-block;}
+	.page-index .slide-wrap img{display: inline-block; width: 100%; height: 100%;}
+	.page-index .slide-wrap .radius-bg{position: absolute; bottom: 0; left: 0; right: 0; z-index: 2; height: .8rem;}
+	
+	.page-index .fiexd-searchbar{display: none; position: fixed; top: 0; left: 0; right: 0;  z-index: 3; text-align: center; background-color: #ff2d4b; padding: .2rem .8rem;}
+	.page-index .fiexd-searchbar .searchbar{display: block; width: 100%; height: 1.7rem; margin: .2rem 0; text-align: center; border-radius: .96rem; font-size: .6rem; outline: none; border: none; color: #333;}
+
+	.page-index .navs{position: relative; overflow: hidden; background-color: #fff; padding-bottom: .5rem; padding-top: .6rem;}
+	.page-index .navs.col-4 .nav-col{width: 25%;}
+	.page-index .navs.col-3 .nav-col{width: 33.33%;}
+	.page-index .navs.col-5 .nav-col{width: 20%;}
+	.page-index .navs .nav-col{width: 25%; height: auto; position: relative; padding: 0; margin: .2rem 0; text-align: center; float: left;}
+	.page-index .navs .nav-col .nav-icon{margin: auto; text-align: center; height: 2.4rem; line-height: 2.2rem;}
+	.page-index .navs .nav-col img{display: inline-block; width: 2.4rem; max-width: 2.4rem; height: 2.4rem; max-height: 100%;}
+	.page-index .navs.radius img{border-radius: .5rem;}
+	.page-index .navs.circle img{border-radius: 100%;}
+	.page-index .navs .clear{clear: both;}
+	.page-index .navs .nav-col .nav-text{font-size: .6rem; text-align: center; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; padding: .3rem; color: #333;}
+	.page-index .navs .nav-page{text-align: center;}
+	.page-index .navs .nav-page span{width: .5rem; height: .5rem; border-radius: 100%; background-color: #ccc; display: inline-block;}
+
+	.page-index .notice{height: auto; font-size: .6rem; padding: 0 .3rem; overflow: hidden; position: relative; background-color: #fff;}
+	.page-index .notice .notice-container{background-color: #fff; padding: .4rem; overflow: hidden;}
+	.page-index .notice .image{width: 16%; height: .65rem; position: relative; float: left; padding-right: .2rem; line-height: 1rem;}
+	.page-index .notice .image img{height: 100%; width: 100%;}
+	.page-index .notice .icon{float: left; height: .8rem; padding-left: .2rem; color: #fd5454; line-height: .95rem; font-size: .7rem;}
+	.page-index .notice .notice-text{width: auto; height: .8rem; padding-left: .2rem; font-size: .6rem; line-height: .85rem;}
+	.page-index .notice .notice-text div{display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
+	.page-index .notice .notice-text div a{color: #333;}
+	.page-index .notice .icon-right{position: absolute; right: .3rem; top: 26%; color: #333; font-size: .5rem;}
+
+	.page-index .campaign{padding: .4rem; background-color: #fff; margin-top: .4rem; max-height: 6.6rem; overflow: hidden;}
+	.page-index .campaign .campaign-item{width: 50%; display: inline-block; padding: .4rem 0; position: relative; max-height: 2.9rem; float: left;}
+	.page-index .campaign .campaign-item:first-child{border-bottom: 1px solid #eee; border-right: 1px solid #eee;}
+	.page-index .campaign .campaign-item:nth-child(2){border-bottom: 1px solid #eee;}
+	.page-index .campaign .campaign-item:nth-child(3){border-right: 1px solid #eee;}
+	.page-index .campaign .campaign-item a{display: inline-block; width: 100%;}
+	.page-index .campaign .campaign-item .left-60{text-align: right; display: inline-block; width: 59%; float: left;}
+	.page-index .campaign .campaign-item .left-40{display: inline-block; width: 39%; float: left; text-align: center;}
+	.page-index .campaign .campaign-item .right-40{display: inline-block; width: 39%; float: left; text-align: center;}
+	.page-index .campaign .campaign-item .right-60{display: inline-block; text-align: left; width: 59%; float: left;}
+	.page-index .campaign .campaign-item:nth-of-type(1) .heading{color: #fe2945;}
+	.page-index .campaign .campaign-item:nth-of-type(2) .heading{color: #f68d24;}
+	.page-index .campaign .campaign-item:nth-of-type(3) .heading{color: #6db3e7;}
+	.page-index .campaign .campaign-item:nth-of-type(4) .heading{color: #a46fcb;}
+	.page-index .campaign .campaign-item .heading{font-size: .9rem; height: 1.3rem; line-height: 1.3rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
+	.page-index .campaign .campaign-item .sub-title{font-size: .65rem; color: #7b7b7b; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
+	.page-index .campaign .campaign-item img{display: inline-block; width: 2.2rem; height: 2.2rem; border-radius: 100%;}
+
+
+    .page-index .bargain-activity{margin: .4rem 0; padding: .5rem; background-color: #fff; position: relative;}
+    .page-index .bargain-activity .activity-header{text-align: center; font-size: .7rem; color: #333; font-weight: bold; line-height: 1.05rem;}
+    .page-index .bargain-activity .activity-header a{color: #666; position: absolute; right: .3rem; font-weight: normal; font-size: .6rem;}
+    .page-index .bargain-activity .activity-goods{margin-top: .5rem; width: 100%; overflow-y: hidden; overflow-x: auto; position: relative; white-space: nowrap;}
+    .page-index .bargain-activity .activity-goods .goods-item{width: 22%; margin-right: 2%; display: inline-block;}
+    .page-index .bargain-activity .activity-goods .goods-item .goods-img{position: relative;}
+    .page-index .bargain-activity .activity-goods .goods-item .goods-img .label{position: absolute; background: url('{WE7_WMALL_TPL_URL}static/img/activity/robot.png'); left: .4rem; z-index: 1; width: 1.6rem; height: 1.2rem; color: #fff; font-size: .5rem; line-height: 1rem; font-weight: 600; background-repeat: no-repeat; background-size: cover; background-position: center; text-align: center;}
+    .page-index .bargain-activity .activity-goods .goods-item .goods-img img{width: 100%; height: 4rem;}
+    .page-index .bargain-activity .activity-goods .goods-item .goods-title{font-size: .6rem; color: #333; height: .9rem; width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: .9rem;}
+    .page-index .bargain-activity .activity-goods .goods-item .goods-price .now-price{font-size: .7rem; color: #f6383a;}
+    .page-index .bargain-activity .activity-goods .goods-item .goods-price .old-price{color: #999; text-decoration: line-through; font-weight: bold; font-size: .5rem;} 
+    .page-index .bargain-activity .activity-goods .load-more{width: 1.2rem; height: auto; background-color: #fff; margin-left: -1%; color: #666; display: inline-block; position: absolute; top: 20%;}
+    .page-index .bargain-activity .activity-goods .load-more .icon{position: absolute; top: 38%; left: 0;}
+    .page-index .bargain-activity .activity-goods .load-more .inner{text-align: right;}
+    .page-index .bargain-activity .activity-goods .load-more .inner p{margin: .2rem 0; font-size: .6rem;}
+    .page-index .selective{margin-bottom: .5rem; color: #333; font-size: .7rem; background-color: #fff; padding: 0 .2rem; padding-bottom: .4rem;}
+    /*.page-index .selective{margin-bottom: .5rem; color: #333; font-size: .7rem; background-color: #fff; padding: 0 .2rem; white-space: nowrap; padding-bottom: .4rem; overflow: hidden;}*/
+    .page-index .selective .selective-tab{text-align: center; font-size: .7rem; color: #333; font-weight: bold; padding-top: .65rem; padding-bottom: .2rem;}
+    .page-index .selective .selective-tab a{color: #666; position: absolute; right: .3rem; font-weight: normal; font-size: .6rem;}
+    .page-index .selective .selective-store{width: 100%; max-height: 11.5rem; overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2;}
+    /*.page-index .selective .selective-store{ width: 100%; overflow-y: hidden; overflow-x: auto;}*/
+	.page-index .selective .selective-store .selective-item{text-align: center; margin-top: .5rem; display: inline-block; width: 32.5%; max-height: 5rem;}
+	.page-index .selective .selective-store .selective-item img{display: inline-block; border: 1px solid #efefef; width: 5rem; height: 4rem; max-width: 100%;}
+	.page-index .selective .selective-store .selective-item .selective-title{margin: 0; color: #333; width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: .6rem; font-weight: bold; height: 1rem; line-height: 1rem;}
+	
+
+	.page-index .nearby-store{background-color: #fff;}
+	.page-index .nearby-store .nearby-title{text-align: center; color: #333; font-size: .7rem; font-weight: bold; padding-top: .7rem; padding-bottom: .2rem; position: relative;}
+	.page-index .nearby-store .nearby-title a{color: #666; position: absolute; right: .3rem; font-weight: normal; font-size: .6rem;}
+	.page-index .nearby-store .nearby-store-list{border-radius: .1rem;}
+	.page-index .nearby-store .nearby-store-list a{color: #999;}
+	.page-index .nearby-store .nearby-store-item{padding: .6rem; box-sizing: border-box; position: relative;}
+	.page-index .nearby-store .nearby-store-item .clear{clear: both;}
+	.page-index .nearby-store .nearby-store-item .content-left{float: left; width: 25%; height: 3rem; margin-right: 3%; position: relative;}
+	.page-index .nearby-store .nearby-store-item .content-left img{display: block; width: 100%; height:100%;}
+	.page-index .nearby-store .nearby-store-item .content-left .label{position: absolute; top: 0; left: 0; padding: 0 .2rem; background-color: #F28683; font-size: .4rem; color: #fff; height: .7rem; line-height: .8rem; text-align: center; max-width: 100%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;}
+	.page-index .nearby-store .nearby-store-item .content-left div{position: absolute; bottom: 0; left: 0; width: 100%; height: .7rem; font-size: .4rem; background-color: #ccc; color: #fff; text-align: center; line-height: .8rem; opacity: .9;}
+	.page-index .nearby-store .nearby-store-item .content-right{float: left; width: 72%; position: relative;}
+	.page-index .nearby-store .nearby-store-item .content-right .item-name-wrap{position: relative; margin-top: .1rem;}
+	.page-index .nearby-store .nearby-store-item .content-right .item-name{overflow: hidden; white-space: nowrap; text-overflow: ellipsis; width: 100%; font-size: .8rem; font-weight: 700; color: #333;}
+	.page-index .nearby-store .nearby-store-item .content-right .item-score-sale{position: relative; height: .8rem;overflow: hidden; margin-top: .5rem; }
+	.page-index .nearby-store .nearby-store-item .content-right .item-star-box{display: inline-block; float: left; position: relative; margin-top: -.1rem;}
+	.page-index .nearby-store .nearby-store-item .content-right .item-star-box .icon-favor_light{color: #999;}
+	.page-index .nearby-store .nearby-store-item .content-right .item-star-box .stars-bg{position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; white-space: nowrap; color: #ffaa0c;}
+	.page-index .nearby-store .nearby-store-item .content-right .item-sale{max-width: 25%;white-space: nowrap; overflow: hidden; text-overflow: ellipsis; float: left; font-size: .6rem; color: #3d4145; margin-left: .2rem; line-height: .8rem;}
+	.page-index .nearby-store .nearby-store-item .content-right .time-distance{max-width: 33%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; position: absolute; right: 0; bottom: .1rem; font-size: .5rem; float: right; height: .8rem; line-height: .8rem;}
+	.page-index .nearby-store .nearby-store-item .content-right .time-distance .avg_graphic_time{display: inline-block; max-width: 50%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
+	.page-index .nearby-store .nearby-store-item .content-right .time-distance .item-distance{display: inline-block; max-width: 50%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
+	.page-index .nearby-store .nearby-store-item .content-right .time-distance .line{display: inline-block; margin: 0 .06rem; color: #e4e4e4; font-size: .1rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;} 
+	.page-index .nearby-store .nearby-store-item .content-right .item-min-delivery{font-size: .6rem; color: #3d4145; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; position: relative; height: .9rem; line-height: 1.2rem;}
+	.page-index .nearby-store .nearby-store-item .content-right .item-min-delivery>.price{color: #f6383a; margin-left: -.15rem;}
+	.page-index .nearby-store .nearby-store-item .content-right .item-min-delivery>div{display: inline-block; position: absolute; right: 0; bottom: 0;  height: .7rem; line-height: .8rem; text-align: center; background-color: #FB4E44; color: #fff; border-radius: .4rem 0 .4rem 0;  text-overflow: ellipsis; overflow: hidden; white-space: nowrap; max-width: 25%; padding: 0 .3rem; font-size: .5rem}
+	.page-index .nearby-store .nearby-store-item .content-right .line{position: relative; top: -0.03rem; margin-left: .06rem; margin-right: .06rem; color: #e4e4e4; font-size: .1rem;}
+	.page-index .nearby-store .nearby-store-item .content-right .discount-box{position: relative; margin-top: .2rem;}
+	.page-index .nearby-store .nearby-store-item .content-right .single-line{max-width: 94%; padding-top: .2rem; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; line-height: .6rem;}
+	.page-index .nearby-store .nearby-store-item .content-right .discount-icon{display: inline-block; width: .6rem; height: .6rem;}
+	.page-index .nearby-store .nearby-store-item .content-right .discount-box span{color: #3d4145; font-size: .5rem; vertical-align: 0.1rem;}
+	.page-index .nearby-store .nearby-store-item .content-right .discount-box>i{display: block; color: #999; position: absolute; right: 0; top: .33rem;}
+	.page-index .nearby-store .nearby-store-item .content-right .hot-box{width: 100%; height: 4.5rem; overflow: hidden; margin-top: .3rem;}
+	.page-index .nearby-store .nearby-store-item .hot-box .hot-box-item{display: inline-block; width: 31%; height: 4.5rem;}
+	.page-index .nearby-store .nearby-store-item .hot-box .hot-box-item .hot-t{width: 100%; height:55%; position: relative; margin-bottom: 3%;}
+	.page-index .nearby-store .nearby-store-item .hot-box .hot-box-item .hot-t img{display: inline-block; width: 100%; height: 100%;}
+	.page-index .nearby-store .nearby-store-item .hot-box .hot-box-item .hot-b{width: 100%; height:40%;}
+	.page-index .nearby-store .nearby-store-item .hot-box .hot-box-item .hot-t>div{position: absolute; top: 0; left: 0; padding: 0 .1rem; background-color: #F28683; font-size: .4rem; color: #fff; height: .6rem; line-height: .7rem; text-align: center;}
+	.page-index .nearby-store .nearby-store-item .hot-box .hot-box-item .hot-b>div{width: 100%; height: 50%; font-size: .5rem;}
+	.page-index .nearby-store .nearby-store-item .hot-box .hot-box-item .shop-name{text-align: center; line-height: .8rem; color: #333; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;}
+	.page-index .nearby-store .nearby-store-item .hot-box .hot-box-item .shop-price{text-align: center; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
+	.page-index .nearby-store .nearby-store-item .hot-box .hot-box-item .price{line-height: .8rem; color: #FB544B;}
+	.page-index .nearby-store .nearby-store-item .hot-box .hot-box-item .old-price{line-height: .8rem; font-size: .3rem;}
+	.page-index .nearby-store .waimai-load-more{background-color: #fff; text-align: center; border-radius: .1rem; box-sizing: border-box; font-size: .7rem;}
+	.page-index .nearby-store .waimai-load-more span{display: inline-block; margin: .4rem 0; font-size: .7rem;}
+</style>
+<div class="page page-index">
+	{php get_mall_menu();}
+	<div class="content lazyload-container">
+		<header class="home-header">
+			<a href="javascript:;" class="header-loc">
+				<i class='icon icon-location'></i>
+				<span class="header-loc-text">{if !empty($_GPC['address'])}{$_GPC['address']}{else}{$_GPC['__address']}{/if}</span>
+				<i class="icon icon-right"></i>
+			</a>
+			<div class="search-btn">
+				<i class="icon icon-search"></i>
+				<input type="text">
+			</div>
+		</header>
+		
+		{if !empty($slides)}
+			<div class="slide-wrap swiper-container" data-space-between="0" data-pagination=".swiper-slide-pagination" data-autoplay="5000">
+				<div class="swiper-wrapper">
+					{loop $slides $slide}
+						<a href="{$slide['link']}" class="swiper-slide">
+							<img src="{php echo tomedia($slide['thumb']);}" alt="">
+						</a>
+					{/loop}
+				</div>
+				<div class="swiper-pagination swiper-slide-pagination"></div>
+				<div class='radius-bg'>
+					<img src="{WE7_WMALL_TPL_URL}static/img/activity/radius.png" alt="">
+				</div>
+			</div>
+		{/if}
+
+		<div class="fiexd-searchbar">
+			<input type="text" class="searchbar" placeholder="搜索商家、商品">
+		</div>
+
+		{if !empty($categorys_chunk)}
+			<div class="navs col-4 clearfix swiper-container" data-space-between='0' data-pagination='.swiper-category-pagination' data-autoplay="0">
+				<div class="swiper-wrapper">
+					{loop $categorys_chunk $row}
+						<div class="swiper-slide">
+							{loop $row $category}
+								<div class="nav-col">
+									<a href="{$category['link']}">
+										<div class="nav-icon">
+											<img src="{php echo tomedia($category['thumb']);}" alt="">
+										</div>
+										<div class="nav-text">{$category['title']}</div>
+									</a>
+								</div>
+							{/loop}
+						</div>
+					{/loop}
+				</div>
+				{if count($categorys_chunk) > 1}
+					<div class="swiper-pagination swiper-category-pagination"></div>
+				{/if}
+			</div>
+		{/if}
+
+		{if !empty($notices)}
+			<div class="notice">
+				<div class="notice-container swiper-container border-1px-t" data-direction="vertical" data-pagination="" data-space-between="8" data-autoplay="2000">
+					<div class="image border-1px-r">
+						<img src="{WE7_WMALL_TPL_URL}static/img/activity/head_line.png" alt="">
+					</div>
+					<div class="icon">
+						<i class='icon icon-notification'></i>
+					</div>
+					<div class="notice-text swiper-wrapper">
+						{loop $notices $notice}
+							<div class="swiper-slide">
+								{if !empty($notice['link'])}
+									<a href="{$notice['link']}">{$notice['title']}</a>
+								{else}
+									<a href="{php echo imurl('wmall/home/notice', array('id' => $notice['id']))}">{$notice['title']}</a>
+								{/if}
+							</div>
+						{/loop}
+					</div>
+					<i class="icon icon-right"></i>
+				</div>
+			</div>
+		{/if}
+
+		{if !empty($cubes)}
+			<div class="campaign border-1px-tb">
+				{loop $cubes $i $nav}
+					<div class="campaign-item ">
+						<a href="{$nav['link']}">
+							{if $i % 2 == 0}
+								<div class="left-60">
+									<div class="heading">{$nav['title']}</div>
+									<div class="sub-title">{$nav['tips']}</div>
+								</div>
+								<div class="right-40">
+									<img src="{php echo tomedia($nav['thumb']);}" alt="">
+								</div>
+							{else}
+								<div class="left-40">
+									<img src="{php echo tomedia($nav['thumb']);}" alt="">
+								</div>
+								<div class="right-60">
+									<div class="heading">{$nav['title']}</div>
+									<div class="sub-title">{$nav['tips']}</div>
+								</div>
+							{/if}
+						</a>
+					</div>
+					{php $i++}
+				{/loop}
+			</div>
+		{/if}
+		
+		{if !empty($bargains)}
+			<div class="bargain-activity">
+				<div class="activity-header">
+					天天特价
+					<a href="{php echo imurl('bargain/index')}">更多<i class="icon icon-right"></i></a>
+				</div>
+				<div class="activity-goods">
+					{loop $bargains $bargain}
+						<div class="goods-item">
+							<a href="{php echo imurl('wmall/store/goods', array('sid' => $bargain['sid'], 'goods_id' => $bargain['goods_id']))}">
+								<div class="goods-img">
+									<div class="label">{$bargain['discount']}折</div>
+									<img src="{WE7_WMALL_TPL_URL}static/img/hm.gif" alt="" class="lazyload" data-original="{php echo tomedia($bargain['thumb'])}">
+								</div>
+								<div class="goods-title">{$bargain['title']}</div>
+								<div class="goods-price">
+									<span class="now-price">￥{$bargain['discount_price']}</span>
+									<span class="old-price">￥{$bargain['price']}</span>
+								</div>
+							</a>
+						</div>
+					{/loop}
+					<div class="load-more">
+						<i class="icon icon-back"></i>
+						<div class="inner">
+							<p>查</p>
+							<p>看</p>
+							<p>更</p>
+							<p>多</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		{/if}
+		
+		{if !empty($recommends)}
+			<div class="selective">
+				<div class="selective-tab">
+					为您优选
+					<a href="{php echo imurl('wmall/channel/brand')}">更多<i class="icon icon-right"></i></a>
+				</div>
+				<div class="selective-store">
+					{loop $recommends $recommend}
+						<a href="{php echo imurl('wmall/store/goods', array('sid' => $recommend['id']))}" class="selective-item">
+							<img src="{WE7_WMALL_TPL_URL}static/img/hm.gif" alt="" data-original="{php echo tomedia($recommend['logo']);}" class="lazyload lazyload-store">
+							<p class="selective-title">{$recommend['title']}</p>
+						</a>
+					{/loop}
+				</div>
+			</div>
+		{/if}
+		<div class="nearby-store">
+			<div class="nearby-title">
+				附近商家
+				<a href="javascript:;">更多<i class="icon icon-right"></i></a>
+			</div>
+			<div class="nearby-store-list">
+				<div class="nearby-store-item border-1px-b">
+					<div class="mian-content-box">
+						<div class="content-left border-1px">
+							<a href="">
+								<img src="{WE7_WMALL_TPL_URL}static/img/activity/3f795061e055a631afac2d201ce00bb732768.jpg.webp" alt="">
+							</a>
+							<span class="label">热卖</span>
+							<!-- <div>店铺休息中</div> -->
+						</div>
+						<div class="content-right">
+							<a href="">
+								<div class="item-name-wrap">
+									<div class="item-name">鲜果飘香水果店</div>
+								</div>
+								<div class="item-score-sale">
+									<div class="item-star-box">
+										<div class="stars">
+											<i class='icon icon-favor_light'></i><i class='icon icon-favor_light'></i><i class='icon icon-favor_light'></i><i class='icon icon-favor_light'></i><i class='icon icon-favor_light'></i>
+										</div>
+										<div class="stars-bg">
+											<i class='icon icon-favor_fill_light'></i><i class='icon icon-favor_fill_light'></i><i class='icon icon-favor_fill_light'></i><i class='icon icon-favor_fill_light'></i><i class='icon icon-favor_fill_light'></i>
+										</div>
+									</div>
+									<div class="item-sale">月售63单</div>
+									<div class="time-distance">
+										<div class="avg_graphic_time">46分钟</div>
+										<span class='line'>|</span>
+										<div class="item-distance">914m</div>
+									</div>
+								</div>
+								<div class="item-min-delivery">
+									起送价
+									<span class="price">￥20</span>
+									<span class='line'>|</span>
+									配送费
+									<span class="price">￥0</span>
+									<div>平台专送</div>
+								</div>
+							</a>
+							<div class="discount-box">
+								<i class="icon icon-unfold"></i>
+								<div class="single-line">
+									<img class="discount-icon" src="{WE7_WMALL_TPL_URL}static/img/activity/f8bc8dffdbc805878aa3801a33f563cd1001.png" alt="">
+									<span>满35减12;满60减20(在线支付专享)</span>
+								</div>
+								<div class="single-line">
+									<img class="discount-icon" src="{WE7_WMALL_TPL_URL}static/img/activity/f8bc8dffdbc805878aa3801a33f563cd1001.png" alt="">
+									<span>满35减12;满60减20(在线支付专享)</span>
+								</div>
+								<div class="single-line">
+									<img class="discount-icon" src="{WE7_WMALL_TPL_URL}static/img/activity/f8bc8dffdbc805878aa3801a33f563cd1001.png" alt="">
+									<span>满35减12;满60减20(在线支付专享)</span>
+								</div>
+							</div>
+							<!-- <div class="hot-box">
+								<a href="">
+									<div class="hot-box-item">
+										<div class="hot-t border-1px">
+											<img src="{WE7_WMALL_TPL_URL}static/img/activity/3f795061e055a631afac2d201ce00bb732768.jpg.webp" alt="">
+											<div>省36%</div>
+										</div>
+										<div class="hot-b">
+											<div class="shop-name">巨峰拼盘</div>
+											<div class="shop-price">
+												<span class="price">¥4.99</span>
+												<span class="old-price">¥7.8</span>
+											</div>
+										</div>
+									</div>
+								</a>
+								<a href="">
+									<div class="hot-box-item">
+										<div class="hot-t border-1px">
+											<img src="{WE7_WMALL_TPL_URL}static/img/activity/3f795061e055a631afac2d201ce00bb732768.jpg.webp" alt="">
+											<div>省36%</div>
+										</div>
+										<div class="hot-b">
+											<div class="shop-name">巨峰拼盘</div>
+											<div class="shop-price">
+												<span class="price">¥4.99</span>
+												<span class="old-price">¥7.8</span>
+											</div>
+										</div>
+									</div>
+								</a>
+								<a href="">
+									<div class="hot-box-item">
+										<div class="hot-t border-1px">
+											<img src="{WE7_WMALL_TPL_URL}static/img/activity/3f795061e055a631afac2d201ce00bb732768.jpg.webp" alt="">
+											<div>折扣</div>
+										</div>
+										<div class="hot-b">
+											<div class="shop-name">火龙果切</div>
+											<div class="shop-price">
+												<span class="price">¥4.99</span>
+												<span class="old-price">¥7.8</span>
+											</div>
+										</div>
+									</div>
+								</a>
+							</div> -->
+						</div>
+						<div class="clear"></div>
+					</div>
+				</div>
+				<div class="nearby-store-item border-1px-b">
+					<div class="mian-content-box">
+						<div class="content-left border-1px">
+							<a href="">
+								<img src="{WE7_WMALL_TPL_URL}static/img/activity/3f795061e055a631afac2d201ce00bb732768.jpg.webp" alt="">
+							</a>
+							<span class="label">热卖</span>
+							<!-- <div>店铺休息中</div> -->
+						</div>
+						<div class="content-right">
+							<a href="">
+								<div class="item-name-wrap">
+									<div class="item-name">鲜果飘香水果店</div>
+								</div>
+								<div class="item-score-sale">
+									<div class="item-star-box">
+										<div class="stars">
+											<i class='icon icon-favor_light'></i><i class='icon icon-favor_light'></i><i class='icon icon-favor_light'></i><i class='icon icon-favor_light'></i><i class='icon icon-favor_light'></i>
+										</div>
+										<div class="stars-bg">
+											<i class='icon icon-favor_fill_light'></i><i class='icon icon-favor_fill_light'></i><i class='icon icon-favor_fill_light'></i><i class='icon icon-favor_fill_light'></i><i class='icon icon-favor_fill_light'></i>
+										</div>
+									</div>
+									<div class="item-sale">月售63单</div>
+									<div class="time-distance">
+										<div class="avg_graphic_time">46分钟</div>
+										<span class='line'>|</span>
+										<div class="item-distance">914m</div>
+									</div>
+								</div>
+								<div class="item-min-delivery">
+									起送价
+									<span class="price">￥20</span>
+									<span class='line'>|</span>
+									配送费
+									<span class="price">￥0</span>
+									<div>美团专送</div>
+								</div>
+							</a>
+							<div class="discount-box">
+								<i class="icon icon-unfold"></i>
+								<div class="single-line">
+									<img class="discount-icon" src="{WE7_WMALL_TPL_URL}static/img/activity/f8bc8dffdbc805878aa3801a33f563cd1001.png" alt="">
+									<span>满35减12;满60减20(在线支付专享)</span>
+								</div>
+								<div class="single-line">
+									<img class="discount-icon" src="{WE7_WMALL_TPL_URL}static/img/activity/f8bc8dffdbc805878aa3801a33f563cd1001.png" alt="">
+									<span>满35减12;满60减20(在线支付专享)</span>
+								</div>
+								<div class="single-line">
+									<img class="discount-icon" src="{WE7_WMALL_TPL_URL}static/img/activity/f8bc8dffdbc805878aa3801a33f563cd1001.png" alt="">
+									<span>满35减12;满60减20(在线支付专享)</span>
+								</div>
+							</div>
+							<!-- <div class="hot-box">
+								<a href="">
+									<div class="hot-box-item">
+										<div class="hot-t border-1px">
+											<img src="{WE7_WMALL_TPL_URL}static/img/activity/3f795061e055a631afac2d201ce00bb732768.jpg.webp" alt="">
+											<div>省36%</div>
+										</div>
+										<div class="hot-b">
+											<div class="shop-name">巨峰拼盘</div>
+											<div class="shop-price">
+												<span class="price">¥4.99</span>
+												<span class="old-price">¥7.8</span>
+											</div>
+										</div>
+									</div>
+								</a>
+								<a href="">
+									<div class="hot-box-item">
+										<div class="hot-t border-1px">
+											<img src="{WE7_WMALL_TPL_URL}static/img/activity/3f795061e055a631afac2d201ce00bb732768.jpg.webp" alt="">
+											<div>省36%</div>
+										</div>
+										<div class="hot-b">
+											<div class="shop-name">巨峰拼盘</div>
+											<div class="shop-price">
+												<span class="price">¥4.99</span>
+												<span class="old-price">¥7.8</span>
+											</div>
+										</div>
+									</div>
+								</a>
+								<a href="">
+									<div class="hot-box-item">
+										<div class="hot-t border-1px">
+											<img src="{WE7_WMALL_TPL_URL}static/img/activity/3f795061e055a631afac2d201ce00bb732768.jpg.webp" alt="">
+											<div>折扣</div>
+										</div>
+										<div class="hot-b">
+											<div class="shop-name">火龙果切</div>
+											<div class="shop-price">
+												<span class="price">¥4.99</span>
+												<span class="old-price">¥7.8</span>
+											</div>
+										</div>
+									</div>
+								</a>
+							</div> -->
+						</div>
+						<div class="clear"></div>
+					</div>
+				</div>
+				<div class="nearby-store-item border-1px-b">
+					<div class="mian-content-box">
+						<div class="content-left border-1px">
+							<a href="">
+								<img src="{WE7_WMALL_TPL_URL}static/img/activity/3f795061e055a631afac2d201ce00bb732768.jpg.webp" alt="">
+							</a>
+							<span class="label">热卖</span>
+							<!-- <div>店铺休息中</div> -->
+						</div>
+						<div class="content-right">
+							<a href="">
+								<div class="item-name-wrap">
+									<div class="item-name">鲜果飘香水果店</div>
+								</div>
+								<div class="item-score-sale">
+									<div class="item-star-box">
+										<div class="stars">
+											<i class='icon icon-favor_light'></i><i class='icon icon-favor_light'></i><i class='icon icon-favor_light'></i><i class='icon icon-favor_light'></i><i class='icon icon-favor_light'></i>
+										</div>
+										<div class="stars-bg">
+											<i class='icon icon-favor_fill_light'></i><i class='icon icon-favor_fill_light'></i><i class='icon icon-favor_fill_light'></i><i class='icon icon-favor_fill_light'></i><i class='icon icon-favor_fill_light'></i>
+										</div>
+									</div>
+									<div class="item-sale">月售63单</div>
+									<div class="time-distance">
+										<div class="avg_graphic_time">46分钟</div>
+										<span class='line'>|</span>
+										<div class="item-distance">914m</div>
+									</div>
+								</div>
+								<div class="item-min-delivery">
+									起送价
+									<span class="price">￥20</span>
+									<span class='line'>|</span>
+									配送费
+									<span class="price">￥0</span>
+									<div>美团专送</div>
+								</div>
+							</a>
+							<div class="discount-box">
+								<i class="icon icon-unfold"></i>
+								<div class="single-line">
+									<img class="discount-icon" src="{WE7_WMALL_TPL_URL}static/img/activity/f8bc8dffdbc805878aa3801a33f563cd1001.png" alt="">
+									<span>满35减12;满60减20(在线支付专享)</span>
+								</div>
+								<div class="single-line">
+									<img class="discount-icon" src="{WE7_WMALL_TPL_URL}static/img/activity/f8bc8dffdbc805878aa3801a33f563cd1001.png" alt="">
+									<span>满35减12;满60减20(在线支付专享)</span>
+								</div>
+								<div class="single-line">
+									<img class="discount-icon" src="{WE7_WMALL_TPL_URL}static/img/activity/f8bc8dffdbc805878aa3801a33f563cd1001.png" alt="">
+									<span>满35减12;满60减20(在线支付专享)</span>
+								</div>
+							</div>
+							<!-- <div class="hot-box">
+								<a href="">
+									<div class="hot-box-item">
+										<div class="hot-t border-1px">
+											<img src="{WE7_WMALL_TPL_URL}static/img/activity/3f795061e055a631afac2d201ce00bb732768.jpg.webp" alt="">
+											<div>省36%</div>
+										</div>
+										<div class="hot-b">
+											<div class="shop-name">巨峰拼盘</div>
+											<div class="shop-price">
+												<span class="price">¥4.99</span>
+												<span class="old-price">¥7.8</span>
+											</div>
+										</div>
+									</div>
+								</a>
+								<a href="">
+									<div class="hot-box-item">
+										<div class="hot-t border-1px">
+											<img src="{WE7_WMALL_TPL_URL}static/img/activity/3f795061e055a631afac2d201ce00bb732768.jpg.webp" alt="">
+											<div>省36%</div>
+										</div>
+										<div class="hot-b">
+											<div class="shop-name">巨峰拼盘</div>
+											<div class="shop-price">
+												<span class="price">¥4.99</span>
+												<span class="old-price">¥7.8</span>
+											</div>
+										</div>
+									</div>
+								</a>
+								<a href="">
+									<div class="hot-box-item">
+										<div class="hot-t border-1px">
+											<img src="{WE7_WMALL_TPL_URL}static/img/activity/3f795061e055a631afac2d201ce00bb732768.jpg.webp" alt="">
+											<div>折扣</div>
+										</div>
+										<div class="hot-b">
+											<div class="shop-name">火龙果切</div>
+											<div class="shop-price">
+												<span class="price">¥4.99</span>
+												<span class="old-price">¥7.8</span>
+											</div>
+										</div>
+									</div>
+								</a>
+							</div> -->
+						</div>
+						<div class="clear"></div>
+					</div>
+				</div>
+			</div>
+			<div class="waimai-load-more">
+				<span>点击查看更多</span>
+			</div>
+		</div>
+	</div>
+</div>
+{itemplate 'public/footer'}

@@ -1,0 +1,31 @@
+.head,.price {
+    display: flex;
+}
+
+.price {
+    margin-top: 20rpx;
+}
+
+.head>view {
+    flex: 2;
+    text-align: center;
+    padding: 30rpx 0;
+    font-size: 30rpx;
+    color: #666;
+}
+
+.price>view {
+    flex: 2;
+}
+
+.list image {
+    width: 100rpx;
+    height: 100rpx;
+    border-radius: 50%;
+    background: orange;
+    margin-right: 20rpx;
+}
+
+.sele {
+    border-bottom: 4rpx solid #459cf9;
+}

@@ -1,0 +1,47 @@
+page {
+    font-family: '微软雅黑',Helvetica,sans-serif;
+    font-size: 30rpx;
+    padding-bottom: 120rpx;
+}
+
+.weui-cells__title {
+    margin: 0;
+    padding: 20rpx 30rpx;
+    color: #000;
+}
+
+.weui-cells {
+    font-size: 28rpx;
+}
+
+.foot {
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
+
+.foot button {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 120rpx;
+    border: none;
+    border-radius: 0;
+    line-height: normal;
+}
+
+button::after {
+    border: none;
+}
+
+.foot image {
+    width: 50rpx;
+    height: 50rpx;
+}
+
+.sx {
+    height: 80rpx;
+    width: 2rpx;
+    background: #d5d5d5;
+}

@@ -1,0 +1,163 @@
+{itemplate 'public/header'}
+<style>
+	.headerinfo{height:auto; background: #FE5455; border-top: 1px #b94749 solid; border-bottom: 1px #fa9d9d solid;}
+	.userinfo{min-height: 4rem; padding:0.3rem 0.6rem; border-bottom: 1px solid #fe9292; position:relative;}
+	.userinfo .fui-list{padding:.2rem  0  0  0;	overflow: hidden;}
+	.userinfo .fui-img{width:2.5rem; height:2.5rem;margin-right: .5rem; color:#aaa; float:left; margin-top: 15px;}
+	.userinfo .fui-img img{height:2.5rem; width:2.5rem; border-radius:2.5rem; border:2px solid #fff; display: block; overflow: hidden;}
+	.userinfo .fui-info{font-size: 0.65rem; color: #fff; float:left;}
+	.userinfo .fui-color{color:#fef31f;}
+	.userblock{height: auto; padding: 0  0.6rem; color: #fff; overflow: hidden;}
+	.userblock .block-top {padding:0.9rem 0 0; height:auto; color:#fff;}
+	.userblock .block-top .top-title{font-size: 0.7rem;}
+	.userblock .block-top .top-num{font-size:1.4rem; line-height:1.7rem; font-weight:100;}
+	.userblock .block-bottom{padding-bottom: 0.9rem; padding-top: 1.1rem;}
+	.userblock .block-bottom .bottom-title{font-size: 0.6rem; line-height: 0.6rem;}
+	.userblock .block-bottom .bottom-num{font-size: 1rem; font-weight: 100; line-height: 1.4rem;}
+	.userblock .block-bottom .bottom-right{float:right; width: auto; height:1.2rem; padding: 0  0.4rem; border:1px solid #ccc; line-height: 1.2rem; border-radius:0.6rem; font-size: 0.7rem; color:#ccc;}
+	.content-sudoku{background: #fff;border-bottom: 1px solid #ececec;}
+	.content-sudoku .sudoku-img{height: 2.7rem; padding-top: 1rem; text-align:center; font-size: 1.4rem; line-height: 1.5rem;} 
+	.content-sudoku .sudoku-info{height:1rem; font-size: 0.6rem; line-height: 1.5rem; text-align:center;color:#666;}
+	.content-sudoku .sudoku-num{height: 1.2rem; font-size: 0.5rem; text-align: center; color:#666; line-height: 1rem;}
+	.content-sudoku .sudoku-num span{color:#feb312;}
+</style>
+
+<div class="page">
+	<header class="bar bar-nav common-bar-nav">
+		<a href="javascript:;" class="pull-left back"><i class="icon icon-arrow-left"></i></a>
+		<h1 class="title">买单</h1>
+	</header>
+	<div class="content">
+		<div class="headerinfo">
+			<div class="userinfo">
+				<div class="fui-list">
+					<div class="fui-img">
+						<img src="{php echo tomedia($member['avatar'])}" alt="">
+					</div>
+					<div class="fui-info">
+						<ul>
+							<li>{$member['mobile']}</li>
+							<li class="fui-color"><{$member['title']}></li>
+							<li>邀请码:{$member['uid']}</li>
+						</ul>
+					</div>
+					<a class="bg-img"></a>
+				</div>				
+			</div>
+			<div class="userblock">
+				<div class="block-top">
+					<div class="top-title">
+						成功提现佣金
+					</div>
+					<div class="top-num">
+						0.00
+					</div>
+				</div>
+				<div class="block-bottom">
+					<div class="bottom-right">
+						佣金提现
+					</div>
+					<div class="bottom-title">
+						可提现佣金
+					</div>
+					<div class="bottom-num">
+						0.00
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<div class="content-sudoku">
+			<div class="wui-grids">
+				<a href="" class="wui-grid">
+				 	<div class="sudoku-img icon icon-refund">
+    				</div>
+				 	<div class="sudoku-info">
+				 		分销佣金
+				 	</div>
+				 	<div class="sudoku-num">
+						<span>0.00</span>元
+				 	</div>
+				</a>
+				<a href="" class="wui-grid ">
+				 	<div class="sudoku-img icon icon-qrcode">
+      					<img src="" alt="">
+    				</div>
+				 	<div class="sudoku-info">
+				 		佣金明细
+				 	</div>
+				 	<div class="sudoku-num">
+						<span>0</span>笔
+				 	</div>
+				</a>
+				<a href="" class="wui-grid ">
+				 	<div class="sudoku-img icon icon-order">
+      					
+    				</div>
+				 	<div class="sudoku-info">
+				 		提现明细
+				 	</div>
+				 	<div class="sudoku-num">
+						<span>0</span>笔
+				 	</div>
+				</a>
+				<a href="" class="wui-grid">
+				 	<div class="sudoku-img icon icon-friend">
+      					
+    				</div>
+				 	<div class="sudoku-info">
+				 		我的下线
+				 	</div>
+				 	<div class="sudoku-num">
+						<span>0</span>人
+				 	</div>
+				</a>
+				<a href="" class="wui-grid ">
+				 	<div class="sudoku-img icon icon-fukuanma">
+      					
+    				</div>
+				 	<div class="sudoku-info">
+				 		推广二维码
+				 	</div>	
+				 	<div class="sudoku-num">
+						<span></span>
+				 	</div>			 	
+				</a>
+				<a href="" class="wui-grid ">
+				 	<div class="sudoku-img icon icon-shop">
+      					
+    				</div>
+				 	<div class="sudoku-info">
+				 		小店设置
+				 	</div>	
+				 	<div class="sudoku-num">
+						<span></span>
+				 	</div>			 	
+				</a>
+				<a href="" class="wui-grid ">
+				 	<div class="sudoku-img icon icon-form">
+      					
+    				</div>
+				 	<div class="sudoku-info">
+				 		自选商品
+				 	</div>	
+				 	<div class="sudoku-num">
+						
+				 	</div>			 	
+				</a>
+				<a href="" class="wui-grid ">
+				 	<div class="sudoku-img icon icon-hot1">
+      					
+    				</div>
+				 	<div class="sudoku-info">
+				 		佣金排名
+				 	</div>	
+				 	<div class="sudoku-num">
+						
+				 	</div>			 	
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
+{itemplate 'public/footer'}

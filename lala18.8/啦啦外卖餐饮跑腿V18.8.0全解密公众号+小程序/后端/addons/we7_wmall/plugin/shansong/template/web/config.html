@@ -1,0 +1,102 @@
+{itemplate 'public/header'}
+<div class="page clearfix">
+	<h2>基础设置</h2>
+	<form class="form-horizontal form form-validate" id="form1" action="" method="post" enctype="multipart/form-data">
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">闪送对接</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="radio radio-inline">
+					<input type="radio" name="status" id="status-1" value="1" {if $shansong['status'] == 1}checked{/if}>
+					<label for="status-1">开启</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" name="status" id="status-0" value="0" {if !$shansong['status']}checked{/if}>
+					<label for="status-0">关闭</label>
+				</div>
+				<span class="help-block"></span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">对接方式</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="radio radio-inline balance-type">
+					<input type="radio" name="type" id="type-plateform" value="plateform" {if $shansong['type'] == 'plateform'}checked{/if}>
+					<label for="type-plateform">使用平台账户</label>
+				</div>
+				<div class="radio radio-inline balance-type">
+					<input type="radio" name="type" id="type-store" value="store" {if $shansong['type'] == 'store'}checked{/if}>
+					<label for="type-store">使用商户账户</label>
+				</div>
+				<span class="help-block">平台账户：平台申请一个闪送账户，平台下所有门店使用平台账户结算, “平台账户”模式下使用店内配送模式的商户如果使用闪送配送则需要绑定商户自己的闪送账号信息。</br>商户账户：门店自己申请闪送账户，使用自己的闪送账户完成结算。</span>
+			</div>
+		</div>
+		<div class="type-plateform {if $shansong['type'] == 'store' || !$shansong['type']}hide{/if}">
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">注册闪送手机号</label>
+				<div class="col-sm-9 col-xs-12">
+					<input type="text" name="mobile" class="form-control" value="{$shansong['mobile']}" required="true">
+					<div class="help-block">注册闪送使用的手机号</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">闪送MD5</label>
+				<div class="col-sm-9 col-xs-12">
+					<input type="text" name="md5" class="form-control" value="{$shansong['md5']}" placeholder="闪送MD5" required="true">
+					<div class="help-block">注册闪送后，有闪送返回的MD5值</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">闪送TOKEN</label>
+				<div class="col-sm-9 col-xs-12">
+					<input type="text" name="shansongtoken" class="form-control" value="{$shansong['token']}" placeholder="闪送TOKEN" required="true">
+					<div class="help-block">注册闪送后，有闪送返回的TOKEN值</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">商户ID</label>
+				<div class="col-sm-9 col-xs-12">
+					<input type="text" name="merchantid" class="form-control" value="{$shansong['merchantid']}" placeholder="闪送商户ID" required="true">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">商户编号</label>
+				<div class="col-sm-9 col-xs-12">
+					<input type="text" name="partnerNO" class="form-control" value="{$shansong['partnerNO']}" placeholder="闪送商户编号" required="true">
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">运营所在城市</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="text" name="city" class="form-control" value="{$shansong['city']}" placeholder="闪送商户编号" required="true">
+				<div class="help-block">运营所在城市名称(如郑州市就填"郑州市")</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">闪送回调地址</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="text" name="notify_url" class="form-control" value="{$notify_url}" readonly>
+				<div class="help-block"></div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<input type="hidden" name="token" value="{$_W['token']}">
+				<input type="submit" value="提 交" class="btn btn-primary">
+			</div>
+		</div>
+	</form>
+</div>
+<script>
+	$(function(){
+		$('.balance-type').click(function() {
+			var type = $(this).find('input').val();
+			if(type == 'plateform') {
+				$('.type-plateform').removeClass('hide');
+			} else {
+				$('.type-plateform').addClass('hide');
+			}
+		})
+	})
+</script>
+{itemplate 'public/footer'}

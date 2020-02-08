@@ -1,0 +1,146 @@
+ <{extends file="<{$tempdir}>/public/wxsite.html"}>  
+<{block name=extendcss}> 
+ <link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/gift.css">
+<{/block}>
+ <{block name=extendjs}> 
+  <script src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/js/template.min.js"></script>    
+<{/block}>
+<{block name=myScrolljs}>
+<script> 
+		var myScroll;
+function loaded() {
+	myScroll = new iScroll('wrapper', {
+		useTransform: false,
+		onBeforeScrollStart: function (e) {
+			var target = e.target;
+			while (target.nodeType != 1) target = target.parentNode;
+
+			if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA')
+				e.preventDefault();
+		}
+	});
+}
+document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false); 
+document.addEventListener('DOMContentLoaded', function () { setTimeout(loaded, 200); }, false);
+</script>
+<{/block}>
+ <{block name=hearnav}>
+<div class="toptitCon">
+ <div class="toptitBox">
+  <div class="toptitL"><i></i></div>
+  <div class="toptitC"><h3>我的账户</h3></div>
+ </div>
+</div>
+<{/block}>
+<{block name=sitetitle}><{$sitename}><{/block}>
+<{block name=blockcontent}> 
+ <div id="wrapper" style="top:40px;">
+	<div id="scroller">
+		
+		
+<!--我的账户-->
+<div class="myaccountCon">
+ <div class="myaccountBox">
+  <ul class="myaccount">
+   <li>
+    <ul>
+     <li style="line-height:70px;">头像</li>
+     <li><div class="myaccpic"><img <{ofunc type=img  link="<{$member['logo']|default:$userlogo}>"}> ></div></li>
+    </ul>
+   </li>
+   <li  onclick="dolink('<{ofunc type=url link="/wxsite/modifyusername"}>');"   >
+    <ul>
+     <li><{$member['username']}></li>
+     <li class="myaccaA">修改<i class="fa fa-angle-right"></i></li>
+    </ul>
+   </li>
+
+	<{if $member['temp_password'] =='ghwmr123456789'}>
+		<li onclick="dolink('<{ofunc type=url link="/wxsite/modify"}>');"   >
+			<ul>
+			 <li>设置账户密码</li>
+			 <li class="myaccaA">设置<i class="fa fa-angle-right"></i></li>
+			</ul>
+		</li>
+	  <{else}>
+	  <li onclick="dolink('<{ofunc type=url link="/wxsite/modify"}>');"   >
+	  <ul>
+		  <li>账户密码</li>
+		  <li class="myaccaA">修改<i class="fa fa-angle-right"></i></li>
+	  </ul>
+	  </li>
+	  <{/if}>
+
+   <li onclick="dolink('<{ofunc type=url link="/wxsite/binding"}>');">
+    <ul>
+     <li>手机号</li>
+     <li class="myaccaA"><span id="userphone"></span><i class="fa fa-angle-right"></i></li>
+    </ul>
+   </li>
+  </ul>
+ </div>
+</div>
+<div class="intexchabutt" style="display:none;"><input type="button"  onclick="dolink('<{ofunc type=url link="/wxsite/loginout"}>');"  value="退出当前帐号" class="intexbg1"></div>
+		<div style="height:10px;"></div>
+	</div>
+</div>
+ <script>
+
+ $(function(){ 
+	var userphone = "<{$member['phone']}>";
+	var substrstr1 = userphone.substr(0,3);
+	var substrstr2 = userphone.substr(-4,4);
+	var substrstr3 = '****';
+	var str = substrstr1+substrstr3+substrstr2;
+	$("#userphone").text(str);
+ });
+ </script>
+ 
+<script>
+$(function(){
+
+	function isWeiXin(){
+	    var ua = window.navigator.userAgent.toLowerCase();
+	    if(ua.match(/MicroMessenger/i) == 'micromessenger'){
+	        return true;
+	    }else{
+	        return false;
+	    }
+	}
+	
+ 	var browser = {
+
+			versions: function () {
+			var u = navigator.userAgent, app = navigator.appVersion;
+
+			return {
+			trident: u.indexOf('Trident') > -1, //IE内核
+			presto: u.indexOf('Presto') > -1, //opera内核
+			webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+			gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+			mobile: !!u.match(/AppleWebKit.*Mobile.*/) || !!u.match(/AppleWebKit/), //是否为移动终端
+			ios: !!u.match(/(i[^;]+;(U;)? CPU.+Mac OS X)/), //ios终端
+			android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+			iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者QQHD浏览器
+			iPad: u.indexOf('iPad') > -1, //是否iPad
+			webApp: u.indexOf('Safari') == -1 //是否web应该程序，没有头部与底部
+			};
+			} (),
+			language: (navigator.browserLanguage || navigator.language).toLowerCase()
+			}
+			if (browser.versions.mobile ) {
+			            
+
+				            if(isWeiXin()){
+							 
+								$(".intexchabutt").hide();
+					        }else{
+							$(".intexchabutt").show();
+								
+							}
+			         
+			        }
+				
+})
+</script>
+<{/block}>

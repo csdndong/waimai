@@ -1,0 +1,86 @@
+ <{extends file="<{$tempdir}>/public/wxsite.html"}>  
+<{block name=extendcss}> 
+ <link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/editaddress.css">   
+
+<{/block}>
+ <{block name=extendjs}>  
+   <script src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/js/template.min.js"></script>    
+<{/block}>
+<{block name=myScrolljs}>
+<script> 
+		var myScroll;
+function loaded() {
+	myScroll = new iScroll('wrapper', {
+		useTransform: false,
+		onBeforeScrollStart: function (e) {
+			var target = e.target;
+			while (target.nodeType != 1) target = target.parentNode;
+
+			if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA')
+				e.preventDefault();
+		}
+	});
+}
+document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false); 
+document.addEventListener('DOMContentLoaded', function () { setTimeout(loaded, 200); }, false);
+ 
+</script>
+<script>
+$(function(){
+	if (/android/i.test(navigator.userAgent)){
+		$("#IosBox").remove();
+		$("#wrapper").css({'top':'40px'});
+	}
+
+	if (/ipad|iphone|mac/i.test(navigator.userAgent)){
+		$("#wrapper").css({'top':'70px'});
+	}
+});
+// 
+</script>
+<{/block}>
+<{block name=sitetitle}><{$lifeassinfo['title']}><{/block}>
+<{block name=hearnav}>
+<style>
+.noticeCont img{width:100%!important;}
+#IosBox{ background:#ff6e6e; height:30px; }
+.toptitC h3{max-width: 200px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
+</style>
+
+<div class="toptitCon">
+<div id="IosBox">
+</div>
+ <div class="toptitBox">
+  <div class="toptitL" onclick="window.waimai.close();"><i></i></div>
+  <div class="toptitC"><h3 style="font-weight: bold;font-size:18px;"><{$lifeassinfo['title']}></h3></div>
+ </div>
+</div>
+<{/block}>
+<{block name=blockcontent}>  
+ <div id="wrapper" style="top:104px;background:#fff;">
+	<div id="scroller">
+		
+ 
+<div style="padding:10px;">
+	
+	<div class="noticeCont"	style="padding:10px;">
+		<{$lifeassinfo['content']|htmlspecialchars_decode|default:'暂无详细通知说明'}>
+	</div>
+</div>
+ 
+ 
+   <div style="height:10px;"></div>
+</div>		 
+</div>		
+ 
+ 
+<{/block}>
+<{block name=footer}>
+<div  style="position:absolute;bottom:0px; height:47px; border-top:1px solid #ccc;width:100%; line-height:47px;background:#fff;">
+	<a  href="javascript:void(0);" onclick="window.waimai.call('<{$lifeassinfo['phone']}>')">
+		<div class="lijihujiao" style="width:90%; color:#fff; margin: 6px auto 0px; height:35px; line-height:35px; text-align:center;background:#ff6e6e; ">
+			立即呼叫
+		</div>
+	</a>
+</div>
+<{/block}> 

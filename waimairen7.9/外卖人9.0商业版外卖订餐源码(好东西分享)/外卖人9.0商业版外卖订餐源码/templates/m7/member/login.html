@@ -1,0 +1,88 @@
+ <{extends file="<{$tempdir}>/public/site.html"}>   
+ <{block name=navhide}><{/block}>
+ <{block name=sitetitle}>用户登录<{/block}>
+ <{block name=extendcss}><link rel="stylesheet" type="text/css" href="<{$siteurl}>/templates/<{$tempdir}>/public/css/login.css"><{/block}>
+<{block name=shophide}><{/block}>
+<{block name=bgshow}><{/block}>
+<{block name=top2}><{/block}>
+ <{block name=bodylist}>
+
+ <div class="SigninCon">
+     <div class="SigninBox">
+         <div class="Signin">
+             <div class="SigninLeft"><img src="<{$siteurl}>/templates/<{$tempdir}>/public/img/Signin_left.png"></div>
+             <div class="SigninRight">
+                 <div class="SigninRtop"></div>
+                 <div class="SigninRmain">
+                     <form id="loginForm" method="post" action="<{ofunc type=url link="/member/login"}>">
+                     <div class="SigninRtit"><h3>用户登录</h3><span>没有账号？<a href="<{ofunc type=url link="/member/regester"}>">免费注册</a></span></div>
+                     <div class="SigninRinpBox">
+                         <div class="SigninRinp">
+                             <span class="icon_user"></span>
+                             <input type="text" name="uname" placeholder="用户名/手机号">
+                         </div>
+                         <div class="SigninRinp">
+                             <span class="icon_pass"></span>
+                             <input type="password" name="pwd" placeholder="输入密码">
+                         </div>
+						 
+						  <{if $allowedcode == 1}>
+						  
+						  
+						  <div class="SigninRinp">
+                              <div style="float:left;" ><input style="width:80px;" name="Captcha" type="text"  class="inputOne"  placeholder="验证码" value=""/></div>
+								<div style="float:left; width:90px; height:42px;" ><img style="margin-left:10px; width:90px; height:42px;" width="90" height="42" src="<{ofunc type=url link="/site/getCaptcha"}>" id="captchaimg"></div>
+								<div style="float:left;margin-left:4px;height:42px;line-height:42px;" ><a style="color:#000;" href="javascript:freshcode();" >刷新图片</a></div>
+                         </div>
+						  
+					 
+						<{/if}>
+						 
+						 
+                     </div>
+                     <div class="SigninRchebox">
+                         <div class="SigninRche">
+
+                             <input name="LoginForm[rememberMe]" type="checkbox" checked="" value="1"/>
+                         </div>
+                     
+                         <a href="<{ofunc type=url link="/member/findpwd"}>">忘记密码?</a>
+                     </div>
+                     
+
+                     <div class="SigninRbut"><input type="button" id="login_in" value="登　录"></div>
+                     <!-- <div class="SigninRthpalo">
+                         <div class="SigninRthpaloTit">使用以下账户直接登录</div>
+                         <div class="SigninRthpaloIco">
+                             <ul id="type_login">
+                                 <{load_data assign="apiloginlist" table="otherlogin"  fileds="*"  limit="10" }>
+                                 <{if count($apiloginlist['list']) > 0}>
+                                 <{foreach from=$apiloginlist['list'] name=loop item=items}>
+                                 <li>
+                                     <a href="<{$siteurl}>/plug/login/<{$items['loginname']}>/login.php" target="_blank">
+                                        <i class="<{if $items['loginname'] == 'wx'}>icon_wx<{elseif $items['loginname'] == 'sina'}>icon_xl<{else}>icon_qq<{/if}>"></i>
+                                     </a>
+                                 </li>
+                                 <{/foreach}>
+                                 <{/if}>
+                             </ul>
+                         </div>
+                     </div> -->
+
+                     </form>
+                 </div>
+             </div>
+         </div>
+     </div>
+ </div>
+   
+<script type="text/javascript">
+	$('#login_in').click(function(){
+		$('#loginForm').submit();
+	});
+    /*$("#type_login li").eq(0).addClass("icon_qq");
+    $("#type_login li").eq(1).addClass("icon_xl");*/
+
+</script>     
+ 
+<{/block}>

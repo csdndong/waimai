@@ -1,0 +1,199 @@
+{itemplate 'public/header'}
+{if $ta == 'list'}
+<form action="./index.php" class="form-horizontal form-filter">
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">活动状态</label>
+		<div class="col-sm-9 col-xs-12">
+			<div class="btn-group">
+				<div class="btn-group">
+					<a href="{php echo ifilter_url('status:0');}" class="btn {if $status == 0}btn-primary{else}btn-default{/if}">不限</a>
+					<a href="{php echo ifilter_url('status:1');}" class="btn {if $status == 1}btn-primary{else}btn-default{/if}">进行中</a>
+					<a href="{php echo ifilter_url('status:2');}" class="btn {if $status == 2}btn-primary{else}btn-default{/if}">已失效</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+
+<form action="" class="form-table form" method="post">
+	<div class="panel panel-table">
+		<div class="panel-body table-responsive js-table">
+			<table class="table table-hover">
+				<thead class="navbar-inner">
+					<tr>
+						<th width="40">
+							<div class="checkbox checkbox-inline">
+								<input type="checkbox" name="ids[]" value="{$item['id']}"/>
+								<label></label>
+							</div>
+						</th>
+						<th>活动名称</th>
+						<th>发放人群</th>
+						<th>添加时间</th>
+						<th>失效时间</th>
+						<th>活动状态</th>
+						<th>总数/发放数量/带动订单</th>
+						<th>活动花费（最多）</th>
+						<th style="width:200px; text-align:right;">操作</th>
+					</tr>
+				</thead>
+				<tbody>
+				{loop $records $item}
+					<tr>
+						<td>
+							<div class="checkbox checkbox-inline">
+								<input type="checkbox" name="ids[]" value="{$item['id']}"/>
+								<label></label>
+							</div>
+						</td>
+						<td>{$item['title']}</td>
+						<td>{$item['group_title']}</td>
+						<td>{php echo date('Y-m-d H:i', $item['addtime']);}</td>
+						<td>{php echo date('Y-m-d H:i', $item['endtime']);}</td>
+						<td>
+							{if $item['endtime'] > TIMESTAMP}
+								<span class="label label-success">进行中</span>
+							{else}
+								<span class="label label-danger">已失效</span>
+							{/if}
+						</td>
+						<td>{$item['data']['grant_object']['total']}/{$item['data']['grant_object']['grant_success']}/{$item['orders_num']}</td>
+						<td>{$item['total_fee']}</td>
+						<td style="text-align:right;">
+							{if !empty($item['data']['grant_object']['unissued_uid'])}
+								<a href="{php echo iurl('store/activity/superCoupon/send', array('id' => $item['id']))}" class="btn btn-default js-post" data-confirm="确定继续发放优惠券吗？">继续发放</a>
+							{/if}
+							<a href="{php echo iurl('store/activity/superCouponRecord/detail', array('id' => $item['id']))}" class="btn btn-default btn-sm">查看</a>
+							<a href="{php echo iurl('store/activity/superCouponRecord/del', array('id' => $item['id']))}" class="btn btn-default btn-sm js-remove" data-confirm="确定删除吗">删除</a>
+						</td>
+					</tr>
+				{/loop}
+				</tbody>
+			</table>
+			<div class="btn-region clearfix">
+				<div class="pull-left">
+					<a href="{php echo iurl('store/activity/superCouponRecord/del')}" class="btn btn-primary btn-danger js-batch" data-batch="remove" data-confirm="删除后将不可恢复，确定删除吗">删除</a>
+				</div>
+				<div class="pull-right">
+					{$pager}
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+{/if}
+{if $ta == 'detail'}
+<div class="coupon-collect-detail">
+	<div class="panel-stat">
+		<div class="panel-heading">
+			<h3>活动信息</h3>
+		</div>
+		<div class="panel-body">
+			<div class="item-group row">
+				<div class="col-md-2 col-sm-4 col-xs-4 text-right">
+					<label class="label-title">活动名称</label>
+				</div>
+				<div class="col-md-8 col-sm-8 col-xs-8">
+					<span>{$coupon['title']}</span>
+				</div>
+			</div>
+			<div class="item-group row">
+				<div class="col-md-2 col-sm-4 col-xs-4 text-right">
+					<label class="label-title">活动状态</label>
+				</div>
+				<div class="col-md-8 col-sm-8 col-xs-8">
+					<span>{if $coupon['status'] == 1}活动进行中{else}活动已结束{/if}</span>
+				</div>
+			</div>
+			<div class="item-group row">
+				<div class="col-md-2 col-sm-4 col-xs-4 text-right">
+					<label class="label-title">活动时间</label>
+				</div>
+				<div class="col-md-8 col-sm-8 col-xs-8">
+					<span>{php echo date('Y-m-d', $coupon['addtime'])} ~  {php echo date('Y-m-d', $coupon['endtime'])}</span>
+				</div>
+			</div>
+			<div class="item-group row">
+				<div class="col-md-2 col-sm-4 col-xs-4 text-right">
+					<label class="label-title">面向人群</label>
+				</div>
+				<div class="col-md-8 col-sm-8 col-xs-8">
+					<span>{$coupon['group_title']}</span>
+				</div>
+			</div>
+			<div class="item-group row">
+				<div class="col-md-2 col-sm-4 col-xs-4 text-right">
+					<label class="label-title">优惠券总数</label>
+				</div>
+				<div class="col-md-8 col-sm-8 col-xs-8">
+					<span>{$total}张</span>
+				</div>
+			</div>
+			<div class="item-group row">
+				<div class="col-md-2 col-sm-4 col-xs-4 text-right">
+					<label class="label-title">最多花费</label>
+				</div>
+				<div class="col-md-8 col-sm-8 col-xs-8">
+					<span>{$total_fee}元</span>
+				</div>
+			</div>
+			<div class="item-group row">
+				<div class="col-md-2 col-sm-4 col-xs-4 text-right">
+					<label class="label-title">优惠券</label>
+				</div>
+				<div class="col-md-8 col-sm-8 col-xs-8">
+					<div class="coupon-detail">
+						<div class="coupon-amount pull-left">
+							<span class="discount-amount"><i></i>{$coupon['data']['coupon']['discount']}</span>
+							<p>满<i class="max-amount">{$coupon['data']['coupon']['condition']}</i>可用</p>
+						</div>
+						<div class="coupon-term pull-left">发券后<i class="deadline">{$coupon['data']['coupon']['use_days_limit']}</i>天内有效</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="panel-stat">
+		<div class="panel-heading">
+			<h3>活动统计</h3>
+		</div>
+		<div class="panel-body">
+			<div class="item-group row">
+				<div class="col-md-2 col-sm-4 col-xs-4 text-right">
+					<label class="label-title">优惠券总数</label>
+				</div>
+				<div class="col-md-8 col-sm-8 col-xs-8">
+					<span>{$total}张券</span>
+				</div>
+			</div>
+			<div class="item-group row">
+				<div class="col-md-2 col-sm-4 col-xs-4 text-right">
+					<label class="label-title" title="券总张数 = 已领取的券包数量 * 每个券包中的卡券数量">发放数量</label>
+				</div>
+				<div class="col-md-1 col-sm-1 col-xs-1">
+					<span>{$grant_num}</span>
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-6">
+					<div class="progress">
+						<div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="{$grant_num}" aria-valuemin="0" aria-valuemax="{$total}" style="width: {$grant_percent}%"></div>
+					</div>
+				</div>
+			</div>
+			<div class="item-group row">
+				<div class="col-md-2 col-sm-4 col-xs-4 text-right">
+					<label class="label-title">使用数量</label>
+				</div>
+				<div class="col-md-1 col-sm-1 col-xs-1">
+					<span>{$use_num}</span>
+				</div>
+				<div class="col-md-6 col-sm-6 col-xs-6">
+					<div class="progress">
+						<div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="{$use_num}" aria-valuemin="0" aria-valuemax="{$total}" style="width: {$use_percent}%"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{/if}
+{itemplate 'public/footer'}

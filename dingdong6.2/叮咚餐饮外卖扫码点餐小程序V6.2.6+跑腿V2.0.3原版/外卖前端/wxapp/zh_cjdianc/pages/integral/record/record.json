@@ -1,0 +1,6 @@
+{
+    "navigationBarTitleText": "兑换记录",
+    "usingComponents": {
+        "cardlist": "/zh_cjdianc/dist/cardlist/index"
+    }
+}

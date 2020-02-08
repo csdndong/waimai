@@ -1,0 +1,553 @@
+ <{extends file="<{$tempdir}>/public/admin8.html"}> 
+ <{block name=extendjs}>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js"></script>
+ <style>
+	 #showmodule li {
+		 height: 800px;
+		 width: 400px;
+		 margin-right: 100px;
+		 float: left;
+		 text-align: left;
+		 margin-left: 30px;
+		 margin-top: 30px;
+	 }
+ </style>
+ <{/block}>
+ <{block name=controlname}>设置<{/block}>
+ <{block name=bodylist}> 
+ <style>
+#close{text-align: center;  color: #f5f5f5;background-color: red;font-weight: bold; position: absolute;top: -10px;right: -10px; width: 25px;height: 25px;border-radius: 20px;line-height: 25px;}
+.search_content div{display:inline-block}
+#addact{background: #169bd5;padding: 5px 21px;margin-top: 8px;border-radius: 5px;color: #fff;}
+</style>
+	   <div style="width:auto;overflow-x:hidden;overflow-y:auto"> 
+         
+          <div id="tagscontent">
+            <form method="post" name="form1" action="<{ofunc type=url link="/adminpage/app/module/saveappset/datatype/json"}>" onsubmit="return subform('',this);">
+              <div>
+                <table border="0" cellspacing="2" cellpadding="4" class="list" name="table" id="table" width="100%">
+                  <tbody>
+					
+					 
+				  
+				  
+				  
+				 
+					
+					
+					 
+					
+					 
+					
+					
+                    <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                      <td class="left" valign="top">用户端推送KEY</td>
+                      <td> 
+                         <input type="input" name="appuser2" id="appuser2" value="<{$appuser2|default:''}>"  class="skey" style="width:400px;"> 
+                       </td>
+                    </tr>  
+                     <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                      <td class="left">用户端推送secret</td>
+                      <td> <input type="input" name="appsecret2" id="appsecret2" value="<{$appsecret2|default:''}>"  class="skey" style="width:400px;"> </td>
+                    </tr>
+					
+					
+					<tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                      <td class="left">用户端包名</td>
+                      <td> <input type="input" name="xmbao2" id="xmbao2" value="<{$xmbao2|default:''}>"  class="skey" style="width:400px;"> </td>
+                    </tr>
+					  <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                      <td class="left">用户通知标题</td>
+                      <td> <input type="input" name="xmtitle2" id="xmtitle2" value="<{$xmtitle2|default:''}>"  class="skey" style="width:400px;"> </td>
+                    </tr>
+					  <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                      <td class="left">用户miuiKey</td>
+                      <td> <input type="input" name="miuiKey2" id="miuiKey2" value="<{$miuiKey2|default:''}>"  class="skey" style="width:400px;"> </td>
+                    </tr> 
+					
+                    <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                      <td class="left" valign="top">配送员推送KEY</td>
+                      <td> 
+                         <input type="input" name="appuser3" id="appuser3" value="<{$appuser3|default:''}>"  class="skey" style="width:400px;"> 
+                       </td>
+                    </tr>
+                     <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                      <td class="left">配送员推送secret</td>
+                      <td> <input type="input" name="appsecret3" id="appsecret3" value="<{$appsecret3|default:''}>"  class="skey" style="width:400px;"> </td>
+                    </tr> 
+					<tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                      <td class="left">配送端包名</td>
+                      <td> <input type="input" name="xmbao3" id="xmbao3" value="<{$xmbao3|default:''}>"  class="skey" style="width:400px;"> </td>
+                    </tr>
+					  <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                      <td class="left">配送通知标题</td>
+                      <td> <input type="input" name="xmtitle3" id="xmtitle3" value="<{$xmtitle3|default:''}>"  class="skey" style="width:400px;"> </td>
+                    </tr>
+					  <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                      <td class="left">配送miuiKey</td>
+                      <td> <input type="input" name="miuiKey3" id="miuiKey3" value="<{$miuiKey3|default:''}>"  class="skey" style="width:400px;"> </td>
+                    </tr>
+					
+					
+                    <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                      <td class="left">APP用户端版本</td>
+                      <td> <input type="input" name="appvison1" id="appvison1" value="<{$appvison1|default:'1'}>"  class="skey" style="width:400px;"><br/>版本号请填写时间戳，起始版是1，必须和最新apk的android:versionCode 一致 要不然每次都要下载而不是最新版本 </td>
+                    </tr>
+                    <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                      <td class="left">安卓APP用户端下载地址</td>
+                      <td> <input type="input" name="appdownload1" id="appdownload1" value="<{$appdownload1|default:''}>"  class="skey" style="width:400px;">http://www.xxx.com/xxx.apk </td>
+                    </tr>
+                    
+                    <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                      <td class="left">苹果APP用户端下载地址</td>
+                      <td> <input type="input" name="appdownload1ios" id="appdownload1" value="<{$appdownload1ios|default:''}>"  class="skey" style="width:400px;">http://itunes.apple.com/xx/app/xx?mt=8 </td>
+                    </tr>
+                    
+                     <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                      <td class="left">APP商家端版本</td>
+                      <td> <input type="input" name="appvison2" id="appvison2" value="<{$appvison2|default:'1'}>"  class="skey" style="width:400px;"><br/>版本号请填写时间戳，起始版是1，必须和最新apk的android:versionCode 一致 要不然每次都要下载而不是最新版本 </td>
+                    </tr>
+                    <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                      <td class="left">安卓APP商家端下载地址</td>
+                      <td> <input type="input" name="appdownload2" id="appdownload2" value="<{$appdownload2|default:''}>"  class="skey" style="width:400px;">http://www.xxx.com/xxx.apk </td>
+                    </tr>
+                    <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                      <td class="left">苹果APP商家端下载地址</td>
+                      <td> <input type="input" name="appdownload2ios" id="appdownload2" value="<{$appdownload2ios|default:''}>"  class="skey" style="width:400px;">http://itunes.apple.com/xx/app/xx?mt=8  </td>
+                    </tr>
+                    <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                      <td class="left">APP配送端版本</td>
+                      <td> <input type="input" name="appvison3" id="appvison3" value="<{$appvison3|default:'1'}>"  class="skey" style="width:400px;"> <br/>版本号请填写时间戳，起始版是1，必须和最新apk的android:versionCode 一致 要不然每次都要下载而不是最新版本 </td>
+                    </tr>
+                    <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                      <td class="left">安卓APP配送端下载地址</td>
+                      <td> <input type="input" name="appdownload3" id="appdownload3" value="<{$appdownload3|default:''}>"  class="skey" style="width:400px;">http://www.xxx.com/xxx.apk </td>
+                    </tr>
+                    <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                      <td class="left">苹果APP配送端下载地址</td>
+                      <td> <input type="input" name="appdownload3ios" id="appdownload3" value="<{$appdownload3ios|default:''}>"  class="skey" style="width:400px;">http://itunes.apple.com/xx/app/xx?mt=8  </td>
+                    </tr>
+					
+					 <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                      <td class="left">分享key</td>
+                      <td> <input type="input" name="ymengkey" id="ymengkey" value="<{$ymengkey|default:''}>"  class="skey" style="width:400px;">请联系客服给您这个值</td>
+                    </tr>
+                    <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                      <td class="left">QQ分享appid</td>
+                      <td> <input type="input" name="qqshareappid" id="qqshareappid" value="<{$qqshareappid|default:'1'}>"  class="skey" style="width:400px;">自行到http://connect.qq.com/申请,资料不知道怎么填写请联系客服 </td>
+                    </tr>
+					 <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                      <td class="left">QQ分享key</td>
+                      <td> <input type="input" name="qqsharekey" id="qqsharekey" value="<{$qqsharekey|default:'1'}>"  class="skey" style="width:400px;"> </td>
+                    </tr> 
+                  </tbody>
+                </table>
+              </div>
+              <div class="blank20"></div>
+              <input type="hidden" name="tijiao" id="tijiao" value="do" class="skey" style="width:250px;">
+              <input type="hidden" name="saction" id="saction" value="siteset" class="skey" style="width:250px;">
+               <input type="submit" value="确认提交" class="button">  
+            </form>
+          </div>
+ 
+ 
+		  
+<script>
+$(function(){
+	  $('.gf').show(); 
+}); 
+
+var click_button = false; 
+function doubleclick(){
+	click_button = false;
+}
+function mobilechangemodule(obj){
+	var url = siteurl+'/index.php?ctrl=adminpage&action=system&module=savemobiletempset&mobilemodule='+$(obj).val()+'&datatype=json&random=@random@';
+	$.ajax({
+		type: 'post',
+		async:false,
+		url: url.replace('@random@', 1+Math.round(Math.random()*1000)),
+		dataType: 'json',success: function(content) {
+			if(content.error == false){
+//				window.location.reload();
+			}else{
+				if(content.error == true)
+				{
+					diaerror(content.msg);
+				}else{
+					diaerror(content);
+				}
+			}
+		},
+		error: function(content) {
+			diaerror('数据获取失败');
+		}
+	});
+}
+function lockclick(){
+	 if(click_button == false){
+			click_button = true;
+			setTimeout("doubleclick()", 1000); 
+			return true;
+	 }else{
+		 return false;
+	 }
+}
+var dialogs ;
+function uploads(modulename){
+ 	  dialogs = art.dialog.open('<{ofunc type=url link="/adminpage/other/module/uploadapp/obj/'+modulename+'/func/uploadsucess"}>');
+ 	  dialogs.title('上传图片');
+}
+function uploadsucess(flag,obj,linkurl){
+	if(flag == true){
+ 		alert(linkurl);
+		dialogs.close();
+		uploads(obj);
+	}else{
+		dialogs.close(); 
+		//提交数据并返回显示 
+			$.post('<{ofunc type=url link="/adminpage/app/module/appmdimg/datatype/json"}>', {'mudulename':obj,'imgurl':linkurl} ,function (data, textStatus){  
+			if(data.error == false){
+				$('#module_'+obj).attr('src',linkurl);
+				$('#module_'+obj).show();
+			}else{
+				if(data.error == true)
+				{
+					diaerror(data.msg); 
+				}else{
+					diaerror(data); 
+				}
+			} 
+		}, 'json');  
+	}
+ }
+$(function(){   
+   $("input[name='is_display']").bind("click", function() {   
+	   if(lockclick()){
+		   var doselect = 0;
+				if($(this).is(':checked') == true){
+				doselect =1;
+				} 
+			$.post('<{ofunc type=url link="/adminpage/app/module/docontroladv/datatype/json"}>', {'ctrlname':'is_show','modulename':$(this).attr('data'),'modulevalue':doselect} ,function (data, textStatus){  
+				if(data.error == false){
+					diasucces('操作成功','');
+				}else{
+					if(data.error == true)
+					{
+						diaerror(data.msg); 
+					}else{
+						diaerror(data); 
+					}
+				} 
+			}, 'json');  
+		}
+	});
+	
+	$("input[name='is_install']").bind("click", function() {  
+		if(lockclick()){	
+			$.post('<{ofunc type=url link="/adminpage/app/module/docontroladv/datatype/json"}>', {'ctrlname':'is_install','modulename':$(this).attr('data'),'modulevalue':$("input[name='is_install']:checked").val()} ,function (data, textStatus){  
+				if(data.error == false){
+					diasucces('操作成功','');
+				}else{
+					if(data.error == true)
+					{
+						diaerror(data.msg); 
+					}else{
+						diaerror(data); 
+					}
+				} 
+			}, 'json');  
+		}
+	});
+	
+
+
+});
+
+
+</script>
+		  
+		   
+<script> 
+function upload_gudings(modulename){
+ 	  dialogs = art.dialog.open('<{ofunc type=url link="/adminpage/other/module/uploadapp/obj/'+modulename+'/func/uploadgsucess"}>');
+ 	  dialogs.title('上传图片');
+}
+function uploadgsucess(flag,obj,linkurl){
+	if(flag == true){
+ 		alert(linkurl);
+		dialogs.close();
+		upload_gudings(obj);
+	}else{
+		dialogs.close(); 
+		//提交数据并返回显示 
+			$('#'+obj).attr('src',linkurl);
+			$('#'+obj).show();
+		  $('#input_'+obj).val(linkurl); 
+	}
+ }
+ function dogdsave(gdid){
+	 if(lockclick()){
+			var checkname =   $('#input_gname'+gdid).val();
+			
+			if(checkname == ''){
+				alert('录入的名称不能为空');
+				return false;
+			}
+			var checkimg = $('#input_gimg'+gdid).val();
+			var orderid = $('#input_gorderid'+gdid).val();
+			if(checkimg == ''){
+			   alert('未选择图片');
+			   return false; 
+			} 	
+					
+			var typeid = $("select[name='input_gselect"+gdid+"']").find("option:selected").val(); //$(this).input_gselect
+			$.post('<{ofunc type=url link="/adminpage/app/module/addgd/datatype/json"}>', {'imgurl':checkimg,'orderid':orderid,'typeid':typeid,'name':checkname,'appposition':2,'id':gdid} ,function (data, textStatus){  
+					if(data.error == false){
+						diasucces('操作成功','');
+					}else{
+						if(data.error == true)
+						{
+							diaerror(data.msg); 
+						}else{
+							diaerror(data); 
+						}
+					} 
+			}, 'json'); 
+	}
+ }  
+ function dosaveadv(gdid){
+	  if(lockclick()){
+		var checkname =   $('#input_aname'+gdid).val();
+		if(checkname == ''){
+			alert('录入的名称不能为空');
+			return false;
+		}
+		var checkimg = $('#input_aimg'+gdid).val();
+		if(checkimg == ''){
+		   alert('未选择图片');
+		   return false; 
+		} 	
+				
+		 
+		$.post('<{ofunc type=url link="/adminpage/app/module/addad/datatype/json"}>', {'imgurl':checkimg,'typeid':0,'name':checkname,'appposition':1,'id':gdid} ,function (data, textStatus){  
+				if(data.error == false){
+					diasucces('操作成功','');
+				}else{
+					if(data.error == true)
+					{
+						diaerror(data.msg); 
+					}else{
+						diaerror(data); 
+					}
+				} 
+		}, 'json'); 
+		}
+ }
+ function dosaveanadv(gdid){
+  if(lockclick()){
+	var checkname =   $('#input_anname'+gdid).val();
+	if(checkname == ''){
+	    alert('录入的名称不能为空');
+		return false;
+	}
+	var checkimg = $('#input_animg'+gdid).val();
+	if(checkimg == ''){
+	   alert('未选择图片');
+	   return false; 
+	} 	
+	 		
+	 
+    $.post('<{ofunc type=url link="/adminpage/app/module/addad/datatype/json"}>', {'imgurl':checkimg,'typeid':0,'name':checkname,'appposition':3,'id':gdid} ,function (data, textStatus){  
+			if(data.error == false){
+				diasucces('操作成功','');
+			}else{
+				if(data.error == true)
+				{
+					diaerror(data.msg); 
+				}else{
+					diaerror(data); 
+				}
+			} 
+	}, 'json');
+	}
+ }
+ 
+ 
+//新增内容 2016/12/28
+function appstartimg(gdid){
+	if(lockclick()){
+		var checkname =   $('#input_stname'+gdid).val();
+		if(checkname == ''){
+			alert('录入的名称不能为空');
+			return false;
+		}
+		var checkimg = $('#input_stimg'+gdid).val();
+		if(checkimg == ''){
+			alert('未选择图片');
+			return false;
+		}
+
+		$.post('<{ofunc type=url link="/adminpage/app/module/addad/datatype/json"}>', {'imgurl':checkimg,'typeid':0,'name':checkname,'appposition':5,'id':gdid} ,function (data, textStatus){
+			if(data.error == false){
+				diasucces('操作成功','');
+			}else{
+				if(data.error == true)
+				{
+					diaerror(data.msg);
+				}else{
+					diaerror(data);
+				}
+			}
+		}, 'json');
+	}
+}
+
+function appggsimg(gdid){
+	if(lockclick()){
+		var checkname =   $('#input_ggsname'+gdid).val();
+		if(checkname == ''){
+			alert('录入的名称不能为空');
+			return false;
+		}
+		var checkimg = $('#input_ggsimg'+gdid).val();
+		if(checkimg == ''){
+			alert('未选择图片');
+			return false;
+		}
+
+		$.post('<{ofunc type=url link="/adminpage/app/module/addad/datatype/json"}>', {'imgurl':checkimg,'typeid':0,'name':checkname,'appposition':6,'id':gdid} ,function (data, textStatus){
+			if(data.error == false){
+				diasucces('操作成功','');
+			}else{
+				if(data.error == true)
+				{
+					diaerror(data.msg);
+				}else{
+					diaerror(data);
+				}
+			}
+		}, 'json');
+	}
+}
+ 
+</script>
+	  
+		  
+        </div> 
+        
+        
+   
+    </div> 
+<script>
+$(function(){  
+	$("input[name='APPindex']").click(function(){
+	    if(lockclick()){
+			$.post('<{ofunc type=url link="/adminpage/app/module/appindexshow/datatype/json"}>', {'type':'APPindex','APPindex':$("input[name='APPindex']:checked").val()} ,function (data, textStatus){  
+				if(data.error == false){
+					diasucces('操作成功','');
+				}else{
+					if(data.error == true)
+					{
+						diaerror(data.msg); 
+					}else{
+						diaerror(data); 
+					}
+				} 
+			}, 'json');  
+		}
+	});
+	$("input[name='apppayacount']").click(function(){
+		  if(lockclick()){
+				 $.post('<{ofunc type=url link="/adminpage/app/module/appindexshow/datatype/json"}>', {'type':'apppayacount','apppayacount':$("input[name='apppayacount']:checked").val()} ,function (data, textStatus){  
+					if(data.error == false){
+						diasucces('操作成功','');
+					}else{
+						if(data.error == true)
+						{
+							diaerror(data.msg); 
+						}else{
+							diaerror(data); 
+						}
+					} 
+				}, 'json'); 
+		}
+	});
+	$("input[name='apppayonline']").click(function(){
+			  if(lockclick()){
+		$.post('<{ofunc type=url link="/adminpage/app/module/appindexshow/datatype/json"}>', {'type':'apppayonline','apppayonline':$("input[name='apppayonline']:checked").val()} ,function (data, textStatus){  
+			if(data.error == false){
+				diasucces('操作成功','');
+			}else{
+				if(data.error == true)
+				{
+					diaerror(data.msg); 
+				}else{
+					diaerror(data); 
+				}
+			} 
+		}, 'json'); 
+		}
+	});
+	$("input[name='appdataver']").change(function(e){
+	 
+	  if(lockclick()){
+			$.post('<{ofunc type=url link="/adminpage/app/module/appindexshow/datatype/json"}>', {'type':'appdataver','appdataver':$("input[name='appdataver']").val()} ,function (data, textStatus){  
+				if(data.error == false){
+					diasucces('操作成功','');
+				}else{
+					if(data.error == true){
+						diaerror(data.msg); 
+					}else{
+						diaerror(data); 
+					}
+				} 
+			}, 'json');
+		}
+		 
+	});
+	document.onkeydown = function(event) {  
+    var target, code, tag;  
+    if (!event) {  
+        event = window.event; //针对ie浏览器  
+        target = event.srcElement;  
+        code = event.keyCode;  
+        if (code == 13) {  
+            tag = target.tagName;  
+            if (tag == "TEXTAREA") { return true; }  
+            else { return false; }  
+        }  
+    }  
+    else {  
+        target = event.target; //针对遵循w3c标准的浏览器，如Firefox  
+        code = event.keyCode;  
+        if (code == 13) {  
+            tag = target.tagName;  
+            if (tag == "INPUT") { return false; }  
+            else { return true; }   
+       }  
+    }  
+};  
+	/***  模块排序  ****/
+$(".savemodulepaixu").change(function(){
+		if(lockclick()){
+			$.post('<{ofunc type=url link="/adminpage/app/module/savemodulepaixu/datatype/json"}>', {'name':$(this).attr('name'),'orderid':$(this).val()} ,function (data, textStatus){  
+				if(data.error == false){
+					diasucces('操作成功','');
+				}else{
+					if(data.error == true)
+					{
+						diaerror(data.msg); 
+					}else{
+						diaerror(data); 
+					}
+				} 
+			}, 'json');
+		}
+	 
+})
+
+});
+</script>  
+<!--newmain 结束-->
+ <{/block}>

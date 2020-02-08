@@ -1,0 +1,92 @@
+{itemplate 'public/header'}
+<form action="./index.php" class="form-horizontal form-filter">
+	{php echo tpl_form_filter_hidden('superRedpacket/gift/list');}
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">搜索</label>
+		<div class="col-sm-4 col-xs-4">
+			<input type="text" name="keyword" value="{$keyword}" class="form-control" placeholder="请输入天降红包标题或关键字进行搜索">
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+		<div class="col-sm-4 col-xs-4">
+			<input type="submit" value="筛选" class="btn btn-primary">
+		</div>
+	</div>
+</form>
+<form action="" class="form-table form" method="post">
+	<div class="panel panel-table">
+		<div class="panel-heading">
+			<a href="{php echo iurl('superRedpacket/gift/post');}" class="btn btn-primary btn-sm">新建天降红包</a>
+		</div>
+		<div class="panel-body table-responsive js-table">
+			{if empty($superRedpackets)}
+				<div class="no-result">
+					<p>还没有相关数据</p>
+				</div>
+			{else}
+				<table class="table table-hover">
+					<thead class="navbar-inner">
+					<tr>
+						<th width="40">
+							<div class="checkbox checkbox-inline">
+								<input type="checkbox" name="ids[]"/>
+								<label></label>
+							</div>
+						</th>
+						<th>红包名称</th>
+						<th>活动状态</th>
+						<th>活动时间</th>
+						<th>每日发放时间</th>
+						<th>每日发放红包数量</th>
+						<th>创建时间</th>
+						<th style="width:300px; text-align:right;">操作</th>
+					</tr>
+					</thead>
+					<tbody>
+						{loop $superRedpackets $superRedpacket}
+							<tr>
+								<td>
+									<div class="checkbox checkbox-inline">
+										<input type="checkbox" name="ids[]" value="{$superRedpacket['id']}"/>
+										<label></label>
+									</div>
+								</td>
+								<td>{$superRedpacket['name']}</td>
+								<td>
+									{if $superRedpacket['status'] == 1}
+										活动已生效
+									{elseif $superRedpacket['status'] == 2}
+										活动已撤销
+									{else}
+										活动未开始或已结束
+									{/if}
+								</td>
+								<td>{$superRedpacket['starttime']} ~ {$superRedpacket['endtime']}</td>
+								<td>{$superRedpacket['data']['params']['start_hour']} ~ {$superRedpacket['data']['params']['end_hour']}</td>
+								<td>{$superRedpacket['data']['params']['everyday_nums']}</td>
+								<td>{$superRedpacket['addtime']}</td>
+								<td style="text-align:right;">
+									<a href="{php echo iurl('superRedpacket/gift/post', array('id' => $superRedpacket['id']))}" class="btn btn-default btn-sm">查看</a>
+									{if $superRedpacket['status'] == 1}
+										<a href="{php echo iurl('superRedpacket/gift/cancel', array('id' => $superRedpacket['id']))}" class="btn btn-default btn-sm js-post" data-confirm="确定要撤销吗">撤销</a>
+									{/if}
+									<a href="{php echo iurl('superRedpacket/gift/del', array('id' => $superRedpacket['id']))}" class="btn btn-default btn-sm js-remove" data-confirm="删除后将不可恢复，确定删除吗">删除</a>
+								</td>
+							</tr>
+						{/loop}
+					</tbody>
+				</table>
+				<div class="btn-region clearfix">
+					<div class="pull-left">
+						<a href="{php echo iurl('superRedpacket/gift/del')}" class="btn btn-primary btn-danger js-batch" data-batch="remove" data-confirm="删除后将不可恢复，确定删除吗">删除</a>
+					</div>
+					<div class="pull-right">
+						{$pager}
+					</div>
+				</div>
+			{/if}
+		</div>
+	</div>
+</form>
+{itemplate 'public/footer'}

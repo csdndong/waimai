@@ -1,0 +1,166 @@
+ <{extends file="<{$tempdir}>/public/historyadmin.html"}> 
+ <{block name=extendjs}>
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/jquery.PrintArea.js" type="text/javascript" language="javascript"></script>
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/datepicker/WdatePicker.js" type="text/javascript" language="javascript"></script>
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js" type="text/javascript" language="javascript"></script>
+ <{/block}>
+ <{block name=controlname}>转移记录<{/block}>
+ <{block name=bodylist}> 
+  <div style="width:auto;overflow-x:hidden;overflow-y:auto"> 
+	<div class="search">
+      		 
+            
+            <div class="search_content">
+            	 
+            	 
+            	     
+            	  
+            	    <input type="button" value="添加记录" class="button" id="addhistorylog">  
+            	 
+            </div>       
+        
+      	</div>
+  
+           <div class="tags">
+
+      	 	<div id="tagstitle"></div>
+
+          <div id="tagscontent">
+
+            <div id="con_one_1">
+
+              <div class="table_td" style="margin-top:10px;">
+
+              <form method="post" action="" onsubmit="return remind();">
+
+                  <table border="0" cellspacing="2" cellpadding="4" class="list" name="table" id="table" width="100%">
+
+                    <thead>
+
+                      <tr> 
+                         
+                        <th align="center">创建时间</th> 
+                        <th align="center">转移几号之前</th>  
+                        <th align="center">最大订单ID</th> 
+                        
+                        <th align="center">状态</th>
+                        <th align="center">操作说明</th>
+                        <th align="center">操作(执行过程中别关闭浏览器)</th> 
+                      </tr>
+
+                    </thead> 
+
+                     <tbody>
+                     
+                      <{foreach from=$list item=items}> 
+                      <tr class="s_out" onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff"> 
+                         
+                        <td align="center"><{$items['addtime']|date_format:"%Y-%m-%d %H:%M:%S"}></td> 
+                        <td align="center"><{($items['startdotime']-1)|date_format:"%Y-%m-%d"}> </td> 
+                        <td align="center"><{$items['maxorderid']}></td>  
+                        <td align="center"><{$historystatus[$items['status']]}></td> 
+                        <td align="center" id="showinstro_<{$items['id']}>">说明<{if $items['excutime'] > 0}> <{$items['excutime']|date_format:"%Y-%m-%d %H:%M:%S"}>开始执行<{$items['excutime']}><{/if}></td>
+                        <td align="center">
+						
+						<{if $items['status'] == 0}><a onclick="dostart('<{$items['id']}>')" style="color:red;cursor:pointer;">立即执行</a><{/if}>
+                        	<a onclick="return remind(this);" href="<{ofunc type=url link="/adminpage/order/module/historylogdel/datatype/json/id/<{$items['id']}>"}>"><img src="<{$siteurl}>/templates/<{$tempdir}>/public/images/admin/del.jpg"></a>
+                        	
+                        	</td> 
+                      </tr> 
+                       <{/foreach}> 
+
+                    </tbody> 
+
+                  </table>
+
+                <div class="blank20"></div>
+
+                
+
+                </form>
+
+                <div class="page_newc">
+                 	      <div class="select_page">
+                 	      	 
+                 	     </div>
+                       <div class="show_page"><ul><{$pagecontent}></ul></div>
+                 </div>
+
+                <div class="blank20"></div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        
+  </div> 
+
+  </div> 
+<script>
+$(function(){
+	$("#addhistorylog").bind('click',function(){
+	   window.location.href ='<{ofunc type=url link="/adminpage/order/module/addhistorylog"}>';
+	});
+});
+function dostart(logid){
+	var newurl = '<{ofunc type=url link="/adminpage/order/module/startmove/datatype/json/random/@random@"}>';
+	$.ajax({
+       type: 'POST',
+       async:true,
+       url: newurl.replace('@random@', 1+Math.round(Math.random()*1000)),
+       data: {'logid':logid},
+      dataType: 'json',success: function(content) { 
+      	if(content.error == true)
+      	{
+      		alert(content.msg);
+      	}else if(content.error == false)
+      	{
+			 //alert(content.msg.link);
+			 
+			
+			 $('#showinstro_'+logid).html(content.msg.linktitle);
+			  nextlink(logid,content.msg.link);
+      	}else{
+      	  
+      	} 
+		  },
+      error: function(content) { 
+      	alert('数据错误');
+	   }
+   });  
+}
+function nextlink(logid,linkurl){
+	var newurl = linkurl;
+	$.ajax({
+       type: 'POST',
+       async:true,
+       url: newurl,
+       data: {'logid':logid},
+      dataType: 'json',success: function(content) { 
+      	if(content.error == true)
+      	{
+      		//alert(content.msg);
+      	}else if(content.error == false)
+      	{
+			
+			 $('#showinstro_'+logid).html(content.msg.linktitle);
+			 if(typeof (content.msg.link) ==undefined){
+				location.reload();  
+			 }else{
+				nextlink(logid,content.msg.link);
+			  }
+      	}else{
+      	  
+      	} 
+		  },
+      error: function(content) { 
+      	alert('数据错误');
+	   }
+   });  
+}
+</script>  
+<{/block}>

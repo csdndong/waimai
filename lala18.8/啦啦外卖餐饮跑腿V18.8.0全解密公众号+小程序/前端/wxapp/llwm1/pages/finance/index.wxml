@@ -1,0 +1,30 @@
+<view class="page-index">
+    <view class="content">
+        <view class="activity-nav">
+            <view class="remainder">账户可用余额</view>
+            <view class="center">¥{{store.account.amount}}</view>
+        </view>
+        <view class="zan-panel">
+            <view class="zan-cell zan-cell--access" url="./current">
+                <view class="zan-cell__bd">
+                    <view class="icon icon-lock"></view> 保证金：</view>
+                <view>¥{{store.account.deposit}}</view>
+            </view>
+            <navigator class="zan-cell zan-cell--access" url="./current">
+                <view class="zan-cell__bd">
+                    <view class="icon icon-account"></view>用户明细</view>
+                <view class="zan-cell__ft"></view>
+            </navigator>
+            <navigator class="zan-cell zan-cell--access" url="./getcash">
+                <view class="zan-cell__bd">
+                    <view class="icon icon-refund"></view>申请提现</view>
+                <view class="zan-cell__ft"></view>
+            </navigator>
+            <navigator class="zan-cell zan-cell--access" url="./getcashRecord">
+                <view class="zan-cell__bd">
+                    <view class="icon icon-text1"></view>提现记录</view>
+                <view class="zan-cell__ft"></view>
+            </navigator>
+        </view>
+    </view>
+</view>

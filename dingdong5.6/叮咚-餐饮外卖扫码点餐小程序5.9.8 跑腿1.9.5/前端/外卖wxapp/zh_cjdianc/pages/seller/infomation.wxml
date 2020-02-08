@@ -1,0 +1,53 @@
+<view class="fwxq">
+    <view wx:if="{{store.details!=''}}">
+        <view class="title">
+            <view class="hx"></view>
+            <view class="hxwz">关于我们</view>
+            <view class="hx"></view>
+        </view>
+        <view class="weui-cell" style="background:white;font-size:26rpx;color:#666;margin-bottom:20rpx;">
+            <rich-text nodes="{{store.details}}"></rich-text>
+        </view>
+    </view>
+    <view style="margin-bottom:20rpx;">
+        <view class="title">
+            <view class="hx"></view>
+            <view class="hxwz">商家视频</view>
+            <view class="hx"></view>
+        </view>
+        <view class="video" wx:if="{{store.store_video.length>6}}">
+            <video objectFit="fill" src="{{store.store_video}}"></video>
+        </view>
+        <view style="background:#fff;padding:10px 15px" wx:else>商家暂未上传视频</view>
+    </view>
+    <view class="title">
+        <view class="hx"></view>
+        <view class="hxwz">商家环境</view>
+        <view class="hx"></view>
+    </view>
+    <view class="xztpul">
+        <view style="padding:10px 15px" wx:if="{{store.environment==''}}">
+      商家暂未上传图片
+    </view>
+        <block wx:else>
+            <view class="scimg-box" wx:for="{{store.environment}}">
+                <image bindtap="previewImage" class="scimg" data-urls="{{store.environment}}" id="{{item}}" mode="widthFix" src="{{item}}"></image>
+            </view>
+        </block>
+    </view>
+    <view class="title" style="margin-top:20rpx;">
+        <view class="hx"></view>
+        <view class="hxwz">商家资质</view>
+        <view class="hx"></view>
+    </view>
+    <view class="xztpul">
+        <view style="padding:10px 15px" wx:if="{{store.yyzz==''}}">
+      商家暂未上传资质
+    </view>
+        <block wx:else>
+            <view class="scimg-box" wx:for="{{store.yyzz}}">
+                <image bindtap="previewImage" class="scimg" data-urls="{{store.yyzz}}" id="{{item}}" mode="widthFix" src="{{item}}"></image>
+            </view>
+        </block>
+    </view>
+</view>

@@ -1,0 +1,34 @@
+<{if !empty($commentlist) }>
+ <{foreach from=$commentlist item=items }>
+ 				 	<div class="commessCon" >	
+			 	 <div class="commessBox">	
+ 			 	  <div class="commessR" style="width:100%;">
+			 	   <ul class="commessname">
+						<li style="width:12%"><img src="<{$items['userlogo']}>"/ style="width:38px;height:38px;border-radius:50%;"></li>
+						<li style="width:53%">
+							<ul>
+								<li style="display:block;"><a><{$items['username']}></a></li>
+								<li style="display:block;"><i style="float:left; width:14px; height:14px; background-image:url(<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/045.png); background-repeat:no-repeat; background-size:100%; margin:5px 5px 0 0;"></i><span><{$items['goodname']}></span></li>
+							</ul>
+						</li>	
+						<li style="width:32%">
+							<ul>
+								<li style="display:block;"><{section name=total loop=$items['point'] }><i class="fa fa-star"></i><{/section}><{section name=total loop=5-$items['point'] }><i class="fa fa-star" style="color:#C7C7C7;"></i><{/section}></li>
+								<li style="display:block;"><b style="font-size:12px;"><{$items['addtime']}></b></li>
+							</ul>
+						</li>
+					</ul>
+ 			<{if $items['content'] != '' }>
+				 		<div class="commesscus"><p><{$items['content']}></p></div>	
+			<{/if}>
+ 			<{if $items['replytime'] != 0 }>
+ 			 	   <div class="commessbus">	
+			 		<i class="commsj"></i>	
+			 		<p>商家回复:<br/><{$items['replycontent']}></p><span><{$items['huifutime']}></span>	
+			 	   </div>	
+			<{/if}>
+			 	  </div>	
+			 	 </div>	
+			 	</div>	
+	<{/foreach}>
+ <{/if}>

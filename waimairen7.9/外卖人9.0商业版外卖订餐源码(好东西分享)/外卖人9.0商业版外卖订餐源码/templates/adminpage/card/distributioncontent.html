@@ -1,0 +1,51 @@
+ <{extends file="<{$tempdir}>/public/admin.html"}> 
+   <{block name=extendjs}> 
+   <script src="<{$siteurl}>/js/kindeditor/kindeditor.js" type="text/javascript" language="javascript"></script>
+ <script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/datepicker/WdatePicker.js" type="text/javascript" language="javascript"></script>
+ <{/block}>
+ <{block name=controlname}>添加/编辑分销说明<{/block}>
+ <{block name=bodylist}>
+<{load_data assign="info" table="single" type="one" where=" code='fxsm' and title = '分销说明' " fileds="*" }> 
+       <div style="width:98%;overflow-y:auto;white-space:nowrap;">  
+      	
+          <div class="tags">
+           
+          <div id="tagscontent">
+            <form method="post" name="form1" action="<{ofunc type=url link="/adminpage/card/module/savedistributioncontent"}>">
+              <div>
+                <table border="0" cellspacing="2" cellpadding="4" class="list" name="table" id="table" width="100%">
+                  <tbody>
+                   <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff"> 
+                      <td class="left">分销说明内容</td> 
+                      <td>  
+                      <div class='nop'><script>KE.show({id:'content',allowFileManager : true,imageUploadJson:'<{ofunc type=url link="/other/saveupload"}>',fileManagerJson:'<{ofunc type=url link="/other/saveupload"}>',items:['source','|', 'justifyleft', 'justifycenter', 'justifyright','justifyfull', 'insertorderedlist', 'insertunorderedlist', '|', 'fontname', 'fontsize', '|', 'textcolor', 'bgcolor', 'bold','italic', 'underline', 'removeformat', '|', 'image', 'advtable', 'hr','link', 'unlink']});</script><textarea name="content" id="content" style='width:550px; height:260px;'><{$info['content']}></textarea></div>                      </td>
+
+                    </tr>  
+                    <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff"> 
+                      <td class="left">分销二维码分享标题</td> 
+                      <td><input type="input" name="fxcodetit" value="<{$fxcodetit}>"  class="skey" style="width:200px;"></td>
+                    </tr> 
+                    <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff"> 
+                      <td class="left">分销二维码分享描述</td> 
+                      <td><textarea type="input" name="fxcodedes" value="<{$fxcodedes}>"  class="skey" style="width:200px;height:50px"><{$fxcodedes}></textarea></td>
+                    </tr> 					
+                  </tbody>
+                </table>
+              </div>
+              <div class="blank20"></div> 
+               <input type="submit" value="确认提交" class="button">  
+            </form>
+          </div>
+        </div>
+        <div class="blank20"></div> 
+      
+      </div>
+      <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+    
+       
+</div> 
+ 
+<!--newmain 结束-->
+<{/block}>

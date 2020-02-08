@@ -1,0 +1,67 @@
+page {
+    width: 100%;
+    height: 100%;
+}
+
+.page-myAccount {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: #eee;
+}
+
+.page-myAccount .zan-panel .zan-cell {
+    min-height: 40px;
+}
+
+.page-myAccount .info {
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+    padding: 40px 0;
+    background: #fff;
+}
+
+.page-myAccount .info .image {
+    width: 80px;
+    height: 80px;
+    border-radius: 100%;
+    overflow: hidden;
+    margin: 0 auto;
+    line-height: 80px;
+    border: 3px solid #FFE596;
+}
+
+.page-myAccount .info .image image {
+    width: 80%;
+    height: 80%;
+    margin: 0 auto;
+}
+
+.page-myAccount .info .title {
+    font-size: 14px;
+    padding: 15px 0px;
+}
+
+.page-myAccount .info .num {
+    font-size: 50px;
+    color: #FE7600;
+}
+
+.page-myAccount .service {
+    position: fixed;
+    right: 10px;
+    bottom: 100px;
+    width: 54px;
+    height: 54px;
+    border-radius: 100%;
+    text-align: center;
+    line-height: 54px;
+    background-color: #fff;
+    box-shadow: 0 0 10px #999;
+}
+
+.page-myAccount .service .icon {
+    font-size: 30px;
+    color: #285EE5;
+}

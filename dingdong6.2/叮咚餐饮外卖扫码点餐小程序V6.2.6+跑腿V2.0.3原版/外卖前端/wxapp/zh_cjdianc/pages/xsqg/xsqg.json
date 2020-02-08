@@ -1,0 +1,6 @@
+{
+    "navigationBarTitleText": "限时抢购",
+    "usingComponents": {
+        "cardlist": "/zh_cjdianc/dist/cardlist/index"
+    }
+}

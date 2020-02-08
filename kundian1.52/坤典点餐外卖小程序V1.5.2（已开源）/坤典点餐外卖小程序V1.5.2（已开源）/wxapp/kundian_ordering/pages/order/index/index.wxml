@@ -1,0 +1,126 @@
+<view class="o-nav">
+    <text bindtap="getAll" class="{{is_active==1?'o-active':''}}">外卖</text>
+    <text bindtap="dianOrder" class="{{is_active==2?'o-active':''}}">点餐</text>
+    <text bindtap="orderGoods" class="{{is_active==3?'o-active':''}}">预定</text>
+    <text bindtap="getFastOrder" class="{{is_active==4?'o-active':''}}">快餐</text>
+</view>
+<view class="none-order" wx:if="{{orderData==''}}">
+    <image src="../../../img/none-cart.png"></image>
+    <text>暂无订单信息</text>
+</view>
+<view class="o-con" wx:else>
+    <view class="con-ul" wx:if="{{is_active==1||is_active==4}}">
+        <view class="o-list" wx:for="{{orderData}}" wx:for-item="val">
+            <view class="list-top" wx:if="{{val.is_fast_food==1}}">
+                <text wx:if="{{!(val.fast_food_number-0)}}">订单号：{{val.order_number}}</text>
+                <text class="get-number" wx:if="{{val.fast_food_number-0}}">#取餐号：{{val.fast_food_number}}</text>
+                <text bindtap="confirmGoods" class="order-confirm" data-orderid="{{val.id}}" wx:elif="{{val.is_pay==2}}">确认收货</text>
+                <text class="order-status" wx:else>{{val.fast_food_number-0?'':'已收货'}}</text>
+                <text class="has-package" wx:if="{{val.package_price-0}}"> #(打包)# </text>
+            </view>
+            <view class="list-top" wx:else>
+                <text>订单号：{{val.order_number}}</text>
+                <text bindtap="confirmGoods" class="order-confirm" data-orderid="{{val.id}}" wx:if="{{val.is_pay==2}}">确认收货</text>
+                <text class="order-status" wx:else>{{val.status_txt}}</text>
+            </view>
+            <view bindtap="intoOrderDetail" class="list-center" data-orderid="{{val.id}}" wx:for="{{val.detailData}}" wx:for-item="value">
+                <view class="list-left">
+                    <image src="{{value.cover}}"></image>
+                </view>
+                <view class="list-right">
+                    <text class="name">{{value.product_name}}</text>
+                    <text class="price" wx:if="{{val.is_change==1}}">￥{{value.price}}</text>
+                    <text class="price" wx:else>￥{{value.price}}</text>
+                </view>
+            </view>
+            <view class="list-price">
+                <text class="title">订单金额    </text>
+                <text class="price">￥{{val.price}}</text>
+                <text class="has-package" wx:if="{{val.package_price-0}}">￥{{val.package_price}}</text>
+                <text class="has-package title" wx:if="{{val.package_price-0}}">打包费    </text>
+            </view>
+            <view class="list-price">
+                <text class="title">下单时间：    </text>
+                <text class="price">{{val.create_time}}</text>
+            </view>
+            <view class="list-price">
+                <text class="title">订单号：    </text>
+                <text class="price">{{val.order_number}}</text>
+            </view>
+            <view class="list-btn" wx:if="{{val.is_pay==0}}">
+                <text bindtap="cancelWeiOrder" class="cancel-order" data-orderid="{{val.id}}">取消订单</text>
+                <text bindtap="liPay" class="lipay" data-orderid="{{val.id}}">立即支付</text>
+            </view>
+            <view class="list-btn" wx:if="{{val.is_pay==-1}}">
+                <text bindtap="cancelWeiOrder" class="cancel-order cancel-right" data-orderid="{{val.id}}">取消订单</text>
+            </view>
+            <view class="list-btn" wx:if="{{val.is_pay==1&&val.is_change==1}}">
+                <text bindtap="cancelPayOrder" class="cancel-order cancel-right" data-orderid="{{val.id}}">取消订单</text>
+            </view>
+        </view>
+    </view>
+    <view class="o-desk" wx:elif="{{is_active==2}}">
+        <view bindtap="intoDeskOrderDetail" class="desk-ul" data-orderid="{{val.orderData.id}}" data-orderpay="{{val.orderData.is_pay}}" data-ordertype="{{val.orderData.is_fast_food-0||0}}" wx:for="{{orderData}}" wx:for-item="val">
+            <view class="d-ul-top">
+                <image class="headimg" src="{{userData.avatarurl}}"></image>
+                <text class="username">{{userData.nickname}}</text>
+                <image class="jiantou" src="../../../img/right.png"></image>
+                <text class="status" wx:if="{{val.orderData.status==0||val.orderData.is_pay!=1}}">已下单</text>
+                <text class="status" wx:else>已结算</text>
+            </view>
+            <view class="d-ul-center">
+                <view class="cen-left">
+                    <image src="{{aboutData.logo_img}}"></image>
+                </view>
+                <view class="cen-cen">
+                    <text class="desk-name" wx:if="{{val.orderData.desk_id}}">餐桌：{{val.orderData.deskData.name}}</text>
+                    <text class="desk-status" wx:if="{{val.orderData.status!=1}}">订单状态：未付款</text>
+                    <text class="desk-status" wx:else>已结算</text>
+                    <text class="desk-time">下单时间：{{val.orderData.create_time}}</text>
+                    <text class="desk-price">￥{{val.orderData.total_price||val.orderData.pra_price}}</text>
+                </view>
+            </view>
+            <view class="cen-btn">
+                <text class="detail">查看详情</text>
+            </view>
+        </view>
+    </view>
+    <view class="order-con" wx:elif="{{is_active==3}}">
+        <view class="order-ul" wx:for="{{orderData}}" wx:for-item="val">
+            <view class="order-li">
+                <view class="li-left">
+                    <text>姓名</text>
+                </view>
+                <view class="li-right">
+                    <text>{{val.name}}</text>
+                </view>
+            </view>
+            <view class="order-li">
+                <view class="li-left">
+                    <text>联系电话</text>
+                </view>
+                <view class="li-right">
+                    <text>{{val.phone}}</text>
+                </view>
+            </view>
+            <view class="order-li">
+                <view class="li-left">
+                    <text>用餐时间</text>
+                </view>
+                <view class="li-right">
+                    <text>{{val.use_date}} {{val.use_time}}</text>
+                </view>
+            </view>
+            <view class="order-li">
+                <view class="li-left">
+                    <text>用餐人数</text>
+                </view>
+                <view class="li-right">
+                    <text>{{val.person_count}}人</text>
+                </view>
+            </view>
+            <image src="../../../img/order-user-order.png" wx:if="{{val.is_use==1}}"></image>
+            <image src="../../../img/order-user-use.png" wx:if="{{val.is_use==3}}"></image>
+        </view>
+    </view>
+</view>

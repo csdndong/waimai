@@ -1,0 +1,59 @@
+<view class="head pa" style="background:{{color}}">
+    <view class="pa_0 rel">
+        <image class="dis_in" mode="aspectFill" src="{{userinfo.img}}"></image>
+        <view class="dis_in">
+            <view class="fon_28 color_f">{{userinfo.name}}</view>
+            <view class="fon_28 color_f">推荐人：{{yqr}}</view>
+        </view>
+        <navigator class="ab ud fon_24 color_f mine" openType="reLaunch" url="../my/index">
+            <text class="ab"></text>
+            <text class="ab">个人中心</text>
+        </navigator>
+    </view>
+    <view class="fon_24 color_f pa_0">可提现佣金(元)</view>
+    <view class="fon_40 color_f rel">
+        <text>{{yjdata.ktxyj}}</text>
+        <text bindtap="tixian" class="ab ud fon_24 tixian">提现</text>
+    </view>
+</view>
+<view class="pa ba_ff put_forward">
+    <view class="dis_in fon_24">
+        <view class="fon_36">{{yjdata.ljyj}}</view>
+        <view class="color_9">累计佣金(元)</view>
+    </view>
+    <view class="dis_in fon_24">
+        <view class="fon_36">{{yjdata.ddkyj}}</view>
+        <view class="color_9">已申请佣金(元)</view>
+    </view>
+    <view class="dis_in fon_24">
+        <view class="fon_36">{{yjdata.ytxyj}}</view>
+        <view class="color_9">已提现佣金(元)</view>
+    </view>
+</view>
+<view bindtap="distribution" class="pa ba_ff mar_t list bor_bottom rel">
+    <image class="dis_in" mode="aspectFit" src="../../img/distribution/wy.png"></image>
+    <text class="dis_in fon_30">我的佣金</text>
+    <image class="ab ud" mode="aspectFill" src="../../img/blackjt.png"></image>
+</view>
+<view bindtap="downline" class="pa ba_ff list bor_bottom rel">
+    <image class="dis_in" mode="aspectFit" src="../../img/distribution/wx.png"></image>
+    <text class="dis_in fon_30">{{fxset.xx_name}}</text>
+    <image class="ab ud" mode="aspectFill" src="../../img/blackjt.png"></image>
+</view>
+<view bindtap="ranking" class="pa ba_ff list rel">
+    <image class="dis_in" mode="aspectFit" src="../../img/distribution/sm.png"></image>
+    <text class="dis_in fon_30">分销说明</text>
+    <image class="ab ud" mode="aspectFill" src="../../img/blackjt.png"></image>
+</view>
+<view bindtap="mdmfx" class="pa ba_ff mar_t list rel">
+    <image class="dis_in" mode="aspectFit" src="../../img/distribution/sa.png"></image>
+    <text class="dis_in fon_30">分销二维码</text>
+    <image class="ab ud" mode="aspectFill" src="../../img/blackjt.png"></image>
+</view>
+<view bindtap="yczz" class="zhezhao" hidden="{{fwxy}}"></view>
+<view class="fxmxy" hidden="{{fwxy}}">
+    <view class="fxmxyhd" style="background:{{color}}">请朋友扫码来下单获取佣金</view>
+    <view bindtap="previewimg" class="fxmxybd">
+        <image src="{{code}}"></image>
+    </view>
+</view>

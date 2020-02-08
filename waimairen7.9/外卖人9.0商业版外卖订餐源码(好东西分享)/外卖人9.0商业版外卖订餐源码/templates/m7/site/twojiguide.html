@@ -1,0 +1,86 @@
+<{if empty($list)}>
+<li style="font-size:16px;" class="tjli">
+	此地点附近暂时没有外卖餐厅，努力覆盖中...
+</li>
+<{/if}>
+
+<{foreach from=$list key=myid item=items}>
+
+<div id="muti-aois">
+<div class="aois">
+
+<dl class="aoi-group">        <dt><{$items['name']}></dt>      
+
+  <dd>           
+			<ul>  
+
+<{foreach from=$items['sanjiguide'] item=itv}>			
+			<li>                    
+				<a title="<{$itv['name']}>" data-node="nav_aoi" href="<{ofunc type=url link="/site/setlocationlink/areaid/<{$itv['id']}>"}>">                        <{$itv['name']}>                    </a>             
+				</li>  
+<{/foreach}>
+				
+		</ul>      
+
+ </dd>    </dl>
+</div></div>
+<{/foreach}>
+<!-- 
+<{foreach from=$list key=myid item=items}>
+<li style="font-size:16px;">
+<a href="<{ofunc type=url link="/site/setlocationlink/areaid/<{$items['id']}>"}>" >
+<{$items['name']}>
+</a>
+</li>
+<{/foreach}>
+ -->
+
+<style>
+#muti-aois {
+width: 750px;
+
+background: #fff;
+font-size: 1.2em;
+overflow-y: auto;
+
+position: relative;
+z-index: 1000;
+}
+#muti-aois .aois {
+max-height: 350px;
+}
+#muti-aois .aois .aoi-group {
+border-bottom: 1px solid #e3e3e3;
+padding: 15px 0;
+display: table;
+width: 100%;
+}
+#muti-aois .aois .aoi-group dt {
+margin-right: 10px;
+color: #999;
+width: 100px;
+padding: 0 10px;
+text-align: center;
+display: table-cell;
+vertical-align: middle;
+}
+#muti-aois .aois .aoi-group dd {
+display: inline-block;
+margin-left: 5px;
+}
+#muti-aois .aois .aoi-group li {
+display: inline-block;
+}
+#muti-aois .aois .aoi-group li a {
+display: block;
+height: 25px;
+line-height: 25px;
+color: #444;
+width: 180px;
+font-size: 1em;
+text-overflow: ellipsis;
+overflow: hidden;
+white-space: nowrap;
+}
+#muti-aois .aois .aoi-group li a:hover{color:#ff2d4b}#muti-aois .aois .aoi-group:hover{background:#f6f6f6}#muti-aois .aois .aoi-group:hover dt{color:#ff2d4b}
+</style>

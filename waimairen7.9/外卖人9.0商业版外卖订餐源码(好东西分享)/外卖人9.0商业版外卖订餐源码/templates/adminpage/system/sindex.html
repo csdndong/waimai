@@ -1,0 +1,117 @@
+ <{extends file="<{$tempdir}>/public/admin.html"}> 
+ <{block name=extendjs}>
+ <link rel="stylesheet" type="text/css" href="<{$siteurl}>/templates/<{$tempdir}>/public/css/index.css">
+ <script src="<{$siteurl}>/js/kindeditor/kindeditor.js" type="text/javascript" language="javascript"></script>
+ <script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/datepicker/WdatePicker.js" type="text/javascript" language="javascript"></script>
+ <{/block}>
+ <{block name=controlname}>网站信息<{/block}>
+ <{block name=bodylist}>
+ <style>
+ .newfoot{
+    bottom: 0!important;
+ }
+ 
+ 
+ </style>
+ <div class="homeRightCon">
+     <div class="homeRightTop">
+         <ul>
+             <li class="hoTopbg01">
+                 <a   target="_bank" href="<{ofunc type=url link="/adminpage/order/module/ordertoday"}>">
+                     <i class="icon_ddks"></i>
+                     <span>订单快速处理系统</span>
+                 </a>
+             </li>
+             <li class="hoTopbg02">
+                 <a target="_bank"  href="<{ofunc type=url link="/adminpage/order/module/adminfastfoods"}>">
+                     <i class="icon_dkxd"></i>
+                     <span>客服代客下单系统</span>
+                 </a>
+             </li>
+             <li class="hoTopbg03">
+                 <a href="<{ofunc type=url link="/adminpage/analysis/module/js_statisyic"}>">
+                     <i class="icon_sjjs"></i>
+                     <span>商家结算统计</span>
+                 </a>
+             </li>
+             <li class="hoTopbg04">
+			 <{if <{Mysite::$app->config['psbopen']}> == 1}>
+                 <a target="_blank" href="<{Mysite::$app->config['autopsblink']}>">
+		     <{else}>
+				 <a  target="_bank" href="<{ofunc type=url link="/adminpage/psuser/module/psymap"}>">
+		     <{/if}>
+                     <i class="icon_psydd"></i>
+                     <span>配送员调度管理系统</span>
+                 </a>
+             </li>
+             <li class="hoTopbg05">
+                 <a target="_bank" href="<{ofunc type=url link="/adminpage/shop/module/goodslibrary"}>">
+                     <i class="icon_spkgl"></i>
+                     <span>商品库管理系统</span>
+                 </a>
+             </li>
+         </ul>
+     </div>
+     <div class="homeRightBot">
+         <div class="homeRightBox">
+             <div class="homeRightTit hoRiTit_bg01">
+                 <!--<i class="icon_edit"></i>-->
+                 <i class="icon_data" style="width:60px;height:60px;"></i>
+                 <h2>系统信息</h2>
+             </div>
+
+
+             <div class="homeRightEdit">
+                 <table>
+                     <tbody style='line-height:50px;border-left: 1px solid #e6e6e6;border-right: 1px solid #e6e6e6;'>
+                     <tr>
+                         <th>服务器时间：</th>
+                         <td><{$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}></td>
+                     </tr>
+					 
+                     <tr class="trbg">
+                         <th>PHP版本：</th>
+                         <td><{phpversion()}></td>
+                     </tr>
+					 <tr>
+                         <th>系统版本：</th>
+                         <td>9.0</td>
+                     </tr>
+                     <tr>
+                         <th>官方网址：</th>
+                         <td><{$website}></td> 
+                     </tr>
+                     <tr class="trbg">
+                         <th>版权所有：</th>
+                         <td><{$companyname}></td>
+                     </tr>
+                     </tbody>
+                 </table>
+             </div>
+         </div>
+         <div class="homeRightBox">
+             <div class="homeRightTit hoRiTit_bg02" >
+                    <!--<i class="icon_data"></i>-->
+                   <i class="icon_edit" style="width:60px;heith:60px;"></i>
+                    <h2>数据统计</h2>
+                  </div> 
+
+
+             <div class="homeRightData" style='border-left: 1px solid #e6e6e6;border-right: 1px solid #e6e6e6;'>
+                 <ul>
+                     <li class="font_red"><h3><{$tjdata['dayallorder']}></h3><span>今日总订单</span></li>
+                     <li class="font_org"><h3><{$tjdata['dayworder']}></h3><span>今日待审核订单</span></li>
+                     <li class="font_green"><h3><{$tjdata['dayporder']}></h3><span>今日已审核订单</span></li>
+                     <li><h3><{$tjdata['monthallorder']}></h3><span>本月完成订单</span></li>
+                     <li style="border-right:none;"><h3><{$tjdata['allorder']}></h3><span>完成订单总量</span></li>
+                     <li><h3><{$tjdata['pmember']}></h3><span>会员总数</span></li>
+                     <li><h3><{$tjdata['wshop']}></h3><span>待审核商家</span></li>
+                     <li><h3><{$tjdata['onlineshop']}></h3><span>已上线商家</span></li>
+                     <li><h3><{$tjdata['market']}></h3><span>商城订单</span></li>
+                     <li style="border-right:none;"><h3><{$tjdata['marketg']}></h3><span>商品数量</span></li>
+                 </ul>
+             </div>
+         </div>
+     </div>
+ </div>
+<{/block}>

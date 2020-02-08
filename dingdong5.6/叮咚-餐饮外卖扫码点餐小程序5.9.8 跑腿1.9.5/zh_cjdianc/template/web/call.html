@@ -1,0 +1,130 @@
+{template 'public/header'}
+{template 'public/comhead'}
+<link rel="stylesheet" type="text/css" href="../addons/zh_cjdianc/template/public/ygcss.css">
+<style type="text/css">
+    .timeygbox{display: inline-block;width: 75px;}
+    .ygmargin{margin-top: 10px;color: #999;margin-left: 20px;}
+    input[type="radio"] + label::before {
+        content: "\a0"; /*不换行空格*/
+        display: inline-block;
+        vertical-align: middle;
+        font-size: 16px;
+        width: 1em;
+        height: 1em;
+        margin-right: .4em;
+        border-radius: 50%;
+        border: 2px solid #ddd;
+        text-indent: .15em;
+        line-height: 1; 
+    }
+    input[type="radio"]:checked + label::before {
+        background-color: #44ABF7;
+        background-clip: content-box;
+        padding: .1em;
+        border: 2px solid #44ABF7;
+    }
+    input[type="radio"] {
+        position: absolute;
+        clip: rect(0, 0, 0, 0);
+    }
+    .tip{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-align-items: center;
+        -webkit-justify-content: space-between;
+        border-bottom: 1px solid #cdcdcd;
+    }
+    .tip a{margin-right: 330px;padding:6px 20px;border-radius: 5px;font-size: 14px}
+
+</style>
+<ul class="nav nav-tabs">
+    <span class="ygxian"></span>
+    <div class="ygdangq">当前位置:</div>    
+    <li class="active"><a href="javascript:void(0);">呼叫服务员</a></li>
+</ul>
+<div class="main">
+    <form action="" method="post" class="form-horizontal form" enctype="multipart/form-data" id="invitative">
+        <div class="panel panel-default ygdefault">
+            <div class="tip">
+                <div class="panel-heading wyheader">
+                    呼叫服务员(讯飞在线语音合成应用 地址:http://www.xfyun.cn/)
+                </div>
+             <!--    <a href="{php echo $this->createWebUrl('call',array('op'=>'ok'));}" class="storered">确认呼叫</a> -->
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">呼叫服务员  
+                    </label>
+                    <div class="col-sm-9">
+                        <label class="radio-inline">
+                            <input type="radio" id="emailwy1" name="is_open" value="2" {if $info['is_open']==2 || empty($info['is_open'])}checked{/if} />
+                            <label for="emailwy1">关闭</label>
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" id="emailwy2" name="is_open" value="1" {if $info['is_open']==1}checked{/if} />
+                            <label for="emailwy2">开启</label>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">APPID</label>
+                    <div class="col-sm-10 col-lg-9">
+                        <input id="" name="appid" type="text" class="form-control" value="{$info['appid']}"/>
+                
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">APIKey</label>
+                    <div class="col-sm-10 col-lg-9">
+                        <input id="password" name="apikey" type="text" class="form-control" value="{$info['apikey']}" />
+                       
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <input type="submit" name="submit" value="保存设置" class="btn col-lg-3" style="color: white;background-color: #44ABF7;" />
+            <input type="hidden" name="token" value="{$_W['token']}" />
+            <input type="hidden" name="id" value="{$info['id']}" />
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+    $(function(){
+        $("#frame-10").show();
+        $("#yframe-10").addClass("wyactive");
+    })
+</script>
+{template 'common/footer'}
+    <script type="text/javascript">
+
+$(function(){
+    setInterval(function(){
+               $.ajax({ 
+                type: "post",
+                dataType: "json",
+                url: "{$_W['siteroot']}/app/index.php?i={$_W['uniacid']}&c=entry&do=newcall&m=zh_cjdianc&type=1&store_id={$_COOKIE['storeid']}",
+                success: function (data) {
+                    console.log(data);
+                    var src=data
+                   // if(data=='1'){
+                        $("#myaudio").attr('src',src);
+                     var myAuto = document.getElementById('myaudio');
+                     myAuto.play(); 
+
+                    
+                    //}
+                },
+                error:function (data) {
+                    console.log(data)
+                }
+
+            })
+          },10000);
+})
+    
+</script>
+<audio id="myaudio" src=" " controls="controls"  hidden="true" ></audio>

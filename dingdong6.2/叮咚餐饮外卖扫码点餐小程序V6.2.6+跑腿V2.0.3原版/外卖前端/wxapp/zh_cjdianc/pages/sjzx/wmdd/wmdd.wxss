@@ -1,0 +1,27 @@
+.page{ padding-bottom: 140rpx; }
+.head{ position: fixed; z-index: 999; width: 100%; top: 0; display: flex;flex-direction: row;align-items: center;background: #fff;padding: 20rpx 0; }
+.topnav{ width: 20%; display: flex; flex-direction: column; justify-content: center; align-items: center; color: #999; font-size: 26rpx; }
+.topimg{ border-radius: 10rpx; width: 70rpx; height: 70rpx; margin-bottom: 10rpx; display: flex; flex-direction: row; justify-content: center; align-items: center; }
+.topimg image{ width: 40rpx; height: 40rpx; }
+.main{ padding-top: 170rpx; }
+.ddxh{ font-size: 38rpx; margin-right: 20rpx; }
+.xx{ transform: rotate(0deg); transition: 1s, }
+.xs{ transform: rotate(-180deg); transition: 1s, }
+.weui-cells{ font-size:28rpx; margin-top: 20rpx; }
+.weui-cell:before { border-top: 1rpx solid #efeff4; }
+.weui-cell__hd{ display: flex; justify-content: flex-start; align-items: center; }
+.weui-cell__hd image{ min-width: 50rpx; width: 50rpx; height: 50rpx; margin-right: 20rpx; }
+.cpjg{ min-width: 50rpx; }
+.weui-cell__ft image{ min-width: 30rpx; width: 30rpx; height: 30rpx; margin-left: 20rpx; }
+.weui-cell__ft{ color: #666; }
+.ddxx{ padding: 10rpx 30rpx; border-top: 1rpx solid #efeff4; font-size: 28rpx; color: #333; }
+.ddxx view{ margin: 10rpx 0; }
+.zwdd{ display: flex; flex-direction: column; justify-content: center; align-items: center; }
+.zwdd image{ width: 120rpx; height: 120rpx; margin-bottom: 40rpx; }
+.footbtn{ padding:0 30rpx; display: flex; flex-direction: row; align-items: center; justify-content: space-around; padding-bottom: 30rpx; }
+.footbtn button{ width: 40%; font-size: 28rpx; color: #999; }
+.jjjd{ color: #F8F8F8 }
+.djjd{ color: #fff; }
+.dyxp{padding: 10rpx 20rpx;border: 1rpx solid red;border-radius: 10rpx;width: 140rpx;text-align: center;font-size: 22rpx;}
+.hide{ display: none; }
+.modal1{ position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 9999; }

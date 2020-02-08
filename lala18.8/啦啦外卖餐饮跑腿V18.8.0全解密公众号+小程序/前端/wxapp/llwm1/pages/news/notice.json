@@ -1,0 +1,6 @@
+{
+    "navigationBarTitleText": "公告列表",
+    "navigationBarBackgroundColor": "#33aafc",
+    "navigationBarTextStyle": "white",
+    "enablePullDownRefresh": true
+}

@@ -1,0 +1,174 @@
+ <{if count($cartinfo['goodslist']) > 0}>
+<div class="cart">
+<div class="title">
+<h2><span id="cart_shopName"><{$shopinfo['shopname']}></span></h2>
+</div>
+<div class="cart-panel">
+<table>
+<thead class="cart-head">
+<tr>
+<td class="item-name">菜品</td>
+<td class="item-price">单价</td>
+<td class="item-count">份数</td>
+<td class="item-price-all">金额</td>
+<td class="item-delete"></td>
+</tr>
+</thead>
+<tbody class="item-list">
+ <{foreach from=$cartinfo['goodslist'] item=itv}> 
+	<tr class="item" data-stockid="" id="cartItem_15385629132388989090">
+		<td class="item-name"><{$itv['name']}><{if $itv['stock'] < $itv['count']}><font color=red>库存不足</font><{/if}>
+		     <{if $itv['have_det'] ==1}><font style="font-size:10px;color:#ccc;"><{$itv['gg']['attrname']}></font><{/if}>
+		
+		</td>
+		<td class="item-price">¥<{$itv['cost']}></td>
+		<td class="item-count">
+			<input type="hidden" value="15385629132388989090">
+			<span class="item-minus"  onclick="<{if $itv['have_det']==1}>removeoneproduct(<{$itv['gg']['id']}>,<{$itv['shopid']}>,1);<{else}>removeonedish(<{$itv['id']}>,<{$itv['shopid']}>,1);<{/if}>"  value="-" type="button"></span>
+			<input class="item-count" type="input"  id="cart_count<{$itv['id']}>" value="<{$itv['count']}>">
+			<span class="item-plus"  onclick="<{if $itv['have_det']==1}>uponeproduct(<{$itv['gg']['id']}>,<{$itv['shopid']}>,1,this);<{else}>uponedish(<{$itv['id']}>,<{$itv['shopid']}>,1);<{/if}>" value="+" type="button"></span>
+		</td>
+		<td class="item-price-all">¥<{$itv['cost']*$itv['count']}></td><td class="item-delete"><span class="item-delete-icon">×</span></td>
+	</tr>
+<{/foreach}>
+</tbody>
+</table> 
+	      <{$jisuancost = $cartinfo['cx']['surecost']+$cartinfo['bagcost']+$cartinfo['areacost']+$cartinfo['pscost']}>
+<table class="collect">
+<tbody>
+<tr class="item" data-node="boxPrice" style="display: ;">
+<td class="item-name">餐盒费</td>
+<td class="item-price"></td>
+<td class="item-count"></td>
+<td class="item-price-all">¥<span id="packFee"><{$cartinfo['bagcost']}></span></td>
+<td class="item-delete"></td>
+</tr>
+<tr class="item" data-node="sendPrice" style="">
+<td class="item-name" colspan="3">配送费（不计入起送价）</td>
+<td class="item-price-all">¥<span id="sendFee"><{$cartinfo['pscost']}></span></td>
+<td class="item-delete"></td>
+</tr>
+<tr class="item" data-node="sendPricex" id="fups" style="display:none;">
+<td class="item-name" colspan="3">附加配送费(不计入免配送费)</td>
+<td class="item-price-all">¥<span id="sendFee1">0</span></td>
+<td class="item-delete"></td>
+</tr>
+<tr class="item" data-node="discountNode" style="display:none"></tr><tr class="item" data-node="premiumTr">    <td class="item-name" colspan="2">                    立减优惠            <em class="jian-min-icon premium-icon"><img src="http://waimai.baidu.com/static/forpc/jian_s.png"></em>            </td>    <td class="item-count">            </td>    <td class="item-price-all">                     - ¥<span><{$cartinfo['cx']['downcost']}></span>             </td>    <td></td></tr>
+<tr class="item item-coupon" id="item-coupon" >
+
+
+<td class="item-name" colspan="5">    <p>        <span class="checkbox " name="use_coupon" style="display: none;"></span><label>使用优惠券</label>    </p>        
+ <{if $member['uid'] > 0}>
+ <p class="conflict-text"  id="yhxx" >
+ <{if empty($juanlist) }>
+  <li>暂无优惠券<li>
+ <{else}>
+ 
+  	<{foreach from=$juanlist item=itemm}> 
+	<li class="conflict-text"   >
+	<input type="radio" paytype="<{$itemm['paytype']}>" name="buyjuan" <{if $cartinfo['sum']+$cartinfo['bagcost']+$cartinfo['pscost']-$cartinfo['cx']['downcost'] < $itemm['limitcost']}> disabled <{/if}> value="<{$itemm['id']}>" data="<{$itemm['cost']}>" data2="<{$itemm['limitcost']}>"><{$itemm['name']}>
+	(说明：优惠<{$itemm['cost']}>元,
+								<{assign var=paytypearr value=","|explode:$itemm['paytype']}> 
+									<{if  in_array(1,$paytypearr ) &&  in_array(2,$paytypearr )  }>支持货到付款和在线支付<{/if}>
+									<{if  in_array(1,$paytypearr ) &&  !(in_array(2,$paytypearr ))  }>仅限货到付款<{/if}>
+									<{if  in_array(2,$paytypearr ) &&  !(in_array(1,$paytypearr ))  }>仅限在线支付<{/if}>
+	),注意：订单最低金额<{$itemm['limitcost']}>元,截止时间:<{$itemm['endtime']|date_format:"%Y-%m-%d"}><li>  
+        				   	<{/foreach}> 
+	<{/if}>
+ </p>  
+<{else}>
+ <p class="conflict-text">假如你有优惠劵,请先登录在使用优惠劵<a href="<{ofunc type=url link="/member/login"}>">(点击登录)</a></p> 
+<{/if}>
+ <div class="coupon-area" style="display:none;">        <input type="hidden" name="coupon_id" value="">        <ul class="coupon-list coupon-other">                            <li class="coupon-item item-other">                    <div class="item-verify">                        <input type="text" name="coupon_password" placeholder="请输入代金券密码" data-node="coupon-input">                        <button data-node="coupon-check" name="verify_btn">验证</button>                    </div>                </li>                    </ul>    </div></td></tr>
+
+ 
+ 
+ </tbody>
+</table>
+<div class="bottom-div">
+<div class="warning-tips" style="display: none;">
+<a class="delivery-tip" href="#">
+您的主食点了吗？</a>
+</div>
+<div class="order-msg">
+总价：<span class="order-total">¥<span id="total_money" data="<{$jisuancost}>"><{$jisuancost}></span></span>
+<p data-node="discountMsg">本单已优惠 ¥ <span class="bdyhcost"><{$cartinfo['cx']['downcost']}></span></p>
+</div>
+<div class="clearfix"></div>
+<div id="activityTip" class="activity-tip" style="display:none">
+<p>提示：绑定手机号才可享受立减、代金券等优惠哦！</p>
+<p><a href="javascript:void(0)" class="verify-link">立即绑定</a></p>
+</div>
+<div class=""></div>
+</div>
+</div>
+
+</div>
+<div class="cart-bottom"></div>
+
+   
+ 
+<{/if}>
+			
+     
+	   
+  
+
+	  
+   <{if count($cartinfo['goodslist']) == 0}>
+     
+    <div class="cart">
+<div class="title">
+<h2><span id="cart_shopName"><{$shopxinxi['shopname']}></span></h2>
+</div>
+
+<div class="cart-empty hide" style="display: block;">
+<table>
+<tbody><tr>
+<td width="90"><span class="logo"></span></td>
+<td class="msg">
+<p>您的购物车为空，</p>
+<p>先到<a href="<{ofunc type=url link="/shop/index/id/<{$shopxinxi['id']}>"}>"><{$shopxinxi['shopname']}></a>选择美食吧</p>
+</td>
+</tr>
+</tbody></table>
+</div>
+</div>
+
+   <{/if}> 
+
+   
+   
+   <script> 
+   
+   $(".conflict-text input").click(function(){	
+   	var juanpaytype = $(this).attr('paytype');
+	var curpaytype =  $(".pay-list tr.select").attr('data-value');
+ 	if( curpaytype == 0 ){
+		if(  juanpaytype.indexOf(1) > -1  ){
+ 		 	var yhcost = $(".conflict-text input[type='radio']:checked").attr('data');
+			var zongcost = <{$jisuancost}>;
+			
+			var yhgdcost = Number(zongcost)-Number(yhcost);
+			$(".bdyhcost").text(yhcost);
+			$("#total_money").text(yhgdcost);
+		} 
+	}
+	
+	if( curpaytype == 1 ){
+		if(  juanpaytype.indexOf(2) > -1  ){
+ 		 	var yhcost = $(".conflict-text input[type='radio']:checked").attr('data');
+				var zongcost = <{$jisuancost}>;
+				
+				var yhgdcost = Number(zongcost)-Number(yhcost);
+				$(".bdyhcost").text(yhcost);
+				$("#total_money").text(yhgdcost);
+		} 
+	}
+   
+   
+	
+});
+
+   
+   </script>

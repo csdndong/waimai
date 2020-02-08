@@ -1,0 +1,77 @@
+{itemplate 'public/header'}
+<div class="page clearfix">
+	<form action="" class="form form-validate form-horizontal" method="post">
+		<h3>支付设置</h3>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">支付方式</label>
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				{if in_array('wechat', $pay)}
+				<div class="checkbox checkbox-inline">
+					<input type="checkbox" name="payment[]" id="payment-wechat" value="wechat" {if in_array('wechat', $tangshi['payment'])}checked{/if}>
+					<label for="payment-wechat">微信支付</label>
+				</div>
+				{/if}
+				{if in_array('yimafu', $pay)}
+				<div class="checkbox checkbox-inline">
+					<input type="checkbox" name="payment[]" id="payment-yimafu" value="yimafu" {if in_array('yimafu', $tangshi['payment'])}checked{/if}>
+					<label for="payment-yimafu">一码付</label>
+				</div>
+				{/if}
+				{if in_array('alipay', $pay)}
+				<div class="checkbox checkbox-inline">
+					<input type="checkbox" name="payment[]" id="payment-alipay" value="alipay" {if in_array('alipay', $tangshi['payment'])}checked{/if}>
+					<label for="payment-alipay">支付宝</label>
+				</div>
+				{/if}
+				{if in_array('credit', $pay)}
+				<div class="checkbox checkbox-inline">
+					<input type="checkbox" name="payment[]" id="payment-credit" value="credit" {if in_array('credit', $tangshi['payment'])}checked{/if}>
+					<label for="payment-credit">余额支付</label>
+				</div>
+				{/if}
+				<div class="checkbox checkbox-inline">
+					<input type="checkbox" name="payment[]" id="payment-finishMeal" value="finishMeal" {if in_array('finishMeal', $tangshi['payment'])}checked{/if}>
+					<label for="payment-finishMeal">餐后付款</label>
+				</div>
+				<span class="help-block">商户可根据自己的情况选择支付方式.更多支付方式请联系公众号管理员开通</span>
+			</div>
+		</div>
+		<h3>桌台设置</h3>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">桌台码是否可多次扫码下单</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="radio radio-inline">
+					<input type="radio" value="1" name="status_not_update" id="status_not_update-1" {if $tangshi['table']['status_not_update'] == 1}checked{/if}>
+					<label for="status_not_update-1">是</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" value="0" name="status_not_update" id="status_not_update-0" {if !$tangshi['table']['status_not_update']}checked{/if}>
+					<label for="status_not_update-0">否</label>
+				</div>
+				<div class="help-block">设置为是，桌台已经被下单，处于非空下状态，仍可被扫描下单；否，则桌台处于空闲状态时，才能扫码下单。</div>
+			</div>
+		</div>
+		<h3>拼单设置</h3>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">是否开启拼单功能</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="radio radio-inline">
+					<input type="radio" value="1" name="pindan_status" id="pindan_status-1" {if $tangshi['pindan_status'] == 1}checked{/if}>
+					<label for="pindan_status-1">是</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" value="0" name="pindan_status" id="pindan_status-0" {if !$tangshi['pindan_status']}checked{/if}>
+					<label for="pindan_status-0">否</label>
+				</div>
+				<div class="help-block">设置为是，多人同时扫码时会进行拼单。</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<input type="hidden" name="token" value="{$_W['token']}">
+				<input type="submit" value="提交" class="btn btn-primary">
+			</div>
+		</div>
+	</form>
+</div>
+{itemplate 'public/footer'}

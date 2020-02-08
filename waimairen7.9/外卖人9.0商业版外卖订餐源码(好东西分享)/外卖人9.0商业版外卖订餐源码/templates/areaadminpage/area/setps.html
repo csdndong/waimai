@@ -1,0 +1,294 @@
+<html xmlns="http://www.w3.org/1999/xhtml"><head> 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+<meta http-equiv="Content-Language" content="zh-CN"> 
+<meta content="all" name="robots"> 
+<meta name="description" content=""> 
+<meta content="" name="keywords"> 
+<title>配送设置</title> 
+<link rel="stylesheet" type="text/css" href="<{$siteurl}>/templates/<{$tempdir}>/public/css/admin.css">
+ 
+ <script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/jquery.js" type="text/javascript" language="javascript"></script>  
+ <script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/artDialog.js?skin=blue"></script>
+</head>
+<body style="background:none;height:600px;">
+	 <form  method="post" name="upform" action="<{ofunc type=url link="/areaadminpage/area/module/savesetps"}>" style="text-align:center;">  
+	<div style="width:800px;">
+	<div style="width:360px;float:left;height:300px;OVERFLOW-Y: auto;OVERFLOW-X: hidden;">
+	 	<table>
+	 		
+	 		<tr><th colspan="2" style="text-align:left;">配送设置</th></tr>
+	 		
+	 		<tr>
+	 			<td  >配送类型:</td>
+				<td>  
+					 
+					<input type="radio" name="sendtype" value="1" <{if $shopdetinfo['sendtype'] ==1}>checked<{/if}>>店铺配送 
+					<{if isset($psbopen) && $psbopen==1}><input type="radio" name="sendtype" value="2" <{if $shopdetinfo['sendtype'] == 2}>checked<{/if}>>平台配送(配送宝)<{/if}>
+				</td>
+	 		</tr>
+			<{if isset($psbopen) && $psbopen==1}>
+				<{if empty($shopinfo['psbaccid']) }>
+			    <tr class="psbtype" style="display:none;">
+					<td  >对接类型:</td><td>  
+						<input type="radio" name="duijietype" value="1"  >自动对接
+						<input type="radio" name="duijietype" value="2"  >手动对接
+					</td>
+				</tr>
+				
+				<tr class="psselect" style="display:none;">
+					<td>  
+                                            <select name="stationid" onchange="loadgroup();"></select>
+					</td>
+				</tr>
+				<tr class="psselect" style="display:none;">
+					<td>  
+                                            <select name="psgroupid"></select>
+					</td>
+				</tr>
+				<tr class="psselect" style="display:none;">
+					<td>  
+                                            <select name="bizdistrictid"></select>
+					</td>
+				</tr>
+				<tr class="psselect" style="display:none;">
+					<td>  
+                                            <a href="#" onclick="doautoadd();">确认对接</a>
+					</td>
+				</tr>
+				<{/if}>
+				<tr class="psbps" <{if $shopdetinfo['sendtype'] != 2}>style="display:none;"<{/if}> > <td>配送宝链接:</td><td> <input type="text" name="psblink" value="<{$shopinfo['psblink']}>"></td></tr> 
+				<tr class="psbps" <{if $shopdetinfo['sendtype'] != 2}>style="display:none;"<{/if}> > <td>配送宝商家id:</td><td> <input type="text" name="psbaccid" value="<{$shopinfo['psbaccid']}>"></td></tr>
+				<tr class="psbps" <{if $shopdetinfo['sendtype'] != 2}>style="display:none;"<{/if}> > <td>配送宝key:</td><td> <input type="text" name="psbkey" value="<{$shopinfo['psbkey']}>"></td></tr>
+				<tr class="psbps" <{if $shopdetinfo['sendtype'] != 2}>style="display:none;"<{/if}> > <td>配送宝code:</td><td> <input type="text" name="psbcode" value="<{$shopinfo['psbcode']}>"><a href="javascript:teskpsb();" id="testrestul">测试对接</a></td></tr>
+			<{/if}>
+			
+	 		 
+	 		<tr class="showbangjing" id="showbangjing"> <td><{if $shopdetinfo['sendtype'] ==1}>店铺<{else}>平台<{/if}>配送半径</td><td> <input type="text" name="pradius" value="<{$shopdetinfo['pradius']}>" style="width:50px;"  >千米 </td></tr>
+			 
+	   
+	  
+	 				
+	 		</table>     
+   	 
+	  <input type="hidden" value="<{$shopdetinfo['shopid']}>" name="shopid" />
+	
+	</div>
+        <div style="width:130px;float:left;height:50px;OVERFLOW-Y: auto;OVERFLOW-X: hidden;margin-top:50%" id="arealist">
+            <input type="submit" value="确认提交" style=" width:120px;height:40px;font-size:14px;color:#fafafa;background-color:#f8644b;">
+	</div>
+
+
+	</div>
+  </form>
+    <style>
+        .button{
+            width: 120px;
+            height: 40px;
+            font-size: 14px;
+            color: #fafafa;
+            background-color: #f8644b;
+            border-radius: 4px;
+            cursor: pointer;
+        } 
+    </style>
+<script>
+var checklocation = '<{$locationtype}>';
+$(function(){ 
+	/*
+	if(checklocation == 1){
+	 
+	  $('.showpesong').hide();
+	  doselect(); 
+	}else{
+		$('.showbangjing').hide();
+	}*/
+	<!-- doselect(); -->
+	 $('input[name="sendtype"]').bind('click',function(){
+        var sendtype = $('input[name="sendtype"]:checked ').val();
+        if(sendtype == 2){
+			if($('.psbtype').length > 0){
+				$('.psbtype').show();
+			}else{ 
+				$('.psbps').show();
+			}
+        }else{
+            $('.psbps').hide();
+			$('.psbtype').hide();
+             
+        }
+    });
+	$('input[name="duijietype"]').bind('click',function(){
+        var sendtype = $('input[name="duijietype"]:checked ').val();
+        if(sendtype == 1){ 
+			$('.psbps').hide();
+			$('.psselect').show(); 
+			loadstation();
+			
+        }else{
+            $('.psbps').show(); 
+			$('.psselect').hide();
+        }
+    });
+	
+});
+
+function doselect(){
+	var bangjing = $('input[name="pradius"]').val();
+	var htmls = '';
+	var checkleng = Number(<{$dolenth}>);
+	$('.bangjingvalue').remove();
+	for(var i=0;i<bangjing;i++){
+		var c = i+1; 
+		if(i < checkleng){
+		<{foreach from=$shopvalues key=mykey item=items}>
+		  if(i == <{$mykey}>){
+	     	htmls += '<tr class="bangjingvalue"><td>'+i+'-'+c+'千米配送费:</td><td>  <input type="text" name="radiusvalue'+i+'" value="<{$items}>" style="width:50px;"  >元 </td></tr>';
+	    }
+		<{/foreach}>
+		
+	  }else{
+	  	htmls += '<tr class="bangjingvalue"><td>'+i+'-'+c+'千米配送费:</td><td>  <input type="text" name="radiusvalue'+i+'" value="" style="width:50px;"  >元 </td></tr>';
+	  }
+		
+	}
+	$('#showbangjing').after(htmls);
+
+	//
+}
+function teskpsb(){ 
+	var url = '<{ofunc type=url link="/areaadminpage/area/module/testpsblink/datatype/json/random/@random@"}>'; 
+	 $.ajax({
+	 type: 'post',
+	 async:true,
+	 data:{'psblink':$('input[name="psblink"]').val(),'bizid':$('input[name="psbaccid"]').val(),'psbkey':$('input[name="psbkey"]').val(),'psbcode':$('input[name="psbcode"]').val()},
+	 url: url.replace('@random@', 1+Math.round(Math.random()*1000)), 
+	 dataType: 'json',success: function(content) {  
+		if(content.error == false){
+			 $('#testrestul').html('测试成功');
+		}else{
+			if(content.error == true)
+			{
+				 $('#testrestul').html(content.msg); 
+			}else{
+				 $('#testrestul').html(content); 
+			}
+		} 
+		},
+	error: function(content) {   
+		 $('#testrestul').html('数据获取失败'); 
+	  }
+   });   
+}
+
+function loadstation(){
+	var url = '<{ofunc type=url link="/areaadminpage/area/module/getstaionlist/datatype/json/random/@random@"}>'; 
+	$('select[name="stationid"]').html('');
+	$('select[name="psgroupid"]').html('');
+	$('select[name="bizdistrictid"]').html('');
+	 $.ajax({
+	 type: 'post',
+	 async:true,
+	 data:{},
+	 url: url.replace('@random@', 1+Math.round(Math.random()*1000)), 
+	 dataType: 'json',success: function(content) {  
+		if(content.error == false){
+			// $('#testrestul').html('测试成功'); 
+			if(content.msg.stationlist.length > 0){
+			   for(var i = 0;i<content.msg.stationlist.length;i++){
+			        $('select[name="stationid"]').append('<option value="'+content.msg.stationlist[i].sid+'">'+content.msg.stationlist[i].sname+'</option>');
+			   }
+			} 
+			setTimeout("loadgroup()",500); 
+			 
+		}else{
+			if(content.error == true)
+			{
+			alert(content.msg);
+				 //$('#testrestul').html(); 
+			}else{
+			alert(content);
+				// $('#testrestul').html(content); 
+			}
+		} 
+		},
+	error: function(content) {   
+		 alert('数据获取失败');// $('#testrestul').html(''); 
+	  }
+   });   
+}
+function doautoadd(){
+	var url = '<{ofunc type=url link="/areaadminpage/area/module/addacounttopsb/datatype/json/random/@random@"}>'; 
+	var stationid = $("select[name='stationid']").find("option:selected").val();
+	var shopid = $("input[name='shopid']").val();
+	var psgroupid = $("select[name='psgroupid']").find("option:selected").val();
+	var bizdistrictid = $("select[name='bizdistrictid']").find("option:selected").val();
+	 $.ajax({
+	 type: 'post',
+	 async:true,
+	 data:{'stationid':stationid,'shopid':shopid,'psgroupid':psgroupid,'bizdistrictid':bizdistrictid},
+	 url: url.replace('@random@', 1+Math.round(Math.random()*1000)), 
+	 dataType: 'json',success: function(content) {  
+		if(content.error == false){
+			// $('#testrestul').html('测试成功'); 
+			 location.reload();  
+		}else{
+			if(content.error == true)
+			{
+			alert(content.msg);
+				 //$('#testrestul').html(); 
+			}else{
+			alert(content);
+				// $('#testrestul').html(content); 
+			}
+		} 
+		},
+	error: function(content) {   
+		 alert('数据获取失败');// $('#testrestul').html(''); 
+	  }
+   });  
+}
+function loadgroup(){
+$('select[name="psgroupid"]').html('');
+	$('select[name="bizdistrictid"]').html('');
+	var url = '<{ofunc type=url link="/areaadminpage/area/module/getstationchild/datatype/json/random/@random@"}>'; 
+	var stationid = $("select[name='stationid']").find("option:selected").val();
+	 $.ajax({
+	 type: 'post',
+	 async:true,
+	 data:{'stationid':stationid},
+	 url: url.replace('@random@', 1+Math.round(Math.random()*1000)), 
+	 dataType: 'json',success: function(content) {  
+		if(content.error == false){
+			// $('#testrestul').html('测试成功'); 
+			if(content.msg.psgroup.length > 0){
+			   for(var i = 0;i<content.msg.psgroup.length;i++){
+			        $('select[name="psgroupid"]').append('<option value="'+content.msg.psgroup[i].id+'">'+content.msg.psgroup[i].name+'</option>');
+			   }
+			} 
+			if(content.msg.bizdistrict.length > 0){
+			   for(var i = 0;i<content.msg.bizdistrict.length;i++){
+			        $('select[name="bizdistrictid"]').append('<option value="'+content.msg.bizdistrict[i].bizdistrictid+'">'+content.msg.bizdistrict[i].bizdistrictname+'</option>');
+			   }
+			}
+			 
+		}else{
+			if(content.error == true)
+			{
+			alert(content.msg);
+				 //$('#testrestul').html(); 
+			}else{
+			alert(content);
+				// $('#testrestul').html(content); 
+			}
+		} 
+		},
+	error: function(content) {   
+		 alert('数据获取失败');// $('#testrestul').html(''); 
+	  }
+   }); 
+
+
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,663 @@
+ <{extends file="<{$tempdir}>/public/site.html"}>  
+<{block name=extendcss}>
+<link rel="stylesheet" type="text/css" href="<{$siteurl}>/templates/<{$tempdir}>/public/css/market.css">  
+<link rel="stylesheet" type="text/css" href="<{$siteurl}>/templates/<{$tempdir}>/public/css/newmarket.css">  
+  <link rel="stylesheet" href="<{$siteurl}>/templates/<{$tempdir}>/public/css/ladda-themeless.min.css?v=20141030">
+  <link rel="stylesheet" href="<{$siteurl}>/templates/<{$tempdir}>/public/css/dorm.css">
+<style>
+a {
+text-decoration: none;
+color: #000;
+}
+</style>
+<{/block}>
+ <{block name=extjs}>
+
+   <script src="<{$siteurl}>/templates/<{$tempdir}>/public/newmarketjs/ShopCart.js?v=20141030" type="text/javascript"></script>
+
+    <script src="<{$siteurl}>/templates/<{$tempdir}>/public/newmarketjs/jquery.flexslider.min.js?v=20141030" type="text/javascript"></script>
+
+    <script src="<{$siteurl}>/templates/<{$tempdir}>/public/newmarketjs/jquery.lazyload.min.js?v=20141030" type="text/javascript"></script>
+
+    <script src="<{$siteurl}>/templates/<{$tempdir}>/public/newmarketjs/layer.js?v=20141030" type="text/javascript"></script>
+	
+	  <script src="<{$siteurl}>/templates/<{$tempdir}>/public/newmarketjs/loadBtn.js?v=20141030" type="text/javascript"></script>
+	
+	  
+	  
+
+  
+
+  <script type="text/javascript">    var $Maticsoft = { BasePath: '/', CurrentArea: 'Shop' };</script>
+ 
+ <{/block}>
+<{block name=extendjs}> 
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/slides.jquery.js"> </script>
+ <script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/marketcart.js" type="text/javascript" language="javascript"></script>
+<script>
+		var shopid = "<{$shopinfo['id']}>"; 
+	$(function(){
+			$('#bannerBox').slides({
+				preload: true,
+				preloadImage: '/upload/images/shop/loading.gif',
+				play: 5000,
+				pause: 2500,
+				hoverPause: true,
+				generatePagination:false
+			});
+		}); 
+		var findtype = '<{$findtype}>';
+		
+		if(findtype == 1){
+			alert('你选择的区域范围内无小卖铺');
+			window.location.href= '<{ofunc type=url link="/site/guide"}>';
+		}
+		
+		
+		var locationfalse = false;
+</script>
+ 
+<{/block}>
+<{block name=bgshow}><div class="mmbg" <{if !empty($sitebk)}>style="background:#f5f5f4;"<{/if}>></div><{/block}>
+<{block name=shophide}><{/block}>
+<{block name=sitetitle}>零食铺<{/block}>
+ <{block name=bodylist}> 
+ 
+ 
+<style>
+
+.shopheader{ display:none; position:relative;  background:#fba6a6; width:100%;height:130px;}
+.spinfo{ position:relative;padding:15px 21px 0px 21px;width:331px ; float:left; height:111px; border:2px #fedddd solid;}
+.spinfoLeft{ width:76px; height:76px; background:#ffffff; padding:6px; float:left;}
+.spinfoLeft img { width:82px; height:82px; }
+.spinfoRight{ position:relative; width:212px; padding-left:17px; float:left;}
+.spinfoRight ul li{ height:29px; line-height:29px; color:#ffffff; font-family:微软雅黑; font-size:14px; }
+.spinfodrwo ul li{ height:29px; line-height:29px; color:#ffffff; font-family:微软雅黑; font-size:14px; }
+
+.spinfodrwo{ display:none; position:absolute; right:0px; z-index:999999999; top:130px; background:#fba6a6; padding:15px 21px 0px 21px;width:331px;  border:2px #fedddd solid; border-top:none; height:66px;}
+
+
+.spiRig{float:right;  height:130px; line-height:130px; text-align:center; padding-top:20px;}
+.spiRig p{font-family:微软雅黑;height: 25px; line-height:25px;color:#ffffff;}
+.spiRig p.sp{font-size: 26px;font-weight: bold; margin-top:25px;}
+.spiRig li{float:left; width:90px; height:90px; margin-left:30px; background:url(<{$siteurl}>/templates/<{$tempdir}>/public/images/yuanB.png) center no-repeat;}
+</style>
+
+<style>
+.m-cf {
+width: 1156px;
+margin:20px auto 0px;
+height: 66px;
+padding: 20px 22px;
+background-color: #ffffff;
+}
+.f-radius {
+border-radius: 2px;
+-moz-border-radius: 2px;
+-webkit-border-radius: 2px;
+}
+.f-shadow-con {
+background-color: #ffffff;
+box-shadow: 0px 1px 4px 2px rgba(0, 0, 0, 0.1);
+-moz-box-shadow: 0px 1px 4px 2px rgba(0, 0, 0, 0.1);
+-webkit-box-shadow: 0px 1px 4px 2px rgba(0, 0, 0, 0.1);
+filter: progid:DXImageTransform.Microsoft.Shadow(color=#f0f0f0, Direction=2, Strength=2);
+}
+.m-cf .logo {
+float: left;
+height: 66px;
+width: 66px;
+}
+.m-cf .title {
+float: left;
+margin-top: 7px;
+margin-left: 15px;
+width: 260px;
+margin-right: 15px;
+}
+.m-cf .title h3 {
+font-size: 18px;
+font-weight: bold;
+color: #535353;
+margin-bottom: 0px;
+cursor: pointer;
+width: 260px;
+text-overflow: ellipsis;
+overflow: hidden;
+white-space: nowrap;
+height: 25px;
+margin-top: 5px;
+margin-top: 5px;
+}
+.m-cf .title h3 #supplierName_span {
+display: inline-block;
+max-width: 180px;
+zoom: 1;
+text-overflow: ellipsis;
+overflow: hidden;
+white-space: nowrap;
+float: left;
+}
+a {
+text-decoration: none;
+color: #535353;
+}
+.service_status_0 {
+font-size: 14px;
+font-family: "Microsoft YaHei",微软雅黑,"Microsoft JhengHei", "黑体";
+font-weight: normal;
+margin-left: 20px;
+height: 31px;
+display: inline-block;
+color: #ff7c24;
+cursor: auto;
+}
+.f-fl {
+float: left;
+}
+.m-cf .num {
+margin-left: 5px;
+color: #ffc700;
+}
+.f-14 {
+font-size: 14px;
+}
+.m-cf .liang {
+margin-left: 5px;
+color: #666;
+}
+.f-13 {
+font-size: 13px;
+}
+.m-cf .shoucang {
+float: right;
+padding-left: 20px;
+padding-right: 20px;
+margin-top: 5px;
+}
+.m-cf .shoucang a p {
+padding-top: 41px;
+}
+a.l-shoucang {
+background: url(<{$siteurl}>/templates/<{$tempdir}>/public/images/all.png) no-repeat -353px -98px;
+width: 40px;
+height: 40px;
+display: block;
+}
+a.l-shoucang11{
+background: url(<{$siteurl}>/templates/<{$tempdir}>/public/images/all.png) no-repeat -397px -98px;
+width: 40px;
+height: 40px;
+display: block;
+}
+.m-cf .sudu {
+float: right;
+border-right: 1px solid #ccc;
+padding-right: 20px;
+margin-top: 5px;
+}
+.m-cf .sudu span {
+color: #ff6931;
+}
+.f-36 {
+font-size: 36px;
+}
+.m-cf .sudu span {
+color: #ff6931;
+}
+
+.m-cf .sudu p {
+text-align: center;
+padding-top: 5px;
+}
+.m-cf .sudus {
+float: right;
+border-right: 1px solid #ccc;
+padding-right: 20px;
+margin-top: 5px;
+margin-right: 20px;
+}.m-cf .sudus span {
+color: #ff6931;
+}
+.f-36 {
+font-size: 36px;
+}
+.Star_y {
+  background: url(<{$siteurl}>/templates/<{$tempdir}>/public/images/shop/Star_y.gif) repeat-x scroll 0 0 transparent;
+  display: inline-block;
+  height: 12px;
+}
+.Star_g {
+  background: url(<{$siteurl}>/templates/<{$tempdir}>/public/images/shop/Star_g.gif) repeat-x scroll 0 0 transparent;
+  display: inline-block;
+  font-size: 1%;
+  height: 12px;
+  line-height: 12px !important;
+  margin: 3px 0 0;
+  width: 60px;
+}
+
+
+	   .m-cf .sudus{margin-top:0px;  height: 60px;}
+	   .m-cf .sudu{ margin-top:0px; height: 60px;}
+	   .f-36{font-size:30px;}
+	 
+	 
+</style>
+ 
+<div class="m-cf f-shadow-con f-radius" id="restaurant-panel">
+                <div class="logo" style="float: left;
+height: 66px;
+width: 66px;
+margin: 0px;">
+	            
+					
+						<img <{ofunc type=img  link="<{$shopinfo['shoplogo']}>"}> width="66px" height="66px">
+					
+					
+				
+                </div>
+                <div class="title">
+                    <h3 class="f-dian c-24231e">
+                     	<a href="javascript:void(0);" id="supplierName_span" title="<{$shopinfo['shopname']}>"><{$shopinfo['shopname']}></a>
+                     	<span class="status service_status_0" id="status_resturant"><{$shopinfo['opentype']}>
+						<{if $shopopeninfo['opentype'] ==2}>正在营业
+                    <{elseif $shopopeninfo['opentype']==3}>休息中,但接受预定
+                    <{else}>休息中
+                    <{/if}>
+						
+						</span>
+                     </h3>
+                    <span class="f-fl f-s4">
+                      <div class="hc_xinxin_div" style="margin:3px 3px 0 0;"> <span class="Star_g" original-title="<{$shopinfo['point']*20}>" style="margin:0px 0px 0px 0px;"> <span class="Star_y" style="width:<{$shopinfo['point']*20}>%;"></span> </span> </div>
+				
+                    </span>
+                    <span class="f-14 num c-999">  <{$shopinfo['point']}>.0</span>
+                    <span class="f-13 liang">  
+					
+					<{foreach from=$mainattr item=itvv}>
+			
+						 <{foreach from=$shopattr item=itv}>
+							
+							 <{if $itv['firstattr'] == $itvv['id']}>
+							     <{if $itvv['type'] == 'checkbox'}>
+									<{$itv['value']}>
+								 <{/if}>
+							 <{/if}>
+							
+						 <{/foreach}>
+			  
+			       <{/foreach}></span>
+                </div>
+                
+                
+                <div class="shoucang" onclick="favor()">
+                	
+                	
+                		<a href="javascript:void(0);" <{if !empty($collect)}> style="display:none;" <{/if}>  onclick="myFavorite2();" id="AddFavShop"  class="favor_0 l-shoucang" id="isFavor">
+						
+						<p class="f-13" id="favor">未收藏</p>
+						
+						</a>
+						
+						
+						<a href="javascript:void(0);" <{if empty($collect)}> style="display:none; " <{/if}> onclick="delFav();"   id="CancelFavShop"  class="favor_0 l-shoucang11" id="isFavor"><p class="f-13" id="favor">已收藏</p></a>
+                	
+                </div>
+                <div class="sudu">
+                	<div>
+                		<span class="f-36">						
+						
+						<{$shopinfo['arrivetime']}>
+                    </span><span class="f-14">分钟</span>
+                    <p class="f-13" style="padding-top:0px;">送餐速度</p></div>
+                </div>
+                <div class="sudus">
+                	<div>
+                		<span class="f-36" id="deliveryLeastValue"><{$shopinfo['limitcost']}></span><span class="f-14">元</span>
+                    <p class="f-13">起送价</p></div>
+                </div>
+				  <div class="sudus">
+                	<div>
+                		<span class="f-36" id="deliveryLeastValue"><{$shopinfo['pscost']}></span><span class="f-14">元</span>
+                    <p class="f-13">配送费</p></div>
+                </div>
+				 
+            </div>
+
+			
+			
+			
+			
+			<div class="container clearfix" style="width:1200px; margin:0 auto;">
+  <div class="row">
+  
+  
+  
+  <section class="container home-tuan-subcat-box">
+	<div class="container home-tuan-subcat">
+		<ul class="clearfix">
+			<li class="first"></li>
+			<li data-spm="0" class="current"><a href="javascript:void(0);" id="allfoodshow">全部</a></li>
+			
+			<{foreach from=$catlist item=items}>
+			
+			<li data-spm="<{$items['id']}>"><a href="javascript:void(0);"   class="hassub"><{$items['name']}><i class="arr-down"></i></a></li>
+			
+			 <{/foreach}> 
+		
+		</ul>
+		<div class="tuan-search" style="width:256px;">
+		<form action="/search/" id="J_tuan_search">
+			<input  style="width:236px;" type="text" id="bldsearch" class="input J_input" name="keyword" value="" placeholder="请输入商品名称搜索" autocomplete="off" maxlength="200">
+			
+		</form>
+		<script>
+		
+		
+							//输入即使搜索商品
+									$("#bldsearch").keyup(function(){
+											
+											var  name= $('#bldsearch').val();
+											
+											//$(".goodlist").hide();
+											 
+											 name = escape(name);
+											// alert(name);
+											var templist = $('#itemlist').find('.item-wrap');
+											for(var i=0;i<$(templist).length;i++){
+											   var checkstr = $(templist).eq(i).attr('goodname');
+											 
+											   checkstr = escape(checkstr); 
+											   if(checkstr.indexOf(name) < 0){
+											      $(templist).eq(i).hide();
+											   }else{
+											   //还需要检测 是否是显示分类的;											   
+												/* 	if( $(templist).eq(i).is(":visible") ){
+													alert(1);
+													$(templist).eq(i).show();
+													}
+													
+													if( $(templist).eq(i).is(":hidden") ){
+														alert(0);
+														$(templist).eq(i).hide();
+													}
+													*/
+												$(templist).eq(i).show();		
+													
+											   }
+											}
+											 
+											
+											
+											
+											
+											//var url = siteurl+'/index.php?ctrl=wxsite&action=shopshow&id='+shopid+'&shopsearch='+name;
+																		
+										   // location.href=url;
+										   
+										
+										   
+								
+									});
+		
+		</script>
+		</div>
+		</div>
+		
+		<div class="container home-tuan-subcat2" id="twocatelist" style="display:none;">
+			<ul class="clearfix">
+				<li  class="twocateall"><a class="current" href="javascript:void(0);" data-spm="">全部</a></li>
+			
+				<{foreach from=$catlist item=items}>
+					<{foreach from=$items['det'] item=itv}>
+				<li style="display:none;" class="twocategood_<{$itv['parent_id']}>"><a data-spm="<{$itv['id']}>"  href="javascript:void(0); "><{$itv['name']}>(<{$itv['shuliang']}>)</a></li>
+					<{/foreach}>
+				  <{/foreach}>
+			
+			</ul>
+		
+		</div>
+</section>
+  
+  <script>
+	$(".home-tuan-subcat li").click(function(){
+		$(this).siblings().removeClass("current").end().addClass ("current");
+		var currparentcateid = $(".home-tuan-subcat li.current").attr('data-spm');
+		$("#twocatelist li").hide();
+		if( currparentcateid == 0 ){
+			$("#twocatelist").hide();
+			$("#itemlist .item-wrap").show();
+			
+		}else{
+			$(".twocateall").show();
+			$("#twocatelist").show();
+			$(".twocategood_"+currparentcateid).show();
+			
+			$("#itemlist .item-wrap").hide();
+			$("#itemlist").find( $(".parentid_"+currparentcateid) ).show();
+			
+		}
+	});
+	
+	$(".home-tuan-subcat2 li a").click(function(){
+		$(this).siblings().removeClass("current").end().addClass ("current");
+		var currparentcateid = $(".home-tuan-subcat li.current").attr('data-spm');
+		var currtwocateid = $(this).attr('data-spm');
+		
+		if( currtwocateid == 0 ){
+			$("#itemlist").find( $(".parentid_"+currparentcateid) ).show();
+		}else{
+			$("#itemlist .item-wrap").hide();
+			$("#itemlist").find( $(".twotypeid_"+currparentcateid+currtwocateid) ).show();
+			
+		}
+		
+	});
+  </script>
+
+  
+  
+  
+
+    <div class="itemlist clearfix" id="itemlist" style="margin-bottom:20px;">
+  <{foreach from=$catlist item=items}>
+  
+
+  
+  	<{if !empty($items['ids'])}> 
+	<{load_data assign="listdet" table="goods"   where="shopid = '<{$shopinfo['id']}>' and typeid in(<{$items['ids']}>) "   orderby="good_order desc"   limit="1000" }> 
+        	 <{foreach from=$listdet['list'] item=itk}>
+			   
+        <{assign var=myweeks value=","|explode:$itk['weeks']}> 
+						  <{if $itk['is_waisong'] == 1 &&   in_array($weekji,$myweeks)  }>
+  
+			 <{load_data assign="twocatinfo" table="marketcate" type="one"   where="id = '<{$itk['id']}>'  "    }> 
+			 
+			 
+			 
+			 
+  <div class="item-wrap parentid_<{$items['id']}> goodsli twotypeid_<{$items['id']}><{$itk['typeid']}>" goodname="<{$itk['name']}>" parentid="<{$items['id']}>" twotypeid="<{$itk['typeid']}>" goodsid="item_<{$itk['id']}>" >
+    <div class="item" data-rid="415">
+      <div class="mark" id="mark-415" style="display: none;"></div>
+      
+        <div class="img">
+      
+        <img id="lazy-item-img-0" class="lazy"  <{ofunc type=img  link="<{$itk['img']}>"}> style="display: inline;"></div>
+      <div class="info">
+        <div class="name" title="<{$itk['name']}>"><{$itk['name']}></div>
+        <div class="price">￥<{$itk['cost']}></div>
+      </div>
+      <div class="buy" style="display: block;">
+
+					<{if $shopopeninfo['opentype'] ==2}>
+          <{if $itk['is_live'] == 1 }>
+						<{if $itk['count'] > 0 }>
+							 <div  onclick="<{if $itk['have_det']==1}>addproduct(<{$itk['id']}>,<{$itk['shopid']}>,1,this);<{else}>addonedish('<{$itk['id']}>','<{$itk['shopid']}>',1,this);<{/if}>"   style="background: #ff6b90;  cursor:pointer; color: #fff;" class="break">购买</div>
+						<{else}>
+							<div    style="background: #ccc;  cursor:pointer; color: #fff;" class="break">售尽</div>
+						<{/if}>
+          <{else}>
+          <div    style="background: #ccc;  cursor:pointer; color: #fff;" class="break">已下架</div>
+          <{/if}>
+                    <{elseif $shopopeninfo['opentype']==3}>
+					
+					 <div   onclick="addonedish('<{$itk['id']}>','<{$itk['shopid']}>',1,this);"   style="background: green; cursor:pointer; color: #fff;"  class="break">休息中<{$shopopeninfo['opentype']}></div>
+					
+                    <{else}>
+					
+					 <div class="break">休息中</div>
+					
+                    <{/if}>
+       
+      
+      </div>
+    </div>
+  </div>
+  
+       
+  <{/if}>
+  
+   <{/foreach}> 
+   <{/if}>
+   
+
+  <{/foreach}>
+
+  
+</div>
+
+    <div class="sidecart" id="sidecart" style="left: 1270.5px;">
+      <div class="cart-title">购物车</div>
+	  
+	   <div class="cartItemList" id="cartinfodet" style="display:;">
+         
+        </div>
+	  
+      
+      <div id="cart-container">
+        <div class="list-wrap">
+          <div id="cart-items" style="display: none;">
+  </div>
+        </div>
+        <div class="sumup" id="sumup" style="display: none;">
+          <span class="sum-quantity">
+            <span class="food_num n">0</span>
+            件商品
+          </span>
+          <span class="sum-amount">
+            合计
+            <span class="food_amount n">0</span>
+            元
+          </span>
+        </div>
+
+        <div class="order-info" id="order-info" style="display: none;">
+          <form>
+            <div class="tup">
+              <input type="text" name="phone" id="phone-ipt" placeholder="手机号" value="">
+            </div>
+            <div class="tup">
+              <input type="text" name="dormitory" id="dormitory-ipt" placeholder="寝室号" value="">
+            </div>
+            <div class="tup">
+              <input type="text" name="coupon" id="coupon-ipt" placeholder="优惠券(选填)">
+            </div>
+            <div class="tup">
+              <input type="text" name="remark" id="remark-ipt" placeholder="备注(选填)">
+            </div>
+            <div class="paytype">
+              <i>付款方式：</i>
+              <label><input name="paytype" type="radio" value="0" checked="">货到付款</label>
+              <label><input name="paytype" type="radio" value="1">支付宝</label>
+            </div>
+
+           <!-- <div class='tup verify-image' id="verify-image">
+              <input type='text' name='verify-image-input' class="verify-image-input pull-left" placeholder='验证码' />
+              <img class="verify-image-img" src="" alt="验证码"/>
+            </div>
+            <div class='tup verify-sms' id="verify-sms">
+              <input type='text' name='verify-sms-input' class="verify-sms-input pull-left" placeholder='请输入短信验证码'/>
+              <input type="button" class="verify-sms-btn"/>
+            </div>-->
+
+            <div class="tup error" id="send-time"></div>
+            <div class="tup error" id="order-error-info"></div>
+
+          </form>
+        </div>
+      </div>
+
+     
+
+
+    </div>
+  </div>
+  <!-- end row -->
+</div>
+			
+			
+			
+			
+<script>
+		var memberid = <{$member['uid']}>;
+var allowedguestbuy = <{$allowedguestbuy|default:0}>;     
+//添加店铺收藏
+function myFavorite2()
+{ 
+  var url = siteurl+'/index.php?ctrl=shop&action=addcollect&datatype=json&collectid='+shopid+'&type=0'; 
+  var backinfo = ajaxback(url,{});
+  if(backinfo.flag == false){ 
+     		$('#AddFavShop').hide(); 
+     		$('#CancelFavShop').show();
+   }else{ 
+   	diaerror(backinfo.content); 
+  }  
+}  
+//删除店铺收藏
+function delFav()
+{ 
+	var url = siteurl+'/index.php?ctrl=shop&action=delcollect&datatype=json&collectid='+shopid+'&type=0'; 
+  var backinfo = ajaxback(url,{});
+  if(backinfo.flag == false){ 
+      $('#AddFavShop').show(); 
+      $('#CancelFavShop').hide();
+   }else{ 
+   	 diaerror(backinfo.content); 
+  }  
+}
+	
+	
+</script>			
+			
+			
+			
+			
+		
+   <div id="product_one" class="cart_products_list" style="width:260px;display:none;"> 
+    <div class="cart_products_title" onclick="closeproductdiv();">
+	     <span  >X</span>
+	</div> 
+	 <div   class="productloding">
+	      数据加载中....
+	</div>
+	<div    class="cart_products_content_area">
+	 
+	
+	      
+	</div> 
+</div>
+
+
+
+  <div style="clear:both;"></div>
+  <script>
+  $('.box').hover(function(){
+  	 $(this).css('background-color','rgb(241, 241, 241)');
+  });
+  $('.box').mouseleave(function(){
+  	 $(this).css('background-color','');
+  });
+  	</script>
+
+<{/block}>

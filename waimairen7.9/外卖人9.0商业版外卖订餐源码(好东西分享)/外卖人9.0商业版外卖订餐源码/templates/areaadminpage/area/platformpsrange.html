@@ -1,0 +1,581 @@
+<{extends file="<{$tempdir}>/public/admin.html"}> 
+   <{block name=extendjs}>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js"></script>
+ <{/block}>
+ <{block name=controlname}>分站平台地图配送范围<{/block}>
+ <{block name=bodylist}>
+ <link rel="stylesheet" type="text/css" href="<{$siteurl}>/templates/<{$tempdir}>/public/css/ghnewmap.css"> 
+ <script src="<{$map_comment_link}>webapi.amap.com/maps?v=1.3&key=<{$map_javascript_key}>&plugin=AMap.MouseTool,AMap.PolyEditor"></script>
+ 
+ 
+   <div class="managShopCon">
+	<div class="managShopBox">
+		<div class="managShopMain">
+ 			
+			<div class="managShopClas">
+				<ul>
+					<li ><a href="<{ofunc type=url link="/areaadminpage/area/module/adminpsset"}>">平台配送设置</a></li>
+					<li class="maShClaA" ><a href="<{ofunc type=url link="/areaadminpage/area/module/platformpsrange"}>">平台地图配送范围</a></li>
+					<li><a href="<{ofunc type=url link="/areaadminpage/order/module/setpaotui"}>">跑腿配送设置</a></li>
+				</ul>
+			</div>
+			
+			
+			<div class="addShopSingCon">
+ 
+ 
+  <div style="width:auto;overflow-x:hidden;overflow-y:auto"> 
+          <div class="tags">
+           
+          <div   style="position:relative;min-height:658px;">
+   
+ 
+    <input type="hidden" value="" name="lnglatString" id="lnglatString"  />
+   
+   
+   	<div class="searchkuang" style="position:absolute;z-index:9999999; left:100px;">
+ 		<input type="hidden"  name="cityname" id="cityname" value="<{$admininfo['cityname']}>">
+		 <div> 
+		 <input type="text" id="searchvalue" name="searchvalue" value="录入搜索地址" placeholder="录入搜索地址" style="float:left;width:200px;line-height:25px;height:25px;">
+		 <a href="javascript:void(0);" id="lnglat" class="mapBtns" onclick="dosearchcity();">提交搜索</a>  
+		 <a href="javascript:void(0);" id="SUBlnglat" class="mapBtns"  style="background: #00B091;"  onclick="SUBlnglat();">提交保存</a> 
+		 </div>
+		 <div class="showsearch" style="background-color:#fff;" >
+		   <ul id="backdatali">  
+		   	</ul>	
+		 	
+		 </div>
+	</div> 
+	
+	<div class="map-content">
+    <div class="map-content-des">
+      <span>配送区域</span>
+      <a class=" btn-addLarge" style="color:#fff;" id="addLarge" href="javascript:void(0);" >添加配送区</a>
+    </div>
+	
+	<div id="areaPsRange">
+		
+	</div>
+   
+  </div>
+
+	
+	
+	
+	<div id="SearchAddmap" style="  width:100%; position:absolute;top:0px; height:100%;">
+		
+		
+		
+	</div>
+	</div>
+	</div>
+	</div>
+	</div>
+	</div>
+	</div>
+	</div>
+
+<script type="text/javascript">
+
+
+var colorarr = [];
+var color1 = [];color1['borderColor'] = 'rgb(66, 127, 237)';color1['backgroundColor'] = 'rgba(66, 127, 237, 0.498039)';colorarr.push(color1);
+var color2 = [];color2['borderColor'] = 'rgb(255, 70, 23)';color2['backgroundColor'] = 'rgba(255, 70, 23, 0.498039)';colorarr.push(color2);
+var color3 = [];color3['borderColor'] = 'rgb(71, 195, 112)';color3['backgroundColor'] = 'rgba(71, 195, 112, 0.498039)';colorarr.push(color3);
+var color4 = [];color4['borderColor'] = 'rgb(88, 201, 205)';color4['backgroundColor'] = 'rgba(88, 201, 205, 0.498039)';colorarr.push(color4);
+var color5 = [];color5['borderColor'] = 'rgb(233, 193, 29)';color5['backgroundColor'] = 'rgba(233, 193, 29, 0.498039)';colorarr.push(color5);
+var color6 = [];color6['borderColor'] = 'rgb(79, 220, 51)';color6['backgroundColor'] = 'rgba(79, 220, 51, 0.498039)';colorarr.push(color6);
+var color7 = [];color7['borderColor'] = 'rgb(255, 127, 0)';color7['backgroundColor'] = 'rgba(255, 127, 0, 0.498039)';colorarr.push(color7);
+var color8 = [];color8['borderColor'] = 'rgb(123, 71, 223)';color8['backgroundColor'] = 'rgba(123, 71, 223, 0.498039)';colorarr.push(color8);
+var color9 = [];color9['borderColor'] = 'rgb(223, 71, 182)';color9['backgroundColor'] = 'rgba(223, 71, 182, 0.498039)';colorarr.push(color9);
+var color10 = [];color10['borderColor'] = 'rgb(66, 127, 237)';color10['backgroundColor'] = 'rgba(66, 127, 237, 0.498039)';colorarr.push(color10);
+var color11 = [];color11['borderColor'] = 'rgb(255, 70, 23)';color11['backgroundColor'] = 'rgba(255, 70, 23, 0.498039)';colorarr.push(color11);
+var color12 = [];color12['borderColor'] = ' rgb(71, 195, 112)';color12['backgroundColor'] = ' rgba(71, 195, 112, 0.498039);';colorarr.push(color12); 
+
+var arrr = new Array(); 
+         //初始化地图对象，加载地图
+    ////初始化加载地图时，若center及level属性缺省，地图默认显示用户当前城市范围
+    var editorTool,marker, map = new AMap.Map('SearchAddmap', {
+         resizeEnable: true,
+         zoom:12,
+     });	
+ 	  map.setCity('<{$admininfo['cityname']}>');
+	 var mouseTool = new AMap.MouseTool(map);
+	$(function(){ 
+		// mouseTool.polygon();  
+		 htmlpsrange();
+		 huamapPlo();
+	}); 
+	  AMap.plugin(['AMap.ToolBar','AMap.Scale','AMap.OverView','AMap.MapType'],function(){
+            map.addControl(new AMap.ToolBar());
+            map.addControl(new AMap.Scale());
+            map.addControl(new AMap.MapType());
+			map.addControl(new AMap.OverView({isOpen:false}));
+    })
+	 
+$("#addLarge").bind('click',function(){
+	 
+	var lastkey = $('.map-content-delete:last').attr('click_key');
+ 	if( lastkey < 0 || lastkey == undefined ){
+		var addkey = 0;
+	}else{
+		var addkey = Number(lastkey)+1;
+	}
+	if( arrr.length > 0 ){
+		if( $('.flex-'+addkey).find('input.pathinput').val() == '' ||  $('.flex-'+addkey).find('input.pathinput').val() == undefined  ){
+			diaerror('请先在地图中添加配送区域'+addkey);
+			return false;
+		}
+	}
+	 
+  
+		var psrangeHtml = '';
+		if( addkey <= 0 ){
+			psrangeHtml +=' <ul id="listLarge" class="map-content-list" style="height:auto;" >     ';
+		}
+ 				  psrangeHtml +=' <li ubt-click="'+(addkey+1)+'" ubt-ext="select"> ';
+				  psrangeHtml +=' <div class="flex-'+(addkey+1)+'"> ';
+				  psrangeHtml +=' 	<span class="map-zone-block color" style="border-color: '+colorarr[addkey]['borderColor']+'; background-color: '+colorarr[addkey]['backgroundColor']+';"></span> ';
+				  psrangeHtml +=' <span class="li-name map-middle">区域<span class="li-index">'+(addkey+1)+'</span>&nbsp;&nbsp;&nbsp;（<span class="areainput">0</span><span>平方米</span>）</span> ';
+			  	  psrangeHtml +=' <span click_key="'+addkey+'" class="map-content-delete delete" style="cursor:pointer;">删除</span> ';
+			  	  psrangeHtml +=' <input type="hidden" class="pathinput" value="" />';
+ 				  psrangeHtml +=' </div> ';
+				  psrangeHtml +=' <div>  ';
+				  psrangeHtml +=' </div> ';
+				  psrangeHtml +=' </li>  ';
+				 
+				  
+		if( addkey <= 0 ){
+			psrangeHtml +=' </ul> ';
+			$("#areaPsRange").html(psrangeHtml);
+		}else{
+			$("#listLarge").append(psrangeHtml);
+		}
+		
+		mouseTool.polygon();  
+			
+	 AMap.event.addListener(mouseTool, "draw", function callback(e) {
+			
+			console.log(e.obj);
+		 
+            var eObject = e.obj.G.path;//obj属性就是鼠标事件完成所绘制的覆盖物对象。
+			if(eObject.length > 0){
+				 
+				 var addLngLat = [];
+				
+  				 for(var i=0;i<eObject.length;i++){
+ 					var lnglat = [];
+					lnglat.push(eObject[i].lng);
+					lnglat.push(eObject[i].lat);
+  					addLngLat.push(lnglat);
+				}
+			 
+				console.log(addLngLat);
+				var  editor_polygon_addkey = new AMap.Polygon({
+					path:addLngLat,//设置多边形边界路径
+					strokeColor: ""+colorarr[addkey]['borderColor']+"", //线颜色
+					strokeOpacity: 1, //线透明度
+					strokeWeight: 3,    //线宽
+					fillColor: ""+colorarr[addkey]['borderColor']+"", //填充色
+					fillOpacity: 0.35,//填充透明度
+					strokeStyle:'solid',  //dashed  
+				});
+				 
+				  editor_polygon_addkey.setMap(map);
+				
+				
+				 arrr.push(editor_polygon_addkey);
+	 
+ 				  var obj =  arrr[addkey]; 
+				
+				  var editorPolygonEditor_addkey = new AMap.PolyEditor(map, editor_polygon_addkey);
+				  var getPath = editor_polygon_addkey.getPath(); //获取多边形轮廓线节点数组
+						var getArea = editor_polygon_addkey.getArea(); //获取多边形的面积（单位：平方米）
+						var patharr = [];
+						if( getPath.length > 0 ){
+							for(i=0;i<getPath.length;i++){
+								patharr.push('['+getPath[i]+']');
+							}
+						}
+						var newpathstring = '['+patharr.join(',')+']';
+						$('.flex-'+(addkey+1)).find('input.pathinput').val(newpathstring);
+						$('.flex-'+(addkey+1)).find('span.areainput').text(getArea);
+						var click_flag_addkey = true;
+				  AMap.event.addListener(editor_polygon_addkey, "click", function callback(e) { //鼠标左键单击事件
+						if( click_flag_addkey == true ){
+							editorPolygonEditor_addkey.open();
+							click_flag_addkey = false;
+						}else{
+							editorPolygonEditor_addkey.close();
+							click_flag_addkey =true;
+						} 
+				 });  
+				 AMap.event.addListener(editor_polygon_addkey, "dblclick", function callback(e) {//鼠标左键双击事件 
+						if( click_flag_addkey == true ){
+							editorPolygonEditor_addkey.open();
+							click_flag_addkey = false;
+						}else{
+							editorPolygonEditor_addkey.close();
+							click_flag_addkey =true;
+						}  
+				 });  
+				 
+				 AMap.event.addListener(editor_polygon_addkey, "change", function callback(e) { //属性发生变化时
+						var getPath = editor_polygon_addkey.getPath(); //获取多边形轮廓线节点数组
+						var getArea = editor_polygon_addkey.getArea(); //获取多边形的面积（单位：平方米）
+						var patharr = [];
+						if( getPath.length > 0 ){
+							for(i=0;i<getPath.length;i++){
+								patharr.push('['+getPath[i]+']');
+							}
+						}
+						var newpathstring = '['+patharr.join(',')+']';
+						$('.flex-'+(addkey+1)).find('input.pathinput').val(newpathstring);
+						$('.flex-'+(addkey+1)).find('span.areainput').text(getArea);
+					 
+				 });  
+			
+ 				mouseTool.close(true);
+				
+			}
+     }); 
+ 
+				
+	bindhoverarea();
+	
+});
+function htmlpsrange(){
+
+		var psrangeHtml = '';
+		<{if !empty($arealnglatarr) }>
+		//alert(<{$arealnglatarr}>);
+		 psrangeHtml +=' <ul id="listLarge" class="map-content-list" style="height:auto;" >    ';
+			 <{foreach from=$arealnglatarr key=mykey item=items }> 
+				  psrangeHtml +=' <li ubt-click="<{$mykey+1}>" ubt-ext="select"> ';
+				  psrangeHtml +=' <div class="flex-<{$mykey+1}>"> ';
+				  psrangeHtml +=' 	<span class="map-zone-block color" style="border-color: '+colorarr[<{$mykey}>]['borderColor']+'; background-color: '+colorarr[<{$mykey}>]['backgroundColor']+';"></span> ';
+				  psrangeHtml +=' <span class="li-name map-middle">区域<span class="li-index"><{$mykey+1}></span>&nbsp;&nbsp;&nbsp;（<span class="areainput">0</span><span>平方米</span>）</span> ';
+			  	  psrangeHtml +=' <span click_key="<{$mykey}>" class="map-content-delete delete" style="cursor:pointer;">删除</span> ';
+			  	  psrangeHtml +=' <input type="hidden" class="pathinput" value="<{$items}>" />';
+ 				  psrangeHtml +=' </div> ';
+				  psrangeHtml +=' <div>  ';
+				  psrangeHtml +=' </div> ';
+				  psrangeHtml +=' </li>  ';
+			<{/foreach}>  
+		psrangeHtml +=' </ul> ';
+	<{else}> 
+		psrangeHtml +=' <p class="map-none-area map-none-area-large" style="display:block ; text-align:center;margin-top:20px;">暂无配送区</p> ';
+	<{/if}>
+	$("#areaPsRange").html(psrangeHtml);
+	is_hasArea();
+	 bindhoverarea();
+	
+	
+}	
+	
+
+
+ 
+function makePolygon(){
+	var PolyEditorArr = new Array();
+	for(var w=0;w<arrr.length;w++){
+		var editorPolygonEditor = new AMap.PolyEditor(map, arrr[i]);
+	    PolyEditorArr.push(editorPolygonEditor);
+	}
+ console.log(PolyEditorArr);
+
+
+	map.clearMap();
+	// console.log(arrr);
+	var c = 0;
+	 for(var m=0;m<arrr.length;m++){
+ 	     var obj =  arrr[m];
+	     obj.setMap(map); 
+		 
+ 		 
+				var getPath = obj.getPath(); //获取多边形轮廓线节点数组
+ 				var getArea = obj.getArea(); //获取多边形的面积（单位：平方米）
+
+				var patharr = [];
+				if( getPath.length > 0 ){
+					for(var j=0;j<getPath.length;j++){
+						patharr.push('['+getPath[j]+']');
+					}
+				} 
+				var newpathstring = '['+patharr.join(',')+']'; 
+			//	console.log(m);
+				var mmmm = m+1;
+				$('.flex-'+mmmm).find('input.pathinput').val(newpathstring);
+				$('.flex-'+mmmm).find('span.areainput').text(getArea);
+	 
+ 		  AMap.event.addListener(obj, "click", function callback(e){ //鼠标左键单击事件   
+					var editorPolygonEditor = new AMap.PolyEditor(map, obj);
+					editorPolygonEditor.open(); 
+					
+		 },m);  
+		 AMap.event.addListener(obj, "dblclick", function callback(e) {//鼠标左键双击事件 
+ 					var editorPolygonEditor = new AMap.PolyEditor(map, obj);
+					editorPolygonEditor.close();
+				 
+		 },m); 
+		 AMap.event.addListener(obj, "change", function callback(e) { //属性发生变化时 
+ 				var getPath = obj.getPath(); //获取多边形轮廓线节点数组
+ 				var getArea = obj.getArea(); //获取多边形的面积（单位：平方米）
+
+				var patharr = [];
+				if( getPath.length > 0 ){
+					for(var j=0;j<getPath.length;j++){
+						patharr.push('['+getPath[j]+']');
+					}
+				} 
+				var newpathstring = '['+patharr.join(',')+']'; 
+				$('.flex-'+m).find('input.pathinput').val(newpathstring);
+				$('.flex-'+m).find('span.areainput').text(getArea);
+ 			 
+		 },m); 
+			 
+		 
+	}	 
+		 
+}	
+	
+function huamapPlo(){
+
+	<{if !empty($arealnglatarr) }>
+ 	 
+	 <{foreach from=$arealnglatarr key=mykey item=items }>
+		 var click_flag_<{$mykey}> = true;
+		 var  editor_polygon_<{$mykey}> = new AMap.Polygon({
+					path:<{$items|default:0}>,//设置多边形边界路径
+					strokeColor: ""+colorarr[<{$mykey}>]['borderColor']+"", //线颜色
+					strokeOpacity: 1, //线透明度
+					strokeWeight: 3,    //线宽
+					fillColor: ""+colorarr[<{$mykey}>]['borderColor']+"", //填充色
+					fillOpacity: 0.35,//填充透明度
+					strokeStyle:'solid',  //dashed  
+				});
+				
+				 arrr.push(editor_polygon_<{$mykey}>);
+	 
+				  editor_polygon_<{$mykey}>.setMap(map);
+				  var obj =  arrr[<{$mykey}>]; 
+				
+		  var editorPolygonEditor_<{$mykey}> = new AMap.PolyEditor(map, editor_polygon_<{$mykey}>);
+ 		  var getArea = editor_polygon_<{$mykey}>.getArea(); //获取多边形的面积（单位：平方米）
+		  $('.flex-'+<{$mykey+1}>).find('span.areainput').text(getArea);
+ 		  AMap.event.addListener(editor_polygon_<{$mykey}>, "click", function callback(e) { //鼠标左键单击事件
+ 				if( click_flag_<{$mykey}> == true ){
+					editorPolygonEditor_<{$mykey}>.open();
+					click_flag_<{$mykey}> = false;
+				}else{
+					editorPolygonEditor_<{$mykey}>.close();
+					click_flag_<{$mykey}> =true;
+				} 
+		 });  
+		 AMap.event.addListener(editor_polygon_<{$mykey}>, "dblclick", function callback(e) {//鼠标左键双击事件 
+				if( click_flag_<{$mykey}> == true ){
+					editorPolygonEditor_<{$mykey}>.open();
+					click_flag_<{$mykey}> = false;
+				}else{
+					editorPolygonEditor_<{$mykey}>.close();
+					click_flag_<{$mykey}> =true;
+				}  
+		 });  
+		 AMap.event.addListener(editor_polygon_<{$mykey}>, "mousedown", function callback(e) {//鼠标按下
+ 		 }); 
+		 AMap.event.addListener(editor_polygon_<{$mykey}>, "change", function callback(e) { //属性发生变化时
+				var getPath = editor_polygon_<{$mykey}>.getPath(); //获取多边形轮廓线节点数组
+ 				var getArea = editor_polygon_<{$mykey}>.getArea(); //获取多边形的面积（单位：平方米）
+				var patharr = [];
+				if( getPath.length > 0 ){
+					for(i=0;i<getPath.length;i++){
+						patharr.push('['+getPath[i]+']');
+					}
+				}
+				var newpathstring = '['+patharr.join(',')+']';
+				$('.flex-'+<{$mykey+1}>).find('input.pathinput').val(newpathstring);
+				$('.flex-'+<{$mykey+1}>).find('span.areainput').text(getArea);
+ 			 
+		 });  
+			
+ 	 <{/foreach}>
+	//  makePolygon();
+	//  map.setFitView();
+	
+     bindhoverarea();
+	 
+ 	 
+	<{/if}>
+
+}	
+	
+	
+	 
+//在输入框中 输入地址 在相似城市区域内查找 内容
+function dosearchcity(){
+	//searchvalue" value="录入搜索地址" placeholder="录入搜索地址"
+	 $('.showsearch').show();
+	   var searchvalue = $('#searchvalue').val();
+	   var cityname = $('#cityname').val();
+	  if($('#searchvalue').val() ==  $('#searchvalue').attr('placeholder')){
+	    $('#backdatali').html('<li>请录入查询条件</li>');
+	    return false;
+	  }
+	  if(searchvalue == ''){
+	  	$('#backdatali').html('<li>请录入查询条件</li>');
+	  	return false;
+	  }   
+	  
+	   $.getScript('<{$map_comment_link}>restapi.amap.com/v3/place/text?&keywords='+searchvalue+'&output=json&city='+cityname+'&page=1&offset=10&key=<{$map_webservice_key}>&extensions=all&callback=showaddresslist'); 
+	  
+}
+
+	
+
+function showaddresslist(datas){
+ 	if( datas.status == 1   && datas.info == 'OK'   ){
+		var  resultobj = datas.pois;
+        $('#backdatali').html('');
+         $.each(resultobj, function(i,val){  
+         	 $('#backdatali').append('<li address="'+val.name+'"   lnglat="'+val.location+'" >'+val.name+'</li>'); 
+         }); 
+	}else{
+         	$('#backdatali').html('<li>未查找到相关数组，请更换关键词搜索...</li>');
+    }
+}
+
+
+function bindhoverarea(){
+	//鼠标移上显示删除按钮
+	$("#listLarge li").hover(function(){
+		$(this).find('.map-content-delete').css('visibility','visible');
+	},function(){
+		$(this).find('.map-content-delete').css('visibility','hidden');
+	});
+	//点击删除某一块区域
+	 $("#listLarge li .map-content-delete").bind('click',function(){
+ 				var key = $(this).attr('click_key');
+				$(this).parent().parent().remove();
+			  
+				 var mapobj =  arrr[key];
+				 console.log(mapobj);
+				 mapobj.setMap(null);
+
+				var newarr = new Array(); 
+				if( arrr.length > 0 ){
+					for( var i=0;i<arrr.length;i++ ){
+						if( i != key ){
+							newarr.push(arrr[i]);
+						}
+					}
+					arrr = newarr;  
+				}else{
+					arrr = new Array();
+				}
+			
+			is_hasArea();
+		  
+ 	});
+}
+//判断是否有配送区域
+function is_hasArea(){
+	if( $('#listLarge li').length == 0 ){
+		var psrangeHtml =' <p class="map-none-area map-none-area-large" style="display:block ; text-align:center;margin-top:20px;">暂无配送区</p> ';
+		$("#areaPsRange").html(psrangeHtml);
+		$(".map-none-tishi").remove();
+	}else{
+		if( $('.map-none-tishi').html() == '' ||  $('.map-none-tishi').html() == undefined ){
+			var psrangeHtml ='<p class="map-none-area map-none-area-large map-none-tishi" style="display:block ;color:#ff6f00; text-align:left;text-indent:2rem;margin-top:20px;padding:0px 6px;">添加配送区提示：点击添加配送区之后，鼠标在地图上单击开始绘制多边形，鼠标左键双击或右键单击结束当前多边形的绘制。</p> ';
+			$("#areaPsRange").append(psrangeHtml);
+		}
+	}
+}
+  
+//搜索地址
+$('.showsearch li').live("click", function() {  
+		$('.showsearch').toggle();
+		 var clicklnglat = $(this).attr('lnglat');
+		 var address = $(this).attr('address');
+		 var array = clicklnglat.split(",");
+			var nums = [ ];
+			for (var i=0 ; i< array.length ; i++)
+			{
+				nums.push(array[i]);
+			}
+			var getlng = nums[0];
+			var getlat = nums[1];
+		 $("#searchvalue").val(address);
+	     $(this).addClass('on').siblings().removeClass('on'); 
+	      map.setZoomAndCenter(16, array);
+  });
+	  $('#searchvalue').live("click",function(){
+		if($(this).val() ==  $(this).attr('placeholder')){
+			$(this).val('');
+		} 
+	  });
+	  $("#searchvalue").focus(function(){
+		  $('.showsearch').toggle();
+		});
+//提交保存
+	function SUBlnglat(){  
+  		var obj = $('#areaPsRange li input.pathinput');
+		var pathStringData = '';
+		$(obj).each(function(){
+			if( $(this).val() != '' && $(this).val() != undefined ){
+				if( pathStringData == ''){
+					pathStringData = $(this).val();
+				}else{
+					pathStringData += '#'+$(this).val();
+				}
+			}
+ 		 }); 
+		var templingk = '<{$siteurl}>/index.php?ctrl=areaadminpage&action=area&module=sublnglatpsrange&random=@random@&datatype=json'; 
+		templingk = templingk.replace('@random@', 1+Math.round(Math.random()*1000));
+		var tempc = ajaxback(templingk,{'waimai_psrange':pathStringData}); 
+		if(tempc.flag ==false){
+			diasucces("保存成功！",'');
+			 location.reload(); 
+		}else{
+			diaerror(tempc.content);
+		}
+		 
+	 } 
+	function ajaxback(url,info)
+{
+	var backmessage = {'flag':true,'content':''};
+	$.ajax({
+       type: 'POST',
+       async:false,
+       url: url.replace('@random@', 1+Math.round(Math.random()*1000)),
+       data: info,
+      dataType: 'json',success: function(content) { 
+      	if(content.error == false)
+      	{
+      	 
+      	   backmessage['flag'] = false;
+      	   backmessage['content'] = content.msg;
+      	  // alert(backmessage['flag']);
+      	}else{
+      		if(content.error == true)
+      	  { 
+      	  	backmessage['content'] = content.msg;
+      	  }else{
+      	   backmessage['content'] = content;
+      	  }
+        }
+      	
+		  },
+      error: function(content) { 
+      backmessage['content'] = '数据获取失败';
+	   }
+   });  
+   return backmessage;
+}
+</script>   
+ 
+ 
+ 
+ 
+ 
+ 
+<{/block}>

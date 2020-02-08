@@ -1,0 +1,11 @@
+ <{extends file="<{$tempdir}>/public/admin.html"}>
+   <{block name=extendjs}>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js"></script>
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/datepicker/WdatePicker.js" type="text/javascript" language="javascript"></script>
+
+
+<{/block}>
+ <{block name=controlname}>温馨提示:<{/block}>
+ <{block name=bodylist}>
+    <div style="padding:100px 50px;font-size:16px;">订单完成状态后自动结算，直达商家账户余额，无需手工操作，如果订单处于退款状态，钱将从商家账户余额扣除。</div>
+<{/block}>

@@ -1,0 +1,226 @@
+ <{extends file="<{$tempdir}>/public/diswxsite.html"}>  
+<{block name=extendcss}> 
+<link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/distribution.css">
+<link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/public1.css"> 
+<link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/scrllo_function.css"> 
+<link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/newshop/css/font-awesome.min.css"> 
+<{/block}>
+ 
+<{block name=hearnav}>
+<div class="toptitCon">
+	<div class="toptitBox">
+		<div class="toptitL"><i></i></div>
+		<div class="toptitC">
+			<h3>购物车</h3>
+		</div>
+		<div class="toptitR">清空</div>
+	</div>
+</div>
+<{/block}>
+<{block name=sitetitle}><{$sitename}><{/block}>
+<{block name=blockcontent}> 
+<style>
+.toptitR{font-size:13px;color:#fff}
+.cartcontent{padding-top:40px;background-color:#fff;color:#000;width: 100%;overflow: hidden;}
+.shopname{padding:0 10px;height:40px;display: -webkit-box;-webkit-box-align: center;-webkit-box-pack: justify;}
+.shoplogo{width:20px;height:20px;margin-right: 8px;display: block;border-radius: 50%;}
+.shopname span{line-height: 20px;height: 20px;font-size: 16px;font-size: 14px;color: #333;display: block;}
+.good_img{width: 55px;height: 55px;margin-right: 10px;overflow: hidden;}
+.good_img img{width: 100%;min-height: 100%;}
+.goodslist li{padding: 10px;margin-bottom: 4px;display: -webkit-box;display: -moz-box;-webkit-box-align: center;-moz-box-align: center;background-color: #fafafa;}
+.placeorder_shoplist_box{height: 55px; line-height: 16px;-webkit-box-flex: 1;-moz-box-flex: 1;display: -webkit-box;display: -moz-box;-webkit-box-orient: vertical;-moz-box-orient: vertical;-webkit-box-pack: justify;}
+.placeorder_shoplist_head{-webkit-box-pack: justify;display: -webkit-box;display: -moz-box;-webkit-box-align: center;}
+.placeorder_shoplist_center{margin-top: 4px;-webkit-box-pack: justify;display: -webkit-box;-webkit-box-align: center;}
+.qisong{height: 30px;background-color: #ccc;text-align: center;line-height: 30px;float: right;border-radius: 2px;font-size: 14px;color: #fff;margin: 10px;padding: 0 10px;}
+.jiesuan{float: right;margin: 10px;background-color: #ff6e6e;height: 30px;line-height: 30px;font-size: 14px;width: 80px;text-align: center;border-radius: 2px;color:#fff}
+.shopcost{float: right; font-size: 15px;font-weight: bold;color: #ff0000;}
+.good_name{color: #000;font-weight: bold;}
+.placeorder_shoplist_head small {font-size: 13px;color: #333;display: block;}
+.good_oldcost{text-decoration: line-through;color: #999999;font-size: 12px;}
+.good_newcost{color: #000;font-size: 13px;}
+.good_count{color: #999999;}
+.zhekou{background-color: #f75ee6;color: #fff;margin-right: 5px;display: inline-block;line-height: 12px; font-size: 12px;padding:2px}
+.fa-angle-right:before {content: "\f105";}
+.fa-angle-right{font-size: 17px;color: #333;padding-left: 9px;}
+.yhcost{font-size: 14px;padding-left: 10px;color: #666666;}
+.bagcost{height: 40px;line-height: 40px;padding: 0 10px;}
+.bagcost span{font-size:14px;color:#666666}
+.shopurl{-webkit-box-flex: 1;display: -webkit-box;-webkit-box-align: center;}
+.quxiao{width: 40%;text-align: center;border: 1px solid #ccc;border-radius: 3px;margin-left: 7%;height: 35px;line-height: 35px;font-size: 14px;} 
+.queding{width: 40%;text-align: center;border: 1px solid #ff6e6e;border-radius: 3px;margin-right: 7%;color: #fff;background-color: #ff6e6e;height: 35px;line-height: 35px;font-size: 14px;font-weight: bold;}
+.index_cart_btn{display: -webkit-box;-webkit-box-align: center;-webkit-box-pack: justify;}
+.tishi{width:100%;height:65px;line-height:65px;text-align:center;font-size: 15px;font-weight: bold;}
+.zhezhao{width:100%;height:100%;background-color:rgba(51, 51, 51, 0.6);z-index:99999;position:fixed;top:40px;left:0px;display:none}
+.zhezhaow{color: #000;width: 80%;height: 120px;background-color: #fff;margin: 50% auto;border-radius: 5px;display:none}
+.zhezhaowx{color: #000;width: 80%;height: 140px;background-color: #fff;margin: 50% auto;border-radius: 5px;display:none}
+.tishix{width: 100%;height: 50px;line-height: 70px;font-size: 17px;font-weight: bold;margin-left: 20px;margin-top: 17px;}
+.tishixx{height: 45px;line-height: 45px;margin-left: 20px;color: #666;font-size:15px}
+.shopquxiao,.shopqueding{width: 50px;text-align: center;float: right;font-size:13px;color:#ff6e6e}
+.clearoneshop{position: absolute;right: 0px;top:0px}
+.clearoneshop img{width:18px;height:18px}
+.name_span{-webkit-box-flex: 1;-moz-box-flex: 1;white-space: nowrap;text-overflow: ellipsis;overflow: hidden;font-size: 13px;color: #333;display: block;}
+.placeorder_shoplist_center span,.placeorder_shoplist_center small{font-size: 11px;color: #999;display: block;}
+</style>
+<div class='zhezhao'>
+	<div class='zhezhaow'>
+        <div class='tishi'>确定清空购物车所有商品？</div>
+		<div class='index_cart_btn'>
+		    <div class='quxiao'>取消</div><div class='queding'>确定</div>
+		</div>
+	</div>
+    <div class='zhezhaowx'>
+	    <div class='tishix'>删除商家</div>
+		<div class='tishixx'>确认删除该商家的所有商品？</div>
+		<div style='margin-right: 20px;'>
+		    <div class='shopqueding'>删除</div><div class='shopquxiao'>取消</div>
+		</div>
+	</div>
+</div>
+<{if !empty($list)}>
+<div class='cartcontent'>
+    <{foreach from=$list key=keys item=items}>
+	<div style='height:8px;width:100%;background-color:#fafafa'></div>
+    <div class='shopcartcontent'>
+        <div class='shopname'>
+		    <div style='height:20px;width:100%;-webkit-box-flex: 1;display: -webkit-box;-webkit-box-align: center;position:relative'> 
+				<img src='<{$items['shopinfo']['shoplogo']}>' class='shoplogo'>
+				<span onclick="dolink('<{ofunc type=url link="/wxsite/shopshow/typelx/<{$items['shopinfo']['shoptypex']}>/id/<{$items['shopinfo']['id']}>"}>');"><{$items['shopinfo']['shopname']}></span>
+				<i class="fa fa-angle-right" onclick="dolink('<{ofunc type=url link="/wxsite/shopshow/typelx/<{$items['shopinfo']['shoptypex']}>/id/<{$items['shopinfo']['id']}>"}>');"></i>
+				<div data='<{$items['shopinfo']['id']}>' class='clearoneshop'>
+				    <img src='<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/shopdelcart.png'>
+				</div>     
+			</div>
+		</div>
+		<div class='goodslist'>
+			<ul>
+			    <{foreach from=$items['goodslistx'] key=keya item=itema}>
+			    <li>
+				     
+				    <div class='good_img'><img src='<{$itema['img']}>'></div>
+					<div class="placeorder_shoplist_box">
+						
+						<div class="placeorder_shoplist_head">
+							<{if $itema['is_cx'] == 1}><span class='zhekou'>折</span><{/if}>
+							<span class='name_span' class='good_name'><{$itema['name']}></span>
+							<small>¥<{floatval($itema['cost'])}></small>
+						</div>
+						<div class="placeorder_shoplist_center">
+							<span><{$itema['attrname']}></span>
+							<small style="text-decoration: line-through;"><{if $itema['is_cx'] == 1}>¥<{floatval($itema['oldcost'])}><{/if}></small>
+						</div>
+						<div class="placeorder_shoplist_bottom">
+							<span class='good_count'>x<{floatval($itema['count'])}></span>
+							<small class='good_newcost'></small>
+							<small class='good_oldcost'style="text-decoration: line-through;"></small>
+						</div>
+					</div>
+			    </li>
+				<{/foreach}> 				 
+			</ul>
+		</div>
+		<{if $items['bagcost'] > 0}>
+			<div class='bagcost'>
+				<span>包装费</span>
+				<span style='float: right;'>¥<{floatval($items['bagcost'])}></span>
+			</div>
+		<{/if}>	
+        <div class='shopbtn' style='height:50px;background-color:#fff;line-height:50px;border-top: 1px solid #f0f0f0;'>
+		<{if $items['goodscxdowncost'] > 0}><span class='yhcost'>已优惠<{floatval($items['goodscxdowncost'])}>元</span><{/if}>
+		<{if $items['shopinfo']['opentype'] == 2 || $items['shopinfo']['opentype'] == 3}>
+			<{if $items['chacost'] > 0}>
+				<div class='qisong'>差¥<{floatval($items['chacost'])}>起送</div>
+			<{else}>
+				<a href="<{$siteurl}>/index.php?ctrl=wxsite&action=shopcart&id=<{$items['shopinfo']['id']}>">
+					<div class='jiesuan indexcartbtn'>去结算</div>
+				</a>	
+			<{/if}>
+		<{else}>
+            <div class='qisong'>已打烊</div>		
+		<{/if}>
+		<div class='shopcost'>¥<{floatval($items['sum'])}></div>
+		</div>
+    </div>  
+    <{/foreach}> 
+</div> 
+<{else}>
+<div style='width:100%;height:40px;'></div>
+<div style='text-align: center;padding-top: 40%;'>
+
+<img src='<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/emptycart.png' style='width:70px;height:70px'>
+<p style='margin-top: 10px;'>购物车空空如也，快去逛逛吧</p>
+<a href="<{$siteurl}>">
+<div class='indexcartbtn' style='background-color: #ff6e6e;width: 40%;margin: 30px auto;height: 30px;line-height: 30px;color: #fff;border-radius: 3px;'>去逛逛</div>
+</a>
+</div>
+<{/if}>
+<input type='hidden' name='shopid' value=''>
+<script>
+var wwidth = $(window).width();//窗口宽度
+var xw = wwidth - 90;
+$('.placeorder_shoplist_box').css('width',xw+'px');
+
+$('.toptitR').live('click',function(){  
+	$('.zhezhao').show();
+	$('.zhezhaow').show();	
+	$('.zhezhaowx').hide();
+})
+$('.queding').live('click',function(){
+    $.ajax({
+		type: 'post',
+		async:false,
+		data:{},
+		url: '<{ofunc type=url link="/wxsite/clearallcart/datatype/json"}>', 
+		dataType: 'json',success: function(content) {   
+			if(content.error == false){
+				Tmsg('清空购物车成功');
+				location.reload();
+			}else{
+			   alert('清空购物车失败'); 
+			} 
+		},
+
+	})   
+})
+$('.quxiao').live('click',function(){
+    $('.zhezhao').hide();
+	$('.zhezhaow').hide();	
+})
+$('.clearoneshop').live('click',function(){  
+	$('.zhezhao').show();
+	$('.zhezhaowx').show();
+	$('.zhezhaow').hide();
+    var shopid = $(this).attr('data');
+    $('input[name="shopid"]').val(shopid);	
+})
+$('.shopquxiao').live('click',function(){
+    $('.zhezhao').hide();
+	$('.zhezhaowx').hide();	
+})
+$('.shopqueding').live('click',function(){
+    var shopid =  $('input[name="shopid"]').val();	
+	if(shopid > 0){
+	}else{
+	    Tmsg('店铺id获取失败');
+		return false;
+	}
+	$.ajax({
+		type: 'post',
+		async:false,
+		data:{'shopid':shopid},
+		url: '<{ofunc type=url link="/wxsite/clearoneshopcart/datatype/json"}>', 
+		dataType: 'json',success: function(content) {   
+			if(content.error == false){
+				Tmsg('清空店铺购物车成功');
+				setTimeout(function(){
+				    location.reload();
+				},1000)
+				
+			}else{
+			    alert('清空店铺购物车失败'); 
+			} 
+		},
+
+	})   
+})
+</script>
+<{/block}>

@@ -1,0 +1,156 @@
+ <{extends file="<{$tempdir}>/public/site.html"}>   
+<{block name=extendjs}> 
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js"></script>
+  <script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/template.min.js"></script>
+  <script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/ajaxfileupload.js"> </script>
+<{/block}>
+
+<{block name=sitetitle}>商家入驻<{/block}>
+ <{block name=bodylist}>
+ 
+ <div class="mersetBanCon">
+	<img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxdlimg/sj_banner01.png">
+</div>
+<!----------------------商家入驻---------------------->
+<div class="mersetCon">
+	<div class="mersetBox">
+	
+	<form  method="post" action="<{ofunc type=url link="/shop/saveshangjia/datatype/json"}>"  class="demoform" id="demoform">
+	
+		<div class="mersetL">
+			<div class="mersetLtit">
+				<h2>加入我们<span>JOIN US</span></h2>
+				<p>与外卖人合作，您将会得到更成熟的外卖系统服务。我们以客户至上，同时也相互挑战，力求呈现最好的外卖系统服务！</p>
+			</div>
+			<div class="mersetLtel">
+				<h3>如需帮助致电客服：<span><{$litel}></span></h3>
+				<ol>
+					<li>完善店铺资料，以便于我们了解您的情况。</li>
+					<li>认证所需资料不公开给任何组织和个人。</li>
+					<li>审核通过的信息无法修改。</li>
+				</ol>
+			</div>
+		</div>
+		<div class="mersetR">
+			<h2>填写商家入驻信息</h2>
+			<div class="mersetRfill">
+				<ul>
+					<li><span>联系人姓名</span><input id="username" name="username"   type="text"></li>
+					<li><span>联系电话</span><input id="mobile" name="mobile"   type="text"></li>
+					<li><span>店铺名称</span><input  id="resname" name="resname"  type="text"></li>
+					<li><span>店铺地址</span><input id="addr" name="addr"  type="text"></li>
+				  <input type="hidden" id="imgsrc" name="imgsrc"  value="" />
+				  
+				  
+			
+					<li>
+						  
+			 <form id="form1" name="form1" method="post"  enctype="multipart/form-data" target="ifr-headpic-upload" onsubmit="return checkImagetype('1');">    
+				
+						<div class="fileImg"  >
+						<img style="width: 128px; display:none; height: 128px;"  id="imgshow"  src="" />
+						
+						<input  name="head"   type="file" id="imgFile" style="width:70px;float:left;" name="imgFile" onchange="$('#input1').val($(this).val())"  >
+						</div>
+						<b id="submitImg"  >点击上传营业执照</b> 
+				 </form> 
+					</li>
+					
+					
+		
+					
+					
+					
+				</ul>
+			</div>
+			<div class="mersetRbut"><input type="button"  id="chk_num" value="提交申请"></div>
+		</div>
+		
+		</form>
+		
+	</div>
+</div>
+ 
+ 
+ <script>
+ 
+
+$('#chk_num').click(function(){ 
+	subform('',$('#demoform'));
+})
+
+
+$('#submitImg').click(function(){
+		ajaxFileUpload();
+		$("#upload").replaceWith($("#upload").clone(true));
+	});
+	function ajaxFileUpload()
+	{
+		$("#loading")
+		.ajaxStart(function(){
+			$(this).show();
+		})
+		.ajaxComplete(function(){
+			$(this).hide();
+		});
+  
+		$.ajaxFileUpload
+		(
+			{
+				url:'<{ofunc type=url link="/site/userupload/datatype/json"}>',
+				secureuri:false,
+				fileElementId:'imgFile',
+				dataType: 'json',
+				data:{name:'logan', id:'id'},
+				success: function (data, status)
+				{
+					if(typeof(data.error) != 'undefined')
+					{
+						if(data.error == false)
+						{ 
+						 
+							$('#img').val(data.msg);
+ 	           $('#imgshow').attr('src',data.msg);
+ 	           $('#imgsrc').val(data.msg);
+ 	                $('#imgshow').show(); 
+						}else
+						{
+							alert(data.msg);
+						}
+					}else{
+					  alert(data);
+					}
+				},
+				error: function (data, status, e)
+				{
+					alert(e);
+				}
+			}
+		)
+		
+		return false;
+
+	}
+	var dialogs ;
+ function uploads(){  
+ 	  dialogs = art.dialog.open('<{ofunc type=url link="/other/userupload/func/uploadsucess/type/shoplogo"}>');
+ 	  dialogs.title('上传图片'); 
+ }
+ function uploadsucess(linkurl){
+ 	dialogs.close(); 
+ 	$('#img').val(linkurl);
+ 	$('#imgshow').attr('src',linkurl);
+ 	$('#imgsrc').val(linkurl);
+ 	$('#imgshow').show(); 
+}
+function uploaderror(msg){
+	 alert(msg);
+		dialogs.close();
+		uploads();
+}
+
+
+ </script>
+ 
+ 
+<{/block}>

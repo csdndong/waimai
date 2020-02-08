@@ -1,0 +1,92 @@
+  $data = '{ "payer_id" : "' .$_GET['PayerID'] . '" }';
+                            curl_setopt($ch, CURLOPT_URL, $stored_execute_url;
+                            curl_setopt($ch, CURLOPT_POST, true);
+                            curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+                            curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                            'Content-Type:application/json',
+                            "Authorization: Bearer " . $_GET['token'], 
+                            "Content-length: ".strlen($data))
+                            );
+                            print_r($data);
+                            $result = curl_exec($ch);
+
+                            if(empty($result))die("Error: No response.");
+
+
+return_url.php?paymentId=PAY-3KW011931A306683BK67Z3NY&token=EC-9GN75501LC8410246&PayerID=TG62HE69WMQVL
+
+
+
+$ch = curl_init();
+        $clientId = "clientID";
+        $secret = "secret";
+
+        curl_setopt($ch, CURLOPT_URL, "https://api.sandbox.paypal.com/v1/oauth2/token");
+        curl_setopt($ch, CURLOPT_HEADER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); 
+        curl_setopt($ch, CURLOPT_USERPWD, $clientId.":".$secret);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, "grant_type=client_credentials");
+
+        $result = curl_exec($ch);
+
+        if(empty($result))die("Error: No response.");
+        else
+        {
+                $json = json_decode($result);
+                    //print_r($json->access_token);
+                    if ($_POST['creditcard'] == 'paypal') {
+                        $data = '{
+                            "intent":"sale",
+                            "redirect_urls":{
+                            "return_url":"http://returnurl.com",
+                            "cancel_url":"http://returnurl.com"
+                            },
+                            "payer":{
+                            "payment_method":"paypal"
+                            },
+                            "transactions":[
+                            {
+                            "amount":{
+                            "total":"' . preg_replace("/[^0-9,.]/", "", $order_price) .'",
+                            "currency":"' . $currency_code .'"
+                            },
+                            "description":"' . ucfirst($type) . ' Logo Purchase. ' . '"
+                            }
+                            ]
+                            }';
+
+                            curl_setopt($ch, CURLOPT_URL, "https://api.sandbox.paypal.com/v1/payments/payment");
+                            curl_setopt($ch, CURLOPT_POST, true);
+                            curl_setopt($ch, CURLOPT_POSTFIELDS, $data); 
+                            curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                            'Content-Type:application/json',
+                            "Authorization: Bearer " . $json->access_token, 
+                            "Content-length: ".strlen($data))
+                            );
+                            print_r($data);
+                            $result = curl_exec($ch);
+
+                            if(empty($result))die("Error: No response.");
+                            else {
+                                $json_output = json_decode($result);
+                                print_r($result);
+
+                                if(isset($json_output->{'links'}[2]->{'href'}))
+                                    $_SESSION['execute_url'] = $json_output->{'links'}[2]->{'href'};
+                                if(isset($json_output->{'links'}[1]->{'href'}))
+                                    header('Location:' .$json_output->{'links'}[1]->{'href'} );
+                            }
+
+                    }
+
+                }
+
+        curl_close($ch);
+
+
+
+
+
+

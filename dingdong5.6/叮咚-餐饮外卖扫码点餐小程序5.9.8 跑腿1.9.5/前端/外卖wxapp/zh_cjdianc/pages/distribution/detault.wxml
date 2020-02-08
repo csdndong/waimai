@@ -1,0 +1,90 @@
+<view class="list_header">
+    <view bindtap="tabClick" class="list_title {{activeIndex==index?'selsect':'default'}}" id="{{index}}" style="color:{{activeIndex==index?color:''}}" wx:for="{{tabs}}">
+        <view>{{item}}</view>
+        <view class="list_border" hidden="{{activeIndex!=index}}" style="background-color:{{color}};"></view>
+    </view>
+</view>
+<view class="list" hidden="{{activeIndex!=0}}">
+    <view class="list_imgbk2" hidden="{{dsh.length!=0}}">
+        <image class="list_imgbk" mode="aspectFit" src="../../img/list.png"></image>
+        <view class="list_imgbk3">您暂时没有待审核的明细哦！</view>
+    </view>
+    <view class="weui-cells weui-cells_after-title" wx:for="{{dsh}}">
+        <view class="weui-cell">
+            <view class="weui-cell__bd">申请时间：{{item.time}}</view>
+            <view class="weui-cell__ft" style="color:#999">等待审核</view>
+        </view>
+        <view class="weui-cell">
+            <view class="weui-cell__hd">
+                <image class="himg" src="../../images/zfb.png" wx:if="{{item.type=='1'}}"></image>
+                <image class="himg" src="../../images/weixin.png" wx:if="{{item.type=='2'}}"></image>
+                <image class="himg" src="../../images/yhk.png" wx:if="{{item.type=='3'}}"></image>
+            </view>
+            <view class="weui-cell__bd">
+                <view>{{item.user_name}}({{item.account}})</view>
+                <view>提现金额：{{item.tx_cost}}元</view>
+            </view>
+            <view class="weui-cell__ft">预计到账金额：{{item.sj_cost}}</view>
+        </view>
+    </view>
+    <view class="kong" hidden="{{dsh.length==0}}">
+        <image src="../../img/wushuju.png"></image>
+        <view>没有更多了</view>
+    </view>
+</view>
+<view class="list" hidden="{{activeIndex!=1}}">
+    <view class="list_imgbk2" hidden="{{ytg.length!=0}}">
+        <image class="list_imgbk" mode="aspectFit" src="../../img/list.png"></image>
+        <view class="list_imgbk3">您暂时没有已通过的明细哦！</view>
+    </view>
+    <view class="weui-cells weui-cells_after-title" wx:for="{{ytg}}">
+        <view class="weui-cell">
+            <view class="weui-cell__bd">通过时间：{{item.sh_time}}</view>
+            <view class="weui-cell__ft" style="color:#34aaff">提现成功</view>
+        </view>
+        <view class="weui-cell">
+            <view class="weui-cell__hd">
+                <image class="himg" src="../../images/zfb.png" wx:if="{{item.type=='1'}}"></image>
+                <image class="himg" src="../../images/weixin.png" wx:if="{{item.type=='2'}}"></image>
+                <image class="himg" src="../../images/yhk.png" wx:if="{{item.type=='3'}}"></image>
+            </view>
+            <view class="weui-cell__bd">
+                <view>{{item.user_name}}({{item.account}})</view>
+                <view>提现金额：{{item.tx_cost}}元</view>
+            </view>
+            <view class="weui-cell__ft">预计到账金额：{{item.sj_cost}}</view>
+        </view>
+    </view>
+    <view class="kong" hidden="{{ytg.length==0}}">
+        <image src="../../img/wushuju.png"></image>
+        <view>没有更多了</view>
+    </view>
+</view>
+<view class="list" hidden="{{activeIndex!=2}}">
+    <view class="list_imgbk2" hidden="{{yjj.length!=0}}">
+        <image class="list_imgbk" mode="aspectFit" src="../../img/list.png"></image>
+        <view class="list_imgbk3">您暂时没有已拒绝的明细哦！</view>
+    </view>
+    <view class="weui-cells weui-cells_after-title" wx:for="{{yjj}}">
+        <view class="weui-cell">
+            <view class="weui-cell__bd">审核时间：{{item.sh_time}}</view>
+            <view class="weui-cell__ft" style="color:#ff6161">已被拒绝</view>
+        </view>
+        <view class="weui-cell">
+            <view class="weui-cell__hd">
+                <image class="himg" src="../../images/zfb.png" wx:if="{{item.type=='1'}}"></image>
+                <image class="himg" src="../../images/weixin.png" wx:if="{{item.type=='2'}}"></image>
+                <image class="himg" src="../../images/yhk.png" wx:if="{{item.type=='3'}}"></image>
+            </view>
+            <view class="weui-cell__bd">
+                <view>{{item.user_name}}({{item.account}})</view>
+                <view>提现金额：{{item.tx_cost}}元</view>
+            </view>
+            <view class="weui-cell__ft">预计到账金额：{{item.sj_cost}}</view>
+        </view>
+    </view>
+    <view class="kong" hidden="{{yjj.length==0}}">
+        <image src="../../img/wushuju.png"></image>
+        <view>没有更多了</view>
+    </view>
+</view>

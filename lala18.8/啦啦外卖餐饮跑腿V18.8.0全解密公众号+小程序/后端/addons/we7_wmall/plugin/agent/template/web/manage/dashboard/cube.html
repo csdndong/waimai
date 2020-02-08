@@ -1,0 +1,191 @@
+{itemplate 'public/header'}
+{if $op == 'list'}
+<form action="" class="form-table form" method="post">
+	<div class="panel panel-table">
+		<div class="panel-heading">
+			<a href="{php echo iurl('dashboard/cube/post');}" class="btn btn-primary btn-sm">添加图片魔方</a>
+		</div>
+		<div class="panel-body table-responsive js-table">
+			{if empty($cubes)}
+				<div class="no-result">
+					<p>还没有相关数据</p>
+				</div>
+			{else}
+				<table class="table table-hover">
+					<thead>
+					<tr>
+						<th>
+							<div class="checkbox checkbox-inline">
+								<input type="checkbox" name="id[]"/>
+								<label></label>
+							</div>
+						</th>
+						<th>排序</th>
+						{if $_W['is_agent']}
+							<th>所属城市</th>
+						{/if}
+						<th>图片</th>
+						<th>标题</th>
+						<th>副标题</th>
+						<th>跳转链接</th>
+						<th>小程序/新版公众号跳转连接</th>
+						<th class="text-right">操作</th>
+					</tr>
+					</thead>
+					<tbody id="tpl-cube-container">
+					{loop $cubes $cube}
+						<tr class="cube-item">
+							<td>
+								<div class="checkbox checkbox-inline">
+									<input type="checkbox" name="id[]" value="{$cube['id']}"/>
+									<label></label>
+								</div>
+							</td>
+							<input type="hidden" name="ids[]" value="{$cube['id']}">
+							<td>
+								<input type="text" name="displayorders[]" class="form-control width-100" value="{$cube['displayorder']}">
+							</td>
+							{if $_W['is_agent']}
+								<td>{php echo toagent($cube['agentid'])}</td>
+							{/if}
+							<td>
+								<div class="input-group ">
+									<div class="input-group-addon">
+										<img src="{php echo tomedia($cube['thumb']);}" width="20" height="20">
+									</div>
+									<input type="text" name="thumbs[]" value="{$cube['thumb']}" class="form-control" autocomplete="off">
+									<span class="input-group-btn">
+										<button class="btn btn-default btn-image" type="button">选择图片</button>
+									</span>
+								</div>
+							</td>
+							<td>
+								<input type="text" name="titles[]" class="form-control width-130" value="{$cube['title']}">
+							</td>
+							<td>
+								<input type="text" name="tips[]" value="{$cube['tips']}" class="form-control width-130">
+							</td>
+							<td>
+								<div class="input-group">
+									<input type="text" value="{$cube['link']}" name="links[]" class="form-control">
+									<span class="input-group-btn">
+										<button class="btn btn-default btn-links" type="button">选择链接</button>
+									</span>
+								</div>
+							</td>
+							<td>
+								<div class="input-group">
+									<input type="text" value="{$cube['wxapp_link']}" name="wxapp_links[]" class="form-control">
+									<span class="input-group-btn">
+										<button class="btn btn-default btn-wxapp-links" type="button">小程序/新版公众号跳转连接</button>
+									</span>
+								</div>
+							</td>
+							<td class="text-right">
+								<a href="{php echo iurl('dashboard/cube/post', array('id' => $cube['id']))}" class="btn btn-default btn-sm" title="编辑" data-toggle="tooltip" data-placement="top" > 编辑</a>
+								<a href="{php echo iurl('dashboard/cube/del', array('id' => $cube['id']))}" class="btn btn-default btn-sm btn-cube-del js-post" data-confirm="确定删除吗">删除</a>
+							</td>
+						</tr>
+					{/loop}
+					</tbody>
+				</table>
+			<div class="btn-region clearfix">
+				<div class="pull-left">
+					<input name="token" type="hidden" value="{$_W['token']}" />
+					<input type="submit" class="btn btn-primary btn-sm" name="submit" value="提交修改" />
+					<a href="{php echo iurl('dashboard/cube/del')}" class="btn btn-primary btn-danger btn-sm js-batch" data-batch="remove" data-confirm="删除后将不可恢复，确定删除吗">删除</a>
+				</div>
+				<div class="pull-right">
+					{$pager}
+				</div>
+			</div>
+			{/if}
+		</div>
+	</div>
+</form>
+{/if}
+{if $op == 'post'}
+<div class="page clearfix">
+	<h2>编辑图片魔方</h2>
+	<form class="form-horizontal form form-validate" id="form1" action="" method="post" enctype="multipart/form-data">
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">排序</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="number" class="form-control" name="displayorder" value="{$cube['displayorder']}">
+				<span class="help-block">数字越大越靠前</span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">标题</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="text" class="form-control" name="title" value="{$cube['title']}" required="true">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">副标题</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="text" class="form-control" name="tips" value="{$cube['tips']}" required="true">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">魔方图片</label>
+			<div class="col-sm-9 col-xs-12">
+				{php echo tpl_form_field_image('thumb', $cube['thumb'])}
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">跳转链接</label>
+			<div class="col-sm-9 col-xs-12">
+				{php echo tpl_form_field_tiny_link('link', $cube['link']);}
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">小程序/新版公众号跳转链接</label>
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				{php echo tpl_form_field_tiny_wxapp_link('wxapp_link', $cube['wxapp_link']);}
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<input type="hidden" name="token" value="{$_W['token']}">
+				<input type="submit" value="提交" class="btn btn-primary">
+			</div>
+		</div>
+	</form>
+</div>
+{/if}
+<script type="text/javascript">
+	irequire(['web/tiny'], function(tiny){
+		$(document).on('click', '.btn-image', function(){
+			var btn = $(this);
+			var ipt = btn.parent().prev();
+			var val = ipt.val();
+			var img = ipt.parent().parent().find(".input-group-addon img");
+			util.image(val, function(url){
+				if(url.url){
+					if(img.length > 0){
+						img.get(0).src = url.url;
+					}
+					ipt.val(url.attachment);
+					ipt.attr("filename",url.filename);
+					ipt.attr("url",url.url);
+				}
+			}, null);
+		});
+
+		$(document).on('click', '.btn-links', function() {
+			var ipt = $(this).parent().prev();
+			tiny.selectLink(function(href){
+				ipt.val(href);
+			});
+		});
+
+		$(document).on('click', '.btn-wxapp-links', function() {
+			var ipt = $(this).parent().prev();
+			tiny.selectWxappLink(function(href){
+				ipt.val(href);
+			});
+		});
+	});
+</script>
+{itemplate 'public/footer'}

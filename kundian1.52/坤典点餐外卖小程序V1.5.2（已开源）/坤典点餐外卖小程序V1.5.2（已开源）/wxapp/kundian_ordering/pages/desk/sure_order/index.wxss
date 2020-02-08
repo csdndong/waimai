@@ -1,0 +1,141 @@
+page {
+    background: #f4f4f4;
+    font-size: 30rpx;
+}
+
+.con {
+    width: 100%;
+    height: auto;
+    background: white;
+}
+
+.con .title-img {
+    width: 100%;
+    height: 10rpx;
+}
+
+.con .title-img image {
+    width: 100%;
+    height: 10rpx;
+    position: absolute;
+}
+
+.con .o-ul {
+    width: 90%;
+    margin-left: 5%;
+    height: 90rpx;
+    border-bottom: 1rpx solid #f4f4f4;
+    line-height: 90rpx;
+}
+
+.con .o-ul .ul-title {
+    width: 30%;
+    height: 100%;
+    float: left;
+    color: gray;
+}
+
+.red {
+    color: red;
+}
+
+.goods {
+    width: 100%;
+    height: auto;
+    background: white;
+    margin-top: 20rpx;
+    padding-bottom: 100rpx;
+}
+
+.goods .goods-title {
+    width: 90%;
+    margin-left: 5%;
+    border-bottom: 1rpx solid #f4f4f4;
+    height: 80rpx;
+    line-height: 80rpx;
+    color: gray;
+}
+
+.goods .goods-ul {
+    width: 90%;
+    margin-left: 5%;
+    border-bottom: 1rpx solid #f4f4f4;
+    height: 100rpx;
+    padding-top: 10px;
+}
+
+.goods .goods-ul view {
+    float: left;
+}
+
+.goods .goods-ul .ul-cover {
+    width: 20%;
+    height: 90rpx;
+    margin-top: 5rpx;
+}
+
+.goods .goods-ul .ul-cover image {
+    width: 90rpx;
+    height: 90rpx;
+}
+
+.goods .goods-ul .ul-name {
+    width: 50%;
+    font-size: 28rpx;
+}
+
+.goods .goods-ul .ul-count {
+    width: 10%;
+    text-align: center;
+}
+
+.goods .goods-ul .ul-price {
+    width: 20%;
+    text-align: center;
+}
+
+.goods .goods-btm {
+    width: 90%;
+    margin-left: 5%;
+    height: 80rpx;
+    line-height: 80rpx;
+    text-align: right;
+}
+
+.goods .goods-btm .g-b-title {
+    color: gray;
+}
+
+.o-footer {
+    width: 100%;
+    height: 100rpx;
+    position: fixed;
+    bottom: 0;
+}
+
+.o-footer .f-left {
+    width: 70%;
+    height: 100%;
+    background: black;
+    color: white;
+    float: left;
+    line-height: 100rpx;
+    text-align: right;
+}
+
+.o-footer .f-left .price {
+    font-size: 34rpx;
+    font-weight: bold;
+    margin-right: 10rpx;
+}
+
+.o-footer .f-right {
+    width: 30%;
+    height: 100%;
+    float: left;
+    background: #ffd050;
+    color: white;
+    text-align: center;
+    line-height: 100rpx;
+    font-size: 32rpx;
+}

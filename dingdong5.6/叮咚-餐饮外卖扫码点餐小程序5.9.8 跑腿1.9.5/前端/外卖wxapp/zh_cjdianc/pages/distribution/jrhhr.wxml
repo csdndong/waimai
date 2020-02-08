@@ -1,0 +1,40 @@
+<form bindreset="formReset" bindsubmit="formSubmit" reportSubmit="true">
+    <view class="integral">
+        <view class="banner" wx:if="{{img!=''}}">
+            <view class="swiper-container">
+                <view class="swiper">
+                    <image class="img" src="{{url}}{{img}}"></image>
+                </view>
+            </view>
+        </view>
+        <view class="banner1">
+            <view class="huanying">欢迎加入
+        <text>{{pt_name}}</text>，请填写申请信息。</view>
+            <view class="bannerbox">
+                <view class="">邀请人</view>
+                <input disabled="true" placeholderStyle="color:#999;" style="color:#ff4544" type="text" value="{{yqr}}"></input>
+            </view>
+            <view class="bannerbox">
+                <view class="">姓名</view>
+                <input name="name" placeholder="请填写真实姓名" placeholderStyle="color:#999;" type="text"></input>
+            </view>
+            <view class="bannerbox">
+                <view class="">手机号</view>
+                <input name="tel" placeholder="请填写手机号码" placeholderStyle="color:#999;" type="number"></input>
+            </view>
+            <view class="read">
+                <checkbox-group name="checkbox">
+                    <checkbox color="#ff6161" style="zoom:80%" value="1"></checkbox>
+                </checkbox-group>
+                <view>我已阅读并同意
+          <text bindtap="lookck" class="readfont">《申请分销商协议》</text>
+                </view>
+            </view>
+        </view>
+        <view class="weui-btn-area">
+            <button class="weui-btn" formType="submit" style="background:{{color}}">立即成为合伙人</button>
+        </view>
+    </view>
+</form>
+<import src="/zh_cjdianc/pages/commons/xy.wxml"></import>
+<template is="xytemp" data="{{fwxy:fwxy,xymc:xymc,xynr:xynr}}"></template>

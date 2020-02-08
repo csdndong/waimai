@@ -1,0 +1,39 @@
+<view class="page-category">
+    <view class="category-item" wx:for="{{categorys}}">
+        <block wx:if="{{item.child.length>0}}">
+            <view class="inner flex-lr">
+                <view bind:tap="onJsEvent" class="info" data-event-type="jsUrl" data-url="pages/goods/index?cid={{item.id}}">
+                    <view class="title">{{item.title}}</view>
+                </view>
+                <view class="btn-group flex-m">
+                    <view bind:tap="onJsEvent" class="icon icon-edit" data-event-type="jsUrl" data-url="pages/category/post?id={{item.id}}"></view>
+                </view>
+            </view>
+            <view class="children">
+                <view class="inner flex-lr  border-1px-t" wx:for="{{item.child}}" wx:for-item="childItem">
+                    <view bind:tap="onJsEvent" class="info" data-event-type="jsUrl" data-url="pages/goods/index?child_id={{childItem.id}}&cid={{item.id}}">
+                        <view class="title">{{childItem.title}}</view>
+                        <view class="total">{{childItem.goods_num?childItem.goods_num+'个商品':'暂无商品'}}</view>
+                    </view>
+                    <view class="btn-group flex">
+                        <view bind:tap="onJsEvent" class="icon icon-edit" data-event-type="jsUrl" data-url="pages/category/post?id={{childItem.id}}&parentid={{item.id}}"></view>
+                    </view>
+                </view>
+            </view>
+        </block>
+        <view class="inner flex-lr" wx:else>
+            <view bind:tap="onJsEvent" class="info" data-event-type="jsUrl" data-url="pages/goods/index?cid={{item.id}}">
+                <view class="title">{{item.title}}</view>
+                <view class="total">{{item.goods_num?item.goods_num+'个商品':'暂无商品'}}</view>
+            </view>
+            <view class="btn-group flex">
+                <view bind:tap="onJsEvent" class="icon icon-edit" data-event-type="jsUrl" data-url="pages/category/post?id={{item.id}}"></view>
+            </view>
+        </view>
+    </view>
+    <view bind:tap="onJsEvent" class="footer-operate flex-m border-1px-t" data-event-type="jsUrl" data-url="pages/category/post">
+        <view class="icon icon-plus"></view>
+        <view>新建分类</view>
+    </view>
+</view>
+<include src="../public/footer.wxml"></include>

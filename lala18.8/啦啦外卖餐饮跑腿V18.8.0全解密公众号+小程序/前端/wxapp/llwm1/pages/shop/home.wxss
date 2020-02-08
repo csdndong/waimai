@@ -1,0 +1,112 @@
+page {
+    font-size: 14px;
+    box-sizing: border-box;
+    width: 100%;
+    background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    color: transparent;
+}
+
+.content .store-data {
+    overflow: hidden;
+    border-bottom: 1px solid #eaeaea;
+}
+
+.content .store-data .data {
+    width: 33.3333333%;
+    float: left;
+    text-align: center;
+    background: #fff;
+    padding: 15px 0;
+}
+
+.content .store-data .data:first-child .data-url {
+    border-left: 0;
+}
+
+.content .store-data .data .data-url {
+    border-left: 1px solid #e8e9eb;
+    font-size: 12px;
+    overflow: hidden;
+    display: block;
+    width: 100%;
+    height: 100%;
+    color: #3d4145;
+}
+
+.content .store-data .data .data-sum {
+    font-size: 20px;
+    line-height: 1.3;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.content .store-data .data .data-info {
+    color: #878787;
+}
+
+.content .store-cate {
+    overflow: hidden;
+    background: #fff;
+    margin: 10px 0;
+    border: solid #eaeaea;
+    border-width: 1px 0;
+    padding-bottom: 22px;
+}
+
+.content .store-cate .store-item {
+    display: block;
+    float: left;
+    width: 33.3333333%;
+    text-align: center;
+    padding-top: 22px;
+    position: relative;
+}
+
+.content .store-cate .store-item .store-title {
+    color: #7a848f;
+    font-size: 12px;
+    padding-top: 4px;
+}
+
+.content .store-cate .store-item .icon {
+    display: inline-block;
+    zoom: 1;
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    font-size: 36px;
+    color: #2F9AEA;
+}
+
+.content .store-cate .store-item .icon-shop {
+    color: #F09A91;
+}
+
+.content .store-cate .store-item .icon-goods {
+    color: #E9972D;
+}
+
+.content .store-cate .store-item .icon-recharge {
+    color: #E9972D;
+}
+
+.content .store-cate .store-item .icon-activity {
+    color: #33aafc;
+}
+
+.content .store-cate .store-item .icon-medal {
+    color: #FFD700;
+}
+
+.content .store-cate .store-item .weui-badge {
+    position: absolute;
+    top: 28px;
+    left: 53%;
+}

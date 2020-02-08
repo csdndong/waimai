@@ -1,0 +1,20 @@
+2019-05-14 19:13:38 signStr :开始==================
+'nonce=013160&timestamp=1557832418092&type=dianwoda.order.status-update&body={"content":{"rider_code":1,"order_status":"created","order_original_id":"t1000152_20190514173816287303","rider_name":"都别动这账号","action_code":"rider_switch","action_detail":"骑手转单","time_status_update":1557832418035,"rider_mobile":"18368856978"},"deliver_times":1,"msg_id":"a1ff8944c4964d7bbc4e1bdd9688d64f","pub_time":1557832418070}&secret=52863ed1228351ab92146eccbb0bf9f5'
+2019-05-14 19:13:38 signStr :结束==================
+
+2019-05-14 19:16:14 signStr :开始==================
+'access_token=TEST2018-a444-4e50-b785-f48ba984bd9c&api=dianwoda.order.cost.estimate&appkey=t1000152&nonce=928046&timestamp=1557832574030&body={"city_code":140100,"seller_id":"t1000152_126","seller_name":"\\u8336\\u4e0d\\u601d\\u5e97","seller_mobile":"6888888","seller_address":"\\u5b89\\u6e90\\u533a","seller_lat":"37.791069","seller_lng":"112.609959","consignee_address":"\\u7530\\u638c\\u67dc\\u9171\\u9aa8\\u5254\\u5c16\\u94fa01","consignee_lat":"37.775501","consignee_lng":"112.588545","cargo_type":"04","cargo_weight":0}&secret=52863ed1228351ab92146eccbb0bf9f5'
+2019-05-14 19:16:14 signStr :结束==================
+
+2019-05-14 19:16:15 signStr :开始==================
+'access_token=TEST2018-a444-4e50-b785-f48ba984bd9c&api=dianwoda.order.create&appkey=t1000152&nonce=770644&timestamp=1557832575794&body={"order_original_id":"t1000152_20190514191553668836","order_create_time":1557832552000,"order_remark":"","serial_id":"11","order_price":1900,"city_code":140100,"seller_id":"t1000152_126","seller_name":"\\u8336\\u4e0d\\u601d\\u5e97","seller_mobile":"6888888","seller_address":"\\u5b89\\u6e90\\u533a","seller_lat":"37.791069","seller_lng":"112.609959","consignee_name":"BUG\\u5927\\u738b","consignee_mobile":"13453222256","consignee_address":"\\u7530\\u638c\\u67dc\\u9171\\u9aa8\\u5254\\u5c16\\u94fa01","consignee_lat":"37.775501","consignee_lng":"112.588545","cargo_type":"04","cargo_weight":0,"cargo_num":"1"}&secret=52863ed1228351ab92146eccbb0bf9f5'
+2019-05-14 19:16:15 signStr :结束==================
+
+2019-05-14 19:16:57 signStr :开始==================
+'access_token=TEST2018-a444-4e50-b785-f48ba984bd9c&api=dianwoda.order.query&appkey=t1000152&nonce=262814&timestamp=1557832617972&body={"order_original_id":"t1000152_20190514191553668836"}&secret=52863ed1228351ab92146eccbb0bf9f5'
+2019-05-14 19:16:57 signStr :结束==================
+
+2019-05-14 19:17:09 signStr :开始==================
+'nonce=418188&timestamp=1557832629529&type=dianwoda.order.status-update&body={"content":{"rider_code":1,"order_status":"dispatched","order_original_id":"t1000152_20190514191553668836","rider_name":"都别动这账号","action_code":"rider_dispatch","action_detail":"骑手接单","time_status_update":1557832629499,"rider_mobile":"18368856978"},"deliver_times":1,"msg_id":"69f0ca87efd54fcca5d70a568ab7fb08","pub_time":1557832629508}&secret=52863ed1228351ab92146eccbb0bf9f5'
+2019-05-14 19:17:09 signStr :结束==================
+

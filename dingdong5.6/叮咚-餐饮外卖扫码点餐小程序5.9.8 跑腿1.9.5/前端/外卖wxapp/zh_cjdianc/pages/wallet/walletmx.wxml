@@ -1,0 +1,21 @@
+<view class="no_coupons" wx:if="{{score==null||score==''}}">
+    <view class="noe_coupons_img">
+        <image mode="aspectFit" src="../../img/list.png"></image>
+    您暂无相关交易明细
+  </view>
+</view>
+<view wx:else>
+    <view class="integral" wx:for="{{score}}">
+        <view class="integral-left">
+            <view>{{item.note}}</view>
+            <view>{{item.time}}</view>
+        </view>
+        <view class="integral-right">
+            <text style="color:#6AC20B" wx:if="{{item.type==1}}">+{{item.money}}<text class="integral-right1">元</text>
+            </text>
+            <text style="color:#f44444" wx:if="{{item.type==2}}">-{{item.money}}<text class="integral-right1">元</text>
+            </text>
+        </view>
+    </view>
+    <view class="mygd">没有更多了哦~</view>
+</view>

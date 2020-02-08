@@ -1,0 +1,148 @@
+{if $type == 'transfer'}
+	<div class="page page-js-modal">
+		<header class="bar bar-nav common-bar-nav">
+			<h1 class="title">转单理由</h1>
+			<a class="pull-right close-popup" href="javascript:;">取消</a>
+		</header>
+		<div class="content">
+			<div class="list-block">
+				<ul class="border-1px-tb padding-15px-lr">
+					{loop $reasons $reason}
+					<li>
+						<label class="label-checkbox item-content border-1px-t">
+							<input type="radio" name="reason" checked="" value="{$reason}">
+							<div class="item-media"><i class="icon icon-form-checkbox"></i></div>
+							<div class="item-inner">
+								<div class="item-title-row">
+									<div class="item-title">{$reason}</div>
+								</div>
+							</div>
+						</label>
+					</li>
+					{/loop}
+					<li>
+						<label class="label-checkbox item-content border-1px-t">
+							<input type="radio" name="reason" checked="" value="其他原因">
+							<div class="item-media"><i class="icon icon-form-checkbox"></i></div>
+							<div class="item-inner">
+								<div class="item-title-row">
+									<div class="item-title">其他原因</div>
+								</div>
+							</div>
+						</label>
+					</li>
+				</ul>
+				<div class="content-padded">
+					<a href="{php echo imurl('delivery/order/takeout/delivery_transfer', array('id' => $id, 'reason' => '其他原因'))}" class="button button-big button-fill button-success button-transfer js-post" data-confirm="确定申请转单吗?">确定转单</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+		$.modal.prototype.defaults.closePrevious = false;
+		var url_temp = "{php echo imurl('delivery/order/takeout/delivery_transfer', array('id' => $id))}&reason=";
+		$('.label-checkbox').click(function(){
+			var reason = $(this).find(':radio').val();
+			var url = url_temp + reason;
+			$('.button-transfer').attr('href', url);
+			return;
+		});
+	</script>
+{/if}
+{if $type == 'direct_transfer'}
+<div class="page page-js-modal">
+	<header class="bar bar-nav common-bar-nav">
+		<h1 class="title">定向转单</h1>
+		<a class="pull-right close-popup" href="javascript:;">取消</a>
+	</header>
+	<div class="content">
+		<div class="list-block">
+			<ul class="border-1px-tb padding-15px-lr">
+				<li>
+					<label class="item-content border-1px-t">
+						选择转单到配送员：
+					</label>
+				</li>
+				{loop $deliveryers $deliveryer}
+					<li>
+						<label class="label-checkbox item-content border-1px-t deliveryer-content">
+							<input type="radio" name="deliveryer_id" checked="checked" value="{$deliveryer['id']}">
+							<div class="item-media"><i class="icon icon-form-checkbox"></i></div>
+							<div class="item-inner">
+								<div class="item-title-row">
+									<div class="item-title">{$deliveryer['title']}</div>
+								</div>
+							</div>
+						</label>
+					</li>
+				{/loop}
+			</ul>
+			<div class="content-padded">
+				<a href="{php echo imurl('delivery/order/takeout/direct_transfer', array('id' => $id))}" class="button button-big button-fill button-success button-direct_transfer js-post" data-confirm="确定定向转单吗?">确定转单</a>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	$.modal.prototype.defaults.closePrevious = false;
+	var url_temp = "{php echo imurl('delivery/order/takeout/direct_transfer', array('id' => $id))}&deliveryer_id=";
+	$('.button-direct_transfer').attr('href', url_temp + $('.deliveryer-content').find(':radio:checked').val());
+	$('.deliveryer-content').click(function(){
+		var deliveryer_id = $(this).find(':radio').val();
+		var url = url_temp + deliveryer_id;
+		$('.button-direct_transfer').attr('href', url);
+		return;
+	});
+</script>
+{/if}
+{if $type == 'cancel'}
+<div class="page page-js-modal">
+	<header class="bar bar-nav common-bar-nav">
+		<h1 class="title">取消订单理由</h1>
+		<a class="pull-right close-popup" href="javascript:;">取消</a>
+	</header>
+	<div class="content">
+		<div class="list-block">
+			<ul class="border-1px-tb padding-15px-lr">
+				{loop $reasons $reason}
+				<li>
+					<label class="label-checkbox item-content border-1px-t">
+						<input type="radio" name="reason" checked="" value="{$reason}">
+						<div class="item-media"><i class="icon icon-form-checkbox"></i></div>
+						<div class="item-inner">
+							<div class="item-title-row">
+								<div class="item-title">{$reason}</div>
+							</div>
+						</div>
+					</label>
+				</li>
+				{/loop}
+				<li>
+					<label class="label-checkbox item-content border-1px-t">
+						<input type="radio" name="reason" checked="" value="其他原因">
+						<div class="item-media"><i class="icon icon-form-checkbox"></i></div>
+						<div class="item-inner">
+							<div class="item-title-row">
+								<div class="item-title">其他原因</div>
+							</div>
+						</div>
+					</label>
+				</li>
+			</ul>
+			<div class="content-padded">
+				<a href="{php echo imurl('delivery/order/takeout/cancel', array('id' => $id, 'reason' => '其他原因'))}" class="button button-big button-fill button-success button-cancel js-post" data-confirm="确定取消订单吗?">确定取消</a>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	$.modal.prototype.defaults.closePrevious = false;
+	var url_temp = "{php echo imurl('delivery/order/takeout/cancel', array('id' => $id))}&reason=";
+	$('.label-checkbox').click(function(){
+		var reason = $(this).find(':radio').val();
+		var url = url_temp + reason;
+		$('.button-cancel').attr('href', url);
+		return;
+	});
+</script>
+{/if}

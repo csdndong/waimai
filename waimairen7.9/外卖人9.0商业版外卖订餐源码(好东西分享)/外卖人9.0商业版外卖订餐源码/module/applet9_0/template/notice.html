@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<meta name="MobileOptimized" content="320">
+<meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta name="HandheldFriendly" content="true">
+<meta name="author" content="johnye">
+<meta name="shenma-site-verification" content="f28da5e2e3fb6e2afd372a3eedfda998">
+<meta name="baidu-site-verification" content="eafwEzRbnz">
+<link rel="stylesheet"  href="<{$https}>/templates/<{$tempdir}>/public/wxsite/newcss/index.css">
+<link rel="stylesheet"  href="<{$https}>/templates/<{$tempdir}>/public/wxsite/newcss/font-awesome.min.css">
+<script src="<{$https}>/templates/<{$tempdir}>/public/wxsite/js/public.js"></script> 
+<style>
+.noticeCont img{width:100%!important;}
+</style>
+ <div id="wrapper" style="top:40px;background:#fff;">
+	<div id="scroller">
+		
+ 
+<div style="padding:10px;">
+	<div style="width:100%;">
+		<h1 style="color:#333333;font-size:18px; font-weight:bold;"><{$notice['title']}></h1>
+		<h2 style="text-align:right;color:#999999; font-size:12px;margin-right:10px;"><{$notice['addtime']|date_format:"%Y-%m-%d"}></h2>
+	</div>
+	<div class="noticeCont"	style="padding:10px;">
+		<{$notice['content']|htmlspecialchars_decode|default:'暂无详细通知说明'}>
+	</div>
+</div>
+ 
+ 
+   <div style="height:10px;"></div>
+</div>		 
+</div>		

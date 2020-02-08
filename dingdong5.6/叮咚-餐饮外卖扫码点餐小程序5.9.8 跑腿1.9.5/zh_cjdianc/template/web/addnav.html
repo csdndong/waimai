@@ -1,0 +1,212 @@
+{template 'public/header'}
+{template 'public/comhead'}
+<link rel="stylesheet" type="text/css" href="../addons/zh_cjdianc/template/public/ygcss.css">
+<style type="text/css">
+    input[type="radio"] + label::before {
+        content: "\a0"; /*不换行空格*/
+        display: inline-block;
+        vertical-align: middle;
+        font-size: 16px;
+        width: 1em;
+        height: 1em;
+        margin-right: .4em;
+        border-radius: 50%;
+        border: 2px solid #ddd;
+        text-indent: .15em;
+        line-height: 1; 
+    }
+    input[type="radio"]:checked + label::before {
+        background-color: #44ABF7;
+        background-clip: content-box;
+        padding: .1em;
+        border: 2px solid #44ABF7;
+    }
+    input[type="radio"] {
+        position: absolute;
+        clip: rect(0, 0, 0, 0);
+    }
+</style>
+<ul class="nav nav-tabs">
+    <span class="ygxian"></span>
+    <div class="ygdangq">当前位置:</div>   
+    <li><a href="{php echo $this->createWebUrl('nav')}">导航管理</a></li>
+    <li class="active"><a href="{php echo $this->createWebUrl('addnav')}">添加导航</a></li>
+</ul>
+<div class="main">
+    <form action="" method="post" class="form-horizontal form" enctype="multipart/form-data">
+        <!--<input type="hidden" name="parentid" value="{$parent['id']}" />-->
+        <div class="panel panel-default ygdefault">
+            <div class="panel-heading wyheader">
+                内容编辑
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">导航名称</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="title" class="form-control" value="{$info['title']}" />
+                    </div>
+                </div> 
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">选中标题颜色</label>
+                    <div class="col-sm-9">
+                       {php echo tpl_form_field_color('title_color', $info['title_color'])} 
+                        <span class="help-block">*不填写会默认选中红色</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">未选中标题颜色</label>
+                    <div class="col-sm-9">
+                       {php echo tpl_form_field_color('title_color2', $info['title_color2'])} 
+                        <span class="help-block">*不填写会默认选中灰色</span>
+                    </div>
+                </div>              
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">选中图片</label>
+                    <div class="col-sm-9">
+                        {php echo tpl_form_field_image('logo', $info['logo'])}
+                        <span class="help-block">*建议宽高80*80</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">未选中图片</label>
+                    <div class="col-sm-9">
+                        {php echo tpl_form_field_image('logo2', $info['logo2'])}
+                        <span class="help-block">*建议宽高80*80</span>
+                    </div>
+                </div>
+                                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">选择跳转方式</label>
+                    <div class="col-sm-9">
+                        <select name="item" class="col-sm-9" id="type">
+                            <option value="1" {if $info['item']=='1'} selected {/if}>内部网页跳转</option>
+                            <option value="2" {if $info['item']=='2'} selected {/if}>外部网页跳转</option>
+                            <option value="3" {if $info['item']=='3'} selected {/if}>关联小程序跳转</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group ygyi1">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">链接</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="url" class="form-control" value="{$info['url']}" />
+                        <span class="help-block">*多店模式首页的路径:&nbsp;&nbsp;&nbsp;/zh_cjdianc/pages/index/index</span>
+                         <span class="help-block">*单店模式商家详情作为首页的路径:&nbsp;&nbsp;&nbsp;/zh_cjdianc/pages/seller/index</span>
+                         <span class="help-block">*单店模式把外卖作为首页的路径:&nbsp;&nbsp;&nbsp;/zh_cjdianc/pages/seller/indextakeout</span>
+                         <span class="help-block"><font color="red">首页路径需与系统设置内平台模式相匹配</font></span>
+                        <span class="help-block">*跳转个人中心:&nbsp;&nbsp;&nbsp;/zh_cjdianc/pages/my/index</span>
+                        <span class="help-block">*跳转订单:&nbsp;&nbsp;&nbsp;/zh_cjdianc/pages/wddd/order</span>
+                        <span class="help-block">*跳转会员卡:&nbsp;&nbsp;&nbsp;/zh_cjdianc/pages/hyk/hyk</span>
+                        <span class="help-block">*跳转过审页面:&nbsp;&nbsp;&nbsp;/zh_cjdianc/pages/Liar/Liar</span>
+                        <span class="help-block">*跳转过审个人中心:&nbsp;&nbsp;&nbsp;/zh_cjdianc/pages/extra/gsmy</span>
+
+                    </div>
+                </div>
+                <div class="form-group ygyi2">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">外部链接</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="src2" class="form-control" value="{$info['src2']}" />
+                        <div class="ygmargin">*此链接为网页外部跳转链接，需要在小程序后台配置业务域名</div>
+                    </div>
+                </div>
+                <div class="form-group ygyi3">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">跳转小程序名称</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="xcx_name" class="form-control" value="{$info['xcx_name']}" />
+                    </div>
+                </div> 
+                <div class="form-group ygyi3">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">小程序appid</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="appid" class="form-control" value="{$info['appid']}" />
+                        <div class="ygmargin">*请输入跳转的小程序appid(须同一公众号下的关联的小程序之间才可以相互跳转)</div>
+                    </div>
+                </div>
+ <!--                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">链接</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="url" class="form-control" value="{$info['url']}" />
+                        <span class="help-block">*多店模式首页的路径:&nbsp;&nbsp;&nbsp;/zh_cjdianc/pages/index/index</span>
+                         <span class="help-block">*单店模式商家详情作为首页的路径:&nbsp;&nbsp;&nbsp;/zh_cjdianc/pages/seller/index</span>
+                         <span class="help-block">*单店模式把外卖作为首页的路径:&nbsp;&nbsp;&nbsp;/zh_cjdianc/pages/seller/indextakeout</span>
+                         <span class="help-block"><font color="red">首页路径需与系统设置内平台模式相匹配</font></span>
+                        <span class="help-block">*跳转个人中心:&nbsp;&nbsp;&nbsp;/zh_cjdianc/pages/my/index</span>
+                        <span class="help-block">*跳转订单:&nbsp;&nbsp;&nbsp;/zh_cjdianc/pages/wddd/order</span>
+                        <span class="help-block">*跳转会员卡:&nbsp;&nbsp;&nbsp;/zh_cjdianc/pages/hyk/hyk</span>
+                        <span class="help-block">*跳转精选好店:&nbsp;&nbsp;&nbsp;/zh_cjdianc/pages/extra/sgstore</span>
+
+                    </div>
+                </div> -->
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">排序</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="num" class="form-control" value="{$info['num']}" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">是否禁用</label>
+                    <div class="col-sm-9">
+                        <label class="radio-inline">
+                            <input type="radio" id="emailwy1" name="state" value="1" {if $info['state']==1 || empty($info['state'])}checked{/if} />
+                            <label for="emailwy1">启用</label>
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" id="emailwy2" name="state" value="2" {if $info['state']==2}checked{/if} />
+                            <label for="emailwy2">禁用</label>
+                        </label>    
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            <input type="submit" name="submit" value="提交" class="btn col-lg-3" style="color: white;background-color: #44ABF7;"/>
+            <input type="hidden" name="token" value="{$_W['token']}" />
+            <input type="hidden" name="id" value="{$info['id']}" />
+        </div>
+    </form>
+</div>
+
+<script type="text/javascript">
+    $(function(){
+        // $("#frame-2").addClass("in");
+        $("#frame-3").show();
+        $("#yframe-3").addClass("wyactive");
+        "{if $info}"
+            "{if $info['item']=='1'}"
+                $('.ygyi2').hide();
+                $('.ygyi3').hide();
+            "{/if}"
+            "{if $info['item']=='2'}"
+                $('.ygyi1').hide();
+                $('.ygyi3').hide();
+            "{/if}" 
+            "{if $info['item']=='3'}"
+                $('.ygyi1').hide();
+                $('.ygyi2').hide();
+            "{/if}"            
+        "{else}"
+            $('.ygyi2').hide();
+            $('.ygyi3').hide();
+        "{/if}"
+        $("select#type").change(function(){
+            if($(this).val()=='1'){
+                console.log($(this).val())
+                $(".ygyi1").show();
+                $(".ygyi2").hide();
+                $(".ygyi3").hide();  
+            }else if($(this).val()=='2'){
+                console.log($(this).val())
+                $(".ygyi1").hide();
+                $(".ygyi2").show();
+                $(".ygyi3").hide();  
+            }else if($(this).val()=='3'){
+                console.log($(this).val())
+                $(".ygyi1").hide();
+                $(".ygyi2").hide();
+                $(".ygyi3").show();  
+            }
+         })
+    })
+
+</script>
+{template 'common/footer'}

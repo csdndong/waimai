@@ -1,0 +1,236 @@
+<!--   time:2019-07-18 01:03:23 -->
+<include src="/zh_cjdianc/pages/commons/navbar/navbar.wxml" />
+<view class="page">
+	<view class="head">
+		<block wx:for="{{topnav}}" wx:for-item="item" wx:for-index="index" >
+			<view bindtap="selectednavbar" class="topnav" data-index="{{index}}">
+				<view class="topimg" style="background:{{selectedindex==index?color:''}}">
+					<block wx:if="{{selectedindex==index}}" >
+						<image mode="widthFix" src="{{item.img}}"></image>
+					</block>
+					<block wx:else>
+						<image mode="widthFix" src="{{item.img1}}"></image>
+					</block>
+				</view>
+				<view style="color:{{selectedindex==index?color:''}}">{{item.name}}</view>
+			</view>
+		</block>
+	</view>
+	<view class="main">
+		<block wx:if="{{order_list.length==0&&mygd}}">
+			<view class="no-data-tip zwdd">
+				<image mode="aspectFit" src="../../../img/list.png"></image>
+				<view>您暂无相关订单哦~</view>
+			</view>
+		</block>
+		<block wx:for="{{order_list}}" wx:for-item="oitem" wx:for-index="oindex" >
+			<navigator class="weui-cells weui-cells_after-title" hoverClass="none" url="wmddxq?oid={{oitem.order.id}}">
+				<view class="weui-cell" style="padding:20rpx 30rpx 0rpx;">
+					<view class="weui-cell__hd ddxh" style="color:{{color}}">#{{oitem.order.id}}</view>
+					<view class="weui-cell__bd">
+						<view>{{oitem.order.name}}</view>
+					</view>
+					<block wx:if="{{oitem.order.state=='2'}}">
+						<view class="weui-cell__ft" style="color:{{color}}">等待商家接单</view>
+					</block>
+					<block wx:if="{{oitem.order.state=='3'&&oitem.order.order_type=='1'}}">
+						<view class="weui-cell__ft" style="color:{{color}}">等待送达</view>
+					</block>
+					<block wx:if="{{oitem.order.state=='3'&&oitem.order.order_type=='2'}}">
+						<view class="weui-cell__ft" style="color:{{color}}">等待客户自提</view>
+					</block>
+					<block wx:if="{{oitem.order.state=='4'||oitem.order.state=='5'}}">
+						<view class="weui-cell__ft" style="color:{{color}}">订单已完成</view>
+					</block>
+					<block wx:if="{{oitem.order.state=='6'}}">
+						<view class="weui-cell__ft" style="color:{{color}}">客户已取消</view>
+					</block>
+					<block wx:if="{{oitem.order.state=='7'}}">
+						<view class="weui-cell__ft" style="color:#ff4544">商家拒绝接单</view>
+					</block>
+					<block wx:if="{{oitem.order.state=='8'}}">
+						<view class="weui-cell__ft" style="color:{{color}}">客户申请退款</view>
+					</block>
+					<block wx:if="{{oitem.order.state=='9'}}">
+						<view class="weui-cell__ft" style="color:{{color}}">商家已退款</view>
+					</block>
+					<block wx:if="{{oitem.order.state=='10'}}">
+						<view class="weui-cell__ft" style="color:#ff4544">商家拒绝退款</view>
+					</block>
+				</view>
+				<view style="font-size:22rpx;color:#999;padding:10rpx 30rpx 20rpx;">下单时间：{{oitem.order.time}}</view>
+				<block wx:if="{{oitem.order.order_type=='1'}}">
+					<view catchtap="location" class="weui-cell" data-address="{{oitem.order.address}}" data-lat="{{oitem.order.lat}}" data-lng="{{oitem.order.lng}}">
+						<view class="weui-cell__hd">收货地址：</view>
+						<view class="weui-cell__bd">{{oitem.order.address}}</view>
+						<view class="weui-cell__ft">
+							<image mode="aspectFit" src="../../../img/location1.png"></image>
+						</view>
+					</view>
+				</block>
+				<view class="weui-cell">
+					<block wx:if="{{oitem.order.order_type=='1'}}">
+						<view class="weui-cell__hd">配送时间：</view>
+					</block>
+					<block wx:if="{{oitem.order.order_type=='2'}}">
+						<view class="weui-cell__hd">自提时间：</view>
+					</block>
+					<view class="weui-cell__bd" style="color:{{color}}">{{oitem.order.delivery_time}}</view>
+					<block wx:if="{{oitem.order.order_type=='1'}}">
+						<view class="weui-cell__ft" style="color:{{color}}">{{oitem.order.ps_mode}}</view>
+					</block>
+					<block wx:if="{{((oitem.order.state=='3'&&oitem.order.order_type=='1')&&oitem.order.ps_mode!='商家配送')&&oitem.order.ps_mode!='快服务配送'}}">
+						<view catchtap="psxq" class="weui-cell__ft dyxp" data-id="{{oitem.order.id}}" data-psmode="{{oitem.order.ps_mode}}" data-sjid="{{oitem.order.store_id}}" style="color:#fff;border-color:#fff;background:{{color}};margin-left:20rpx;">配送详情</view>
+					</block>
+				</view>
+				<view catchtap="kindToggle" class="weui-cell" id="{{oindex}}">
+					<view class="weui-cell__hd">商品信息：</view>
+					<view class="weui-cell__bd" style="color:#999;font-size:22rpx;">{{oitem.good[0].name}}等{{oitem.num}}件商品</view>
+					<view class="weui-cell__ft">
+						<image class="{{oitem.open?'xs':'xx'}}" mode="aspectFit" src="../../../img/down1.png"></image>
+					</view>
+				</view>
+				<block wx:for="{{oitem.good}}" wx:for-item="item" wx:for-index="index" >
+					<block wx:if="{{oitem.open}}">
+						<view class="weui-cell">
+							<view class="weui-cell__hd">
+								<image src="{{item.img}}"></image>
+							</view>
+							<view class="weui-cell__bd">{{item.name}}</view>
+							<view class="weui-cell__ft cpjg">
+								<text>x{{item.number}}</text>￥{{item.money}}							</view>
+						</view>
+					</block>
+				</block>
+				<view catchtap="maketel" class="weui-cell" data-tel="{{oitem.order.tel}}">
+					<view class="weui-cell__hd">订单金额：</view>
+					<view class="weui-cell__bd" style="color:{{color}}">{{oitem.order.money}}元</view>
+					<block wx:if="{{oitem.order.pay_type=='1'}}">
+						<view class="weui-cell__ft" style="color:#66CD00">微信支付</view>
+					</block>
+					<block wx:if="{{oitem.order.pay_type=='2'}}">
+						<view class="weui-cell__ft" style="color:#EEAD0E">余额支付</view>
+					</block>
+					<block wx:if="{{oitem.order.pay_type=='4'}}">
+						<view class="weui-cell__ft">货到付款</view>
+					</block>
+				</view>
+				<view class="ddxx">
+					<view class="flex-bet">
+						<view>订单编号：{{oitem.order.order_num}}</view>
+						<view catchtap="dyxp" class="dyxp" data-id="{{oitem.order.id}}" style="color:{{color}};border-color:{{color}};margin-right:37rpx;">打印小票</view>
+					</view>
+					<block wx:if="{{oitem.order.note!=''}}">
+						<view>备注：{{oitem.order.note}}</view>
+					</block>
+				</view>
+				<view class="footbtn">
+					<block wx:if="{{oitem.order.state=='2'}}">
+						<button catchtap="jjjd" class="jjjd" data-id="{{oitem.order.id}}">拒绝接单</button>
+					</block>
+					<block wx:if="{{oitem.order.state=='2'}}">
+						<button catchtap="djjd" class="djjd" data-id="{{oitem.order.id}}" style="background:{{color}};color: #fff;">点击接单</button>
+					</block>
+					<block wx:if="{{oitem.order.state=='3'&&oitem.order.order_type=='1'}}">
+						<button catchtap="wcps" class="djjd" data-id="{{oitem.order.id}}" style="background:{{color}};color: #fff;">完成订单</button>
+					</block>
+					<block wx:if="{{oitem.order.state=='3'&&oitem.order.order_type=='2'}}">
+						<button catchtap="smhx" class="djjd" data-id="{{oitem.order.id}}" style="background:{{color}};color: #fff;">扫码核销</button>
+					</block>
+					<block wx:if="{{oitem.order.state=='8'}}">
+						<button catchtap="jjtk" class="jjjd" data-id="{{oitem.order.id}}">拒绝退款</button>
+					</block>
+					<block wx:if="{{oitem.order.state=='8'}}">
+						<button catchtap="tgtk" class="djjd" data-id="{{oitem.order.id}}" style="background:{{color}};color: #fff;">通过退款</button>
+					</block>
+				</view>
+			</navigator>
+		</block>
+		<view class="jzz" hidden="{{mygd}}">
+			<image class="Rotation" src="../../../img/jzz.png"></image>
+			<view>加载中...</view>
+		</view>
+		<block wx:if="{{mygd}}">
+			<view class="jzwb">
+				<view class="hx"></view>
+				<view class="wz">加载完毕</view>
+				<view class="hx"></view>
+			</view>
+		</block>
+	</view>
+</view>
+<view bindtap="hide" class="flex-row flex-y-center modal1 {{hide==1?'hide':''}}">
+	<view class="flex-y-center" style="width:100%;padding:125rpx;">
+		<view style="background-color:#fff;width:100%;height:100%;border-radius:10rpx;padding:30rpx 30rpx;">
+			<view class="flex-x-center" style="width:100%;height:50rpx;margin:20rpx 0;font-size:13pt;">配送信息</view>
+			<block wx:if="{{psmode=='达达配送'}}">
+				<view class="weui-cells weui-cells_after-title">
+					<view class="weui-cell">
+						<view class="weui-cell__hd">配送状态：</view>
+						<block wx:if="{{psxx.result.statusCode=='1'}}">
+							<view class="weui-cell__bd">待取货</view>
+						</block>
+						<block wx:if="{{psxx.result.statusCode=='2'}}">
+							<view class="weui-cell__bd">配送中</view>
+						</block>
+						<block wx:if="{{psxx.result.statusCode=='3'}}">
+							<view class="weui-cell__bd">已完成</view>
+						</block>
+						<block wx:if="{{psxx.result.statusCode=='4'}}">
+							<view class="weui-cell__bd">已取消</view>
+						</block>
+						<block wx:if="{{psxx.result.statusCode=='5'}}">
+							<view class="weui-cell__bd">已过期</view>
+						</block>
+					</view>
+				</view>
+				<view class="weui-cells weui-cells_after-title">
+					<view class="weui-cell">
+						<view class="weui-cell__hd">配送骑手：</view>
+						<view class="weui-cell__bd">{{psxx.result.transporterName}}</view>
+					</view>
+				</view>
+				<view class="weui-cells weui-cells_after-title">
+					<view catchtap="maketel" class="weui-cell" data-tel="{{psxx.result.transporterPhone}}">
+						<view class="weui-cell__hd">联系电话：</view>
+						<view class="weui-cell__bd">{{psxx.result.transporterPhone}}</view>
+						<view class="weui-cell__ft">
+							<image mode="aspectFit" src="../../../img/lxsj.png"></image>
+						</view>
+					</view>
+				</view>
+			</block>
+			<block wx:if="{{psmode!='达达配送'}}">
+				<view class="weui-cells weui-cells_after-title">
+					<view class="weui-cell">
+						<view class="weui-cell__hd">配送状态：</view>
+						<block wx:if="{{psxx.rst.state=='1'}}">
+							<view class="weui-cell__bd">待接单</view>
+						</block>
+						<block wx:if="{{psxx.rst.state=='2'}}">
+							<view class="weui-cell__bd">已接单</view>
+						</block>
+						<block wx:if="{{psxx.rst.state=='3'}}">
+							<view class="weui-cell__bd">已取货</view>
+						</block>
+					</view>
+				</view>
+				<view class="weui-cells weui-cells_after-title">
+					<view class="weui-cell">
+						<view class="weui-cell__hd">配送骑手：</view>
+						<view class="weui-cell__bd">{{psxx.rst.name}}</view>
+					</view>
+				</view>
+				<view class="weui-cells weui-cells_after-title">
+					<view catchtap="maketel" class="weui-cell" data-tel="{{psxx.rst.tel}}">
+						<view class="weui-cell__hd">联系电话：</view>
+						<view class="weui-cell__bd">{{psxx.rst.tel}}</view>
+						<view class="weui-cell__ft">
+							<image mode="aspectFit" src="../../../img/lxsj.png"></image>
+						</view>
+					</view>
+				</view>
+			</block>
+		</view>
+	</view>
+</view>

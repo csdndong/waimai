@@ -1,0 +1,959 @@
+ <{extends file="<{$tempdir}>/public/wxsite.html"}>  
+<{block name=extendcss}> 
+<link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/mycss.css">
+<link rel="stylesheet" href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/newshop/css/font-awesome.min.css" />
+<link rel="stylesheet" href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/newshop/css/index.css" />
+<{/block}>
+ <{block name=extendjs}> 
+<script>
+var site_city = '<{$CITY_NAME|default:$cityname}>';
+var shopid = '<{$id}>';
+var pstype = '<{$shopinfo['sendtype']}>';
+var addAreaType = '<{$addAreaType}>';
+var map_comment_link = '<{$map_comment_link}>';
+var map_webservice_key = '<{$map_webservice_key}>';
+var backtype = 0;
+	  
+ //平台配送检查是否在地图勾选区域内 
+function checkIsPaPsrange(addresslnglat){
+  	var is_exist = false;
+	if( addresslnglat != '' && addresslnglat != undefined ){
+		var lnglatarr = (addresslnglat).split(','); 
+		var addresslnglatarr = []; 
+		addresslnglatarr.push(lnglatarr[0]);
+		addresslnglatarr.push(lnglatarr[1]); 
+ 		<{foreach from=$waimai_psrange_arr item=items }>
+ 		var addressmap ;
+		var polygon = new AMap.Polygon({
+			map: addressmap,
+			path: <{$items|default:0}>
+		});  
+		if( polygon.contains(addresslnglatarr) ){
+			is_exist = true; 
+			return is_exist;
+		}else{
+			is_exist = false; 
+		}  
+ 	<{/foreach}>
+	}
+	
+	return is_exist;
+	
+} 
+   	
+	
+</script> 
+  <script src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/js/wxshop.js?random=1"></script>  
+  <script src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/js/template.min.js?random=1"></script> 
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/js/h5newaddress.js?random=1"></script>  
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/js/cart.js?random=1.1"></script>  
+  <link rel="stylesheet" href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/gaodecss.css"/>
+  <link rel="stylesheet" href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/wmr_newaddress.css"/>
+  <script src="<{$map_comment_link}>webapi.amap.com/maps?v=1.3&key=<{$map_javascript_key}>"></script>
+  <link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/shopcart.css">
+<script> 
+    var ziti_phone ='<{$ziti_phone}>';
+    var cartbagcost =0;
+    var cartpscost = 0;
+    var cartsum = 0;
+    var cxcost = 0;
+	var shoptype = '<{$shopinfo["shoptype"]}>';
+    var surecost = 0;
+    var juanlist = <{$juanlist|json_encode}>;
+    var wxjuanlist = <{$wxjuanlist|json_encode}>;
+    var checknext = false;
+    var timelist = <{$timelist|json_encode}>;
+	var zttimelist = <{$zttimelist|json_encode}>;
+    var backgoshop = '<{ofunc type=url link="/wxsite/shopshow/id/<{$id}>"}>';
+    var backadd = '<{ofunc type=url link="/wxsite/bkaddress/shopid/<{$id}>"}>'; 
+     $(function(){  
+		 //showLoading(); 
+	     $('input[name="fanhui"]').val(0);
+         maketime();
+		 makezttime();
+		 freshcart();
+		 getjuaninfo();	
+    	$('.wmr_paysubord_popup_ll li').bind('click',function(){
+			$('.wmr_paysubord_popup_ll li').removeClass('navaA');
+			$(this).addClass('navaA');
+			var paytype = $(this).attr('data');
+                        
+			if(paytype == 0){
+			    $('.paytype').html('<span>支付方式</span><span style="float:right;color:#999">货到付款<i class="fa fa-angle-right" style="margin-left:6px"></i></span>	')	 
+			}else{
+			    $('.paytype').html('<span>支付方式</span><span style="float:right;color:#999">在线支付<i class="fa fa-angle-right" style="margin-left:6px"></i></span>	')	 
+			}
+			$('input[name="paytype"]').val(paytype);  
+            $('input[name="wmpaytype"]').val(paytype);       
+            redefinejuan();			
+			$('.paymaskbg').hide();
+			freshcart();
+            myScroll.refresh();			
+	    }) 	 
+    	 
+    	 
+    	 
+    });
+	function redefinejuan(){
+		getjuaninfo();
+		$("#juanid").val(0);
+		$("#juancost").val(0);
+		$('input[name="yhjcost"]').val(0);
+		 
+	}
+    function myyanchi(){
+  		
+  		  checknext = false;
+  	}
+	 
+ </script>
+
+<script id="cartlist" type="text/html">    
+	<li  <^%if(key > 2){%^>style='display:none' class='hidegoods'<^%}%^>>
+		<div class="placeorder_shoplist_img">
+			<img src="<^%=list.img%^>"/>
+		</div>
+		<div class="placeorder_shoplist_box">
+			<div class="placeorder_shoplist_head">
+				<span><^%=list.name%^></span>
+				<small>&yen;<^%=list.cost%^></small>
+			</div>
+			<div class="placeorder_shoplist_center">
+				<span><^%if(list.have_det==1){%^><^%=list.gg.attrname%^><^%}%^></span>
+				<del style='text-decoration: line-through;'><^%if(list.cxinfo.is_cx==1 ){%^>&yen;<^%=list.cxinfo.oldcost%^><^%}%^></del>
+			</div>
+			<div class="placeorder_shoplist_bottom">
+				<span>x<^%=list.count%^></span>
+			</div>
+		</div>
+	</li>
+</script>
+<script id="cxlist" type="text/html">
+    <li <^%if(list.type==4){%^> class='mianpsf' <^%}%^>>
+		<div class="placeorder_costlist_left">
+			<img src="<^%=list.img%^>"/>
+			<span><^%=list.name%^></span>
+		</div>
+		<div class="placeorder_costlist_right">
+			<b data='<^%=list.downcost%^>'><^%=list.downcost%^></b>
+		</div>
+    </li>
+</script>
+
+ 
+
+<{/block}>
+<{block name=sitetitle}><{$sitename}><{/block}>
+<{block name=hearnav}>
+
+<!--------------------------订单信息开始------------------------------->
+<input type="hidden" name="fanhui" value="0" />
+<input type="hidden" name="contactname" value="" />
+<input type="hidden" name="phone" value="" />
+<input type="hidden" name="addresss" value="" />
+<input type="hidden" name="areaids" value="" />
+<input type="hidden" name="addresslng" value="" />
+<input type="hidden" name="addresslat" value="" />
+<input type="hidden" name="adrpscost" value="0" />
+<input type="hidden" name="pscost" value="0" />
+<input type="hidden" name="surepscost" value="0" />
+<input type="hidden" name="addpscost" value="0" />
+<input type="hidden" name="yhjcost" value="0" />	
+<input type="hidden" name="jfcost" value="" id='jfcost' data="0" />	
+<input type="hidden" name="juanid" data="0" id="juanid" value="0">
+<input type="hidden" name="juancost" id="juancost" value="0">
+<input type="hidden" name="scoretocostmax" id="scoretocostmax" value="<{$scoretocostmax}>">
+<input type="hidden" name="jifen" id="jifen" value="0">
+<input type="hidden" name="kouweibz" id="kouweibz" value="">
+<input type="hidden" name="orderbz" id="orderbz" value="">
+<input type="hidden" name="cx_shoudan" id="cx_shoudan" value="0">
+<input type="hidden" name="cx_manjian" id="cx_manjian" value="0">
+<input type="hidden" name="cx_zhekou" id="cx_zhekou" value="0">
+<input type="hidden" name="cx_nopsf" id="cx_nopsf" value="0">
+<input type="hidden" name="is_ziti" id="is_ziti" value="0">
+<input type="hidden" name="wmpaytype" id="wmpaytype" value="1">
+<input type="hidden" name="canps" id="canps" value="1">
+<{if  in_array(1,$canpaytype )}>
+    <input type="hidden" name="paytype" value="1">	 
+<{else}>
+	<{if  in_array(2,$canpaytype )}>
+	<input type="hidden" name="paytype" value="0">	 
+	<{else}>
+	<input type="hidden" name="paytype" value="2">	 
+	<{/if}>
+<{/if}>	 
+<!--------------------------订单信息结束------------------------------->
+<script>
+$(function(){
+    var mainwidth = $(window).width();//窗口宽度
+    var ztpw = mainwidth - 120;
+    $('#ztphone').css('width',ztpw+'px');
+
+
+    $('.placeorder_head_tab li').bind("click",function(){
+         $(this).addClass('active');	
+		 $(this).siblings('li').removeClass('active'); 
+		 var is_ziti = $(this).attr('data');
+		 $('input[name="is_ziti"]').val(is_ziti);
+		 var canps = $('input[name="canps"]').val();
+		 if(is_ziti == 1){
+		    $('.shopaddress').show();
+			$('.memaddress').hide();
+			$('.wm_time').hide();		
+			$('.ziti_time').show();
+			$('.ziti_phone').show();
+			$('.shoppstype').attr('src',"<{$zdy_ztimg}>");		
+			$('input[name="paytype"]').val(1);
+			$('.paytype').hide();
+			$('.ztpaytype').show();
+		 }else{
+		    $('.shopaddress').hide();
+			$('.memaddress').show();
+			$('.wm_time').show();
+			$('.ziti_time').hide();
+			$('.ziti_phone').hide();
+			$('.paytype').show();
+			$('.ztpaytype').hide();
+			$('input[name="paytype"]').val($('input[name="wmpaytype"]').val());
+			var shoppstype = '<{$shopinfo["sendtype"]}>';
+		 
+			if(shoppstype == 1){
+			    $('.shoppstype').attr('src',"<{$zdy_shoppsimg}>");
+			}else{
+			    $('.shoppstype').attr('src',"<{$zdy_psimg}>");
+			}	
+		 }		
+        redefinejuan();			 
+		freshcart();
+		myScroll.refresh();		
+	}); 	 
+})	 	
+</script>
+
+ <{load_data assign="info" table="address" type="one" where="id='<{$id}>' and userid = '<{$member['uid']}>'" fileds="*" }> 
+ 
+<!--------------下单头部地址开始------------------>
+<div class="wmr_subord_head_con" style='position:fixed;width:100%;z-index: 999999999;top:0px;'>
+	<div class="wmr_title_content" style='height:30px;'>
+		<div class="wmr_title_left">
+			<i class="returnbtn"></i>
+		</div>
+		<div class="wmr_title_center" style='font-size: 16px;font-weight: normal;'>提交订单</div>
+		<div class="wmr_title_right"></div>
+	</div>
+	<div class="wmr_subord_head_box" id='orderaddress' style='display:none'>
+		<div class="wmr_subord_head_add" style='height:50px;text-align:center'>
+			 
+		</div>
+		 
+	</div>
+</div>
+<!---------------下单头部地址结束----------------->
+<{/block}>
+<{block name=footer}><{/block}>
+<{block name=myScrolljs}>
+
+<script> 
+var myScroll;
+var outdiv = false;
+var myScroll2;
+function loaded() {
+	myScroll = new iScroll('wrapper', {
+		useTransform: false,
+		bounce:false,
+		onBeforeScrollStart: function (e) {
+			var target = e.target;
+			while (target.nodeType != 1) target = target.parentNode;
+
+			if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA')
+				e.preventDefault();
+		}
+	});
+	myScroll2 = new iScroll('scroll_address_2',{
+		hScroll:false,
+		hScrollbar:false,
+		vScrollbar:false,    
+		onBeforeScrollStart: function (e) {
+			var target = e.target;
+			while (target.nodeType != 1) target = target.parentNode;
+			if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA')
+			e.preventDefault();
+		}
+	});	 
+
+}
+ 
+document.addEventListener('DOMContentLoaded', function () { setTimeout(loaded, 200); }, false);
+$(function(){
+	var getscreenwidth = $(window).width();
+	var inputWidth = getscreenwidth-175;
+	$(".newaddBox ul li input").css('width',inputWidth+'px');
+	 
+});
+
+</script>
+<{/block}>
+  <{block name=footer}><{/block}>
+<{block name=blockcontent}> 
+<script>
+$(function(){
+    $('.jifensm').bind("click",function(){  
+		 $('.jfgzmaskbg').show();
+	}); 
+	$('.guizeconb').bind("click",function(){  
+		 $('.jfgzmaskbg').hide();
+	});
+	$('.wmr_subord_popup_content').bind("click",function(){  
+		 $('.maskbg').hide();
+		 
+	});
+	$('.wmr_jfsubord_popup_content').bind("click",function(){  
+		$('.jfmaskbg').hide();
+	});
+	$('.wmr_paysubord_popup_content').bind("click",function(){  
+		$('.paymaskbg').hide();
+	});
+	$('.wmr_ztsubord_popup_content').bind("click",function(){  
+		$('.ztmaskbg').hide();
+	});
+	
+})	 	
+</script>
+<!-----------------------积分规则弹窗开始--------------------->
+<div class="jfgzmaskbg" style='display:none'>
+	<div class="guize">
+		 <div class="guizecon">
+		     <div class='guizecont'>
+				 <p style='text-align: center;font-size: 16px;color: #333; padding: 10px 0;'>积分抵现规则</p>
+				 <div class='sanhang'>
+				 <p>• <{$scoretocost}>积分可以抵扣1元</p>
+				 <{if $scoretocostmax>0}><p>• 积分单次最高抵现金额<{$scoretocostmax}>元</p><{/if}>
+				 <p>• 积分满<{$scoretocost}>可使用(含)，使用积分数量为<{$scoretocost}>的整数倍。</p>
+				 </div>
+			 </div>
+			 <div class='guizeconb'>我知道了</div>
+	     </div> 
+	</div> 
+</div>
+<!-----------------------积分规则弹窗结束--------------------->
+<!-----------------------选择配送时间弹窗开始--------------------->
+<div class="maskbg" style='display:none'>
+	<div class="wmr_subord_popup_content">
+		<div class="wmr_subord_popup_box">
+			<div class="wmr_subord_popup_tit">选择配送时间</div>
+			<div class="wmr_subord_popup_list" style='padding-bottom:30px;-webkit-overflow-scrolling: touch;'>
+				<ul>
+					 
+				</ul>				
+			</div>
+			 
+		</div>
+	</div>
+</div>
+<!-----------------------选择配送时间弹窗结束--------------------->
+ 
+<!-----------------------选择自提时间弹窗开始--------------------->
+<div class="ztmaskbg" style='display:none'>
+	<div class="wmr_ztsubord_popup_content">
+		<div class="wmr_ztsubord_popup_box">
+			<div class="wmr_ztsubord_popup_tit">选择自取时间</div>
+			<div class="wmr_ztsubord_popup_list" style='padding-bottom:30px;-webkit-overflow-scrolling: touch;'>
+				<ul>
+					 
+				</ul>				
+			</div>
+			 
+		</div>
+	</div>
+</div>
+<!-----------------------选择自提时间弹窗结束--------------------->
+
+
+<!-----------------------选择积分抵扣弹窗开始--------------------->
+
+<div class="jfmaskbg" style='display:none'>
+	<div class="wmr_jfsubord_popup_content"  >
+		<div class="wmr_jfsubord_popup_box">
+			<div class="wmr_jfsubord_popup_tit">选择抵扣积分</div>
+			<div class="wmr_jfsubord_popup_list" style='padding-bottom:30px;-webkit-overflow-scrolling: touch;'>
+				<ul>
+					 
+				</ul>				
+			</div>
+			 
+		</div>
+	</div>
+</div>
+
+<!-----------------------选择积分抵扣弹窗结束--------------------->
+
+<!-----------------------选择支付方式弹窗开始--------------------->
+<div class="paymaskbg" style='display:none' >
+	<div class="wmr_paysubord_popup_content"   >
+		<div class="wmr_paysubord_popup_box">
+			<div class="wmr_paysubord_popup_tit">选择支付方式</div>
+			<div class="wmr_paysubord_popup_list" style='height:auto;overflow-y: hidden;'>				 				
+				<ul class="wmr_paysubord_popup_ll">	
+				<{if in_array(1,$canpaytype )  ||  in_array(2,$canpaytype )  }>
+					<{if in_array(1,$canpaytype )   }>
+					<li class="navaA" data='1'>
+						<div class="wmr_subord_popup_l">在线支付</div>
+						<div class="wmr_subord_popup_c"></div>
+						<div class="wmr_subord_popup_r">
+							<input type="radio" />
+						</div>
+					</li>
+					<{/if}>
+					<{if in_array(2,$canpaytype )  }>
+					<li data='0'>
+						<div class="wmr_subord_popup_l">货到付款</div>
+						<div class="wmr_subord_popup_c"></div>
+						<div class="wmr_subord_popup_r">
+							<input type="radio" />
+						</div>
+					</li>
+					<{/if}>
+				<{else}>
+				    <li>
+						<div class="wmr_subord_popup_l">未开启支付</div>
+						<div class="wmr_subord_popup_c"></div>
+						<div class="wmr_subord_popup_r">
+							<input type="radio" />
+						</div>
+					</li>
+				<{/if}>	
+				</ul>
+			</div>
+			<div class="wmr_paysubord_popup_tit">取消</div>
+		</div>
+	</div>
+</div>
+<!-----------------------选择支付方式弹窗结束--------------------->
+<script>
+$(function(){
+$('#zitiphone').val();
+document.getElementById("bzcon").oninput = function () {
+    var bzfonts = $('#bzcon').val().length;
+	if(Number(bzfonts)>50){
+	   Tmsg('备注内容最多50字');
+	}else{
+	   $('#fontsss').text(bzfonts+'/50字');
+	}
+};
+$('.bzcontent li').bind('click',function(){
+    if($(this).hasClass('navaA')){
+	    $(this).removeClass('navaA');
+	}else{
+	    $(this).addClass('navaA');
+	}	
+})
+$('.base_btn_content input').bind('click',function(){
+   	var bzfonts = $('#bzcon').val().length;
+	if(Number(bzfonts)>50){
+	   Tmsg('备注内容最多50字');
+	   return false;
+	}
+	var obj = $('.bzcontent li.navaA');	
+    var contents = '';	
+	$(obj).each(function(){
+		var content = $(this).text();
+		contents += content+','; 		 
+	});
+	$('input[name="kouweibz"]').val(contents);
+	var contentss = $('.order_remarks_txt textarea').val();    
+	$('input[name="orderbz"]').val(contentss);
+	contents += contentss; 	 
+	$('#gdcart').show();
+	$('.placeorder_head_content').show();
+	$('#orderaddress').hide();
+	$('.orderbz').hide();
+	$('.wmr_title_center').text('提交订单');	 
+	if (contents == null || contents == undefined || contents == ''){
+	    $('.beizhutext').text('');  	
+	}else{ 		 
+		$('.beizhutext').text(contents);  		 
+    }
+})
+ 
+	
+	$('.wmr_subord_popup_tit').bind('click',function(){        
+		$('.maskbg').hide();
+		$('.ztmaskbg').hide();
+	})
+	$('.paytype').bind('click',function(){ 
+		var zxzf = '<{$canpaytypestr}>';
+		if(zxzf ==''){
+		    Tmsg('未开启支付');
+			return false;
+		}else{  
+		    var czt = $('input[name="is_ziti"]').val();
+			if(czt == 1){
+				Tmsg('到店自取订单仅支持在线支付哦~');
+				return false;
+			}else{
+				if(contains(zxzf,1) && contains(zxzf,2)){			 
+					$('.paymaskbg').show();
+				}
+			}
+            		  
+		}
+	})
+	$('.wmr_paysubord_popup_tit').bind('click',function(){
+        $('.paymaskbg').hide();
+	})
+	$('.beizhu').bind('click',function(){
+	    $('input[name="fanhui"]').val(2);
+	    $('#gdcart').hide();
+		$('#orderaddress').hide();
+		$('.orderbz').show();
+		$('.placeorder_head_content').hide();		
+		$('.wmr_title_center').text('订单备注');
+		var orderbz = $('input[name="orderbz"]').val();
+		$('.order_remarks_txt textarea').val(orderbz);    
+	})
+
+
+})
+</script>
+<!----------------------订单备注页面开始-------------------------->
+<div class='orderbz' style='display:none'>
+	<div class="order_remarks_contert">
+		<div class="order_remarks_head" style='padding-top:40px'>
+			<h3>口味偏好</h3>
+			<ul class='bzcontent'> 
+			    <{foreach from=unserialize($orderbz) item=items}>				 
+				<li><{$items}></li>
+				<{/foreach}>
+			</ul>
+		</div>
+		<div class="order_remarks_txt">
+			<textarea placeholder="请输入备注内容 (可不填)" id='bzcon'
+	onfocus="window.activeobj=this;this.clock=setInterval(function(){activeobj.style.height=activeobj.scrollHeight+'px';},200);" onblur="clearInterval(this.clock);"></textarea>
+			<span id='fontsss'>0/50个字</span>
+		</div>
+	</div>
+	<div class="base_btn_content">
+		<input type="button" value="确定" />
+	</div>
+</div>
+<!----------------------订单备注页面结束-------------------------->
+
+<div style='position:absolute;top:50px;background-color:#f0f0f0;left:3%;height:100%;width:94%;display:none' id='yhjlist' >
+
+<span style='font-size: 14px;margin-left:10px;'>可用优惠券<i style='color:red'></i>张</span>
+<div id='yhjlistdata'></div> 
+</div>
+<div id="gdcart"> 
+ 
+<div id="wrapper" style="top:38px;bottom:42px; "> 
+<div id="scroller">
+<{if $allow_ziti == 1}>
+	<div class="placeorder_head_content" style='background-color:#ff6e6e'>
+		<div class="placeorder_head_tab">
+			<ul>
+				<li class="active" data='0'>外卖配送</li>
+				<li data='1'>到店自取</li>
+			</ul>
+		</div>	 
+	</div>
+<{/if}>	  
+<!-------配送时间,订单详情、优惠活动、优惠券、积分抵扣、支付方式、订单备注开始------->
+<div class="placeorder_head_box" <{if $allow_ziti == 0}> style='padding-top:5px'<{/if}>	  >
+	<ul>
+		<li class='memaddress'>
+			<div class="placeorder_head_left">
+				<div class="placeorder_head_icon">
+					<img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/icon_placeorder_dw.png" />
+				</div>
+				<div class="placeorder_head_info" id='memaddress89'>
+					<span style='font-size: 13px; color: #999;'>添加/选择收货地址</span> 
+				</div>
+			</div>
+			<div class="placeorder_head_right">
+				<i class="fa fa-angle-right"></i>
+			</div>
+		</li>
+		<li class='shopaddress' style='display:none'>
+			<div class="placeorder_head_left">
+				<div class="placeorder_head_icon">
+					<img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/icon_placeorder_dw.png" />
+				</div>
+				<div class="placeorder_head_info">
+					<p><{$shopinfo['address']}></p>
+					<small class="distance">自取地址距离当前位置<{$juli}>km<span  onclick="showmapinfo()"   style="color:#25a4d3;margin-left:6px;">查看地图</span></small>
+					
+				</div>
+			</div>
+		</li>
+		<li class='wm_time' onclick="doselectTime();" style='background-image:none'>
+			<div class="placeorder_head_left">
+				<div class="placeorder_head_icon">
+					<img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/icon_placeorder_tiem.png" />
+				</div>
+				<div class="placeorder_head_info">
+					<div class="placeorder_head_text">
+						<span></span>
+						<small></small>
+					</div>
+				</div>
+			</div>
+			<div class="placeorder_head_right">
+				<i class="fa fa-angle-right"></i>
+			</div>
+			<input type="hidden" name="DeliveryTime" id="DeliveryTime" value="0">
+		</li>
+		
+		<li class='ziti_time' style='display:none'>
+			<div class="placeorder_head_left">
+				<div class="placeorder_head_icon">
+					<img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/icon_placeorder_tiem.png" />
+				</div>
+				<div class="placeorder_head_info">
+					<div class="placeorder_head_text" onclick='doselectzttime();'>
+						<span>自取时间</span>
+						<b id='zttime'> </b>
+					</div>
+				</div>
+			</div>
+			<div class="placeorder_head_right">
+				<i class="fa fa-angle-right"></i>
+			</div>
+		</li>
+		<li class='ziti_phone' style='display:none'>
+			<div class="placeorder_head_left">
+				<div class="placeorder_head_icon">
+					<img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/icon_placeorder_phone.png" />
+				</div>
+				<div class="placeorder_head_info">
+					<div class="placeorder_head_text" id='ztpw'>
+						<span>自取电话</span>
+						<input id='ztphone' type='text' value='<{$ziti_phone}>' name='ztphone' placeholder='请输入自取电话'>
+					</div>
+				</div>
+			</div>
+			 
+		</li>
+	</ul>
+</div>
+
+<script>
+function showmapinfo(){
+	<{if !empty($shopinfo['lng']) && !empty($shopinfo['lat'])  }>
+		var ua = window.navigator.userAgent.toLowerCase();
+	    if(ua.match(/MicroMessenger/i) == 'micromessenger'){ 
+					<{if  !empty($shopinfo['lat']) && !empty($shopinfo['lng']) }>
+					   wx.openLocation({
+							latitude: <{$shopinfo['lat']|default:0}>, // 纬度，浮点数，范围为90 ~ -90
+							longitude: <{$shopinfo['lng']|default:0}>, // 经度，浮点数，范围为180 ~ -180。
+							name: "<{$shopinfo['shopname']}>", // 位置名
+							address: "<{$shopinfo['address']}>", // 地址详情说明
+							scale: 14, // 地图缩放级别,整形值,范围从1~28。默认为最大
+							infoUrl: '' // 在查看位置界面底部显示的超链接,可点击跳转
+						});
+					<{else}>
+						Tmsg('商家未设置地图位置，暂时无法查看！');
+						return;				
+					<{/if}>					 
+			 }else{
+	
+	
+					location.href = '<{ofunc type=url link="/wxsite/showshopmap/shopid/<{$shopinfo['id']}>"}>';
+			
+			}
+			
+	<{else}>
+		Tmsg("该商家未设置位置！");
+	<{/if}>
+}
+ 
+$('.showmore p').live('click',function(){
+    var flag = $(this).attr('data');	 
+	
+	if(flag == 0){
+	    $(this).attr('data',1)
+		$(this).html('点击收起<i class="jtup"></i>');
+	    $('.hidegoods').show();
+	}else{
+	    $(this).attr('data',0)
+	    $('.hidegoods').hide();
+		$(this).html('展开更多<i class="jtdown"></i>');
+	}
+	myScroll.refresh();		
+})
+</script>
+<div class="h_5"></div>
+<div class="placeorder_main_content">
+		<div class="placeorder_shopname_content">
+			<div class="placeorder_shopname_left">
+				<img    <{ofunc type=img  link="<{$shopinfo['shoplogo']}>" }>   />
+				<span><{$shopinfo['shopname']}></span>
+			</div>
+			<div class="placeorder_shopname_right">
+				<img class='shoppstype' style='width: 60px;' <{if $shopinfo['sendtype'] == 1}><{ofunc type=img  link="<{$shoppsimg}>"}><{else}><{ofunc type=img  link="<{$psimg}>"}><{/if}>/>	 
+			</div>
+		</div>
+		<div class="placeorder_shoplist_content">
+			<ul id='foodslist'>
+ 
+			</ul>
+		</div>
+
+		<div class='showmore'>
+		    <p data='0'>展开更多<i class='jtdown'></i></p>
+		</div>
+		<div class="placeorder_costlist_content">
+			<ul id='othercost' style='padding-top:0px;'>				 
+			</ul>
+			<ul id='cxlistdata' style='line-height: 15px;display:none' >			 
+			</ul>
+			<{if $member['uid'] > 0 }>
+				<ul>
+					<li>
+						<div class="placeorder_costlist_left">
+							<span>优惠券</span>
+						</div>
+						<div class="placeorder_costlist_right juaninfo" onclick="doselectjuan1();">
+							<small>暂无可用</small>
+							<i class="fa fa-angle-right"></i>
+						</div>
+					</li>
+					<{if $isopenscoretocost == 1}>
+						<li>
+							<div class="placeorder_costlist_left jifensm">
+								<span>积分抵扣</span> 
+								<i class="fa fa-question" ></i>
+							</div>
+							<div class="placeorder_costlist_right" onclick="doselectjifen('<{$scoretocost}>','<{$member['score']|default:0}>','<{$scoretocostmax}>');">
+								<small class='jfxx'><{$scoretext}></small>
+								<i class="fa fa-angle-right"></i>
+							</div>
+						</li>
+					<{/if}>
+				</ul>
+			<{/if}>
+			<div class="placeorder_total_content">
+				<span>订单总计：</span>
+				<small id='allcost'>&yen;</small>
+			</div>
+		</div>
+		<div class="h_5"></div>
+		 
+	</div>
+
+<div class="wmr_subord_h ">
+
+	<div class="wmr_subord_content">
+		<div class="wmr_subord_box">
+			<div class="wmr_subord_fs">
+				<ul>
+					<li class='paytype'>
+						<{if in_array(1,$canpaytype )}>
+						<span>支付方式</span><span style="float:right;color:#999">在线支付<{if in_array(2,$canpaytype )}><i class="fa fa-angle-right" style="margin-left:6px"></i><{/if}></span>	
+						<{else}>
+							<{if in_array(2,$canpaytype )}>
+						    <span>支付方式</span><span style="float:right;color:#999">货到付款</span>
+							<{else}>
+						    <span>支付方式</span><span style="float:right;color:#999">未开启支付</span>
+							<{/if}>
+					    <{/if}>	
+					</li>
+					<li class='ztpaytype' style='display:none'>
+						<span>支付方式</span><span style="float:right;color:#999">在线支付</span>	 
+					</li>
+					<li class='beizhu'>
+						<span>备注</span>
+						<span class='beizhutext'></span>
+						<i class="fa fa-angle-right"></i>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-------配送时间,订单详情、优惠活动、优惠券、积分抵扣、支付方式、订单备注开始------->
+	
+
+<!--订单清单-->
+<div class="shopdetalistCon" style='display:none'>
+ <div class="shopdetalistBox">
+  <ul  id="shocart">
+  </ul>
+  <ul id="nextshocart">
+  </ul>
+ </div>
+</div> 
+  <script>	 
+    $('.memaddress').bind('click',function(){
+	   $('input[name="fanhui"]').val(3);
+	}) 
+	$('.returnbtn').bind("click", function() {
+       var fanhui = $('input[name="fanhui"]').val();
+	   
+	   if(fanhui ==1 ){
+			$('.wmr_title_center').text('提交订单');			      
+			$('#mask1').hide();
+			$('#popup1').hide();
+			$('#gdcart').show();  
+			$('#yhjlist').hide();
+			$('#juanid').attr('data',1);
+			$('#orderaddress').hide();
+			$('.placeorder_head_content').show();
+			 
+	   }
+	   if(fanhui == 2 ){
+			$('#gdcart').show();
+			$('#orderaddress').hide();
+			$('.placeorder_head_content').show();
+			$('.orderbz').hide();
+			$('.wmr_title_center').text('提交订单');	   
+			 
+	   }
+	   if(fanhui == 3 ){
+			$('#mask1').hide();
+			$('#popup1').hide();
+			$('#gdcart').show();
+			$('#address_2').show();
+			$('#otheraddress').hide();
+			$('#orderaddress').hide();
+			$('.placeorder_head_content').show();
+			$('.placeorder_head_content').show();
+			$('.wmr_title_center').text('提交订单');	   
+			$('input[name="fanhui"]').val(0); 
+	   }
+	   if(fanhui == 4){
+			//alert(11);
+			$('input[name="fanhui"]').val(3);
+			$('#address_2').show();
+			$('#addareass_1').hide();
+			$('#scroll_address_2').show();
+			
+	   }	
+	   if(fanhui == 0 ){
+	       history.back();   
+	   }
+	   
+     });
+  </script> 
+ </div>
+ 
+</div>
+<!--区域信息-->
+  
+ <div id="footer" class="box_inline" style="position:fixed; bottom:0px; left:0px;border:none;height:44px;background-color:#f4f4f4;">
+<div class="wmr_subord_total">
+	<div class="wmr_subord_total_l">
+		<b style='font-weight:bold' class='surecost'></b>
+		<span class='downcost'> </span>
+	</div>
+	<div class="wmr_subord_total_r" onclick='orderSubmit();'>立即下单</div>
+	 
+</div>
+
+     </div>
+
+     </div>
+ 
+ <div class="addressmask" id="otheraddress" style="display:none;">
+    <div id="addareass_1">
+    <div class="addressbox">
+			<input type="hidden" name="add_addressid" value="0"  >
+            <!--联系人-->
+            <div class="newaddCon" style='margin-top:38px'>
+                <div class="newaddBox">
+                    <ul class="newadd">
+                        <li><a>&nbsp;&nbsp;&nbsp;姓名：</a><input type="text" placeholder="请填写收货人的姓名" id="contactname_value" value="<{$info['contactname']}>" name="" class="newinp"></li>
+                        <li><a>&nbsp;&nbsp;&nbsp;手机：</a><input type="text" placeholder="请填写收货人手机号" id="mobile" name="phone" value="<{$info['phone']}>" class="newinp"></li>
+                        <{if $areacode== 1}>
+                        <li id="showgetcode" class="signmehide">
+                            <i class="signinmess"></i>
+                            <input type="text" name="check_message" id="phoneyan"   value="" placeholder="输入短信验证码">
+                            <input type="button"  onclick="clickyanzheng();"   time="0" id="dosendbtn"  value="发送到手机" class="signmeinput">
+                        </li>
+                        <{/if}>
+                        <{if $addAreaType == 1}>
+                        <li style=" height:44px; ">
+                            <a>&nbsp;&nbsp;&nbsp;地址：</a><input type="text" placeholder="输入收货人详细地址（如单元、门牌号等）" value="<{$info['address']}>" class="newinp1" style="width:79%;margin-left:0px;">
+                        </li>
+                        <{else}>
+                        <li style=" height:44px; ">
+                            <a style="float:left;">&nbsp;&nbsp;&nbsp;地址：</a>
+                            <div lng="<{$info['lng']}>" lat="<{$info['lat']}>"  lnglat="" style="float:left; height:44px; line-height:44px;margin-left:20px;"  type="text" id ='selectSendAddress'  class="newinp1"><{$info['bigadr']|default:'点击选择地址'}></div>
+                        </li>
+                        <div class="clear"></div>
+                        <li><a>&nbsp;&nbsp;&nbsp;楼号-门牌号：</a><input type="text" placeholder="例：16号楼107室" value="<{$info['detailadr']}>" class="newinp2"></li>
+                        <{/if}>
+
+
+						<div class="selectLabCon">
+						<div class="selectLabL">
+							<span>标&nbsp;&nbsp;&nbsp;签：</span>
+						</div>
+						<div class="selectLabR">
+								<div class="selectLabBox">
+								<input type="hidden" name="i_tag" id="i_tag" value="<{$info['tag']|default:1}>" />
+								<span><{if !empty($info)}><{if $info['tag'] == 1 }>家<{else if $info['tag'] == 2  }>公司<{else if $info['tag'] == 3  }>学校<{else}>无<{/if}><{else}>家<{/if}></span>
+								<i class="fa fa-caret-down" style="font-size: 14px; margin-right: 12px;"></i>
+							</div>
+								<div class="selectLab" style="display:none;">
+								<ul>
+												<li tagid="1" tagname="家">
+										<span>家</span>
+										<input type="radio" name="selb">
+									</li>
+												<li tagid="2" tagname="公司">
+										<span>公司</span>
+										<input type="radio" name="selb">
+									</li>
+												<li tagid="3" tagname="学校">
+										<span>学校</span>
+										<input type="radio" name="selb">
+									</li>
+												<li tagid="0" tagname="无">
+										<span>无</span>
+										<input type="radio" name="selb">
+									</li>
+
+								</ul>
+							</div>
+						</div>
+					</div>
+
+
+
+                    </ul>
+                </div>
+            </div>
+            <div class="intexchabutt "  onclick="saveaddress();" style="margin-top:15px;"><input type="button"  value="保存地址" class="intexbg1"></div>
+        </div>
+
+
+ <div class="mapaddressbox"  style="display:none;">
+	<div class="showmapbox">
+		 <div class="mapditu" id="map">
+
+		 </div>
+ 	</div>
+
+
+<div id="choiceguidebox" >
+	<ul>
+
+	</ul>
+</div>
+</div>
+
+	</div>
+<div id="scroll_address_2">
+	<div id="address_2">
+
+	</div>
+ </div>
+ </div>
+
+
+<div id="selectAddress" style="display:none; position:absolute;z-index:99999999999; width:100%;height:100%;background:#fff;  " >
+
+</div>  
+ 
+<{/block}>

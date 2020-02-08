@@ -1,0 +1,31 @@
+{itemplate 'public/header'}
+{if $ta == 'cover'}
+<div class="page clearfix">
+	<form class="form-horizontal form" id="form1" action="" method="post" enctype="multipart/form-data">
+		<h3 class="margin-t-0">小程序入口</h3>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">直接URL</label>
+			<div class="col-sm-9 col-xs-12">
+				<p class="form-control-static js-clip" data-text="{$urls['wxapp']}" title="点击复制">
+					<a href="javascript:;">{$urls['wxapp']}</a>
+				</p>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">访问二维码</label>
+			{if $legel == 1}
+				<div class="col-sm-9 col-xs-12">
+					<img src="{php echo tomedia($path)}?t={php echo time();}" class="qrcode-block" width="150px" height="150px">
+					<br>
+					<a href="{php echo iurl('store/decoration/home/cover');}" class="btn btn-primary js-post" style="margin-top: 20px; margin-left: 30px;">重新生成</a>
+				</div>
+			{else}
+				<div class="col-sm-9 col-xs-12">
+					<a href="{php echo iurl('store/decoration/home/cover');}" class="btn btn-primary js-post">生成小程序店铺首页二维码</a>
+				</div>
+			{/if}
+		</div>
+	</form>
+</div>
+{/if}
+{itemplate 'public/footer'}

@@ -1,0 +1,28 @@
+page {
+    background-color: #f5f5f5;
+    font-size: 14px;
+}
+
+.page-reason {
+    padding-bottom: 10px;
+}
+
+.page-reason .other-reason {
+    padding: 0 15px 15px;
+    background-color: #fff;
+}
+
+.page-reason .other-reason textarea {
+    max-width: 100%;
+    width: auto;
+    height: 120px;
+    background-color: #f5f5f5;
+    border: 1px solid #ECECEC;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.page-reason .weui-btn {
+    margin: 15px;
+    background-color: #33aafc;
+}

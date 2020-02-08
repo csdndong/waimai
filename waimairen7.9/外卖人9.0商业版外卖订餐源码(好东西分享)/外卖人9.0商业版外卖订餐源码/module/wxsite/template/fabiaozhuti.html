@@ -1,0 +1,453 @@
+ <{extends file="<{$tempdir}>/public/wxsite.html"}>  
+<{block name=extendcss}> 
+<link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/shopshow.css">   
+<link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/togetersay.css">   
+ <link rel="stylesheet" type="text/css" href="<{$siteurl}>/templates/<{$tempdir}>/public/css/memberCenter.css">  
+<{/block}>
+ <{block name=extendjs}>  
+  <script src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/js/wxshop.js"></script>  
+  <script src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>  
+  <script src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/js/demo.js"></script>  
+<{/block}>
+<{block name=sitetitle}><{$sitename}><{/block}>
+<{block name=footer}><{/block}>
+<{block name=hearnav}>
+ <!--头部-->
+    <header style="position: fixed;display:block;" id=""><div class="return"></div>发表主题</header>
+<{/block}>
+<{block name=myScrolljs}><script> 
+		var myScroll;
+function loaded() {
+	myScroll = new iScroll('wrapper', {
+		useTransform: false,
+		onBeforeScrollStart: function (e) {
+			var target = e.target;
+			while (target.nodeType != 1) target = target.parentNode;
+
+			if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA')
+				e.preventDefault();
+		}
+	});
+}
+//document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false); 
+document.addEventListener('DOMContentLoaded', function () { setTimeout(loaded, 200); }, false);
+</script>
+<{/block}>
+<{block name=blockcontent}> 
+<div id="wrapper" style="bottom:0px;" >
+<div  class="page-app">
+
+	<div class="fbzhuti">
+		<textarea   class="fbcontent"  name="microbolg_message" id="microbolg_message" placeholder="说两句吧..." ></textarea>
+		
+		<div class="fasmes" style="position:relative;">
+			<span style="float:left;"><img style="width:25px; height:28px;" src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/iconfont-morentu.png" /></span>
+			<span class="icon_bq" style="float:left;  margin-left:12px;"><img style="width:25px; " src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/iconfont-img.png" /></span>
+			<input type="hidden" id="msgImage" value="">
+			<input type="hidden" id="cityname" value="">
+			<input type="hidden" id="areaname" value="">
+			<input type="hidden" id="streetname" value="">
+			<input type="hidden" id="serverId" value="">
+			<span style="float:right; margin-bottom:15px;">
+			
+				<span id="fbconcount">500</span>
+				<span   onclick="dolink('<{ofunc type=url link="/wxsite/togethersay"}>');"   class="quxiaobtn">取消</span>		
+				<span class="fasbtn" id="btn_fb">发送</span>
+				
+			</span>
+			
+			
+			
+								<div id="publisher_emotion" style="display:none; top:40px;" onblur="hiddenthis(this)" >
+										<ul>
+											<li><a href="javascript:;"><img title="大笑" alt="大笑" src="/upload/emotion/16.gif?ver=1" emotion="(大笑)"></a> </li>
+											<li><a href="javascript:;"><img title="微笑" alt="微笑" src="/upload/emotion/1.gif?ver=1" emotion="(微笑)"></a> </li>
+											<li><a href="javascript:;"><img title="哭" alt="哭" src="/upload/emotion/3.gif?ver=1" emotion="(哭)"></a> </li>
+											<li><a href="javascript:;"><img title="惊讶" alt="惊讶" src="/upload/emotion/10.gif?ver=1" emotion="(惊讶)"></a> </li>
+											<li><a href="javascript:;"><img title="生气" alt="生气" src="/upload/emotion/5.gif?ver=1" emotion="(生气)"></a> </li>
+											<li><a href="javascript:;"><img title="难过" alt="难过" src="/upload/emotion/6.gif?ver=1" emotion="(难过)"></a> </li>
+											<li><a href="javascript:;"><img title="害羞" alt="害羞" src="/upload/emotion/15.gif?ver=1" emotion="(害羞)"></a> </li>
+											<li><a href="javascript:;"><img title="困" alt="困" src="/upload/emotion/9.gif?ver=1" emotion="(困)"></a> </li>
+											<li><a href="javascript:;"><img title="书呆子" alt="书呆子" src="/upload/emotion/7.gif?ver=1" emotion="(书呆子)"></a> </li>
+											<li><a href="javascript:;"><img title="调皮" alt="调皮" src="/upload/emotion/4.gif?ver=1" emotion="(调皮)"></a> </li>
+											<li><a href="javascript:;"><img title="谄笑" alt="谄笑" src="/upload/emotion/11.gif?ver=1" emotion="(谄笑)"></a> </li>
+											<li><a href="javascript:;"><img title="生病" alt="生病" src="/upload/emotion/8.gif?ver=1" emotion="(生病)"></a> </li>
+											<li><a href="javascript:;"><img title="尴尬" alt="尴尬" src="/upload/emotion/17.gif?ver=1" emotion="(尴尬)"></a> </li>
+											<li><a href="javascript:;"><img title="汗" alt="汗" src="/upload/emotion/18.gif?ver=1" emotion="(汗)"></a> </li>
+											<li><a href="javascript:;"><img title="惊恐" alt="惊恐" src="/upload/emotion/19.gif?ver=1" emotion="(惊恐)"></a> </li>
+											<li><a href="javascript:;"><img title="囧-窘迫" alt="囧-窘迫" src="/upload/emotion/20.gif?ver=1" emotion="(囧)"></a> </li>
+											<li><a href="javascript:;"><img title="呕吐" alt="呕吐" src="/upload/emotion/21.gif?ver=1" emotion="(吐)"></a> </li>
+											<li><a href="javascript:;"><img title="酷" alt="酷" src="/upload/emotion/22.gif?ver=1" emotion="(酷)"></a> </li>
+											<li><a href="javascript:;"><img title="流口水" alt="流口水" src="/upload/emotion/23.gif?ver=1" emotion="(流口水)"></a> </li>
+											<li><a href="javascript:;"><img title="猫猫笑" alt="猫猫笑" src="/upload/emotion/24.gif?ver=1" emotion="(猫猫笑)"></a> </li>
+											<li><a href="javascript:;"><img title="晕" alt="晕" src="/upload/emotion/25.gif?ver=1" emotion="(晕)"></a> </li>
+											<li><a href="javascript:;"><img title="色迷迷" alt="色迷迷" src="/upload/emotion/26.gif?ver=1" emotion="(色)"></a> </li>
+											<li><a href="javascript:;"><img title="可爱" alt="可爱" src="/upload/emotion/27.gif?ver=1" emotion="(可爱)"></a> </li>
+											<li><a href="javascript:;"><img title="吃饭" alt="吃饭" src="/upload/emotion/28.gif?ver=1" emotion="(吃饭)"></a> </li>
+											<li><a href="javascript:;"><img title="防流感" alt="防流感" src="/upload/emotion/29.gif?ver=1" emotion="(口罩)"></a> </li>
+											<li><a href="javascript:;"><img title="淘气" alt="淘气" src="/upload/emotion/30.gif?ver=1" emotion="(淘气)"></a> </li>
+											<li><a href="javascript:;"><img title="吻" alt="吻" src="/upload/emotion/31.gif?ver=1" emotion="(吻)"></a> </li>
+											<li><a href="javascript:;"><img title="住嘴" alt="住嘴" src="/upload/emotion/32.gif?ver=1" emotion="(住嘴)"></a> </li>
+											<li><a href="javascript:;"><img title="抠鼻" alt="抠鼻" src="/upload/emotion/33.gif?ver=1" emotion="(kb)"></a> </li>
+											<li><a href="javascript:;"><img title="烧香" alt="烧香" src="/upload/emotion/34.gif?ver=1" emotion="(sx)"></a> </li>
+											<li><a href="javascript:;"><img title="织毛衣" alt="织毛衣" src="/upload/emotion/35.gif?ver=1" emotion="(zmy)"></a> </li>
+											<li><a href="javascript:;"><img title="秋菊" alt="秋菊" src="/upload/emotion/36.gif?ver=1" emotion="(jh)"></a> </li>
+											<li><a href="javascript:;"><img title="降温" alt="降温" src="/upload/emotion/37.gif?ver=1" emotion="(cold)"></a> </li>
+											<li><a href="javascript:;"><img title="暖暖被窝" alt="暖暖被窝" src="/upload/emotion/38.gif?ver=1" emotion="(bw)"></a> </li>
+											<li><a href="javascript:;"><img title="给力" alt="给力" src="/upload/emotion/39.gif?ver=1" emotion="(gl)"></a> </li>
+											<li><a href="javascript:;"><img title="不给力" alt="不给力" src="/upload/emotion/40.gif?ver=1" emotion="(bgl)"></a> </li>
+											<li><a href="javascript:;"><img title="花儿" alt="花儿" src="/upload/emotion/41.gif?ver=1" emotion="(花)"></a> </li>
+											<li><a href="javascript:;"><img title="小蜜蜂" alt="小蜜蜂" src="/upload/emotion/42.gif?ver=1" emotion="(蜜蜂)"></a> </li>
+											<li><a href="javascript:;"><img title="雪花" alt="雪花" src="/upload/emotion/43.gif?ver=1" emotion="(sn)"></a> </li>
+											<li><a href="javascript:;"><img title="默哀" alt="默哀" src="/upload/emotion/44.gif?ver=1" emotion="(qf)"></a> </li>
+										</ul>
+			
+			
+			
+			
+		</div>		
+	</div>
+	<div class="clear"></div>
+	<div class="fbzhuti2">
+	<style>
+	.uploadimages{ width:100%;}
+	.yulanimg{width:25%; float:left;}
+	.uploadimages img{ width:80px; height:80px;}
+	</style>
+		<{if $WeChatType==1}>
+	<div class="uploadimages" style="max-height:300px;overflow-y:auto;"> 
+	
+	<div class="uploadimages">
+	
+	<div  id="img_wrap">
+ 		
+		</div>
+	
+			<div  id="chooseImage" class="yulanimg"><img  src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/sayuplode.png" /></div>
+			</div>
+	
+	</div>
+	
+		
+		</div>
+		
+		<div style="clear:both;"></div>
+
+		
+		<div class="clear"></div>
+	 
+		<div class="zttext">最多可上传9张照片</div>
+		
+		<{/if}>
+	</div>
+	
+ </div>
+  </div>
+  <{if $WeChatType==1}>
+<script>
+  /*
+   * 注意：
+   * 1. 所有的JS接口只能在公众号绑定的域名下调用，公众号开发者需要先登录微信公众平台进入“公众号设置”的“功能设置”里填写“JS接口安全域名”。
+   * 2. 如果发现在 Android 不能分享自定义内容，请到官网下载最新的包覆盖安装，Android 自定义分享接口需升级至 6.0.2.58 版本及以上。
+   * 3. 常见问题及完整 JS-SDK 文档地址：http://mp.weixin.qq.com/wiki/7/aaa137b55fb2e0456bf8dd9148dd613f.html
+   *
+   * 开发中遇到问题详见文档“附录5-常见错误及解决办法”解决，如仍未能解决可通过以下渠道反馈：
+   * 邮箱地址：weixin-open@qq.com
+   * 邮件主题：【微信JS-SDK反馈】具体问题
+   * 邮件内容说明：用简明的语言描述问题所在，并交代清楚遇到该问题的场景，可附上截屏图片，微信团队会尽快处理你的反馈。
+   */
+  wx.config({
+      debug: false,
+      appId: '<{$signPackage['appId']}>',
+      timestamp: '<{$signPackage['timestamp']}>',
+      nonceStr: '<{$signPackage['nonceStr']}>',
+      signature: '<{$signPackage['signature']}>',
+      jsApiList: [
+        'checkJsApi',
+        'chooseImage',
+        'previewImage',
+        'uploadImage',
+        'downloadImage'
+      ]
+  });
+  
+  
+
+  // 5 图片接口
+  // 5.1 拍照、本地选图
+  var images = {
+    localId: [],
+    serverId: []
+  };
+  document.querySelector('#chooseImage').onclick = function () {
+  /*  wx.chooseImage({
+      success: function (res) {
+        images.localId = res.localIds;
+		var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+		alert(localIds);
+        alert('已选择 ' + res.localIds.length + ' 张图片');
+      }
+    }); */
+	                wx.chooseImage({
+                    success: function (res) {
+                       // Tmsg("返回选定照片的本地ID列表或拍照图片ID"+JSON.stringify(res));
+                        images.localIds = res.localIds;
+                  //     alert('已选择 ' + images.localIds.length + '张图片');
+                 //     alert('图片地址: ' + images.localIds.join(', '));
+    
+                        //3.上传选择的图片(递归)
+                        var i = 0, length = images.localIds.length;
+                        var imgs_html = [];
+                        var upload = function(){
+                          //  Tmsg("上传图片第"+i+'图片');
+                            wx.uploadImage({
+                                localId:images.localIds[i],
+                                success: function(res) {
+                                   // Tmsg('记录res.serverId'+res.serverId);
+                                    images.serverId.push(res.serverId);
+								 //	Tmsg(images.serverId);
+                                 //   imgs_html.push('<div class="yulanimg"><img <{ofunc type=img  link='+images.localIds[i]+'}>/></div>');
+								 imgs_html.push('<div class="yulanimg"><img src="'+images.localIds[i]+'"/></div>');	
+									
+									
+                                 //   Tmsg('已上传'+images.localIds[i]+i+'/'+length);
+                             //       Tmsg(images.localIds[i]);
+                                    //如果还有照片，继续上传
+                                    i++;
+                                    if (i < length) {
+                                        upload();
+                                    }
+                                    else {
+                                        //4.预览上传的图片
+								//		alert(imgs_html.join(''));
+                                        $("#img_wrap").append(imgs_html.join(''));	
+																											
+										$("#serverId").val(images.serverId);
+                                        //Tmsg("上传成功");
+                                    }
+									if(images.serverId.length >= 9){
+										Tmsg('最多上传9张图片');
+										$('#chooseImage').css('display','none');
+										return false;
+									}
+                                }
+                            });
+                        };
+						
+                      //  Tmsg("开始上传图片");
+                        upload();
+                  }
+                });
+  };
+ 
+  // 5.2 图片预览
+  document.querySelector('#previewImage').onclick = function () {
+    wx.previewImage({
+      current: 'http://img5.douban.com/view/photo/photo/public/p1353993776.jpg',
+      urls: [
+        'http://img3.douban.com/view/photo/photo/public/p2152117150.jpg',
+        'http://img5.douban.com/view/photo/photo/public/p1353993776.jpg',
+        'http://img3.douban.com/view/photo/photo/public/p2152134700.jpg'
+      ]
+    });
+  };
+
+  // 5.3 上传图片
+  document.querySelector('#uploadImage').onclick = function () {
+    if (images.localId.length == 0) {
+      alert('请先使用 chooseImage 接口选择图片');
+      return;
+    }
+    var i = 0, length = images.localId.length;
+    images.serverId = [];
+    function upload() {
+      wx.uploadImage({
+        localId: images.localId[i],
+        success: function (res) {
+          i++;
+          //alert('已上传：' + i + '/' + length);
+          images.serverId.push(res.serverId);
+          if (i < length) {
+            upload();
+          }
+        },
+        fail: function (res) {
+          alert(JSON.stringify(res));
+        }
+      });
+    }
+    upload();
+  };
+
+  // 5.4 下载图片
+  document.querySelector('#downloadImage').onclick = function () {
+    if (images.serverId.length === 0) {
+      alert('请先使用 uploadImage 上传图片');
+      return;
+    }
+    var i = 0, length = images.serverId.length;
+    images.localId = [];
+    function download() {
+      wx.downloadImage({
+        serverId: images.serverId[i],
+        success: function (res) {
+          i++;
+          alert('已下载：' + i + '/' + length);
+          images.localId.push(res.localId);
+          if (i < length) {
+            download();
+          }
+        }
+      });
+    }
+    download();
+  };
+
+  
+  
+  
+  
+  
+</script>
+  <{/if}>
+ <script>
+ 
+ $(function(){
+     var cururl = window.location.href;
+     $.cookie('wxCurUrl', cururl);
+  });
+ 
+  
+ 
+ </script>
+  
+ <script>
+ 
+ //向下滑动 转换
+var biaoqingArray = [];
+var biaoqingImgArray = [];
+var shuoshuotip="说两句吧...";
+$(function(){
+	var biaoqing = $("#publisher_emotion").find('a');
+	for(var i = 0 ,len = biaoqing.length; i < len; i++){
+		biaoqingArray.push(biaoqing[i].childNodes[0].title);
+		biaoqingImgArray.push(biaoqing[i].childNodes[0].src);
+	}
+  $('.icon_bq').live("click", function() {  
+    	$('#publisher_emotion').show();
+  });
+   $('#publisher_emotion a').live('click',function(){
+   	   $("#microbolg_message")[0].value += "["+$(this).find("img").first().attr('title')+"]";
+			$("#publisher_emotion").hide();
+			$('#microbolg_message').trigger('onfocus');
+  });
+  $('.icon_tp').live("click", function() {  
+    	$('#div-messagepicUpload').show();
+  });
+  $('#submitImg').click(function(){
+		ajaxFileUpload();
+	});
+	$('#btn_fb').click(function(){
+		var media_ids = $("#serverId").val(); 
+		var message = $.trim($("#microbolg_message").val());
+		console.log(message);
+		 
+		//console.log('message='+message.length);return false;
+	  for(var i=0;i<biaoqingArray.length;i++){
+		  if(message.indexOf("["+biaoqingArray[i]+"]")!=-1){
+			var rel = new RegExp("\\["+biaoqingArray[i]+"\\]",'g');
+			message = message.replace(rel,'<img src='+biaoqingImgArray[i]+' alt='+biaoqingArray[i]+' />');
+		  }
+	  }
+	  var image = $("#msgImage").val();
+	  message = message.replace(/\r\n/ig,"<br/>");
+	  var serverId = $("#serverId").val();
+	  if(!message && !serverId){
+		   Tmsg("至少发个言或者发张图呀~");
+		  return false;
+	  } 
+	  tijiaoneirong(message,image,media_ids);
+		//提交comment 内容
+	});
+	$("#microbolg_message").keyup(function(){
+    var count = $("#microbolg_message").val().length;
+		if(count<=500){
+			$("#fbconcount").html( 500-count );
+		}else{
+			$("#microbolg_message").val( $("#microbolg_message").val().substring(0,500));
+			$("#fbconcount").html( 0 );
+		}
+  });
+});
+function checkMessage(){
+	var message = $("#microbolg_message").val();
+	if($.trim( message )=="" || $.trim( message ) == shuoshuotip){
+		$("#microbolg_message").css('backgroundColor','#fcdede');
+		setTimeout(function(){
+			$('#microbolg_message').css('backgroundColor','#fff')
+		},200);
+		return false;
+	}
+	return true;
+}
+function sixinfocus(eve){  
+	if($(eve).val().indexOf("说两句吧...")!=-1){
+		$(eve).val($(eve).val().replace(shuoshuotip,""));
+		$(eve).css('color','#333');
+	} 
+}
+function closeLayer(obj){
+	$('#'+obj).hide();
+}
+ 
+ </script>
+ 
+ 
+ 
+<script>
+	function tijiaoneirong(message,image,media_ids){
+	showLoading();
+	$.ajax({
+	  	url:'<{ofunc type=url link="/wxsite/saveuserpmes/datatype/json"}>',
+	  	data:{message:message,image:image,media_ids:media_ids,cityname:$("#cityname").val(),areaname:$("#areaname").val(),streetname:$("#streetname").val()},
+	  	dataType: 'json',
+	  	success:function (data, status)
+	  	{
+	  		if(typeof(data.error) != 'undefined')
+				{
+					if(data.error == false)
+					{
+							 newhideLoading();
+							Tmsg('提交成功');
+							 
+								 window.location.href=  siteurl+'/index.php?ctrl=wxsite&action=togethersay' ;
+							 
+					 }else{
+							 newhideLoading();
+					 		alert(data.msg);
+					}
+				}else{
+					 newhideLoading();
+					alert(data.msg);
+				} 
+	  		$("#msgImage").val("");
+	  		$("#microbolg_message").val("") 
+	  	},
+		  error: function (data, status, e)
+		  {
+				 newhideLoading();
+					alert('提交连接失败');
+		  }
+	  }); 
+	}
+	function deleteSixin(dis){
+   	var bakmess = ajaxback('<{ofunc type=url link="/ask/deluserpms/datatype/json"}>',{'id':dis});
+   	if(bakmess.flag == false){
+   		$('#li_s_'+dis).remove();
+   		$('#li_ssss_'+dis).remove();
+   	}else{
+   	   alert(bakmess.content);
+   	}
+	}
+</script>
+<{/block}>

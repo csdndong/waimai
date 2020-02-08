@@ -1,0 +1,228 @@
+<view class="page page-assign">
+    <view class="content">
+        <view class="assign-title">
+            <view class="head">排队列表</view>
+        </view>
+        <view class="assign-item">
+            <view class="assign-body">
+                <view class="now-assign">
+                    <view>当前叫号</view>
+                    <view class="info">暂无排队信息</view>
+                </view>
+                <view class="now-assign">
+                    <view>桌号分类</view>
+                    <view class="tables-type">大桌</view>
+                </view>
+                <view class="take-assign">
+                    <view class="takeout">
+                        <view>取号</view>
+                        <view>(1/1)</view>
+                    </view>
+                </view>
+            </view>
+            <view class="assign-foot border-1px-t">
+                <view class="small-button">
+                    <view class="icon icon-viewgallery"></view>
+					查看已领
+				</view>
+                <view class="small-button active">
+                    <text class="icon icon-remind2"></text>
+					叫号
+				</view>
+                <view class="small-button active">
+                    <text class="icon icon-home2"></text>
+					入座
+				</view>
+                <view class="small-button active">
+                    <text class="icon icon-forward"></text>
+					跳过
+				</view>
+            </view>
+        </view>
+        <view class="assign-item">
+            <view class="assign-body">
+                <view class="now-assign">
+                    <view>当前叫号</view>
+                    <view class="info">暂无排队信息</view>
+                </view>
+                <view class="now-assign">
+                    <view>桌号分类</view>
+                    <view class="tables-type">大桌</view>
+                </view>
+                <view class="take-assign">
+                    <view class="takeout">
+                        <view>取号</view>
+                        <view>(1/1)</view>
+                    </view>
+                </view>
+            </view>
+            <view class="assign-foot border-1px-t">
+                <view class="small-button">
+                    <view class="icon icon-viewgallery"></view>
+					查看已领
+				</view>
+                <view class="small-button active">
+                    <text class="icon icon-remind2"></text>
+					叫号
+				</view>
+                <view class="small-button active">
+                    <text class="icon icon-home2"></text>
+					入座
+				</view>
+                <view class="small-button active">
+                    <text class="icon icon-forward"></text>
+					跳过
+				</view>
+            </view>
+        </view>
+        <view class="assign-item">
+            <view class="assign-body">
+                <view class="now-assign">
+                    <view>当前叫号</view>
+                    <view class="info">暂无排队信息</view>
+                </view>
+                <view class="now-assign">
+                    <view>桌号分类</view>
+                    <view class="tables-type">大桌</view>
+                </view>
+                <view class="take-assign">
+                    <view class="takeout">
+                        <view>取号</view>
+                        <view>(1/1)</view>
+                    </view>
+                </view>
+            </view>
+            <view class="assign-foot border-1px-t">
+                <view class="small-button">
+                    <view class="icon icon-viewgallery"></view>
+					查看已领
+				</view>
+                <view class="small-button active">
+                    <text class="icon icon-remind2"></text>
+					叫号
+				</view>
+                <view class="small-button active">
+                    <text class="icon icon-home2"></text>
+					入座
+				</view>
+                <view class="small-button active">
+                    <text class="icon icon-forward"></text>
+					跳过
+				</view>
+            </view>
+        </view>
+        <view class="assign-item">
+            <view class="assign-body">
+                <view class="now-assign">
+                    <view>当前叫号</view>
+                    <view class="info">暂无排队信息</view>
+                </view>
+                <view class="now-assign">
+                    <view>桌号分类</view>
+                    <view class="tables-type">大桌</view>
+                </view>
+                <view class="take-assign">
+                    <view class="takeout">
+                        <view>取号</view>
+                        <view>(1/1)</view>
+                    </view>
+                </view>
+            </view>
+            <view class="assign-foot border-1px-t">
+                <view class="small-button">
+                    <view class="icon icon-viewgallery"></view>
+					查看已领
+				</view>
+                <view class="small-button active">
+                    <text class="icon icon-remind2"></text>
+					叫号
+				</view>
+                <view class="small-button active">
+                    <text class="icon icon-home2"></text>
+					入座
+				</view>
+                <view class="small-button active">
+                    <text class="icon icon-forward"></text>
+					跳过
+				</view>
+            </view>
+        </view>
+        <view class="assign-item">
+            <view class="assign-body">
+                <view class="now-assign">
+                    <view>当前叫号</view>
+                    <view class="info">暂无排队信息</view>
+                </view>
+                <view class="now-assign">
+                    <view>桌号分类</view>
+                    <view class="tables-type">大桌</view>
+                </view>
+                <view class="take-assign">
+                    <view class="takeout">
+                        <view>取号</view>
+                        <view>(1/1)</view>
+                    </view>
+                </view>
+            </view>
+            <view class="assign-foot border-1px-t">
+                <view class="small-button">
+                    <view class="icon icon-viewgallery"></view>
+					查看已领
+				</view>
+                <view class="small-button active">
+                    <text class="icon icon-remind2"></text>
+					叫号
+				</view>
+                <view class="small-button active">
+                    <text class="icon icon-home2"></text>
+					入座
+				</view>
+                <view class="small-button active">
+                    <text class="icon icon-forward"></text>
+					跳过
+				</view>
+            </view>
+        </view>
+        <view class="assign-item">
+            <view class="assign-body">
+                <view class="now-assign">
+                    <view>当前叫号</view>
+                    <view class="info">暂无排队信息</view>
+                </view>
+                <view class="now-assign">
+                    <view>桌号分类</view>
+                    <view class="tables-type">大桌</view>
+                </view>
+                <view class="take-assign">
+                    <view class="takeout">
+                        <view>取号</view>
+                        <view>(1/1)</view>
+                    </view>
+                </view>
+            </view>
+            <view class="assign-foot border-1px-t">
+                <view class="small-button">
+                    <view class="icon icon-viewgallery"></view>
+					查看已领
+				</view>
+                <view class="small-button active">
+                    <text class="icon icon-remind2"></text>
+					叫号
+				</view>
+                <view class="small-button active">
+                    <text class="icon icon-home2"></text>
+					入座
+				</view>
+                <view class="small-button active">
+                    <text class="icon icon-forward"></text>
+					跳过
+				</view>
+            </view>
+        </view>
+        <view class="assign-button">
+            <view class="page__bd">
+                <button class="weui-btn" type="primary">选择分类</button>
+            </view>
+        </view>
+    </view>
+</view>

@@ -1,0 +1,93 @@
+@import "getnum.wxss";
+
+.main {
+    padding-top: 20rpx;
+}
+
+.top {
+    align-items: flex-start;
+    padding: 30rpx 30rpx;
+    display: block;
+    border-radius: 10rpx;
+}
+
+.pdxh1 {
+    text-align: left;
+}
+
+.pdxh2 {
+    text-align: center;
+    font-size: 80rpx;
+    font-weight: bold;
+    margin: 30rpx 0;
+}
+
+.pdxh3 {
+    text-align: right;
+}
+
+.cxqh {
+    padding: 15rpx 60rpx;
+    color: #fff;
+    border-radius: 10rpx;
+}
+
+.selleradd {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 26rpx;
+    color: #333;
+    padding: 0 20rpx;
+}
+
+.selleradd image {
+    width: 30rpx;
+    height: 30rpx;
+    margin-bottom: 10rpx;
+}
+
+.weui-cell__bd {
+    font-size: 28rpx;
+}
+
+.weui-cell__hd {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.weui-cell__hd image {
+    min-width: 40rpx;
+    width: 35rpx;
+    height: 35rpx;
+    margin-right: 20rpx;
+}
+
+.weui-cell {
+    padding: 20rpx 0;
+    font-size: 28rpx;
+}
+
+.weui-cell:before {
+    border-top: 1rpx solid #e5e5e5;
+    color: #e5e5e5;
+    left: 0px;
+}
+
+.sjxx {
+    border: 1rpx solid #e5e5e5;
+    border-radius: 10rpx;
+    width: 100%;
+    padding: 0 30rpx;
+    margin: 40rpx 0 50rpx;
+}
+
+.footer {
+    width: 40%;
+}
+
+.footer button {
+    font-size: 28rpx;
+}

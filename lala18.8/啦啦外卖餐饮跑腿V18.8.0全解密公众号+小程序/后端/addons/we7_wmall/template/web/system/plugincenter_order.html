@@ -1,0 +1,101 @@
+{itemplate 'public/header'}
+{if $op == 'list'}
+<form action="./index.php?" class="form-horizontal form-filter" id="form-gohome">
+	{php echo tpl_form_filter_hidden('system/plugincenter_order/list');}
+	<div class="form-group form-inline">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">筛选</label>
+		<div class="col-sm-9 col-xs-12">
+			<select name="pluginname" class="form-control select2">
+				<option value="" {if $pluginname == ''}select{/if}>所有插件</option>
+				{loop $plugins $plugin}
+					<option value="{$plugin['name']}" {if $pluginname == $plugin['name']}selected{/if}>{$plugin['title']}</option>
+				{/loop}
+			</select>
+			<div style="display: inline-block">
+				{php echo itpl_form_field_daterange('addtime', array('placeholder' => '订单时间'));}
+			</div>
+			<input type="text" name="uniacid" value="{$_GPC['uniacid']}" class="form-control" placeholder="请输入公众号">
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+		<div class="col-sm-9 col-xs-12">
+			<button class="btn btn-primary">筛选</button>
+		</div>
+	</div>
+</form>
+<form action="" class="form-table form plugincenter-order" method="post">
+	<div class="panel panel-table">
+		<div class="panel-body table-responsive js-table">
+			{if empty($orders)}
+				<div class="no-result">
+					<p>还没有相关数据</p>
+				</div>
+			{else}
+				<div class="table-header">
+					<div>应用</div>
+					<div class="others">公众号/会员账号</div>
+					<div class="others">价格</div>
+					<div class="others">授权时长</div>
+					<div class="others">状态</div>
+				</div>
+				{loop $orders $order}
+					<div class="tables">
+						<div class="table-top">
+							<div class="top-left">
+									<span class="order-title">
+										付款时间
+										{php echo date('Y-m-d H:i', $order['paytime'])}
+									</span>
+								订单编号：{$order['order_sn']}
+							</div>
+						</div>
+						<div class="table-body">
+							<div class="goods-des">
+								<div class="goods-info">
+									<img class="goods-img" src="{$order['data']['meal']['thumb']}">
+									<div class="goods-name">
+										<div>
+											<div class="title">
+												套餐：{$order['data']['meal']['title']}4566333
+												</br>
+												插件：{$order['packagename_cn']}
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="saler">
+								<div>
+									<span>{$order['uniacid_name']}</span>
+									<br>
+									<span>{$order['username']}</span>
+								</div>
+							</div>
+							<div class="saler">
+								¥{$order['final_fee']}
+							</div>
+							<div class="saler">
+								{if $order['month'] > 0}
+									{$order['month']}个月
+								{else}
+									永久
+								{/if}
+							</div>
+							<div class="saler">
+								<label class="label label-success">已授权</label>
+							</div>
+						</div>
+					</div>
+				{/loop}
+				<div class="btn-region clearfix">
+					<div class="pull-right">
+						{$pager}
+					</div>
+				</div>
+			{/if}
+		</div>
+	</div>
+</form>
+{/if}
+{itemplate 'public/footer'}

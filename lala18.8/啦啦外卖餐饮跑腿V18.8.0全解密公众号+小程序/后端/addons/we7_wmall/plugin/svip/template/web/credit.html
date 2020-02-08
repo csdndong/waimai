@@ -1,0 +1,73 @@
+{itemplate 'public/header'}
+{if $op == 'list'}
+<form action="./index.php" class="form-horizontal form-filter">
+	{php echo tpl_form_filter_hidden('svip/credit/list');}
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">兑换时间</label>
+		<div class="col-sm-4 col-xs-4">
+			{php echo tpl_form_field_daterange('addtime', array('start' => date('Y-m-d  H:i', $starttime), 'end' => date('Y-m-d H:i', $endtime)), true);}
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">搜索</label>
+		<div class="col-sm-4 col-xs-4">
+			<input type="text" name="keyword" value="{$keyword}" class="form-control" placeholder="搜索的昵称、收件人姓名、手机号">
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+		<div class="col-sm-4 col-xs-4">
+			<input type="submit" value="筛选" class="btn btn-primary">
+		</div>
+	</div>
+</form>
+<form action="" class="form-table form" method="post">
+	<div class="panel panel-table">
+		<div class="panel-body table-responsive js-table">
+			{if empty($records)}
+			<div class="no-result">
+				<p>还没有相关数据</p>
+			</div>
+			{else}
+			<table class="table table-hover">
+				<thead class="navbar-inner">
+				<tr>
+					<th>用户</th>
+					<th>奖励金变动值</th>
+					<th>变动说明</th>
+					<th>备注</th>
+					<th>变动时间</th>
+				</tr>
+				</thead>
+				<tbody>
+				{loop $records $item}
+				<tr>
+					<td>
+						<img src="{$item['avatar']}" alt="" width="50"/>
+						{$item['realname']}
+					</td>
+					<td>
+						{if $item['num'] > 0}
+							<span class="label label-success">+{$item['num']}</span>
+						{else}
+							<span class="label label-danger">{$item['num']}</span>
+						{/if}
+					</td>
+					<td>{$item['title']}</td>
+					<td>{$item['remark']}</td>
+					<td>{php echo date('Y-m-d H:i', $item['createtime'])}</td>
+				</tr>
+				{/loop}
+				</tbody>
+			</table>
+			<div class="btn-region clearfix">
+				<div class="pull-right">
+					{$pager}
+				</div>
+			</div>
+			{/if}
+		</div>
+	</div>
+</form>
+{/if}
+{itemplate 'public/footer'}

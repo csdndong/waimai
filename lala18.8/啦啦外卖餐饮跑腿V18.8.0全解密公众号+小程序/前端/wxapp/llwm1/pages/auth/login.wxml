@@ -1,0 +1,30 @@
+<view class="page-login">
+    <view class="avatar" wx:if="{{config.logo}}">
+        <image src="{{config.logo}}"></image>
+    </view>
+    <view class="plateform-title" wx:if="{{config.title}}">{{config.title}}</view>
+    <form bindsubmit="onSubmit" reportSubmit="true">
+        <view class="input-group">
+            <view class="input">
+                <view class="right">
+                    <input name="mobile" placeholder="请输入手机号" type="text"></input>
+                </view>
+            </view>
+            <view class="input">
+                <view class="right">
+                    <input name="password" placeholder="请输入密码" type="password"></input>
+                </view>
+            </view>
+        </view>
+        <view bind:tap="onJsEvent" class="operation" data-event-type="jsUrl" data-url="pages/auth/forget">
+            <view>
+				忘记密码
+				<view class="icon icon-question1"></view>
+            </view>
+        </view>
+        <view class="save-btn">
+            <button class="weui-btn" formType="submit" type="warn">登陆</button>
+        </view>
+    </form>
+</view>
+<include src="../public/footer.wxml"></include>

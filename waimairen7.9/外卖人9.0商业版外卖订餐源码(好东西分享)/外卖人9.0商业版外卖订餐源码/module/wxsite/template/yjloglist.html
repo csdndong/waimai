@@ -1,0 +1,31 @@
+<{if !empty($loglist)}>
+	<{foreach from=$loglist item=items}>	
+		<div class="commisiondetail_list_box">
+			<div class="commisiondetail_list_head">
+				<span>本单收入佣金</span>
+				<small>￥<{$items['yjbcost']}></small>
+			</div>
+			<div class="commisiondetail_list">
+				<ul>
+					<li>
+						<div class="commisiondetail_list_left"><span>订单编号</span></div>
+						<div class="commisiondetail_list_right"><span><{$items['dno']}></span><small></small></div>
+					</li>
+					<li>
+						<div class="commisiondetail_list_left"><span>下单时间</span></div>
+						<div class="commisiondetail_list_right"><span><{$items['addtime']}></span><small></small></div>
+					</li>
+					<li>
+						<div class="commisiondetail_list_left"><span>下单账户</span></div>
+						<div class="commisiondetail_list_right"><span><{$items['buyername']}></span><small><{$items['grade']}></small></div>
+					</li>
+					<li>
+						<div class="commisiondetail_list_left"><span>商品金额</span></div>
+						<div class="commisiondetail_list_right"><span>￥<{$items['ordercost']}></span><small></small></div>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="h_10"></div>
+	<{/foreach}>
+<{/if}>

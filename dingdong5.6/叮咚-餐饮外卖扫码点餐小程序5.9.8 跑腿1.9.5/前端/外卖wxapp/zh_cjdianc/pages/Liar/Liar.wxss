@@ -1,0 +1,57 @@
+.container {
+    padding-bottom: 115rpx;
+}
+
+.head {
+    width: 100%;
+    height: 350rpx;
+}
+
+.head swiper {
+    width: 100%;
+    height: 100%;
+}
+
+.head image {
+    width: 100%;
+    height: 100%;
+}
+
+.seller_info {
+    padding: 0 20rpx;
+    background: #fff;
+    box-sizing: border-box;
+}
+
+.seller_info image {
+    width: 40rpx;
+    height: 40rpx;
+    vertical-align: middle;
+}
+
+.seller_info>view {
+    vertical-align: middle;
+    display: inline-block;
+    padding: 20rpx 0;
+    box-sizing: border-box;
+}
+
+.seller_info>view:nth-child(1) {
+    width: 7%;
+}
+
+.seller_info>view:nth-child(2) {
+    width: 93%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-bottom: 2rpx solid #e5e5e5;
+}
+
+.margin {
+    margin-bottom: 20rpx;
+}
+
+.weui-cell__bd {
+    font-size: 28rpx;
+}

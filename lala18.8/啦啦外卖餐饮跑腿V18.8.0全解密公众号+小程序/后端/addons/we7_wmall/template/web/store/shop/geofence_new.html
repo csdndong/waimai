@@ -1,0 +1,152 @@
+<style>
+	.geofence{padding: 15px; border: 1px solid #eee;}
+	.geofence .col-md-3{padding-left: 0; position: relative; height: 600px;}
+	.geofence .col-md-9{padding: 0;}
+	.geofence #allmap{height: 600px;}
+	.geofence #allmap .marker-start-head-route{width:40px; height: 55px; background: url(../addons/we7_wmall/static/img/shop_marker.png); background-size: cover;}
+	.geofence .geofence-container{height: 545px; overflow-y: auto; padding-left: 0;}
+	.geofence .geofence-container .title{font-weight: bold; color: #666;}
+	.geofence .area-item{border: 1px solid #eee; border-left: none; padding: 10px 15px; margin: 10px 0; position: relative;}
+	.geofence .area-item.active{background: #f8f8f8;}
+	.geofence .area-item:before{content: ''; display: block; width: 6px; height: 100%; left: 0; top: 0; position: absolute;}
+	.geofence .area-item .area-item-title{height: 30px; line-height: 30px; font-size: 15px; font-weight: bold;}
+	.geofence .add-container .area-item .area-item-title{height: 20px; line-height: 20px;}
+	.geofence .area-item .area-item-title span{color: #666; cursor: pointer;}
+	.geofence .area-item .area-item-title span:hover{color: #18a689;}
+	.geofence .area-item .area-item-title .pull-right{font-size: 12px; font-weight: normal;}
+	.geofence .area-item .area-item-title .btn-save{font-size: 12px; color: #18a689;}
+	.geofence .area-item.area1:before{background-color: #4589ef;}
+	.geofence .area-item.area1 .area-item-title{color: #4589ef;}
+	.geofence .area-item.area2:before{background-color: #1ebd4f;}
+	.geofence .area-item.area2 .area-item-title{color: #1ebd4f;}
+	.geofence .area-item.area3:before{background-color: #06954b;}
+	.geofence .area-item.area3 .area-item-title{color: #06954b;}
+	.geofence .area-item.area4:before{background-color: #9a6a38;}
+	.geofence .area-item.area4 .area-item-title{color: #9a6a38;}
+	.geofence .area-item.area5:before{background-color: #6b543c;}
+	.geofence .area-item.area5 .area-item-title{color: #6b543c;}
+	.geofence .area-item .price-container{line-height: 30px; font-size: 12px;}
+	.geofence .area-item .price-container span{font-weight: bold; color: #333;}
+	.geofence .area-item .price-input-container{font-size: 12px;}
+	.geofence .area-item .price-input-container input{width: 80px; border: 1px solid #ccc; outline: 0; border-radius: 5px; margin: 0 10px; text-align: center; font-size: 14px;}
+	.geofence .area-item .price-input-container input:focus{border-color: #1ab394;}
+	.geofence .area-item .price-input-container .start-send-price{line-height: 30px; margin-bottom: 10px;}
+	.geofence .area-item .price-input-container .send-price{line-height: 30px; margin-bottom: 10px;}
+	.geofence .area-item .price-input-container .modify-reason{line-height: 30px;}
+	.geofence .area-item .price-input-container .modify-reason input{width: 120px;}
+	.geofence .area-item .new-area{border-top: 1px dashed #ccc; margin-top: 10px;}
+	.geofence .add-container .area-item .new-area{padding: 15px 0; border-top: 1px dashed #ccc; border-bottom: 1px dashed #ccc;}
+	.geofence .area-item .new-area .help-block{font-size: 12px; margin-top: 10px;}
+	.geofence .area-item .area-delete{padding-top: 10px; cursor: pointer;}
+	.geofence .area-item .area-delete .icon{font-size: 15px; position: relative; top: 1px;}
+	.geofence #area-add{padding: 8px 12px; margin-top: 10px;}
+	.geofence .tip{position: absolute; bottom: 0; padding-right: 15px; padding-top: 15px;}
+	.geofence .area-add{width: 100%; display:flex; flex-flow: row nowrap; align-items: center; justify-content: center; cursor: pointer}
+	.geofence .area-add.disabled{opacity: 0.6}
+	.geofence .area-add .icon{font-size: 16px; margin-right: 5px;}
+	.geofence .title .icon{color: #ddd; font-size: 16px; font-weight: normal}
+	.geofence .description{display: flex; flex-flow: row nowrap; align-items: center}
+	.geofence .description input{width: 100%!important; text-align: left!important;}
+</style>
+<div class="clearfix geofence">
+	<input type="hidden" name="areas" value=""/>
+	<div class="col-md-3">
+		<div class="geofence-container"></div>
+	</div>
+	<div class="col-md-9">
+		<div id="allmap"></div>
+	</div>
+</div>
+<script type="text/html" id="tpl-area">
+	<(each areas as area type)>
+		<(if type == 'normal')>
+			<div class="title">
+				常规时段
+				<i class="icon icon-question1" data-toggle="tooltip" data-placement="right" title="" data-original-title="除特殊时段外的所有营业时间的配送范围"></i>
+			</div>
+		<(else)>
+			<div class="title" style="margin-top: 40px;">特殊时段</div>
+		<(/if)>
+		<(each area as areaItem areaIndex )>
+			<(if type == 'special')>
+			<div class="form-group hour clockpicker" style="border-bottom: 0px; padding-bottom: 0px; width: 100%">
+				<div class="col-sm-4 control-label">配送时段</div>
+				<div class="col-sm-8">
+					<div class="input-group">
+						<input type="text" readonly class="form-control input-sm diy-bind" data-bind-child="<(type)>" data-bind-parent="<(areaIndex)>" data-bind="startHour"  value="<(areaItem.startHour)>">
+						<span class="input-group-addon border-0-lr">至</span>
+						<input type="text" readonly class="form-control input-sm diy-bind" data-bind-child="<(type)>" data-bind-parent="<(areaIndex)>" data-bind="endHour" value="<(areaItem.endHour)>">
+					</div>
+				</div>
+			</div>
+			<(/if)>
+			<div id="area-container">
+				<(each areaItem.areas as item index)>
+				<div class="area-item area<(item.colorType)>" data-id="<(index)>">
+					<div class="area-item-inner <(if item.isActive == 1)>hide<(/if)>">
+						<div class="area-item-title">配送范围 <span class="pull-right editor-area-item <(if !isChange || isActive == 1)>hide<(/if)>" data-type="<(type)>" data-parentid="<(areaIndex)>" data-id="<(index)>">编辑</span></div>
+						<div class="price-container hide">
+							起送价 <span class="start-send-price"><(item.send_price)></span> 元&nbsp;&nbsp;配送费 <span class="send-price"><(item.delivery_price)></span> 元&nbsp;&nbsp;满 <span class="send-price"><(item.delivery_free_price)></span> 元免配送费
+						</div>
+						<div class="price-container">
+							范围说明：<(item.description)>
+						</div>
+					</div>
+					<div class="editor-container <(if !item.isActive)>hide<(/if)>">
+						<div class="area-item-title" >
+							配送范围
+							<div class="pull-right">
+								<span class="btn-reset" data-type="<(type)>" data-parentid="<(areaIndex)>" data-id="<(index)>">取消</span> / <span class="btn-save" data-type="<(type)>" data-parentid="<(areaIndex)>" data-id="<(index)>">保存</span>
+							</div>
+						</div>
+						<div class="price-input-container " >
+							<div class="description">
+								<div class="">范围说明</div>
+								<div class="">
+									<input type="text" value="<(item.description)>" class="diy-bind" data-bind-type="<(type)>" data-bind-ancestor="<(areaIndex)>" data-bind-child="areas" data-bind-parent="<(index)>" data-bind="description"/>
+								</div>
+							</div>
+							<div class="start-send-price hide">
+								<span>起送价</span>&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" value="<(item.send_price)>" class="diy-bind" data-bind-type="<(type)>" data-bind-ancestor="<(areaIndex)>" data-bind-child="areas" data-bind-parent="<(index)>" data-bind="send_price"/>元
+							</div>
+							<div class="start-send-price hide">
+								<span>起送价</span>&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" value="<(item.send_price)>" class="diy-bind" data-bind-type="<(type)>" data-bind-ancestor="<(areaIndex)>" data-bind-child="areas" data-bind-parent="<(index)>" data-bind="send_price"/>元
+							</div>
+							<div class="send-price hide">
+								<span>配送费</span>&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" value="<(item.delivery_price)>" class="diy-bind" data-bind-type="<(type)>" data-bind-ancestor="<(areaIndex)>" data-bind-child="areas" data-bind-parent="<(index)>" data-bind="delivery_price"/>元
+							</div>
+							<div class="send-price hide">
+								<span>满</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" value="<(item.delivery_free_price)>" class="diy-bind" data-bind-type="<(type)>" data-bind-ancestor="<(areaIndex)>" data-bind-child="areas" data-bind-parent="<(index)>" data-bind="delivery_free_price"/>元免配送费
+							</div>
+						</div>
+						<div class="new-area"></div>
+						<div class="area-delete btn-delete" data-type="<(type)>" data-parentid="<(areaIndex)>" data-id="<(index)>">
+							<span class="icon icon-delete"></span> 删除此区域
+						</div>
+					</div>
+				</div>
+				<(/each)>
+				<(if isChange)>
+					<div data-type="<(type)>" data-parentid="<(areaIndex)>" class="area-add text-primary <(if isActive == 1)>disabled<(/if)>" style="margin-bottom: 10px;"><span class="icon icon-plus-circle"></span>新增配送范围</div>
+				<(/if)>
+			</div>
+		<(/each)>
+	<(/each)>
+	<div id="add-hour" class="btn btn-danger btn-block <(if isActive == 1)>disabled<(/if)>"><span class="icon icon-plus"></span>添加特殊时段</div>
+</script>
+<script type="text/javascript" src="//webapi.amap.com/maps?v=1.4.1&key=550a3bf0cb6d96c3b43d330fb7d86950&plugin=AMap.MouseTool,AMap.PolyEditor,AMap.CircleEditor,AMap.Geocoder,AMap.ToolBar,AMap.Scale,AMap.OverView"></script>
+<script>
+irequire(['tmodtpl', 'web/geofence.new'],function(tmodtpl, geofence){
+	var params = {
+			areas: {php echo json_encode($range['delivery_areas']);},
+			tmodtpl: tmodtpl,
+			store: {
+				location_y: {if !empty($range['map']['location_y'])}{$range['map']['location_y']}{else}'116.397428'{/if},
+				location_x: {if !empty($range['map']['location_x'])}{$range['map']['location_x']}{else}'39.90923'{/if},
+			},
+			isChange: 1
+		};
+	console.dir(params);
+	geofence.init(params);
+});
+</script>

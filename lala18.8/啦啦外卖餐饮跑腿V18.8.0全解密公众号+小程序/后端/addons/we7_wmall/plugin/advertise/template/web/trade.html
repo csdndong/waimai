@@ -1,0 +1,119 @@
+{itemplate 'public/header'}
+{if $op == 'list'}
+<form action="./index.php?" class="form-horizontal form-filter" id="form1">
+	{php echo tpl_form_filter_hidden('advertise/trade/list');}
+	<input type="hidden" name="days" value="{$days}"/>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">广告状态</label>
+		<div class="col-sm-9 col-xs-12">
+			<div class="btn-group">
+				<a href="{php echo ifilter_url('status:-1');}" class="btn {if $status == -1}btn-primary{else}btn-default{/if}">不限</a>
+				<a href="{php echo ifilter_url('status:0');}" class="btn {if $status == 0}btn-primary{else}btn-default{/if}">未开启</a>
+				<a href="{php echo ifilter_url('status:1');}" class="btn {if $status == 1}btn-primary{else}btn-default{/if}">进行中</a>
+				<a href="{php echo ifilter_url('status:2');}" class="btn {if $status == 2}btn-primary{else}btn-default{/if}">已下架</a>
+			</div>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">广告类型</label>
+		<div class="col-sm-9 col-xs-12">
+			<div class="btn-group">
+				<a href="{php echo ifilter_url('type:-1');}" class="btn {if $type == -1}btn-primary{else}btn-default{/if}">全部</a>
+				{loop $types $row}
+				<a href="{php echo ifilter_url('type:' . $row);}" class="btn {if $type == $row}btn-primary{else}btn-default{/if}">{$adtypes[$row]['text']}</a>
+				{/loop}
+			</div>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">购买日期</label>
+		<div class="col-sm-9 col-xs-12 js-daterange" data-form="#form1">
+			<div class="btn-group">
+				<a href="{php echo ifilter_url('days:-2');}" class="btn {if $days == -2}btn-primary{else}btn-default{/if}">不限</a>
+				<a href="{php echo ifilter_url('days:7');}" class="btn {if $days == 7}btn-primary{else}btn-default{/if}">近一周</a>
+				<a href="{php echo ifilter_url('days:30');}" class="btn {if $days == 30}btn-primary{else}btn-default{/if}">近一月</a>
+				<a href="{php echo ifilter_url('days:90');}" class="btn {if $days == 90}btn-primary{else}btn-default{/if}">近三月</a>
+				<a href="javascript:;" class="btn js-btn-custom {if $days == -1}btn-primary{else}btn-default{/if}">自定义</a>
+			</div>
+			<span class="js-btn-daterange {if $days != -1}hide{/if}">
+				{php echo tpl_form_field_daterange('addtime', array('start' => date('Y-m-d H:i', $starttime), 'end' => date('Y-m-d H:i', $endtime)), true);}
+			</span>
+		</div>
+	</div>
+	<div class="form-group form-inline">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">其他</label>
+		<div class="col-sm-9 col-xs-12">
+			<select name="sid" class="form-control select2" >
+				<option value="0" {if !$sid}selected{/if}>==选择门店==</option>
+				{loop $stores $store}
+				<option value="{$store['id']}" {if $sid == $store['id']}selected{/if}>{$store['title']}</option>
+				{/loop}
+			</select>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+		<div class="col-sm-9 col-xs-12">
+			<button class="btn btn-primary">筛选</button>
+		</div>
+	</div>
+	<div class="alert alert-warning">
+		注意：幻灯片类型的广告需要平台方设计幻灯片，手动添加和下架。为您优选、置顶的广告位系统自动管理（上架、下架）。
+	</div>
+</form>
+<form action="" class="form-table form" method="post">
+	<div class="panel panel-table">
+		<div class="panel-body table-responsive js-table">
+			<table class="table table-hover">
+				<thead class="navbar-inner">
+				<tr>
+					<th>门店</th>
+					<th>广告类型</th>
+					<th>排序</th>
+					<th>价格</th>
+					<th>广告时长</th>
+					<th>购买时间<br>结束时间</th>
+					<th>广告状态</th>
+					<th style="text-align: right;">操作</th>
+				</tr>
+				</thead>
+				<tbody>
+				{loop $records $record}
+				<tr>
+					<td>
+						<img src="{php echo tomedia($stores[$record['sid']]['logo'])}" alt="" width="50" height="50" style="border-radius: 100%"/>
+						{$stores[$record['sid']]['title']}
+					</td>
+					<td>{$record['title']}</td>
+					{if !empty($record['displayorder'])}
+						<td>{$record['displayorder']}</td>
+					{else}
+						<td>随机</td>
+					{/if}
+					<td>
+						<span>{$record['final_fee']}元</span>
+					</td>
+					<td>
+						<span>{$record['days']}天</span>
+					</td>
+					<td>{php echo date('Y-m-d H:i', $record['addtime']);}<br>{php echo date('Y-m-d H:i', $record['endtime']);}</td>
+					{if $record['status'] == 0}
+						<td><span class="label label-warning">未开启</span></td>
+					{elseif $record['status'] == 1}
+						<td><span class="label label-success">进行中</span></td>
+					{else}
+						<td><span class="label label-danger">已下架</span></td>
+					{/if}
+					<td style="text-align-last: right;">
+						<a href="{php echo iurl('advertise/trade/setting', array('id' => $record['id']))}" target="_blank" class="js-modal btn btn-default btn-sm"> 管理</a>
+					</td>
+				</tr>
+				{/loop}
+				</tbody>
+			</table>
+			{$pager}
+		</div>
+	</div>
+</form>
+{/if}
+{itemplate 'public/footer'}

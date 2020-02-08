@@ -1,0 +1,12 @@
+<view class="pay-top">
+    <image src="{{aboutData.logo_img}}"></image>
+    <text>{{aboutData.merchant_name}}</text>
+</view>
+<form bindsubmit="formSubmit">
+    <view class="pay-input">
+        <input name="price" placeholder="询问店员后输入消费金额" type="digit"></input>
+    </view>
+    <view class="btn">
+        <button formType="submit">立即支付</button>
+    </view>
+</form>

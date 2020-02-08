@@ -1,0 +1,57 @@
+ <{extends file="<{$tempdir}>/public/admin.html"}>
+   <{block name=extendjs}>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js"></script>
+ <{/block}>
+ <{block name=controlname}>手动操作订单<{/block}>
+ <{block name=bodylist}>
+
+      <div style="width:auto;overflow-x:hidden;overflow-y:auto;">
+          <div id="tagscontent">
+            <form method="post" name="form1" action="<{ofunc type=url link="/adminpage/order/module/doorder/datatype/json"}>" onsubmit="return subform('',this);">
+              <div>
+                <table border="0" cellspacing="2" cellpadding="4" class="list" name="table" id="table" width="100%">
+                  <tbody>
+                    <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                        <td class="left">订单编号</td>
+                        <td><textarea type="text" name="dno" value="" style='width:300px;height:100px'></textarea></td>
+                    </tr> 
+					<tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                        <td class="left"></td>
+                        <td style='color:red'>批量操作多个订单时，订单编号间请用#隔开，例：15329574172123#15329574172123#15329574172123</td>
+                    </tr>
+					<tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                        <td class="left">操作类型</td>
+                        <td><input type="radio" name="dotype" value="1"> 删除订单   <font style='color:#999'>(删除订单后将无法找回，请谨慎操作)</font></td>
+                    </tr>
+					<tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                        <td class="left"></td>
+                        <td><input type="radio" name="dotype" value="2"> 完成订单   <font style='color:#999'>(操作后订单将变为已完成状态，若未结算并会自动结算</font>)</td>
+                    </tr>
+					<tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                        <td class="left"></td>
+                        <td><input type="radio" name="dotype" value="3"> 完成退款   <font style='color:#999'>(只改变订单状态，并通知配送宝取消订单，实际退款到用户流程需后台操作)</font></td>
+                    </tr>
+					<tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                        <td class="left"></td>
+                        <td><input type="radio" name="dotype" value="4"> 结算订单   <font style='color:#999'>(已结算订单将不能再次结算)</font></td>
+                    </tr>
+					 
+                  </tbody>
+                </table>
+              </div>
+              <div class="blank20"></div>
+              <input type="hidden" name="tijiao" id="tijiao" value="do" class="skey" style="width:250px;">
+              <input type="hidden" name="saction" id="saction" value="doorder" class="skey" style="width:250px;">
+               <input type="submit" value="确认提交" class="button">
+            </form>
+          </div>
+
+
+         </div>
+
+
+
+          </div>
+
+<!--newmain 结束-->
+<{/block}>

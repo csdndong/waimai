@@ -1,0 +1,84 @@
+{template 'web/common/common'}
+<style>
+    .contentbox{margin-left: 150px;}
+    .we7-panel{border:none;}
+</style>
+<div class="welcome-container">
+    <div class="panel we7-panel wxapp-target">
+        <div class="panel-heading">昨日关键指标</div>
+        <div class="panel-body we7-padding-vertical">
+            <div class="col-sm-3 text-center">
+                <div class="title">打开次数</div>
+                <div>
+                    <span class="today" ng-bind="daily_visittrend.yesterday.session_cnt">
+                        {if $global['session_cnt']}
+                            {$global['session_cnt']}
+                        {else}
+                            0
+                        {/if}
+                    </span>
+                </div>
+            </div>
+            <div class="col-sm-3 text-center">
+                <div class="title">访问次数</div>
+                <div>
+                    <span class="today" ng-bind="daily_visittrend.yesterday.visit_pv">
+                        {if $global['visit_pv']}
+                            {$global['visit_pv']}
+                        {else}
+                            0
+                        {/if}
+                    </span>
+                </div>
+            </div>
+            <div class="col-sm-3 text-center">
+                <div class="title">访问人数</div>
+                <div>
+                    <span class="today" ng-bind="daily_visittrend.yesterday.visit_uv">
+                        {if $global['visit_uv']}
+                            {$global['visit_uv']}
+                        {else}
+                            0
+                        {/if}
+                    </span>
+                </div>
+            </div>
+            <div class="col-sm-3 text-center">
+                <div class="title">新用户数</div>
+                <div>
+                    <span class="today" ng-bind="daily_visittrend.yesterday.visit_uv_new">
+                        {if $global['visit_uv_new']}
+                            {$global['visit_uv_new']}
+                        {else}
+                            0
+                        {/if}
+                    </span>
+                </div>
+            </div>
+
+        </div>
+        <div class="panel we7-panel wxapp-target">
+            <div class="panel-heading">商城数据统计</div>
+            <div class="panel-body we7-padding-vertical">
+                <div class="col-sm-3 text-center">
+                    <div class="title">总用户</div>
+                    <div>
+                        <span class="today" ng-bind="daily_visittrend.yesterday.visit_uv_new">{$user_total}</span>
+                    </div>
+                </div>
+                <div class="col-sm-3 text-center">
+                    <div class="title">商品总数</div>
+                    <div>
+                        <span class="today" ng-bind="daily_visittrend.yesterday.visit_uv_new">{$goods_count}</span>
+                    </div>
+                </div>
+                <div class="col-sm-3 text-center">
+                    <div class="title">订单总数</div>
+                    <div>
+                        <span class="today" ng-bind="daily_visittrend.yesterday.visit_uv_new">{$shop_order_count}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {template 'common/footer'}

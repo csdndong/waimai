@@ -1,0 +1,1483 @@
+ <{extends file="<{$tempdir}>/public/wxsite.html"}>   
+<{block name=extendcss}>
+<link rel="stylesheet" href="<{$siteurl}>/js/jquerymobile/jquery.mobile.min.css" /> 
+ <{/block}>
+ <{block name=extendjs}> 
+  
+<{/block}>
+<{block name=myScrolljs}>
+ 
+<{/block}>
+ <{block name=hearnav}> 
+<{/block}>
+<{block name=sitetitle}><{$sitename}><{/block}>
+<{block name=sharetitle}><{$shopinfo['shopname']}><{/block}> 
+<{block name=sharedesc}><{$shopinfo['notice_info']|default:''}><{/block}>
+<{block name=shareimg}><{$siteurl}><{$shopinfo['shoplogo']}><{/block}> 
+<{block name=sharelink}><{ofunc type=url link="/wxsite/shopshow/typelx/wm/id/<{$shopinfo['id']}>/key/<{$jiamiuidkey}>"}><{/block}>
+<{block name=blockcontent}> 
+ 
+<div  data-role="page" id="pageshow">
+ 
+ <link rel="stylesheet" type="text/css" href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/new_2hang_show.css">
+ <link rel="stylesheet" href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/shopcart/css/font-awesome.min.css" />
+<link rel="stylesheet" href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/shopcart/css/index.css" />
+<link rel="stylesheet" href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/newshop/css/font-awesome.min.css" />
+<link rel="stylesheet" href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/newshop/css/index.css" />
+ 
+ <script src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/js/wxshop.js"></script>  
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/js/cart.js"></script> 
+
+<div data-role="content">
+
+</div>
+<script>
+	showLoading();
+   	 var shopid = <{$shopinfo['id']}>;
+   	 var is_goshop = <{$shopdet['is_goshop']|default:0}>;
+	 var shopis_open = "<{$openinfo['opentype']}>";
+   	 var checknext = false;
+   	 var shoplimitcost = '<{$shopdet['limitcost']}>';
+   	 var zuocart = '<{$siteurl}>/index.php?ctrl=wxsite&action=gowei&id=<{$id}>';
+	 var colorset = '<{$color}>';
+	 checkcartifempty();
+	 function checkcartifempty(){    //检查购物车是否为空
+		if( $('#total_count').html() == 0 ){
+			<!-- $(".ordeilpaymenshop").hide(); -->
+			$(".emptycartBg").show();
+			$(".ordeilpaymen").hide();
+			$(".emptyordeilpaymen").show();
+			$('#total_count').hide();
+			
+			$('.wmr_botcar_numbox').css('background-color','#cccccc')
+		}else{
+			$(".ordeilpaymenshop").show();
+			$(".emptycartBg").hide();
+			$(".ordeilpaymen").show();
+			$(".emptyordeilpaymen").hide();
+			$('#total_count').show();
+			if(colorset == 'yellow'){
+				$('.wmr_botcar_numbox').css('background-color','#ff7600')
+			}else if(colorset == 'green'){
+				$('.wmr_botcar_numbox').css('background-color','#00cd85')
+			}else{
+				$('.wmr_botcar_numbox').css('background-color','#ff6e6e')
+			}
+			 
+		}
+}
+$(function(){
+	newhideLoading();
+		$(window).resize(function(){
+			$('#pageshow').css('min-height',$(window).height());
+			height = $(window).height()-202;
+			$('#standard').css('height',height);
+			$('#transition').css('height',height);
+			$('body').css('height',$(window).height());			
+		});
+	}); 
+   $(function(){
+
+	if(is_goshop == 0 ){
+		if( shoplimitcost == 0 ){
+			$("#addShopping").show();
+		}else{
+			$("#showlimit").show();
+		}
+  
+  }else{
+      
+  $("#addShopping").show();
+  $("#showlimit").hide();
+  }
+
+	  
+  		/*初始化样式*/
+  		   url = siteurl+'/index.php?ctrl=wxsite&action=cart&shopid='+shopid+'&datatype=json&random=@random@';
+        url = url.replace('@random@', 1+Math.round(Math.random()*1000));
+      	var bk = ajaxback(url,''); 
+      	 initshop(bk);
+      	 
+ 
+         <{if !empty($goodinfo) }>
+		  
+			 <{if $goodinfo['have_det'] == 1  }>
+				 ggtc("<{$goodinfo['id']}>");
+			 <{else}>
+				addonedish("<{$goodinfo['id']}>","<{$shopinfo['shopid']}>",1,"#gid_<{$goodinfo['id']}>");
+				$('#zhezhao').toggle(); 
+			 $("#showorderdet").toggle(); 
+			 freshowdetcart();
+			 <{/if}>
+		
+		
+			
+		 <{/if}>
+		
+		
+		
+  	});
+  	function myyanchi(){
+  		
+  		  checknext = false;
+  	}
+  	function sortitemclick(doid,obj){  
+   
+  	   
+  	  var defaultheight = 0;
+  	  var listobj = $('.right_list_box');
+  	  for(var i=0;i<$(listobj).length;i++){
+  	    if($(listobj).eq(i).attr('data') == doid){
+  	       break;
+  	    }else{ 
+  	       defaultheight = Number(defaultheight)+Number($(listobj).eq(i).height());
+  	     }
+  	  }
+  	  $(obj).addClass('on').siblings().removeClass('on'); 
+  	  scroll2.scrollTo(0,Number(defaultheight)*-1,182,false);
+    }
+  	function initshop(datas){
+	   
+  		 $('.onselect').removeClass('onselect');
+	         	 $('.righ_l_b_btn_moren').show();
+	         	 $('.righ_l_b_btn_hover').hide();
+	         	 $('.cartshuliang').hide();
+	         	 $('.right_l_btn_nub').val(0);
+	         	 $('.cartshuliang').text(0);
+	         	 $('#total_count').text(0);
+				 $('#total_count').hide();
+				 $('.typegoodcount').text(0);
+	         	 $('#total_money').text(0.00);
+			   
+	      if(datas.flag == false){    
+	         if($('#total_money').html() != undefined){ 
+	         	
+	         	 $('.qipao').text(0);
+	         	 $.each(datas.content.list, function(i,val){   
+	         	 	
+	         	 	 if($('#gidli_'+val.id).html() != undefined){
+                     var typegoodcount = Number($('.typeid_'+val.typeid).text()) +Number(val.count);
+					 //console.log(typegoodcount)
+					 $('.typeid_'+val.typeid).text(typegoodcount);
+					 
+					 if(typegoodcount > 0){
+					      $('.typeid_'+val.typeid).show();
+					 }else{
+					      $('.typeid_'+val.typeid).hide();
+					 }
+					  
+	         	 	 var typeid = $('#gidli_'+val.id).attr('typeid');
+  	                 $('#gidli_'+val.id).addClass('onselect');
+					  
+					   if($('#cp_'+val.typeid).html() != undefined){
+						   if($('#cp_'+val.typeid).find('.qipao').eq(0).html() != undefined){  
+								 var othershu = Number($('#cp_'+val.typeid).find('.qipao').eq(0).text())+Number(val.count);
+								$('#cp_'+val.typeid).find('.qipao').eq(0).text(othershu);
+							  
+						   }else{ 
+							  $('#cp_'+val.typeid).append('<div class="qipao" style="position: absolute; margin-top: 5px; right: 5px; width: 16px; height: 16px; line-height: 13px; text-align: center; color: rgb(255, 255, 255); background-image: url(/upload/images/qipao.png); background-size: 16px; background-position: 0px 0px; background-repeat: no-repeat no-repeat;  display: inline-block;">'+val.count+'</div>');
+							}
+					  }	                 
+	                 $('#gshu_'+val.id).val(val.count); 
+	                $('#gidli_'+val.id).find('.righ_l_b_btn_moren').eq(0).hide();
+	                $('#gidli_'+val.id).find('.righ_l_b_btn_hover').eq(0).show();
+					//alert('#gshu_'+val.id);
+	                 $('#gshu_'+val.id).show();
+	         	 	 } 
+	          	}); 
+				 if(Number(datas.content.sumcount)>0){
+				 $('#total_count').show();
+				 if(colorset == 'yellow'){
+						$('.wmr_botcar_numbox').css('background-color','#ff7600')
+					}else if(colorset == 'green'){
+						$('.wmr_botcar_numbox').css('background-color','#00cd85')
+					}else{
+						$('.wmr_botcar_numbox').css('background-color','#ff6e6e')
+					}
+				 }else{
+				 $('#total_count').hide();
+				 $('.wmr_botcar_numbox').css('background-color','#cccccc');
+				 }
+	          	$('#total_count').text(datas.content.sumcount);
+				checkcartifempty();
+				var shijicost = datas.content.sum;	 
+				$('#total_money').text(shijicost);
+				
+	          	if(Number(datas.content.sum) >= Number(shoplimitcost)){
+	          		 $('#showlimit input').val('');
+					 $("#addShopping").show();
+					 $("#showlimit").hide();
+					if(shopis_open !=2 && shopis_open !=3){
+						$("#showlimit").show();
+						$("#addShopping").hide();
+						$('#showlimit input').val('休息中');
+
+					}
+					
+	          	}else{
+	          	        var checkcost = Number(shoplimitcost)-Number(datas.content.sum);
+						checkcost = checkcost.toFixed(2);
+						<{if $shopdet['is_goshop'] == 1  }>
+	          	        $('#showlimit input').val('还差'+checkcost+'元');
+						<{else}>
+	          	        $('#showlimit input').val('还差'+checkcost+'元');
+						<{/if}>
+							if(shopis_open !=2 && shopis_open !=3){
+							$("#showlimit").show();
+							$("#addShopping").hide();
+							$('#showlimit input').val('休息中');
+
+						}
+						 $("#addShopping").hide();
+						$("#showlimit").show();
+
+	          	}
+        	 }else{
+					
+        	 }
+        }
+	 
+    }
+
+
+
+	 //加购物车动画
+function cartimg(obj,gid){
+     
+   var display=$('#gidli_'+gid+' .righ_l_b_btn_hover').css("display");
+    
+    if(display == 'none'){
+        var thisobj=$('#gidli_'+gid+' .righ_l_b_btn_moren'+' #gid_'+gid);
+    }else{
+        var thisobj=$('#gidli_'+gid+' .righ_l_b_btn_hover'+' #gid_'+gid);
+    }
+ 	if( $(thisobj).offset() ==  undefined ){
+				freshcart();
+	}else{
+	     $("#addload").show();
+
+        var pos =$(thisobj).offset();
+        
+	   var topval = pos.top;
+		 
+       $("#addload").css("top", topval + "px"); 
+       $("#addload").css("left", pos.left + "px");
+        $("#addload").css({'width':'15px','height':'15px'}); 
+       var target_ob = $('#total_count').offset();
+       var target_top = Number(target_ob.top);
+       var target_left = Number(target_ob.left);
+       $("#addload").animate({top:target_top,left:target_left, 'width':'0px','height':'0px'});
+       
+
+
+        $('.ordeilpaymenshop').addClass('bound');
+        setTimeout(function(){
+            $('.ordeilpaymenshop').removeClass('bound');
+        },500);
+       
+	   var typeid = $('#gidli_'+gid).attr('typeid');
+       var typegoodcount = Number($('.typeid_'+typeid).text()) + 1;
+       
+	  $('.typeid_'+typeid).text(typegoodcount);
+	   if(typegoodcount > 0){
+	       $('.typeid_'+typeid).show()
+	   }else{
+	       $('.typeid_'+typeid).hide()
+	   }
+       $('#total_count').text(Number($('#total_count').text())+1);
+	   
+	   checkcartifempty();
+	   
+	          if($('#cp_'+$('#gidli_'+gid).attr('typeid')).find('.qipao').eq(0).html() != undefined){
+				  var othershu = Number($('#cp_'+$('#gidli_'+gid).attr('typeid')).find('.qipao').eq(0).text())+1;
+				 
+				  $('#cp_'+$('#gidli_'+gid).attr('typeid')).find('.qipao').eq(0).text(othershu);
+			   }else{ 
+				   $('#cp_'+$('#gidli_'+gid).attr('typeid')).append('<div class="qipao" style="position: absolute; margin-top: 5px; right: 5px; width: 16px; height: 16px; line-height: 13px; text-align: center; color: rgb(255, 255, 255); background-image: url(/upload/images/qipao.png); background-size: 16px; background-position: 0px 0px; background-repeat: no-repeat no-repeat;  display: inline-block;">1</div>');
+			   }
+			   
+	   
+	  
+	   
+	   var sjcost111 = Number($('#total_money').text())+Number($(obj).attr('data-price'));
+	   
+	    	$('#total_money').text( sjcost111.toFixed(2) ); 
+	    	
+	    	if(Number($('#total_money').text()) >= Number(shoplimitcost)){
+	          		  $('#showlimit input').val('');
+					 $("#addShopping").show();
+					 $("#showlimit").hide();
+	          	}else{
+	          	        var checkcost = Number(shoplimitcost)-Number($('#total_money').text());
+						checkcost = checkcost.toFixed(2);	          	        
+						<{if $shopdet['is_goshop'] == 1  }>
+	          	        $('#showlimit input').val('还差'+checkcost+'元');
+						<{else}>
+	          	        $('#showlimit input').val('还差'+checkcost+'元');
+						<{/if}>
+						 $("#addShopping").hide();
+						$("#showlimit").show();
+	          	        
+	          	}
+	    	
+	    	
+	    	$('#gidli_'+gid).find('.righ_l_b_btn_moren').hide();
+	    	$('#gidli_'+gid).find('.righ_l_b_btn_hover').show();
+	  //    var typeid = $(obj).attr('typeid');
+	  //    $('#typelist'+typeid).show();
+	 //     $('#typelist'+typeid).text(Number($('#typelist'+typeid).text())+1);
+	      $('#gidli_'+gid).addClass('onselect');
+	      $('#gshu_'+gid).val(Number($('#gshu_'+gid).val())+1); 
+		  $('#gshu_'+gid).show();
+		  $('#total_count').show();
+		  if(colorset == 'yellow'){
+				$('.wmr_botcar_numbox').css('background-color','#ff7600')
+			}else if(colorset == 'green'){
+				$('.wmr_botcar_numbox').css('background-color','#00cd85')
+			}else{
+				$('.wmr_botcar_numbox').css('background-color','#ff6e6e')
+			}
+ 	}  
+	    	//if($(valse).is(':checked') == true)
+} 
+
+
+function removeonedish(gid,tshopid,num){ 
+
+	   showLoading();
+	   url = siteurl+'/index.php?ctrl=site&action=downcart&goods_id='+gid+'&shopid='+tshopid+'&num=1&datatype=json&random=@random@';
+	  	 url = url.replace('@random@', 1+Math.round(Math.random()*1000));
+    	var bk = ajaxback(url,'');
+	    if(bk.flag == false){ 
+			newhideLoading();
+	        var typeid = $('#gidli_'+gid).attr('typeid');
+		    var typegoodcount = Number($('.typeid_'+typeid).text()) - 1;
+		   $('.typeid_'+typeid).text(typegoodcount);
+		   if(typegoodcount > 0){
+			   $('.typeid_'+typeid).show()
+		   }else{
+			   $('.typeid_'+typeid).hide()
+		   }
+			   
+		   
+		   
+		   if($('#total_money').html() != undefined){
+ 
+			checkcartifempty();
+			  
+			 var sjcost222 = $('#total_money').text()-Number(   $('#gidli_'+gid).attr('data-price')   );
+	         notypenum = Number(sjcost222.toFixed(2)); 
+	          $('#total_money').text(notypenum);
+	         if(notypenum < 0){
+	         	$('#total_money').text(0.00);
+	         }
+			 
+			 notypenum = Number($('#total_count').text())-1;
+	         $('#total_count').text(notypenum);
+	         if(notypenum < 1){
+	         	  $('#total_count').text(0);
+				  $('#total_count').hide();
+				  $('.wmr_botcar_numbox').css('background-color','#cccccc')
+	         }
+			 
+	         	if(Number($('#total_money').text()) >= Number(shoplimitcost)){
+	          		 $('#showlimit input').val('');
+					 $("#addShopping").show();
+					 $("#showlimit").hide();
+	          	}else{
+	          	        var checkcost = Number(shoplimitcost)-Number($('#total_money').text());
+						checkcost = checkcost.toFixed(2);
+	          	         <{if $shopdet['is_goshop'] == 1  }>
+	          	        $('#showlimit input').val('还差'+checkcost+'元');
+						<{else}>
+	          	        $('#showlimit input').val('还差'+checkcost+'元');
+						<{/if}>
+						 $("#addShopping").hide();
+						$("#showlimit").show();
+	          	        
+	          	}
+	         notypenumcount = Number($('#gshu_'+gid).val()) -1;
+	          $('#gshu_'+gid).text(notypenumcount);
+	         if(notypenumcount < 1){
+				$('#cp_'+$('#gidli_'+gid).attr('typeid')).find('.qipao').eq(0).remove();
+	         	$('#gshu_'+gid).val(0);
+	         	$('#gidli_'+gid).removeClass('onselect');
+	         	$('#gidli_'+gid).find('.righ_l_b_btn_hover').hide(); 
+	         	$('#gidli_'+gid).find('.righ_l_b_btn_moren').show();
+				$('#gshu_'+gid).hide();
+			 
+	         }else{
+				 $('#gshu_'+gid).val(Number($('#gshu_'+gid).val())-1); 
+			 } 
+	   	   }else{ 
+	   	    	  freshcart();
+				  
+	   	   }
+	    }else{
+			newhideLoading();
+	    	Tmsg(bk.content);
+	    }
+}
+
+
+  
+var baoshifu = false;
+var hidetopflag = false;
+var scroll1, scroll2,scroll3,scroll4,scroll5;
+
+var mainwidth = $(window).width();
+function loaded(){
+	var mainheight = $(window).height(); 
+	var topHeight = 0;
+				<{if !empty($cxlist)}>
+					var topHeight = 184;  
+				<{else}>
+					var topHeight = 160;  
+				<{/if}>	
+				
+	var newwrapperHeight = mainheight-topHeight-44; 
+	$('#standard,#transition').css('height',newwrapperHeight+'px');
+	 
+	  /* 点击展示购物车详情  */
+	$(".ordeilpaymenshop").bind('click',function(){
+//		 $('#standard').css('overflow-y','hidden');
+//		 $('#transition').css('overflow-y','hidden');
+  		 $('#zhezhao').toggle(); 
+		 $("#showorderdet").toggle();
+		
+		 freshowdetcart();
+		 
+	 	
+	}); 
+	
+	$("#zhezhao").bind('click',function(){
+		 $('#standard').css('overflow-y','scroll');
+		 $('#transition').css('overflow-y','scroll');
+		$(this).toggle();
+		$("#showorderdet").toggle();
+           
+	}); 
+}
+
+
+
+
+
+
+ function loadedOLD() { 
+	console.log("CCC");
+	scroll1 = new iScroll('standard',{hScrollbar:false, vScrollbar:false,bounce:false});  //	hScrollbar:false, 		vScrollbar:false,		useTransition: true,//
+	scroll2 = new iScroll('transition',{hScroll:false,hScrollbar:false, vScrollbar:false,onScrollEnd:function(e){
+	    if(this.y < -121){
+		   if(hidetopflag == false){
+		        hidetopflag = true; 
+				$('.ordshopTop').hide();
+				$('.order_head_content').hide();				
+				$('.ordshopBot').hide();
+				 
+				$('#transition').css({'top':'84px'});
+				$('#standard').css({'top':'84px'});
+				 			 
+			//	scroll2.refresh();
+			//	scroll1.refresh();
+		   }
+		}else if(this.y > -10 ){
+		   if(hidetopflag == true){
+				hidetopflag = false;
+			    $('.ordshopTop').show();
+				$('.ordshopBot').show();
+				$('.order_head_content').show();
+				<{if !empty($cxlist)}>
+				$('#transition').css({'top':'184px'});
+				$('#standard').css({'top':'184px'});
+				<{else}>
+				$('#transition').css({'top':'160px'});
+				$('#standard').css({'top':'160px'});
+				<{/if}>					 
+			//	scroll2.refresh();
+			//	scroll1.refresh();
+		   }
+		}
+      },bounce:false});
+ scroll3 = new iScroll('getpinglun',{hScrollbar:false, vScrollbar:false,bounce:false}); 
+ scroll4 = new iScroll('getdetailinfo',{hScrollbar:false, vScrollbar:false,bounce:false}); 
+ scroll5 = new iScroll('showorderdet',{hScrollbar:false, vScrollbar:false,bounce:false});
+ console.log("baoshifu");
+ console.log(baoshifu);
+	if( baoshifu == false ){
+		baoshifu = true;
+		getcatefoods();	
+	}
+}
+
+//document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
+ document.addEventListener('DOMContentLoaded', function () { setTimeout(loaded, 182); }, false);
+
+</script>
+<style>
+    body{overflow:hidden;}
+    .ggtc{
+	font-size: 10px!important;
+    float: right;
+    line-height: 22px;
+    color: #FF6E6E;    
+    border:none!important;   
+    background-size: 100%;}
+	.ggtc1{
+	width: 28px;
+    height: 28px;
+	background-image: url(/templates/m7/public/wxsite/images/add_02.png);
+	}
+	.ggtc2{
+	width: 25px;
+    height: 25px;
+	background-image: url(/templates/m7/public/wxsite/images/redjia.png);
+	}
+ </style>
+
+<!-------店铺公告和活动弹窗开始------->
+<div class="maskbg hide">
+	<div class="wmr_order_popup_con">
+		<div class="wmr_order_popup_box">
+			<div class="wmr_order_popup">
+				<div class="wmr_order_popup_head">
+					<img <{ofunc type=img  link="<{$shopinfo['shoplogo']|default:$shoplogo}>"}>/>
+					<h3><{$shopinfo['shopname']}></h3>
+				</div>
+				<{if !empty($cxlist)}>
+				<div class="wmr_order_popup_list">
+					<ul>
+					<{foreach from=$cxlist  item=items}><ul>
+			        <li style='margin:0px'>
+					    <img <{ofunc type=img  link="<{$items['imgurl']}>"}> >
+					    <span><{$items['name']}></span>
+					</li>
+			        <{/foreach}>						
+					</ul>
+				</div>
+				<{/if}>
+				<div class="wmr_order_popup_txt">
+					<p data-role="none" style='display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 6;overflow: hidden;'>店铺公告：
+					<{if empty(<{$shopinfo['notice_info']|htmlspecialchars_decode}>)}>
+				        <{if empty($shopnotice)}>暂无公告<{else}><{$shopnotice}><{/if}>
+				    <{else}>
+				        <{$shopinfo['notice_info']|htmlspecialchars_decode}>
+				    <{/if}>
+					</p>
+				</div>
+			</div>
+			<img class="icon_colse" src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/newshop/images/icon_x.png" />
+		</div>
+	</div>
+</div>
+<script>
+$(function(){
+$('.icon_colse').bind('click',function(){
+   $('.maskbg').hide();
+})
+$('.order_head_activity').bind('click',function(){
+   $('.maskbg').show();
+})
+$('#huodong').bind('click',function(){
+   $('.maskbg').show();
+})
+$('.notice').bind('click',function(){
+   $('.maskbg').show();
+})
+$("#standard ul li").eq(0).addClass("active").siblings("li").removeClass("active");
+
+})
+function setshow(){
+ $('.goodsli_parent').show();
+}
+</script>
+<!----------------------店铺公告和活动弹窗结束---------------------->
+<div class="wmr_title_content" style="position: fixed;height:42px; line-height:42px;   padding: 0px 10px;top: 0px;z-index: 9;width: 100%;" >
+	<div class="wmr_title_left ">
+	 <a href="javascript:void(0);" data-rel="back"  >	<i class="fa fa-angle-left"></i> </a>
+	</div>
+	<div class="wmr_title_center" style='font-size:18px;font-weight:bold'><{$shopinfo['shopname']}></div>
+	<div class="wmr_title_right">
+		<img style='display:none' src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/newshop/images/icon_titfx.png" />
+	</div>
+</div>
+ 
+<style>
+    .order_head_center ul li{
+        font-size:13px!important;
+    }
+    .notice p{
+        font-size:12px!important;
+    }
+</style>
+		<div class="order_head_content" style=" position: fixed;top: 42px;z-index: 9;width: 100%; <{if !empty($cxlist)}>height:100px<{else}>height:76px<{/if}>">
+	<div class="order_head_top">
+		<div class="order_head_photo">
+			<img <{ofunc type=img  link="<{$shopinfo['shoplogo']|default:$shoplogo}>"}>>
+		</div>
+		<div class="order_head_center">
+			<ul>
+				<li>起送价￥<{$shopdet['limitcost']|default:0}></li>
+				<li>配送费￥<{$psinfo['pscost']|default:0}></li>
+				<li><{$shopdet['arrivetime']|default:0}>分钟</li>
+			</ul>
+			<div class="notice" style="padding:5px;line-height:17px;">
+				<span><img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/newshop/images/icon_notice1.png">：</span>
+				<p>	
+                <marquee style='color:#fff'>				
+				<{if empty(<{$shopinfo['notice_info']|htmlspecialchars_decode}>)}>
+				    <{if empty($shopnotice)}><{else}><{$shopnotice}><{/if}>
+				<{else}>
+				    <{$shopinfo['notice_info']|htmlspecialchars_decode}>
+				<{/if}>
+				</marquee>
+				</p>
+			</div>
+		</div>
+<style>
+.dowebok { width: 79%; height: 24px; line-height:24px;   max-height: 24px;overflow: hidden;  font-size: 14px;position: fixed;top: 118px;background-color:rgba(0,0,0,.05)!important;}
+.dowebok ul { margin: 0; line-height: 20px;}
+.dowebok ul li {margin-left:5px!important;font-size:12px;width:100%;text-overflow:ellipsis;overflow:hidden;white-space: nowrap;}
+.dowebok a { color: #333; text-decoration: none;}
+.dowebok a:hover { text-decoration: underline;}
+.typegoodcount{ font-weight: normal;background-color:#FF6E6E;border-radius: 10px;font-size: 11px;width: 17px;height: 17px; line-height:17px;color:#fff;text-align: center;position:absolute;top:0px;right:0px;}
+</style>		 
+ <div class="order_head_right" <{if !empty($collect) }>style="display:none;"<{/if}> onclick="myFavorite(<{$shopinfo['id']}>,this); " >
+			<img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/newshop/images/icon-xx01.png" >
+			<span>收藏</span>
+		</div>
+		
+		<div class="order_head_right" <{if empty($collect) }>style="display:none;"<{/if}> onclick="delFav(<{$shopinfo['id']}>,this); " >
+			<img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/newshop/images/icon-xx02.png" >
+			<span>已收藏</span>
+		</div> 
+	</div>
+	<{if !empty($cxlist)}>
+	<div class="order_head_activity dowebok" style='display:none'>	  
+			<ul style="    max-height: 24px;  overflow: hidden;display:block;">
+			<{foreach from=$cxlist  item=items}>
+				<li><img <{ofunc type=img  link="<{$items['imgurl']}>"}> ><{$items['name']}></li> 
+			<{/foreach}> 
+			</ul>
+ 	</div>
+	<script>
+		$(function(){
+			//文字滚动的函数
+			function textslide(){
+
+				var height=($('.order_head_activity ul li').height());//获取li的高度
+				//让第一个向上npx,完成之后，再把这个li添加到li的最后，然后把它的marginTop还原到0
+				$('.order_head_activity ul li').eq(0).animate({marginTop:-height},function(){
+					$(this).remove().appendTo('.order_head_activity ul').css({marginTop:0})
+				});
+
+			}
+			//每隔ns执行一次文字的滚动
+			if($('.order_head_activity ul li').length>1){
+				var t=setInterval(textslide,2000);
+			}
+
+		})
+		</script>
+	<{/if}>
+	<{if count($cxlist) > 0}>
+			<span id="huodong" style="position: fixed;top: 118px; right: 0px;font-size: 12px;color: #fff;background-color:rgba(0,0,0,.05)!important;"><{count($cxlist)}>种优惠 &nbsp;></span>
+		<{/if}>
+</div> 
+<!--链接-->
+<div class="ordislink" style=" position: fixed;<{if !empty($cxlist)}>top:142px;<{else}> top: 118px;<{/if}>z-index: 9;width: 100%;">
+ <ul>
+  <li  onclick="dolink('<{ofunc type=url link="/wxsite/shopshow/typelx/<{$typelx}>/id/<{$shopinfo['id']}>"}>');"  class="ordislinkaA">商品</li>
+  <li  onclick="dolink('<{ofunc type=url link="/wxsite/getshopcomment/typelx/<{$typelx}>/shopid/<{$shopinfo['id']}>"}>');"  >评价</li>
+  <li  onclick="dolink('<{ofunc type=url link="/wxsite/getdetailinfo/typelx/<{$typelx}>/shopid/<{$shopinfo['id']}>"}>');" ">商家</li>
+ </ul>
+</div>
+<div class="shopping_popup_content" style="display: none">
+	<div class="shopping_popup_box" style="display: none">
+
+	</div>
+</div> 
+ 
+<script>
+ $('.wmr_title_left').click(function(){
+  history.back();
+ });
+ function hahheight(type){
+	var topHeight = 0;
+	var mainheight = $(window).height(); 
+	if(type==1){
+		$('#transition').css({'top':'160px'});
+		$('#standard').css({'top':'160px'});
+		$('.ordislink').css({'top':'118px'});
+		var huadongheight = 42+76+40;
+	}else if(type==2){
+	    $('#transition').css({'top':'184px'});
+		$('#standard').css({'top':'184px'});
+		$('.ordislink').css({'top':'142px'});
+		var huadongheight = 42+76+40+24;
+	}else if(type==3){
+	    $('.ordshopTop').hide();
+		$('.order_head_content').hide();				
+		$('.ordshopBot').hide(); 
+		$('#transition').css({'top':'84px'});
+		$('#standard').css({'top':'84px'});
+		$('.ordislink').css({'top':'42px'}); 
+		var huadongheight = 42+40;
+	}	 
+	var newwrapperHeight = mainheight-huadongheight-44; 
+	    $('#standard,#transition').css('height',newwrapperHeight+'px');
+} 
+
+   $(function(){
+		var gonggaoshow = Number( $("#notice").text().length )*16;
+		var screenwidth = document.body.clientWidth-20;
+		if( gonggaoshow >= screenwidth ){ 
+			$("#marqueenotice").show();
+			$("#notice").hide();
+		}else{		 
+			$("#marqueenotice").hide();
+			$("#notice").show();
+		}
+		$('.dowebok').show();
+ 		$("#transition").scroll(function() {		 
+		$("img").lazyload({
+			threshold :20
+		}); 
+		var $nav = $("#standard ul li");
+		length = $nav.length-1;//获取导航菜单 ul li 的个数
+        item = new Array();//新建一个数组
+		sTop = $("#transition").scrollTop();//获取偏移的高度	
+		var ztcount = <{$ztinfocount}>;
+		if(ztcount > 0){
+		    var ztdivh = document.getElementById("ztdiv").offsetHeight          			
+			for (var i = 0; i <= length; i++) {				
+					item[i + 1] = $("#transition .ordisordtit").eq(i).offset().top;					 
+					if (184 >= item[i + 1] ) {	 	 
+						  $nav.eq(i).addClass("active").siblings("li").removeClass("active");
+					}
+			 }    			 
+		}else{
+			for (var i = 0; i <= length; i++) {
+				if (i == 0) {
+					item[i + 1] = $("#transition .ordisordtit:first-child").offset().top; 						 				  			  					 					 
+					if (sTop >= item[i + 1]) {
+						$nav.eq(0).addClass("active").siblings("li").removeClass("active");//选中的样式selected
+					}					 
+				}else{                    			
+					item[i + 1] = $("#transition .ordisordtit").eq(i).offset().top; 					 				 					 
+					if (184 >= item[i + 1] ) {
+						$nav.eq(i).addClass("active").siblings("li").removeClass("active");
+					}
+				 }
+			 }
+			 
+		}
+		var dev_scrollTop = $('#transition').scrollTop() ;	    
+		var ztdivh = document.getElementById("catefoods").offsetHeight 
+		if( dev_scrollTop >= 121 && ztdivh > 600 ){ 
+			hahheight(3);
+		}else{
+			$('.ordshopTop').show();
+			$('.ordshopBot').show();
+			$('.order_head_content').show();
+			<{if !empty($cxlist)}> 
+				hahheight(2);
+			<{else}> 
+				hahheight(1);
+			<{/if}>		
+		} 
+	});
+	 
+		  $('.right_l_btn_left').bind("click", function() {   
+		   if(lockclick()){ 
+				if($(this).attr('have_det') == 1){
+					removeoneproduct($(this).attr('data-id'),$(this).attr('data-shopid'),1);
+				}else{
+					removeonedish($(this).attr('data-id'),$(this).attr('data-shopid'),1);
+				}
+			}
+		  }); 
+		   $('.right_l_btn_right').bind("click", function() {   
+				 
+				if(lockclick()){
+					$('#total_count').show();
+					 if($(this).attr('have_det') == 1){
+						addproduct($(this).attr('data-id'),$(this).attr('data-shopid'),1,this);
+					 }else{
+						addonedish($(this).attr('data-id'),$(this).attr('data-shopid'),1,this);
+				     }
+				 } 
+		  }); 
+	$('#standard  li').bind('click',function(){ 
+		$('#standard li').removeClass('active');
+		 $(this).addClass('active');
+		var cateid = $(this).attr('cateid');
+		if( cateid != 0 ){
+			document.getElementById('goods_cate_'+cateid).scrollIntoView();
+		}else{		    
+			document.getElementById('ztdiv').scrollIntoView();
+		}  
+	 });
+	  
+});
+</script> 
+<div  id="standard" style="width:20%;  position:absolute;  top:<{if !empty($cxlist)}>182px<{else}>158px<{/if}>	; z-index:9;bottom:45px; overflow-x:hidden; -webkit-overflow-scrolling: touch; " >
+
+ <div class="ordisordLeft"    id="navbar-example"  style="width:100%;">
+ <div class="collapse navbar-collapse bs-js-navbar-scrollspy"   >
+   <ul  class="nav">
+        <{if !empty($ztinfo)}>
+		<li style='position:relative;' cateid="0" class='' >		   
+		    <img <{ofunc type=img  link="<{$zcimg}>"}>  style='width:15px;height:15px;padding-right: 4px;margin-bottom: -3px;'><a>专场</a>
+		</li> 
+        <{/if}>		
+   <{foreach from=$goodstype key=mykey item=items}>
+		<li style='position:relative;' cateid="<{$items['id']}>" class='' >
+			<div style='display:none' class='typegoodcount typeid_<{<{$items['id']}>}>'>0</div>
+			<{if $items['is_zheclass'] == 1}><img <{ofunc type=img  link="<{$zkimg}>"}>  style='width:15px;height:15px;padding-right: 4px;margin-bottom: -3px;'><{/if}><a><{$items['name']}></a>
+		</li>   
+   <{/foreach}>  
+  
+  </ul>
+  </div>
+ </div>
+ 
+</div> 
+<{if !empty($ztinfo)}>
+<script>
+$(function(){
+    var W =  $(window).width();
+        W = W * 0.8 * 0.965; 
+		H = W/3+'px';		
+		$('.zcimg').css('height',H);
+})
+</script>
+<{/if}>	
+<div id="transition"  style="width:80%;  position:absolute;top:<{if !empty($cxlist)}>182px<{else}>158px<{/if}>	; bottom:45px; z-index:9;  left:20%;overflow-x:hidden;  -webkit-overflow-scrolling: touch;"  data-spy="scroll"   data-target="#navbar-example" >
+ <{if !empty($ztinfo)}>  
+     <div id="goods_cate_0" style=" display: none; "  class="ordisordtit goodsli_parent goodsli_parent_0"><h3>专场</h3></div>
+     <div id='ztdiv' style='width:100%;margin: 2% 2% 0;'>
+			 <{foreach from=$ztinfo key=mykey item=items}>
+			     <{if count(explode(',',$items['goodids'])) > 1 }>
+				     <img class='zcimg' onclick="dolink('<{ofunc type=url link="/wxsite/ztshow/shopid/<{$shopinfo['id']}>/id/<{$items['id']}>"}>');" <{ofunc type=img  link="<{$items['ztimg']}>"}>  style='width:96.5%;height:95px'> 
+			     <{else}>
+					 <img class='zcimg' onclick="dolink('<{ofunc type=url link="/wxsite/foodshow/id/<{$items['goodids']}>"}>');" <{ofunc type=img  link="<{$items['ztimg']}>"}> style='width:96.5%;height:95px'> 
+				 <{/if}>
+			 <{/foreach}>	        		 
+	 </div>
+  
+ <{/if}>
+ <div class="ordisordRight" id="catefoods"  style="width:100%; background:#fff;" >
+	 
+	 <{if !empty($goodstype) }>
+	  <{foreach from=$goodstype key=mykey item=itv}>
+	 
+	 
+	 
+ <div id="goods_cate_<{$itv['id']}>" style="<{if $mykey>0  }>display: ;<{/if}>"  class="ordisordtit goodsli_parent goodsli_parent_<{$itv['id']}>"><h3><{$itv['name']}></h3></div>
+ <{if $shopinfo['goodlistmodule'] == 0 }>
+ 
+ <{foreach from=$itv['det'] item=items }>
+ 
+	  <div class="ordisordBox goodsli goodsli_parent goodsli_parent_<{$items['typeid']}>"   goodname="<{$items['name']}>"   id="gidli_<{$items['id']}>" typeid="<{$items['typeid']}>" data-price="<{$items['cost']}>"  style=" position:relative; <{if $mykey>0  }>display: ;<{/if}>">
+	  
+		   <div class="ordisord">
+			<ul class="ordisordet">
+			 <li>
+			 <img onclick="dolink('<{ofunc type=url link="/wxsite/foodshow/id/<{$items['id']}>"}>');"  <{ofunc type=img  link="<{$items['img']|default:$goodlogo}>"}>  />
+			 </li>
+			 <div   style="padding-left:67px; padding-right:0px; margin-top:-73px;" >
+			 <li style=" width: 100%;">
+			  <ul class="ordisordC" >
+			   <li   style="    width: 100%;height:24px;text-overflow: ellipsis;  overflow: hidden;  white-space: nowrap;  outline: 0!important;">
+			   <h3   style="    width: 100%;height:24px;text-overflow: ellipsis;  overflow: hidden;  white-space: nowrap;  outline: 0!important;"><{$items['name']}></h3></li>
+				<{if $items['descgoods']!=''}><li style="width: 100%;text-overflow: ellipsis;max-height: 48px;-webkit-line-clamp: 2;display: -webkit-box;overflow:hidden; -webkit-box-orient: vertical;text-overflow:ellipsis;"><{$items['descgoods']}></li><{/if}>
+
+			  <li><span style='font-size:12px!important'>已售<{$items['sellcount']}><{if !empty($items['goodattr'])}><{$items['goodattr']}><{else}><{if !empty($shopinfo['goodattrdefault'])}><{$shopinfo['goodattrdefault']}><{/if}><{/if}></span></li>
+                          
+			           <{if $items['have_det'] == 1 }>
+						<{if $items['zhekou'] > 0 }>
+							<li><b>￥<{$items['newcost']}></b><{if !empty($items['goodattr'])}>/<{$items['goodattr']}><{else}><{if !empty($shopinfo['goodattrdefault'])}>/<{$shopinfo['goodattrdefault']}><{/if}><{/if}>
+							<{if $items['is_cx'] == 1 }><del><{$items['cost']}>元</del><{/if}></li>
+					    <{else}>
+						   <li><b>￥<{$items['cost']}></b><{if !empty($items['goodattr'])}>/<{$items['goodattr']}><{else}><{if !empty($shopinfo['goodattrdefault'])}>/<{$shopinfo['goodattrdefault']}><{/if}><{/if}></li>
+						<{/if}>
+					<{else}>
+						<li><b>￥<{$items['cost']}></b><{if !empty($items['goodattr'])}>/<{$items['goodattr']}><{else}><{if !empty($shopinfo['goodattrdefault'])}>/<{$shopinfo['goodattrdefault']}><{/if}><{/if}>
+			          <{if $items['is_cx'] == 1 }><del><{number_format($items['cost']/($items['zhekou']/10),2)}>元</del><{/if}></li>
+					<{/if}>
+					<{if $items['is_cx'] == 1 }> <li><a style='padding:0 5px 0 0;color: #ff5514;border: 1px solid #ff5514;'><div style='font-size: 12px!important;background-color: #ff5514;color: #fff;display: inline-block; padding: 0 5px;'><{$items['zhekou']}>折</div> <{if $items['cxnum'] >0 }>限购<{$items['cxnum']}>份<{else}>不限购<{/if}></a></li><{/if}>
+			  </ul>
+			 </li>
+			 </div>
+			 <li style="position:absolute;  bottom: 15px; right:5px;">
+			  <ul class="ordisordR" style="  <{if $items['descgoods']!=''}>  margin-top:70px;  <{else}>  margin-top: 50px; <{/if}> ">
+			  <{if $openinfo['opentype'] != 2 && $openinfo['opentype'] != 3}>
+			  <span class="shopdayangstatus">休息中</span>
+			  <{else}>
+                  <{if $items['is_live'] == 1 }>
+				 <{if $items['count'] > 0 }> 
+					 <{if $items['have_det'] == 1 }>  
+						 
+					 <li class="ggtc ggtc2" onclick="ggtc(<{$items['id']}>)" ></li>
+					 <{else}>
+							<div class="righ_l_b_btn" >  
+							<div data-role="none" class="righ_l_b_btn_moren right_l_btn_right"    data-id="<{$items['id']}>" data-shopid="<{$items['shopid']}>" id="gid_<{$items['id']}>" have_det="<{$items['have_det']}>" data-price="<{$items['cost']}>" typeid="<{$items['typeid']}>">
+							<li><i class="ordenabotR" style="width:25px; height:25px;"></i></li>
+							</div>
+							<div class="righ_l_b_btn_hover" style="display:none;">
+							<span data-role="none" class="right_l_btn_left"   data-id="<{$items['id']}>" data-shopid="<{$items['shopid']}>" have_det="<{$items['have_det']}>">
+								<li><i class="ordenabotL"  style="width:25px; height:25px;"></i></li>
+							</span>
+							 <li><input class="right_l_btn_nub"   style="width:25px; height:25px;" readonly id="gshu_<{$items['id']}>" type="text" value="0"></li>
+							<span data-role="none" class="right_l_btn_right"   id="gid_<{$items['id']}>" data-price="<{$items['cost']}>" typeid="<{$items['typeid']}>" data-id="<{$items['id']}>" data-shopid="<{$items['shopid']}>" have_det="<{$items['have_det']}>">
+								 <li><i class="ordenabotR" style="width:25px; height:25px;"></i></li>
+							</span></div>
+						  </div>
+					 <{/if}> 
+				  <{else}>
+				  <li style="color:#cccccc!important;border: 1px solid #ccc!important;"  onclick="dolink('<{ofunc type=url link="/wxsite/foodshow/id/<{$items['id']}>"}>');"   class="moreguige">售完</li>
+				  
+				  <{/if}>
+                  <{else}>
+                  <li style="color:#cccccc;"  onclick="dolink('<{ofunc type=url link="/wxsite/foodshow/id/<{$items['id']}>"}>');"   class="moreguige">已下架</li>
+                  <{/if}>
+				   
+				   
+			  <{/if}>
+			 
+			  </ul>
+			 </li>
+			</ul>
+ 		   </div>
+	 
+	  </div> 
+
+		  
+<{/foreach}>  
+	  
+	  <{else}>
+	
+	 
+	<div class="ordisordRbox">
+	  <ul>
+ <{foreach from=$itv['det'] item=items }>
+        <li class="goodsli"  style="margin:0px 1.7389% 25px 1.7389%"    goodname="<{$items['name']}>"   id="gidli_<{$items['id']}>" typeid="<{$items['typeid']}>" data-price="<{$items['cost']}>"   >
+     <div class="ordisordRImg" style='position:relative'  >
+	 <img   onclick="dolink('<{ofunc type=url link="/wxsite/foodshow/id/<{$items['id']}>"}>');"   <{ofunc type=img  link="<{$items['img']|default:$goodlogo}>"}> />
+	 <{if $items['is_cx'] == 1 }>
+     <img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/cx_bg_icon.png" style='position: absolute;bottom: 0px;height: 20%;' />
+	 <img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/cx_icon.png" style='position: absolute;bottom: 0px;height: 12%;width: 11%;' />
+     <div style='position: absolute;bottom: -4px;left: 16%;color: #fff;font-size: 10px!important;'><{$items['zhekou']}>折 <{if $items['cxnum']>0}>每单限<{$items['cxnum']}>份<{else}>不限购<{/if}></div>
+	 <{/if}>
+	</div>
+     <div class="ordisordRName "   onclick="dolink('<{ofunc type=url link="/wxsite/foodshow/id/<{$items['id']}>"}>');"  ><h3><{$items['name']}></h3></div>
+     <div class="ordisordRSale"><span style='font-size:12px!important'>已售<{$items['sellcount']}><{if !empty($items['goodattr'])}><{$items['goodattr']}><{else}><{if !empty($shopinfo['goodattrdefault'])}><{$shopinfo['goodattrdefault']}><{/if}><{/if}></span></div>
+      
+    <div class="ordisordRPric"><i>￥</i><span><{if $items['have_det'] == 1}><{if  $items['zhekou'] >0}><{$items['newcost']}><{else}><{$items['cost']}><{/if}><{else}><{$items['cost']}><{/if}></span>/<{if !empty($items['goodattr'])}><{$items['goodattr']}><{else}><{if !empty($shopinfo['goodattrdefault'])}><{$shopinfo['goodattrdefault']}><{/if}><{/if}></div>
+ 
+ <div class="ordisordRPosit">
+     
+	 
+	  <{if $openinfo['opentype'] != 2 && $openinfo['opentype'] != 3}>
+				  <span  style=" border-radius:10px;color: #ADADAD!important;font-size: 10px!important;float:right;background-color:#E6E6E6;border:1px solid #E6E6E6!important" >休息中</span>
+		<{else}>
+         <{if $items['is_live'] == 1 }>
+			<{if $items['count'] > 0 }>	 
+					 <{if $items['have_det'] == 1 }> 
+					<span class="ggtc ggtc1" onclick="ggtc(<{$items['id']}>)" ></span>	
+					 
+			 <{else}>		
+					<div class="ordisordRPositBut">
+						<div class="righ_l_b_btn_moren">
+							<div class="min" name=""   style="opacity:0;" ></div>
+							<div class="text_box" name=""  value="0" style="opacity:0;" ></div>
+							<div data-role="none"  class="add right_l_btn_right" name=""    id="gid_<{$items['id']}>" 
+							data-price="<{$items['cost']}>" typeid="<{$items['typeid']}>" data-id="<{$items['id']}>" data-shopid="<{$items['shopid']}>" have_det="<{$items['have_det']}>" ></div>
+					   </div>
+					<div class="righ_l_b_btn_hover" style="display:none;">
+				 
+					   <div data-role="none" class="min right_l_btn_left"  data-id="<{$items['id']}>" data-shopid="<{$items['shopid']}>" have_det="<{$items['have_det']}>"  name="" type="button" ></div>
+ 						 <input style="font-size:15px!important;" class="text_box right_l_btn_nub" readonly id="gshu_<{$items['id']}>" type="text" value="0"> 
+					 <div data-role="none" class="add right_l_btn_right" style="z-index:999999999999999999;" name="" type="button"  
+					   id="gid_<{$items['id']}>" data-price="<{$items['cost']}>" typeid="<{$items['typeid']}>" data-id="<{$items['id']}>" 
+					   data-shopid="<{$items['shopid']}>" have_det="<{$items['have_det']}>" ></div>
+					 </div>
+
+				   </div>
+				  <{/if}>
+			  <{else}>
+ 					  <span style="color:#cccccc!important;border: 1px solid #ccc!important;font-size: 10px!important;float:right;border-radius:30px;padding: 0px 5px;line-height: 22px;text-align: center;">售完</span>
+					  <{/if}>
+         <{else}>
+         <span style=" border: 1px solid #DCDCDC;color: #B9B9B9;font-size: 10px!important;float:right;border-radius:6px;">已下架</span>
+         <{/if}>
+				      	   
+				  <{/if}>	  
+
+     </div>
+    </li>
+	<{/foreach}>
+   </ul>
+	</div>
+	
+
+	
+	
+	<{/if}>	  
+	
+	
+	<{/foreach}>
+	
+	
+	
+	
+	<script>
+function ggtc(id){
+         
+	var content = htmlback1(siteurl+'/index.php?ctrl=wxsite&action=foodsgg&id='+id);
+        
+  	if(content.flag == false){
+           
+             var getmoreContent =  $.trim(content.content);  
+               $('.shopping_popup_box').html(getmoreContent); 
+               $('.wmr_botcar_num').css('display','block');
+               $(".shopping_popup_content").show(); 
+               $(".shopping_popup_box").show();
+               $('.refuImg').hide();
+               $('.refuFang').hide();
+               $('#loading').hide();
+	}else{
+	    Tmsg('获取失败');
+	}  
+
+     
+
+
+  } 
+                        
+function htmlback1(url,info)
+{
+	var backmessage = {'flag':true,'content':''};
+	$.ajax({
+       type: 'POST',
+       async:false,
+       url: url.replace('@random@', 1+Math.round(Math.random()*1000)),
+       data: info,
+      dataType: 'html',success: function(content) {  
+	   backmessage['flag'] = false;
+      	   backmessage['content'] = content; 
+		  },
+      error: function(content) { 
+      backmessage['content'] = '获取失败';
+	   }
+   });  
+   return backmessage;
+   console.log(backmessage);
+}
+                    
+</script>
+  
+ 
+	 
+	<{/if}> 
+	 
+	 
+	 
+ </div>
+ 
+</div>
+ 
+<!-- 获取评论内容 -->
+<div id="getpinglun" style="display:none;width:100%; position:absolute;z-index:99; top:83px; bottom:70px;">
+	<div class="huoqucomment">
+		
+	</div>
+</div>
+
+ <!-- 获取商家详情 -->
+<div id="getdetailinfo" style="width:100%;display:none; position:absolute;z-index:99; top:83px; bottom:70px;">
+	<div class="getdetailinfo">
+	 
+	</div>
+</div>
+ <div style="height:10px;"></div>
+  
+ <script>
+ var click_button = false;
+function doubleclick(){
+	click_button = false;
+}
+function lockclick(){
+	 if(click_button == false){
+			click_button = true;
+			setTimeout("doubleclick()", 400); 
+			return true;
+	 }else{
+		 return false;
+	 }
+}
+ var is_open = false; 
+function loadlazyload(){
+ $("img").lazyload({
+				threshold :20
+			});
+}
+ $(document).ready(function(){ 
+		setTimeout("loadlazyload()",2000);
+	 $("#getcomment").bind('click',function(){
+		$(".ordislink li").removeClass('ordislinkaA');
+		$(this).addClass('ordislinkaA');
+		$(".ordisprompt").hide();
+		$("#standard").hide();
+		$("#transition").hide();
+		
+		$("#getdetailinfo").hide();
+		$(".getdetailinfo").html('');
+		
+		$("#getpinglun").show();
+			var url = '<{ofunc type=url link="/wxsite/getshopcomment"}>'; 
+			$.post(url, {'shopid':<{$shopinfo['id']}>},function (data, textStatus){ 
+				$('.huoqucomment').html(data); 						 
+				scroll3.refresh();
+			}, 'html');
+		
+		
+	 });
+
+	 $("#getshopmenu").bind('click',function(){
+		$(".ordislink li").removeClass('ordislinkaA');
+		$(this).addClass('ordislinkaA');
+		$(".huoqucomment").html('');
+		$("#getpinglun").hide();
+		$(".ordisprompt").show();
+		$("#standard").show();
+		$("#transition").show();
+		$("#getdetailinfo").hide();
+		$(".getdetailinfo").html('');
+ 
+	 });
+	 
+	  $("#getshopinfo").bind('click',function(){
+		$(".ordislink li").removeClass('ordislinkaA');
+		$(this).addClass('ordislinkaA');
+		$(".huoqucomment").html('');
+		$("#getpinglun").hide();
+		$(".ordisprompt").hide();
+		$("#standard").hide();
+		$("#transition").hide();
+		
+		$("#getdetailinfo").show();
+		 var url = '<{ofunc type=url link="/wxsite/getdetailinfo"}>'; 
+			$.post(url, {'shopid':<{$shopinfo['id']}>},function (data, textStatus){ 
+				$('.getdetailinfo').html(data); 				 
+				scroll4.refresh();
+			}, 'html');
+		
+	 });
+	 
+	
+	 
+ })
+  
+function getcatefoods(){
+ 
+		var curcateid = $(".ordisordLeft li.active").attr('cateid');
+	 
+			$("#catefoods").html('');
+			var url = '<{ofunc type=url link="/wxsite/catefoods"}>'; 
+					$.post(url, {'curcateid':curcateid,'shoptype':<{$shopinfo['shoptype']}>,'shopid':<{$shopinfo['id']}>,'type':1},function (data, textStatus){ 
+							$('#catefoods').html(data); 
+					   freshcart();
+			 
+							$('.righ_l_b_btn_moren').unbind();
+							 
+						 
+							   $('.right_l_btn_left').bind("click", function() {   
+							   if(lockclick()){ 
+ 									if($(this).attr('have_det') == 1){
+										removeoneproduct($(this).attr('data-id'),$(this).attr('data-shopid'),1);
+									   }else{
+										removeonedish($(this).attr('data-id'),$(this).attr('data-shopid'),1);
+										}
+										}
+							  }); 
+							   $('.right_l_btn_right').bind("click", function() {   
+ 									if(lockclick()){
+										
+										 if($(this).attr('have_det') == 1){
+											addproduct($(this).attr('data-id'),$(this).attr('data-shopid'),1,this);
+										 }else{
+											addonedish($(this).attr('data-id'),$(this).attr('data-shopid'),1,this);
+									   }
+									  }
+									 
+							  }); 
+
+						}, 'html');
+						
+}
+ 
+//添加店铺收藏
+function myFavorite(shopid,obj)
+{ 
+  var url = siteurl+'/index.php?ctrl=shop&action=addcollect&datatype=json&collectid='+shopid+'&type=0'; 
+  var backinfo = ajaxback(url,{});
+  if(backinfo.flag == false){ 
+            
+     		$(obj).hide(); 
+     		$(obj).next().show();
+			Tmsg('收藏成功');
+   }else{ 
+         console.log(backinfo.content);
+         if(backinfo.content =='未登录')
+         { 
+             window.location.href =siteurl+'/index.php?ctrl=wxsite&action=loginmode';
+             }else{
+   	      Tmsg(backinfo.content);
+          }
+       
+  }
+}  
+//删除店铺收藏
+function delFav(shopid,obj)
+{ 
+	var url = siteurl+'/index.php?ctrl=shop&action=delcollect&datatype=json&collectid='+shopid+'&type=0'; 
+  var backinfo = ajaxback(url,{});
+  if(backinfo.flag == false){ 
+      $(obj).hide(); 
+	  $(obj).prev().show();
+	  Tmsg('取消收藏');
+   }else{ 
+   	 Tmsg(backinfo.content); 
+  }  
+}
+ 
+ 
+ 
+	  /* 点击展示购物车详情  */
+	$(".ordeilpaymenshop").bind('click',function(){
+  		 $('#zhezhao').toggle(); 
+		 $("#showorderdet").toggle();
+		
+		 freshowdetcart();
+		 
+	 	
+	}); 
+	
+	$("#zhezhao").bind('click',function(){
+		$(this).toggle();
+		$("#showorderdet").toggle();
+	});
+
+
+ 
+ function freshowdetcart(){
+			 url = siteurl+'/index.php?ctrl=wxsite&action=cart&shopid='+shopid+'&datatype=json&random=@random@';
+			url = url.replace('@random@', 1+Math.round(Math.random()*1000));
+			var bk = ajaxback(url,''); 
+			if($('#showorderdet .showorderListss').html() == undefined){
+ 			}else{
+			 showcartdet(bk);
+			 
+			}
+		//	Tmsg($('#showorderdet').find('.box_inline').length);
+			
+			
+		 
+		 
+	}
+function showcartdet(datas){ 
+ 
+ 	 $('#showorderdet .showorderListss').html('');
+//         console.log(datas.flag);
+ 	  if(datas.flag == false){    
+    	var temp_htmls = '';
+           $('#showorderdet .showorderListss').append(temp_htmls);
+    	 	  $.each(datas.content.list, function(i,val){   
+					var list = val;
+					var html = '';
+				   html +=' <div class="box_inline goodsli" style="padding:5px 5px 5px 8px;border-top: 1px solid #cccccc; "    id="gidli_'+list.id+'"  >  ';
+				   html +=' <div class="liwd30 detcart"  style="width:50%; text-align:left;">  ';
+				   html +='  '+val.name+' ';
+				   if( list.have_det==1 ){
+						 html +=' <font style="color:#ccc;font-size:10px;">'+list.gg.attrname+'</font> ';
+				   }
+ 					html +='  	</div> ';
+					html +=' <div class="liwd30 detcart" style="width:20%; text-align:left;"> ';
+					html +='	￥'+list.cost+' ';
+					html +='	</div> ';
+					html +='	<div class="liwd30 detcart" style="width:30%; text-align:center;"> ';
+					html +='	<div style="width:90px; height:38px; line-height:38px;"> ';
+					if( list.have_det==1 ){
+						html +=' <span class="addbtn" have_det="'+list.have_det+'"    product_id="'+list.gg.id+'"  data-id="'+list.id+'" data-shopid="'+list.shopid+'"><img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/<{if $color == "green"}>grjia.png<{else if $color == "yellow"}>yejia.png<{else}>redjia.png<{/if}>" /></span>   ';
+						
+					}else{
+ 						html +=' <span class="addbtn" have_det="'+list.have_det+'"     data-id="'+list.id+'" data-shopid="'+list.shopid+'"><img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/<{if $color == "green"}>grjia.png<{else if $color == "yellow"}>yejia.png<{else}>redjia.png<{/if}>" /></span>   ';
+						
+					}
+					html +='	<span class="shuliang gdhd">'+list.count+'</span> ';
+					if( list.have_det==1 ){
+						html +='   <span class="downdbtn " have_det="'+list.have_det+'"  product_id="'+list.gg.id+'"     data-id="'+list.gg.id+'" data-shopid="'+list.shopid+'"><img   src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/<{if $color == "green"}>add_01_1.png<{else if $color == "yellow"}>add_01_2.png<{else}>add_01.png<{/if}>" /></span> ';
+						
+					}else{
+						html +='   <span class="downdbtn " have_det="'+list.have_det+'"   data-id="'+list.id+'"   data-shopid="'+list.shopid+'"><img   src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/<{if $color == "green"}>add_01_1.png<{else if $color == "yellow"}>add_01_2.png<{else}>add_01.png<{/if}>" /></span> ';
+						
+					}
+ 					html +='  	</div> ';
+					html +='  	</div> ';
+				html +='  </div> '; 
+     	 	 	  $('#showorderdet .showorderListss').append(html);
+    	    }); 
+ 		 
+		 
+           $('.addbtn').bind("click", function() {   
+      	    	 
+				if(checknext ==  false){ 
+      	    		checknext = true;
+					var checkhavedet = $(this).attr('have_det');
+					 
+					if(checkhavedet == 1){					 
+						  uponeproduct($(this).attr('product_id'),$(this).attr('data-shopid'),1);
+						 freshowdetcart();
+					}else{
+					 
+						addonedish($(this).attr('data-id'),$(this).attr('data-shopid'),1,this);
+					 	freshowdetcart();
+						
+				   }
+				  
+      	     	   setTimeout("myyanchi()", 500 );
+           	  }
+      	 	
+          }); 
+           $('.downdbtn').bind("click", function() {   
+           	  if(checknext ==  false){ 
+           	  		checknext = true;
+					var checkhavedet = $(this).attr('have_det');
+					if(checkhavedet == 1){
+						 removeoneproduct($(this).attr('product_id'),$(this).attr('data-shopid'),1);
+						 freshowdetcart();
+					 
+					}else{
+						
+						removeonedish($(this).attr('data-id'),$(this).attr('data-shopid'),1,this);
+						freshowdetcart();
+						 freshcart();
+						 
+				   }
+				  
+      	     	   setTimeout("myyanchi()", 500 );
+           	  }
+      	 	
+          });
+		   $('.showorderListss').css('height',$('#showorderdet').find('.box_inline').length*49);
+		//   scroll5.refresh();
+		 
+     	  
+    }else{
+  		 
+          $('#cartlist').hide();
+      
+          
+       
+    }
+} 
+ /* 点击展示购物车详情   end*/
+		
+  </script>
+  
+ <div id="zhezhao" style=""></div>
+  
+<div id="showorderdet" style="z-index:10000000;overflow-x: hidden;overflow-y: scroll;">
+     <div class="showorderList">
+         <div style="background-color: #FAFAFA;position: fixed;width: 100%;">
+             <div style="color: #4a4a4a;font-size: 14px;font-weight: bold;padding:5px 5px 5px 8px;border-top: 1px solid #cccccc;pos">
+                 <span id="closecart">关闭</span>
+                 <span id="emptycart" style="float:right">清空购物车</span>
+             </div>
+         </div>
+         <div class="showorderListss" style="padding-top: 35px;">
+
+         </div>
+
+
+     </div>
+ </div>
+ <script>
+   
+     $("#closecart").bind('click',function(){
+         $("#showorderdet").toggle();
+         $("#zhezhao").toggle();
+//        scroll2.refresh();
+      
+     });
+     //        清空购物车
+     $("#emptycart").bind('click',function(){
+         $("#showorderdet").toggle();
+		 $('.typegoodcount ').hide();
+         delshopcart();
+         $("#zhezhao").hide();
+     });
+ </script>
+
+
+ 
+ <div class="wmr_botcar_content" style='z-index:10000000'>
+	<div class="wmr_botcar_left">
+		<div class="wmr_botcar_numbox"  >
+			<div class="wmr_botcar_num ordeilpaymenshop" >
+				 <img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/shopcart/images/icon_shopcar.png" />
+				<i id="total_count" style='display:none'></i>
+			</div>
+		</div>
+		<div class="wmr_botcar_txt">
+		      <div style="line-height:14px;">
+			  <span style="display:inline-block;width:10px;">￥</span>
+			  <span id="total_money" style="font-weight:bold;">0.00</span>
+			  </div>
+			 
+            <b style="line-height:14px;">另需配送费<{$psinfo['pscost']|default:'0'}>元<{if $psinfo['is_allow_ziti'] == 1}>&nbsp;|&nbsp;支持自取<{/if}></b>
+			 
+			 
+		</div>
+	</div>
+	<div class="wmr_botcar_btn"  id="addShopping" style='display:none;border-radius:0px!important'>
+		<input data-role="none" type="button" value="选好了" style='border-radius:0px!important' />
+	</div>
+	<{if $shopdet['limitcost'] > 0}>
+	<div class="wmr_botcar_btn"  id="showlimit" style='border-radius:0px!important' >
+		<input  data-role="none"  type="button" value="还差<{$shopdet['limitcost']}>元" style='border-radius:0px!important' />
+	</div>
+	<{/if}> 
+</div>
+ <script>
+	 var id = "<{$id}>";
+	 var carturl = siteurl+"/index.php?ctrl=wxsite&action=shopcart&id="+id;
+	 $("#addShopping").bind("click",function(){
+		 cartnum = $("#total_count").text();
+		 if(cartnum<=0){
+			 Tmsg("购物车为空");
+		 }else{
+			 window.location.href=carturl
+		 }
+	 })
+ 
+var opentype = "<{$openinfo['opentype']}>";	 
+if(opentype == 2 || opentype == 3){
+}else{
+    $('.typegoodcount').hide();
+	$('.wmr_botcar_numbox').hide();
+    $('#total_count').hide();
+	$('.ordisordR').hide();	
+	$('.ordisordRPosit').hide();	
+	$('.wmr_botcar_txt').html('本店打烊了');
+	$('.wmr_botcar_txt').css('color','#fff');
+    $('.wmr_botcar_txt').css('font-weight','bold');
+}
+ </script>  
+
+ </div>
+<{/block}>
+<{block name=footer}> 
+<{/block}>

@@ -1,0 +1,550 @@
+<!--   time:2019-07-18 01:07:58 -->
+<import  src="/zh_cjdianc/pages/commons/xy.wxml"  />
+<block wx:if="{{isloading}}">
+	<view class="loadinggif">
+		<image src="../../img/loading.gif"></image>
+	</view>
+</block>
+<block wx:if="{{!isloading}}">
+	<view class="sjinfohd flex-row flex-y-center" style="background:{{color}}">
+		<image class="sjleftimg flex-grow-0" src="{{store.logo}}"></image>
+		<view class="sjright flex-grow-1 flex-col flex-x-center">
+			<view class="sjright1 flex-bet flex-y-center">
+				<view class="sjright1-l gobyndsingle">{{store.name}}</view>
+				<block wx:if="{{oid==null}}">
+					<image bindtap="drdc" class="pin" src="../../img/pin.png"></image>
+				</block>
+			</view>
+			<view bindtap="lookck" class="sjright2 flex-row flex-y-center">
+				<image class="sjright2-l" src="../../img/laba.png"></image>
+				<view class="flex-grow-1 gobyndsingle">{{store.announcement}}</view>
+			</view>
+			<view class="sjright3 flex-bet flex-y-center">
+				<view class="flex-row flex-y-center">
+					<view class="sjright3text" style="padding-left:0">类型：{{tableinfo.type_name}}</view>
+					<view class="sjright3text" style="border-right:0">桌号：{{tableinfo.table_name}}</view>
+				</view>
+			</view>
+		</view>
+		<view class="xfview" style="color:{{color}}">
+			<block wx:if="{{storeset.is_call=='1'}}">
+				<view bindtap="hjfwy" class="xfbt">
+					<image mode="aspectFit" src="../../img/seller/five.png"></image>
+					<view>呼叫</view>
+				</view>
+			</block>
+			<view bindtap="wddd" class="xfbt">
+				<image mode="aspectFit" src="../../img/tabddf.png"></image>
+				<view>订单</view>
+			</view>
+		</view>
+	</view>
+	<view class="sjinfonav">
+		<scroll-view class="nav-two" scrollX="true">
+			<block wx:for="{{navbar}}" wx:key="*this" wx:for-item="item" wx:for-index="index" >
+				<view bindtap="selectednavbar" class="toatal_head  {{selectedindex==index?'selsect':'default'}}" data-index="{{index}}" style="color:{{selectedindex==index?color:''}}">{{item}}<block wx:if="{{selectedindex==index}}">
+						<view class="toatal_text" style="background-color: {{color}}"></view>
+					</block>
+				</view>
+			</block>
+		</scroll-view>
+	</view>
+	<view class="swiper-wrap">
+		<swiper bindchange="swiperChange" class="swiper" current="{{selectedindex}}" duration="500" style="height:78vh;">
+			<swiper-item class="swiper-item1">
+				<view bindtap="lookck" class="lbhd flex-row flex-y-center">
+					<view class="flex-grow-1">
+						<swiper autoplay="true" circular="true" class="lbhd-swiper" interval="2000" vertical="true">
+							<block wx:if="{{storeset.xyh_open=='1'}}">
+								<swiper-item>
+									<view class="lbhd-view flex-row flex-y-center">
+										<view class="xyh">新</view>
+										<view class="gobyndsingle">新用户下单立减{{storeset.xyh_money}}元(不与其它活动同享)</view>
+									</view>
+								</swiper-item>
+							</block>
+							<block wx:if="{{reduction.length!=0}}">
+								<swiper-item>
+									<view class="flex-row flex-y-center">
+										<view class="mj">减</view>
+										<view class="gobyndsingle">
+											<block wx:for="{{reduction}}" wx:key="*this" wx:for-item="item" wx:for-index="index" >
+												<text>满{{item.full}}减{{item.reduction}},</text>
+											</block>
+										</view>
+									</view>
+								</swiper-item>
+							</block>
+						</swiper>
+					</view>
+					<image class="flex-grow-0 down" src="../../img/down.png"></image>
+				</view>
+				<view class="dclb flex-row">
+					<scroll-view class="leftsv flex-col" scrollIntoView="{{toType}}" scrollY="true" style="height:65vh;">
+						<block wx:for="{{dishes}}" wx:key="{{item.value}}" wx:for-item="item" wx:for-index="index" >
+							<block wx:if="{{item.goods.length!=0}}">
+								<view bindtap="selectMenu" class="menu-item border-1px {{index==catalogSelect?'active':'selsect'}}" data-id="{{item.id}}" data-item-index="{{index}}" id="type{{index}}">
+									<block wx:if="{{index==catalogSelect}}">
+										<view class="goods_border" style="background:{{color}}"></view>
+									</block>
+									<view class="text">{{item.type_name}}</view>
+								</view>
+							</block>
+						</block>
+					</scroll-view>
+					<scroll-view bindscroll="{{scroll}}" class="rightsv flex-grow-1 flex-col" lowerThreshold="80" scrollIntoView="{{toView}}" scrollY="true" style="height:65vh;">
+						<block wx:if="{{Coupons.length>0&&storeset.is_dcyhq=='1'}}">							<view class="coupon">
+								<scroll-view scrollX class="scroll-view" style="width: 100%">
+									<block wx:for="{{Coupons}}" wx:key="*this" wx:for-item="item" wx:for-index="index" >
+										<view class="coupon_1 rel" style="background: {{item.state=='1'?'#FFF1F0':''}};color:{{item.state=='1'?'#F9564F':''}}">
+											<view class="ab ud">
+												<text>￥</text>
+												<text>{{item.reduce}}</text>
+												<text>满{{item.full}}可用</text>
+												<text>有效期至：{{item.end_time}}</text>
+											</view>
+											<block wx:if="{{item.state=='1'}}">
+												<view class="ab ud">已领取</view>
+											</block>
+											<block wx:if="{{item.state=='2'}}">
+												<view bindtap="ljlq" class="ab ud" data-qid="{{item.id}}">领取</view>
+											</block>
+											<view class="ab"></view>
+											<view class="ab"></view>
+										</view>
+									</block>
+								</scroll-view>
+							</view>
+						</block>
+						<block wx:for="{{dishes}}" wx:key="*this" wx:for-item="disheitem" wx:for-index="parentIndex" >
+							<block wx:if="{{disheitem.good.length>0}}">								<view id="order{{parentIndex}}">
+									<view class="youhui">
+										<view class="yh">{{disheitem.type_name}}<text>({{disheitem.good.length}})</text>
+										</view>
+									</view>
+									<block wx:for="{{disheitem.good}}" wx:key="*this" wx:for-item="gooditem" wx:for-index="goodindex" >
+										<view class="cplb flex-row" data-id="{{disheitem.id}}">
+											<image bindtap="spxqck" class="cpleftimg flex-grow-0" data-goodid="{{gooditem.id}}" data-item-index="{{goodindex}}" data-parentIndex="{{parentIndex}}" src="{{gooditem.logo}}"></image>
+											<view class="cplbright flex-grow-1 flex-col">
+												<view class="cplbright1 flex-bet">
+													<view class="cplbright1-l">{{gooditem.name}}</view>
+													<block wx:if="{{gooditem.is_zp=='1'}}">
+														<view class="cplbright1-r">招牌</view>
+													</block>
+												</view>
+												<view class="cplbright2 flex-bet flex-y-center">
+													<view class="gobyndsingle">{{gooditem.content}}</view>
+												</view>
+												<view class="cplbright3 flex-row flex-y-center">
+													<view class="cplbright31">月销{{gooditem.sales}}笔</view>
+												</view>
+												<block wx:if="{{(xtxx.hygn=='1'&&gooditem.dn_hymoney!='0.00')&&gooditem.is_gg!='2'}}">
+													<view class="cplbright3 flex-row flex-y-center" style="margin-top:10rpx;">
+														<view class="vipzk flex-row flex-y-center">
+															<image mode="aspectFit" src="../../img/personal/huangg.png"></image>
+															<view>专享</view>
+														</view>
+														<view class="vipzx">会员价：￥{{gooditem.dn_hymoney}}</view>
+													</view>
+												</block>
+												<view class="cplbright4 flex-bet">
+													<view class="cplbright4-l flex-grow-1">
+														<text>￥{{gooditem.dn_money}}</text>
+													</view>
+													<view class="cartControl flex-grow-0">
+														<block wx:if="{{gooditem.is_gg=='2'&&gooditem.quantity>0}}">															<view catchtap="ggcartdec" class="cartdec"></view>
+														</block>
+														<block wx:if="{{gooditem.is_gg!='2'&&gooditem.quantity>0}}">															<view catchtap="cartdec" class="cartdec" data-goodid="{{gooditem.id}}" data-item-index="{{goodindex}}" data-parentIndex="{{parentIndex}}"></view>
+														</block>
+														<block wx:if="{{gooditem.quantity>0}}">															<view class="goodsnum">{{gooditem.quantity}}</view>
+														</block>
+														<block wx:if="{{gooditem.is_gg=='2'}}">
+															<view catchtap="spggck" class="xgg" data-goodid="{{gooditem.id}}" data-item-index="{{goodindex}}" data-parentIndex="{{parentIndex}}" style="background:{{color}}">选规格</view>
+														</block>
+														<block wx:if="{{gooditem.is_gg!='2'&&gooditem.inventory!='0'}}">
+															<view catchtap="cartadd" class="cartadd" data-goodid="{{gooditem.id}}" data-item-index="{{goodindex}}" data-parentIndex="{{parentIndex}}" style="background:{{color}}"></view>
+														</block>
+													</view>
+													<block wx:if="{{gooditem.is_gg!='2'&&gooditem.inventory=='0'}}">
+														<view class="xgg" style="background:#cccccc">已售完</view>
+													</block>
+												</view>
+											</view>
+										</view>
+									</block>
+								</view>
+							</block>
+						</block>
+						<block wx:if="{{cpjzz}}" >
+							<view class="jzz">
+								<image class="Rotation" src="../../img/jzz.png"></image>
+								<view>加载中...</view>
+							</view>
+						</block>
+						<block wx:else>
+							<view class="jzwb">
+								<view class="hx"></view>
+								<view class="wz">加载完毕</view>
+								<view class="hx"></view>
+							</view>
+						</block>
+					</scroll-view>
+				</view>
+			</swiper-item>
+			<swiper-item class="swiper-item2">
+				<scroll-view scrollY bindscrolltolower="pjmore" style="height:100%;">
+					<view class="evaluate">
+						<view class="evaluate_head">
+							<text>综合评分</text>
+							<text>{{store.sales}}分</text>
+						</view>
+						<view class="evaluate_label">
+							<block wx:for="{{pjnavbar}}" wx:key="*this" wx:for-item="item" wx:for-index="index" >
+								<view bindtap="pjselectednavbar" data-index="{{index}}" style="color:{{pjselectedindex==index?'#fff':''}};background-color: {{pjselectedindex==index?color:''}};border:{{pjselectedindex==index?'none':''}}">{{item.name}}{{item.num}}</view>
+							</block>
+						</view>
+						<view bindtap="ytpj" class="graph rel">
+							<block wx:if="{{!isytpj}}" >
+								<text class="ab ud"></text>
+							</block>
+							<block wx:else>
+								<icon class="ab ud" color="{{color}}" size="17" style="height:35rpx;display:inline-block;" type="success"></icon>
+							</block>
+							<text>有图评价</text>
+						</view>
+						<block wx:for="{{storelist}}" wx:for-item="item" wx:for-index="index" >
+							<view class="evaluate_list">
+								<view class="list_head">
+									<image mode="aspectFill" src="{{item.user_img}}"></image>
+								</view>
+								<view>
+									<view class="plname">{{item.name}}</view>
+									<view class="pltime flex-bet flex-y-center">
+										<view class="flex-row flex-grow-1 flex-y-center">
+											<view class="pfimg">
+												<view class="kximg">
+													<image src="../../img/i-star.png"></image>
+												</view>
+												<view class="sximg" style="width: {{item.stars*20}}%">
+													<image src="../../img/i-stars.png"></image>
+												</view>
+											</view>
+										</view>
+										<view class="flex-grow-0 flex-row flex-y-center">{{item.time}}</view>
+									</view>
+									<view style="margin:20rpx 0;">
+										<block wx:for="{{item.img}}" wx:for-item="item1" wx:for-index="picindex" >
+											<image bindtap="commentPicView" class="evaluate_image" data-id="{{item.id}}" data-index="{{index}}" data-picindex="{{picindex}}" mode="aspectFill" src="{{url}}{{item1}}"></image>
+										</block>
+									</view>
+									<view>{{item.content}}</view>
+									<block wx:if="{{item.hf!=''}}">
+										<view class="sjhf">商家回复：{{item.hf}}</view>
+									</block>
+								</view>
+							</view>
+						</block>
+						<view class="jzz" hidden="{{mygd}}">
+							<image class="Rotation" src="../../img/jzz.png"></image>
+							<view>加载中...</view>
+						</view>
+						<block wx:if="{{storelist.length==0&&mygd}}">
+							<view class="kong">
+								<image src="../../img/wushuju.png"></image>
+								<view>暂无相关数据</view>
+							</view>
+						</block>
+						<block wx:if="{{mygd}}">
+							<view class="jzwb">
+								<view class="hx"></view>
+								<view class="wz">加载完毕</view>
+								<view class="hx"></view>
+							</view>
+						</block>
+					</view>
+				</scroll-view>
+			</swiper-item>
+			<swiper-item class="swiper-item3">
+				<view class="sjxq">
+					<view class="weui-cells weui-cells_after-title">
+						<navigator class="weui-cell weui-cell_access" hoverClass="weui-cell_active" url="">
+							<view class="weui-cell__bd">商家名称</view>
+							<view class="weui-cell__ft">{{store.name}}</view>
+						</navigator>
+						<navigator bindtap="maketel" class="weui-cell weui-cell_access" hoverClass="weui-cell_active">
+							<view class="weui-cell__bd">电话</view>
+							<view class="weui-cell__ft weui-cell__ft_in-access">{{paytel}}</view>
+						</navigator>
+						<navigator bindtap="location" class="weui-cell weui-cell_access" hoverClass="weui-cell_active">
+							<view class="weui-cell__bd">地址</view>
+							<view class="weui-cell__ft weui-cell__ft_in-access">{{store.address}}</view>
+						</navigator>
+						<navigator class="weui-cell weui-cell_access" hoverClass="weui-cell_active" url="">
+							<view class="weui-cell__bd">营业时间</view>
+							<view class="weui-cell__ft">
+								<text>{{store.time}}-{{store.time2}}</text>
+								<text style="margin-left:20rpx;">{{store.time3}}-{{store.time4}}</text>
+							</view>
+						</navigator>
+					</view>
+					<view class="sjhj">
+						<view>商家资质</view>
+						<view class="xztpul">
+							<block wx:if="{{store.yyzz.length==0}}" >
+								<view style="padding:10px 15px">商家暂未上传资质</view>
+							</block>
+							<block wx:else>
+								<block wx:for="{{store.yyzz}}" wx:key="*this" wx:for-item="item" wx:for-index="index" >
+									<image bindtap="previewImage" class="scimg" data-urls="{{store.yyzz}}" id="{{item}}" mode="scaleToFill" src="{{item}}"></image>
+								</block>
+							</block>
+						</view>
+						<view style="margin-top:20rpx;">商家环境</view>
+						<view class="xztpul">
+							<block wx:if="{{store.environment.length==0}}" >
+								<view style="padding:10px 15px">商家暂未上传图片</view>
+							</block>
+							<block wx:else>
+								<block wx:for="{{store.environment}}" wx:key="*this" wx:for-item="item" wx:for-index="index" >
+									<image bindtap="previewImage" class="scimg" data-urls="{{store.environment}}" id="{{item}}" mode="scaleToFill" src="{{item}}"></image>
+								</block>
+							</block>
+						</view>
+					</view>
+					<view class="sjjj">
+						<view>商家简介</view>
+						<view>
+							<rich-text nodes="{{store.details}}"></rich-text>
+						</view>
+					</view>
+					<view class="jbsj">
+						<button>举报商家</button>
+					</view>
+				</view>
+			</swiper-item>
+		</swiper>
+	</view>
+	<block wx:if="{{selectedindex==0}}">
+		<view class="dbgwc flex-row flex-y-center">
+			<view catchtap="showcart" class="dbgwcl flex-row flex-y-center">
+				<block wx:if="{{cart_list.res.length==0}}" >
+					<view class="dbgwcl-l flex-grow-0 flex-row flex-y-center">
+						<image class="gwcimg" src="../../img/kgwc.png"></image>
+					</view>
+				</block>
+				<block wx:else>
+					<view class="dbgwcl-l flex-grow-0 flex-row flex-y-center">
+						<image class="gwcimg" src="../../img/fgwc.png"></image>
+						<view class="cart_num">{{cart_list.num}}</view>
+					</view>
+				</block>
+				<view class="dbgwcl-r flex-grow-1">
+					<block wx:if="{{cart_list.res.length==0}}" >
+						<view class="kname">购物车是空的</view>
+					</block>
+					<block wx:else>
+						<view class="gwcmoney">
+							<text>￥{{cart_list.money}}</text>
+						</view>
+					</block>
+				</view>
+			</view>
+			<block wx:if="{{!iskt&&oid==null}}">
+				<block wx:if="{{store.is_rest=='2'&&time==1}}" >
+					<block wx:if="{{cart_list.money>0&&cart_list.money>=start_at}}" >						<view bindtap="submit" class="dbgwcr" style="background:{{color}}">{{subtext}}</view>
+					</block>
+					<block wx:else>
+						<view class="dbgwcr">{{subtext}}</view>
+					</block>
+				</block>
+				<block wx:else>
+					<view class="dbgwcr">商家暂未营业</view>
+				</block>
+			</block>
+			<block wx:if="{{oid!=null}}">
+				<block wx:if="{{cart_list.money>0&&cart_list.money>=start_at}}" >					<view bindtap="addsp" class="dbgwcr" style="background:{{color}}">加菜</view>
+				</block>
+				<block wx:else>
+					<view class="dbgwcr">加菜</view>
+				</block>
+			</block>
+			<block wx:if="{{iskt&&oid==null}}">
+				<view class="dbgwcr">此桌已开台</view>
+			</block>
+		</view>
+	</block>
+</block>
+<view catchtap="closecart" class="share-modal {{share_modal_active?'active':''}}">
+	<view class="share-modal-body">
+		<view class="shangpin_bomb">
+			<view class="shangpin1" style="border-left:10rpx solid {{color}}">购物车</view>
+			<block wx:if="{{cart_list.res.length>0}}">				<view catchtap="clear" class="sh_clear flex-row flex-y-center">
+					<image src="../../img/qksj.png"></image>
+					<view>清空</view>
+				</view>
+			</block>
+		</view>
+		<view class="splist">
+			<block wx:for="{{cart_list.res}}" wx:key="*this" wx:for-item="item" wx:for-index="index" >
+				<view class="dgsp flex-row flex-y-center">
+					<view class="dgspleft flex-grow-1">
+						<view class="dgspleft1">{{item.name}}</view>
+						<view class="dgspleft2">{{item.spec}}</view>
+					</view>
+					<view class="dgspright flex-row flex-y-center flex-grow-0">
+						<view class="dgspright-l flex-grow-0">￥{{item.money}}</view>
+						<view class="cartControl flex-grow-1">
+							<view catchtap="gwcdec" class="cartdec" data-goodid="{{item.good_id}}" data-id="{{item.id}}" data-num="{{item.num}}"></view>
+							<view class="goodsnum">{{item.num}}</view>
+							<view catchtap="gwcadd" class="cartadd" data-goodid="{{item.good_id}}" data-id="{{item.id}}" data-num="{{item.num}}" style="background:{{color}}"></view>
+						</view>
+					</view>
+				</view>
+			</block>
+		</view>
+	</view>
+</view>
+<view bindtap="queren" class="fwxxzz" hidden="{{fwxy}}"></view>
+<block wx:if="{{!fwxy}}">
+	<view class="fwxx">
+		<scroll-view scrollY class="fwxxbd" style="height: 700rpx;">
+			<view class="sjname flex-col flex-x-center flex-y-center">
+				<view class="headtitle">{{store.name}}</view>
+				<view class="pfimg">
+					<view class="kximg">
+						<image src="../../img/i-star.png"></image>
+					</view>
+					<block wx:if="{{store.score!='0'}}" >
+						<view class="sximg" style="width: {{store.score*20}}%">
+							<image src="../../img/i-stars.png"></image>
+						</view>
+					</block>
+					<block wx:else>
+						<view class="sximg">
+							<image src="../../img/i-stars.png"></image>
+						</view>
+					</block>
+				</view>
+			</view>
+			<view class="sjgg">
+				<view class="headtitle">商家公告</view>
+				<view class="sjgginfo">{{store.announcement}}</view>
+			</view>
+			<view class="yhxx">
+				<view class="headtitle">优惠信息</view>
+				<view class="yhxxmj">
+					<block wx:if="{{reduction.length>0}}">						<view class="flex-row">
+							<view class="mj flex-grow-0">减</view>
+							<view class="">
+								<block wx:for="{{reduction}}" wx:key="*this" wx:for-item="item" wx:for-index="index" >
+									<text>满{{item.full}}减{{item.reduction}},</text>
+								</block>
+							</view>
+						</view>
+					</block>
+					<block wx:if="{{storeset.xyh_open=='1'}}">
+						<view class="flex-row">
+							<view class="xyh flex-grow-0">新</view>
+							<view class="">新用户下单立减{{storeset.xyh_money}}元</view>
+						</view>
+					</block>
+				</view>
+			</view>
+		</scroll-view>
+	</view>
+</block>
+<view bindtap="gbspgg" catchtouchmove="true" class="spggzz" hidden="{{spggtoggle}}"></view>
+<block wx:if="{{!spggtoggle}}">
+	<view class="spgg">
+		<view class="spggbd">
+			<view class="spgg_title">{{spname}}</view>
+			<view bindtap="gbspgg" class="x">
+				<image src="../../img/x.png"></image>
+			</view>
+			<view class="spgg_ggbd">
+				<block wx:for="{{gg}}" wx:key="*this" wx:for-item="attr_group" wx:for-index="index" >
+					<view class="guige">{{attr_group.spec_name}}：</view>
+					<view class="ggcontent">
+						<block wx:for="{{attr_group.spec_val}}" wx:key="*this" wx:for-item="item" wx:for-index="index" >
+							<view bindtap="attrClick" class="drawer_gg" data-group-id="{{attr_group.spec_id}}" data-id="{{item.spec_val_id}}" style="background:{{item.checked?color:''}};color:{{item.checked?'#fff':''}};border-color:{{item.checked?'#fff':''}};">{{item.spec_val_name}}</view>
+						</block>
+					</view>
+				</block>
+			</view>
+			<view class="spgg_ft flex-bet">
+				<view class="spgg_ftjg">￥{{gginfo.dn_money}}</view>
+				<view bindtap="ggaddcart" class="spgg_ftjr" style="background: {{color}}">加入购物车</view>
+			</view>
+		</view>
+	</view>
+</block>
+<view bindtap="gbyysj" class="yysjzz" hidden="{{yysjtoggle}}"></view>
+<block wx:if="{{!yysjtoggle}}">
+	<view class="yysj">
+		<view class="yysjimg">
+			<image src="../../img/wming/wyy.png"></image>
+		</view>
+		<view class="fyysj">非营业时间，商户休息中</view>
+		<view class="kysj">{{store.time}}开始营业</view>
+		<view class="yysjft">
+			<view bindtap="ckcd" class="ckcd">查看菜单</view>
+			<view bindtap="gdsh" class="gdsh">更多商户</view>
+		</view>
+	</view>
+</block>
+<block wx:if="{{!spxqtoggle}}">
+	<scroll-view class="spxqmodal" scrollY="true">
+		<view bindtap="gbspxq" class="spxqhead">
+			<image src="../../img/spxqx.png"></image>
+		</view>
+		<view class="spxqimg">
+			<image src="{{spxqinfo.logo}}"></image>
+			<block wx:if="{{spxqinfo.content!=''}}">
+				<view class="spsm">商品说明：{{spxqinfo.content}}</view>
+			</block>
+		</view>
+		<view class="spxx">
+			<view class="cplbright1 flex-bet">
+				<view class="cplbright1-l">{{spxqinfo.name}}</view>
+				<block wx:if="{{spxqinfo.is_zp=='1'}}">
+					<view class="cplbright1-r">招牌</view>
+				</block>
+			</view>
+			<view class="cplbright3 flex-row flex-y-center" style="margin-top:10rpx;">
+				<view class="cplbright31">月销{{spxqinfo.sales}}笔</view>
+				<block wx:if="{{spxqinfo.is_max=='1'}}" >
+					<view class="cplbright32">不限量</view>
+				</block>
+				<block wx:else>
+					<view class="cplbright32">库存{{spxqinfo.inventory}}</view>
+				</block>
+			</view>
+			<view class="cplbright4 flex-bet">
+				<view class="cplbright4-l flex-grow-1">
+					<text>￥{{spxqinfo.dn_money}}</text>
+				</view>
+				<view class="cartControl flex-grow-0">
+					<block wx:if="{{spxqinfo.is_gg=='2'&&dishes[spxqinfo.catalogSelect].good[spxqinfo.goodindex].quantity>0}}">						<view catchtap="ggcartdec" class="cartdec"></view>
+					</block>
+					<block wx:if="{{spxqinfo.is_gg!='2'&&dishes[spxqinfo.catalogSelect].good[spxqinfo.goodindex].quantity>0}}">						<view catchtap="cartdec" class="cartdec" data-goodid="{{spxqinfo.id}}" data-item-index="{{spxqinfo.goodindex}}" data-parentIndex="{{spxqinfo.catalogSelect}}"></view>
+					</block>
+					<block wx:if="{{dishes[spxqinfo.catalogSelect].good[spxqinfo.goodindex].quantity>0}}">						<view class="goodsnum">{{dishes[spxqinfo.catalogSelect].good[spxqinfo.goodindex].quantity}}</view>
+					</block>
+					<block wx:if="{{spxqinfo.is_gg=='2'}}">
+						<view catchtap="spggck" class="xgg" data-goodid="{{spxqinfo.id}}" data-item-index="{{spxqinfo.goodindex}}" data-parentIndex="{{spxqinfo.catalogSelect}}" style="background:{{color}}">选规格</view>
+					</block>
+					<block wx:if="{{spxqinfo.is_gg!='2'&&spxqinfo.inventory!='0'}}">
+						<view catchtap="cartadd" class="cartadd" data-goodid="{{spxqinfo.id}}" data-item-index="{{spxqinfo.goodindex}}" data-parentIndex="{{spxqinfo.catalogSelect}}" style="background:{{color}}"></view>
+					</block>
+				</view>
+				<block wx:if="{{spxqinfo.is_gg!='2'&&spxqinfo.inventory=='0'}}">
+					<view class="xgg" style="background:#cccccc">已售完</view>
+				</block>
+			</view>
+		</view>
+		<view class="spxq">商品详情</view>
+		<view class="spxqv">
+			<rich-text nodes="{{spxqinfo.details}}"></rich-text>
+		</view>
+	</scroll-view>
+</block>

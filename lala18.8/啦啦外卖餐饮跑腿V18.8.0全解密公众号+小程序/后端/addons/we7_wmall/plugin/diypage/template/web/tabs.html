@@ -1,0 +1,31 @@
+<div class="second-sidebar-title">{$_W['_plugin']['title']}</div>
+<div class="nav slimscroll">
+	{ifp 'diypage.vuemenu' || 'diypage.vuemall' || 'diypage.diypage' || 'vuediyShop'}
+		<div class="menu-header">自定义DIY</div>
+		<ul class="menu-item">
+			<li {if $_GPC['ac'] == 'vuemenu'}class="active"{/if}>
+			<a href="{php echo iurl('diypage/vuemenu')}">菜单列表</a>
+			</li>
+			<li {if $_GPC['ac'] == 'vuemall'}class="active"{/if}>
+			<a href="{php echo iurl('diypage/vuemall')}">菜单设置</a>
+			</li>
+			<li {if $_GPC['ac'] == 'diyPage'}class="active"{/if}>
+			<a href="{php echo iurl('diypage/diyPage')}">自定义DIY</a>
+			</li>
+			<li {if $_GPC['ac'] == 'vuediyShop'}class="active"{/if}>
+			<a href="{php echo iurl('diypage/vuediyShop')}">页面设置</a>
+			</li>
+			<li {if $_GPC['ac'] == 'vuediyColor'}class="active"{/if}>
+			<a href="{php echo iurl('diypage/vuediyColor')}">页面配色</a>
+			</li>
+		</ul>
+	{/if}
+	{ifp 'diypage.template'}
+		<div class="menu-header">模板管理</div>
+		<ul class="menu-item">
+			<li {if $_GPC['ac'] == 'template'}class="active"{/if}>
+			<a href="{php echo iurl('diypage/template')}">全部模板</a>
+			</li>
+		</ul>
+	{/if}
+</div>

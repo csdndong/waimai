@@ -1,0 +1,96 @@
+{itemplate 'public/header'}
+{if $ta == 'index'}
+	<div class="page clearfix superCoupon">
+		{if $config_supercoupon['timelimit']['status'] == 1 && $config_supercoupon['timelimit']['time_cn'] != ''}
+			<div class="alert alert-warning">温馨提示:平台限制优惠券时间段：{$config_supercoupon['timelimit']['time_cn']},如果您需要发送优惠券,请在此时间段内进行发放</div>
+		{/if}
+		<div class="row form-horizontal">
+			<h3 class="container marketing-title">
+				人群营销
+				<a href="{php echo iurl('store/activity/superCoupon/selfdefine');}" class="btn btn-sm btn-primary">
+					<span class="glyphicon glyphicon-plus"></span> 自定义人群
+				</a>
+			</h3>
+			<div class="container">
+				{loop $system_groups $item}
+					<div class="col-md-6">
+						<div class="custom-card">
+							<div class="market-badge hot"></div>
+							<div class="top">
+								<div class="top-title">
+									<div class="title">
+										{$item['title']}
+									</div>
+<!--
+									<div class="count">
+										截止昨日 7 人
+									</div>
+-->
+								</div>
+								<div class="top-btn">
+									<a class="btn btn-primary btn-sm" href="{php echo iurl('store/activity/superCoupon/create', array('id' => $item['id']));}">立刻发券</a>
+								</div>
+							</div>
+							<div class="devide-line"></div>
+							<div class="desc">
+								{$item['content']}
+							</div>
+						</div>
+					</div>
+				{/loop}
+			</div>
+		</div>
+		<div class="row form-horizontal">
+			<h3>场景营销</h3>
+			<div class="container">
+				{loop $system_scene_groups $item}
+					<div class="col-md-4">
+						<div class="custom-card scene">
+							<div class="market-badge scene"></div>
+							<div class="title">
+								{$item['title']}
+							</div>
+							<div class="desc">
+								{$item['content']}
+							</div>
+<!--
+							<div class="count">
+								截止昨日 65 人
+							</div>
+-->
+							<a class="btn btn-default btn-sm" href="{php echo iurl('store/activity/superCoupon/selfdefine', array('id' => $item['id']));}">编辑人群</a>
+							<a class="btn btn-primary btn-sm" href="{php echo iurl('store/activity/superCoupon/create', array('id' => $item['id']));}">立刻发券</a>
+						</div>
+					</div>
+				{/loop}
+			</div>
+		</div>
+		<div class="row form-horizontal">
+			<h3>自定义人群</h3>
+			<div class="container">
+				{loop $selfdefiine_groups $item}
+					<div class="col-md-4">
+						<div class="custom-card scene">
+							<a href="{php echo iurl('store/activity/superCoupon/del', array('id' => $item['id']));}" class="js-post" data-confirm="确定删除该人群吗？"><span class="btn-del"></span></a>
+							<div class="title">
+								{$item['title']}
+							</div>
+							<div class="desc">
+								{$item['content']}
+							</div>
+<!--
+							<div class="count">
+								截止昨日 3325 人
+							</div>
+-->
+							<a class="btn btn-default btn-sm" href="{php echo iurl('store/activity/superCoupon/selfdefine', array('id' => $item['id']));}">编辑人群</a>
+							<a class="btn btn-primary btn-sm" href="{php echo iurl('store/activity/superCoupon/create', array('id' => $item['id']));}">立刻发券</a>
+						</div>
+					</div>
+				{/loop}
+			</div>
+		</div>
+
+	</div>
+{/if}
+{itemplate 'public/footer'}

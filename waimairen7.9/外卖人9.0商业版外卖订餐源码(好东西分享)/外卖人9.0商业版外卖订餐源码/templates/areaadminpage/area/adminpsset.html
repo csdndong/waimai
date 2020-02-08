@@ -1,0 +1,168 @@
+<{extends file="<{$tempdir}>/public/admin.html"}> 
+   <{block name=extendjs}>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js"></script>
+ <{/block}>
+ <{block name=controlname}>分站平台配送设置<{/block}>
+ <{block name=bodylist}>
+ 
+    <div class="managShopCon">
+	<div class="managShopBox">
+		<div class="managShopMain">
+ 			<div class="managShopClas">
+				<ul>
+					<li class="maShClaA"><a href="<{ofunc type=url link="/areaadminpage/area/module/adminpsset"}>">平台配送设置</a></li>
+					<li><a href="<{ofunc type=url link="/areaadminpage/area/module/platformpsrange"}>">平台地图配送范围</a></li>
+					<li><a href="<{ofunc type=url link="/areaadminpage/order/module/setpaotui"}>">跑腿配送设置</a></li>
+				</ul>
+			</div>
+			<div class="addShopSingCon">
+ 
+ 
+ <div style="width:auto;overflow-x:hidden;overflow-y:auto"> 
+          <div class="tags">
+           
+          <div id="tagscontent">
+            <form method="post" name="form1" action="<{ofunc type=url link="/areaadminpage/area/module/savepsset/datatype/json"}>" onsubmit="return subform('<{ofunc type=url link="/areaadminpage/area/module/adminpsset"}>',this);">
+               <div>
+                <table border="0" cellspacing="2" cellpadding="4" class="list" name="table" id="table" width="100%">
+                  <tbody> 
+                  
+                    <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff" class="map">
+                      <td class="left">是否开启自提</td>
+                      <td>
+                        <input type="radio" name="is_allow_ziti"  value="1" <{if isset($psinfo['is_allow_ziti'])&&$psinfo['is_allow_ziti'] ==1}>checked<{/if}>  >是
+						<input type="radio" name="is_allow_ziti"  value="0" <{if isset($psinfo['is_allow_ziti'])&&$psinfo['is_allow_ziti'] ==0}>checked<{/if}>  >否
+                      </td>
+                    </tr> 
+					
+                    <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff" class="map">
+                      <td class="left">配送半径</td>
+                      <td>
+                       <input type="text" name="locationradius" value="<{$psinfo['locationradius']|default:'0'}>">
+                      </td>
+                    </tr> 
+                   
+                   <{section name=loop loop=$psinfo['locationradius']}> 
+                    <tr id="allps" onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff"  class="map">
+                      <td class="left"> <{$tempgongli = $smarty.section.loop.index+1}>
+                        	     <{$tempgongli}> 公里内配送费</td>
+                      <td><input type="text" name="radiusvalue<{$smarty.section.loop.index}>"   value="<{$psinfo['radiusvalue'][$smarty.section.loop.index]|default:'0'}>" class="skey" style="width:50px;" >元</td>
+                    </tr> 
+                   <{/section}>   
+                   
+                  
+					
+					<tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <td class="left">是否对接跑腿到配送宝</td>
+                      <td>  
+						<input type="radio" name="pttopsb"  value="2" checked onclick="showpsb();">否
+						<input type="radio" name="pttopsb"  value="1" <{if isset($psinfo['pttopsb'])&&$psinfo['pttopsb'] ==1}>checked<{/if}> onclick="showpsb();" >是
+						&nbsp;&nbsp;&nbsp;(启用后才能为将跑腿订单对接到配送宝和商家对接无关联) 
+					  </td>
+                    </tr> 
+					
+                    <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff" class="pspsb">
+                      <td class="left">跑腿配送宝对接链接</td>
+                      <td>
+                       <input type="text" name="ptpsblink" value="<{$psinfo['ptpsblink']|default:''}>" style="width:200px;">
+                      </td>
+                    </tr>  
+					<tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff" class="pspsb">
+                      <td class="left">跑腿对接订单归属id</td>
+                      <td>
+                       <input type="text" name="ptpsbaccid" value="<{$psinfo['ptpsbaccid']|default:''}>"  style="width:50px;">
+                      </td>
+                    </tr> 
+					<tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff" class="pspsb">
+                      <td class="left">跑腿对接账号key</td>
+                      <td>
+                       <input type="text" name="ptpsbkey" value="<{$psinfo['ptpsbkey']|default:''}>">
+                      </td>
+                    </tr> 
+					<tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff" class="pspsb">
+                      <td class="left">跑腿对接账号code</td>
+                      <td>
+                       <input type="text" name="ptpsbcode" value="<{$psinfo['ptpsbcode']|default:''}>"><a href="javascript:teskpsb();" id="testrestul">测试对接</a>
+                      </td>
+                    </tr> 
+					
+					
+                  </tbody> 
+                </table>
+              </div>
+              <div class="blank20"></div> 
+               <input type="submit" value="确认提交" class="button">  
+            </form>
+          </div>
+        </div>
+        <div class="blank20"></div> 
+      
+      </div>
+      <div class="clear"></div>
+    </div>
+    
+    
+    
+  </div> 
+  </div> 
+  </div> 
+  </div> 
+  </div> 
+  <style>
+  input{border:1px solid #c4d9e9;}
+  </style>
+<script>
+	$(function(){ 
+		//doselect();
+		showdata();
+		showpsb();
+	});
+	function doshowd(){
+	    showdata();
+	}
+	function showdata(){
+		var checkid = $("input[name='psycostset']:checked").val();
+		if(checkid == 1){
+		   $('#guti').show();
+		   $('#biliti').hide();
+		}else{
+			$('#guti').hide();
+		   $('#biliti').show();
+		}
+	}
+	function showpsb(){
+		var openid =  $("input[name='pttopsb']:checked").val();
+		if(openid == 1){
+			$('.pspsb').show();
+		}else{
+			$('.pspsb').hide();
+		}
+	}
+	function teskpsb(){ 
+		var url = '<{ofunc type=url link="/areaadminpage/area/module/testpsblink/datatype/json/random/@random@"}>'; 
+		 $.ajax({
+		 type: 'post',
+		 async:true,
+		 data:{'psblink':$('input[name="ptpsblink"]').val(),'bizid':$('input[name="ptpsbaccid"]').val(),'psbkey':$('input[name="ptpsbkey"]').val(),'psbcode':$('input[name="ptpsbcode"]').val()},
+		 url: url.replace('@random@', 1+Math.round(Math.random()*1000)), 
+		 dataType: 'json',success: function(content) {  
+			if(content.error == false){
+				 $('#testrestul').html('测试成功');
+			}else{
+				if(content.error == true)
+				{
+					 $('#testrestul').html(content.msg); 
+				}else{
+					 $('#testrestul').html(content); 
+				}
+			} 
+			},
+		error: function(content) {   
+			 $('#testrestul').html('数据获取失败'); 
+		  }
+	   });   
+	}
+   
+</script>
+<!--newmain 结束-->
+<{/block}>

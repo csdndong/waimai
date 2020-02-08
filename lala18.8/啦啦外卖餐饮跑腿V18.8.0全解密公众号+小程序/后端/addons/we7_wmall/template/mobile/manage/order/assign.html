@@ -1,0 +1,252 @@
+{itemplate 'public/header'}
+{if $ta == 'index'}
+	<div class="page page-order-assign">
+		<header class="bar bar-nav common-bar-nav">
+			<a class="icon pull-left icon icon-arrow-left back"></a>
+			<h1 class="title">排队</h1>
+			<a href="" class="icon pull-right icon icon-refresh refresh"></a>
+		</header>
+		<div class="content">
+			<div class="assign-title">
+				<div class="head">排队列表</div>
+			</div>
+			{if empty($queues)}
+				<div class="no-data">
+					<div class="bg"></div>
+					<p>没有创建队列～</p>
+				</div>
+			{else}
+				{loop $queues $item}
+					<div class="assign-item">
+						<div class="assign-body">
+							<div class="now-assign">
+								<div>当前叫号</div>
+								<div class="info">{if $item['now_number']}{$item['now_number']}{else}暂无排队信息{/if}</div>
+							</div>
+							<div class="now-assign">
+								<div>桌号分类</div>
+								<div class="tables-type">{$item['title']}</div>
+							</div>
+							<div class="take-assign">
+								<div class="takeout">
+									<div>取号</div>
+									<div>({$item['total']}/{$item['position']})</div>
+								</div>
+							</div>
+						</div>
+						<div class="assign-foot border-1px-t">
+							<a href="{php echo imurl('manage/order/assign/record', array('id' => $item['id']));}">
+								<div class="small-button">
+									<span class="icon icon-viewgallery"></span>
+									查看已领
+								</div>
+							</a>
+							<a href="{php echo imurl('manage/order/assign/notice', array('id' => $item['id'], number => $item['now_number']));}" class="js-post" data-confirm="确定通知吗?">
+								<div class="small-button active">
+									<span class="icon icon-remind2"></span>
+									叫号
+								</div>
+							</a>
+							<a href="{php echo imurl('manage/order/assign/status', array('id' => $item['id'], status => 2, number => $item['now_number']));}" class="js-post" data-confirm="确定该号已入座吗?">
+								<div class="small-button active">
+									<span class="icon icon-home2"></span>
+									入座
+								</div>
+							</a>
+							<a href="{php echo imurl('manage/order/assign/status', array('id' => $item['id'], status => 3, number => $item['now_number']));}" class="js-post" data-confirm="确定过号吗?">
+								<div class="small-button active">
+									<span class="icon icon-forward"></span>
+									跳过
+								</div>
+							</a>
+						</div>
+					</div>
+				{/loop}
+			{/if}
+			<div class="buttom">
+				<a href="{php echo imurl('manage/order/assign/queue_post')}" class="small-button active">添加队列</a>
+			</div>
+		</div>
+	</div>
+{/if}
+
+{if $ta == 'record'}
+	<div class="page page-assign-record">
+		<header class="bar bar-nav common-bar-nav">
+			<a class="icon pull-left icon icon-arrow-left back"></a>
+			<h1 class="title">排队领取记录</h1>
+			<a href="" class="icon pull-right icon icon-refresh refresh"></a>
+		</header>
+		<div class="content infinite-scroll js-infinite" data-href="{php echo imurl('manage/order/assign/more', array('id' => $queue_id))}" data-distance="50" data-min="{$min}" data-container=".record-container" data-tpl="tpl-record">
+			<div class="record-top">
+				<div class="record-header">桌号分类</div>
+				<div class="record-header">编号</div>
+				<div class="record-header">状态</div>
+				<div class="record-header">操作</div>
+			</div>
+			{if empty($queues)}
+				<div class="no-data">
+					<div class="bg"></div>
+					<p>没有排号</p>
+				</div>
+			{else}
+				<div class="record-container">
+					{loop $data $item}
+						<div class="record-list">
+							<div class="record-item">{$queue['title']}</div>
+							<div class="record-item">{$item['number']}</div>
+							<div class="record-item color-primary">
+								{$status[$item['status']]['text']}
+								{if $item['status'] == 1}
+									前面还有{$item['before_num']}人
+								{/if}
+							</div>
+							<div class="record-item">
+								<a href="{php echo imurl('manage/order/assign/del', array('id' => $item['id']))}" class="js-post" data-confirm="确定删除吗">
+									<span class="icon icon-delete"></span>
+								</a>
+							</div>
+						</div>
+					{/loop}
+				</div>
+			{/if}
+		</div>
+	</div>
+<script id="tpl-record" type="text/html">
+	<{# for(var i = 0, len = d.length; i < len; i++){ }>
+		<div class="record-list">
+			<div class="record-item">{$queue['title']}</div>
+			<div class="record-item"><{d[i].number}></div>
+			<div class="record-item color-primary">
+				<{# if(d[i].status == 1){ }>
+					排队中前面还有<{d[i].before_num}>人
+				<{# } else if(d[i].status == 2) { }>
+					已入号
+				<{# } else if(d[i].status == 3) { }>
+					已过号
+				<{# } else if(d[i].status == 4) { }>
+					已取消
+				<{# } }>
+			</div>
+			<div class="record-item"><a href="{php echo imurl('manage/order/assign/del')}&id=<{d[i].id}>" class="js-post" data-confirm="确定删除吗"><span class="icon icon-delete"></span></a></div>
+		</div>
+	<{# } }>
+</script>
+{/if}
+
+{if $ta == 'queue_post'}
+	<div class="page page-queue-post page-js-modal">
+		<header class="bar bar-nav common-bar-nav">
+			<a class="icon pull-left icon icon-arrow-left back"></a>
+			<h1 class="title">添加队列</h1>
+			<a href="" class="icon pull-right icon icon-refresh refresh"></a>
+		</header>
+		<div class="content">
+			<div class="list-block">
+				<div class="assign-title">
+					<div class="item-inner">
+						<div class="item-title">队列名称</div>
+						<div class="item-input">
+							<input type="text" name="title" placeholder="请填写队列名称">
+						</div>
+					</div>
+				</div>
+				<div class="assign-title">
+					<div class="item-inner">
+						<div class="item-title">排入队列</div>
+						<div class="item-input">
+							<input type="number" id="guest_num" name="guest_num" placeholder="客人数量少于多少人">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="list-block">
+				<div class="assign-title">
+					<div class="item-inner">
+						<div class="item-title">排队时间</div>
+					</div>
+				</div>
+				<div class="assign-title">
+					<div id="hour-tpl" class="clockpicker">
+						<input type="text" readonly name="starttime" class="form-control" placeholder="" value="00:00">
+						<span class="input-group-addon">至</span>
+						<input type="text" readonly name="endtime" class="form-control" placeholder="" value="23:00">
+					</div>
+				</div>
+			</div>
+			<div class="list-block">
+				<div class="assign-title">
+					<div class="item-inner">
+						<div class="item-title">队列前缀</div>
+						<div class="item-input">
+							<input type="text" name="prefix" placeholder="请填写队列编号前缀">
+						</div>
+					</div>
+				</div>
+				<div class="assign-title">
+					<div class="item-inner">
+						<div class="item-title">提前通知</div>
+						<div class="item-input">
+							<input type="number" id="notify_num" name="notify_num" placeholder="请填写提前通知人数">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="buttom">
+				<button class="small-button active submit">点击添加</button>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+			require(['clockpicker'], function(){
+				$('.clockpicker :text').clockpicker({autoclose: true});
+
+				$(document).on('click', '.buttom .submit', function(){
+
+					var title = $.trim($(':text[name="title"]').val());
+					if(!title) {
+						$.toast('队列名称不能为空');
+						return false;
+					};
+					var guest_num = $.trim($('#guest_num').val());
+					if (!guest_num) {
+						$.toast('客人数量少于等于多少人排入此队列必须大于0');
+						return false;
+					}
+					var prefix = $.trim($(':text[name="prefix"]').val());
+					if (!prefix) {
+						$.toast('队列编号前缀不能为空');
+						return false;
+					}
+					var notify_num = $.trim($('#notify_num').val());
+					if (!notify_num) {
+						$.toast('提前通知人数必须大于0');
+						return false;
+					}
+					var starttime = $.trim($(':text[name="starttime"]').val());
+					var endtime = $.trim($(':text[name="endtime"]').val());
+
+					$(this).addClass('disabled');
+					var params = {
+						title: title,
+						guest_num: guest_num,
+						prefix: prefix,
+						notify_num: notify_num,
+						starttime: starttime,
+						endtime: endtime,
+					};
+					$.post("{php echo imurl('manage/order/assign/queue_post');}", params, function(data){
+						var result = $.parseJSON(data);
+						if(result.message.errno != 0) {
+							$.toast(result.message.message);
+							$('.buttom .submit').removeClass('disabled');
+							return false;
+						}
+						$.toast('添加新队列完成', "{php echo imurl('manage/order/assign');}");
+					})
+				});
+			});
+			
+	</script>
+{/if}
+{itemplate 'public/footer'}

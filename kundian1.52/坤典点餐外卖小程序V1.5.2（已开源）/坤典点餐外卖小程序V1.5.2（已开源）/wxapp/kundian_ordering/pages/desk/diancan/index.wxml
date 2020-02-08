@@ -1,0 +1,183 @@
+<view>
+    <view class="flexSa classContainer">
+        <view bindtap="changeIndex" class="view" data-index="0">
+            <view class="item {{currentClass==0?'active':''}}">点餐</view>
+        </view>
+        <view bindtap="changeIndex" class="view" data-index="1">
+            <view class="item {{currentClass==1?'active':''}}">商家</view>
+        </view>
+        <view bindtap="changeIndex" class="view" data-index="2">
+            <view class="item}}">订单</view>
+        </view>
+    </view>
+    <view class="itemList_container" style="bottom: {{bottom}}rpx;top:90rpx;">
+        <swiper bindchange="change" circular="true" current="{{currentClass}}" style="width:100%;height:100%;">
+            <swiper-item>
+                <view class="itemList">
+                    <scroll-view class="left" scrollIntoView="{{'view'+currentIndex}}" scrollWithAnimation="true" scrollY="true">
+                        <view bindtap="changeType" class="items {{currentIndex==item.id?'selectIndex':''}}" data-index="{{item.id}}" id="{{'view'+item.id}}" wx:for="{{lists}}" wx:key="index">{{item.type_name}}</view>
+                    </scroll-view>
+                    <view class="right">
+                        <scroll-view bindscroll="scroll" class="scrollView" scrollIntoView="{{'view'+view}}" scrollWithAnimation="true" scrollY="{{!state}}">
+                            <view wx:for="{{lists}}" wx:key="id">
+                                <view class="{{lessScrean?'itemTypes':'itemType'}}" id="{{'view'+item.id}}">{{item.type_name}}</view>
+                                <view class="flex {{lessScrean?'curent_items':'curent_item'}}" wx:for="{{item.items}}" wx:key="id">
+                                    <image bindtap="lookDetailGoods" class="itemImg" mode="aspectFit" src="{{item.cover}}"></image>
+                                    <view class="ml20">
+                                        <view class="f30 itemName">{{item.goods_name}}</view>
+                                        <view class="f26 mt10 cfa8a7a7">
+                                            <text>月售{{item.sale_count}}份</text>
+                                        </view>
+                                        <view class="mt20 flex" wx:if="{{!item.spec}}">
+                                            <view class="price">
+                                                <text class="itemPrice f32 cfred" wx:if="{{item.discount}}">￥{{item.disPrice}}</text>
+                                                <text class="itemPrice f32 cfred" wx:else>￥{{item.price}}</text>
+                                                <text class="itemPrice f26 ml10 cfa8a7a7 fThrough" wx:if="{{item.discount}}">{{item.price}}</text>
+                                            </view>
+                                            <view class="price" wx:if="{{item.count>0}}">
+                                                <image catchtap="reduceItem" class="iconlager reduce" data-id="{{item.id}}" hidden="{{item.selectNum==0}}" src="../../../img/reduce.png"></image>
+                                                <view class="selectNum" hidden="{{item.selectNum==0}}">{{item.selectNum}}</view>
+                                                <image catchtap="addItem" class="iconlager add" data-id="{{item.id}}" src="../../../img/add.png"></image>
+                                            </view>
+                                            <view class="price none-goods" wx:else>
+                                                <text>已售罄</text>
+                                            </view>
+                                        </view>
+                                        <view class="mt20 flex" wx:else>
+                                            <view class="prices">
+                                                <text class="itemPrice f32 cfred" wx:if="{{item.spec.length==1}}">￥{{item.price}}</text>
+                                                <text class="itemPrice f32 cfred" wx:else>￥{{item.price}}<text class="f26 ml5">起</text>
+                                                </text>
+                                            </view>
+                                            <view class="pricess">
+                                                <image catchtap="reduceItem" class="iconlager reduce" data-id="{{item.id}}" hidden="{{item.selectNum==0}}" src="../../../img/reduce.png"></image>
+                                                <view class="Numbers" hidden="{{item.selectNum==0}}">{{item.selectNum}}</view>
+                                                <view bindtap="specState" class="chooseSpec" data-id="{{item.id}}">选规格</view>
+                                            </view>
+                                        </view>
+                                    </view>
+                                </view>
+                            </view>
+                        </scroll-view>
+                    </view>
+                </view>
+            </swiper-item>
+            <swiper-item>
+                <view class="addBorderTop">
+                    <scroll-view class="scrollView" scrollY="true">
+                        <view class="Distribution_Info">基本信息</view>
+                        <view class="flex f30">
+                            <view class="iconfont icon-waimai mr10"></view>{{aboutData.merchant_name}}
+            </view>
+                        <view class="flex f30 mt10">
+                            <view class="iconfont icon-dizhi mr10"></view>{{aboutData.address}}
+            </view>
+                        <view class="flex f30 mt10">
+                            <view class="iconfont icon-shijian mr10"></view>
+                            <view>营业时间{{aboutData.in_time}}</view>
+                        </view>
+                        <view class="Distribution_Info mt20" wx:if="{{setData.value}}">商家实景</view>
+                        <view class="sceneContainer" wx:if="{{setData.value}}">
+                            <image bindtap="previewImg" class="sceneImg" data-index="{{index}}" src="{{item}}" wx:for="{{setData.value}}"></image>
+                        </view>
+                    </scroll-view>
+                </view>
+            </swiper-item>
+            <swiper-item></swiper-item>
+        </swiper>
+    </view>
+    <view class="bottom" style="height: {{bottom}}rpx;" wx:if="{{currentClass==0}}">
+        <view class="disCountBanner" wx:if="{{disCountBanner}}">{{disCountBanner}}</view>
+        <view class="shopCar flex">
+            <view bindtap="showModel" class="flexCenter circle">
+                <view animation="{{scales}}" class="{{selectList.length==0?'circle_center':'circles'}} flexCenter">
+                    <image class="iconlager" src="{{selectList.length==0?'../../../img/shopCar.png':'../../../img/selectShop.png'}}"></image>
+                </view>
+                <view class="selectNums" wx:if="{{selectList.length>0}}">{{totalNum}}</view>
+            </view>
+            <view class="chooseItem">
+                <view class="f30" wx:if="{{selectList.length==0}}">未选购商品</view>
+                <view class="f36 flex" wx:else>
+                    <view>￥{{totalPrice}}</view>
+                    <view class="f28 fThrough ml20 mt10" wx:if="{{discount>0}}">￥{{discount}}</view>
+                </view>
+            </view>
+            <view bindtap="confirmOrder" class="confrimBtn {{selectList.length==0?'bg535356':'bgFFD050'}}">确认订单</view>
+        </view>
+    </view>
+    <view animation="{{animationY}}" hidden="{{!showBall}}" style="position:fixed;top:{{topNum}}px;">
+        <view animation="{{animationX}}" class="ball" style="position:fixed;left:{{leftNum}}px;"></view>
+    </view>
+    <view bindtap="hideModel" catchtouchmove="preventTouchMove" class="model" wx:if="{{state}}"></view>
+    <view class="select_container" style="height:{{heights}}rpx; bottom:{{bottom}}rpx" wx:if="{{state}}">
+        <view class="select_container_title">
+            <view class="ml20">已选商品</view>
+            <view bindtap="clearAll" class="flex">
+                <image class="iconSize" src="../../../img/delete.png"></image>
+                <view class="ml20 mr20">清空购物车</view>
+            </view>
+        </view>
+        <view class="select_container_items" style="height:{{height}}rpx">
+            <view wx:for="{{selectList}}" wx:for-index="Findex" wx:key="id">
+                <view wx:if="{{item.spec}}">
+                    <view class="select_container_item" wx:if="{{item.selectNum>0}}" wx:for="{{item.spec}}" wx:key="id">
+                        <view class="select_item_name">
+                            <view>{{selectList[Findex].goods_name}}</view>
+                            <view class="f20 cf82">{{item.types}}</view>
+                        </view>
+                        <view class="select_item_price">￥{{item.price}}</view>
+                        <view class="select_item_Num">
+                            <image catchtap="reduceSpecNum" class="iconlager reduce" data-id="{{selectList[Findex].id}}" data-proid="{{item.id}}" src="../../../img/reduce.png"></image>
+                            <view class="selectNum">{{item.selectNum}}</view>
+                            <image catchtap="addItems" class="iconlager add" data-id="{{selectList[Findex].id}}" data-proid="{{item.id}}" src="../../../img/add.png"></image>
+                        </view>
+                    </view>
+                </view>
+                <view class="select_container_item" wx:else>
+                    <view class="select_item_name">{{item.goods_name}}</view>
+                    <view class="select_item_price" wx:if="{{!item.discount}}">￥{{item.price}}</view>
+                    <view class="select_item_price" wx:else>￥{{item.disPrice}}</view>
+                    <view class="select_item_Num">
+                        <image catchtap="reduceItem" class="iconlager reduce" data-id="{{item.id}}" src="../../../img/reduce.png"></image>
+                        <view class="selectNum">{{item.selectNum}}</view>
+                        <image catchtap="addItems" class="iconlager add" data-id="{{item.id}}" src="../../../img/add.png"></image>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view catchtouchmove="preventTouchMove" class="model {{specState?'scale1':'scale0'}}">
+        <view class="specModels {{specState?'scale1':'scale0'}}">
+            <image bindtap="closeSpec" class="iconSize close" src="../../../img/cha.png"></image>
+            <view class="specModels_title">{{specInfo.name}}</view>
+            <view class="spec_containers">
+                <view class="cf82 f26">规格</view>
+                <view class="spec_container mt10">
+                    <view bindtap="changeSpec" class="spec_container_item {{item.id==currentspecId?'selecdIndex':''}}" data-id="{{item.id}}" wx:for="{{specInfo.spec}}" wx:key="index">{{item.types}}</view>
+                </view>
+            </view>
+            <view class="spec_footer flexSb">
+                <view class="money">￥{{currentspecPrice}}</view>
+                <view bindtap="confrim" class="okBtn" data-id="{{specInfo.id}}" data-proid="{{currentspecId}}">选好了</view>
+            </view>
+        </view>
+    </view>
+    <view class="notReduce {{notReduce?'scale1':'scale0'}}">
+    多规格及带属性商品只能去购物车删除
+  </view>
+</view>
+<view bindtap="hideGoodsDetail" class="model {{!showDetail?' hide':' show'}}"></view>
+<view class="goods-detail {{!showDetail?' hide':' show'}}">
+    <swiper class="swipers">
+        <swiper-item>
+            <image mode="aspectFit" src="{{goodsDetailData.cover}}"></image>
+        </swiper-item>
+    </swiper>
+    <text class="goods-name">{{goodsDetailData.product_name}}</text>
+    <text class="sale-count">销量：{{goodsDetailData.sale_count}}</text>
+    <text class="price">￥{{goodsDetailData.price}}</text>
+    <text bindtap="goodsListAddCart" class="add-cart" data-goodsid="{{goodsDetailData.id}}" data-price="{{goodsDetailData.price}}">加入购物车</text>
+    <view class="close-goods-detail">
+        <image bindtap="hideGoodsDetail" src="../../../img/close.png"></image>
+    </view>
+</view>

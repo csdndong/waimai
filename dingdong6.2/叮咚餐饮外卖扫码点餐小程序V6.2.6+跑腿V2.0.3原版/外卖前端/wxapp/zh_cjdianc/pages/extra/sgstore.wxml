@@ -1,0 +1,118 @@
+<!--   time:2019-07-18 01:03:26 -->
+<include src="/zh_cjdianc/pages/commons/navbar/navbar.wxml" />
+<view class="main">
+	<block wx:if="{{toplb.length!=0}}">
+		<view class="banner">
+			<view class="swiper-container">
+				<swiper autoplay="auto" circular="true" class="swiper" duration="500" indicatorActiveColor="{{color}}" indicatorColor="white" indicatorDots="true" interval="5000">
+					<block wx:for="{{toplb}}" wx:key="unique" wx:for-item="item" wx:for-index="index" >
+						<swiper-item bindtap="tzweb" data-index="{{index}}">
+							<image bindtap="jumps" class="img" data-appid="{{item.appid}}" data-id="{{item.id}}" data-name="{{item.title}}" data-src="{{item.src}}" data-type="{{item.item}}" data-wb_src="{{item.src2}}" mode="aspectFill" src="{{item.logo}}"></image>
+						</swiper-item>
+					</block>
+				</swiper>
+			</view>
+		</view>
+	</block>
+	<block wx:if="{{order_list.length==0&&mygd}}">
+		<view class="no-data-tip zwdd">
+			<image mode="aspectFit" src="../../img/list.png"></image>
+			<view>暂无相关数据~</view>
+		</view>
+	</block>
+	<block wx:for="{{order_list}}" wx:key="*this" wx:for-item="item" wx:for-index="index" >
+		<block wx:if="{{item.aa1!=NaN}}">
+			<view bindtap="tzsjxq" class="mainlist" data-sjid="{{item.id}}">
+				<view class="sjlb flex-row">
+					<view class="sjleft flex-grow-0">
+						<image class="sjleftimg" mode="aspectFill" src="{{item.logo}}"></image>
+						<block wx:if="{{item.is_brand=='1'}}">
+							<view class="xzhiding">品牌</view>
+						</block>
+					</view>
+					<view class="sjright flex-grow-1 flex-col">
+						<view class="sjright1 flex-row flex-y-center">
+							<view class="sjright1-l gobyndsingle">{{item.name}}</view>
+						</view>
+						<view class="sjright2 flex-bet flex-y-center">
+							<view class="flex-row flex-grow-1 flex-y-center">
+								<view class="pingjia_fenshu3">
+									<view class="kximg">
+										<image src="../../img/i-star.png"></image>
+									</view>
+									<view class="sximg" style="width: {{item.sales*20}}%">
+										<image src="../../img/i-stars.png"></image>
+									</view>
+								</view>
+								<view class="pingfen">{{item.sales}}</view>
+								<view class="recommed_midel">月售{{item.score}}单</view>
+							</view>
+							<view class="sjright2-r flex-grow-0 flex-row flex-y-center">
+								<view class="sjright2-r1">{{item.ps_mode}}</view>
+								<view class="sjright2-r2">准时达</view>
+							</view>
+						</view>
+						<view class="sjright3 flex-bet flex-y-center">
+							<view class="flex-row flex-y-center">
+								<view class="sjright3text" style="padding-left:0">起送￥{{item.start_at}}</view>
+								<view class="sjright3text" style="border-right:0">配送￥{{item.ps_money}}起</view>
+							</view>
+							<view class="flex-row flex-y-center">
+								<view class="sjright3text">{{item.aa}}</view>
+								<view class="sjright3text" style="border-right:0;padding-right:0">{{item.ps_time}}</view>
+							</view>
+						</view>
+						<block wx:if="{{item.mj.length>0&&item.xyh_open=='1'}}">							<view class="sjright4">
+								<block wx:if="{{item.mj.length>0}}">									<view class="sjright4-l flex-grow-1">
+										<view class="flex-row">
+											<view class="mj">减</view>
+											<view class="gobyndsingle">
+												<block wx:for="{{item.mj}}" wx:for-item="i" wx:for-index="index" >
+													<text>满{{i.full}}减{{i.reduction}},</text>
+												</block>
+											</view>
+										</view>
+										<block wx:if="{{item.xyh_open=='1'}}">
+											<view class="flex-row">
+												<view class="xyh">新</view>
+												<view class="gobyndsingle">新用户下单立减{{item.xyh_money}}元</view>
+											</view>
+										</block>
+									</view>
+								</block>
+								<view class="sjright4-r flex-grow-0">
+									<image class="sjright4-rimg {{item.open?'show':'close'}}" src="../../img/down.png"></image>
+								</view>
+							</view>
+						</block>
+					</view>
+				</view>
+				<view class="xsqg">
+					<scroll-view class="xsqg-sv" scrollX="true">
+						<block wx:for="{{item.hot}}" wx:key="*this" wx:for-item="gitem" wx:for-index="index" >
+							<view class="xsqg-view">
+								<image mode="aspectFit" src="{{gitem.logo}}"></image>
+								<view class="gobyndsingle">{{gitem.name}}</view>
+								<view class="gobyndsingle">
+									<text>￥{{gitem.money}}</text>
+									<text>￥{{gitem.money2}}</text>
+								</view>
+							</view>
+						</block>
+					</scroll-view>
+				</view>
+			</view>
+		</block>
+	</block>
+	<view class="jzz" hidden="{{mygd}}">
+		<image class="Rotation" src="../../img/jzz.png"></image>
+		<view>加载中...</view>
+	</view>
+	<block wx:if="{{mygd}}">
+		<view class="jzwb">
+			<view class="hx"></view>
+			<view class="wz">加载完毕</view>
+			<view class="hx"></view>
+		</view>
+	</block>
+</view>

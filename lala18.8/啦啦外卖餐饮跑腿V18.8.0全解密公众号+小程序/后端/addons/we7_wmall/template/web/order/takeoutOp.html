@@ -1,0 +1,287 @@
+{if $op == 'remind'}
+<form class="form-horizontal form-validate" action="{php echo iurl('order/takeout/remind');}" method="post" enctype="multipart/form-data">
+	<input type='hidden' name='id' value='{$id}' />
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button data-dismiss="modal" class="close" type="button">×</button>
+				<h4 class="modal-title">回复催单</h4>
+			</div>
+			<div class="modal-body">
+				<textarea class="form-control" name="reply"  placeholder="回复催单" rows="4" required="true"></textarea>
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-primary" type="submit">提交</button>
+				<button data-dismiss="modal" class="btn btn-default" type="button">取消</button>
+			</div>
+		</div>
+	</div>
+</form>
+{/if}
+{if $op =='cancel'}
+<form class="form-horizontal form-validate" action="{php echo iurl('order/takeout/cancel', array('set' => 1));}" method="post" enctype="multipart/form-data">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button data-dismiss="modal" class="close" type="button">×</button>
+				<h4 class="modal-title">取消订单</h4>
+			</div>
+			<div class="modal-body">
+				<input type="hidden" name="id" value="{$id}"/>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-4 col-md-3 control-label">选择退款理由*</label>
+					<div class="col-sm-8 col-xs-9 col-md-8">
+						<select name="reason" class="select2 js-select2 form-control">
+							<option value="0">选择退款理由</option>
+							{loop $reasons $key $val}
+								<option value="{$key}">{$val}</option>
+							{/loop}
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-4 col-md-3 control-label">填写备注(选填)</label>
+					<div class="col-sm-8 col-xs-9 col-md-8">
+						<textarea name="remark" cols="39" rows="7" class="form-control"></textarea>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-primary" type="submit">提交</button>
+				<button data-dismiss="modal" class="btn btn-default" type="button">取消</button>
+			</div>
+		</div>
+	</div>
+</form>
+{/if}
+{if $op =='groupcancel'}
+<form class="form-horizontal form-validate" action="{php echo iurl('order/takeoutNew/groupcancel', array('set' => 1));}" method="post" enctype="multipart/form-data">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button data-dismiss="modal" class="close" type="button">×</button>
+				<h4 class="modal-title">取消订单</h4>
+			</div>
+			<div class="modal-body">
+				<input type="hidden" name="id" value="{$ids}"/>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-4 col-md-3 control-label">选择退款理由*</label>
+					<div class="col-sm-8 col-xs-9 col-md-8">
+						<select name="reason" class="select2 js-select2 form-control">
+							<option value="0">选择退款理由</option>
+							{loop $reasons $key $val}
+							<option value="{$key}">{$val}</option>
+							{/loop}
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-4 col-md-3 control-label">填写备注(选填)</label>
+					<div class="col-sm-8 col-xs-9 col-md-8">
+						<textarea name="remark" cols="39" rows="7" class="form-control"></textarea>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-primary" type="submit">提交</button>
+				<button data-dismiss="modal" class="btn btn-default" type="button">取消</button>
+			</div>
+		</div>
+	</div>
+</form>
+{/if}
+{if $op =='changeOrder'}
+<form class="form-horizontal form-validate" action="{php echo iurl('order/takeout/changeOrder', array('set' => 1));}" method="post" enctype="multipart/form-data">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button data-dismiss="modal" class="close" type="button">×</button>
+				<h4 class="modal-title">修改订单 #<strong>{$order['serial_sn']}</strong></h4>
+			</div>
+			<div class="modal-body">
+				<input type="hidden" name="id" value="{$id}"/>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-4 col-md-3 control-label">收货人姓名</label>
+					<div class="col-sm-8 col-xs-9 col-md-8">
+						<input class="form-control" type="text" name="username" value="{$order['username']}" placeholder="收货人姓名">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-4 col-md-3 control-label">收货地址</label>
+					<div class="col-sm-8 col-xs-9 col-md-8">
+						<input class="form-control" type="text" name="address" value="{$order['address']}" placeholder="收货地址" required>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-4 col-md-3 control-label">手机号</label>
+					<div class="col-sm-8 col-xs-9 col-md-8">
+						<input class="form-control" type="text" name="mobile" value="{$order['mobile']}" placeholder="收货联系电话" >
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-4 col-md-3 control-label">订单备注</label>
+					<div class="col-sm-8 col-xs-9 col-md-8">
+						<textarea name="note" cols="39" rows="7" class="form-control">{$order['note']}</textarea>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-primary" type="submit">提交</button>
+				<button data-dismiss="modal" class="btn btn-default" type="button">取消</button>
+			</div>
+		</div>
+	</div>
+</form>
+{/if}
+{if $op =='customer'}
+<form class="form-horizontal form-validate" action="{php echo iurl('order/takeout/customer', array('set' => 1));}" method="post" enctype="multipart/form-data">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button data-dismiss="modal" class="close" type="button">×</button>
+				<h4 class="modal-title">与顾客沟通</h4>
+			</div>
+			<div class="modal-body">
+				<input type="hidden" name="id" value="{$id}"/>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-4 col-md-3 control-label">发送的消息*</label>
+					<div class="col-sm-8 col-xs-9 col-md-8">
+						<textarea name="communicate" cols="39" rows="7" class="form-control"></textarea>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-primary" type="submit">发送</button>
+				<button data-dismiss="modal" class="btn btn-default" type="button">取消</button>
+			</div>
+		</div>
+	</div>
+</form>
+{/if}
+{if $op =='refund'}
+<style>
+	.refund-goods .table tbody tr td{
+		vertical-align: middle;
+		border-top: 0;
+		border-bottom: 1px solid #ddd;
+	}
+	.refund-goods .refund-info .refund-fee-total span{
+		color: #F76C6C;
+	}
+	.refund-goods .refund-info .refund-rule{
+		color: #858692;
+		font-size: 10px;
+	}
+</style>
+<form class="form-horizontal form-validate" method="post" enctype="multipart/form-data">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button data-dismiss="modal" class="close" type="button">×</button>
+				<h4 class="modal-title">部分退款</h4>
+			</div>
+			<div class="modal-body">
+				<h3>选择退款商品</h3>
+				<div class="refund-goods">
+					<table class="table">
+						<tbody>
+						{loop $order['goods'] $item}
+						<tr>
+							<td>
+								<img src="{php echo tomedia($item['thumb']);}" width="48"> {$item['goods_title']}
+							</td>
+							<td>x{$item['can_refund_num']}</td>
+							<td>¥{$item['goods_unit_price']}</td>
+							<td align="right">
+								<div class="input-group" style="width: 100px;">
+									<div class="input-group-addon change-refund-num" data-sign="-" data-id="{$item['id']}">-</div>
+									<div class="input-group-addon" id="refund-num-{$item['id']}">0</div>
+									<div class="input-group-addon change-refund-num" data-sign="+" data-id="{$item['id']}">+</div>
+								</div>
+							</td>
+						</tr>
+						{/loop}
+						</tbody>
+					</table>
+					<div class="refund-info" style="text-align: right;">
+						<div class="refund-fee-total">退款金额：<span class="text-danger">￥0</span></div>
+						<div class="refund-rule">退款规则： 退款金额 = [(退款菜品现价+餐盒费） / （全部菜品现价总和+餐盒费)]  ×（最终支付价格 - 配送费 - 附加费）</div>
+					</div>
+					<h3>选择退款理由</h3>
+					<div class="form-group">
+						<div class="col-sm-6 col-xs-6 col-md-6">
+							<select name="reason" class="form-control" id="select-reason">
+								<option value="0">选择退款理由</option>
+								{loop $reasons $key $val}
+								<option value="{$key}">{$val}</option>
+								{/loop}
+							</select>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-primary refund-submit" type="button">提交</button>
+				<button data-dismiss="modal" class="btn btn-default refund-cancel" type="button">取消</button>
+			</div>
+		</div>
+	</div>
+</form>
+<script>
+	irequire(['select2'], function(){
+		var refund = {
+			refund_data: {}
+		};
+		var order_id = {$id};
+		refund.init = function() {
+			$('.change-refund-num').unbind('click').click(function() {
+				var sign = $(this).data('sign');
+				var stat_id = $(this).data('id');
+				$.post("{php echo iurl('order/takeout/refund_calculate')}", {id: order_id, sign: sign, stat_id: stat_id, refund_data: refund.refund_data}, function(data) {
+					var result = $.parseJSON(data);
+					if(result.message.errno != 0) {
+						Notify.error(result.message.message);
+						return false;
+					} else {
+						refund.refund_data = result.message.message.refund_data;
+						var reund_num = 0;
+						if(refund.refund_data.refund_part[stat_id]) {
+							reund_num = refund.refund_data.refund_part[stat_id].total_num;
+						}
+						$('#refund-num-' + stat_id).html(reund_num);
+						$('.refund-fee-total span').html('￥' + refund.refund_data.refund_total_fee);
+						return false;
+					}
+				});
+			});
+			$('#select-reason').select2({});
+			$('.refund-submit').unbind('click').click(function() {
+				if(!refund.refund_data.refund_total_fee) {
+					Notify.error('请选择退款商品');
+					return false;
+				}
+				var reason = $('#select-reason').val();
+				if(!reason || reason == 0) {
+					Notify.error('请选择原因');
+					return false;
+				}
+				Notify.confirm('确认发起部分退款吗?', function(){
+					$.post("{php echo iurl('order/takeout/refund')}", {id: order_id, reason: reason, refund_data: refund.refund_data}, function(data) {
+						var result = $.parseJSON(data);
+						if(result.message.errno != 0) {
+							Notify.error(result.message.message);
+							$(".refund-cancel").trigger("click");
+							return false;
+						} else {
+							Notify.success(result.message.message);
+							$(".refund-cancel").trigger("click");
+							return false;
+						}
+					});
+				});
+			});
+		};
+		refund.init();
+	});
+</script>
+{/if}

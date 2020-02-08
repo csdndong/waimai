@@ -1,0 +1,136 @@
+<style>
+    .delkuimg{ cursor: pointer;}
+    .ajaxpage li{
+        float:left;
+    }
+</style>
+<div id=content style="background: #fff; padding:3%;width:94%;">
+    <form id="form1" action="index.php" method="post" enctype="multipart/form-data">
+        <p style="padding-bottom:30px;color:#333;">点击“浏览上传”按钮，选择您要上传的文档文件后，系统将自动上传并在完成后提示您。请勿上传包含中文文件名的文件！</p>
+        <div class="fieldset flash" id="fsUploadProgress">
+            <!-- <span class="legend">快速上传</span> -->
+        </div>
+        <div id="divStatus">0 个文件已上传</div>
+        <div>
+            <span id="spanButtonPlaceHolder"></span>
+            <input id="btnCancel" type="button" value="取消所有上传" onclick="swfu.cancelQueue();" disabled="disabled" style="margin-left: 2px; font-size: 8pt; height: 29px;" />
+        </div>
+    </form>
+    <div id="showimg" style="margin-top:30px;min-height:300px;">
+        <ul>
+            <{foreach from=$imglist item=items}>
+            <li style="margin-left:15px;">
+                <a rel="lightbox" href="<{$imgserver}><{$items['img']}>" target="_blank"><img class="imgclass" <{ofunc type=img link="<{$items['img']}>" }> border="0" width="100" height="80"></a>
+                <br /><span style="color:#333;" imglujing="<{$items['img']}>" class="delkuimg">删除</span>
+            </li>
+            <{/foreach}>
+
+        </ul>
+    </div>
+    <{if !empty($imglist)}>
+    <div class="show_page">
+        <{$pagecontent}>
+    </div>
+    <{/if}>
+</div>
+
+<script type="text/javascript" src="<{$siteurl}>/js/SWFUpload/swfupload/swfupload.js"></script>
+<script type="text/javascript" src="<{$siteurl}>/js/SWFUpload/js/swfupload.queue.js"></script>
+<script type="text/javascript" src="<{$siteurl}>/js/SWFUpload/js/fileprogress.js"></script>
+<script type="text/javascript" src="<{$siteurl}>/js/SWFUpload/js/handlers.js"></script>
+<script>
+    $(function(){
+        $('.delkuimg').click(function(){
+            var lujing = $(this).attr('imglujing');
+            var url = '/index.php?ctrl=shopcenter&action=delshoprealimg&datatype=json';
+            $.ajax({         //script定义
+                url: url,
+                type: 'post',
+                dataType: "json",
+                async:true,
+                data:{'imglujing':lujing},
+                success:function(content) {
+                    if(content.error == true){
+                        alert(content.msg);
+                    }else{
+                        var imgobj = $(".caidanSet").find('li');
+                        for (var i = 0; i < $(imgobj).length; i++) {
+                            if ($(imgobj).eq(i).hasClass("cur") == true) {
+                                $(imgobj).eq(i).trigger("click");
+                            }
+                        }
+
+                    }
+                },
+                error:function(){
+                    alert('数据提交失败');
+                }
+            });
+        });
+    });
+</script>
+<script type="text/javascript">
+    var NumFiles = 0;
+    var que = 0;
+    var swfu;
+    var allobj = $(".caidanSet").find('li');
+    var id = 0;
+    for (var i = 0; i < $(allobj).length; i++) {
+        if ($(allobj).eq(i).hasClass("cur") == true) {
+            var realid = $(allobj).eq(i).attr('data');
+        }
+    }
+    $(function(){
+
+        var url = '<{ofunc type=url link="/shopcenter/shoprealimgupload/parent_id/'+realid+'/datatype/json"}>';
+        var settings = {
+            flash_url : "<{$siteurl}>/js/SWFUpload/swfupload/swfupload.swf",
+            upload_url: url,	// Relative to the SWF file
+            post_params: "",
+            file_size_limit : "100 MB",
+            file_types : "*.*",
+            file_post_name:'imgFile',
+            file_types_description : "All Files",
+            file_upload_limit : 100,
+            file_queue_limit : 0,
+            custom_settings : {
+                progressTarget : "fsUploadProgress",
+                cancelButtonId : "btnCancel"
+            },
+            debug: false,
+
+            // Button settings
+            button_image_url: "<{$siteurl}>/js/SWFUpload/images/TestImageNoText_65x29.png",	// Relative to the Flash file
+            button_width: "90",
+            button_height: "29",
+            button_placeholder_id: "spanButtonPlaceHolder",
+            button_text: '<span class="theFont">快速上传</span>',
+            button_text_style: ".theFont { font-size: 16; }",
+            button_text_left_padding: 12,
+            button_text_top_padding: 3,
+
+            file_queued_handler : fileQueued,
+            file_queue_error_handler : fileQueueError,
+            file_dialog_complete_handler : fileDialogComplete,
+            upload_start_handler : uploadStart,
+            upload_progress_handler : uploadProgress,
+            upload_error_handler : uploadError,
+            upload_success_handler : uploadSuccess,
+            upload_complete_handler : uploadComplete,
+            queue_complete_handler : queueComplete	// Queue plugin event
+        };
+        swfu = new SWFUpload(settings);
+    });
+
+    function queueComplete(){
+        setTimeout(clickaa(),3000);
+    }
+    function clickaa(){
+        var imgobj = $(".caidanSet").find('li');
+        for (var i = 0; i < $(imgobj).length; i++) {
+            if ($(imgobj).eq(i).hasClass("cur") == true) {
+                $(imgobj).eq(i).trigger("click");
+            }
+        }
+    }
+</script>

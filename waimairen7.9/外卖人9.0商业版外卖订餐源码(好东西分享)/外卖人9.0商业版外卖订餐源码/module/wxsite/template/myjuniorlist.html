@@ -1,0 +1,22 @@
+<{if !empty($memberlist)}>
+	<{foreach from=$memberlist item=items}>	
+		<li>
+			<div class="downline_list_head">
+				<div class="downline_list_left">
+					<img <{ofunc type=img  link="<{$items['logo']}>"}>/>
+				</div>
+				<div class="downline_list_right">
+					<span><{$items['username']|default:'--'}></span>
+					<small>成为分销商时间：<{$items['befxtime']}></small>
+				</div>
+			</div>
+			<div class="downline_list_bottom">
+				<dl>
+					<dd><span>订单: </span><small><{$items['ordershu']}></small></dd>
+					<dd><span>贡献佣金: </span><small>￥<{$items['yjbcost']}></small></dd>
+					<dd><span>下线成员: </span><small><{$items['juniorcount']}></small></dd>
+				</dl>
+			</div>
+		</li>
+	<{/foreach}>
+<{/if}>

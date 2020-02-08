@@ -1,0 +1,187 @@
+<{extends file="<{$tempdir}>/public/shopcenter.html"}>
+<{block name=extendjs}>
+<script src="<{$siteurl}>/js/kindeditor/kindeditor.js" type="text/javascript" language="javascript"></script>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js"></script>
+<script>
+    var mynomenu='baseset';
+</script>
+
+<{/block}>
+<{block name=extendcss}>
+<link rel="stylesheet" type="text/css" href="<{$siteurl}>/templates/<{$tempdir}>/public/sysimg/css.css" />
+<style>
+    div.fieldset {
+        border: 1px solid #afe14c;
+        padding: 20px 10px;
+        width: 375px;
+        margin:0 auto;
+        border-color: #D9E4FF;
+    }
+    div.fieldset span.legend {
+        position: relative;
+        background-color: #FFF;
+        padding: 3px;
+        top: -30px;
+        font: 700 14px Arial, Helvetica, sans-serif;
+        color: #73b304;
+    }
+    .swfupload {
+        vertical-align: top;
+    }
+</style>
+<{/block}>
+<{block name=bodylist}>
+<div class="conWaiSet fr">
+
+    <div class="shopSetTop">
+        <span>店铺设置</span>
+    </div>
+    <{include file="<{$tempdir}>/shopcenter/usereditmenu.html"}>
+    <div class="cl"></div>
+    <div class="orderset">
+        <div class="cl"></div>
+        <script>
+            //添加商铺实景分类
+            $("#add_FoodType").live("click", function() {
+                if($('#shoptypename').val() == ''||$('#shoptypename').val() ==null){
+                    diaerror('分类名称不能为空');
+                }else{
+                    var mm = $('#shoptypename').val();
+                    $('#shoptypename').val('')
+//                    alert(mm);
+                    myajax('<{ofunc type=url link="/shopcenter/saveshopreal/datatype/json"}>',{'name':mm,'type':'insert'});
+                }
+            });
+            $(function() {
+                //删除分类
+                var checkisexti = $('.caidanTitle').find('li').length;
+                if (checkisexti == 0) {
+
+                    $('.caidanSet').hide();
+                }
+                $('.delGDtype').live('click', function () {
+                    if (confirm('确定删除操作吗？删除后将同时删除该分类下的所有图片')) {
+                        var allobj = $(".caidanSet").find('li');
+                        var id = 0;
+                        for (var i = 0; i < $(allobj).length; i++) {
+                            if ($(allobj).eq(i).hasClass("cur") == true) {
+                                id = $(allobj).eq(i).attr('data');
+                            }
+                        }
+//                        myajax('<{ofunc type=url link="/shopcenter/delshopreal/datatype/json"}>', {'id':id});
+                        var url = '<{ofunc type=url link="/shopcenter/delshopreal/datatype/json"}>';
+                        $.ajax({         //script定义
+                            url: url,
+                            type: 'post',
+                            dataType: "json",
+                            async:true,
+                            data:{'id':id},
+                            success:function(content) {
+                                if(content.error == true){
+                                    alert(content.msg);
+                                }else{
+                                    window.location.reload();
+                                }
+                            },
+                            error:function(){
+                                alert('数据提交失败');
+                            }
+                        });
+                    }
+                });
+                //编辑分类
+                $('.editGDtype').live('click', function () {
+                    var allobj = $(".caidanSet").find('li');
+                    var typeid = 0;
+                    var typename = '';
+                    for (var i = 0; i < $(allobj).length; i++) {
+                        if ($(allobj).eq(i).hasClass("cur") == true) {
+                            typeid = $(allobj).eq(i).attr('data');
+                            typename = $(allobj).eq(i).attr('dataname');
+                        }
+                    }
+                    var htmls = '<form method="post" id="doshwoform" action="#" style="text-align:center;"><table>';
+                    htmls += '<tbody><tr>';
+                    htmls += '<td height="50px">分类名称:</td>';
+                    htmls += '<td> <input type="text" name="newtypename" value="' + typename + '" style="width:100px;"></td></tr>';
+//                    htmls += '<tr><td height="50px">排序ID:</td><td style="text-align:left;"> <input type="text" name="newtypeorderid" value="' + typeorder + '" style="width:50px;"></td></tr>'
+                    htmls += '</tbody></table> ';
+                    htmls += '<input type="hidden" value="' + typeid + '" name="newtypeid"> ';
+                    htmls += '<input type="button" value="确认提交" class="button" id="updategoodstype" ></form>';
+                    art.dialog({
+                        id: 'testID3',
+                        title: '保存分类',
+                        content: htmls
+                    });
+                });
+                //保存编辑分类
+                $('#updategoodstype').live('click', function () {
+
+                    showop('保存分类信息');
+                    myajax('<{ofunc type=url link="/shopcenter/saveshopreal/datatype/json"}>', {
+                        'name': $('input[name="newtypename"]').val(),
+                        'id': $('input[name="newtypeid"]').val(),
+                        'type':'update',
+                    });
+                });
+            });
+        </script>
+        <script>
+            //导航条切换
+            function checkname(obj){
+                $(obj).addClass('cur').siblings().removeClass('cur');
+                var realid = $(obj).attr('data');
+                var fleft = $('.caidanSet').offset().left;
+                var ftop = $('.caidanSet').offset().top;
+                var zleft = $(obj).offset().left;
+                var ztop = $(obj).offset().top;
+                var resulteleft = Number(zleft) -Number(fleft);
+                var resulte = Number(ztop) -Number(ftop);
+                var url = siteurl+'/index.php?ctrl=shopcenter&action=shoprealimg';
+                $('#editGtype').css('margin-left',resulteleft);
+                $('#editGtype').css('margin-top',resulte);
+                $.post(url, {'parent_id':realid},function (data, textStatus){
+                    $('#shoprealimg').html(data);
+                }, 'html');
+            }
+            function realimg(page)
+            {
+                $('#shoprealimg').html('');
+                var url = siteurl+"/index.php?ctrl=shopcenter&action=shoprealimg";
+                $.post(url, {'parent_id':realid,'page':page},function (data, textStatus){
+                    $('#shoprealimg').html(data);
+                }, 'html');
+            }
+            $(function(){
+                $(".caidanSet").find("li").eq(0).trigger("click");//设置默认第一个
+            });
+        </script>
+        <div class="addFenlei" >
+                <span class="fl">
+                	<input type="text" id="shoptypename" name="shoptypename" value=""  /></span>
+            <div class="addButton curbtn fl"  id="add_FoodType">添加分类</div>
+        </div>
+        <div class="cl"></div>
+    </div>
+    <div class="cl"></div>
+    <form action="" method="post">
+        <div class="caidanSet" style="height:auto !important;height:42px;min-height:42px; ">
+            <div class="caidanTitle" style="height:auto !important;height:42px;min-height:42px; ">
+                <ul>
+                    <{foreach from=$reallist key=myid item=items}>
+                    <li  data="<{$items['id']}>"   dataname="<{$items['name']}>" onclick="checkname(this);"><{$items['name']}></li>
+                    <{/foreach}>
+                </ul>
+                <div class="editGtype" id="editGtype">
+                    <div class="delGDtype curbtn" ></div>
+                    <div class="editGDtype curbtn"></div>
+                </div>
+            </div>
+            <div id="shoprealimg">
+            </div>
+        </div>
+    </form>
+    <div class="cl"></div>
+</div>
+<div style="clear:both;"></div>
+<{/block}>

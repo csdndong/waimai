@@ -1,0 +1,7 @@
+{
+    "navigationBarTitleText": "首页",
+    "enablePullDownRefresh": true,
+    "usingComponents": {
+        "cardlist": "/zh_cjdianc/dist/cardlist/index"
+    }
+}

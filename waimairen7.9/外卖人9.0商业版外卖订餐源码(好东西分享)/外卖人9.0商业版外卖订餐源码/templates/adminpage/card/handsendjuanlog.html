@@ -1,0 +1,79 @@
+<{extends file="<{$tempdir}>/public/admin.html"}>
+<{block name=extendjs}>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js"></script>
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/datepicker/WdatePicker.js" type="text/javascript" language="javascript"></script>
+<{/block}>
+ <{block name=controlname}>发放记录<{/block}>
+ <{block name=bodylist}>
+
+      <div style="width:auto;overflow-x:hidden;overflow-y:auto">
+      	  <div class="search" style="height:auto;">
+            <div class="search_content">
+            	 <form method="post" name="form1" action="<{ofunc type=url link="/adminpage/card/module/handsendjuanlog"}>">
+            	    <input type="text" name="title" value="<{$actname}>" placeholder="输入活动名称查询" style="width:150px;"> 
+            	    <input type="submit" value="提交查询" class="button"> 
+            	 </form>
+            </div>
+      	</div>
+           <div class="tags">
+          <div id="tagscontent">
+
+            <div id="con_one_1">
+
+              <div class="table_td" style="margin-top:10px;">
+
+              <form method="post" action="" onsubmit="return remind();" id="delform">
+
+                  <table border="0" cellspacing="2" cellpadding="4" class="list" name="table" id="table" width="100%">
+
+                    <thead>
+
+                      <tr> 
+                         <th align="center">活动名称</th> 
+                         <th align="center">发放范围</th>
+                         <th align="center">发放时间</th>
+                         <th align="center">每人发放</th>
+                         <th align="center">共发放</th>
+                         <th align="center">已使用</th>
+						 <th align="center">操作</th>
+                      </tr>
+                    </thead>
+
+                     <tbody>
+                       <{foreach from=$loglist item=items}>
+                        <tr class="s_out" onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">                                             
+							<td align="center"><{$items['actname']}></td>
+							<td align="center"><{$items['sendrange']}> </td>                       
+							<td align="center"><{$items['sendtime']}></td>
+							<td align="center"><{$items['oneusercount']}></td>
+							<td align="center"><{$items['allcount']}></td> 
+							<td align="center"><{$items['usecount']}></td> 
+							<td align="center"><a  onclick="return remind(this);"  href="<{ofunc type=url link="/adminpage/card/module/delsendjuanlog/id/<{$items['id']}>/datatype/json"}>" >删除</a></td> 
+						</tr>
+                       <{/foreach}>
+
+                    </tbody>
+
+                  </table>
+
+                <div class="blank20"></div>
+
+                </form>
+
+               <div class="show_page"><ul><{$pagecontent}></ul></div>
+
+                <div class="blank20"></div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+  </div>
+
+</div>
+<{/block}>

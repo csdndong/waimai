@@ -1,0 +1,145 @@
+ <{extends file="<{$tempdir}>/public/admin.html"}> 
+   <{block name=extendjs}>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js"></script>
+ <{/block}>
+ <{block name=controlname}><{/block}>
+ <{block name=bodylist}> 
+ 
+<div class="managShopCon">
+	<div class="managShopBox">
+		<div class="managShopMain">
+			<div class="managShopClas">
+				<ul>
+					<li><a href="<{ofunc type=url link="/areaadminpage/shop/module/addshop"}>">单个添加</a></li>
+					<li class="maShClaA"><a href="<{ofunc type=url link="/areaadminpage/shop/module/moreaddshop"}>">批量添加</a></li>
+				</ul>
+			</div>
+			<div class="addShopBatcButBox">
+				<ul>
+					<li><input  onclick="bkbase();" type="button" value="批量添加店铺" class="color_bg01"></li>
+					<li style="padding:0px;"><span style="height:41px; line-height:41px;" id="showstatus"></span></li>
+				</ul>
+			</div>
+			<div class="addShopBatcCon">
+			<form method="post" action="" onsubmit="return remind();" id="delform">
+				<table>
+					<thead>
+						<tr>
+							<td width="270">店铺名称</td>
+							<td width="160">会员名称</td>
+							<td width="160">登录密码</td>
+							<td width="160">联系电话</td>
+							<td width="160">店铺类型</td>
+							<td width="176">添加状态</td>
+							<td width="73">操作</td>
+						</tr>
+					</thead>
+					<tbody  id="type">
+						<tr>
+							<td width="270"><input type="text"  name="shopname[]" value=""  class="w238"></td>
+							<td width="160"><input type="text"  name="username[]" value=""></td>
+							<td width="160"><input type="text"  name="password[]" value=""></td>
+							<td width="160"><input type="text"  name="maphone[]" value=""></td>
+							<td width="160">
+								<select  name="shoptype[]">
+									<{foreach from=$catlist item=itv}>
+										 <option value="<{$itv['cattype']}>_<{$itv['id']}>"      ><{$catarr[$itv['cattype']]}>-<{$itv['name']}></option>
+									<{/foreach}>								</select>
+							</td>
+							<td class="table_status" width="176"></td>
+							<td width="73"><i  onclick="$(this).parent().parent().remove();"  ></i></td>
+						</tr>
+						 
+						 
+					</tbody>
+					<tfoot>
+						<tr>
+							<td colspan="7"><input  id="typebutton" type="button"  onclick="addbz();"  value="添加店铺"></td>
+						</tr>
+					</tfoot>
+				</table>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+ 
+ 
+ <script>
+	function addbz(){
+				var 	htmldatas='			<tr>	';
+						htmldatas+='			<td width="270"><input type="text"  name="shopname[]" value=""  class="w238"></td>	';
+						htmldatas+='			<td width="160"><input type="text"  name="username[]" value=""></td>	';
+						htmldatas+='			<td width="160"><input type="text"  name="password[]" value=""></td>	';
+						htmldatas+='			<td width="160"><input type="text"  name="maphone[]" value=""></td>	';
+						htmldatas+='			<td width="160">	';
+						htmldatas+='				<select  name="shoptype[]">	';
+						 	<{foreach from=$catlist item=itv}>	 
+						htmldatas+='						 <option value="<{$itv['cattype']}>_<{$itv['id']}>" <{if $items['param'] == $itv['id']}> selected <{/if}> ><{$catarr[$itv['cattype']]}>-<{$itv['name']}></option> 	';
+						 			<{/foreach}>				
+						htmldatas+='	</select>	';
+						htmldatas+='			</td>	';
+						htmldatas+='			<td class="table_status" width="176"></td>	';
+						htmldatas+='			<td width="73"><i  onclick="$(this).parent().parent().remove();"  ></i></td>	';
+						htmldatas+='		</tr>	';
+ 
+			
+		
+		
+		$('#type').append(htmldatas);  
+	}
+	</script>
+<!--newmain 结束-->
+<script>
+  
+var indexeq = 0 ;
+
+function bkbase(){
+ 	if( $("#type tr").eq(indexeq).length  > 0 ){
+	 
+ 	 	 $('#showstatus').text('开始批量添加店铺');
+	 	$.ajax({
+     type: 'post',
+     async:false,
+     data:{'shopname':$('input[name="shopname[]"]').eq(indexeq).val(),'username':$('input[name="username[]"]').eq(indexeq).val(),'password':$('input[name="password[]"]').eq(indexeq).val(),
+	 'maphone':$('input[name="maphone[]"]').eq(indexeq).val(),'shoptype':$('select[name="shoptype[]"]').eq(indexeq).val(),'admin_id':$('select[name="admin_id[]"]').eq(indexeq).val()},
+   url: '<{ofunc type=url link="/areaadminpage/shop/module/savemoreshop/datatype/json"}>',
+     dataType: 'json',success: function(content) {
+     	if(content.error == false){
+     		 $("#type tr").eq(indexeq).find( '.table_status' ).text('ok');
+			
+     	}else{
+     		if(content.error == true)
+     		{
+     			$('#showstatus').text(content.msg);
+     			 $("#type tr").eq(indexeq).find( '.table_status' ).text(content.msg);
+     		}else{
+     			//diaerror(content);
+     			$('#showstatus').text(content);
+     			$("#type tr").eq(indexeq).find( '.table_status' ).text(content);
+     		}
+     	}
+		indexeq = indexeq+1;
+      	setTimeout("bkbase()",200);
+	   },
+     error: function(content) {
+     	 $('#showstatus').text('数据获取失败');
+       $("#type tr").eq(indexeq).find( '.table_status' ).text('数据获取失败');
+			indexeq = indexeq+1;
+        setTimeout("bkbase()",200);
+	     }
+     });
+
+
+	 }else{
+	 	 $('#showstatus').text('批量添加完成');
+	 }
+	 
+	 
+
+
+}
+
+ 
+</script>
+<{/block}>

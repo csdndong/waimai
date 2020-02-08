@@ -1,0 +1,38 @@
+<view class="page-detail">
+    <view class="content">
+        <view class="wui-form-preview-hd border-1px-b">
+            <view class="wui-form-preview-label">顾客支付金额</view>
+            <view class="wui-form-preview-value">¥{{order.final_fee}}</view>
+        </view>
+        <view class="wui-form-preview-bd">
+            <view class="wui-form-preview-item">
+                <view class="wui-form-preview-label">订单号</view>
+                <view class="wui-form-preview-value">{{order.order_sn}}</view>
+            </view>
+            <view class="wui-form-preview-item">
+                <view class="wui-form-preview-label">支付方式</view>
+                <view class="wui-form-preview-value">{{order.pay_type_cn}}</view>
+            </view>
+            <view class="wui-form-preview-item">
+                <view class="wui-form-preview-label">消费总额</view>
+                <view class="wui-form-preview-value">￥{{order.total_fee}}</view>
+            </view>
+            <view class="wui-form-preview-item">
+                <view class="wui-form-preview-label">不参与优惠金额</view>
+                <view class="wui-form-preview-value">￥{{order.no_discount_part>0?order.no_discount_part:'0.00'}}</view>
+            </view>
+            <view class="wui-form-preview-item">
+                <view class="wui-form-preview-label">优惠金额</view>
+                <view class="wui-form-preview-value">￥{{order.discount_fee>0?order.discount_fee:'0.00'}}</view>
+            </view>
+            <view class="wui-form-preview-item">
+                <view class="wui-form-preview-label">平台抽取佣金</view>
+                <view class="wui-form-preview-value">￥{{order.plateform_serve_fee}}</view>
+            </view>
+            <view class="wui-form-preview-item">
+                <view class="wui-form-preview-label">商户预计收入</view>
+                <view class="wui-form-preview-value">￥{{order.store_final_fee}}</view>
+            </view>
+        </view>
+    </view>
+</view>

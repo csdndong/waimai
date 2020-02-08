@@ -1,0 +1,158 @@
+ <div class="ordisordtit"><h3><{$cateinfo['name']}></h3></div>
+ <{if $shopinfo['goodlistmodule'] == 0 }>
+ 
+ <{foreach from=$catefoodslist item=items }>
+ 
+	  <div class="ordisordBox goodsli"   goodname="<{$items['name']}>"   id="gidli_<{$items['id']}>" typeid="<{$items['typeid']}>" data-price="<{$items['cost']}>"  style=" position:relative; ">
+	  
+		   <div class="ordisord">
+			<ul class="ordisordet">
+			 <li  onclick="dolink('<{ofunc type=url link="/wxsite/foodshow/id/<{$items['id']}>"}>');"  ><img <{ofunc type=img  link="<{$items['img']}>"}>></li>
+			 <div   style="padding-left:67px; padding-right:0px; margin-top:-73px;" >
+			 <li  onclick="dolink('<{ofunc type=url link="/wxsite/foodshow/id/<{$items['id']}>"}>');"	style=" width: 100%;">
+			  <ul class="ordisordC" >
+			   <li   style="    width: 100%;height:24px;text-overflow: ellipsis;  overflow: hidden;  white-space: nowrap;  outline: 0!important;">
+			   <h3   style="    width: 100%;height:24px;text-overflow: ellipsis;  overflow: hidden;  white-space: nowrap;  outline: 0!important;"><{$items['name']}></h3></li>
+				<{if $items['descgoods']!=''}><li style="width: 100%;max-height: 48px;display:block;  overflow:hidden; text-overflow:ellipsis;"><{$items['descgoods']}></li><{/if}>
+
+			  <li><span style='font-size:12px!important'>已售<{$items['sellcount']}><{if !empty($items['goodattr'])}><{$items['goodattr']}><{else}><{if !empty($shopinfo['goodattrdefault'])}><{$shopinfo['goodattrdefault']}><{/if}><{/if}></span></li>
+
+			    <{if $items['have_det']==1}>
+						<{if $items['zhekou'] > 0 }>
+							<li><b>￥<{$items['cost']*($items['zhekou']*0.1)}></b><{if !empty($items['goodattr'])}>/<{$items['goodattr']}><{else}><{if !empty($shopinfo['goodattrdefault'])}>/<{$shopinfo['goodattrdefault']}><{/if}><{/if}>
+							<{if $items['is_cx'] == 1 }><del><{$items['cost']}>元</del><{/if}></li>
+					    <{else}>
+						   <li><b>￥<{$items['cost']}></b><{if !empty($items['goodattr'])}>/<{$items['goodattr']}><{else}><{if !empty($shopinfo['goodattrdefault'])}>/<{$shopinfo['goodattrdefault']}><{/if}><{/if}>
+						  <{if $items['is_cx'] == 1 }><del><{$items['cost']}>元</del><{/if}></li>
+						<{/if}>
+                 <{else}>
+			          <li><b>￥<{$items['cost']}></b><{if !empty($items['goodattr'])}>/<{$items['goodattr']}><{else}><{if !empty($shopinfo['goodattrdefault'])}>/<{$shopinfo['goodattrdefault']}><{/if}><{/if}>
+			          <{if $items['is_cx'] == 1 }><del><{$items['cost']/($items['zhekou']/10)}>元</del><{/if}></li>
+                <{/if}>
+
+
+
+			  <{if $items['is_cx'] == 1 }> <li><a><{$items['zhekou']}>折<{if $items['cxnum'] >0 }> 每单限<{$items['cxnum']}>份<{/if}></a></li><{/if}>
+			  </ul>
+			 </li>
+			 </div>
+			 <li style="position:absolute;top:0px; right:5px;">
+			  <ul class="ordisordR" style="  <{if $items['descgoods']!=''}>  margin-top:70px;  <{else}>  margin-top: 50px; <{/if}> ">
+			  <{if $opentype != 2 && $opentype != 3}>
+			  <span class="shopdayangstatus">休息中</span>
+			  <{else}>
+                  <{if $items['is_live'] == 1 }>
+				 <{if $items['count'] > 0 }> 
+					 <{if $items['have_det'] == 1 }>  
+						<!-- <li  onclick="dolink('<{ofunc type=url link="/wxsite/foodshow/id/<{$items['id']}>"}>');"   class="moreguige">可选规格</li> -->
+					 <li class="moreguige ggtc"  onclick="ggtc(<{$items['id']}>)">可选规格</li>
+					 <{else}>
+							<div class="righ_l_b_btn" >  
+							<div class="righ_l_b_btn_moren right_l_btn_right"    data-id="<{$items['id']}>" data-shopid="<{$items['shopid']}>" id="gid_<{$items['id']}>" have_det="<{$items['have_det']}>" data-price="<{$items['cost']}>" typeid="<{$items['typeid']}>">
+							<li><i class="ordenabotR" style="width:25px; height:25px;"></i></li>
+							</div>
+							<div class="righ_l_b_btn_hover" style="display:none;">
+							<span class="right_l_btn_left"   data-id="<{$items['id']}>" data-shopid="<{$items['shopid']}>" have_det="<{$items['have_det']}>">
+								<li><i class="ordenabotL"  style="width:25px; height:25px;"></i></li>
+							</span>
+							 <li><input class="right_l_btn_nub"   style="width:25px; height:25px;" readonly id="gshu_<{$items['id']}>" type="text" value="0"></li>
+							<span class="right_l_btn_right"   id="gid_<{$items['id']}>" data-price="<{$items['cost']}>" typeid="<{$items['typeid']}>" data-id="<{$items['id']}>" data-shopid="<{$items['shopid']}>" have_det="<{$items['have_det']}>">
+								 <li><i class="ordenabotR" style="width:25px; height:25px;"></i></li>
+							</span></div>
+						  </div>
+					 <{/if}> 
+				  <{else}>
+				  <li style=" border: 1px solid #ccc!important;color: #ccc!important;font-size: 10px!important;"  onclick="dolink('<{ofunc type=url link="/wxsite/foodshow/id/<{$items['id']}>"}>');"   class="moreguige">售完</li>
+				  
+				  <{/if}>
+                  <{else}>
+                  <li style="color:#cccccc;"  onclick="dolink('<{ofunc type=url link="/wxsite/foodshow/id/<{$items['id']}>"}>');"   class="moreguige">已下架</li>
+                  <{/if}>
+				   
+				   
+			  <{/if}>
+			 
+			  </ul>
+			 </li>
+			</ul>
+ 		   </div>
+	 
+	  </div> 
+
+		  
+<{/foreach}>  
+	  
+	  <{else}>
+	
+	 
+	<div class="ordisordRbox">
+	  <ul>
+ <{foreach from=$catefoodslist item=items }>
+        <li class="goodsli"     goodname="<{$items['name']}>"   id="gidli_<{$items['id']}>" typeid="<{$items['typeid']}>" data-price="<{$items['cost']}>"   >
+     <div class="ordisordRImg"   onclick="dolink('<{ofunc type=url link="/wxsite/foodshow/id/<{$items['id']}>"}>');" ><img <{ofunc type=img  link="<{$items['img']}>"}>>
+
+    </div>
+     <div class="ordisordRName "   onclick="dolink('<{ofunc type=url link="/wxsite/foodshow/id/<{$items['id']}>"}>');"  ><h3><{$items['name']}></h3></div>
+     <div class="ordisordRSale"><span style='font-size:12px!important'>已售<{$items['sellcount']}><{if !empty($items['goodattr'])}><{$items['goodattr']}><{else}><{if !empty($shopinfo['goodattrdefault'])}><{$shopinfo['goodattrdefault']}><{/if}><{/if}></span>
+	 </div>
+     <div class="ordisordRPric"><i>￥</i><span><{$items['cost']}></span>/<{if !empty($items['goodattr'])}><{$items['goodattr']}><{else}><{if !empty($shopinfo['goodattrdefault'])}><{$shopinfo['goodattrdefault']}><{/if}><{/if}></div>
+ <{if $items['is_cx'] == 1 }>
+ <div style='color: #fff;background-color: #ef4136; position: absolute;top:46%;right: 0;padding: 0 4px;font-size:12px!important;height:15px;line-height:15px;border-radius: 10px;'><{$items['zhekou']}>折 <{if $items['cxnum']>0}>每单限购<{$items['cxnum']}>份<{else}>每单不限量<{/if}></div>
+ <{/if}>
+
+ <div class="ordisordRPosit">
+     
+	 
+	  <{if $opentype != 2 && $opentype != 3}>
+				  <span  style=" border: 1px solid #DCDCDC;color: #B9B9B9;font-size: 10px!important;" >休息中</span>
+		<{else}>
+         <{if $items['is_live'] == 1 }>
+			<{if $items['count'] > 0 }>	 
+					 <{if $items['have_det'] == 1 }> 
+					<span style="font-size: 10px!important;"  class="optgg" onclick="ggtc(<{$items['id']}>)" >可选规格</span>
+					<!-- <span style="font-size: 10px!important;"  onclick="dolink('<{ofunc type=url link="/wxsite/foodshow/id/<{$items['id']}>"}>');"  >可选规格</span>	 -->
+			 <{else}>		
+					<div class="ordisordRPositBut">
+						<div class="righ_l_b_btn_moren">
+							<div class="min" name="" type="button" style="opacity:0;" ></div>
+							<div class="text_box" name="" type="text" value="0" style="opacity:0;" ></div>
+							<div  class="add right_l_btn_right" name="" type="button"    id="gid_<{$items['id']}>" 
+							data-price="<{$items['cost']}>" typeid="<{$items['typeid']}>" data-id="<{$items['id']}>" data-shopid="<{$items['shopid']}>" have_det="<{$items['have_det']}>" ></div>
+					   </div>
+					<div class="righ_l_b_btn_hover" style="display:none;">
+				 
+					   <div class="min right_l_btn_left"  data-id="<{$items['id']}>" data-shopid="<{$items['shopid']}>" have_det="<{$items['have_det']}>"  name="" type="button" ></div>
+ 						 <input style="font-size:15px!important;" class="text_box right_l_btn_nub" readonly id="gshu_<{$items['id']}>" type="text" value="0"> 
+					 <div class="add right_l_btn_right" style="z-index:999999999999999999;" name="" type="button"  
+					   id="gid_<{$items['id']}>" data-price="<{$items['cost']}>" typeid="<{$items['typeid']}>" data-id="<{$items['id']}>" 
+					   data-shopid="<{$items['shopid']}>" have_det="<{$items['have_det']}>" ></div>
+					 </div>
+
+				   </div>
+				  <{/if}>
+			  <{else}>
+ 					  <span style=" border: 1px solid #ccc!important;color: #ccc!important;font-size: 10px!important;">售完</span>
+					  <{/if}>
+         <{else}>
+         <span style=" border: 1px solid #DCDCDC;color: #B9B9B9;font-size: 10px!important;">已下架</span>
+         <{/if}>
+				      	   
+				  <{/if}>	  
+				  
+				  
+				  
+				  
+				  
+				  
+     
+     </div>
+    </li>
+	<{/foreach}>
+   </ul>
+	</div>
+	
+
+	
+	
+	<{/if}>	  
+	

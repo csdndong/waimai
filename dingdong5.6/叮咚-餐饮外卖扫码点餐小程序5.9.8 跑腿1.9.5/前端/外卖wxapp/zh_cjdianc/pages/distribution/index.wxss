@@ -1,0 +1,63 @@
+@import "ranking.wxss";
+
+.head image {
+    width: 100vw;
+    height: 75vw;
+}
+
+.body {
+    background: #fff;
+    padding: 40rpx 0;
+}
+
+.body>button {
+    width: 70%;
+    margin: 0 auto 0;
+    height: 100rpx;
+    font-size: 30rpx;
+    text-align: center;
+    line-height: 100rpx;
+    border-radius: 10rpx;
+}
+
+.body>button:nth-child(1) {
+    color: #fff;
+    margin-bottom: 40rpx;
+}
+
+.body>button:nth-child(2) {
+    border: 2rpx solid orange;
+    background: none;
+}
+
+.footer1 {
+    display: flex;
+    background: #fff;
+}
+
+.footer1>view {
+    flex: 3;
+    box-sizing: border-box;
+}
+
+.footer1>view view:nth-child(1) {
+    border-right: 2rpx solid #e5e5e5;
+}
+
+.sele_fixed>view:nth-child(2) {
+    width: 300rpx;
+    height: 300rpx;
+    background: #fff;
+}
+
+.sele_fixed {
+    animation: sele_fixed 5s;
+}
+
+@keyframes sele_fixed {
+    from {
+    }
+
+    to {
+    }
+}

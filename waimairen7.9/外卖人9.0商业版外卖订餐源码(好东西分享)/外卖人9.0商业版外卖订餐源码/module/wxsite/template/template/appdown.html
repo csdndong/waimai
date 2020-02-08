@@ -1,0 +1,69 @@
+ <{extends file="<{$tempdir}>/public/wxsite.html"}>  
+  <{block name=extendcss}> 
+  <link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/appdown.css">   
+ <{/block}>
+<{block name=hearnav}><{/block}>
+<{block name=footer}><{/block}>
+<{block name=sitetitle}>App下载<{/block}>
+<{block name=blockcontent}>  
+<style>body{background:#fff;}</style>
+<script type="text/javascript">
+$(function(){
+
+	function isWeiXin(){
+	    var ua = window.navigator.userAgent.toLowerCase();
+	    if(ua.match(/MicroMessenger/i) == 'micromessenger'){
+	        return true;
+	    }else{
+	        return false;
+	    }
+	}
+	
+ 	var browser = {
+
+			versions: function () {
+			var u = navigator.userAgent, app = navigator.appVersion;
+
+			return {
+			trident: u.indexOf('Trident') > -1, //IE内核
+			presto: u.indexOf('Presto') > -1, //opera内核
+			webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+			gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+			mobile: !!u.match(/AppleWebKit.*Mobile.*/) || !!u.match(/AppleWebKit/), //是否为移动终端
+			ios: !!u.match(/(i[^;]+;(U;)? CPU.+Mac OS X)/), //ios终端
+			android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+			iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者QQHD浏览器
+			iPad: u.indexOf('iPad') > -1, //是否iPad
+			webApp: u.indexOf('Safari') == -1 //是否web应该程序，没有头部与底部
+			};
+			} (),
+			language: (navigator.browserLanguage || navigator.language).toLowerCase()
+			}
+			if (browser.versions.mobile ) {
+			            if (browser.versions.ios) {
+			                // window.location.href = '';
+							alert("IOS玩命开发中，敬请期待");
+			            }
+			            else {
+
+				            if(!isWeiXin()){
+									window.location.href = '<{$appdownload1}>';
+					        }
+			                
+			            }
+			        }
+				
+})
+
+
+
+
+</script>
+
+
+<img src='<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/appdown.png' width='100%' />
+ <!--<div style="width:480px; height:800px; margin:auto; position:relative;">
+ <a href="http://www.taocz.com/appmobile/Taocz.apk" style="position:absolute; top:698px; left:41px;" target="_blank"><img src="images/khdxz_ico2.jpg" /></a>
+  <a href="https://itunes.apple.com/cn/app/tao-chang-zhou/id687271389?mt=8" style="position:absolute; top:698px; left:269px;" target="_blank"><img src="images/khdxz_ico3.jpg"  /></a>
+ <img src="images/khdxz_bg1.jpg" /></div>-->
+<{/block}>

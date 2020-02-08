@@ -1,0 +1,114 @@
+<view class="page-activity">
+    <view class="active-tab border-1px-b">
+        <view class="tab-item active">新建活动</view>
+        <view bind:tap="onJsEvent" class="tab-item" data-event-type="jsUrl" data-url="pages/activity/list">已创建活动</view>
+    </view>
+    <view class="content">
+        <view class="main">
+            <view class="activity-col clearfix">
+                <view class="col-left">
+                    <text class="text-red">减</text>
+                </view>
+                <view class="col-right border-1px-b">
+                    <view class="right-content">
+                        <view>店铺满减</view>
+                        <text>配置店铺满减活动,吸引更多用户下单</text>
+                        <button bind:tap="onJsEvent" class="weui-btn mini-btn" data-event-type="jsUrl" data-url="pages/activity/list?status={{activity.discount.status}}" type="warn" wx:if="{{activity.discount.id>0}}">已创建</button>
+                        <button bind:tap="onJsEvent" class="weui-btn mini-btn" data-event-type="jsUrl" data-url="pages/activity/deliveryFee?type=discount" type="primary" wx:else>立即创建</button>
+                    </view>
+                </view>
+            </view>
+            <view class="activity-col clearfix">
+                <view class="col-left">
+                    <text class="text-green">返</text>
+                </view>
+                <view class="col-right border-1px-b">
+                    <view class="right-content">
+                        <view>返现优惠</view>
+                        <text>配置店铺返现优惠活动,吸引更多用户下单</text>
+                        <button bind:tap="onJsEvent" class="weui-btn mini-btn" data-event-type="jsUrl" data-url="pages/activity/list?status={{activity.cashGrant.status}}" type="warn" wx:if="{{activity.cashGrant.id>0}}">已创建</button>
+                        <button bind:tap="onJsEvent" class="weui-btn mini-btn" data-event-type="jsUrl" data-url="pages/activity/deliveryFee?type=cashGrant" type="primary" wx:else>立即创建</button>
+                    </view>
+                </view>
+            </view>
+            <view class="activity-col clearfix">
+                <view class="col-left">
+                    <text class="text-yellow">新</text>
+                </view>
+                <view class="col-right border-1px-b">
+                    <view class="right-content">
+                        <view>门店新用户</view>
+                        <text>新用户下单满足条件后可享受减免优惠</text>
+                        <button bind:tap="onJsEvent" class="weui-btn mini-btn" data-event-type="jsUrl" data-url="pages/activity/list?status={{activity.newMember.status}}" type="warn" wx:if="{{activity.newMember.id>0}}">已创建</button>
+                        <button bind:tap="onJsEvent" class="weui-btn mini-btn" data-event-type="jsUrl" data-url="pages/activity/deliveryFee?type=newMember" type="primary" wx:else>立即创建</button>
+                    </view>
+                </view>
+            </view>
+            <view class="activity-col clearfix">
+                <view class="col-left">
+                    <text class="text-red">赠</text>
+                </view>
+                <view class="col-right border-1px-b">
+                    <view class="right-content">
+                        <view>满赠活动</view>
+                        <text>下单满足条件后可获得赠品</text>
+                        <button bind:tap="onJsEvent" class="weui-btn mini-btn" data-event-type="jsUrl" data-url="pages/activity/list?status={{activity.grant.status}}" type="warn" wx:if="{{activity.grant.id>0}}">已创建</button>
+                        <button bind:tap="onJsEvent" class="weui-btn mini-btn" data-event-type="jsUrl" data-url="pages/activity/deliveryFee?type=grant" type="primary" wx:else>立即创建</button>
+                    </view>
+                </view>
+            </view>
+            <view class="activity-col clearfix">
+                <view class="col-left">
+                    <text class="text-red">自</text>
+                </view>
+                <view class="col-right border-1px-b">
+                    <view class="right-content">
+                        <view>自提优惠</view>
+                        <text>自提满足条件后可享受减优惠</text>
+                        <button bind:tap="onJsEvent" class="weui-btn mini-btn" data-event-type="jsUrl" data-url="pages/activity/list?status={{activity.selfDelivery.status}}" type="warn" wx:if="{{activity.selfDelivery.id>0}}">已创建</button>
+                        <button bind:tap="onJsEvent" class="weui-btn mini-btn" data-event-type="jsUrl" data-url="pages/activity/deliveryFee?type=selfDelivery" type="primary" wx:else>立即创建</button>
+                    </view>
+                </view>
+            </view>
+            <view class="activity-col clearfix">
+                <view class="col-left">
+                    <text class="text-red">券</text>
+                </view>
+                <view class="col-right border-1px-b">
+                    <view class="right-content">
+                        <view>进店领券</view>
+                        <text>顾客进店可领取代金券</text>
+                        <button bind:tap="onJsEvent" class="weui-btn mini-btn" data-event-type="jsUrl" data-url="pages/activity/list?status={{activity.couponCollect.status}}" type="warn" wx:if="{{activity.couponCollect.id>0}}">已创建</button>
+                        <button bind:tap="onJsEvent" class="weui-btn mini-btn" data-event-type="jsUrl" data-url="pages/activity/couponCollect?type=couponCollect" type="primary" wx:else>立即创建</button>
+                    </view>
+                </view>
+            </view>
+            <view class="activity-col clearfix">
+                <view class="col-left">
+                    <text class="text-red">满</text>
+                </view>
+                <view class="col-right border-1px-b">
+                    <view class="right-content">
+                        <view>满返优惠</view>
+                        <text>下单满足条件后可返代金券</text>
+                        <button bind:tap="onJsEvent" class="weui-btn mini-btn" data-event-type="jsUrl" data-url="pages/activity/list?status={{activity.couponGrant.status}}" type="warn" wx:if="{{activity.couponGrant.id>0}}">已创建</button>
+                        <button bind:tap="onJsEvent" class="weui-btn mini-btn" data-event-type="jsUrl" data-url="pages/activity/couponCollect?type=couponGrant" type="primary" wx:else>立即创建</button>
+                    </view>
+                </view>
+            </view>
+            <view class="activity-col clearfix">
+                <view class="col-left">
+                    <text class="text-red">配</text>
+                </view>
+                <view class="col-right border-1px-b">
+                    <view class="right-content">
+                        <view>满减配送费</view>
+                        <text>配送费满足条件后可享受减免优惠</text>
+                        <button bind:tap="onJsEvent" class="weui-btn mini-btn" data-event-type="jsUrl" data-url="pages/activity/list?status={{activity.deliveryFeeDiscount.status}}" type="warn" wx:if="{{activity.deliveryFeeDiscount.id>0}}">已创建</button>
+                        <button bind:tap="onJsEvent" class="weui-btn mini-btn" data-event-type="jsUrl" data-url="pages/activity/deliveryFee?type=deliveryFeeDiscount" type="primary" wx:else>立即创建</button>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>

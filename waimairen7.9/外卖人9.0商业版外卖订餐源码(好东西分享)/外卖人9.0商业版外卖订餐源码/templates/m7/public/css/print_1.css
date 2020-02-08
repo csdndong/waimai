@@ -1,0 +1,96 @@
+/* */
+
+@charset "utf-8";
+html {
+	scrollbar-face-color : #F5F5F5;
+	scrollbar-arrow-color :#A0A0A0;
+	padding:0 !important; 
+	width:100%;
+	height:100%;
+ 
+}
+img {
+	border: 0px;
+}
+* {
+	margin:0;
+	padding:0;
+}
+fieldset, img {
+	border:0;
+}
+li {
+	list-style:none;
+}
+body, button, input, select, textarea /* for ie */ {
+	font: tahoma, Helvetica, arial, "\5b8b\4f53", sans-serif;
+sans-serif;
+	vertical-align:middle;
+	font-size:10px;
+}
+ 
+address, cite, dfn, em, var {
+	font-style: normal;
+}
+code, kbd, samp {
+	font-family: courier new, courier, monospace;
+}
+ins {
+	text-decoration:none;
+}
+del {
+	text-decoration:line-through;
+}
+h1, h2, h3, h4, h5, h6 {
+}
+h1 {
+	font-size: 2em;
+}
+h2 {
+	font-size: 1.7em;
+}
+h3 {
+	font-size: 1.5em;
+}
+h4 {
+	font-size: 1.38em;
+}
+h5 {
+	font-size: 1.2em;
+}
+h6 {
+	font-size: 1.1em;
+	font-style: italic;
+}
+address, cite, dfn, em, var {
+	font-style:normal;
+}
+caption, td {
+	font-weight: normal;
+}
+cite, blackquote, em, i {
+	font-style: italic;
+}
+strong, b {
+	font-weight: bold;
+}
+pre, code {
+	font-family: monospace;
+	font-size: 1.1em;
+}
+body {  
+ 
+	color:#0076cf;
+	font-size:10px;
+	line-height:150%;
+	text-align: left; 
+	background-color:#41b1d6;
+	background-attachment:fixed; 
+	font-family: '微软雅黑', 'Lucida Grande', 'Lucida Sans Unicode', '宋体', '新宋体', arial, verdana, sans-serif;
+} 
+table td{
+font-size:10px;
+}
+
+ 
+ 

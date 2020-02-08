@@ -1,0 +1,35 @@
+<form bindreset="formReset" bindsubmit="formSubmit" reportSubmit="true">
+    <view class="container">
+        <view class="head" style="background:{{color}}">
+            <text>{{system.rz_title}}</text>
+            <text>申请表</text>
+        </view>
+        <view class="pt_jj">
+            <rich-text nodes="{{system.rz_ms}}"></rich-text>
+        </view>
+        <view class="process">
+            <view>加入{{system.rz_title}}，只需3步</view>
+            <view class="rzlc flex-row flex-x-center">
+                <view class="rzitem">
+                    <image src="../../img/shenq.png"></image>
+                    <view>申请</view>
+                </view>
+                <view class="rzitem1">
+                    <image src="../../img/liuc.png"></image>
+                </view>
+                <view class="rzitem">
+                    <image src="../../img/shenp.png"></image>
+                    <view>审批</view>
+                </view>
+                <view class="rzitem1">
+                    <image src="../../img/liuc.png"></image>
+                </view>
+                <view class="rzitem">
+                    <image src="../../img/hezuo.png"></image>
+                    <view>合作</view>
+                </view>
+            </view>
+        </view>
+        <button formType="submit" style="background:{{color}}">我要入驻</button>
+    </view>
+</form>

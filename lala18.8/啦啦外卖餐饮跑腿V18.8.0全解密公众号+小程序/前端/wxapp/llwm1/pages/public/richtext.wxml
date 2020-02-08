@@ -1,0 +1,4 @@
+<view class="page-richtext">
+    <template is="wxParse" data="{{wxParseData:agreement.nodes}}"></template>
+</view>
+<import src="/library/wxParse/wxParse.wxml"></import>

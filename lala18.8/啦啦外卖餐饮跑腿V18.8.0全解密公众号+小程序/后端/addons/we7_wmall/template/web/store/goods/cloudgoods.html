@@ -1,0 +1,582 @@
+{itemplate 'public/header'}
+{if $ta == 'index'}
+<div class="page clearfix fast-add-goods">
+	<div class="form-horizontal">
+		<h3>商品极速录入</h3>
+		<div class="form-group">
+			<div class="col-sm-12 col-xs-12">
+				<div class="input-group">
+					<input type="text" class="form-control" name="title" value="" required="true" placeholder="请输入菜单或者商品名称" id="keywords">
+					<span class="input-group-addon btn btn-primary btn-sm" id="search">搜索</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-11 row">
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				<div class="panel panel-display">
+					<div class="panel-heading">
+						<h3>菜单</h3>
+					</div>
+					<div class="panel-body">
+						<div class="table-menu"></div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				<div class="panel panel-display">
+					<div class="panel-heading">
+						<h3>商品</h3>
+					</div>
+					<div class="panel-body">
+						<div class="store-categorys">
+							<div class="form-group">
+								<label class="col-xs-12 col-sm-4 col-md-3 control-label" style="margin-top: 8px;">请选择商品分类</label>
+								<div class="col-sm-9 col-xs-8 col-md-9">
+									{php echo tpl_form_field_tiny_category_2level('category', $categorys['parent'], $categorys['child'], $item['cid'], $item['child_id'])}
+								</div>
+							</div>
+						</div>
+						<div class="table-goods"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="menu-detail">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/html" id="tpl-menu">
+	<{# if(d.data.length > 0){ }>
+		<table class="table table-hover">
+			<{# for(var i in d.data){ }>
+				<{# if(d.data[i].status != 0){ }>
+					<tr>
+						<td><{d.data[i].title}></td>
+						<td>包含<{d.data[i].total}>个商品</td>
+						<td>
+							<a href="javascript:;" class="btn btn-primary btn-sm js-menu-detail" data-menu-id="<{d.data[i].id}>" data-toggle="modal" data-target="#menu-detail">查看商品</a>
+						</td>
+					</tr>
+				<{# } }>
+			<{# } }>
+		</table>
+	<{# } else { }>
+		<div class="no-data ">
+			还没有相关数据！
+		</div>
+	<{# } }>
+</script>
+
+<script type="text/html" id="tpl-goods">
+	<{# if(!d.empty){ }>
+		<table class="table">
+			<{# for(var i in d.data){ }>
+				<tbody>
+					<tr>
+						<td style="width: 40px;">
+							<img src="<{d.data[i].thumb}>" alt="">
+						</td>
+						<td style="width: 200px;">
+							<input class="form-control goods-title" type="text" value="<{d.data[i].title}>">
+						</td>
+						<td style="padding: 0px 50px;">
+							<{# if(d.data[i].is_options == 0 || !d.data[i].options.length){ }>
+							<div class="input-group" >
+								<input type="text" class="form-control goods-price" value="<{d.data[i].price}>">
+								<span class="input-group-addon">元</span>
+							</div>
+							<{# } }>
+						</td>
+						<td style="width: 120px">
+							<a href="javascript:;" class="btn btn-primary btn-sm js-goods-writed" data-id="<{d.data[i].id}>" data-is-options="<{d.data[i].is_options}>">录入商品</a>
+						</td>
+					</tr>
+					<{# for(var j in d.data[i].options){ }>
+						<tr class="options-price">
+							<td style="width: 40px;"></td>
+							<td style="width: 200px;"><{d.data[i].options[j].name}></td>
+							<td style="padding: 0px 50px;">
+								<div class="input-group" style="margin-bottom: 8px;">
+									<input type="text" class="form-control" value="<{d.data[i].options[j].price}>">
+									<input type="hidden" value="<{d.data[i].options[j].id}>">
+									<span class="input-group-addon">元</span>
+								</div>
+							</td>
+							<td style="width: 120px"></td>
+						</tr>
+					<{# } }>
+				</tbody>
+			<{# } }>
+		</table>
+		<{# if(d.loaded) { }>
+			<div class="loaded">
+				<div class="loaded-tips">没有更多了</div>
+			</div>
+		<{# } else { }>
+			<div class="loaded">
+				<div class="loaded-tips js-load-more" data-cindex="-1">加载更多</div>
+			</div>
+		<{# } }>
+	<{# } else { }>
+		<div class="no-data ">
+			还没有相关数据！
+		</div>
+	<{# } }>
+</script>
+
+<script type="text/html" id="tpl-menu-detail">
+	<div class="modal-header">
+		<{d.menu.title}>
+	</div>
+	<div class="modal-body">
+		<div class="row">
+			<div class="col-md-3 menu-detail-category">
+				<{# for(var i in d.categorys){ }>
+				<div class="category-item <{# if(i == d.categorySelectedIndex){ }>active<{# } }>" data-index="<{i}>">
+					<{d.categorys[i].title}>
+					<{# if(d.categorys[i].total) { }>
+						<span class="selected-number"><{d.categorys[i].total}></span>
+					<{# } }>
+				</div>
+				<{# }}>
+			</div>
+			<div class="col-md-9 menu-detail-goods">
+				<div class="goods-table-<{d.categorySelectedIndex}>" data-index="<{d.categorySelectedIndex}>">
+					<table class="table table-hover">
+						<thead class="navbar-inner">
+							<tr class="active">
+								<th>
+									<div class="checkbox checkbox-inline">
+										<{# if(d.categorys[d.categorySelectedIndex].total == d.goodsItem.data.length) { }>
+											<input checked type="checkbox">
+										<{# } else { }>
+											<input type="checkbox">
+										<{# } }>
+										<label></label>
+									</div>
+								</th>
+								<th colspan="2">商品</th>
+								<th>价格</th>
+							</tr>
+						</thead>
+						<{# if(d.goodsItem.data.length > 0){ }>
+							<{# for(var j in d.goodsItem.data){ }>
+								<tbody>
+									<tr>
+										<td>
+											<div class="checkbox checkbox-inline">
+												<{# if(d.goodsItem.data[j].checked == 1) { }>
+													<input type="checkbox" checked data-gindex="<{j}>">
+												<{# } else { }>
+													<input type="checkbox" data-gindex="<{j}>">
+												<{# } }>
+												<label></label>
+											</div>
+										</td>
+										<td>
+											<img src="<{d.goodsItem.data[j].thumb}>" alt="">
+										</td>
+										<td>
+											<input class="form-control goods-title" type="text" value="<{d.goodsItem.data[j].title}>" data-index="<{j}>" data-type="title" data-option-index="-1" >
+										</td>
+										<td>
+											<{# if(d.goodsItem.data[j].is_options == 0 || !d.goodsItem.data[j].options.length){ }>
+											<div class="input-group" >
+												<input type="text" class="form-control goods-price" value="<{d.goodsItem.data[j].price}>" data-index="<{j}>" data-type="price" data-option-index="-1">
+												<span class="input-group-addon">元</span>
+											</div>
+											<{# } }>
+										</td>
+									</tr>
+									<{# for(var k in d.goodsItem.data[j].options){ }>
+										<tr class="options-price">
+											<td></td>
+											<td></td>
+											<td style="vertical-align: middle"><{d.goodsItem.data[j].options[k].name}></td>
+											<td>
+												<div class="input-group" style="margin-bottom: 8px;">
+													<input type="text" class="form-control" value="<{d.goodsItem.data[j].options[k].price}>" data-index="<{j}>" data-type="price" data-option-index="<{k}>">
+													<span class="input-group-addon">元</span>
+												</div>
+											</td>
+										</tr>
+									<{# } }>
+								</tbody>
+							<{# } }>
+							<table>
+								<{# if(d.goodsItem.loaded) { }>
+									<div class="loaded">
+										<div class="loaded-tips">没有更多了</div>
+									</div>
+								<{# } else { }>
+									<div class="loaded ">
+										<div class="loaded-tips js-load-more" data-cindex="<{d.categorySelectedIndex}>">加载更多</div>
+									</div>
+								<{# } }>
+							</table>
+
+						<{# } else { }>
+							<div class="no-data">
+								还没有相关数据！
+							</div>
+						<{# } }>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default btn-cancel" data-dismiss="modal">取消</button>
+		<button type="button" class="btn btn-primary js-goods-writed-batch">导入商品</button>
+	</div>
+</script>
+
+<script>
+	irequire(['laytpl'], function(laytpl){
+		var cloudgoods = {
+			keywords: '',
+			menus: {
+				data: []
+			},
+			goods: {
+				page: 1,
+				psize: 50,
+				loaded: false,
+				empty: false,
+				data: []
+			},
+			menuAll:[],
+		};
+		cloudgoods.init = function() {
+			cloudgoods.initData();
+			//关键字搜索
+			$(document).on('click', '#search', function(){
+				var keywords = $('#keywords').val();
+				if(!keywords) {
+					Notify.info('请输入菜单或者商品名称');
+					return false;
+				}
+				cloudgoods.keywords = keywords;
+				cloudgoods.menus = {
+					data: []
+				};
+				cloudgoods.goods = {
+					page: 1,
+					psize: 50,
+					loaded: false,
+					empty: false,
+					data: []
+				};
+				cloudgoods.initData(keywords);
+			});
+			//显示菜单详情
+			$(document).on('click', '.js-menu-detail', function(){
+				var id = $(this).data('menu-id');
+				cloudgoods.menuSelectedId = id;
+				if(cloudgoods.menuAll.hasOwnProperty(id)) {
+					cloudgoods.menuActive = cloudgoods.menuAll[id];
+					cloudgoods.tplMenuDetail();
+				} else {
+					cloudgoods.getMenu(id);
+				}
+			});
+			//切换商品分类
+			$(document).on('click', '.category-item', function(){
+				$(this).addClass('active').siblings('.category-item').removeClass('active');
+				var index = $(this).data('index');
+				cloudgoods.menuActive.categorySelectedIndex = index;
+				if(cloudgoods.menuActive.goodsAll.hasOwnProperty(index)) {
+					cloudgoods.menuActive.goodsItem = cloudgoods.menuActive.goodsAll[index]
+					cloudgoods.tplMenuDetail();
+				} else {
+					cloudgoods.getGoods(index);
+				}
+			});
+			//录入商品
+			$(document).on('click', '.js-goods-writed', function(){
+				var category_parentid = $('#category_parent').val();
+				var category_childid = $('#category_child').val()
+				if(category_parentid > 0) {
+					var goods_id = $(this).data('id');
+					var is_options = $(this).data('is-options');
+					var params = {
+						goods_id: goods_id,
+						category_parentid: category_parentid,
+						category_childid: category_childid,
+						title: $(this).closest('tbody').find('.goods-title').val()
+					};
+					if(!is_options) {
+						params.price = $(this).closest('tbody').find('.goods-price').val();
+					} else {
+						params.options = [];
+						$(this).closest('tbody').find('.options-price').each(function() {
+							var data = {};
+							data.id = $(this).find('input[type=hidden]').val();
+							data.price = $(this).find('input[type=text]').val();
+							params.options.push(data);
+						})
+					}
+					cloudgoods.goodsWrited(params);
+				} else{
+					Notify.info('请选择商品分类!');
+				}
+			});
+			//单选框
+			$(document).on('click', '#menu-detail tbody .checkbox', function(){
+				var index = $(this).find('input').data('gindex');
+				var categorySelectedIndex = cloudgoods.menuActive.categorySelectedIndex;
+				var goodsTem = cloudgoods.menuActive.goodsItem;
+				if(goodsTem.data[index].hasOwnProperty('checked')) {
+					goodsTem.data[index].checked = !goodsTem.data[index].checked;
+				} else {
+					goodsTem.data[index].checked = 1
+				}
+				cloudgoods.menuActive.goodsItem = goodsTem;
+				cloudgoods.menuActive.goodsAll[categorySelectedIndex] = goodsTem;
+				var count = $('.goods-table-'+categorySelectedIndex).find('table tbody input:checked').length;
+				cloudgoods.menuActive.categorys[categorySelectedIndex]['total'] = count;
+				if(count == 1) {
+					var categoryitem_active = $(this).parents('.menu-detail-goods').prev().find('.category-item.active');
+					var text = $(categoryitem_active).text();
+					var html = text + '<span class="selected-number">1</span>';
+					$(categoryitem_active).html(html);
+				} else {
+					$(this).parents('.menu-detail-goods').prev().find('.category-item.active .selected-number').html(count);
+				}
+				//cloudgoods.tplMenuDetail();
+			});
+			//全选框
+			$(document).on('click', '#menu-detail thead .checkbox', function(){
+				var categorySelectedIndex = cloudgoods.menuActive.categorySelectedIndex;
+				var goodsTem = cloudgoods.menuActive.goodsItem;
+				var checked = 0;
+				if($(this).find('input').is(':checked')) {
+					count = goodsTem.data.length;
+					checked = 1;
+				} else {
+					count = 0;
+				}
+				for(var x in goodsTem.data) {
+					goodsTem.data[x].checked = checked;
+				}
+				cloudgoods.menuActive.goodsItem = goodsTem;
+				cloudgoods.menuActive.goodsAll[categorySelectedIndex] = goodsTem;
+				cloudgoods.menuActive.categorys[categorySelectedIndex]['total'] = count;
+				cloudgoods.tplMenuDetail();
+			});
+
+			//更改商品名称和价格
+			$(document).on('blur', '.menu-detail-goods input:text', function(){
+				var value = $(this).val();
+				var gindex = $(this).data('index');
+				var cindex = cloudgoods.menuActive.categorySelectedIndex;
+				var type = $(this).data('type');
+				var optionIndex = $(this).data('option-index');
+				cloudgoods.inputBlur(value, gindex, cindex, type, optionIndex);
+			})
+			//批量导入
+			$(document).on('click', '.js-goods-writed-batch', function(){
+				var goodsAll = cloudgoods.menuActive.goodsAll;
+				var categorys = cloudgoods.menuActive.categorys;
+				var params = {};
+				for(var i in categorys) {
+					if(categorys[i].total && categorys[i].total > 0) {
+						var goodsData = goodsAll[i].data;
+						for(var j in goodsData) {
+							if(goodsData[j].checked == 1) {
+								params = {
+									goods_id: goodsData[j].id,
+									title: goodsData[j].title,
+								}
+								if(goodsData[j].is_options == 1) {
+									params.options = goodsData[j].options;
+								} else {
+									params.price = goodsData[j].price;
+								}
+								cloudgoods.goodsWrited(params);
+								$('#menu-detail').modal('hide');
+							}
+						}
+					}
+				}
+			});
+			//加载更多
+			$(document).on('click', '.js-load-more', function(){
+				var cIndex = $(this).data('cindex');
+				cloudgoods.getGoods(cIndex);
+			});
+		};
+		cloudgoods.tplMenu = function() {
+			var html = $('#tpl-menu').html();
+			laytpl(html).render(cloudgoods.menus, function(html){
+				$('.table-menu').html(html);
+			});
+		};
+		cloudgoods.tplGoods = function() {
+			var html = $('#tpl-goods').html();
+			laytpl(html).render(cloudgoods.goods, function(html){
+				$('.table-goods').html(html);
+			});
+		};
+		cloudgoods.tplMenuDetail = function() {
+			var html = $('#tpl-menu-detail').html();
+			laytpl(html).render(cloudgoods.menuActive, function(html){
+				$('#menu-detail .modal-content').html(html);
+			});
+		};
+		//数据初始化
+		cloudgoods.initData = function(keywords) {
+			let params = {
+				page: cloudgoods.goods.page,
+				psize: cloudgoods.goods.psize,
+			};
+			if(keywords) {
+				params.keywords = keywords;
+			}
+			$.post("{php echo iurl('store/goods/cloudgoods/index')}", params, function(data){
+				var result = data.message.message;
+				cloudgoods.goods.data = cloudgoods.goods.data.concat(result.goods);
+				if(!cloudgoods.goods.data.length) {
+					cloudgoods.goods.empty = true;
+				}
+				if(result.goods.length < cloudgoods.goods.psize) {
+					cloudgoods.goods.loaded = true;
+				}
+				cloudgoods.goods.page++;
+				cloudgoods.menus.data = cloudgoods.menus.data.concat(result.menus);
+				cloudgoods.tplGoods();
+				cloudgoods.tplMenu();
+			}, 'json');
+		},
+		//获取商品数据
+		cloudgoods.getGoods = function(cIndex) {
+			var keywords = '';
+			var goodsItem = {};
+			if(cIndex >= 0) {
+				if(cloudgoods.menuActive.goodsAll.hasOwnProperty(cIndex)) {
+					goodsTem = cloudgoods.menuActive.goodsAll[cIndex];
+				} else {
+					goodsTem = {
+						page: 1,
+						psize: 50,
+						loaded: false,
+						empty: false,
+						data: []
+					};
+				}
+			} else {
+				var goodsTem = cloudgoods.goods;
+				keywords = cloudgoods.keywords;
+			}
+			if(goodsTem.loaded) {
+				console.log('已加载全部');
+				return false;
+			}
+			let params = {
+				page: goodsTem.page,
+				psize: goodsTem.psize,
+			};
+			if(cIndex >= 0) {
+				params.goods_categoryid = cloudgoods.menuActive.categorys[cIndex].id;
+			}
+			if(keywords) {
+				params.keywords = keywords
+			}
+			$.post("{php echo iurl('store/goods/cloudgoods/goods')}", params, function(data){
+				var result = data.message.message;
+				goodsTem.data = goodsTem.data.concat(result.goods);
+				if(!goodsTem.data.length) {
+					goodsTem.empty = true;
+				}
+				if(result.goods.length < goodsTem.psize) {
+					goodsTem.loaded = true;
+				}
+				goodsTem.page++;
+				if(cIndex >= 0) {
+					cloudgoods.menuActive.goodsItem = goodsTem;
+					cloudgoods.menuActive.goodsAll[cIndex] = goodsTem;
+					cloudgoods.tplMenuDetail();
+				} else {
+					cloudgoods.goods = goodsTem;
+					cloudgoods.tplGoods(cloudgoods.goods);
+				}
+			}, 'json');
+		};
+		//获取菜单详情
+		cloudgoods.getMenu = function(id) {
+			cloudgoods.menuActive = {
+				menu: {},
+				categorys: [],
+				goodsAll: [],
+				categorySelectedIndex: 0,
+				goodsItem: []
+			}
+			$.post("{php echo iurl('store/goods/cloudgoods/menu_detail')}", {id: id}, function(data){
+				var result = data.message.message;
+				cloudgoods.menuActive.menu = result.menu;
+				cloudgoods.menuActive.categorys = result.categorys;
+				cloudgoods.menuActive.goodsAll[cloudgoods.menuActive.categorySelectedIndex] = {
+					page: 2,
+					psize: 50,
+					loaded: result.goods.length < 50 ? true : false,
+					empty: false,
+					data: result.goods
+				};
+				cloudgoods.menuActive.goodsItem = cloudgoods.menuActive.goodsAll[cloudgoods.menuActive.categorySelectedIndex];
+				cloudgoods.menuAll[id] = cloudgoods.menuActive;
+				cloudgoods.tplMenuDetail();
+			}, 'json');
+		};
+		//商品录入
+		cloudgoods.goodsWrited = function(params) {
+			if(params.goods_id > 0) {
+				$.post("{php echo iurl('store/goods/cloudgoods/goods_writed')}", params, function(data){
+					var result = data.message;
+					if(result.errno != 0) {
+						Notify.error(data.message.message);
+					} else {
+						Notify.success(data.message.message, result.url);
+					}
+				}, 'json');
+			}
+		};
+		//input失焦改对应的值
+		cloudgoods.inputBlur = function(value, gindex, cindex, type, optionIndex) {
+			var goodsItemData = cloudgoods.menuActive.goodsItem.data;
+			if(type == 'title') {
+				goodsItemData[gindex].title = value;
+			} else if(type == 'price') {
+				if(optionIndex >= 0) {
+					goodsItemData[gindex]['options'][optionIndex].price = parseFloat(value);
+				} else {
+					goodsItemData[gindex].price = parseFloat(value);
+				}
+			}
+			cloudgoods.menuActive.goodsItem.data = goodsItemData;
+			cloudgoods.menuActive.goodsAll[cindex] = cloudgoods.menuActive.goodsItem;
+		}
+
+		cloudgoods.length = function(json) {
+			if(typeof(json) === 'undefined') {
+				return 0;
+			}
+			var len = 0;
+			for(var i in json) {
+				len++;
+			}
+			return len;
+		};
+
+		cloudgoods.init();
+	});
+</script>
+{/if}
+
+{itemplate 'public/footer'}

@@ -1,0 +1,26 @@
+{itemplate 'public/header'}
+<div class="page clearfix page-config-store-delivery">
+	<h2>优惠活动相关</h2>
+	<form class="form-horizontal form form-validate" id="form1" action="" method="post" enctype="multipart/form-data">
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">新用户判断</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="radio radio-inline">
+					<input type="radio" value="0" name="newmember_condition" id="newmember_condition-0" {if $newmember['newmember_condition'] == '0'}checked{/if}>
+					<label for="newmember_condition-0">没有下单记录</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" value="1" name="newmember_condition" id="newmember_condition-1" {if $newmember['newmember_condition'] == '1'}checked{/if}>
+					<label for="newmember_condition-1">没有订单完成</label>
+				</div>
+				<span class="help-block">“没有下单记录”从来没下过单的顾客为新用户；“没有订单完成”虽然有下单记录，但是订单已取消的仍视为新用户。</span>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<input type="submit" value="提交" class="btn btn-primary col-lg-1">
+			</div>
+		</div>
+	</form>
+</div>
+{itemplate 'public/footer'}

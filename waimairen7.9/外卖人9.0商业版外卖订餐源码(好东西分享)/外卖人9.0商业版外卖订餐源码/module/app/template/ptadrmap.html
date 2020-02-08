@@ -1,0 +1,56 @@
+ <{extends file="<{$tempdir}>/public/wxsite.html"}>  
+<{block name=extendcss}> 
+ <link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/order.css">
+<{/block}>
+  <{block name=extendjs}> 
+  <script src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/js/template.min.js"></script>   
+<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.3&key=<{$map_javascript_key}>"></script>
+ 
+
+<{/block}>
+<{block name=myScrolljs}> 
+<{/block}>
+<{block name=footer}>
+ <{/block}>
+<{block name=hearnav}>
+  
+<{/block}>
+<{block name=sitetitle}><{$sitename}><{/block}>
+<{block name=blockcontent}> 
+ 
+  
+   
+    <iframe id="selectadd" style="opacity:1;width:100%;height:100%;position: absolute;top: -48px; z-index: 999;  " src="https://m.amap.com/picker/?key=<{$map_javascript_key}>&keywords=写字楼,小区,学校&center=<{$ghlnglat}>&zoom=15"></iframe>
+<script>
+$(function(){  
+	$('#selectadd').css('height',$(window).height()+48);
+   	//	alert("<{$ghlng}>-----<{$ghlat}>-----<{$mapname}>");
+		var iframe = document.getElementById('selectadd').contentWindow;
+		 document.getElementById('selectadd').onload = function(){
+ 					iframe.postMessage('hello','https://m.amap.com/picker/'); 
+		 }; 
+		 
+		 window.addEventListener("message", function(e){
+					if( typeof(e.data.name) !=  "undefined"){
+						var name = e.data.name;
+						var lnglat = e.data.location;
+						 console.log(lnglat);
+						 console.log(name);
+						if(  name != '' && lnglat!='' ){
+							 window.waimai.ptcolseSelectAdd(lnglat,name); 
+						}else{
+							//Tmsg('选择地址获取失败，请重新选择');
+						} 
+					}
+					
+				}, false);
+		 
+		 
+});
+</script>
+   
+   
+ 
+ 
+  
+<{/block}>

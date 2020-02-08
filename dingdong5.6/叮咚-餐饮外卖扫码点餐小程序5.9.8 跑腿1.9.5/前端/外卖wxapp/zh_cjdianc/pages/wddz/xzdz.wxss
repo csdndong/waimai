@@ -1,0 +1,115 @@
+@import "../../../__wuBaseWxss__/7.wxss";
+
+.bottom-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.bottom-bar navigator {
+    background: #ff4544;
+    text-align: center;
+    height: 100rpx;
+    line-height: 100rpx;
+    color: #fff;
+}
+
+.address-list {
+    padding-bottom: 110rpx;
+}
+
+.address-item {
+    background: #fff;
+    padding: 25rpx 30rpx;
+    border-bottom: 1rpx solid #E3E3E3;
+}
+
+.userinfo {
+    margin-bottom: 24rpx;
+}
+
+.address-detail {
+}
+
+.address-option {
+    margin-left: 48rpx;
+}
+
+.address-option image {
+    width: 32rpx;
+    height: 32rpx;
+    margin-right: 16rpx;
+}
+
+.btn {
+    display: block;
+    font-size: 11pt;
+    color: #555;
+    padding: 16rpx;
+    line-height: normal;
+    background: #fff;
+    border-radius: 10rpx;
+    text-align: center;
+}
+
+.btn:active {
+    background: #fff;
+    opacity: .65;
+}
+
+.btn:after {
+    display: none;
+}
+
+.btn.btn-green {
+    background: #09bb07;
+    color: #fff;
+    border-color: #09bb07;
+}
+
+.btn.btn-red {
+    background: #ff4544;
+    color: #fff;
+    border-color: #ff4544;
+}
+
+.weui-cell__ft {
+    display: flex;
+    align-items: center;
+}
+
+.weui-cell__ft:nth-child(2) {
+    margin-right: 30rpx;
+}
+
+.weui-cell__ft image {
+    width: 45rpx;
+    height: 45rpx;
+    margin-right: 10rpx;
+}
+
+.radio-group .weui-cell {
+    padding: 20rpx 30rpx;
+    font-size: 28rpx;
+    background: #fff;
+}
+
+.weui-panel__ft {
+    margin-bottom: 25rpx;
+}
+
+.tjdz {
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    padding: 20rpx 0;
+    background: #f4f4f4;
+}
+
+.jz {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

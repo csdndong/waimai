@@ -1,0 +1,3 @@
+<view class="pa fon_24">
+    <rich-text class="fon_24" nodes="{{getSystem.details}}"></rich-text>
+</view>

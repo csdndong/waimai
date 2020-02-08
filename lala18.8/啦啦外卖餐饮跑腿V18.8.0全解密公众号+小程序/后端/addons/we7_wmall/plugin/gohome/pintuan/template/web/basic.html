@@ -1,0 +1,62 @@
+{itemplate 'public/header'}
+<div class="page clearfix">
+	<form class="form-horizontal form form-validate" id="form1" action="" method="post" enctype="multipart/form-data" style="max-width: 950px;">
+		<h3>拼团设置</h3>
+		<div class="form-group" id="peerpay-container">
+			<div class="col-sm-2 control-label">邀请组队喊话</div>
+			<div class="col-sm-9">
+				<div class="help-items">
+					{if !empty($invite_speck)}
+					{loop $invite_speck $help_words}
+					<div class="input-group help-item" style="margin-bottom: 10px;">
+						<input class="form-control" type="text" value="{$help_words}" name="invite_speck[]">
+						<div class="input-group-btn del-item">
+							<a class="btn btn-danger" href="javascript:;">
+								<i class="fa fa-remove"></i>
+							</a>
+						</div>
+					</div>
+					{/loop}
+					{else}
+					<div class="input-group help-item" style="margin-bottom: 10px;">
+						<input class="form-control" type="text" value="" name="invite_speck[]">
+						<div class="input-group-btn del-item">
+							<a class="btn btn-danger" href="javascript:;">
+								<i class="fa fa-remove"></i>
+							</a>
+						</div>
+					</div>
+					{/if}
+				</div>
+				<div style="margin-top: 5px;">
+					<a href="javascript:;" class="btn btn-default add-help-words"><i class="fa fa-plus"></i> 增加邀请语句</a>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<input type="hidden" name="token" value="{$_W['token']}">
+				<input type="submit" value="提交" class="btn btn-primary">
+			</div>
+		</div>
+	</form>
+</div>
+<script>
+$(function (){
+	$(document).on('click', '.add-help-words', function() {
+		var html = '<div class="input-group help-item" style="margin-bottom: 10px;">'+
+			'		<input class="form-control" type="text" name="invite_speck[]">'+
+			'		<div class="input-group-btn del-item">'+
+			'			<a class="btn btn-danger" href="javascript:;">'+
+			'				<i class="fa fa-remove"></i>'+
+			'			</a>'+
+			'		</div>'+
+			'	</div>';
+		$('#peerpay-container .help-items').append(html);
+	});
+	$(document).on('click', '.del-item', function() {
+		$(this).parents('.input-group').remove();
+	});
+});
+</script>
+{itemplate 'public/footer'}

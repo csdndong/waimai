@@ -1,0 +1,63 @@
+page {
+    font-size: 14px;
+    box-sizing: border-box;
+    width: 100%;
+    background-color: #F5F5F5;
+}
+
+.content .store-takeout {
+    background-color: #fff;
+    padding: 10px 15px 0 15px;
+    color: #3d4145;
+    font-size: 16px;
+}
+
+.content .store-tangshi {
+    background-color: #fff;
+    padding: 10px 15px 0 15px;
+    color: #3d4145;
+    font-size: 16px;
+    border-top: 1px solid #eaeaea;
+}
+
+.content .tangshi-takeout {
+    background-color: #fff;
+    padding: 10px 15px 0 15px;
+    color: #3d4145;
+    font-size: 16px;
+    border-top: 1px solid #eaeaea;
+}
+
+.content .store-data {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    text-align: center;
+    border-bottom: 1px solid #eaeaea;
+    margin-bottom: 15px;
+}
+
+.content .store-data .store-data-item {
+    width: 33.3333333%;
+    padding: 15px 0;
+}
+
+.content .store-data .store-data-item .store-border {
+    border-left: 1px solid #e8e9eb;
+    font-size: .6rem;
+    color: #3d4145;
+}
+
+.content .store-data .store-data-item:first-child .store-border {
+    border-left: 0;
+}
+
+.content .store-data .store-data-item .store-border .store-data-sum {
+    font-size: 20px;
+    line-height: 1.3;
+}
+
+.content .store-data .store-data-item .store-border .store-data-info {
+    color: #878787;
+}

@@ -1,0 +1,66 @@
+{template 'public/header'}
+{template 'public/comhead'}
+<link rel="stylesheet" type="text/css" href="../addons/zh_cjdianc/template/public/ygcss.css">
+<style type="text/css">
+    .ygmargin{margin-top: 10px;color: #999;}
+</style>
+<ul class="nav nav-tabs">
+    <span class="ygxian"></span>
+    <div class="ygdangq">当前位置:</div>  
+    <li ><a href="{php echo $this->createWebUrl('address')}">收货地址管理</a></li>  
+    <li class="active"><a href="">添加/编辑地区</a></li>
+</ul>
+<div class="main">
+    <form action="" method="post" class="form-horizontal form" enctype="multipart/form-data">
+        <div class="panel panel-default ygdefault">
+            <div class="panel-heading wyheader">
+                内容编辑
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">地区名称</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="name" class="form-control" value="{$info['name']}" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">排序</label>
+                    <div class="col-sm-9">
+                        <input type="number" name="num" class="form-control" value="{$info['num']}" />
+                        <div class="ygmargin">*从小到大排序</div>
+                    </div>
+                </div>
+                 <div class="form-group duodian">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">状态 </label>
+                    <div class="col-sm-9">
+                        <span class="radio-inline">
+                            <input id="is_psxx1" type="radio" name="state" value="1" {if $info['state']==1 || empty($info['state'])}checked{/if} />
+                            <label for="is_psxx1">启用</label>              
+                        </span>
+                        <span class="radio-inline">
+                            <input id="is_psxx2" type="radio" name="state" value="2" {if $info['state']==2}checked{/if} /> 
+                            <label for="is_psxx2">禁用</label>
+                        </span>
+
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" value="{$_GPC['level']}" name="level">
+        <input type="hidden" value="{$_GPC['fid']}" name="fid">
+        <div class="form-group">
+            <input type="submit" name="submit" value="提交" class="btn col-lg-3" style="color: white;background-color: #44ABF7;"/>
+            <input type="hidden" name="token" value="{$_W['token']}" />
+            <input type="hidden" name="id" value="{$info['id']}" />
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+    $(function(){
+        // $("#frame-4").addClass("in");
+        $("#frame-14").show();
+        $("#yframe-14").addClass("wyactive");
+    })
+</script>
+{template 'common/footer'}

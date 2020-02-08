@@ -1,0 +1,448 @@
+@charset "utf-8";
+
+/* CSS Document */
+
+
+/*-------------------------重置属性开始-------------------------*/
+
+::-webkit-scrollbar {
+    width: 8px;
+    background: #ccc;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2) scroll repeat 0% 0% !important;
+    border-radius: 5px;
+}
+
+::scrollbar {
+    width: 0px;
+}
+
+::selection {
+    background: rgba(255, 0, 0, 0.7) none repeat scroll 0 0 !important;
+    color: #fff;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    scrollbar-face-color: #a3a3a3;
+    /*滚动条3D表面（ThreedFace）的颜色*/
+    scrollbar-highlight-color: #ccc;
+    /*滚动条3D界面的亮边（ThreedHighlight）颜色*/
+    scrollbar-shadow-color: #ccc;
+    /*滚动条3D界面的暗边（ThreedShadow）颜色*/
+    scrollbar-3dlight-color: #ccc;
+    /*滚动条亮边框颜色*/
+    scrollbar-arrow-color: #ccc;
+    /*滚动条方向箭头的颜色 */
+    scrollbar-track-color: #ccc;
+    /*滚动条的拖动区域(TrackBar)颜色*/
+    scrollbar-darkshadow-color: #ccc;
+    /*滚动条暗边框（ThreedDarkShadow）颜色*/
+}
+
+.hide{
+    display: none;
+}
+
+.fl{
+    float: left;
+}
+
+.fr{
+    float: right;
+}
+
+body,
+ol,
+ul,
+li,
+a,
+img,
+table,
+thead,
+tbody,
+tfoot,
+th,
+td,
+tr,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+span,
+b,
+input,
+textarea,
+select {
+    margin: 0px;
+    padding: 0px;
+    border-collapse: collapse;
+    text-decoration: none;
+    list-style: none;
+    font-family: '微软雅黑';
+    border: 0;
+    outline: none;
+}
+
+/*-------------------------重置属性结束-------------------------*/
+
+/*-------------------------app添加开始-------------------------*/
+
+.page{
+    width: 10000px;
+    background-color: #F0F0F0;
+    min-width: 1000px;
+    /*padding: 62px 1% 0 1%;*/
+    padding: 0 1% 0 1%;
+    text-align: left;
+    overflow: hidden;
+    min-height: 100%;
+}
+
+.appAddtoCon{
+    width: 100%;
+    padding-top: 7px;
+}
+
+.appAddtoCon .appAddtoLeft{
+    width: 376px;
+    height: 630px;
+    float: left;
+}
+
+.appAddtoCon .appAddtoLeft .appAddtoImgCon{
+    width: 80%;
+    height: 80%;
+    background: url(../images/appBox.png) no-repeat;
+    background-size:300px 504px;
+    overflow: hidden;
+}
+
+
+.appAddtoCon .appAddtoLeft .appAddtoImgCon .appAddtoImgBox{
+    width: 270px;
+    height: 396px;
+    margin: 46px 0 0 18px;
+    background-color: #f0f0f0;
+    overflow: auto;
+}
+
+.appAddtoCon .appAddtoLeft .appAddtoImgCon .appAddtoImgBox .appAddtoBox{
+    width: 100%;
+    position: relative;
+}
+
+.appAddtoCon .appAddtoLeft .appAddtoImgCon .appAddtoImgBox .appAddtoBox .appAddtoImg{
+    width: 100%;
+}
+
+.appAddtoCon .appAddtoLeft .appAddtoImgCon .appAddtoImgBox .appAddtoBox .appAddtoImg img{
+    width: 100%;
+    display: block;
+}
+
+.appAddtoCon .appAddtoLeft .appAddtoImgCon .appAddtoImgBox .appAddtoBox .appAddto{
+    width: 99%;
+    height: 100%;
+    display: none;
+    border: 1px dashed #1388f9;
+    background: url(../images/appEdit.png);
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    overflow: hidden;
+}
+
+.appAddtoCon .appAddtoLeft .appAddtoImgCon .appAddtoImgBox .appAddtoBox .appAddto a{
+    width: 44px;
+    height: 22px;
+    line-height: 22px;
+    text-align: center;
+    font-size: 12px;
+    color: #fff;
+    float: right;
+    background-color: #2086ff;
+}
+
+.appAddtoCon .appAddtoLeft .appAddtoImgCon .appAddtoImgBox .appAddtoBox:hover .appAddto{
+    display: block;
+}
+
+.appAddtoCon .appAddtoRight{
+    width: 392px;
+    height: 560px;
+    margin-left: -40px;
+    border: 1px solid #d6d6d6;
+    float: left;
+    background-color: #fff;
+    position: relative;
+}
+
+.appAddtoCon .appAddtoRight .app_tri{
+    width: 22px;
+    height: 35px;
+    background: url(../images/app_tri.png) no-repeat;
+    position: absolute;
+    top: 45%;
+    left: -22px;
+}
+
+.appAddtoCon .appAddtoRight .appAddtoTit{
+    width: 100%;
+    height: 36px;
+    line-height: 36px;
+    background-color: #f0f0f0;
+}
+
+.appAddtoCon .appAddtoRight .appAddtoTit i{
+    width: 14px;
+    height: 15px;
+    margin: 11px 12px 0 20px;
+    background: url(../images/icon_edit.png) no-repeat;
+    float: left;
+}
+
+.appAddtoCon .appAddtoRight .appAddtoTit h3{
+    font-size: 15px;
+    color: #666666;
+}
+
+.appAddtoCon .appAddtoRight .appAddtoSubj{
+    width: 100%;
+}
+
+.appAddtoCon .appAddtoRight .appAddtoSubj table{
+    width: 100%;
+    padding-right: 20px;
+    height: 36px;
+    line-height: 36px;
+    border-bottom: 1px solid #e6e6e6;
+    text-align: center;
+}
+
+.appAddtoCon .appAddtoRight .appAddtoSubj table thead tr td{
+    font-size: 14px;
+    color: #333333;
+}
+
+.appAddtoCon .appAddtoRight .appAddtoModi{
+    width: 100%;
+    height: 250px;
+    overflow: auto;
+}
+
+.appAddtoCon .appAddtoRight .appAddtoModi table{
+    width: 100%;
+    padding-right: 20px;
+    text-align: center;
+}
+
+.appAddtoCon .appAddtoRight .appAddtoModi table tbody tr td{
+    width: 25%;
+    height: 76px;
+    line-height: 76px;
+    border-bottom: 1px dashed #d6d6d6;
+}
+
+.appAddtoCon .appAddtoRight .appAddtoModi table tbody tr td img{
+    margin: 0 auto;
+    display: block;
+
+    height: 50px;
+}
+.appAddtoCon .appAddtoRight .appAddtoModi table tbody tr td img.yuan{
+    width: 50px;
+    border-radius: 100px;
+    margin: 0 auto;
+    display: block;
+}
+.appAddtoCon .appAddtoRight .appAddtoModi table tbody tr td img.fang{
+    width: 80px; height: 100px; border: 1px solid rgb(231, 230, 230);
+}
+.appAddtoCon .appAddtoRight .appAddtoModi table tbody tr td span{
+    font-size: 14px;
+    color: #666666;
+}
+
+.appAddtoCon .appAddtoRight .appAddtoModi table tbody tr td a{
+    width: 42px;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    font-size: 12px;
+    color: #ffffff;
+    display: inline-block;
+    border-radius: 2px;
+}
+
+.appAddtoCon .appAddtoRight .appAddtoModi table tbody tr td .appAddaL_bg{
+    background-color: #31c3a7;
+}
+
+.appAddtoCon .appAddtoRight .appAddtoModi table tbody tr td .appAddaL_bg:hover{
+    background-color: #0eb595;
+}
+
+.appAddtoCon .appAddtoRight .appAddtoModi table tbody tr td .appAdda_bg01{
+    background-color: #3f97ff;
+}
+
+.appAddtoCon .appAddtoRight .appAddtoModi table tbody tr td .appAdda_bg01:hover{
+    background-color: #2086ff;
+}
+
+.appAddtoCon .appAddtoRight .appAddtoModi table tbody tr td .appAdda_bg02{
+    background-color: #999999;
+}
+
+.appAddtoCon .appAddtoRight .appAddtoModi table tbody tr td .appAdda_bg02:hover{
+    background-color: #808080;
+}
+
+.appAddtoCon .appAddtoRight .appAddtoPopuCon{
+    width: 100%;
+    background-color: #f5f5f5;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    z-index: 1;
+}
+
+.appAddtoCon .appAddtoRight .appAddtoPopuCon .appAddtoPopuTit{
+    height: 35px;
+    line-height: 35px;
+    padding: 0 16px;
+    border-bottom: 1px solid #e6e6e6;
+}
+
+.appAddtoCon .appAddtoRight .appAddtoPopuCon .appAddtoPopuTit h4{
+    font-size: 14px;
+    color: #666666;
+}
+
+.appAddtoCon .appAddtoRight .appAddtoPopuCon .appAddtoPopuBox{
+    padding: 0 18px;
+}
+
+.appAddtoCon .appAddtoRight .appAddtoPopuCon .appAddtoPopuBox .appAddtoPopuTop{
+    width: 100%;
+}
+
+.appAddtoCon .appAddtoRight .appAddtoPopuCon .appAddtoPopuBox .appAddtoPopuTop ul li{
+    line-height: 30px;
+    padding-top: 10px;
+    clear: both;
+}
+
+.appAddtoCon .appAddtoRight .appAddtoPopuCon .appAddtoPopuBox .appAddtoPopuTop ul li span{
+    width: 78px;
+    text-align: right;
+    font-size: 14px;
+    color: #666666;
+    display: block;
+    float: left;
+}
+
+.appAddtoCon .appAddtoRight .appAddtoPopuCon .appAddtoPopuBox .appAddtoPopuTop ul li b{
+    margin-left: 12px;
+    font-size: 12px;
+    color: #999999;
+    font-weight: normal;
+}
+
+.appAddtoCon .appAddtoRight .appAddtoPopuCon .appAddtoPopuBox .appAddtoPopuTop ul li input{
+    width: 166px;
+    height: 28px;
+    line-height: 28px;
+    padding: 0 15px;
+    font-size: 14px;
+    color: #666666;
+    background-color: #fff;
+    border: 1px solid #e6e6e6;
+    float: left;
+}
+
+.appAddtoCon .appAddtoRight .appAddtoPopuCon .appAddtoPopuBox .appAddtoPopuTop ul li select{
+    width: 166px;
+    height: 30px;
+    padding: 4px 12px;
+    font-size: 14px;
+    color: #666666;
+    background-color: #fff;
+    border: 1px solid #e6e6e6;
+    float: left;
+}
+
+.appAddtoCon .appAddtoRight .appAddtoPopuCon .appAddtoPopuBox .appAddtoPopuTop ul li .appAddtoFile{
+    width: 267px;
+    height: 30px;
+    float: left;
+    position: relative;
+}
+
+.appAddtoCon .appAddtoRight .appAddtoPopuCon .appAddtoPopuBox .appAddtoPopuTop ul li .appAddtoFile span{
+    width: 58px;
+    height: 28px;
+    line-height: 28px;
+    margin-left: 8px;
+    text-align: center;
+    font-size: 14px;
+    color: #666666;
+    border: 1px solid #cccccc;
+    background-color: #e6e6e6;
+}
+.appAddtoCon .appAddtoRight .appAddtoPopuCon .appAddtoPopuBox .appAddtoPopuTop ul li .appAddtoFile .appfile{
+    width: 60px;
+    height: 30px;
+    padding: 0;
+    opacity: 0;
+    filter:Alpha(opacity=0);
+    position: absolute;
+    top: 0;
+    right: 33px;
+}
+.appAddtoCon .appAddtoRight .appAddtoPopuCon .appAddtoPopuBox .appAddtoPopuBot{
+    padding: 10px 0 10px 78px;
+    clear: both;
+}
+.appAddtoCon .appAddtoRight .appAddtoPopuCon .appAddtoPopuBox .appAddtoPopuBot input,
+.appAddtoCon .appAddtoRight .appAddtoPopuCon .appAddtoPopuBox .appAddtoPopuBot a{
+    width: 78px;
+    height: 28px;
+    font-size: 12px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.appAddtoCon .appAddtoRight .appAddtoPopuCon .appAddtoPopuBox .appAddtoPopuBot input{
+    color: #ffffff;
+    border: 1px solid #08b493;
+    background-color: #11c09e;
+}
+
+.appAddtoCon .appAddtoRight .appAddtoPopuCon .appAddtoPopuBox .appAddtoPopuBot a{
+    line-height: 28px;
+    margin-left: 5px;
+    text-align: center;
+    display: inline-block;
+    color: #666666;
+    border: 1px solid #dbdbdb;
+    background-color: #fff;
+}
+
+.appAddtoCon .appAddtoRight .appAddtoModi table tbody tr td{
+    width: 25%;
+    padding: 10px 0;
+    border-bottom: 1px dashed #d6d6d6;
+}
+#sddd img{
+    height:100%;
+}

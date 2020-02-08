@@ -1,0 +1,181 @@
+ <{extends file="<{$tempdir}>/public/wxsite.html"}>  
+<{block name=extendcss}> 
+<link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/order.css">  
+<{/block}>
+ <{block name=extendjs}> 
+  <{if empty($order)}>
+  <script>
+$(function(){  
+       error($('#supplierlist'),'未获取到订单'); 
+});
+  </script>
+  <{/if}>
+<{/block}>
+<{block name=sitetitle}><{/block}>
+<{block name=hearnav}><{/block}>
+<{block name=footer}><{/block}>
+<{block name=myScrolljs}>
+<script> 
+		var myScroll;
+function loaded() {
+	myScroll = new iScroll('wrapper', {
+		useTransform: false,
+		onBeforeScrollStart: function (e) {
+			var target = e.target;
+			while (target.nodeType != 1) target = target.parentNode;
+
+			if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA')
+				e.preventDefault();
+		}
+	});
+}
+document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false); 
+document.addEventListener('DOMContentLoaded', function () { setTimeout(loaded, 200); }, false);
+</script>
+ <{/block}>
+<{block name=blockcontent}> 
+<{if $order['paytype'] == 1 && $order['paystatus'] == 0}>
+
+<link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/mycss.css">   
+
+	 <div id="wrapper" style="top:0px;"> 
+	<div id="scroller">
+		<!---增加的代码-->
+		<div class="shop">
+			
+			<div class="shop_cart">
+       	  	   <ul>  
+       	  	   	  <li class="borderbttom">
+       	  	   	  	  <label>订单总价：</label>
+       	  	   	  	  <div class="labelrightdiv" >
+       	  	   	  	  	<div class="yhjcontent"  >&nbsp;¥<{$order['allcost']}></div>
+       	  	   	  	  </div>
+       	  	   	  	  
+       	  	   	  </li>
+       	  	   	  <li class="borderbttom" id="jifenposition">
+       	  	   	  	  <label>支付方式：</label>
+       	  	   	  	  <div class="labelrightdiv">
+       	  	   	  	  	<div class="yhjcontent " >&nbsp;在线支付</div>
+       	  	   	  	  </div>
+       	  	   	   
+       	  	   	  </li>
+       	  	   	   
+       	  	   	</ul>
+       	  </div>
+
+				<div class="shop_cart">
+       	  	   <ul>  
+       	  	   	<{foreach from=$paylist   item=items}>
+				<{if $items['loginname'] == 'open_acout' || $items['loginname'] == 'alimobile'   }>
+       	  	   	  <li class="borderbttom" >
+       	  	   	  	  <label style="width:100px;"><{$items['logindesc']}></label>
+       	  	   	  	  <div class="labelrightdiv selectpay" data="<{$items['loginname']}>">
+       	  	   	  	  	  <span  ></span>
+       	  	   	  	  </div>
+       	  	   	  </li><{/if}>
+       	  	   	 <{/foreach}>
+       	  	   	  
+       	  	   	</ul>
+       	  </div>
+			
+			
+			
+		</div>
+		<input type="hidden" name="paydotype" value="">
+		<div class="shop_cart" style="background-color:#f60;">
+	      <div style="color:#fff;text-align:center;font-weight:bold;" id="dopay">立即支付</div> 
+	   </div>
+		
+	</div>
+
+ <script type="text/javascript"> 
+ 
+  var biaoqianval = false;
+function bqzhi(){
+	biaoqianval  = false;
+}
+	
+ 	var nowbid = "";
+ 	 $(function(){ 
+ 	 	  $('.selectpay').bind("click", function() {   
+ 	 	  	$('span').removeClass('onpay');
+ 	 	  	$('input[name="paydotype"]').val($(this).attr('data'));
+ 	 	  	$(this).find('span').addClass('onpay'); 
+       });
+       $('#dopay').bind("click", function() {   
+			
+
+   
+	   if(biaoqianval == false){
+				biaoqianval  = true;
+
+					 setTimeout("bqzhi()", 500 ); 
+					
+			if($('input[name="paydotype"]').val() == ''){
+					   Tmsg('请选择在线支付方式');
+					   return;
+					 }
+					 if($('input[name="paydotype"]').val() == 'weixin'){
+						  var uass = window.navigator.userAgent.toLowerCase(); 
+							if(uass.match(/MicroMessenger/i) == 'micromessenger'){ 
+								callpay();
+							}
+					 }else{
+						 var url = '<{ofunc type=url link="/app/gotopay/orderid/<{$order['id']}>/paydotype/@paydotype@"}>';
+						 url = url.replace('@paydotype@', $('input[name="paydotype"]').val());  
+						 window.location.href= url;
+						 }
+					 
+	}				
+       	
+       	
+       });
+ 	 });
+
+	 
+</script> 
+<{else}>
+ <div style="height:60px;display:none;"></div>
+ 
+<div class="">
+    <div id="page-orders-warp" style="top: 50px;">
+        <div id="page-orders-warp-scroller">
+            <div class="page-submit-success">
+                <div class="iconRight"></div>
+                <h3 class="ftx-02">订单提交成功</h3>
+                <p>订单号：<{$order['dno']}></p>
+                <p>订单金额：<{$order['allcost']}>元</p>
+                <p><{$sitename}>将马上为您安排此份订单的配送，请保持联系方式的畅通！</p>
+                <p style=" margin-top:20px;"><div  onclick="dolink('<{ofunc type=url link="/wxsite/ordershow/orderid/<{$order['id']}>/random/@random@ "}>');"  class="btn color-red" style="color:#fff;" id="goMyOrder">查看订单</div></p>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+</div>
+
+
+
+   
+ <style>
+ 	.next_btn {
+height: 42px;
+background: #ff4200;
+border-radius: 5px;
+border: 1px solid #cb3b09;
+line-height: 42px;
+text-align: center;
+color: #fff;
+font-size: 20px;
+text-shadow: 0 1px 1px #962700;
+box-shadow: 0 0 2px 1px #b2b2b2;
+margin: 20px 10px;
+max-width: 620px;
+margin-bottom: 70px;
+}
+ 	
+ 	</style>
+ 	<{/if}>
+
+<{/block}>

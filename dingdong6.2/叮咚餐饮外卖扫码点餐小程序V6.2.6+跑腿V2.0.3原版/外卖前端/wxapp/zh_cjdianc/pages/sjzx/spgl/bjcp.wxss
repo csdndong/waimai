@@ -1,0 +1,61 @@
+.kcsl{ display: flex; flex-direction: row; }
+.kcsl wx-bd{ width: 50%; box-sizing: border-box; }
+.kcsl .weui-cell { padding: 10px 10px; font-size: 30rpx; }
+page{ background: #efeff4; font-family: '微软雅黑', Helvetica, sans-serif; }
+.weui-cell { padding: 10px 20px; font-size: 28rpx; }
+.weui-cell_input { height: 2.8em; }
+.head { background: white; margin-top: 30rpx; padding: 20rpx 0; display: flex; flex-direction: row; justify-content: flex-start; align-items: center; }
+.head .left { width: 150rpx; height: 150rpx; margin: 0 0 0 15px; }
+.head .right { flex: 1;margin: 0 30rpx 0 0; }
+.yanz{ font-size: 28rpx; color: #999; line-height: 2; margin-top: 15rpx; padding: 5rpx 40rpx; background: #fff; }
+.yanz-on{ background: #f44444; color: #fff; }
+.yzm { border-top:1rpx solid  #d9d9d9; background: white; display: flex; flex-direction: row; justify-content: flex-start; align-items: center; }
+.yzm .left { width: 150rpx; margin: 0 0 0 15px; font-size: 30rpx; height: 80rpx; line-height: 80rpx; }
+.yzm .right { flex: 1; font-size: 30rpx; }
+.main { margin-top: 0rpx; padding: 30rpx 0 0; }
+.bd .weui-cell { border-bottom: 1rpx solid #e5e5e5; }
+.bd { background: white; display: flex; flex-direction: row; justify-content: flex-start; align-items: center; }
+.bd .left { font-size: 28rpx; width: 150rpx; height: 80rpx; line-height: 80rpx; margin: 0 0 0 30rpx; }
+.bd .right { flex: 1;margin: 0 30rpx 0 0; }
+.picker{ display: flex; justify-content: space-between; align-items: center; }
+.picker picker{ width: 160rpx }
+.dnss { margin-bottom: 15rpx; padding: 20rpx 0rpx 20rpx 0; background: white; display: flex; flex-direction: row; justify-content: flex-start; align-items: flex-start; }
+.dnss .left { font-size: 30rpx; width: 150rpx; height: 80rpx; line-height: 80rpx; margin: 0 0 0 40rpx; }
+.dnss .right { flex: 1; font-size: 30rpx; }
+.dnss .right wx-checkbox-group{ display: flex; flex-direction: row; justify-content: flex-start; align-items: center; flex-wrap: wrap; }
+.dnss .weui-cell:before{ border-top: none; }
+.dnss .weui-cell{ width: 220rpx; padding: 15rpx 5rpx; }
+.weui-check__hd_in-checkbox{ padding-right: 0; }
+.gg { margin-bottom: 15rpx; background: white; display: flex; flex-direction: row; justify-content: flex-start; align-items: flex-start; }
+.gg .left { font-size: 30rpx; width: 150rpx; height: 80rpx; line-height: 80rpx; margin: 0 0 0 40rpx; }
+.gg .right { flex: 1; font-size: 30rpx; }
+.mdtp { background: white; display: flex; flex-direction: row; justify-content: flex-start; align-items: flex-start; overflow-x: hidden; }
+.mdtp .left { font-size: 30rpx; width: 150rpx; height: 80rpx; line-height: 80rpx; margin: 0 0 0 40rpx; }
+.mdtp .right { flex: 1; font-size: 30rpx; }
+.mdtp .right .tpjy{ color: #999; height: 80rpx; line-height: 80rpx; }
+.tpsl{ background: white; font-size: 30rpx; text-align: right; padding: 10rpx 40rpx; }
+.mdtp1{ overflow-x: hidden; }
+.weui-uploader__bd{ background: white; padding: 0 0 0 40rpx; }
+.weui-uploader__file { margin-right: 20rpx; margin-bottom: 20rpx; }
+.weui-uploader__img{ margin-top: 20rpx; width:160rpx; height: 160rpx; }
+.weui-uploader__input-box{ margin-top: 20rpx; margin-right: 30rpx; margin-bottom: 30rpx; width:160rpx; height: 160rpx; }
+.x{ float: right; width: 40rpx; height: 40rpx; margin-left: 10rpx; z-index: 999; }
+.x image{ width: 100%; height: 100%; }
+.bottom { padding: 15rpx 40rpx; font-size: 30rpx; margin-top: 15rpx; background: white; background: white; display: flex; flex-direction: column; justify-content: space-around; align-items: center; }
+.bottom textarea{ white-space: pre-wrap; text-align: center; width: 100%; color: #333; margin: 10rpx 0; height: 90rpx; }
+.dw{ padding: 4px 12px; color: #3cc51f; border: 1px solid #3cc51f; border-radius: 5px; display: flex; flex-direction: row;justify-content: center;align-items: center; }
+.dw image{ width: 50rpx; height: 50rpx; }
+.qdsc{ padding: 0 5rpx; width: 100rpx; background: #f44444; color: #fff; font-size: 30rpx; line-height: 2.0; }
+.button{ margin:40rpx; }
+.sqzt{ width: 100%; height: 100%; background: white; font-size: 30rpx; color: #666; }
+.list_imgbk{ width: 250rpx; height: 250rpx; margin-bottom: 30rpx; }
+.list_imgbk2{ width: 100%; display: flex; align-items: center; justify-content: center; text-align: center; flex-direction: column; height: 500rpx; }
+.list_imgbk3{ font-size: 30rpx; color: #999; text-align: center; line-height: 30rpx; }
+.button1{ margin:80rpx; }
+.button1 button{ font-size: 30rpx; }
+.wx-switch-input{width:45px !important;height:24px !important;}
+.wx-switch-input::before{width:44px !important;height: 24px !important;}
+.wx-switch-input::after{width: 22px !important;height: 22px !important;}
+.spsx{display: flex;align-items: center;}
+.spsx .weui-cell{width: 25%;padding: 20rpx 10rpx;font-size: 24rpx;}
+.spsx .weui-cell::before { border-top: none; }

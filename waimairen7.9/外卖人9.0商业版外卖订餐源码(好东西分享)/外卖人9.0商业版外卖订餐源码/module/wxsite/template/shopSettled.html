@@ -1,0 +1,198 @@
+ <{extends file="<{$tempdir}>/public/wxsite.html"}>  
+<{block name=extendcss}>
+ <style type="text/css">
+     .hide{display:none;}
+     .mesefillinfo img{vertical-align:middle;float:left;margin:0 5px;}
+ </style>
+ <{/block}>
+ <{block name=extendjs}>
+ <script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/ajaxfileupload.js"> </script>
+ <{/block}>
+ <{block name=myScrolljs}>
+<script> 
+var scroll1, scroll2;
+function loaded() { 
+	scroll1 = new iScroll('wrapper',{
+		useTransform: false,
+		onBeforeScrollStart: function (e) {
+			var target = e.target;
+			while (target.nodeType != 1) target = target.parentNode;
+			
+			if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA'){
+				e.preventDefault();
+				 
+				}
+		}
+	});   
+ }
+
+//document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
+document.addEventListener('DOMContentLoaded', function () { setTimeout(loaded, 200); }, false);
+</script>
+<{/block}>
+<{block name=hearnav}>
+<div class="toptitCon">
+ <div class="toptitBox">
+  <div class="toptitL"><i></i></div>
+  <div class="toptitC"><h3>商家入驻</h3></div>
+ </div>
+</div>
+<{/block}>
+<{block name=sitetitle}>商家入驻<{/block}>
+ <{block name=blockcontent}>   
+ <div id="wrapper" style="top:43px;">
+	<div id="scroller">
+ 
+	
+<!--------信息进度-------->
+<div class="processCon">
+ <i class="pro_01"></i>
+ <span class="proaL proaA" style="color:#fff!important;">商家资料</span>
+ <span class="proaC">账户信息</span>
+ <span class="proaR">网站审核</span>
+</div>
+<!--------提示信息-------->
+<div class="mesepromptCon">
+ <ul>
+  <li>1.完善店铺资料，以便于我们了解您的情况。</li>
+  <li>2.认证所需资料不公开给任何组织和个人。</li>
+  <li>3.审核通过的信息无法修改，如需帮助请致电客服：<{$litel}></li>
+ </ul>
+</div>
+<!--------填写信息-------->
+<div class="mesefillinfo">
+ <ul>
+   <li><span>联系电话：</span><input type="text" id="shopphone" value=""  placeholder="请输入电话"></li>
+  <li><span>店铺名称：</span><input type="text" id="shopname" value=""  placeholder="请输入店铺名称"></li>
+  <li><span>店铺地址：</span><input type="text" id="shopaddress" value="" placeholder="请输入店铺地址"></li>
+    
+    <li><span>选择城市：</span>
+        <select name="shoptype" id="cityid" style="width:50%;font-size:13px;border:1px solid #ccc;" >
+            <!-- <{load_data assign="list" table="area" showpage="true"  }> -->
+            <{foreach from=$citylist item=items}>
+            <option  value="<{$items['adcode']}>"><{$items['name']}></option>
+            <{/foreach}>            
+        </select>
+    </li>
+
+
+      <li><span>店铺分类：</span>
+        <select name="shoptype" id="shoptype" style="width:50%;font-size:13px;border:1px solid #ccc;" >
+            <{foreach from=$catlist item=itv}>
+    		<option  value="<{$itv['cattype']}>_<{$itv['id']}>"><{$catarr[$itv['cattype']]}>-<{$itv['name']}></option>
+    		<{/foreach}>			
+        </select>
+      </li>
+     <li style="line-height: 50px;">
+         <span style="float:left;">营业执照：</span>
+         <img src="" width=50px height=50px id="imgshow" class="hide"/>
+         <form id="form1" name="form1" method="post"  enctype="multipart/form-data" target="ifr-headpic-upload" onsubmit="return checkImagetype('1');">
+
+                 <input name="head" type="file" id="imgFile" style="width:70px;" name="imgFile" onchange="$('#input1').val($(this).val())"  class="curbtn">
+                 <input id="submitImg" type="button" value="上传" class="ss_sc curbtn" style="border:1px solid #ccc;background-color:white;height:22px;width:40px;" >
+
+         </form>
+         
+
+          <input type="hidden"  id="shoplicense"/>
+     </li>
+ </ul>
+</div>
+
+
+
+
+
+
+
+
+<!--------确认支付-------->
+<div class="mesedete" style="margin-top:20px; margin-bottom:20px;"><input type="button" onclick="nextSub();" value="下一步"></div>
+
+
+  </div>
+</div>
+
+<script>
+    $('#submitImg').click(function(){
+        ajaxFileUpload();
+    });
+    function ajaxFileUpload()
+    {
+        $("#loading")
+                .ajaxStart(function(){
+                    $(this).show();
+                })
+                .ajaxComplete(function(){
+                    $(this).hide();
+                });
+
+        $.ajaxFileUpload
+        (
+                {
+                    url:'<{ofunc type=url link="/other/userupload/type/shopSettled/datatype/json"}>',
+                    secureuri:false,
+                    fileElementId:'imgFile',
+                    dataType: 'json',
+                    data:{name:'logan', id:'id'},
+                    success: function (data, status)
+                    {
+                        if(typeof(data.error) != 'undefined')
+                        {
+                            if(data.error == false)
+                            {
+                                $('#shoplicense').val(data.msg);
+                                $('#imgshow').attr('src',data.msg);
+                                $('#imgshow').show();
+                            }else
+                            {
+                                alert(data.msg);
+                            }
+                        }else{
+                            alert(data);
+                        }
+                    },
+                    error: function (data, status, e)
+                    {
+                        alert(e);
+                    }
+                }
+        )
+
+        return false;
+
+    }
+
+    function nextSub(){
+
+		 showLoading();
+		url = siteurl+'/index.php?ctrl=wxsite&action=sjapplyrz&datatype=json&random=@random@';
+     	  url = url.replace('@random@', 1+Math.round(Math.random()*1000));
+        $.ajax({         //script定义
+                 url: url.replace('@random@', 1+Math.round(Math.random()*1000)),
+                 dataType: "json",
+                 async:true,
+                 data:{'shopphone':$("#shopphone").val(),'shopname':$("#shopname").val(),'shopaddress':$('#shopaddress').val(),'shoptype':$('#shoptype').val(),'shoplicense':$('#shoplicense').val(),'cityid':$('#cityid').val()},
+                 success:function(content) { 
+                 	if(content.error ==  false){
+					
+					newhideLoading();
+					 window.location.href=  siteurl+'/index.php?ctrl=wxsite&action=shangjiaapply&shopphone='+content.msg.shopphone+'&shoplicense='+content.msg.shoplicense+'&shopname='+content.msg.shopname+'&shopaddress='+content.msg.shopaddress+'&shoptype='+content.msg.shoptype+'&cityid='+content.msg.cityid+'  ' ;
+						 
+							
+                 	}else{
+						newhideLoading();
+                 		Tmsg(content.msg);
+                 	}
+                 
+                 },
+                 error:function(){
+                 newhideLoading();
+                 }
+        }); 
+		// setTimeout("myyanchi()", 500 ); 
+}
+
+</script>
+ 
+<{/block}>

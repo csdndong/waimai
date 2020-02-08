@@ -1,0 +1,224 @@
+ <{extends file="<{$tempdir}>/public/wxsite.html"}>  
+<{block name=extendcss}>  
+ <style>
+
+	.prer03 li p {
+
+width: 90%;
+
+border-bottom: 1px solid #dcdcdc;
+
+margin: 0px auto;
+
+padding: 15px;
+
+line-height: 20px;
+
+position: relative;
+
+}
+
+.ftnBd {
+
+font-weight: bold;
+
+}
+
+ 
+
+.city-select {
+
+background: url(../images/li_selected.png) right no-repeat;
+
+background-size: 18px 18px;
+
+} 
+#scroller {
+position:absolute; 
+	z-index:1;
+	display:block;   
+	overflow:auto; 
+	width:100%;
+}
+textarea{border:none;}
+textarea:hover{border:none;}
+.infoname{ width:80px;float:left; color:#333333;height:40px; line-height:40px; font-size:16px;text-align:right;}
+.infolist{padding:8px;  height:auto; background:#ffffff; }
+.infoinput{padding-left:10px;height:40px;width:100%; float:left; line-height:40px;;border:1px solid #d6d6d6;border-radius:5px;}
+.infointdiv{width:70%; float:left;}
+</style>
+<{/block}>
+ <{block name=myScrolljs}>
+<script> 
+		var myScroll;
+function loaded() {
+	myScroll = new iScroll('wrapper', {
+		useTransform: false,
+		onBeforeScrollStart: function (e) {
+			var target = e.target;
+			while (target.nodeType != 1) target = target.parentNode;
+
+			if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA')
+				e.preventDefault();
+		}
+	});
+}
+document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false); 
+document.addEventListener('DOMContentLoaded', function () { setTimeout(loaded, 200); }, false);
+</script>
+<{/block}>
+<{block name=hearnav}><header style="position: fixed;display:block;" id="header"><div class="return"></div>发布跑腿</header><{/block}>
+<{block name=sitetitle}><{$sitename}><{/block}>
+<{block name=footer}><{/block}>
+<{block name=blockcontent}>  
+ <div id="wrapper" style="bottom:0px;">
+	<div id="scroller" style="margin-top:20px;">
+ <section> 
+ 
+   <form id="fabupaotui" method="post" action="<{ofunc type=url link="/wxsite/fabupaotui/datatype/json"}>">
+        <ul>
+			<li style=" text-align:center;padding:8px; background:#ffffff;">
+				<textarea name="ptcontent" id="ptcontent" style="width:100%; margin:0 auto; padding:0px; border:0px;height:150px; color:#a9a9a9; font-size:16px; " value="" placeholder="填写您的跑腿需求，如需要购买什么东西、需要送什么货、需要办什么事等" type="text" ></textarea>
+			</li>
+			
+			<li style="margin-top:15px; background:#ffffff; height:45px; line-height:45px;  border-top:1px solid #e6e6e6; border-bottom:1px solid #e6e6e6;">
+			
+			<span style="color:#333333; font-size:16px; padding-left:10px;">联系信息</span>
+			
+			</li>
+			
+			<li class="infolist" style="padding-top:20px;">
+			<div style="width:100%;">
+				<div class="infoname">姓名：</div>
+				<div class="infointdiv">
+					<input name="name" id="name" class="infoinput" placeholder="如:李先生、王小姐" type="text" />
+				</div>
+				<div style="clear:both;"></div>
+			</div>
+			</li>
+			<li class="infolist">
+			<div style="width:100%;">
+				<div class="infoname">送货地址：</div>
+				<div class="infointdiv">
+					<input class="infoinput" name="address" id="address" placeholder="如:XX小区2号楼807" type="text" />
+				</div>
+				<div style="clear:both;"></div>
+			</div>
+			</li>
+			<li class="infolist" style="border-bottom:1px solid #e6e6e6;">
+			<div style="width:100%;">
+				<div class="infoname">联系电话：</div>
+				<div class="infointdiv">
+					<input class="infoinput" name="phone" id="phone" placeholder="如:18300000000"  type="text" />
+				</div>
+				<div style="clear:both;"></div>
+			</div>
+			</li>
+			
+			<li style="color:#e83828;padding:8px;font-size:16px;font-weight:bold;">
+				*请不要发布虚假跑腿信息，否则将会被拉入黑名单无法再次发单
+			</li>
+			
+			<li style="padding:8px; padding-bottom:30px; ">
+				
+				<div id="fabupaotuiorder" onclick="fabupaotuiorder();" style="background:#e83828;height:50px; line-height:50px;border-radius:20px; color:#fff; font-size:14px; text-align:center;">发布订单</div>
+			
+			</li>
+			
+		</ul>
+		
+		</form>
+    </section>
+	<div style="height:400px;"></div>
+
+	
+  </div>
+</div> 
+
+
+
+<script>
+
+
+
+function subform(newurl,obj)
+{
+	var url = $(obj).attr('action'); 
+	$.ajax({
+     type: 'post',
+     async:false,
+     data:$(obj).serialize(),
+     url: url.replace('@random@', 1+Math.round(Math.random()*1000)), 
+     dataType: 'json',success: function(content) {   
+     	if(content.error == false){
+     		diasucces('操作成功',newurl);
+     	}else{
+     		if(content.error == true)
+     		{
+     			diaerror(content.msg); 
+     		}else{
+     			diaerror(content); 
+     		}
+     	} 
+		},
+    error: function(content) { 
+    	diaerror('数据获取失败'); 
+	  }
+   });   
+   
+	return false;
+}
+
+
+function  fabupaotuiorder(){
+	
+		if($('#ptcontent').val() == ''){
+     	    Tmsg('跑腿需求长度太短！');
+     	   return false;
+     	 } 
+		if($('#name').val() == ''){
+     	    Tmsg('亲，请留下姓名！');
+     	   return false;
+     	 } 
+		 if($('#address').val() == ''){
+     	    Tmsg('亲，请填写您的具体地址！');
+     	   return false;
+     	 } 
+		 if($('#phone').val() == ''){
+     	    Tmsg('亲，电话长度不对哦！');
+     	   return false;
+     	 } 
+		 showLoading();
+		 
+		url = siteurl+'/index.php?ctrl=wxsite&action=fabupaotui&datatype=json&random=@random@';
+     	  url = url.replace('@random@', 1+Math.round(Math.random()*1000));
+        $.ajax({         //script定义
+                 url: url.replace('@random@', 1+Math.round(Math.random()*1000)),
+                 dataType: "json",
+                 async:true,
+                 data:{'ptcontent':$("#ptcontent").val(),'name':$("#name").val(),'address':$('#address').val(),'phone':$('#phone').val()},
+                 success:function(content) { 
+                 	if(content.error ==  false){
+						newhideLoading();
+							Tmsg('提交成功，请等待管理员审核');
+							 
+								 window.location.href=  siteurl+'/index.php?ctrl=wxsite&action=paotui' ;
+							 
+                 	}else{
+						newhideLoading();
+                 		Tmsg(content.msg);
+                 	}
+                 },
+                 error:function(){
+                  newhideLoading();
+                 }
+        }); 
+	 
+}
+</script>
+
+
+
+
+
+<{/block}>

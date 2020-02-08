@@ -1,0 +1,159 @@
+page {
+    background: #f3f3f3;
+}
+
+.slide-image {
+    width: 100%;
+    height: 100%;
+}
+
+.body {
+    padding: 0 20rpx;
+}
+
+.text_list,.ruzhu {
+    padding: 20rpx;
+    border-radius: 15rpx;
+    margin-top: 30rpx;
+    font-size: 28rpx;
+    background: #fff;
+    overflow: hidden;
+}
+
+.ruzhu>view:nth-child(1) {
+    padding: 20rpx 0;
+    border-bottom: 2rpx solid #e5e5e5;
+}
+
+.ruzhu>view view {
+    margin-top: 30rpx;
+}
+
+.ruzhu view text:nth-child(3) {
+    float: right;
+    margin-right: 20rpx;
+    color: rgb(244,75,94);
+}
+
+.ruzhu view icon {
+    float: right;
+}
+
+.text_list>view {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.text_list>view:nth-child(1) {
+    width: 25%;
+    font-size: 28rpx;
+    color: #666;
+}
+
+.text_list>view:nth-child(2) {
+    width: 75%;
+}
+
+.code {
+    display: inline-block;
+    vertical-align: middle;
+    text-align: right;
+}
+
+.text_list>view input {
+    width: 70%;
+    display: inline-block;
+    height: 100%;
+    font-size: 28rpx;
+    vertical-align: middle;
+}
+
+.text_list>view textarea {
+    height: 200rpx;
+    font-size: 28rpx;
+}
+
+.prompt {
+    padding: 30rpx 20rpx;
+    font-size: 22rpx;
+    color: #999;
+}
+
+.protocol {
+    padding: 0 20rpx;
+    font-size: 28rpx;
+    color: #666;
+    height: 50rpx;
+    line-height: 50rpx;
+}
+
+.protocol text:nth-child(3) {
+    color: #5aadf9;
+}
+
+.protocol text:nth-child(2) {
+    margin-left: 50rpx;
+}
+
+button {
+    background: #407fcc;
+    color: #fff;
+    font-size: 30rpx;
+    margin-top: 80rpx;
+    height: 80rpx;
+    line-height: 80rpx;
+    width: 100%;
+    border-radius: 0;
+}
+
+button::after {
+    border: none;
+}
+
+.upload_id {
+    padding: 20rpx;
+    border-radius: 15rpx;
+    margin-top: 40rpx;
+    background: #fff;
+}
+
+.upload_id>view:nth-child(1) {
+    font-size: 28rpx;
+    color: #666;
+}
+
+.upload_id>view view {
+    width: 45%;
+    margin-top: 26rpx;
+    height: 200rpx;
+    display: inline-block;
+    background: #ffdca8;
+    color: #fff;
+    text-align: center;
+    font-size: 22rpx;
+    vertical-align: middle;
+    overflow: hidden;
+    border-radius: 15rpx;
+}
+
+.upload_id>view view:nth-child(2) {
+    margin-left: 10%;
+}
+
+.sele_img {
+    width: 40%;
+    display: block;
+    margin: 10% auto 10%;
+    height: 100%;
+}
+
+.prompt_img {
+    width: 100%;
+    height: 100%;
+    border-radius: 10rpx;
+}
+
+.container {
+    width: 100%;
+    overflow: hidden;
+}

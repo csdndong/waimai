@@ -1,0 +1,36 @@
+<!--   time:2019-07-18 01:07:55 -->
+<view class="sjinfonav">
+	<scroll-view class="nav-two" scrollX="true">
+		<block wx:for="{{navbar}}" wx:key="*this" wx:for-item="item" wx:for-index="index" >
+			<view bindtap="selectednavbar" class="toatal_head  {{selectedindex==index?'selsect':'default'}}" data-index="{{index}}" style="color:{{selectedindex==index?color:''}}">
+				<block wx:if="{{index<3}}" >
+					<view class="toataltime">
+						<text>{{item.name}}</text>
+						<text>{{item.time}}</text>
+					</view>
+				</block>
+				<block wx:else>
+					<view class="toataltime">
+						<picker bindchange="bindDateChange" end="" mode="date" name="datepicker" start="{{startdate}}" value="{{startdate}}">
+							<view class="picker reserve_sele">{{item.name}}</view>
+						</picker>
+					</view>
+				</block>
+				<block wx:if="{{selectedindex==index}}">
+					<view class="toatal_text" style="background-color: {{color}}"></view>
+				</block>
+			</view>
+		</block>
+	</scroll-view>
+</view>
+<view class="yxrq">已选日期:{{yxtime}}</view>
+<view class="timearr">
+	<block wx:for="{{tiemarr}}" wx:key="*this" wx:for-item="item" wx:for-index="index" >
+		<view bindtap="selectedTime" class="timecell" data-index="{{index}}" style="color:{{selectedtime==index?'#fff':''}};background:{{selectedtime==index?color:''}}">{{item.time}}</view>
+	</block>
+</view>
+<form bindreset="formReset" bindsubmit="formSubmit" reportSubmit="true">
+	<view class="footer">
+		<button formType="submit" style="background:{{color}}">确认选择</button>
+	</view>
+</form>

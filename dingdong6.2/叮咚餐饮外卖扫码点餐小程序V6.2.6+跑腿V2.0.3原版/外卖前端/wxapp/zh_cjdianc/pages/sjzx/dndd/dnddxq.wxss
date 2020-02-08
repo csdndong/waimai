@@ -1,0 +1,3 @@
+@import"/wxss/f0_4.wxss";
+.kttext{font-weight: normal;font-size: 24rpx;color: #999;}
+.ddinfo{padding-bottom: 0;}

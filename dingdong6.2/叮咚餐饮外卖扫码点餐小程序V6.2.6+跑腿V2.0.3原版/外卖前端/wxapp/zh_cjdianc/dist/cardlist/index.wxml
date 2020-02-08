@@ -1,0 +1,15 @@
+<view class="card-group-index extra-class" style="padding:{{content.upDownPadding}}rpx {{content.leftRightPadding}}rpx;margin-top:{{content.topMargin}}rpx;">
+    <view class="flex-row flex-wrap">
+        <block wx:for="{{content.pictureList}}" wx:key="id">
+            <navigator class="cardimgv" style="width:{{100/content.numberOfRow||100}}%;padding:{{content.padding}}rpx;height:{{content.height}}rpx;" url="{{item.src}}" wx:if="{{item.item=='1'}}">
+                <image class="cardimg" mode="aspectFill" src="{{item.logo}}" style="border-radius:{{content.radius}}px;"></image>
+            </navigator>
+            <navigator bindtap="jumps" class="cardimgv" data-item="{{item}}" style="width:{{100/content.numberOfRow||100}}%;padding:{{content.padding}}rpx;height:{{content.height}}rpx;" url="/zh_cjdianc/pages/car/car" wx:if="{{item.item=='2'}}">
+                <image class="cardimg" mode="aspectFill" src="{{item.logo}}" style="border-radius:{{content.radius}}px;"></image>
+            </navigator>
+            <navigator appId="{{item.appid}}" class="cardimgv" extraData="" openType="navigate" path="" style="width:{{100/content.numberOfRow||100}}%;padding:{{content.padding}}rpx;height:{{content.height}}rpx;" target="miniProgram" version="release" wx:if="{{item.item=='3'}}">
+                <image class="cardimg" mode="aspectFill" src="{{item.logo}}" style="border-radius:{{content.radius}}px;"></image>
+            </navigator>
+        </block>
+    </view>
+</view>

@@ -1,0 +1,81 @@
+<html xmlns="http://www.w3.org/1999/xhtml"><head> 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+<meta http-equiv="Content-Language" content="zh-CN"> 
+<meta content="all" name="robots"> 
+<meta name="description" content=""> 
+<meta content="" name="keywords"> 
+<title>店铺标签选择</title> 
+<link rel="stylesheet" type="text/css" href="<{$siteurl}>/templates/<{$tempdir}>/public/css/admin.css">
+ <link rel="stylesheet" type="text/css" href="<{$siteurl}>/templates/<{$tempdir}>/public/css/index.css"> 
+ <script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/jquery.js" type="text/javascript" language="javascript"></script>  
+ <script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/artDialog.js?skin=wmrPopup"></script>
+</head>
+<body >
+ 
+	 <div class="popLayCon " style="background:#fafafa;">
+	 
+	<div class="popLayBox">
+		<div class="popLay">
+			<ul>
+				<li><span>申请店铺名称：</span><b><{$shopinfo['shopname']}> </b></li>
+				<li><span>申请联系电话：</span><b><{$shopinfo['maphone']}></b></li>
+				<li><span>申请联系地址：</span><b><{$shopinfo['address']}> </b></li>
+				<li><span>申请类型：</span><b><{if $shopinfo['shoptype'] == 0}>外卖<{else}>超市<{/if}></b></li>
+				<li><span>入驻单位：</span><b><{if $shopinfo['ruzhutype'] == 1}>企业入驻<{else}>个人入驻<{/if}> </b></li>
+				<li><span>申请处理状态：</span><b><{if $shopinfo['is_pass'] == 0}>处理中<{else}>通过审核<{/if}> </b></li>
+				<li class="bor_no"><span>营业执照：</span>
+ 				<{if !empty($shopinfo['shoplicense']) }><b class="popLayImg"><img src="<{$shopinfo['shoplicense']}>" /></b><{else}> <b>无</b>	<{/if}></li>
+			</ul>
+		</div>
+	</div>
+</div> 
+
+					
+						<script>
+						$(function(){
+							$(".popLay li img").click(function(){
+								//alert( $(this).attr('src') );
+								var srcimg =  $(this).attr('src');
+								$("#mask").show();		
+								$("#showbigimg").show();	
+								$("#showbigimg img").attr('src',srcimg);
+						
+								var imgwidth  =	$("#showbigimg img").width()	;
+								var imgheight  =$("#showbigimg img").height()	;
+								var marginleft = Number(imgwidth)/2;
+								var margintop = Number(imgheight)/2;
+								$("#showbigimg").css('margin-top',-margintop+'px');
+								$("#showbigimg").css('margin-left',-marginleft+'px');
+								
+							});
+						
+																
+							$("#mask").click(function(){
+								$("#mask").hide();
+								$("#showbigimg").hide();
+							});
+							
+						});
+					</script>
+<style>
+#showbigimg{position:fixed; z-index:9999; top:50%; left:50%;display:none;}
+#shenhaitd img{ cursor:pointer; width:50px; height:50px;}
+#mask {
+  background: none repeat scroll 0 0 #000000;
+  height: 100%;
+  opacity: 0.2;
+  filter: alpha(opacity=20);
+  position: fixed;
+  width: 100%;
+  z-index: 666;
+  left: 0px;
+  top: 0px;
+  display: none;
+}
+</style>
+ <div  id="showbigimg">
+<img src="" />
+</div>
+<div id="mask" style=""></div>				
+</body>
+</html>

@@ -1,0 +1,105 @@
+.message {
+    background: #fff;
+}
+
+.message .content {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    overflow: auto;
+}
+
+.message .container {
+    padding: 0 33px;
+    text-align: center;
+}
+
+.message .container .icon-area {
+    margin-top: 22px;
+}
+
+.message .container.info .icon-icon:before {
+    font-size: 100px;
+    color: #10aeff;
+    content: "\e61c";
+}
+
+.message .container.success .icon-icon:before {
+    font-size: 104px;
+    color: #09BB07;
+    content: "\e619";
+}
+
+.message .container.error .icon-icon:before {
+    font-size: 104px;
+    color: #f76260;
+    content: "\e61a";
+}
+
+.message .container .text-area {
+    margin-bottom: 25px;
+    padding: 0 20px;
+}
+
+.message .container .text-area .msg-title {
+    margin-bottom: 5px;
+    font-weight: 400;
+    font-size: 20px;
+    margin-top: 0;
+}
+
+.message .container .text-area .desc {
+    font-size: 15px;
+    color: #888;
+}
+
+.message .container .btn-area {
+    margin-bottom: 25px;
+}
+
+.message .container .btn-area>view {
+    margin: 18px 0;
+}
+
+.message .container.info .btn-area .button {
+    background: #10aeff;
+    color: #fff;
+    border-color: #10aeff;
+}
+
+.message .container.error .btn-area .button {
+    background: #f76260;
+    color: #fff;
+    border-color: #f76260;
+}
+
+.message .container.success .btn-area .button {
+    background: #09BB07;
+    color: #fff;
+    border-color: #09BB07;
+}
+
+.message .container .btn-area .button {
+    margin-bottom: 16px;
+    height: 44px;
+    line-height: 44px;
+    font-size: 17px;
+    background: #f7f7f7;
+    border-radius: 5px;
+}
+
+.message .container .extra-area {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+.message .container .extra-area navigator {
+    color: #61749B;
+    font-size: 15px;
+}

@@ -1,0 +1,37 @@
+<{if !empty($noticelist) }>
+<div class="wmr_notice_list_content">
+	<ul>
+		<{foreach from=$noticelist item=items }> 
+		<li  >
+		<a href="<{ofunc type=url link="/wxsite/notice/id/<{$items['id']}>"}>"  data-transition="slide"  >
+			<div class="wmr_notice_list_img">
+				<img <{ofunc type=img  link="<{$items['img']}>"}> />
+			</div>
+			<div class="wmr_notice_list_info" style='    position: absolute;
+    top: 10px;
+    right: 23px;'>
+				<h3><{$items['title']}></h3>
+				<p><{strip_tags($items['content'])}></p>
+				<span style='margin-top: -3px;'><{$items['addtime']}></span>
+			</div>
+			</a>
+		</li>
+		<{/foreach}>
+	</ul>
+</div> 
+ <div data-role="content">
+<script>
+ 
+  $(".wmr_notice_list_info").css('width',noticetitwidth+'px');
+  $(function(){
+		var noticeshuliang = '<{$noticeshuliang}>';
+	    if(noticeshuliang <= 4){
+		
+			$("#lodingmore").hide();
+		
+		}
+  });  
+ 
+</script>
+</div> 
+<{/if}>

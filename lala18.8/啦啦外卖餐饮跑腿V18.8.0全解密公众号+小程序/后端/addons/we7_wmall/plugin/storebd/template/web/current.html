@@ -1,0 +1,123 @@
+{itemplate 'public/header'}
+{if $op == 'list'}
+<form action="./index.php" class="form-horizontal form-filter">
+	{php echo tpl_form_filter_hidden('storebd/current/list');}
+	<input type="hidden" name="days" value="{$days}"/>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">类型</label>
+		<div class="col-sm-9 col-xs-12">
+			<div class="btn-group">
+				<a href="{php echo ifilter_url('trade_type:0');}" class="btn {if $trade_type == 0}btn-primary{else}btn-default{/if}">全部</a>
+				<a href="{php echo ifilter_url('trade_type:1');}" class="btn {if $trade_type == 1}btn-primary{else}btn-default{/if}">订单入账</a>
+				<a href="{php echo ifilter_url('trade_type:2');}" class="btn {if $trade_type == 2}btn-primary{else}btn-default{/if}">申请提现</a>
+				<a href="{php echo ifilter_url('trade_type:3');}" class="btn {if $trade_type == 3}btn-primary{else}btn-default{/if}">其他变动</a>
+			</div>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">申请时间</label>
+		<div class="col-sm-9 col-xs-12 js-daterange" data-form="#form1">
+			<div class="btn-group">
+				<a href="{php echo ifilter_url('days:-2');}" class="btn {if $days == -2}btn-primary{else}btn-default{/if}">不限</a>
+				<a href="{php echo ifilter_url('days:7');}" class="btn {if $days == 7}btn-primary{else}btn-default{/if}">近一周</a>
+				<a href="{php echo ifilter_url('days:30');}" class="btn {if $days == 30}btn-primary{else}btn-default{/if}">近一月</a>
+				<a href="{php echo ifilter_url('days:90');}" class="btn {if $days == 90}btn-primary{else}btn-default{/if}">近三月</a>
+				<a href="javascript:;" class="btn js-btn-custom {if $days == -1}btn-primary{else}btn-default{/if}">自定义</a>
+			</div>
+			<span class="js-btn-daterange {if $days != -1}hide{/if}">
+				{php echo tpl_form_field_daterange('addtime', array('start' => date('Y-m-d H:i', $starttime), 'end' => date('Y-m-d H:i', $endtime)), true);}
+			</span>
+		</div>
+	</div>
+	<div class="form-group form-inline">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">选择门店</label>
+		<div class="col-sm-9 col-xs-12">
+			{if $_W['is_agent']}
+				<select name="agentid" class="select2 js-select2 form-control width-130">
+					<option value="0">选择代理区域</option>
+					{loop $_W['agents'] $agent}
+						<option value="{$agent['id']}" {if $agentid == $agent['id']}selected{/if}>{$agent['area']}</option>
+					{/loop}
+				</select>
+			{/if}
+			<select name="sid" id="sid" class="form-control select2" style="width: 200px;">
+				<option value="0">选择门店</option>
+				{loop $stores $li}
+					<option value="{$li['id']}" {if $li['id'] == $_GPC['sid']}selected{/if}>{$li['title']}</option>
+				{/loop}
+			</select>
+			<select name="bd_id" id="id" class="form-control select2" style="width: 200px;">
+				<option value="0">选择推广员</option>
+				{loop $store_spreads $li}
+					<option value="{$li['id']}" {if $li['id'] == $_GPC['bd_id']}selected{/if}>{$li['title']}</option>
+				{/loop}
+			</select>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+		<div class="col-sm-4 col-xs-4">
+			<input type="submit" value="筛选" class="btn btn-primary">
+		</div>
+	</div>
+</form>
+
+<form action="" class="form-table form" method="post">
+	<div class="panel panel-table">
+		<div class="panel-body table-responsive js-table">
+			<table class="table table-hover">
+				<thead class="navbar-inner">
+				<tr>
+					<th>编号</th>
+					<th>添加时间</th>
+					{if $_W['is_agent']}
+					<th>所属城市</th>
+					{/if}
+					<th>推广员名称</th>
+					<th>门店</th>
+					<th>类型</th>
+					<th>收入|支出(元)</th>
+					<th>账户余额</th>
+				</tr>
+				</thead>
+				<tbody>
+				{loop $data $item}
+					<tr>
+						<td>#{$item['id']}</td>
+						<td>{php echo date('Y-m-d H:i', $item['addtime']);}</td>
+						{if $_W['is_agent']}
+							<td>{php echo toagent($item['agentid'])}</td>
+						{/if}
+						<td>{$store_spreads[$item['bd_id']]['title']}</td>
+						<td>{$stores[$item['sid']]['title']}</td>
+						<td>
+							<span class="{$trade_types[$item['trade_type']]['css']}">{$trade_types[$item['trade_type']]['text']}</span>
+						</td>
+						<td>
+							<span {if !empty($item['remark'])}data-toggle="popover" title="交易备注" data-content="{$item['remark']}"{/if}>
+							{if $item['fee'] > 0}
+								<strong class="text-success">+{$item['fee']}元</strong>
+							{else}
+								<strong class="text-danger">{$item['fee']}元</strong>
+							{/if}
+							{if !empty($item['remark'])}
+								<i class="fa fa-question-circle"></i>
+							{/if}
+							</span>
+						</td>
+						<td><strong>{$item['amount']}</strong></td>
+					</tr>
+				{/loop}
+				</tbody>
+			</table>
+			<div class="btn-region clearfix">
+				<div class="pull-right">
+					{$pager}
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+{/if}
+
+{itemplate 'public/footer'}

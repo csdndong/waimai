@@ -1,0 +1,190 @@
+{template 'web/common/common'}
+<link rel="stylesheet" type="text/css" href="../addons/kundian_ordering/resource/css/style.css" />
+<link rel="stylesheet" type="text/css" href="../addons/{php echo $_GPC['m']}/resource/swal/dist/sweetalert2.min.css" />
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            订单信息
+        </h3>
+    </div>
+    <div class="panel-body">
+        <div class="ibox-content">
+            <form action="{url 'site/entry/order',array('m'=>'kundian_ordering','version_id'=>$_GPC['version_id'])}" id="searchform" method="post">
+                <div class="row" style="padding: 0 15px;">
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" placeholder="订单编号" name="order_number" value="{$order_number}">
+                    </div>
+                    <div class="col-sm-2">
+                        <button type="submit" class="btn btn-default " style="margin-right:5px;">查询</button>
+                        <!--<a class="btn btn-primary" href="{url 'site/entry/order',array('m'=>'kundian_ordering','op'=>'edit','version_id'=>$_GPC['version_id'])}">增加</a>-->
+                    </div>
+                </div>
+            </form>
+        </div>
+        <form action="" method="post" class="form-horizontal form">
+            <input type="hidden" name="token" value="{$_W['token']}">
+
+            <div class="table-responsive panel-body">
+                <table class="table-striped table-bordered table-hover dataTables-example table">
+                    <thead class="navbar-inner">
+                    <tr>
+                        <th>ID</th>
+                        <th>姓名</th>
+                        <th>联系电话</th>
+                        <th>用餐日期</th>
+                        <th>用餐时间</th>
+                        <th>用餐人数</th>
+                        <th>总价</th>
+                        <th>是否支付</th>
+                        <th>是否用餐</th>
+                        <th>订单状态</th>
+                        <th>备注</th>
+                        <th>订餐时间</th>
+                        <th style="text-align:right;">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody id="level-list">
+                    {loop $list $index $item}
+                    <tr>
+                        <td><div class="type-parent">{$item['id']}</div></td>
+                        <td><div class="type-parent">{$item['name']}</div></td>
+                        <td><div class="type-parent">{$item['phone']}</div></td>
+                        <td><div class="type-parent">{$item['use_date']}</div></td>
+                        <td><div class="type-parent">{$item['use_time']}</div></td>
+                        <td><div class="type-parent">{$item['person_count']}</div></td>
+                        <td><div class="type-parent">{$item['total_price']}</div></td>
+
+                        <td><div class="type-parent" style="width: 52px;height: 32px;">
+                            {if $item['is_pay']==1}
+                            <input type="checkbox" checked class="js-switch is_pay" value="1" name="is_pay" data-id="{$item['id']}">
+                            {else}
+                            <input type="checkbox" class="js-switch is_pay" name="is_pay" value="0" data-id="{$item['id']}">
+                            {/if}
+                        </div></td>
+                        <td><div class="type-parent" style="width: 52px;height: 32px;">
+                            {if $item['is_use']==1}
+                            <input type="checkbox" checked class="js-switch is_use" value="1" name="is_use" data-id="{$item['id']}">
+                            {else}
+                            <input type="checkbox" class="js-switch is_use" name="is_use" value="0" data-id="{$item['id']}">
+                            {/if}
+                        </div></td>
+                        <td><div class="type-parent" style="width: 52px;height: 32px;">
+                            {if $item['is_use']==0}
+                            未用餐
+                            {elseif $item['is_use']==1}
+                            已用餐
+                            {elseif $item['is_use']==2}
+                            申请取消
+                            {elseif $item['is_use']==3}
+                            已取消
+                            {else}
+
+                            {/if}
+                        </div></td>
+                        <td><div class="type-parent">{$item['remark']}</div></td>
+                        <td><div class="type-parent"><?php echo date("Y-m-d H:i:s",$item['create_time'])?></div></td>
+                        <td style="text-align:right;">
+                            <a href="{url 'site/entry/make_order',array('m'=>'kundian_ordering','op'=>'edit','id'=>$item['id'],'version_id'=>$_GPC['version_id'])}" class="btn btn-primary btn-xs edit"><i class="fa fa-edit"></i>查看详情</a>
+                            <a class="btn btn-danger btn-xs delete" data-id="{$item['id']}"><i class="fa fa-edit"></i>删除</a>
+                    </tr>
+                    {/loop}
+                    </tbody>
+                </table>
+                <div style="text-align: right;">
+                    {$pager}
+                </div>
+            </div>
+        </form>
+
+
+    </div>
+</div>
+{template 'common/footer'}
+<script>
+    require(["../addons/{php echo $_GPC['m']}/resource/swal/dist/sweetalert2.min.js"],function(){
+        $(function(){
+            //改变状态
+            $(".is_pay").change(function(){
+                var status;
+                var that=$(this);
+                if($(this).is(":checked")){
+                    status=1;
+                }else{
+                    status=0;
+                }
+                var id=$(this).attr("data-id");
+                $.ajax({
+                    type:"post",
+                    url:"{url 'site/entry/'.$_GPC['do'],array('m'=>$_GPC['m'],'op'=>'is_pay_change','version_id'=>$_GPC['version_id'])}",
+                    data:{id:id,status:status},
+                    dataType:'json',
+                    success:function(res){
+                        if(res.status==1){
+                            swal('操作成功!', '操作成功!', 'success');
+                        }else{
+                            that.prop("checked",!that.is(":checked"));
+                            swal('操作失败!', '操作失败!', 'error');
+                        }
+                    }
+                })
+            })
+            $(".is_use").change(function(){
+                var status;
+                var that=$(this);
+                if($(this).is(":checked")){
+                    status=1;
+                }else{
+                    status=0;
+                }
+                var id=$(this).attr("data-id");
+                $.ajax({
+                    type:"post",
+                    url:"{url 'site/entry/'.$_GPC['do'],array('m'=>$_GPC['m'],'op'=>'is_use_change','version_id'=>$_GPC['version_id'])}",
+                    data:{id:id,status:status},
+                    dataType:'json',
+                    success:function(res){
+                        if(res.status==1){
+                            swal('操作成功!', '操作成功!', 'success');
+                        }else{
+                            that.prop("checked",!that.is(":checked"));
+                            swal('操作失败!', '操作失败!', 'error');
+                        }
+                    }
+                })
+            })
+
+            //删除
+            $(".delete").click(function(){
+                var that=$(this);
+                var id=$(this).attr('data-id');
+                swal({
+                    title: '确定删除吗?',
+                    text: "确定删除吗?",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: '删除',
+                    cancelButtonText: '取消',
+                }).then(function(isConfirm) {
+                    if (isConfirm) {
+                        $.ajax({
+                            type:"post",
+                            url:"{url 'site/entry/'.$_GPC['do'],array('m'=>$_GPC['m'],'op'=>'delete','version_id'=>$_GPC['version_id'])}",
+                            data:{id:id},
+                            dataType:'json',
+                            success:function(res){
+                                if(res.status==1){
+                                    swal('操作成功!', '操作成功!', 'success');
+                                    that.parent().parent().remove();
+                                }else{
+                                    swal('操作失败!', '操作失败!', 'error');
+                                }
+                            }
+                        })
+                    }
+                })
+            });
+        })
+    })
+</script>

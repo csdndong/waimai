@@ -1,0 +1,45 @@
+ <{extends file="<{$tempdir}>/public/admin.html"}> 
+ <{block name=extendjs}>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js"></script>
+ <{/block}>
+ <{block name=controlname}>天气设置<{/block}>
+ <{block name=bodylist}> 
+	
+	  <div style="width:auto;overflow-x:hidden;overflow-y:auto;">   
+          <div id="tagscontent">
+            <form method="post" name="form1" action="<{ofunc type=url link="/adminpage/system/module/saveweatherset/datatype/json"}>" onsubmit="return subform('',this);">
+              <div>
+                <table border="0" cellspacing="2" cellpadding="4" class="list" name="table" id="table" width="100%">
+                  <tbody>
+                    <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                      <td class="left">是否显示天气</td>
+                      <td>
+					      <input type="radio" name="is_open"  value="1"  <{if $is_open_weather == 1}>checked<{/if}>> 是
+					      <input type="radio" name="is_open"  value="0"  <{if $is_open_weather == 0}>checked<{/if}>> 否
+					  </td>
+                    </tr>
+					 
+                    <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                      <td class="left">KEY</td>
+                      <td><input type="text" name="weatherkey" id="weatherkey" value="<{$weatherkey}>" class="skey" style="width:300px;"><a href='https://console.heweather.com/register' target="_blank">去注册获取</a></td>
+                    </tr>
+                 
+                  </tbody>
+                </table>
+              </div>
+              <div class="blank20"></div>
+              <input type="hidden" name="tijiao" id="tijiao" value="do" class="skey" style="width:250px;">
+              <input type="hidden" name="saction" id="saction" value="weatherapiset" class="skey" style="width:250px;">
+               <input type="submit" value="确认提交" class="button">  
+            </form>
+          </div>
+         
+           
+         </div>
+      
+    
+
+          </div> 
+ 
+<!--newmain 结束-->
+ <{/block}>

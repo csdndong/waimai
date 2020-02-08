@@ -1,0 +1,180 @@
+page {
+    font-size: 14px;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    background-color: #F5F5F5;
+}
+
+.content {
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.content .zan-field__title {
+    color: #3D4145;
+    font-size: 16px;
+}
+
+.content .zan-field input {
+    text-align: right;
+}
+
+.content .zan-field .zan-field__placeholder {
+    font-size: 16px;
+}
+
+.content .zan-cell__bd {
+    color: #3D4145;
+    font-size: 16px;
+}
+
+.content .zan-cell__ft {
+    font-size: 16px;
+}
+
+.content .page__bd_spacing {
+    padding: 0 15px;
+    margin: 10px 0;
+}
+
+.content .add {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.content .add .coupon-add {
+    width: 90%;
+    background-color: #fff;
+    height: 40px;
+    line-height: 40px;
+    display: inline-block;
+    color: #33aafc;
+    border-radius: 4px;
+}
+
+.content .add .coupon-add .icon-add {
+    width: 18px;
+    height: 18px;
+    text-align: center;
+    line-height: 18px;
+    font-size: 16px;
+    border-radius: 50%;
+    border: 1px solid #33aafc;
+    margin-right: 5px;
+}
+
+.content .coupon-container {
+    text-align: center;
+    margin-top: 10px;
+    background-color: #fff;
+}
+
+.content .coupon-container .coupon-detail {
+    display: inline-block;
+    position: relative;
+    width: 80%;
+    height: 105px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    color: #ccc;
+}
+
+.content .coupon-container .coupon-detail:first-child {
+    margin-top: 10px;
+}
+
+.content .coupon-container .coupon-detail:before {
+    top: -8px;
+    border-bottom: 1px solid #ccc;
+    content: "";
+    display: block;
+    position: absolute;
+    left: 24%;
+    background-color: #fff;
+    width: 18px;
+    height: 18px;
+    border-radius: 9px;
+    z-index: 10;
+}
+
+.content .coupon-container .coupon-detail:after {
+    bottom: -10px;
+    border-top: 1px solid #ccc;
+    content: "";
+    display: block;
+    position: absolute;
+    left: 24%;
+    background-color: #fff;
+    width: 18px;
+    height: 18px;
+    border-radius: 9px;
+    z-index: 10;
+}
+
+.content .coupon-container .coupon-detail .coupon-operation {
+    position: absolute;
+    right: 10px;
+    top: 4px;
+}
+
+.content .coupon-container .coupon-detail .coupon-operation .btn-coupon-edit {
+    padding-left: 5px;
+    font-size: 14px;
+    color: #33aafc;
+    display: inline-block;
+}
+
+.content .coupon-container .coupon-detail .coupon-amount {
+    position: relative;
+    width: 27%;
+    padding: 20px 0;
+    border-right: 1px dashed #ccc;
+    text-align: center;
+    float: left;
+}
+
+.content .coupon-container .coupon-detail .coupon-amount .discount-amount {
+    color: red;
+    font-size: 24px;
+}
+
+.content .coupon-container .coupon-detail .coupon-amount view {
+    margin: 0 0 10px;
+    font-size: 12px;
+}
+
+.content .coupon-container .coupon-detail .coupon-term {
+    width: 72%;
+    line-height: 105px;
+    font-size: 18px;
+    text-align: center;
+    float: left;
+}
+
+.content .coupon-container .coupon-detail .coupon-term .deadline {
+    font-style: normal;
+}
+
+.wui-dialog {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    background-color: #F5F5F5;
+}
+
+.wui-dialog .wui-dialog-container {
+    position: relative;
+    width: 100%;
+    background-color: #F5F5F5;
+    transform: translateY(0);
+    box-sizing: border-box;
+}
+
+.wui-dialog .btn-group {
+    padding: 0 5%;
+    margin-top: 10px;
+}

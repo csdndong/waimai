@@ -1,0 +1,212 @@
+ <{extends file="<{$tempdir}>/public/wxsite.html"}>  
+<{block name=extendcss}> 
+ <link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/order.css">
+ <link rel="stylesheet" href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/newshop/css/font-awesome.min.css" />
+<link rel="stylesheet" href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/newshop/css/index.css" />
+<{/block}>
+  <{block name=extendjs}> 
+  <script src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/js/template.min.js"></script>   
+
+  
+<script>
+var defaultSwiper; //默认的滚动控件名 
+var holdPosition = 0; 
+var maxposition = 0;
+var page =1;
+var pageend = false;
+var html5_config = {'showheader':true,'showfooter':true,'bodyscller':true,'Canfresh':true,'CanloadMore':true,'titilename':'外卖频道'}; 
+$(function(){
+	loading();
+	$('.fa-angle-left').bind("click", function() {
+      history.back();
+   });
+});
+function freshpage(){//刷新函数 
+ showLoading();
+  page =1;
+  pageend = false;
+    $('#orderlist').html(''); 
+	var content = htmlback(siteurl+'/index.php?ctrl=wxsite&action=getshopmorecomment',{'page':page,'shopid':<{$shopinfo['id']}>});
+  	if(content.flag == false){
+ 	     $('#orderlist').append(content.content);    
+				if(  $.trim(content.content) != '' && $("#orderlist .commessCon").length >= 5  ){
+ 					$("#lodingmore").show();
+				} 
+				if(  $.trim(content.content) == ''  ){
+					$('#noping').show();
+				}else{
+					$('#noping').hide();
+				}
+				newhideLoading();
+				defaultSwiper.refresh();
+	}else{
+		newhideLoading();
+	    Tmsg('xxxx');
+	}  
+	hidefresh();
+    //setTimeout("hidefresh()",50);  
+}
+function loadmore(){
+	showLoading();
+	page = page+1;
+	   var content = htmlback(siteurl+'/index.php?ctrl=wxsite&action=getshopmorecomment',{'page':page,'shopid':<{$shopinfo['id']}>});
+		if(content.flag == false){
+		$('#lodingmore .moreLoading i').addClass('iconstartloading');
+	    $('#lodingmore .moreLoading i').removeClass('iconloading');
+	    $('#lodingmore .moreLoading i').removeClass('iconOverload');
+		$("#lodingmore span").text("上拉更多...");
+		   var getmoreContent =  $.trim(content.content); 
+  		   if( getmoreContent == ''  ){
+ 				pageend = true;
+				$('#lodingmore .moreLoading i').removeClass('iconstartloading');
+				$('#lodingmore .moreLoading i').removeClass('iconloading');
+				$('#lodingmore .moreLoading i').addClass('iconOverload');
+				$("#lodingmore span").text("加载完毕...");
+				newhideLoading();
+		   }else{
+				 $('#orderlist').append(content.content);
+				 newhideLoading();
+		   }
+		  
+		}else{
+			pageend = true;
+			$('#lodingmore .moreLoading i').removeClass('iconstartloading');
+			$('#lodingmore .moreLoading i').removeClass('iconloading');
+	     	$('#lodingmore .moreLoading i').addClass('iconOverload');
+			$("#lodingmore span").text("加载完毕...");
+			newhideLoading();
+		}
+		//  setTimeout("hideloadmore()",500);  
+		hideloadmore();
+	
+} 
+  
+//加载页面函数
+function loading(){
+ 	if(typeof html5_config == 'undefined'){
+		alert('获取失败');
+	}else{ 
+	    
+		if(html5_config.bodyscller == true){
+ 			 setTimeout(function(){  
+				$('#wrapper').show();    
+				 addfresh();
+				 
+			 },500);
+		}
+	 //	$('#loading').hide();
+		//loaddata();
+		
+	}
+}  
+</script>
+  
+ <script> 
+ 
+  
+  
+//添加店铺收藏
+function myFavorite(shopid,obj)
+{ 
+  var url = siteurl+'/index.php?ctrl=shop&action=addcollect&datatype=json&collectid='+shopid+'&type=0'; 
+  var backinfo = ajaxback(url,{});
+  if(backinfo.flag == false){ 
+     		$(obj).hide(); 
+     		$(obj).next().show(); 
+     	//	$('#CancelFavShop').show();
+   }else{ 
+   	Tmsg(backinfo.content); 
+  }
+}  
+//删除店铺收藏
+function delFav(shopid,obj)
+{ 
+	var url = siteurl+'/index.php?ctrl=shop&action=delcollect&datatype=json&collectid='+shopid+'&type=0'; 
+  var backinfo = ajaxback(url,{});
+  if(backinfo.flag == false){ 
+      $(obj).hide(); 
+	  $(obj).prev().show(); 
+     // $('#CancelFavShop').hide();
+   }else{ 
+   	 Tmsg(backinfo.content); 
+  }  
+}
+
+		
+ 	</script>
+
+<{/block}>
+<{block name=myScrolljs}>
+  
+<{/block}>
+ <{block name=hearnav}>
+ <!-- <div class="toptitCon">
+ <div class="toptitBox">
+  <div class="toptitL"><i></i></div>
+  <div class="toptitC"><h3 style="font-weight:bold; font-size:20px;"><{$shopinfo['shopname']}></h3></div>
+ 
+  <div <{if !empty($collect) }>style="display:none;"<{/if}>  onclick="myFavorite(<{$shopinfo['id']}>,this); "    class="toptitR"><i class="ordiscoll"></i></div>
+  <div <{if empty($collect) }>style="display:none;"<{/if}>  onclick="delFav(<{$shopinfo['id']}>,this);"   class="toptitR"><i class="ordiscoll1"></i></div>
+   
+ </div>
+</div> -->
+<div class="wmr_title_content">
+	<div class="wmr_title_left ">
+		<i class="fa fa-angle-left"></i>
+	</div>
+	<div class="wmr_title_center"><{$shopinfo['shopname']}></div>
+	<div class="wmr_title_right"> 
+		<img style='display:none' <{ofunc type=img  link="images/icon_titfx.png"}> />
+	</div>
+</div> 
+
+<!--链接-->
+<div class="ordislink">
+ <ul>
+  <li  onclick="dolink('<{ofunc type=url link="/wxsite/shopshow/typelx/<{$typelx}>/id/<{$shopinfo['id']}>"}>');">商品</li>
+  <li   class="ordislinkaA"  onclick="dolink('<{ofunc type=url link="/wxsite/getshopcomment/typelx/<{$typelx}>/shopid/<{$shopinfo['id']}>"}>');"  >评价</li>
+  <li   onclick="dolink('<{ofunc type=url link="/wxsite/getdetailinfo/typelx/<{$typelx}>/shopid/<{$shopinfo['id']}>"}>');" ">商家</li>
+ </ul>
+</div>
+
+<{/block}>
+<{block name=sitetitle}><{$sitename}><{/block}>
+<{block name=blockcontent}> 
+<style>
+p{padding:0px; margin:0px;}
+</style>
+ <div id="wrapper" style="top:83px; ">
+	<div id="scroller">
+ 
+ 
+<!--总体评价-->
+<div class="ordisevalpopuCon">
+ <ul>
+  <li class="ordisevalpopul"><b><{$zonghefen}></b><span>综合评分</span></li>
+  <li class="ordisevalpopur">
+   <ul>
+    <li><span>总体评价</span></li>
+    <li><{section name=loop loop=$zongtistart }><i class="fa fa-star"></i><{/section}><{section name=loop loop=5-$zongtistart }><i class="fa fa-star" style="color:#C7C7C7;"></i><{/section}></li>
+   </ul>
+   <ul>
+    <li><span>配送服务</span></li>
+    <li><{section name=loop loop=$psfuwustart }><i class="fa fa-star"></i><{/section}><{section name=loop loop=5-$psfuwustart }><i class="fa fa-star" style="color:#C7C7C7;"></i><{/section}></li>
+   </ul>
+  </li>
+ </ul>
+</div>
+<!--评论留言--> 
+<div id="orderlist">
+ 
+ 
+</div>
+ 
+<div  id="lodingmore"   style="display:none;"   class="downLoading "><div class="moreLoading"><i class="iconstartloading"></i><span>上拉更多...</span></div></div>
+   
+</div>
+</div>
+ 
+<div id='noping' style='position: absolute;bottom: 275px; text-align: center;width: 100%;display:none'><img <{ofunc type=img  link="/upload/images/pinglun.png"}>><p>暂无评论</p></div> 
+ 
+  
+<{/block}>

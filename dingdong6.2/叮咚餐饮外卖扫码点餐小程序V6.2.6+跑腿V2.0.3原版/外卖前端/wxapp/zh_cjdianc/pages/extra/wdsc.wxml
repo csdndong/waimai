@@ -1,0 +1,54 @@
+<!--   time:2019-07-18 01:03:26 -->
+<view class="main">
+	<view class="tjsj">
+		<block wx:for="{{storelist}}" wx:key="*this" wx:for-item="item" wx:for-index="index" >
+			<view bindtap="tzsjxq" class="sjlb flex-row {{item.is_yy==2&&mdxx.isyykg==1?'bszz':''}}" data-sjid="{{item.store_id}}">
+				<view class="sjleft flex-grow-0">
+					<image class="sjleftimg" src="{{item.logo}}"></image>
+					<block wx:if="{{item.is_brand=='1'}}">
+						<view class="xzhiding">品牌</view>
+					</block>
+				</view>
+				<view class="sjright flex-grow-1 flex-col">
+					<view class="sjright1 flex-row flex-y-center">
+						<view class="sjright1-l gobyndsingle">{{item.name}}</view>
+						<block wx:if="{{item.is_yy==2&&mdxx.isyykg==1}}">
+							<view class="isyy">休息中</view>
+						</block>
+					</view>
+					<view class="sjright2 flex-bet flex-y-center">
+						<view class="flex-row flex-grow-1 flex-y-center">
+							<view class="pingjia_fenshu3">
+								<view class="kximg">
+									<image src="../../img/i-star.png"></image>
+								</view>
+								<view class="sximg" style="width: {{item.sales*20}}%">
+									<image src="../../img/i-stars.png"></image>
+								</view>
+							</view>
+							<view class="pingfen">{{item.sales}}</view>
+							<view class="recommed_midel">月售{{item.score}}单</view>
+						</view>
+					</view>
+				</view>
+			</view>
+		</block>
+		<view class="jzz" hidden="{{mygd}}">
+			<image class="Rotation" src="../../img/jzz.png"></image>
+			<view>加载中...</view>
+		</view>
+		<block wx:if="{{storelist.length==0&&mygd}}">
+			<view class="kong">
+				<image src="../../img/wushuju.png"></image>
+				<view>暂无相关数据</view>
+			</view>
+		</block>
+		<block wx:if="{{mygd}}">
+			<view class="jzwb">
+				<view class="hx"></view>
+				<view class="wz">加载完毕</view>
+				<view class="hx"></view>
+			</view>
+		</block>
+	</view>
+</view>

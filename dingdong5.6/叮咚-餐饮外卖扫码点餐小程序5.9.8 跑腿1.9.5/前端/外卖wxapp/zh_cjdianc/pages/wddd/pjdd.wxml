@@ -1,0 +1,50 @@
+<view class="goods-list">
+    <view class="goods-item">
+        <view class="flex-row flex-y-center score-row" style="padding:20rpx 30rpx;">
+            <image class="goods-pic" src="{{orderinfo.store.logo}}"></image>
+            <view style="margin-left:30rpx;">{{orderinfo.store.name}}</view>
+        </view>
+        <view class="pjxx">
+            <image class="star-image" src="{{key>item?key-item==0.5?halfSrc:selectedSrc:normalSrc}}" style="left: {{item*70}}rpx" wx:for="{{stars}}">
+                <view bindtap="selectLeft" class="item" data-key="{{item+1}}" style="left:0rpx"></view>
+            </image>
+        </view>
+        <view class="banner">
+            <view class="pjnr">
+                <textarea bindinput="contentInput" data-index="{{index}}" maxlength="100" placeholder="要评价的内容..." placeholderStyle="color:#999;"></textarea>
+            </view>
+            <view class="mdtp flex-row" wx:if="{{!sctp}}">
+                <image bindtap="sctp" src="../../img/zxj.png"></image>
+                <view class="flex-grow-1 flex-col">
+                    <view class="flex-grow-1">上传图片</view>
+                    <view class="flex-grow-0">内容丰富的评价有机会成为优质评价</view>
+                </view>
+            </view>
+            <view class="mdtp1" wx:if="{{sctp}}">
+                <view class="weui-uploader__bd">
+                    <view class="weui-uploader__files" id="uploaderFiles">
+                        <view class="weui-uploader__file" wx:for="{{images}}">
+                            <view bindtap="deleteImage" class="x" data-index="{{index}}">
+                                <image src="../../img/close.png"></image>
+                            </view>
+                            <image bindtap="previewImage" class="weui-uploader__img" mode="aspectFill" src="{{item}}"></image>
+                        </view>
+                    </view>
+                    <view class="weui-uploader__input-box" wx:if="{{images.length<3}}">
+                        <view bindtap="chooseImage" class="weui-uploader__input"></view>
+                    </view>
+                </view>
+                <view class="tpsl">{{images.length}}/3</view>
+            </view>
+            <view class="goodlist">
+                <view class="good flex-row" wx:for="{{good}}">
+                    <view class="flex-grow-1">{{item.name}}</view>
+                    <view class="flex-grow-0">x{{item.number}}</view>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>
+<view class="weui-btn-area">
+    <button bindtap="commentSubmit" class="weui-btn" style="background:{{color}};font-size:35rpx;" type="primary">提交评论</button>
+</view>

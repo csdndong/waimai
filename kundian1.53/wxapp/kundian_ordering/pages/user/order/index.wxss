@@ -1,0 +1,399 @@
+page {
+    font-size: 30rpx;
+    background: #f4f4f4;
+}
+
+.order-nav {
+    width: 100%;
+    height: 100rpx;
+    line-height: 100rpx;
+    background: white;
+    position: fixed;
+    top: 0;
+    z-index: 999;
+}
+
+.order-nav .nav-li {
+    width: 25%;
+    height: 100%;
+    line-height: 100rpx;
+    text-align: center;
+    float: left;
+    color: gray;
+}
+
+.order-nav .active {
+    border-bottom: 2rpx solid black;
+    color: black;
+}
+
+.none-order {
+    width: 100%;
+    height: 200rpx;
+    margin-top: 300rpx;
+    text-align: center;
+}
+
+.none-order image {
+    width: 210rpx;
+    height: 200rpx;
+}
+
+.none-order text {
+    display: block;
+}
+
+.con {
+    width: 100%;
+    height: auto;
+    margin-top: 120rpx;
+    padding-bottom: 140rpx;
+}
+
+.con .wai-order {
+    width: 100%;
+    height: auto;
+}
+
+.con .wai-order .wai-ul {
+    width: 100%;
+    height: auto;
+    margin-bottom: 20rpx;
+}
+
+.con .wai-order .wai-ul .li-top {
+    width: 100%;
+    height: 100rpx;
+    line-height: 100rpx;
+    background: white;
+}
+
+.wai-ul .li-top image {
+    width: 80rpx;
+    height: 80rpx;
+    position: relative;
+    top: 10rpx;
+    left: 5%;
+}
+
+.wai-ul .li-top .nickname {
+    position: relative;
+    top: -30rpx;
+    left: 50rpx;
+}
+
+.wai-ul .li-top .order-status {
+    float: right;
+    margin-right: 5%;
+}
+
+.wai-ul .li-top .time {
+    position: relative;
+    top: 5rpx;
+    font-size: 24rpx;
+    color: gray;
+    left: -5rpx;
+}
+
+.wai-ul .li-center {
+    width: 90%;
+    height: 140rpx;
+    border-bottom: 1rpx solid white;
+    margin-left: 5%;
+}
+
+.wai-ul .li-center .c-left,.wai-ul .li-center .c-right {
+    width: 25%;
+    height: 100%;
+    float: left;
+}
+
+.wai-ul .li-center .c-center {
+    width: 50%;
+    height: 100%;
+    float: left;
+}
+
+.wai-ul .li-center .c-center .goods-name {
+    width: 100%;
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    margin-top: 20rpx;
+}
+
+.wai-ul .li-center .c-left image {
+    width: 120rpx;
+    height: 120rpx;
+    margin-top: 10rpx;
+}
+
+.wai-ul .li-center .c-right {
+    text-align: right;
+}
+
+.wai-ul .li-center .c-right .price {
+    display: block;
+    margin-top: 20rpx;
+}
+
+.wai-ul .li-center .c-right .old-price {
+    display: block;
+    color: gray;
+    text-decoration: line-through;
+    font-size: 26rpx;
+}
+
+.wai-ul .order-btn {
+    width: 90%;
+    height: 100rpx;
+    background: white;
+    padding-left: 5%;
+    padding-right: 5%;
+    text-align: right;
+    border-bottom: 1rpx solid #f4f4f4;
+    line-height: 100rpx;
+}
+
+.wai-ul .order-btn .cancel-order {
+    display: block;
+    width: 150rpx;
+    height: 60rpx;
+    border: 1rpx solid black;
+    float: right;
+    line-height: 60rpx;
+    text-align: center;
+    margin-top: 20rpx;
+}
+
+.wai-ul .order-btn .begin-send {
+    display: block;
+    width: 150rpx;
+    height: 60rpx;
+    background: black;
+    color: white;
+    float: right;
+    text-align: center;
+    line-height: 60rpx;
+    border: 1rpx solid black;
+    margin-top: 20rpx;
+    margin-left: 20rpx;
+}
+
+.make-order {
+    width: 100%;
+    height: auto;
+    margin-top: 120rpx;
+}
+
+.make-order .make-ul {
+    width: 100%;
+    height: auto;
+    background: white;
+    margin-bottom: 20rpx;
+}
+
+.make-order .make-ul .make-li {
+    margin-left: 5%;
+    height: 100rpx;
+    width: 90%;
+    border-bottom: 1rpx solid #f4f4f4;
+    line-height: 100rpx;
+}
+
+.make-order .make-ul .make-li .li-title {
+    color: gray;
+    margin-right: 30rpx;
+}
+
+.make-order .make-btn {
+    width: 90%;
+    height: 100rpx;
+    background: white;
+    padding-left: 5%;
+    padding-right: 5%;
+    text-align: right;
+}
+
+.make-order .cancel-make {
+    display: block;
+    width: 150rpx;
+    height: 70rpx;
+    border: 1rpx solid black;
+    float: right;
+    line-height: 70rpx;
+    text-align: center;
+    right: 20rpx;
+    position: relative;
+    top: 20rpx;
+}
+
+.make-order .use-make {
+    display: block;
+    width: 150rpx;
+    height: 70rpx;
+    background: black;
+    color: white;
+    float: right;
+    text-align: center;
+    line-height: 70rpx;
+    border: 1rpx solid black;
+    position: relative;
+    top: 20rpx;
+}
+
+.make-order image {
+    width: 100rpx;
+    height: 100rpx;
+    position: relative;
+    top: -200rpx;
+    left: 80%;
+}
+
+.footer {
+    width: 100%;
+    height: 120rpx;
+    position: fixed;
+    bottom: 0;
+    background: white;
+    border-top: 1rpx solid #f4f4f4;
+}
+
+.footer .f-li {
+    width: 49%;
+    text-align: center;
+    float: left;
+    height: 120rpx;
+    line-height: 100rpx;
+}
+
+.footer .f-li image {
+    width: 40rpx;
+    height: 40rpx;
+}
+
+.footer .li-line {
+    border-right: 1rpx solid #f4f4f4;
+    width: 50%;
+}
+
+.footer .f-li text {
+    display: block;
+    position: relative;
+    top: -60rpx;
+}
+
+.o-desk {
+    width: 100%;
+    height: auto;
+    margin-top: 10rpx;
+}
+
+.o-desk .desk-ul {
+    width: 100%;
+    height: 300rpx;
+    background: white;
+    margin-top: 10rpx;
+}
+
+.o-desk .desk-ul .d-ul-top {
+    width: 90%;
+    margin-left: 5%;
+    height: 80rpx;
+    line-height: 80rpx;
+    border-bottom: 1rpx solid #f4f4f4;
+}
+
+.o-desk .desk-ul .d-ul-top .headimg {
+    width: 60rpx;
+    height: 60rpx;
+    margin-top: 10rpx;
+    margin-right: 10rpx;
+}
+
+.o-desk .desk-ul .d-ul-top .status {
+    float: right;
+}
+
+.o-desk .desk-ul .d-ul-top .username {
+    position: relative;
+    top: -20rpx;
+}
+
+.o-desk .desk-ul .d-ul-top .jiantou {
+    width: 30rpx;
+    height: 30rpx;
+    float: right;
+    position: relative;
+    top: 25rpx;
+}
+
+.o-desk .desk-ul .d-ul-center {
+    width: 90%;
+    margin-left: 5%;
+    height: 180rpx;
+    border-bottom: 1rpx solid #f4f4f4;
+    padding: 10rpx 0 10rpx 0;
+}
+
+.o-desk .desk-ul .d-ul-center .cen-left {
+    width: 25%;
+    float: left;
+    height: 100%;
+}
+
+.o-desk .desk-ul .d-ul-center .cen-left image {
+    width: 150rpx;
+    height: 150rpx;
+}
+
+.o-desk .desk-ul .d-ul-center .cen-cen {
+    width: 70%;
+    float: left;
+    height: 100%;
+}
+
+.o-desk .desk-ul .d-ul-center .cen-cen .desk-name {
+    display: block;
+    color: gray;
+    overflow: hidden;
+    height: 40rpx;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.o-desk .desk-ul .d-ul-center .cen-cen .desk-status {
+    color: #cfcfcf;
+    font-size: 24rpx;
+    display: block;
+}
+
+.o-desk .desk-ul .d-ul-center .cen-cen .desk-time {
+    color: #cfcfcf;
+    font-size: 24rpx;
+    display: block;
+}
+
+.o-desk .desk-ul .d-ul-center .cen-cen .desk-price {
+    color: red;
+}
+
+.o-desk .desk-ul .cen-btn {
+    width: 90%;
+    margin-left: 5%;
+    height: 80rpx;
+}
+
+.o-desk .desk-ul .cen-btn text {
+    display: block;
+    width: 150rpx;
+    height: 60rpx;
+    line-height: 60rpx;
+    border: 1rpx solid red;
+    border-radius: 5rpx;
+    text-align: center;
+    float: right;
+    margin-top: 20rpx;
+    color: red;
+}

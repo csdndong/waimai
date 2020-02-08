@@ -1,0 +1,149 @@
+ <{extends file="<{$tempdir}>/public/admin.html"}>
+   <{block name=extendjs}>
+ <script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/datepicker/WdatePicker.js" type="text/javascript" language="javascript"></script>
+ 
+<{/block}>
+ <{block name=controlname}>店铺提现申请表 <{/block}>
+ <{block name=bodylist}>
+<style>
+#tagscontent .table_td th, #tagscontent #table th{font-size:12px;}
+</style>
+          <div style="width:auto;overflow-x:hidden;overflow-y:auto">
+
+		    <div class="search">
+
+
+            <div class="search_content">
+
+            	 <form method="post" name="form1" action="<{ofunc type=url link="/adminpage/order/module/shoptx"}>">
+
+            	  <label>店铺名：</label>
+            	   <input type="text" name="shopname" value="<{$shopname}>" style="width:150px;">  
+				   <label>状态：</label>
+            	   <select name="status">
+				   <option value="1" <{if $status == 1}>selected<{/if}>>申请</option>
+				   <option value="2" <{if $status == 2}>selected<{/if}>>处理成功</option>
+				   <option value="3" <{if $status == 3}>selected<{/if}>>已取消</option>   
+				   </select>
+            	   
+            	   从<input class="Wdate datefmt" type="text" name="starttime" id="starttime" value="<{$starttime}>"  onFocus="WdatePicker({isShowClear:false,readOnly:true});" />
+			   	   到<input class="Wdate datefmt" type="text" name="endtime" id="endtime" value="<{$endtime}>"  onFocus="WdatePicker({isShowClear:false,readOnly:true});" />
+
+
+            	    <input type="submit" value="提交查询" class="button">
+            	 </form>
+            </div>
+
+      	</div>
+		  
+		    
+		  
+		  
+           <div class="tags">
+
+
+
+          <div id="tagscontent">
+
+            <div id="con_one_1">
+
+              <div class="table_td" style="margin-top:10px;">
+
+              <form method="post" action="" onsubmit="return remind();" id="delform">
+
+                  <table border="0" cellspacing="2" cellpadding="4" class="list" name="table" id="table" width="100%">
+
+                    <thead>
+
+                      <tr>
+                          <th width="60px"><input type="checkbox" id="chkall" name="chkall" onclick="checkall()"></th>
+                        <th align="center">id</th>
+                         <th align="center">店铺名称</th>
+						 <th align="center">提现说明</th>
+						  <th align="center">账号</th>
+                        <th align="center">提现金额</th>
+						
+						<th align="center">账号余额</th>  
+						<th align="center">状态</th> 
+						<th align="center">提交时间</th>
+						<th align="center">微信用户</th>
+						<th align="center">操作</th> 
+                      </tr>
+
+                    </thead>
+
+                     <tbody> 
+		 
+		                 	<{foreach from=$txlist item=items}>
+                      <tr class="s_out" onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                          <td align="center" ><input type="checkbox" name="id[]" value="<{$items['id']}>"></td>
+                        <td align="center" ><{$items['id']}></td>
+                        <td align="center" > <{$items['shopname']}> </td>
+						<td align="center" ><{$items['name']}></td>
+						<td align="center"><{$items['backacount']|default:'--'}></td>  
+						<td align="center" > <{$items['cost']}> </td>
+						<td align="center" ><{$items['yue']}> </td>
+						<td align="center" > <{$items['statusname']}> </td>
+						<td align="center" > <{$items['adddate']}> </td>
+						<td align="center" >
+						<{if !empty($items['wxuserinfo'])}>
+						<img src="<{$items['wxuserinfo']['wxuserlogo']}>" style="width:24px;height:24px;margin-top:5px;"/><span style="display:inline-block;float: right;margin-right: 10px;"><{$items['wxuserinfo']['wxusername']}></span>
+						<{else}>
+						暂未授权微信
+						<{/if}>						
+						</td>
+						 <td align="center" style="display: flex;justify-content: space-around;">
+						    <{if $items['type'] == 0 && $items['status'] == 1}>
+							<{if !empty($items['wxuserinfo'])}>
+								<a onclick="return remind(this);" href="<{ofunc type=url link="/adminpage/order/module/admintxwechat/txid/<{$items['id']}>/wxopenid/<{$items['wxuserinfo']['wxopenid']}>/datatype/json"}>" style="color:#54c700;">
+								一键打款
+								</a>
+							<{/if}>
+							<a onclick="return remind(this);" href="<{ofunc type=url link="/adminpage/order/module/adminpsstx/txid/<{$items['id']}>/datatype/json"}>" style="color:#54c700;">
+							手动打款
+							</a>							                     
+							<a onclick="return remind(this);" href="<{ofunc type=url link="/adminpage/order/module/shopuntx/txid/<{$items['id']}>/datatype/json"}>">
+							取消
+							</a>
+							<{else}>--
+							<{/if}> 
+							
+						</td>
+						
+                        </tr>
+						 
+                       <{/foreach}>
+					   
+
+                    </tbody>
+
+                  </table>
+
+                <div class="blank20"></div>
+
+                </form>
+
+                <div class="page_newc">
+                    <div class="select_page">
+                        <a href="#" onclick="checkword(true);">全选</a>/<a href="#" onclick="checkword(false);">取消</a>
+                        <a  onclick="outchoice(this);" href="#"  data="<{$outlinkch}>" class="delurl">导出选择项</a>
+                        <a  href="<{$outlink}>" target="_blank" class="delurl">导出查询结果</a>
+                    </div>
+                     <div class="show_page"><ul><{$pagecontent}></ul></div>
+                 </div>
+
+               <div class="blank20"></div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+  </div>
+
+</div>
+<{/block}>

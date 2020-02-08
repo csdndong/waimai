@@ -1,0 +1,123 @@
+<{extends file="<{$tempdir}>/public/admin.html"}> 
+<{block name=extendjs}>
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/jquery.PrintArea.js" type="text/javascript" language="javascript"></script>
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/datepicker/WdatePicker.js" type="text/javascript" language="javascript"></script>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js"></script>
+  <script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/chart/highcharts.js"></script>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/chart/modules/exporting.js"></script>
+<{/block}>
+
+ <{block name=bodylist}>
+ <style>
+	body{color:#666;}
+	.log_title{padding:20px;}
+	.log_title ul{float:left;}
+	.log_title ul li{float: left;margin-right: 20px;line-height: 21px;height: 21px;padding-right: 20px;border-right: 1px solid #ccc;}
+	.log_title ul li div{}
+	.log_title ul li  span:first-child{color: #333;font-size: 14px;}
+	.log_title ul li  span:last-child{color: #FB4C2B;font-size: 16px;}
+	.log_title .delurl{line-height:24px;float:right;padding: 0px 5px;font-size:12px;color:#0076cf;}
+	.selectcolor{color: #1783b2;font-size: 12px;padding: 2px;border: 1px solid #1783b2;margin: 0 0 0 10px;cursor:pointer;}
+	.noselectcolor{color: #666;font-size: 12px;padding: 2px;border: 1px solid #ccc;margin: 0 0 0 10px;cursor:pointer;}
+	.selectcolor a{color:#0076cf;}
+	.noselectcolor a{color:#666;}
+	.selectcolor a:link{color:#0076cf;}
+	.noselectcolor a:link{color:#666;}
+ </style>
+ <div class="managShopCon">
+	<div class="managShopBox">
+		<div class="managShopMain">
+		<{include file="<{$tempdir}>/public/commentcate1.html"}>  
+			
+			<div class="addShopSingCon" style="padding:0;">
+      <div style="width:100%;margin-top:-10px;"> 
+      	
+      	<div class="search" style="height:60px;line-height: 60px;"> 
+            <div class="search_content">
+            	 
+            	 <form method="post" name="form1" action="<{ofunc type=url link="/areaadminpage/analysis/module/trade_log"}>">
+					<label>交易类型：</label>
+            	 	<select name="tradetype">
+            	 		<option value="0">全部</option>
+            	 		<option value="1" <{if $tradetype == 1}>selected<{/if}>>支付订单</option>
+            	 		<option value="2" <{if $tradetype == 2}>selected<{/if}>>订单退款</option>
+            	 	</select>
+            	  <label>订单号：</label>
+            	  <input type="text" name="dno" value="<{$dno}>"> 
+				  时间：
+            	  <input class="Wdate datefmt" type="text" name="starttime" id="starttime" value="<{$starttime|date_format:"%Y-%m-%d"}>"  onFocus="WdatePicker({isShowClear:false,readOnly:true});" style="width:100;"  />  
+			   		 	  至<input class="Wdate datefmt" type="text" name="endtime" id="endtime" value="<{$endtime|date_format:"%Y-%m-%d"}>"  onFocus="WdatePicker({isShowClear:false,readOnly:true});" style="width:100;" />                    
+
+            	    <input type="submit" value="查询" class="button">  
+            	  <span class="<{if $datetype==1}>selectcolor<{else}>noselectcolor<{/if}>"><a href="<{ofunc type=url link="/areaadminpage/analysis/module/trade_log/datetype/1"}>">近7天</a></span><span data="2" class="<{if $datetype==2}>selectcolor<{else}>noselectcolor<{/if}>"><a href="<{ofunc type=url link="/areaadminpage/analysis/module/trade_log/datetype/2"}>">近30天</a></span>
+            	 </form>
+            </div>
+        
+      	</div>
+      	<div class="log_des">
+      		<div class="log_title">
+      			<ul>
+				  <li><span>交易总金额：</span><span>￥<{$nowdata['tradecost']}></span></li> 
+				  <li><span>有效总金额：</span><span>￥<{$nowdata['useordcost']}></span></li> 
+				  <li><span>退款总金额：</span><span>￥<{$nowdata['drawcost']}></span></li>
+				</ul>
+				<a  href="<{$outlink}>" target="_blank" class="delurl">导出数据</a>
+      		</div>
+      		<div id="tagscontent" style="margin-top:15px;">
+				 <form method="post" action="" onsubmit="return remind();" id="delform">
+              <table border="0" cellspacing="2" cellpadding="4" class="list" name="table" id="table" width="100%">
+                <thead>
+                  <tr>
+                    <th align="center">交易时间</th>
+                    <th align="center">交易类型</th>
+                    <th align="center">金额</th>
+                    <th align="center">支付方式</th>
+                    <th align="center">订单号</th>
+                  </tr>
+                </thead>
+                <tbody>
+					<{if empty($orderlist)}>
+							<tr><td align="center" colspan="8">暂无数据</td></tr>
+					<{/if}>
+					<{foreach from=$orderlist item=items}> 
+						<tr class="s_out" onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+						  <td align="center"><{$items['paytime']}></td>
+						  <td align="center"><{$items['tradetype']}></td>
+						  <td align="center"><{$items['allcost']|default:0}></td>
+						  <td align="center"><{$items['paytypename']}></td>
+						  <td align="center"><{$items['dno']}></td>
+						</tr>
+					<{/foreach}>               
+                </tbody>
+
+              </table>
+			   </form>
+			   <div class="blank20"></div> 
+				<div class="show_page"><ul><{$pagecontent}></ul></div>
+				 <div class="blank20"></div> 
+          </div>
+      	</div>
+		
+          </div>
+
+        </div>
+
+        
+  </div>
+  <div id="print_area" style="display:none;"></div>
+ </div>
+ 
+<script type="text/javascript">
+   function colorred(obj){
+   	$(obj).css('background','#eee'); 
+   }
+   function tcolorred(obj){
+   	$(obj).css('background','');
+   }
+    
+ </script>
+ </div>
+		</div>
+		</div>
+		</div>
+<{/block}>

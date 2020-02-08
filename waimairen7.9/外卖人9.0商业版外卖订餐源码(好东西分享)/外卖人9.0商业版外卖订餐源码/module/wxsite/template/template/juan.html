@@ -1,0 +1,168 @@
+ <{extends file="<{$tempdir}>/public/wxsite.html"}>  
+<{block name=extendcss}> 
+ <link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/juan.css">
+<{/block}>
+ <{block name=extendjs}> 
+  <script src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/js/template.min.js"></script>   
+ 
+ <script>  
+  function showorder(obj){
+
+  	window.location.href=siteurl+'/index.php?ctrl=wxsite&action=ordershow&orderid='+$(obj).attr('orderid')+'&random=@random@';  //'ordershow.html?orderid='+$(obj).attr('orderid');//  	alert($(obj).attr('orderid')); 
+
+  } 
+</script>
+
+<{/block}>
+ <{block name=hearnav}>
+<div class="toptitCon">
+ <div class="toptitBox">
+  <div class="toptitL"><i></i></div>
+  <div class="toptitC"><h3>优惠券列表</h3></div>
+    <div class="toptitR"  onclick="dolink('<{ofunc type=url link="/wxsite/addjuan"}>');" ><h3><img style="width:19px;    top: 11px;
+    position: absolute;
+    right: 10px;" src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/addjuanBG.png" /></h3></div>
+
+ </div>
+</div>
+ <{/block}>
+<{block name=sitetitle}><{$sitename}><{/block}>
+<{block name=myScrolljs}><script> 
+		var myScroll;
+function loaded() {
+	myScroll = new iScroll('wrapper', {
+		useTransform: false,
+		onBeforeScrollStart: function (e) {
+			var target = e.target;
+			while (target.nodeType != 1) target = target.parentNode;
+
+			if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA')
+				e.preventDefault();
+		}
+	});
+}
+<!-- document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);  -->
+document.addEventListener('DOMContentLoaded', function () { setTimeout(loaded, 200); }, false);
+</script>
+<{/block}>
+<{block name=blockcontent}> 
+<style>
+.canuse{
+height: 36px;width:49%;display:inline-block;border-right:1px solid #F0F0F0;font-size: 14px;
+}
+.nouse{
+height: 36px;width:49%;display:inline-block;font-size: 14px;
+}
+.can{
+color:#ff6e6e
+}
+</style> 
+<div style='background-color: #fff;height: 36px;text-align:center;line-height: 36px;'>
+		<div class='canuse can'>可使用</div>	
+		<div class='nouse'>已失效</div>
+	</div>
+ <div id="wrapper" style="top:77px;">
+	<div id="scroller">
+	
+<div class="discouponCon">
+ 
+ <div class="discouponBox canuselist">
+  <{if !empty($available)}>
+  <{foreach from=$available key=key item=items}>     
+  <div class="discoupon" juanid="<{$items['id']}>" style='background-color: #fff; border-radius:0'>
+   <div style='padding-bottom: 5px;'>
+    <div style='display:inline-block;text-align:center;width:30%;margin-top: 10px;'>
+	<p><font style='color:red'>￥</font><font style='color:red;font-size: 30px;font-weight: bold;'><{$items['cost']}></font></p>
+	<p><div style='text-align:center;font-size:11px;background-color: #FFE4E1;border-radius: 25px;height: 22px;margin-left: 5px;'>满<{$items['limitcost']}>元可用</div></p>
+	</div>
+	<div style='display:inline-block;text-align:center'>
+	<ul>	   
+	  <li style='font-size: 14px; font-weight:bold;text-align:left'><{$items['name']}>
+	  <{if $items['willbeexpired'] == 1 }><span style='color:red;float: right;font-weight: normal;font-size: 12px; '>即将过期</span><{/if}></li>
+	  <li style='font-size: 11px;'>有效期：<{$items['creattime']}>至<{$items['endtime']}></li>		  
+	</ul>
+	</div>
+   </div>
+   <{if !empty($items['tiaojian']) }>
+   <div class="discouponB" style='height:30px;line-height:30px;border-top:1px #F0F0F0 dashed;font-size: 11px;'>
+        <{$items['tiaojian']}>
+   </div>	
+   <{/if}>   
+  </div> 
+   <{/foreach}>  
+  <{else}>
+      <div align='center' style='margin-top: 50%;'>
+	  <img  src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/wujuan.png" style='width:72px;height:80px'>
+	<p style='color:#999;font-size:12px'>无此类型优惠券~</p></div>
+    <{/if}>
+ </div>
+ 
+ <div class="discouponBox nouselist" style='display:none'>
+  <{if !empty($disabled)}>
+  <{foreach from=$disabled key=key item=items}>   
+  
+  <div class="discoupon" juanid="<{$items['id']}>" style='background-color: #fff; border-radius:0;position: relative;'>
+   <div style='padding-bottom: 5px;'>
+    <div style='display:inline-block;text-align:center;width:30%;margin-top: 10px;'>
+	<p><font style='color:#999999'>￥</font><font style='color:#999999;font-size: 30px;font-weight: bold;'><{$items['cost']}></font></p>
+	<p><div style='text-align:center;font-size:11px;background-color: #F0F0F0;border-radius: 25px;height: 22px;margin-left: 5px;'>满<{$items['limitcost']}>元可用</div></p>
+	</div>
+	<div style='display:inline-block;text-align:center'>
+	<ul>	   
+	  <li style='font-size: 14px; font-weight:bold;text-align:left'><{$items['name']}>
+	   <span style='color:red;float: right;font-weight: normal;font-size: 12px; '><{if $items['status']==4 }><img  src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/guoqi.png" style='width: 40px;height: 35px;position: absolute;right: 10px;top: 10px;'><{else}>已使用<{/if}></span></li>	
+	  <li style='font-size: 11px;'>有效期：<{$items['creattime']}>至<{$items['endtime']}></li>	
+	</ul>
+	</div>
+   </div>
+   <{if !empty($items['tiaojian'])  }>
+   <div class="discouponB" style='height:30px;line-height:30px;border-top:1px #F0F0F0 dashed;font-size: 11px;'>
+    <{$items['tiaojian']}>     
+   </div>	
+   <{/if}>     
+  </div> 
+   <{/foreach}>    
+    <{else}>
+	<div align='center' style='margin-top: 50%;'>
+	<img  src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/wujuan.png" style='width:72px;height:80px'>
+	<p style='color:#999;font-size:12px'>无此类型优惠券~</p>
+	</div>
+	<{/if}>
+	
+ </div>
+</div>
+
+
+	 
+ <div style="clear:both;height:20px;"></div>
+ 
+<!--<div class='canuse can'>可使用</div>	
+		<div class='nouse'>已失效</div>-->
+ 
+<script>
+	function changeto(obj){
+	  var pobj = $(obj).parent();
+	  $(pobj).find('.list').toggle();
+	}
+	
+	$('.canuse').bind('click',function(){       
+		$(this).addClass("can");
+		$('.nouse').removeClass("can");
+		$('.nouselist').hide();
+		$('.canuselist').show();
+		myScroll.refresh();
+	})
+	$('.nouse').bind('click',function(){       
+		$(this).addClass("can");
+		$('.canuse').removeClass("can");
+		$('.canuselist').hide();
+		$('.nouselist').show();
+		myScroll.refresh();
+	})
+	 
+</script>
+
+
+</div>
+</div>
+<{/block}>

@@ -1,0 +1,6 @@
+{
+    "navigationBarTitleText": "交易详情",
+    "navigationBarTextStyle": "white",
+    "navigationBarBackgroundColor": "#33aafc",
+    "enablePullDownRefresh": true
+}

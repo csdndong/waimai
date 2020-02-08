@@ -1,0 +1,262 @@
+{template 'public/header'}
+{template 'public/comhead'}
+<link rel="stylesheet" type="text/css" href="../addons/zh_cjdianc/template/public/ygcss.css">
+<style type="text/css">
+    input[type="radio"] + label::before {
+        content: "\a0"; /*不换行空格*/
+        display: inline-block;
+        vertical-align: middle;
+        font-size: 16px;
+        width: 1em;
+        height: 1em;
+        margin-right: .4em;
+        border-radius: 50%;
+        border: 2px solid #ddd;
+        text-indent: .15em;
+        line-height: 1; 
+    }
+    input[type="radio"]:checked + label::before {
+        background-color: #44ABF7;
+        background-clip: content-box;
+        padding: .1em;
+        border: 2px solid #44ABF7;
+    }
+    input[type="radio"] {
+        position: absolute;
+        clip: rect(0, 0, 0, 0);
+    }
+</style>
+<ul class="nav nav-tabs">
+    <span class="ygxian"></span>
+    <div class="ygdangq">当前位置:</div>
+    <li><a href="{php echo $this->createWebUrl2('dlprint')}">打印设备管理</a></li>
+    <li class="active"><a href="{php echo $this->createWebUrl2('dladdprint')}">添加打印机</a></li>
+</ul>
+<div class="main">
+    <form action="" method="post" class="form-horizontal form" enctype="multipart/form-data" id="invitative">
+        <div class="panel panel-default ygdefault">
+            <div class="panel-heading wyheader">
+                添加打印机
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">打印机状态</label>
+                    <div class="col-sm-9">
+                        <label class="radio-inline">
+                            <input type="radio" id="emailwy1" name="state" value="1" {if $item['state']==1 || empty($item['state'])}checked{/if} />
+                            <label for="emailwy1">开启</label>
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" id="emailwy2" name="state" value="2" {if $item['state']==2}checked{/if} />
+                            <label for="emailwy2">关闭</label>
+                        </label>
+                    </div>
+                </div>
+
+
+               <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">打印机位置</label>
+                    <div class="col-sm-9">
+                        <label class="radio-inline">
+                            <input type="radio" id="emailwy3" name="location" value="1" {if $item['location']==1 || empty($item['location'])}checked{/if} />
+                            <label for="emailwy3">前台</label>
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" id="emailwy4" name="location" value="2" {if $item['location']==2}checked{/if} />
+                            <label for="emailwy4">后厨</label>
+                        </label>
+                    </div>
+                </div>
+    
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">打印机名称</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="name" value="{$item['name']}" id="web_name" class="form-control" />
+                    </div>
+                </div>
+                 <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">头部标题</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="dyj_title" value="{$item['dyj_title']}" id="web_name" class="form-control" />
+                    </div>
+                </div> 
+                    <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label" style="margin-right: 15px;">打印标签</label>
+                    <select class="col-sm-8"  id="onefenlei" name='tag_id'>
+                        {loop $tag $key $item2}
+                        {if $item2['id']==$item['tag_id']}
+                        <option value="{$item2['id']}" selected="selected">{$item2['tag_name']}</option>
+                        {else}
+                        <option value="{$item2['id']}" >{$item2['tag_name']}</option>
+                        {/if}
+                        
+                        {/loop}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">打印机类型{$item['type']}</label>
+                    <div class="col-sm-9">
+                        <select class="col-sm-5" id="type" name="type" autocomplete="off">  
+                                <option value="1" {if $item['type']=='1'} selected {/if}>365</option>
+                                <option value="2" {if $item['type']=='2'} selected {/if}>易联云(型号:k4)</option>
+                                <option value="3" {if $item['type']=='3'} selected {/if}>飞蛾(型号:FP-58W)</option>
+                                <option value="4" {if $item['type']=='4'} selected {/if}>喜讯(型号:XP58IIQR)</option>
+                        </select>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group ygyi2">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">打印机设备编码</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="dyj_id" value="{$item['dyj_id']}" id="web_name" class="form-control" placeholder="SN码|机器码|MEI码" />
+                    </div>
+                </div>
+                <div class="form-group ygyi2">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">打印机API密钥</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="dyj_key" value="{$item['dyj_key']}" id="web_name" class="form-control" />
+                    </div>
+                </div>  
+                <div class="form-group ygyi2">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">打印次数</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="num" value="{$item['num']}" id="web_name" class="form-control" />
+                    </div>
+                </div>  
+
+                <!-- 飞蛾打印机-->
+                <div class="form-group ygyi3">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">飞鹅云后台注册账号</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="fezh" value="{$item['fezh']}" id="web_name" class="form-control" />
+                    </div>
+                </div>
+                <div class="form-group ygyi3">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">飞鹅UKEY</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="fe_ukey" value="{$item['fe_ukey']}" id="web_name" class="form-control" />
+                    </div>
+                </div>  
+                <div class="form-group ygyi3">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">打印机编号</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="fe_dycode" value="{$item['fe_dycode']}" id="web_name" class="form-control" />
+                    </div>
+                </div> 
+                 <div class="form-group ygyi3">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">打印次数</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="num" value="{$item['num']}" id="web_name" class="form-control" />
+                    </div>
+                </div>  
+                
+                <!-- 易联云 -->
+                <div class="form-group ygyi">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">打印机终端号</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="mid" value="{$item['mid']}" id="web_name" class="form-control" />
+                    </div>
+                </div>
+                <div class="form-group ygyi">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">打印机终端密钥</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="token2" value="{$item['token']}" id="web_name" class="form-control" />
+                    </div>
+                </div>
+                <div class="form-group ygyi">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">用户id(管理中心系统集成里获取)</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="yy_id" value="{$item['yy_id']}" id="web_name" class="form-control"  />
+                    </div>
+                </div>        
+                 <div class="form-group ygyi">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">apikey(管理中心系统集成里获取)</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="api" value="{$item['api']}" id="web_name" class="form-control"  />
+                    </div>
+                </div>          
+                 <div class="form-group ygyi4">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">打印机设备编码</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="xx_sn" value="{$item['xx_sn']}" id="web_name" class="form-control" placeholder="SN码|机器码|MEI码" />
+                    </div>
+                </div>     
+                 <div class="form-group ygyi4">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">打印次数</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="num" value="{$item['num']}" id="web_name" class="form-control" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <input type="submit" name="submit" value="保存设置" class="btn col-lg-3" style="color: white;background-color: #44ABF7;" />
+            <input type="hidden" name="token" value="{$_W['token']}" />
+            <input type="hidden" name="id" value="{$item['id']}" />
+        </div>
+    </form>
+</div>
+<!-- {template 'common/footer'} -->
+<script type="text/javascript">
+  $(function(){
+    "{if $item}"
+        "{if $item['type']=='1'}"
+            $('.ygyi').hide();
+            $('.ygyi3').hide();
+             $('.ygyi4').hide();
+        "{/if}"
+        "{if $item['type']=='2'}"
+            $('.ygyi2').hide();
+            $('.ygyi3').hide();
+             $('.ygyi4').hide();
+        "{/if}"
+        "{if $item['type']=='3'}"
+            $('.ygyi').hide();
+            $('.ygyi2').hide();
+            $('.ygyi4').hide();
+        "{/if}"   
+        "{if $item['type']=='4'}"
+            $('.ygyi').hide();
+            $('.ygyi2').hide();
+            $('.ygyi3').hide();
+        "{/if}" 
+
+    "{else}"
+        $('.ygyi').hide();
+        $('.ygyi3').hide();
+        $('.ygyi4').hide();
+    "{/if}"
+    $('#type').change(function(){
+        $('.ygyi').show();
+        $('.ygyi2').show();
+        $('.ygyi3').show();
+        $('.ygyi4').show();
+        if($(this).val() == '1') {
+            $('.ygyi').hide();
+            $('.ygyi3').hide();
+             $('.ygyi4').hide();
+        }
+        if($(this).val() == '2') {
+            $('.ygyi2').hide();
+            $('.ygyi3').hide();
+            $('.ygyi4').hide();
+        }
+        if($(this).val() == '3') {
+            $('.ygyi').hide();
+            $('.ygyi2').hide();
+            $('.ygyi4').hide();
+        }
+           if($(this).val() == '4') {
+            $('.ygyi').hide();
+            $('.ygyi2').hide();
+            $('.ygyi3').hide();
+        }
+    });
+    // $("#frame-7").addClass("in");
+    $("#frame-8").show();
+    $("#yframe-8").addClass("wyactive");
+});
+</script>
+{template 'common/footer'}

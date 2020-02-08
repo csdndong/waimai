@@ -1,0 +1,168 @@
+
+<{if !empty($orderlist) }>
+	<{foreach from=$orderlist item=items }>
+		<div class="editordercon order_<{$items['id']}>"   style="position:relative;"> 	
+			<div class="editordertit">  
+				<ul> 
+					<li style="overflow: hidden;width: 70%;text-overflow: ellipsis;white-space: nowrap;"><i></i><span><{$items['shopname']}></span></li> 
+					<li class="editordright"><span class="editorfoncol"><{$items['orderwuliustatus']}></span></li> 
+				</ul> 
+			</div> 
+		<!-- <a href="<{ofunc type=url link="/wxsite/ordershow/orderid/<{$items['id']}>"}>"> -->
+		<div class="editorderbox" data='<{$items['id']}>' data_status='<{$items['status']}>' data_reback='<{$items['is_reback']}>'  > 
+			<ul id='order_<{$items['id']}>' onclick='showorderdet(<{$items['id']}>)'> 
+				<{if $items['shoplogo'] == '' }>	  
+				    <li><img <{ofunc type=img  link="<{$shoplogo}>"}>/></li> 
+				<{else}>
+				    <li><img <{ofunc type=img  link="<{$items['shoplogo']}>"}> ></li> 
+				<{/if}>
+				<li> 
+					<ul> 
+						<li><span>￥<{$items['allcost']}></span></li> 
+						<li><{$items['addtime']}></li>
+						<{if  $items['is_ziti'] == 1}>
+							<li><span class='ordzt' style='color: #fff;font-size:14px;background-color:#ff6e6e;padding:0px 3px;margin-right:5px;'>自取</span>支持到店自取服务</li>
+						<{else}>
+							<{if $items['pstype'] != 1 }>
+								<li>由平台提供配送服务</li>
+							<{else}>
+								<li>由商家提供配送服务</li>
+							<{/if}>
+						<{/if}>
+					</ul> 
+				</li> 
+			</ul> 
+		</div> 
+		 
+		 
+			<div class="editorderbut" style='height:40px'> 
+			    <div><div class="editordinp1"></div></div>
+				<ul style='line-height:40px'> 
+				    <!--再来一单  无条件显示-->
+					<a href="<{ofunc type=url link="/wxsite/shopshow/typelx/<{if $items['shoptype'] == 1}>mk<{else}>wm<{/if}>/id/<{$items['shopid']}>"}>"> 	
+					    <li><div class="editordinp2" >再来一单</div></li> 
+					</a>
+					
+					<!--取消订单-->  
+					<{if $items['status'] < 3 && $items['is_reback'] == 0 }> 						
+						<{if $items['is_make'] == 0}><!--未制作的在线支付未付的和货到付款的可以直接取消-->  
+						     <{if ( $items['paytype'] == 1 && $items['paystatus'] == 0  ) || $items['paytype'] == 0  }>	 
+								<li><div class="editordinp2" onclick="quxiaoorder(<{$items['id']}>);" >取消订单</div></li>
+							 <{/if}><!--未制作的在线支付已付的跳到申请退款页面-->  
+                             <{if $items['paytype'] == 1 && $items['paystatus'] == 1 }>	 
+							    <a href="<{ofunc type=url link="/wxsite/drawback/orderid/<{$items['id']}>"}>"> 
+								   <li><div class="editordinp2" >取消订单</div></li>
+								</a>	
+							 <{/if}> 
+						<{/if}>
+						<!--已制作的在线支付已付的并且后台开启制作后支持退款的跳到申请退款页面-->  
+						<{if $items['is_make'] == 1 && $allowreback ==1}>
+						     <{if $items['paytype'] == 1 && $items['paystatus'] == 1 }>	 
+							    <a href="<{ofunc type=url link="/wxsite/drawback/orderid/<{$items['id']}>"}>"> 
+								   <li><div class="editordinp2" >申请退款</div></li>
+								</a>	
+							 <{/if}> 
+						<{/if}>					
+					<{/if}>  
+					
+					
+					<!--立即支付  在线支付未付订单-->
+                    <{if $items['paytype'] == 1 && $items['paystatus'] == 0 && $items['status'] < 3}>
+					   <a href="<{ofunc type=url link="/wxsite/subshow/orderid/<{$items['id']}>"}>"> 
+					      <li><div class="editordinp1" >立即支付</div></li>
+					   </a> 
+					<{/if}>
+					
+		            <!--退款详情  涉及退款的订单--> 
+					<{if $items['is_reback'] > 0 }>
+					   <a href="<{ofunc type=url link="/wxsite/drawbacklog/orderid/<{$items['id']}>"}>"> 
+						  <li><div class="editordinp2" >退款详情</div></li> 
+					   </a>					    
+					<{/if}>
+					
+                    <!--确认收货  不在退款未完成的订单状态 1.商家配送，已发货的订单 2.平台配送，配送员已取货的订单 
+					<{if ($items['is_reback'] == 0 || $items['is_reback'] == 3 || $items['is_reback'] == 5) && $items['status'] < 3 }>
+						<{if ($items['pstype'] == 1 && $items['status'] == 2)||($items['pstype'] != 1 && $items['psstatus'] == 3  ) }>  							 
+							<li><div class="editordinp1" onclick="acceptorder(<{$items['id']}>);" >确认收货</div></li>
+						<{/if}> 
+					<{/if}> 
+					-->
+					<{if $items['pstype'] == 1 && ($items['orderwuliustatus'] == '等待到店自取' || $items['orderwuliustatus'] == '配送中' ) }>
+						<li><div class="editordinp1" onclick="acceptorder(<{$items['id']}>);" >确认<{if $items['is_ziti'] == 1}>取<{else}>收<{/if}>货</div></li> 
+					<{/if}> 
+					<!--评价订单  已完成未评价的订单--> 
+					<{if $items['status'] == 3 && $items['is_ping'] == 0 }>
+					   <a href="<{ofunc type=url link="/wxsite/commentorder/orderid/<{$items['id']}>"}>"> 
+						  <li><div class="editordinp1 osone" >评价订单</div></li> 
+					   </a>					    
+					<{/if}>
+					 
+				</ul> 
+			</div> 	 
+		</div>
+	<{/foreach}>
+
+<{/if}>
+  
+ <script>
+ var siteurl = '<{$siteurl}>';
+ function showorderdet(orderid){    
+	  window.location.href=  siteurl+'/index.php?ctrl=wxsite&action=ordershow&orderid='+orderid ;
+ }
+
+//长按事件
+$.fn.longPress = function (fn) {
+　　var timeout = undefined;
+　　var $this = this;
+　　for (var i = 0; i < $this.length; i++) { 
+　　$this[i].addEventListener('touchstart', function (event) { 
+　　	timeout = setTimeout("orderhide("+$(event.target).parents('.editorderbox').eq(0).attr('data')+","+$(event.target).parents('.editorderbox').eq(0).attr('data_status')+","+$(event.target).parents('.editorderbox').eq(0).attr('data_reback')+")", 800); 
+　　}, false);
+　　$this[i].addEventListener('touchend', function (event) {
+		
+　　	clearTimeout(timeout);
+
+　　}, false);
+　　}
+}
+
+//还需阻止浏览器 复制粘贴等事件
+
+//window.ontouchstart = function (e) { e.preventDefault(); };
+
+//触发事件 (代码写这里就OK~~) 
+$(".editorderbox").longPress();
+function orderhide(id,status,reback){ 
+	 if(status == 3 || (status > 3 && reback !=1 && reback !=4)){//已完成订单，退款成功或者正常订单可删除
+		  $('.zhezhao').show();
+		  $('#order_'+id).removeAttr('onclick');
+		  $('#noworder').val(id); 
+		  $('.yesbtn').attr('onclick','hideorder('+id+')');         	     
+    }	   
+}
+function hideorder(id){
+    $('.zhezhao').hide();	 
+    $.ajax({
+	url:'<{ofunc type=url link="/wxsite/orderhide/datatype/json"}>',
+	data:{orderid:id},
+	dataType: 'json',
+	success:function (data, status){	  		 
+		if(data.error == false){			
+			Tmsg('订单删除成功');	
+			$('.order_'+id).remove();
+			window.location.reload();
+		}else{
+			Tmsg(data.msg);		
+		}			
+	},
+	error: function (data, status){
+		Tmsg('删除失败');
+	  }
+  });	 
+
+
+
+
+
+}
+</script>

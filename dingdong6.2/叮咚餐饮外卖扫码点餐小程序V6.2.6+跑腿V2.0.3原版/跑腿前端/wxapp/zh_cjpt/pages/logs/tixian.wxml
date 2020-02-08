@@ -1,0 +1,51 @@
+<view class="font cash_font">
+    <form bindreset="formReset" bindsubmit="formSubmit" reportSubmit="true">
+        <view class="cash">
+            <view class="cash_left">可提现金额：¥{{price}}</view>
+        </view>
+        <view class="cash_box">
+            <view class="cash_left">提现金额</view>
+            <view class="cash_money">¥
+        <input bindinput="bindblur" class="cash_box_text" name="money" placeholder="0.00" placeholderStyle="color:#000" type="number"></input>
+            </view>
+        </view>
+        <view class="cash_style">
+            <view class="cash_style_title">提现方式</view>
+            <view class="">
+                <view bindtap="check2" class="stylewei">
+                    <view class="stylewei_left">
+                        <image class="stylewei_img2" src="../img/weixin.png"></image>
+                        <view class="stylewei_text">提现到微信</view>
+                    </view>
+                    <icon color="{{color}}" size="20" type="success" wx:if="{{hidden4==true}}"></icon>
+                </view>
+                <view class="cash_style3 {{cash_zhi==false?' cash_zhi':''}}">
+                    <view class="cash_style2 {{cash_zhi2==false?' cash_zhi2':''}}">
+                        <view class="cash_write">
+                            <view class="write_left">姓名</view>
+                            <input class="write_inp" maxlength="-1" name="name" placeholder="请输入姓名" placeholderStyle="color:#ccc;" type="text"></input>
+                        </view>
+                        <view class="cash_write">
+                            <view class="write_left">微信账号</view>
+                            <input class="write_inp" maxlength="-1" name="account_number" placeholder="请填写微信账号" placeholderStyle="color:#ccc;" type="text"></input>
+                        </view>
+                        <view class="cash_write">
+                            <view class="write_left">确认账号</view>
+                            <input class="write_inp" maxlength="-1" name="account_number_two" placeholder="请确认账号" placeholderStyle="color:#ccc;" type="text"></input>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="cash_btn">
+            <button class="cash_btnin1" formType="submit" style="background:{{color}}">提现</button>
+        </view>
+        <view class="cash_info">
+            <view>详细说明</view>
+            <view>提现门槛为{{getSystem.tx_zdmoney}}元</view>
+            <view wx:if="{{getSystem.tx_sxf>0}}">提现手续费为{{getSystem.tx_sxf}}%</view>
+            <view wx:if="{{sxf!=null}}">本次提现将扣除手续费¥{{sxf}}</view>
+            <view wx:if="{{sj_cost!=null}}">本次提现实际到账金额¥{{sj_cost}}</view>
+        </view>
+    </form>
+</view>

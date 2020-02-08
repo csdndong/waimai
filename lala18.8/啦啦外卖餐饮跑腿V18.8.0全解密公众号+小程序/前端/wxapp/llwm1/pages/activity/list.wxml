@@ -1,0 +1,128 @@
+<view class="page-list">
+    <view class="buttons-tab border-1px-b">
+        <view bind:tap="onChangeStatus" class="tabs {{status==2?'active':''}}" data-status="2">待生效</view>
+        <view bind:tap="onChangeStatus" class="tabs {{status==1?'active':''}}" data-status="1">进行中</view>
+        <view bind:tap="onChangeStatus" class="tabs {{status==0?'active':''}}" data-status="0">已结束</view>
+    </view>
+    <view class="content">
+        <view class="card" wx:for="{{activity}}">
+            <view class="card-header border-1px-b">
+                <view class="activity-title">{{item.title}}</view>
+                <view class="pull-right" wx:if="{{item.status==1}}">进行中 剩余<text>{{item.until}}天</text>
+                </view>
+                <view class="pull-right" wx:elif="{{item.status==2}}">未开始</view>
+                <view class="pull-right" wx:elif="{{item.status==0}}">已结束</view>
+            </view>
+            <view class="card-content">
+                <view class="card-content-inner">
+                    <view class="row border-1px-b" wx:if="{{item.type=='couponCollect'||item.type=='couponGrant'}}">
+                        <view class="col-33">
+                            <view class="col-title">券总张数</view>
+                            <view class="col-item">
+                                <i>{{item.type=='couponCollect'?item.coupon_detail.total*item.coupon_detail.amount:item.coupon_detail.amount}}</i>张
+							</view>
+                        </view>
+                        <view class="col-33">
+                            <view class="col-title">发放数量</view>
+                            <view class="col-item text-red">
+                                <i>{{item.type=='couponCollect'?item.coupon_detail.dosage_total:item.coupon_detail.dosage}}</i>张
+							</view>
+                        </view>
+                        <view class="col-33">
+                            <view class="col-title">使用数量</view>
+                            <view class="col-item text-red">
+                                <i>{{item.coupon_detail.is_use_total}}</i>张
+							</view>
+                        </view>
+                    </view>
+                    <view class="discription">
+                        <view class="one-list clearfix">
+                            <view class="left">活动类型:</view>
+                            <view class="right">{{item.type_cn}}</view>
+                        </view>
+                        <block wx:if="{{item.type=='couponCollect'}}">
+                            <view class="one-list clearfix">
+                                <view class="left">券的金额:</view>
+                                <view class="right">
+                                    <block wx:for="{{item.data}}" wx:for-item="coupon">
+										{{coupon.discount}}元|满{{coupon.condition}}可用
+									</block>
+                                </view>
+                            </view>
+                            <view class="one-list clearfix">
+                                <view class="left">券有效期:</view>
+                                <view class="right">
+                                    <block wx:for="{{item.data}}" wx:for-item="coupon">
+										领券后{{coupon.use_days_limit}}天内
+									</block>
+                                </view>
+                            </view>
+                        </block>
+                        <block wx:elif="{{item.type=='couponGrant'}}">
+                            <view class="one-list clearfix">
+                                <view class="left">返券条件:</view>
+                                <view class="right">
+									订单满{{item.coupon_detail.condition}}元
+								</view>
+                            </view>
+                            <view class="one-list clearfix">
+                                <view class="left">券的金额:</view>
+                                <view class="right">
+									{{item.data.discount}}元|满{{item.data.condition}}可用
+								</view>
+                            </view>
+                            <view class="one-list clearfix">
+                                <view class="left">券有效期:</view>
+                                <view class="right">
+									领券后{{item.data.use_days_limit}}天内
+								</view>
+                            </view>
+                        </block>
+                        <view class="one-list clearfix" wx:elif="{{item.type=='newMember'}}">
+                            <view class="left">活动规则:</view>
+                            <view class="right">
+									门店新客立减{{item.data.back}}元
+								</view>
+                        </view>
+                        <view class="one-list clearfix" wx:elif="{{item.type=='grant'}}">
+                            <view class="left">活动规则:</view>
+                            <view class="right">
+                                <block wx:for="{{item.data}}" wx:for-item="grantData">
+										满{{grantData.condition}}赠送{{grantData.back}}
+									</block>
+                            </view>
+                        </view>
+                        <view class="one-list clearfix" wx:elif="{{item.type=='discount'}}">
+                            <view class="left">活动规则:</view>
+                            <view class="right">
+                                <block wx:for="{{item.data}}" wx:for-item="discountData">
+										满{{discountData.condition}}减{{discountData.back}}元
+									</block>
+                            </view>
+                        </view>
+                        <view class="one-list clearfix">
+                            <view class="left">开始时间:</view>
+                            <view class="right">{{item.starttime_cn}}</view>
+                        </view>
+                        <view class="one-list clearfix">
+                            <view class="left">结束时间:</view>
+                            <view class="right">{{item.endtime_cn}}</view>
+                        </view>
+                        <view class="one-list clearfix">
+                            <view class="left">创建日期:</view>
+                            <view class="right">{{item.addtime_cn}}</view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <view bind:tap="onJsEvent" class="card-footer border-1px-t" data-confirm="确定撤销活动吗?" data-event-type="jsPost" data-href="manage/activity/list/del?type={{item.type}}" data-success-url="/pages/activity/list?status={{item.status}}">
+                <text class="repeal-activity">撤销活动</text>
+            </view>
+        </view>
+    </view>
+    <view class="no-data" wx:if="{{activity.length==0}}">
+        <view class="bg"></view>
+        <view>没有任何活动哦~</view>
+    </view>
+</view>
+<include src="../public/footer.wxml"></include>

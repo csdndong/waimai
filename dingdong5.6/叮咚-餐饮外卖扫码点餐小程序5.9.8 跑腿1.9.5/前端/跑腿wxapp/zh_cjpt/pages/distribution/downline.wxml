@@ -1,0 +1,25 @@
+<view class="head ba_f">
+    <view bindtap="one" class="{{ac_index==0?'sele':'no_sele'}}">一级</view>
+    <view bindtap="two" class="{{ac_index==1?'sele':'no_sele'}}">二级</view>
+</view>
+<view class="list mar_t ba_f">
+    <view class="pa">
+        <view>
+            <image class="dis_in" mode="aspectFill" src=""></image>
+            <view class="dis_in">
+                <view class="fon_30 color_6">王宝强</view>
+                <view class="fon_24 color_9 pa_0">成为下线时间 201815645645</view>
+            </view>
+        </view>
+        <view class="price">
+            <view class="t_c fon_28">
+                <text class="color_9">订单:</text>
+                <text class="color_6">280</text>
+            </view>
+            <view class="t_c fon_28">
+                <text class="color_9">贡献佣金:</text>
+                <text class="color_6">280</text>
+            </view>
+        </view>
+    </view>
+</view>

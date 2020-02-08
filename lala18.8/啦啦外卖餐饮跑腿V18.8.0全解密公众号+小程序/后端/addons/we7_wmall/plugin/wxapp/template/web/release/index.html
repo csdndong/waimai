@@ -1,0 +1,175 @@
+{itemplate 'public/header'}
+<div class="clearfix">
+	<div class="page clearfix">
+		<h2>发布与审核</h2>
+		<div class="col-md-4">
+			{if isset($wxapp['audit_info']['status'])}
+				{if $wxapp['audit_info']['status'] == 0}
+					<div class="alert alert-success">
+						您有一个版本通过审核,你可以发布版本喽
+					</div>
+				{elseif $wxapp['audit_info']['status'] == 1}
+					<div class="alert alert-danger">
+						您有一个版本未通过审核,具体原因:{$wxapp['audit_info']['reason']},请修改后重新提交版本
+					</div>
+				{/if}
+			{/if}
+			<div class="wxapp-detail">
+				<div class="logo">
+					<img src="{$wxapp['wxapp_info']['head_img']}" />
+				</div>
+				<div class="name">{$wxapp['nick_name']}</div>
+				<div class="qrcode">
+					{if $wxapp['version'] == '未提交'}
+						<div class="layer">
+							未提交
+						</div>
+					{/if}
+					<div class="qrcode-container">
+						<a href="{$wxapp['wxapp_info']['home_qrcode_url']}" target="_blank">
+							<img src="{$wxapp['wxapp_info']['home_qrcode_url']}"/>
+							<p class="title">首页码</p>
+						</a>
+						<a href="{$wxapp['wxapp_info']['test_qrcode_url']}" target="_blank">
+							<img src="{$wxapp['wxapp_info']['test_qrcode_url']}"/>
+							<p class="title">体验码</p>
+						</a>
+					</div>
+				</div>
+				<div class="line"></div>
+				<div class="texts">
+					<p>
+						线上版本：{$wxapp['version']}
+					</p>
+					<p>
+						审核状态：{$wxapp['version_status_cn']}
+					</p>
+					<p>
+						提交时间：
+						<span>{$wxapp['version_time']}</span>
+					</p>
+					<p>
+						授权状态：
+						{if $wxapp['auth_status'] == 1}
+							已授权 <a href="javascript:;" class="text-primary btn-release">重新授权</a>
+						{else}
+							未授权 <a href="javascript:;" class="text-primary btn-release">立即授权</a>
+						{/if}
+					</p>
+				</div>
+				{if $wxapp['auth_status'] == 1}
+					<div class="btn btn-default js-modal" data-href="{php echo iurl('wxapp/release/bind_tester', array('type' => $_GPC['type']));}">添加体验者</div>
+					<div class="btn btn-default js-modal" style="margin-top: 10px" data-href="{php echo iurl('wxapp/release/get_url', array('type' => $_GPC['type']));}" data-confirm="如果你的小程序里要实现跳转到其他的小程序,例如：某个链接要跳转到B小程序，你需要把B小程序的名称和appid设置到跳转白名单里,<a href='{php echo iurl('wxapp/skip');}'>现在去设置</a>。如果您已设置,请忽略此提示。确定上传代码吗?">上传代码</div>
+					<div class="btn btn-warning js-modal" style="margin-top: 10px" data-href="{php echo iurl('wxapp/release/get_category', array('type' => $_GPC['type']));}" data-confirm="提交审核之前需先上传代码,确定提交审核吗?">提交审核</div>
+					<div class="btn btn-danger js-post" style="margin-top: 10px" data-href="{php echo iurl('wxapp/release/undocodeaudit', array('type' => $_GPC['type']));}" data-confirm="单个帐号每天审核撤回次数最多不超过1次，一个月不超过10次,确定撤销审核吗?">撤销审核</div>
+					<div class="btn btn-primary js-post" data-href="{php echo iurl('wxapp/release/release', array('type' => $_GPC['type']));}" data-confirm="当有审核通过的版本时,您可以选择发布版本。发布之前请确定小程序管理平台的服务器域名剩余可修改次数大于0(注：微信官方限制每个月仅能修改5次服务器域名)?">发布版本</div>
+				{/if}
+			</div>
+		</div>
+		<div class="col-md-8" style="margin-top: 37px">
+			<form class="form-horizontal form form-validate" id="form1" action="" method="post" enctype="multipart/form-data">
+				<div class="alert alert-info">
+					<h2>顾客小程序服务类目</h2>
+					<div style="font-size: 20px; color: red">
+						顾客小程序服务类目选择:餐饮-点餐平台/餐饮-外卖平台/餐饮-餐饮服务场所,最好3个类目中选择一个或者多个,以便微信审核时容易通过。
+						请到小程序管理平台设置小程序服务类目。<a href="https://mp.weixin.qq.com/" target="_blank">现在去设置</a>
+					</div>
+					<br><br>
+					<h2>商户小程序服务类目</h2>
+					<div style="font-size: 20px; color: red">
+						商户小程序服务类目选择:工具-办公/工具-效率,以便微信审核时容易通过。
+						请到小程序管理平台设置小程序服务类目。<a href="https://mp.weixin.qq.com/" target="_blank">现在去设置</a>
+					</div>
+					<br><br>
+					<h2>配送员小程序服务类目</h2>
+					<div style="font-size: 20px; color: red">
+						配送员小程序服务类目选择:快递业与邮政-快递、物流-寄件/收件,以便微信审核时容易通过。
+						请到小程序管理平台设置小程序服务类目。<a href="https://mp.weixin.qq.com/" target="_blank">现在去设置</a>
+					</div>
+					<br><br>
+					<h2>授权说明</h2>
+					将微信小程序授权给系统，系统会自动帮你生成店铺小程序，并提交到微信；你不需要做复杂操作，即可获得店铺的微信小程序<br>
+					注意：你的小程序的主体必须是「企业」，并开通了微信支付，才能具备支付权限<br>
+					如果你还没有注册微信小程序，<a href="https://mp.weixin.qq.com/wxopen/waregister?action=step1" target="_blank"></a>点击此处注册；注册成功后，再授权给系统即可<br>
+					<br>
+					<h2>发布审核说明</h2>
+					上传代码：任何状态都可上传代码，上传代码后可获取体验二维码<br>
+					提交审核：提交审核后系统将直接提交至微信审核，提交审核需先上传代码<br>
+					重新审核：微信审核失败后，修改内容后可重新上传代码并且重新提交审核<br>
+					域名设置：发布成功后请到微信公众平台小程序后台重新设置下服务器域名<br>
+					<br>
+					<h2>重要说明</h2>
+					<span class="text-danger" style="font-size: 18px;">注意：小程序每个月可修改5次服务器域名，在更新之前，请确保你有可用的修改次数，如没有，绝对不要更新。</span><br>
+					<span class="text-danger" style="font-size: 18px;">注意：如果小程序提交审核后没有审核通过，请根据微信官方给出的审核失败原因进行调整，调整后重新提交审核。这不是模块程序的问题，需要自己解决</span><br>
+				</div>
+				<div class="form-group hide">
+					<div class="col-sm-9 col-xs-9 col-md-9">
+						<a href="javascript:;" class="btn btn-primary btn-release">授权微信小程序</a>
+					</div>
+				</div>
+			</form>
+			{if !empty($wxapp['templates'])}
+			<form class="form-horizontal form">
+				<div class="alert alert-danger">有新的小程序版本可上传,点击上传代码,然后提交审核,审核通过后,发布即可</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">更新内容</label>
+					<div class="col-sm-10 col-md-10">
+						<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+							{loop $wxapp['templates'] $template}
+							{php $i++;}
+							<div class="panel panel-default panel-update-content">
+								<div class="panel-heading" role="tab" id="heading-{$template['create_time']}" data-toggle="collapse" data-parent="#accordion" href="#{$template['create_time']}" aria-expanded="true" aria-controls="collapseOne">
+									<h4 class="panel-title">
+										<a>
+											{$template['user_version']}-{$template['release']}
+											<span class="pull-right">{php echo date('Y-m-d H:i', $template['create_time'])}</span>
+										</a>
+									</h4>
+								</div>
+								<div id="{$template['create_time']}" class="panel-collapse collapse {if $i == 1}in{/if}" role="tabpanel" aria-labelledby="heading-{$template['create_time']}">
+									<div class="panel-body">
+										{$template['message']}
+									</div>
+								</div>
+							</div>
+							{/loop}
+						</div>
+					</div>
+				</div>
+			</form>
+			{/if}
+		</div>
+	</div>
+</div>
+
+<script>
+$('.btn-release').click(function(){
+	Notify.confirm("您确定进行小程序授权吗？", function(){
+		var $this = $(this);
+		if($this.attr('submiting') == 1) {
+			return false;
+		}
+		var text = $this.html();
+		$this.html('操作中...');
+		$this.attr('submiting', 1);
+		$.post("{php echo iurl('wxapp/release/index', array('type' => $wxapp_type))}", function(data) {
+			$this.html(text);
+			$this.attr('submiting', 0);
+			var result = $.parseJSON(data);
+			if(result.message.errno != 0) {
+				Notify.error("获取授权url失败,请刷新重试,错误详情" + result.message.message);
+				return false;
+			} else {
+				Notify.confirm("<span style='font-size: 24px; color: red'>请在新窗口中完成微信小程序授权。 <br>如果您的浏览器没有打开新窗口，请查看浏览器右上角,检查浏览器是否阻止打开新窗口了。如果是，选项始终允许打开新窗口</span>", function(){
+					location.reload();
+				}, function(){
+					Notify.info('请重新点击授权按钮进行授权');
+				}, '授权成功', '授权失败请重试');
+			}
+			window.open(result.message.message);
+		});
+	});
+
+});
+</script>
+{itemplate 'public/footer'}

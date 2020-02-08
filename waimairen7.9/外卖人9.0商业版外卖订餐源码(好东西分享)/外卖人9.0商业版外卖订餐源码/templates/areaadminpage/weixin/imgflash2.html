@@ -1,0 +1,135 @@
+<style>
+	.appAddtoCon .appAddtoRight .appAddtoModi table tbody tr td img.yuan{
+		width: 96px;
+		border-radius:0px;
+	}
+</style>
+<div class="appAddtoRight home_1">
+<i class="app_tri"></i>
+<div class="appAddtoTit">
+	<i class="icon_edit"></i>
+	<h3>首页模块编辑</h3>
+</div>
+<div class="appAddtoSubj">
+	<table>
+		<thead>
+			<tr>
+				<td>图标</td>
+				<td>排序</td>
+				<td>操作</td>
+			</tr>
+		</thead>
+	</table>
+</div>
+
+<div class="appAddtoModi">
+	<table>
+		<tbody>
+				<{if !empty($list)}>
+				<{foreach from = $list item=items}>
+				<tr cid="<{$items['id']}>" type="imgflash2">
+					<td>
+						<img class="yuan"  src="<{$items['img']}>"  />
+					</td>
+					<td>
+						<span class="orderid"><{$items['sort']}></span>
+					</td>
+					<td>
+						<a class="appAddaL_bg" href="javascript:;">编辑</a>
+						<{if $items['is_show']==1}>
+						<a class="appAdda_bg02" href="javascript:;">隐藏</a>
+						<{else}>
+						<a class="appAdda_bg01" href="javascript:;">显示</a>
+						<{/if}>
+						</td>
+					<input type="hidden" class="link" value="<{$items['linkurl']}>">
+					<input type="hidden" class="imgurl" value="<{$items['img']}>">
+					<input type="hidden" class="id" value="<{$items['id']}>">
+				</tr>
+				<{/foreach}>
+				<{/if}>
+		</tbody>
+	</table>
+</div>
+<div class="appAddtoPopuCon" style="height:220px;" >
+
+	<div class="appAddtoPopuCon" style="height:220px;">
+		<div class="appAddtoPopuTit">
+			<h4>编辑关键字模块</h4>
+		</div>
+		<div id="bottom_edit"  style="display:none;">
+			<div class="appAddtoPopuBox">
+				<div class="appAddtoPopuTop">
+					<form id="dosaveform">
+						<ul>
+							<input type="hidden" name="htmldataid" value="">
+							<li>
+								<span>超连接：</span>
+								<input type="text" value="" name="i_links"/>
+							</li>
+
+							<li>
+								<span>排序ID：</span>
+								<input type="text" value="0" name="i_orderid"/>
+								<b>排序</b>
+							</li>
+							<li>
+								<span>上传图片：</span>
+								<div class="appAddtoFile">
+									<input readonly="readonly" type="text" value="" name="i_img_url"/>
+									<span>浏览</span>
+									<input class="appfile" type="file" id="imgFile" name="imgFile"/>
+								</div>
+							</li>
+						</ul>
+						<input type="hidden" name="id" value="0">
+					</form>
+
+				</div>
+				<div class="appAddtoPopuBot">
+					<input type="button" value="保存修改" id="dosave"/>
+					<a href="javascript:;" id="doclose">取消</a>
+				</div>
+			</div>
+		</div>
+</div>
+</div>
+<script>
+	$(".appAddaL_bg").click(function(){
+		$('#bottom_edit').show();
+		$("input[name='i_links']").val($(this).parents("tr").find(".link").val());
+		$("input[name='i_img_url']").val( $(this).parents("tr").find(".imgurl").val());
+		$("input[name='i_orderid']").val($(this).parents("tr").find(".orderid").html());
+		$("input[name='id']").val($(this).parents("tr").find(".id").val());
+	})
+	$('#dosave').click(function(){
+		var url = '<{$siteurl}>/index.php?ctrl=areaadminpage&action=weixin&module=saveappindex&datatype=json&type=imgflash';
+		$.ajax({
+			type: 'post',
+			async:false,
+			data:$('#dosaveform').serialize(),
+			url: url.replace('@random@', 1+Math.round(Math.random()*1000)),
+			dataType: 'json',success: function(content) {
+				if(content.error == false){
+					alert('更新成功');
+					$('#showjscontent').html('');
+					var content = htmlback("<{$siteurl}>/index.php?ctrl=areaadminpage&action=weixin&module=imgflash2");
+					if(content.flag == false){
+						var getmoreContent =  $.trim(content.content);
+						$('#showjscontent').append(getmoreContent);
+					}
+				}else{
+					if(content.error == true)
+					{
+						alert(content.msg);
+					}else{
+						alert(content);
+					}
+				}
+			},
+			error: function(content) {
+				alert('数据提交失败');
+			}
+		});
+	});
+</script>

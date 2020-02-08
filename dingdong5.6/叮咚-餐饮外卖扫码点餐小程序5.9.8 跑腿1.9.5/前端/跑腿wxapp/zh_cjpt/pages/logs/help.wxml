@@ -1,0 +1,6 @@
+<view>
+    <view class="pa fon_30 color_0 t_c wei">{{info.question}}</view>
+    <view class="mar_t fon_24 ba_f" style="width:95%;margin:20rpx auto;overflow-x:hidden">
+        <rich-text nodes="{{info.answer}}"></rich-text>
+    </view>
+</view>

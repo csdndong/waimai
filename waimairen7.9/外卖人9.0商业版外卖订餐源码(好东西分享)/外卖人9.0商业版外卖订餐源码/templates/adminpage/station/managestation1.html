@@ -1,0 +1,111 @@
+ <{extends file="<{$tempdir}>/public/admin.html"}> 
+  
+ <{block name=controlname}>添加分站<{/block}>
+ <{block name=bodylist}>
+   <div style="width:auto;overflow-x:hidden;overflow-y:auto"> 
+          <div class="tags">
+           <{load_data assign="info" table="admin" where="`uid`=$id"  type="one"}> 
+           <{load_data assign="stationinfo" table="stationadmininfo" where="`uid`=$id"  type="one"}> 
+          <div id="tagscontent">
+            <form method="post" name="form1" action="<{ofunc type=url link="/adminpage/station/module/savestationadmin/datatype/json"}>" onsubmit="return subform('<{ofunc type=url link="/adminpage/station/module/stationlist"}>',this);">
+              <div>
+                <table border="0" cellspacing="2" cellpadding="4" class="list" name="table" id="table" width="100%">
+                  <tbody>
+                    <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <td class="left">分站账号</td>
+                      <td><input type="text" name="username" id="username" value="<{$info['username']|default:''}>" class="skey" style="width:150px;" <{if !empty($info)}> readonly<{/if}>></td>
+                    </tr> 
+                    <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <td class="left">分站密码</td>
+                      <td><input type="password" name="password" id="password" value="" class="skey" style="width:250px;"></td>
+                    </tr> 
+                  
+                    <input type="hidden" name="uid" id="uid" value="<{$info['uid']}>" class="skey" style="width:150px;">
+					 
+				  <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <td class="left">分站名称</td>
+                      <td><input type="text" name="stationname" id="stationname" value="<{$stationinfo['stationname']|default:''}>" class="skey" style="width:250px;"></td>
+                    </tr>
+					  <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <td class="left">分站负责人</td>
+                      <td><input type="text" name="stationusername" id="stationusername" value="<{$stationinfo['stationusername']|default:''}>" class="skey" style="width:250px;"></td>
+                    </tr> 
+					<tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <td class="left">分站联系电话</td>
+                      <td><input type="text" name="stationphone" id="stationphone" value="<{$stationinfo['stationphone']|default:''}>" class="skey" style="width:250px;"></td>
+                    </tr>
+					<{if !empty($stationinfo)}>
+						<tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+						  <td class="left" valign="top">所属城市</td>
+						  <td>  
+							<{load_data assign="cityinfo" table="area" type="one" where="adcode='<{$stationinfo['cityid']}>'" fileds="name" }>  
+							<span style="margin-left:10px;"><{$cityinfo['name']}></span>
+						  </td>
+						</tr>
+					<{else}>
+					<tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <td class="left" valign="top">选择城市</td>
+                      <td>  
+                      <select name="cityid">
+ 							<{foreach from=$citylist key=myid  item=items}>  
+							   <option value="<{$items['adcode']}>" <{if $stationinfo['cityid'] == $items['adcode']}>selected<{/if}>><{$items['name']}></option>
+							<{/foreach}> 
+                      </select>
+                      	</td>
+                    </tr>
+					<{/if}>
+					
+					 
+					 <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <td class="left">分站位置</td>
+                      <td><!-- <input type="text"  readonly  value="拾取坐标" class="skey" style="width:100px;"> -->
+
+					  <input type="hidden" name="stationlnglat" id="stationlnglat" readonly  value="<{$stationinfo['stationlnglat']|default:''}>" class="skey" style="width:250px;">
+					  </td>
+                    </tr>
+					 <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff" >
+                      <td class="left">&nbsp;</td>
+                      <td><input type="text" name="stationaddress" id="stationaddress" placeholder="分站地址" value="<{$stationinfo['stationaddress']|default:''}>" class="skey" style="width:250px;"></td>
+                    </tr>
+					<tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+					  <td class="left">优惠促销权限</td>
+                      <td><input type="radio" <{if $stationinfo['is_selfsitecx'] == 1  }>checked<{/if}>  name="is_selfsitecx" value="1" />允许独立设置优惠促销
+                       <input type="radio" <{if $stationinfo['is_selfsitecx'] == 0  }>checked<{/if}>   name="is_selfsitecx" value="0">不允许独立设置优惠促销<font style="color:red">（当设置为不允许时，该分站后台独立设置的优惠促销活动将会被删除）</font></td>
+                    </tr>
+					 <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+					  <td class="left">排序</td>
+                      <td><input type="text" name="orderid" id="orderid"   value="<{$stationinfo['orderid']|default:''}>" class="skey" style="width:100px;"></td>
+                    </tr>
+					 <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+					  <td class="left">是否启用</td>
+                      <td><input type="radio" <{if $stationinfo['stationis_open'] == 0  }>checked<{/if}>  name="stationis_open" value="0" />是
+                       <input type="radio" <{if $stationinfo['stationis_open'] == 1  }>checked<{/if}>   name="stationis_open" value="1">否</td>
+                    </tr>
+					
+                   
+                  </tbody>
+                </table>
+              </div>
+              <div class="blank20"></div>
+              <input type="hidden" name="tijiao" id="tijiao" value="do" class="skey" style="width:250px;">
+              <input type="hidden" name="saction" id="saction" value="siteset" class="skey" style="width:250px;">
+               <input type="submit" value="确认提交" class="button">  
+            </form>
+          </div>
+        </div>
+        <div class="blank20"></div> 
+      
+      </div>
+      <div class="clear"></div>
+    </div>
+   
+   
+    </div> 
+<script>	 
+function checkword(flag)
+{ 
+	 
+	$("input[name='limit[]']").attr("checked",flag); 
+}
+</script>
+<{/block}>

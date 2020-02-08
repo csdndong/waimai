@@ -1,0 +1,32 @@
+<view class="page-setting">
+    <view class="zan-panel">
+        <view bind:tap="onJsEvent" class="zan-cell zan-cell--access" data-event-type="jsUrl" data-url="pages/member/profilePassword">
+            <view class="zan-cell__bd">修改密码</view>
+            <view class="zan-cell__ft" style="margin-right: 5px;">
+                <switch checked="{{true}}" style="opacity: 0;"></switch>
+            </view>
+        </view>
+        <view class="zan-cell">
+            <view class="zan-cell__bd">微信模板消息提醒</view>
+            <view class="zan-cell__ft">
+                <switch bind:tap="onJsEvent" checked="{{deliveryer.extra.accept_wechat_notice}}" data-event-type="jsPost" data-url="delivery/member/mine/setting?which=accept_wechat_notice"></switch>
+            </view>
+        </view>
+        <view class="zan-cell">
+            <view class="zan-cell__bd">语音电话提醒</view>
+            <view class="zan-cell__ft">
+                <switch bind:tap="onJsEvent" checked="{{deliveryer.extra.accept_voice_notice}}" data-event-type="jsPost" data-url="delivery/member/mine/setting?which=accept_voice_notice"></switch>
+            </view>
+        </view>
+        <view class="zan-cell">
+            <view class="zan-cell__bd">接单中</view>
+            <view class="zan-cell__ft">
+                <switch bind:tap="onJsEvent" checked="{{deliveryer.work_status==1?true:false}}" data-event-type="jsPost" data-url="delivery/member/mine/setting?which=work_status"></switch>
+            </view>
+        </view>
+    </view>
+    <view class="save-btn">
+        <view bind:tap="onLogout">退出登录</view>
+    </view>
+</view>
+<include src="../public/footer.wxml"></include>

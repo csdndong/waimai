@@ -1,0 +1,99 @@
+{itemplate 'public/header'}
+<form action="./index.php" class="form-horizontal form-filter">
+	<input type="hidden" name="c" value="site">
+	<input type="hidden" name="a" value="entry">
+	<input type="hidden" name="m" value="we7_wmall">
+	<input type="hidden" name="do" value="web"/>
+	<input type="hidden" name="ctrl" value="merchant"/>
+	<input type="hidden" name="ac" value="storage"/>
+	<input type="hidden" name="op" value="list"/>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">标签</label>
+		<div class="col-sm-9 col-xs-12">
+			<div class="btn-group">
+				<a href="{php echo ifilter_url('label:0');}" class="btn {if $label == 0}btn-primary{else}btn-default{/if}">不限</a>
+				{loop $store_label $row_label}
+				<a href="{php echo ifilter_url('label:' . $row_label['id']);}" class="btn {if $label == $row_label['id']}btn-primary{else}btn-default{/if}">{$row_label['title']}</a>
+				{/loop}
+			</div>
+		</div>
+	</div>
+	<div class="form-group form-inline">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">其他</label>
+		<div class="col-sm-9 col-xs-12">
+			{if $_W['is_agent']}
+				<select name="agentid" class="select2 js-select2 form-control width-130">
+					<option value="0">选择代理区域</option>
+					{loop $_W['agents'] $agent}
+					<option value="{$agent['id']}" {if $agentid == $agent['id']}selected{/if}>{$agent['area']}</option>
+					{/loop}
+				</select>
+			{/if}
+			<select class="form-control" id="cid" name="cid">
+				<option value="0">所有分类</option>
+				{loop $categorys $category}
+				<option value="{$category['id']}" {if $cid == $category['id']}selected{/if}>{$category['title']}</option>
+				{/loop}
+			</select>
+			<input type="text" name="keyword" value="{$_GPC['keyword']}" class="form-control" placeholder="门店名称"/>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+		<div class="col-sm-9 col-xs-12">
+			<button class="btn btn-primary">筛选</button>
+		</div>
+	</div>
+</form>
+<form class="form-table " action="" method="post">
+	<div class="panel panel-table">
+		<div class="panel-body table-responsive js-table">
+			<table class="table table-hover">
+				<thead>
+				<tr>
+					<th>门店logo</th>
+					<th>门店名称</th>
+					<th>门店地址</th>
+					<th>联系电话</th>
+					{if $_W['is_agent']}
+					<th>所属城市</th>
+					{/if}
+					<th>标签</th>
+					<th>删除时间</th>
+					<th style="width:480px; text-align:right;">操作</th>
+				</tr>
+				</thead>
+				<tbody>
+				{loop $lists $item}
+				<input type="hidden" name="ids[]" value="{$item['id']}">
+				<tr>
+					<td><img src="{php echo tomedia($item['logo']);}" width="50"></td>
+					<td>{$item['title']}</td>
+					<td>{$item['address']}</td>
+					<td>{$item['telephone']}</td>
+					{if $_W['is_agent']}
+					<td>{php echo toagent($item['agentid'])}</td>
+					{/if}
+					<td>
+						<span class="label" style="background-color:{$store_label[$item['label']]['color']}">{$store_label[$item['label']]['title']}</span>
+					</td>
+					<td>{php echo date('Y-m-d H:i', $item['deltime'])}</td>
+					<td style="text-align:right; overflow: inherit">
+						<a href="{php echo iurl('merchant/storage/restore', array('id' => $item['id']))}" class="btn btn-default btn-sm js-post" data-confirm="确定恢复该门店吗?">恢复</a>
+						<a href="{php echo iurl('merchant/storage/del', array('id' => $item['id']))}" class="btn btn-danger btn-sm js-post" data-confirm="删除后将不可恢复，确定删除吗?">彻底删除</a>
+					</td>
+				</tr>
+				{/loop}
+				</tbody>
+			</table>
+			{if !empty($lists)}
+			<div class="btn-region clearfix">
+				<div class="pull-right">
+					{$pager}
+				</div>
+			</div>
+			{/if}
+		</div>
+	</div>
+</form>
+{itemplate 'public/footer'}

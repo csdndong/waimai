@@ -1,0 +1,443 @@
+{itemplate 'public/header'}
+{if $ta == 'list'}
+<form action="./index.php" class="form-horizontal form-filter">
+	{php echo tpl_form_filter_hidden('store/kanjia/activity/list');}
+	<input type="hidden" name="status" value="{$status}"/>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">活动状态</label>
+		<div class="col-sm-9 col-xs-12">
+			<div class="btn-group">
+				<div class="btn-group">
+					<a href="{php echo ifilter_url('status:-1');}" class="btn {if $status == -1}btn-primary{else}btn-default{/if}">不限</a>
+					{loop $goods_status $val $item}
+						<a href="{php echo ifilter_url('status:'. $val);}" class="btn {if $status == $val}btn-primary{else}btn-default{/if}">{$item['text']}</a>
+					{/loop}
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">搜索</label>
+		<div class="col-sm-4 col-xs-4">
+			<input type="text" name="keyword" value="" class="form-control" placeholder="请输入商品名称">
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+		<div class="col-sm-4 col-xs-4">
+			<input type="submit" value="筛选" class="btn btn-primary">
+		</div>
+	</div>
+</form>
+<form action="" class="form-table form form-validate" method="post">
+	<div class="panel panel-table">
+		<div class="panel-heading">
+			<a href="{php echo iurl('store/kanjia/activity/post');}" class="btn btn-primary btn-sm">添加活动</a>
+		</div>
+		<div class="panel-body table-responsive js-table">
+			{if empty($kanjia)}
+				<div class="no-result">
+					<p>还没有相关数据</p>
+				</div>
+			{else}
+				<table class="table table-hover">
+				<thead class="navbar-inner">
+				<tr>
+					<th width="30">
+						<div class="checkbox checkbox-inline">
+							<input type="checkbox">
+							<label></label>
+						</div>
+					</th>
+					<th>id</th>
+					<th>缩略图</th>
+					<th>商品名称</th>
+					<th>库存</th>
+					<th>已售</th>
+					<th>活动时间</th>
+					<th>活动状态</th>
+					<th style="text-align:right;">操作</th>
+				</tr>
+				</thead>
+				<tbody>
+				{loop $kanjia $item}
+				<tr>
+					<td>
+						<input type="hidden" name="ids[]" value="{$item['id']}">
+						<div class="checkbox checkbox-inline">
+							<input type="checkbox" name="id[]" value="{$item['id']}">
+							<label></label>
+						</div>
+					</td>
+					<td>
+						<strong>{$item['id']}</strong>
+					</td>
+					<td>
+						<img src="{php echo tomedia($item['thumb'])}" alt="" width="50">
+					</td>
+					<td>
+						<input type="text" name="name[]" class="form-control width-100" value="{$item['name']}">
+					</td>
+					<td>
+						<input type="text" name="total[]" class="form-control width-100" value="{$item['total']}">
+					</td>
+					<td>{$item['sailed']}</td>
+					<td>
+						{php echo date('Y-m-d H:i:s',$item['starttime']);}<br>
+						{php echo date('Y-m-d H:i:s',$item['endtime']);}
+					</td>
+					<td>
+						<span class="label {$goods_status[$item['status']]['css']}">{$goods_status[$item['status']]['text']}</span>
+					</td>
+					<td style="text-align:right;">
+						<a href="{php echo iurl('store/kanjia/activity/post', array('id' => $item['id']))}" class="btn btn-default btn-sm">编辑</a>
+						<a href="{php echo iurl('store/kanjia/activity/del', array('id' => $item['id']))}" class="btn btn-default btn-sm js-remove" data-confirm="删除后将不可恢复，确定删除吗?">删除</a>
+					</td>
+				</tr>
+				{/loop}
+				</tbody>
+			</table>
+				<div class="btn-region clearfix">
+				<div class="pull-left">
+					<input type="submit" class="btn btn-primary btn-sm" value="提交修改">
+					<a href="{php echo iurl('store/kanjia/activity/del')}" class="btn btn-danger btn-sm js-batch" data-batch="remove" data-confirm="确定删除选中的商品吗?">批量删除</a>
+				</div>
+				<div class="pull-right">
+					{$pager}
+				</div>
+			</div>
+			{/if}
+		</div>
+	</div>
+</form>
+{/if}
+{if $ta == 'post'}
+<div class="page clearfix">
+	<form class="form-horizontal form form-validate" id="form1" action="" method="post" enctype="multipart/form-data" style="max-width: 950px;">
+		<input type="hidden" name="id" value="{$id}">
+		<ul class="nav nav-tabs" role="tablist">
+			<li role="presentation" {if $_GPC['type'] == 'activityinfo' || !$_GPC['type']}class="active"{/if}><a href="#activityinfo" aria-controls="activityinfo" role="tab" data-toggle="pill">活动信息</a></li>
+			<li role="presentation" {if $_GPC['type'] == 'goodsinfo'}class="active"{/if}><a href="#goodsinfo" aria-controls="goodsinfo" role="tab" data-toggle="pill">商品信息</a></li>
+			<li role="presentation" {if $_GPC['type'] == 'rules'}class="active"{/if}><a href="#rules" aria-controls="rules" role="tab" data-toggle="pill">砍价规则</a></li>
+			<li role="presentation" {if $_GPC['type'] == 'shareset'}class="active"{/if}><a href="#shareset" aria-controls="shareset" role="tab" data-toggle="pill">分享设置</a></li>
+		</ul>
+		<div class="tab-content">
+			<div class="tab-pane {if $_GPC['type'] == 'activityinfo' || !$_GPC['type']}active{/if}" role="tabpanel" id="activityinfo">
+				<h3>砍价活动</h3>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">砍价分类</label>
+					<div class="col-sm-9 col-xs-12">
+						<select class="form-control tpl-category-parent" name="cateid">
+							<option value="0">所属分类</option>
+							{loop $category $val}
+							<option value="{$val['id']}" {if $item['cateid'] == $val['id']}selected{/if}>{$val['title']}</option>
+							{/loop}
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">商品原价</label>
+					<div class="col-sm-9 col-xs-12">
+						<div class="input-group">
+							<input type="number" class="form-control" name="oldprice" value="{$item['oldprice']}" required>
+							<span class="input-group-addon">元</span>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">活动底价</label>
+					<div class="col-sm-9 col-xs-12">
+						<div class="input-group">
+							<input type="number" class="form-control" name="price" value="{$item['price']}" required>
+							<span class="input-group-addon">元</span>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">允许提交订单金额限制</label>
+					<div class="col-sm-9 col-xs-12">
+						<div class="input-group">
+							<input type="number" class="form-control" name="submitmoneylimit" value="{$item['submitmoneylimit']}" required>
+							<span class="input-group-addon">元</span>
+						</div>
+						<div class="help-block">
+							参与用户的商品金额必须砍到此金额以下才允许提交订单,例如设置100，用户必须商品金额砍到100或100以下，才可以提交订单。
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">砍价活动时间</label>
+					<div class="col-sm-9 col-xs-12">
+						{php echo tpl_form_field_daterange('addtime', array('start' => date('Y-m-d H:i', $starttime), 'end' => date('Y-m-d H:i', $endtime)), true);}
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">好友帮砍限制数量</label>
+					<div class="col-sm-9 col-xs-12">
+						<div class="input-group">
+							<input type="number" class="form-control" name="helplimit" value="{$item['helplimit']}">
+							<span class="input-group-addon">人</span>
+						</div>
+						<div class="help-block">
+							限制当前活动商品,一个好友可以帮助几个人砍同个商品。填0或不填则无限制
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">每天帮砍好友人数限制</label>
+					<div class="col-sm-9 col-xs-12">
+						<div class="input-group">
+							<input type="number" class="form-control" name="dayhelplimit" value="{$item['dayhelplimit']}">
+							<span class="input-group-addon">人</span>
+						</div>
+						<div class="help-block">
+							限制每天可以有多少人帮你砍.填0或不填则无限制
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">参加人数限制</label>
+					<div class="col-sm-9 col-xs-12">
+						<div class="input-group">
+							<input type="number" class="form-control" name="joinlimit" value="{$item['joinlimit']}">
+							<span class="input-group-addon">人</span>
+						</div>
+						<div class="help-block">
+							限制此活动报名参加砍价的人数.填0或不填则无限制
+						</div>
+					</div>
+				</div>
+				<!--<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">消费方式</label>
+					<div class="col-sm-9 col-xs-12">
+						<div class="radio radio-inline">
+							<input type="radio" name="usestatus" id="forward-mode-0" value="0" {if $item['usestatus'] == 0}checked{/if}>
+							<label for="forward-mode-0">到店消费</label>
+						</div>
+						<div class="radio radio-inline">
+							<input type="radio" name="usestatus" id="forward-mode-1" value="1" {if $item['usestatus'] == 1}checked{/if}>
+							<label for="forward-mode-1">快递上门</label>
+						</div>
+						<div class="radio radio-inline">
+							<input type="radio" name="usestatus" id="forward-mode-2" value="2" {if $item['usestatus'] == 2}checked{/if}>
+							<label for="forward-mode-2">同时支持快递与核销</label>
+						</div>
+					</div>
+				</div>-->
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">虚拟参与人数</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="number" class="form-control" name="falsejoinnum" value="{$item['falsejoinnum']}">
+						<div class="help-block">
+							前端页面实际显示人数等于实际参与人数和虚拟参与人数之和
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">虚拟浏览量</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="number" class="form-control" name="falselooknum" value="{$item['falselooknum']}">
+						<div class="help-block">
+							前端页面实际显示浏览量等于实际浏览量和虚拟浏览量之和
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">虚拟分享次数</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="number" class="form-control" name="falsesharenum" value="{$item['falsesharenum']}">
+						<div class="help-block">
+							前端页面实际显示次数等于实际分享次数和虚拟分享次数之和
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">状态</label>
+					<div class="col-sm-9 col-xs-12">
+						<div class="radio radio-inline">
+							<input type="radio" name="status" id="kanjia-status-1" value="1" {if $item['status'] == 1}checked{/if}>
+							<label for="kanjia-status-1">启用</label>
+						</div>
+						<div class="radio radio-inline">
+							<input type="radio" name="status" id="kanjia-status-0" value="0" {if $item['status'] == 0}checked{/if}>
+							<label for="kanjia-status-0">禁用</label>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">活动规则</label>
+					<div class="col-sm-9 col-xs-12">
+						{php echo tpl_ueditor('activity_rules', $item['activity_rules']);}
+					</div>
+				</div>
+			</div>
+			<div class="tab-pane {if $_GPC['type'] == 'goodsinfo'}active{/if}" role="goodsinfo" id="goodsinfo">
+				<h3>商品信息</h3>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">商品编码</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" class="form-control" name="code" value="{$item['code']}" required>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">商品名称</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" class="form-control" name="name" value="{$item['name']}" required>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">商品单位</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" class="form-control" name="unit" value="{$item['unit']}" placeholder="份" required>
+					</div>
+				</div>
+				<!--<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">活动排序</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="number" class="form-control" name="displayorder" value="{$item['displayorder']}">
+					</div>
+				</div>-->
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">商品库存</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="number" class="form-control" name="total" value="{$item['total']}" required>
+						<div class="help-block">设置 -1 表示不限库存</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">减库存方式</label>
+					<div class="col-sm-9 col-xs-12">
+						<div class="radio radio-inline">
+							<input type="radio" value="0" name="total_update_type" id="total_update_type-0" {if $item['total_update_type'] == 0 || !$item['total_update_type']}checked{/if}>
+							<label for="total_update_type-0">拍下减库存</label>
+						</div>
+						<div class="radio radio-inline">
+							<input type="radio" value="1" name="total_update_type" id="total_update_type-1" {if $item['total_update_type'] == 1}checked{/if}>
+							<label for="total_update_type-1">付款减库存</label>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">商品图片</label>
+					<div class="col-sm-9 col-xs-12">
+						{php echo tpl_form_field_image('thumb', $item['thumb']);}
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">商品图集</label>
+					<div class="col-sm-9 col-xs-12">
+						{php echo tpl_form_field_multi_image('thumbs', $item['thumbs']);}
+						<div class="help-block">推荐大小: 640*230, 最多不能超过4张图片</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">商品详情</label>
+					<div class="col-sm-9 col-xs-12">
+						{php echo tpl_ueditor('detail', $item['detail']);}
+					</div>
+				</div>
+			</div>
+			<div class="tab-pane {if $_GPC['type'] == 'rules'}active{/if}" role="rules" id="rules">
+				<h3>砍价规则</h3>
+				<div class="alert alert-danger form-horizontal" style="font-size: 14px;">
+					规则说明：</br>
+					1.价格大于栏请从大到小设置</br>
+					2.砍价范围请按照第一个空小于第二个空设置</br>
+					例：设置的两条规则为：100,5,10和50,2,3。当商品当前金额大于100元时，每个好友砍价金额为5-10的随机数；当商品金额被砍到100元以下50元以上时，每个好友砍价金额为2-3的随机数；当商品金额被砍到50元以下时，未找到匹配的规则项，每个好友砍价金额为会按照默认的0.5-1元取随机数。
+				</div>
+				<div class="form-group">
+					<div id="options" style="display:block">
+						<div class="tpl">
+							{if !empty($item['rules'])}
+							{loop $item['rules'] $row}
+							<div>
+								<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span class="require"> 当前价格大于</span></label>
+								<div class="col-sm-9 col-xs-12">
+									<div class="input-group">
+										<input type="text" name="rules[range][]" value="{$row['range']}" class="form-control">
+										<span class="input-group-addon">砍价范围</span>
+										<input type="text" name="rules[range_start][]" value="{$row['range_start']}" class="form-control">
+										<span class="input-group-addon">到</span>
+										<input type="text" name="rules[range_end][]" value="{$row['range_end']}" class="form-control">
+										<span class="input-group-addon"><a href="javascript:;" class="delOptions"><i class="fa fa-times"></i></a></span>
+									</div>
+								</div>
+							</div>
+							{/loop}
+							{else}
+							<div>
+								<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span class="require"> 当前价格大于</span></label>
+								<div class="col-sm-9 col-xs-12">
+									<div class="input-group">
+										<input type="text" name="rules[range][]" value="" class="form-control">
+										<span class="input-group-addon">砍价范围</span>
+										<input type="text" name="rules[range_start][]" value="" class="form-control">
+										<span class="input-group-addon">到</span>
+										<input type="text" name="rules[range_end][]" value="" class="form-control">
+										<span class="input-group-addon"><a href="javascript:;" class="delOptions"><i class="fa fa-times"></i></a></span>
+									</div>
+								</div>
+							</div>
+							{/if}
+						</div>
+						<a href="javascript:;" class="addOptions" style="padding-left: 15px;"><i class="fa fa-plus-circle"></i> 添加一条规则</a>
+					</div>
+				</div>
+			</div>
+			<div class="tab-pane {if $_GPC['type'] == 'shareset'}active{/if}" role="shareset" id="shareset">
+				<h3>分享设置</h3>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">分享图片</label>
+					<div class="col-sm-9 col-xs-12">
+						{php echo tpl_form_field_image('share_thumb', $item['share']['share_thumb']);}
+						<div class="help-block">图片建议为正方形，如果不选择，默认为商品缩略图片</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">标题</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" class="form-control" name="share_title" value="{$item['share']['share_title']}">
+						<div class="help-block">如果不填写，默认为商品名称</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">描述</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" class="form-control" name="share_detail" value="{$item['share']['share_detail']}">
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-9 col-xs-9 col-md-9">
+					<input type="hidden" name="token" value="{$_W['token']}">
+					<input type="submit" value="提交" class="btn btn-primary">
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+<script>
+	$(function() {
+		$('.addOptions').click(function(){
+			var html = '<div>'+
+				'<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span class="require"> 当前价格大于</span></label>'+
+				'<div class="col-sm-9 col-xs-12">'+
+					'<div class="input-group">'+
+					'<input type="text" name="rules[range][]" class="form-control">'+
+					'<span class="input-group-addon">砍价范围</span>'+
+					'<input type="text" name="rules[range_start][]" class="form-control">'+
+					'<span class="input-group-addon">到</span>'+
+					'<input type="text" name="rules[range_end][]" class="form-control" value="">'+
+					'<span class="input-group-addon"><a href="javascript:;" class="" onclick="$(this).parent().parent().parent().parent().remove();"><i class="fa fa-times"></i></a></span>'+
+					'</div>'+
+				'</div>'+
+			'</div>';
+			$('#options .tpl').append(html);
+		});
+		$('.delOptions').click(function(){
+			$(this).parent().parent().parent().parent().remove();
+		});
+	});
+</script>
+{/if}
+{itemplate 'public/footer'}

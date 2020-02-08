@@ -1,0 +1,46 @@
+{itemplate 'public/header'}
+<link href="../addons/we7_wmall/plugin/diypage/static/css/diy.css" rel="stylesheet" type="text/css"/>
+{if $op == 'index'}
+<div class="page clearfix">
+	{if !check_plugin_exist('diypage')}
+		<div class="alert alert-danger">
+			注意：自定义DIY功能目前仅对购买过"平台装修"插件的客户开放
+		</div>
+	{/if}
+	<form class="form-horizontal form form-validate" id="form1" action="" method="post" enctype="multipart/form-data">
+		{loop $pages $page}
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">{$page['name']}启用DIY页面</label>
+				<div class="col-sm-9 col-xs-12">
+					<div class="radio radio-inline">
+						<input type="radio" value="1" name="use_diy_{$page['key']}" id="use_diy_{$page['key']}-1" {if $config_diy[$page['save_key']] == 1}checked{/if}>
+						<label for="use_diy_{$page['key']}-1">是</label>
+					</div>
+					<div class="radio radio-inline">
+						<input type="radio" value="0" name="use_diy_{$page['key']}" id="use_diy_{$page['key']}-0" {if !$config_diy[$page['save_key']]}checked{/if}>
+						<label for="use_diy_{$page['key']}-0">否</label>
+					</div>
+					<span class="help-block">注意：如果您希望{$page['name']}使用自己DIY的页面,请开启此项,并设置{$page['name']}的DIY页面。变更此项设置，需要重新提交小程序并审核</span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">{$page['name']}</label>
+				<div class="col-sm-9 col-xs-12">
+					<select name="shopPages[{$page['key']}]" class="form-control select2">
+						<option value="0" {if $config_diy['shopPage'][$page['key']] == 0}selected{/if}>请选择</option>
+						{loop $page['pages'] $diyPage}
+						<option value="{$diyPage['id']}" {if $diyPage['id'] == $config_diy['shopPage'][$page['key']]}selected{/if}>{$diyPage['name']}</option>
+						{/loop}
+					</select>
+				</div>
+			</div>
+		{/loop}
+		<div class="form-group">
+			<div class="col-sm-9 col-xs-12">
+				<input type="submit" value="提交" class="btn btn-primary">
+			</div>
+		</div>
+	</form>
+</div>
+{/if}
+{itemplate 'public/footer'}

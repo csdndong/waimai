@@ -1,0 +1,470 @@
+@charset "utf-8";
+
+/*------------------------------切换地址开始------------------------------*/
+
+/*-------------搜索-------------*/
+
+.swiaddCon{
+	height: 28px;
+	padding: 8px 2.7777%;
+	display: -webkit-box;
+	display: -moz-box;
+	background-color: #ff6e6e;
+}
+
+.swiaddL{
+	width: 70px;
+}
+
+.swiadd{
+	width: 69px;
+	height: 14px;
+	line-height: 14px;
+	margin-top: 7px;
+	border-right: 1px solid #ffffff;
+	position: relative;
+}
+
+.swiadd span{
+	max-width:96px;
+	font-size: 14px;
+	color: #FFFFFF;
+	display: block;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
+.swiadd i{
+	font-size: 14px;
+	color: #FFFFFF;
+	position: absolute;
+	top: 0px;
+	right: 1px;
+	padding-right:10px;
+}
+
+.swiaddR{
+	padding-left: 10px;
+	-webkit-box-flex: 1;
+	-moz-box-flex: 1;
+	display: -webkit-box;
+	display: -moz-box;
+}
+
+.swiaddR input{
+	background-color: transparent;
+	outline: none;
+}
+
+.swiaddsea{
+	height: 14px;
+	margin-top: 2px;
+	-webkit-box-flex: 1;
+	-moz-box-flex: 1;
+	position: relative;
+}
+
+.swiaddsea i{
+	width: 16px;
+	height: 16px;
+	display: block;
+	border-radius: 100%;
+	background-image: url(../images/icon_gb.png);
+	background-size: 100%;
+	position: absolute;
+	right: 10px;
+	top: 4px;
+}
+
+.swiaddsea input{
+	width: 80%;
+	height: 14px;
+	line-height: 14px;
+	font-size: 14px;
+	color: #ffffff;
+}
+
+.swiaddsea input::-webkit-input-placeholder {
+	color:#ffa5a5;
+}
+
+.swiaddsea input:-moz-placeholder {
+	color:#ffa5a5;
+}
+
+.swiaddsea input::-moz-placeholder {
+	color:#ffa5a5;
+}
+
+.swiaddsea input:-ms-input-placeholder {
+	color:#ffa5a5;
+}
+
+.swiaddbtn{
+	width: 50px;
+	height: 28px;
+}
+
+.swiaddbtn input{
+	width: 50px;
+	height: 28px;
+	font-size: 12px;
+	color: #ff6e6e;
+	border-radius: 4px;
+	background-color: #ffffff;
+}
+
+/*------------默认页面-----------*/
+
+.defaposCon{
+	width: 100%;
+	height: 40px;
+	line-height: 40px;
+	margin-top: 10px;
+	text-align: center;
+	background-color: #fff;
+}
+
+.defaposCon i{
+	width: 14px;
+	height: 14px;
+	margin-right: 7px;
+	display: inline-block;
+	background-image: url(../images/add02.png);
+	background-size: 100%;
+	vertical-align: -2px;
+}
+
+.defaposCon span{
+	font-size: 12px;
+	color: #ff6e6e;
+}
+
+.defaTit{
+	height: 36px;
+	line-height: 36px;
+	padding: 0 2.7777%;
+	margin-top: 10px;
+	display: -webkit-box;
+	display: -moz-box;
+	background-color: #fff;
+	background-image: -webkit-linear-gradient(0,#e5e5e5,#e5e5e5 50%,transparent 50%);
+	background-image: -moz-linear-gradient(0,#e5e5e5,#e5e5e5 50%,transparent 50%);
+	background-image: -ms-linear-gradient(0,#e5e5e5,#e5e5e5 50%,transparent 50%);
+	background-image: -o-linear-gradient(0,#e5e5e5,#e5e5e5 50%,transparent 50%);
+	background-image: linear-gradient(0,#e5e5e5,#e5e5e5 50%,transparent 50%);
+	background-size: 100% 1px;
+	background-repeat: no-repeat;
+	background-position: bottom;
+}
+
+.defaTit i{
+	width: 11px;
+	height: 11px;
+	margin-right: 7px;
+	vertical-align: -1px;
+	display: inline-block;
+	background-image: url(../images/icon_dw.png);
+	background-size: 100%;
+}
+
+.defaTit span{
+	font-size: 12px;
+	color: #999999;
+}
+
+.defaCon{
+	padding-left: 2.7777%;
+	background-color: #fff;
+}
+
+.defaCon ul li{
+	padding: 8px 0 10px 0;
+	background-image: -webkit-linear-gradient(0,#e5e5e5,#e5e5e5 50%,transparent 50%);
+	background-image: -moz-linear-gradient(0,#e5e5e5,#e5e5e5 50%,transparent 50%);
+	background-image: -ms-linear-gradient(0,#e5e5e5,#e5e5e5 50%,transparent 50%);
+	background-image: -o-linear-gradient(0,#e5e5e5,#e5e5e5 50%,transparent 50%);
+	background-image: linear-gradient(0,#e5e5e5,#e5e5e5 50%,transparent 50%);
+	background-size: 100% 1px;
+	background-repeat: no-repeat;
+	background-position: bottom;
+}
+
+.defaCon ul li:last-child{
+	background-image: none;
+}
+
+.defaTop,
+.defaBot{
+	width: 100%;
+}
+
+.defaTop h3{
+	font-size: 14px;
+	color: #333333;
+	font-weight: normal;
+}
+
+.defaBot span{
+	margin-right: 28px;
+	font-size: 12px;
+	color: #999999;
+}
+
+/*-----------已开通城市-----------*/
+
+.alropeCon{
+	width: 100%;
+	background-color: #fff;
+}
+
+.alropeTit{
+	padding: 15px 2.7777%;
+	display: -webkit-box;
+	display: -moz-box;
+}
+
+.alropeTitL{
+	-webkit-box-flex: 1;
+	-moz-box-flex: 1;
+}
+
+.alropeTitL span{
+	font-size: 12px;
+	color: #333333;
+}
+
+.alropeBox{
+	padding: 0 0.5555% 0 2.7777%;
+}
+
+.alropeBox ul li{
+	width: 22.1%;
+	height: 29px;
+	line-height: 29px;
+	margin: 0 2.2222% 8px 0;
+	text-align: center;
+	font-size: 12px;
+	color: #333333;
+	border: 1px solid #e6e6e6;
+	border-radius: 3px;
+	float: left;
+}
+
+.alropeBox ul li.curaA{
+	color: #ff6e6e;
+	border: 1px solid #ff6e6e;
+}
+
+.clear{
+	clear: both !important;
+}
+
+/*------------选择地址-----------*/
+
+.defachoCon{
+	width: 100%;
+	background-color: #fff;
+}
+
+.defachoTit{
+	padding: 15px 2.7777% 0 2.7777%;
+	display: -webkit-box;
+	display: -moz-box;
+}
+
+.defachoTitL,
+.defachoTitR{
+	-webkit-box-flex: 1;
+	-moz-box-flex: 1;
+}
+
+.defachoTitL{
+	text-align: left;
+}
+
+.defachoTitL i{
+	width: 11px;
+	height: 11px;
+	margin-right: 5px;
+	display: inline-block;
+	vertical-align: -1px;
+	background-image: url(../images/icon_time.png);
+	background-size: 100%;
+}
+
+.defachoTitL span{
+	font-size: 12px;
+	color: #999999;
+}
+
+.defachoTitR{
+	text-align: right;
+}
+
+.defachoTitR span{
+	font-size: 12px;
+	color: #666666;
+}
+
+.defachoBox{
+	width: 100%;
+}
+
+.defachoBox ul li{
+	height: 44px;
+	line-height: 44px;
+	padding: 0 2.7777%;
+	font-size: 14px;
+	color: #333333;
+	background-image: -webkit-linear-gradient(0,#e5e5e5,#e5e5e5 50%,transparent 50%);
+	background-image: -moz-linear-gradient(0,#e5e5e5,#e5e5e5 50%,transparent 50%);
+	background-image: -ms-linear-gradient(0,#e5e5e5,#e5e5e5 50%,transparent 50%);
+	background-image: -o-linear-gradient(0,#e5e5e5,#e5e5e5 50%,transparent 50%);
+	background-image: linear-gradient(0,#e5e5e5,#e5e5e5 50%,transparent 50%);
+	background-size: 100% 1px;
+	background-repeat: no-repeat;
+	background-position: bottom;
+}
+
+/*------------输入地址-----------*/
+
+.entaddCon{
+	width: 100%;
+	background-color: #fff;
+}
+
+.entaddCon ul li{
+	padding: 12px 2.7777%;
+	display: -webkit-box;
+	display: -moz-box;
+	position: relative;
+	background-image: -webkit-linear-gradient(0,#e5e5e5,#e5e5e5 50%,transparent 50%);
+	background-image: -moz-linear-gradient(0,#e5e5e5,#e5e5e5 50%,transparent 50%);
+	background-image: -ms-linear-gradient(0,#e5e5e5,#e5e5e5 50%,transparent 50%);
+	background-image: -o-linear-gradient(0,#e5e5e5,#e5e5e5 50%,transparent 50%);
+	background-image: linear-gradient(0,#e5e5e5,#e5e5e5 50%,transparent 50%);
+	background-size: 100% 1px;
+	background-repeat: no-repeat;
+	background-position: bottom;
+}
+
+.entaddL{
+	-webkit-box-flex: 1;
+	-moz-box-flex: 1;
+}
+
+.entaddL h3{
+	font-size: 12px;
+	color: #333333;
+	font-weight: normal;
+}
+
+.entaddL h3 span{
+	color: #ff6e6e;
+}
+
+.entaddL span{
+	font-size: 12px;
+	color: #cccccc;
+}
+
+.entaddR{
+	margin-top: -13px;
+	position: absolute;
+	top: 50%;
+	right: 2.7777%;
+}
+
+.entaddR span{
+	font-size: 12px;
+	color: #cccccc;
+}
+
+
+
+
+/*------------------------------切换地址结束------------------------------*/
+
+
+
+
+
+
+/*--------添加地址--------*/
+
+.takesettlCon {
+	width: 100%;
+	padding: 3px 0;
+	background-color: #fff;
+	overflow: hidden;
+}
+
+.takesettlCon .takesettlBox {
+	padding: 0 2.7777%;
+	background-image: url(../images/bg2.png);
+	background-position: left bottom;
+	background-repeat: no-repeat;
+	background-size: 100%;
+	overflow: hidden;
+}
+
+.takesettlCon .takesettlBox .takesettladdto {
+	float: left;
+	overflow: hidden;
+}
+
+.takesettlCon .takesettlBox .takesettladdto .takesettla {
+	line-height: 66px;
+}
+
+.takesettlCon .takesettlBox .takesettladdto .takesettla i {
+	width: 14px;
+	height: 20px;
+	margin-right: 4px;
+	display: inline-block;
+	vertical-align: -6px;
+}
+
+.takesettlCon .takesettlBox .takesettladdto .takesettla span {
+	font-size: 14px;
+	color: #999999;
+}
+
+.takesettlCon .takesettlBox .takesettladdto .takesettlb {
+	width: 97.2352%;
+	line-height: 25px;
+	padding: 8px 0;
+ 	text-overflow: ellipsis;  overflow: hidden;  white-space: nowrap;  outline: 0!important;
+}
+
+.takesettlCon .takesettlBox .takesettladdto .takesettlb ul li {
+	font-size: 12px;
+	color: #000;
+	white-space: nowrap;
+}
+
+.takesettlCon .takesettlBox .takesettladdto .takesettlb ul li span {
+	font-size: 14px;
+	color: #000;
+	padding-right: 2.7906%;
+}
+
+.takesettlCon .takesettlBox .takesettladdto .takesettlb ul li b {
+	font-size: 14px;
+	color: #000;
+	/*float: right;*/
+	font-weight: normal;
+}
+
+.takesettlCon .takesettlBox .takesettltz {
+	line-height: 66px;
+	float: right;
+	overflow: hidden;
+}
+
+.takesettlCon .takesettlBox .takesettltz i {
+	color: #999999;
+	font-size: 20px;
+}

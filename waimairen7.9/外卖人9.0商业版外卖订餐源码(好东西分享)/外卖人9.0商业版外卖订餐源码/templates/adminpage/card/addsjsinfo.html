@@ -1,0 +1,199 @@
+ <{extends file="<{$tempdir}>/public/admin.html"}>
+  <{block name=extendjs}>
+   <script src="<{$siteurl}>/js/kindeditor/kindeditor.js" type="text/javascript" language="javascript"></script>
+ <script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/datepicker/WdatePicker.js" type="text/javascript" language="javascript"></script>
+ <script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js"></script>
+
+ <script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/adminpage/public/js/colorpicker.js"></script>
+ <link rel="stylesheet" type="text/css" href="<{$siteurl}>/templates/adminpage/public/css/colorpicker.css">
+ 
+ <link rel="stylesheet" type="text/css" href="<{$siteurl}>/templates/adminpage/public/css/ztyone.css">
+ <script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/adminpage/public/js/ajaxfileupload.js"> </script>
+  <{/block}>
+ <{block name=controlname}>编辑页面<{/block}>
+ <{block name=bodylist}>
+ <script type="text/javascript" charset="utf-8">
+     $(document).ready(function() {
+         $('#demo').hide();
+         $('#picker').farbtastic('#color');
+     });
+ </script>
+<style>
+.show_content_m_t2{height: 700px!important;}    
+
+</style> 
+ <{load_data assign="info" table="juanshowinfo" where="`id`=$id"  type="one"}> 
+ <div id="getcolor">
+     <form action="" style="width: 245px;">
+         <span id="close" onclick="CW(0);">x</span>
+         <div class="form-item"><label for="color">Color:</label><input type="text" id="color" name="color" value="<{$info['color']|default:'#123456'}>"   style="width:61%;"/></div><div id="picker"> </div>
+     </form>
+ </div>
+ <div style="width:98%;overflow-y:auto;white-space:nowrap;height:100%;">
+     <div class="tags">
+        <div id="tagscontent" class="addzty_main" >
+        <div id="addzty_left">
+            <div id="zty_main" style='overflow-y: hidden!important;'>           
+                <div class="specialone_title" bgcolor='red'>
+                    <img  <{ofunc type=img link="<{$info['bigimg']|default:'/templates/adminpage/public/images/u3568.png'}>" }>   style="width:100%;height:140px;" />
+                </div>
+                <div  id='cont' style='min-height: 310px;background-color:<{$info['color']}>;'>
+                    <div class="cityshopCon" style='text-align: center;'>
+					<{if $id == 2}>
+					     <input type='button' value='马上分享  拿优惠券' id='lingqu' style='margin:13px;height: 30px;'>
+					<{else}>
+					     <{if $id == 3}>
+					       <span style='color:#fff;font-size:12px;'>送你X张优惠券，快来领取吧~</span>
+						 <{else}>
+						    <input type='text' value='请输入你的手机号' id='inputp'>
+						 <{/if}>
+                         <br><input type='button' value='马上领取' id='lingqu'>						 
+				    <{/if}>
+                    </div>
+                    
+                    <div class="specialone_notice"  >
+                        <h3>活动规则</h3>
+                        <div class="specialone_noticebox" style='color:#666;    white-space: normal;'>
+                            <{$info['avtrule']}>
+                        </div>
+						<div class="clearfloat"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="addzty_right">
+		    <{if $id == 1}>
+			<div style="margin-top:7px;"><span>页面说明：下单成功分享领取红包页面</span></div>
+			<div style="margin-top:7px;"><span>页面URL：<{$siteurl}>/index.php?ctrl=wxsite&action=sharehb</span></div>
+			<{/if}>
+			<{if $id == 2}>
+			<div style="margin-top:7px;"><span>页面说明：邀请好友领取红包页面</span></div>
+			<div style="margin-top:7px;"><span>页面URL：<{$siteurl}>/index.php?ctrl=wxsite&action=memsharej</span></div>
+			<{/if}>
+			<{if $id == 3}>
+			<div style="margin-top:7px;"><span>页面说明：首次关注微信领取红包页面</span></div>
+			<div style="margin-top:7px;"><span>页面URL：<{$siteurl}>/index.php?ctrl=wxsite&action=gzwx</span></div>
+			<{/if}>
+            <div style="margin-top:7px;"><span>领取页面背景色：</span> <div id="is_rgb" onclick="CW(1);"></div> </div>
+			<div style="margin-top:7px;"><span>规则说明背景色：</span> <div id="is_rgb1" onclick="CW(2);"></div> </div>
+            <div style="margin-top:7px;"><span style="vertical-align: top">&#12288;&#12288;广告图：</span>
+                <div id="advimg">
+                    <img <{ofunc type=img link="<{$info['bigimg']|default:'/templates/adminpage/public/images/u3568.png'}>" }> alt="" id="showimg" style="width:180px;height:140px;">建议<{if $id==1}>720*330<{else}>720*560<{/if}>
+                    <input class="appfile" type="file" id="imgFile" name="imgFile" style=" width:200px;height:150px;left: -263px!important;"/>
+                    <input type="hidden" name="imginfo" value="<{$info['bigimg']|default:'/templates/adminpage/public/images/u3568.png'}>"/>
+                </div>
+            </div>
+                        <input type='hidden' id='type' value="<{$info['type']}>">
+			<input type='hidden' id='bakcolor' value="<{$info['color']}>">
+			<input type='hidden' id='actcolor' value="<{$info['actcolor']}>">
+            <div style="margin-top:7px;">
+                <span style="vertical-align: top">&#12288;规则说明：</span>
+                <div style="display: inline-block;" ><script>KE.show({id:'content',allowFileManager : true,imageUploadJson:'<{ofunc type=url link="/other/saveupload/uploaddir/cx"}>',fileManagerJson:'<{ofunc type=url link="/other/saveupload"}>',items:['source','|', 'justifyleft', 'justifycenter', 'justifyright','justifyfull', 'insertorderedlist', 'insertunorderedlist', '|', 'fontname', 'fontsize', '|', 'textcolor', 'bgcolor', 'bold','italic', 'underline', 'removeformat', '|', 'image', 'advtable', 'hr','link', 'unlink']});</script><textarea name="content" id="content1" style='width:550px; height:260px;'><{$info['avtrule']}></textarea></div>
+            
+			</div><span style='color:red;margin-left: 85px;'>温馨提示：以上设置未点击保存前，刷新页面可恢复初始设置</span>
+            <div id="next" style="margin-top:7px;" onclick="save();">保存</div>
+        </div>
+        <div class="blank20"></div>
+      </div>
+      <div class="clear"></div>
+    </div>
+</div>
+ <script>
+ var name="<{$name}>";
+ var opttype="<{$opttype}>";
+ var params="<{$params}>";
+ var shoptype="<{$shoptype}>";
+ var cxtype="<{$cxtype}>";
+ var conc = "<{$info['color']}>";
+ var actc = "<{$info['actcolor']}>";
+ $("#cont").css("backgroundColor",conc);
+ $("#is_rgb").css("backgroundColor",conc);
+ $("#is_rgb1").css("backgroundColor",actc);
+ $(".specialone_notice").css("backgroundColor",actc);
+ var flag = 1;
+ function CW(i){
+    if(i > 0){        
+		if(i==1){
+		     $('#color').css('background-color',conc);
+			 $('#color').val(conc);
+		}else{		     
+			 $('#color').css('background-color',actc);
+			 $('#color').val(actc);
+		}
+		$("#getcolor").show();
+    }else{
+        $("#getcolor").hide();
+    }	
+	flag=i;
+}
+function setIndexColor(c){
+	if(flag==1){
+	   $("#cont").css("backgroundColor",c);
+	   $("#is_rgb").css("backgroundColor",c);
+	   $('#bakcolor').val(c);
+   }else{
+       $("#is_rgb1").css("backgroundColor",c);
+	   $(".specialone_notice").css("backgroundColor",c);
+	   $('#actcolor').val(c);
+   }
+}
+$("#imgFile").live("change",function(){
+    ajaxFileUpload();
+    $("#upload").replaceWith($("#upload").clone(true));
+});
+function ajaxFileUpload(){
+    $.ajaxFileUpload
+    (
+            {
+                url:'<{$siteurl}>/index.php?ctrl=adminpage&action=weixin&module=uploadapp&uploaddir=cx&datatype=json',
+                secureuri:false,
+                fileElementId:'imgFile',
+                dataType: 'json',
+                data:'',
+                success: function(data,status){
+                    if(typeof(data.error) != 'undefined'){
+                        if(data.error == false){
+                            console.log(data.msg);
+                            $('input[name="imginfo"]').val(data.msg);
+                            $("#showimg").attr("src",data.msg);
+                            $(".specialone_title img").attr("src",data.msg);
+                            $(".specialone_title img").show();
+                        }else{
+                            alert(data.msg);
+                        }
+                    }else{
+                        alert(data);
+                    }
+                },
+                error: function(data, status, e){
+                    alert(e);
+                }
+            }
+    )
+    return false;
+}
+function save(){
+    var type = $('#type').val();
+     var bakcolor = $('#bakcolor').val();
+	 var actcolor = $('#actcolor').val();
+     var img = $("input[name = 'imginfo']").val();
+     var content = $(".ke-iframe").contents().find(".ke-content").html()
+	 var id = "<{$id}>";	  
+    var url = siteurl+"/index.php?ctrl=adminpage&action=card&module=savejuanshowinfo&datatype=json";
+    $.post(url,{'id':id,'type':type,'color':bakcolor,'actcolor':actcolor,'bigimg':img,'content':content},function(content){
+        if(content.error == false){
+            alert('保存成功');
+            location.reload();
+        }else{
+             alert(content.msg);
+        }
+    },'json')
+}
+
+$(document).click(function(){
+    $(".ke-iframe").contents().find(".ke-content").keyup(function(){
+        $(".specialone_noticebox").html($(".ke-iframe").contents().find(".ke-content").html())
+    });
+})
+</script>
+<{/block}>

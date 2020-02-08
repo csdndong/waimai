@@ -1,0 +1,42 @@
+<template name="wui-message">
+    <view class="message" wx:if="{{wuiMessage.show==1}}">
+        <view class="content">
+            <view class="container {{wuiMessage.type}}">
+                <view class="icon-area">
+                    <view class="icon icon-icon"></view>
+                </view>
+                <view class="text-area">
+                    <view class="msg-title">{{wuiMessage.title}}</view>
+                    <view class="desc" wx:if="{{wuiMessage.message}}">{{wuiMessage.message}}</view>
+                </view>
+                <view class="btn-area">
+                    <view>
+                        <navigator class="button" openType="{{wuiMessage.open_type}}" url="{{wuiMessage.url}}">{{wuiMessage.btn_text?wuiMessage.btn_text:'确定'}}</navigator>
+                    </view>
+                </view>
+                <view class="extra-area">
+                    <navigator openType="switchTab" url="/pages/home/index">返回首页</navigator>
+                </view>
+            </view>
+        </view>
+    </view>
+</template>
+<template name="wui-loading">
+    <view class="loading-wrapper" wx:if="{{wuiLoading.show==1}}">
+        <view class="loading-content">
+            <view class="loading-top">
+                <image mode="widthFix" src="/static/img/loading_top.png"></image>
+            </view>
+            <view class="loading-bottom">
+                <image mode="widthFix" src="/static/img/loading_bottom.png"></image>
+            </view>
+        </view>
+    </view>
+</template>
+<template name="wui-toast">
+    <view bindtap="clearWuiToast" class="wui-toast" wx:if="{{wuiToast.show}}">{{wuiToast.title}}</view>
+</template>
+<template is="wui-toast" data="{{wuiToast:wuiToast}}"></template>
+<template is="wui-loading" data="{{wuiLoading:wuiLoading}}"></template>
+<template is="wui-message" data="{{wuiMessage:wuiMessage}}"></template>
+<import src="/library/wxParse/wxParse.wxml"></import>

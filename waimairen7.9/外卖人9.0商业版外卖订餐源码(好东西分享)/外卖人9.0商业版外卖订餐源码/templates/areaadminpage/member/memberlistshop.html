@@ -1,0 +1,71 @@
+ <{extends file="<{$tempdir}>/public/admin.html"}> 
+  
+ <{block name=controlname}>商家会员列表<{/block}>
+ <{block name=bodylist}>
+ <div class="managShopCon">
+	<div class="managShopBox">
+		<div class="managShopMain">
+			<div class="managShopClas">
+				<ul>
+					<li class="maShClaA"><a href="javascript:;">商家会员列表</a></li>
+				</ul>
+			</div>
+			<div class="managShopSeaBox">
+				<div class="managShopSeaL">
+				<form method="post" name="form1" action="<{ofunc type=url link="/areaadminpage/member/module/memberlistshop"}>">
+					<ul>
+ 						<li><span>用户名：</span><input type="username"  name="username" value="<{$username|default:''}>" placeholder=""></li>
+						<li><span>手机：</span><input type="text"  name="phone" value="<{$phone|default:''}>" placeholder="">
+						<input type="submit" value="提交查询" class="managBut">
+						<a href="<{ofunc type=url link="/areaadminpage/member/module/addmember"}>"><input type="button" value="添加商家会员" class="managBut" /></a>
+						</li>
+					</ul>
+				</form>
+				</div>
+			</div>
+			<div class="managShopList">
+				<table>
+					<thead>
+						<tr>
+							 
+							<td width="180">用户名称</td>
+							<td width="206">登录时间</td>
+							<td width="206">创建时间</td>
+							<td width="206">登录IP</td>
+							<td width="127">余额</td>
+							<td width="127">积分</td>
+							<td width="99">操作</td>
+						</tr>
+					</thead>
+					<tbody>
+					<{load_data assign="list" table="member" showpage="true" where="<{$where}>" }>
+					 <{foreach from=$list['list'] item=items}> 
+						<tr>
+							 
+							<td><{$items['username']}></td>
+							<td><{$items['creattime']|date_format:"%Y-%m-%d %H:%M:%S"}></td>
+							<td><{$items['logintime']|date_format:"%Y-%m-%d %H:%M:%S"}></td>
+							<td><{$items['loginip']}></td>
+							<td><{$items['cost']}></td>
+							<td><{$items['score']}></td>
+							<td>
+								<a class="icon_xg" href="<{ofunc type=url link="/areaadminpage/member/module/addmember/id/<{$items['uid']}>"}>"></a>
+								<a  onclick="return remind(this);" class="icon_close01" href="<{ofunc type=url link="/areaadminpage/member/module/delmember/id/<{$items['uid']}>/datatype/json"}>"></a>
+							</td>
+						</tr>
+						<{/foreach}>
+					</tbody>
+				</table>
+			</div>
+			<div class="pagingCon">
+ 				<ul>
+					<{$list['pagecontent']}>
+				</ul>
+ 			</div>
+		</div>
+	</div>
+</div>
+ 
+ 
+   	 
+<{/block}>    

@@ -1,0 +1,34 @@
+ <{if $goodsinfo['have_det'] == 1 && count($productinfo) > 0}>
+ 
+ <div  class="cart_products_content">
+           <{foreach from=$productinfo item=items}>
+	       <div class="cart_pro_all ggglist" style="clear:both;">
+		     <div class="cart_pro_label"  ><{$items['name']}></div>
+		     <ul class="cart_pro_list productggli" id="productggli_<{$items['id']}>"  data="<{$items['id']}>">
+			 <{foreach from=$items['det'] item=itk}>
+			    <li  class="product_li_det <{if in_array($itk['id'],$attrids)}>checked<{/if}> " mainid="<{$items['id']}>"  childid="<{$itk['id']}>" pid="<{$itk['id']}>"><{$itk['name']}></li> 
+			 <{/foreach}> 
+			 </ul> 
+		   </div>
+		   <{/foreach}> 
+		   <div class="cart_pro_all ggglist" style="clear:both;">
+		     <div class="cart_pro_label">单价</div>
+		     <div class="cart_pro_list" style="padding-top:5px;" id="product_s_cost"><{if empty($nowselect)}>请选择规格<{else}>￥<{$nowselect['cost']|default:'0'}>元<{/if}></div>
+		   </div>
+		   <div class="cart_pro_all ggglist" style="clear:both;">
+		     <div class="cart_pro_label">已选数量</div>
+		     <div class="cart_pro_list" style="padding-top:5px;"> <font style="padding-left:5px;"> <{$nowselect['count']|default:'0'}> </font> </div>
+		   </div> 
+		   <div style="clear:both;"></div>
+		   <input type="hidden" name="selectproductid" value="<{$nowselect['id']|default:'0'}>">
+		   <input type="hidden" name="product_shopid" value="<{$goodsinfo['shopid']}>">
+		   <input type="hidden" name="product_goodsid" value="<{$goodsinfo['id']}>">
+	      <div class="cart_pro_bottom_div"><span class="cart_pro_sure_btn <{if empty($nowselect)}>disable<{/if}>" id="producttocart" onclick="producttocart();">添加到购物车</span></div>
+ <script>
+    var productlist = <{$productlist|@json_encode}>;
+ </script>
+ </div>
+ 
+ <{else}>
+ 无具体规格
+ <{/if}>

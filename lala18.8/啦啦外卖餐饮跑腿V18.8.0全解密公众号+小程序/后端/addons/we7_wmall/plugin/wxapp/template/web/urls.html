@@ -1,0 +1,49 @@
+{itemplate 'public/header'}
+	<div class="page clearfix">
+		<div class="form-horizontal">
+			<ul class="nav nav-tabs" role="tablist">
+				<li role="presentation" class="active"><a href="#takeout" aria-controls="takeout" role="tab" data-toggle="pill">外卖</a></li>
+				{if check_plugin_perm('errander')}
+					<li role="presentation"><a href="#errander" aria-controls="errander" role="tab" data-toggle="pill">跑腿</a></li>
+				{/if}
+				{if check_plugin_perm('diypage')}
+					<li role="presentation"><a href="#diyPages" aria-controls="diyPages" role="tab" data-toggle="pill">自定义页面</a></li>
+				{/if}
+				{if check_plugin_perm('creditshop') || check_plugin_perm('spread') || check_plugin_perm('ordergrant')}
+					<li role="presentation"><a href="#other" aria-controls="other" role="tab" data-toggle="pill">其他链接</a></li>
+				{/if}
+			</ul>
+			<div class="tab-content">
+				{loop $urls $key $item}
+					{if $key == 'diyPages'}
+						<div class="tab-pane {if $key == 'takeout'}active{/if}" role="tabpanel" id="{$key}">
+							<h3>自定义页面</h3>
+							{loop $item $item1}
+								<div class="form-group">
+									<label class="col-xs-12 col-sm-3 col-md-2 control-label">{$item1['name']}</label>
+									<div class="col-sm-9 col-xs-12">
+										<p class="form-control-static js-clip" data-href="pages/diy/index?id={$item1['id']}"><a href="javascript:;" title="点击复制链接">pages/diy/index?id={$item1['id']}</a></p>
+									</div>
+								</div>
+							{/loop}
+						</div>
+					{else}
+						<div class="tab-pane {if $key == 'takeout'}active{/if}" role="tabpanel" id="{$key}">
+							{loop $item $item1}
+								<h3>{$item1['title']}</h3>
+								{loop $item1['items'] $item2}
+									<div class="form-group">
+										<label class="col-xs-12 col-sm-3 col-md-2 control-label">{$item2['title']}</label>
+										<div class="col-sm-9 col-xs-12">
+											<p class="form-control-static js-clip" data-href="{$item2['url']}"><a href="javascript:;" title="点击复制链接">{$item2['url']}</a></p>
+										</div>
+									</div>
+								{/loop}
+							{/loop}
+						</div>
+					{/if}
+				{/loop}
+			</div>
+		</div>
+	</div>
+{itemplate 'public/footer'}

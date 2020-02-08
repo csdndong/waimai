@@ -1,0 +1,30 @@
+ 	 <style>
+		 table tr{    line-height:52px;}
+		 table tr td{  line-height:52px;}
+		 </style>
+      	
+	 
+ 
+                <table  border="1" cellpadding="0" cellspacing="0"  width=95%  style="text-align:center;"  >
+		          
+	<tr>
+		<td>处理说明</td>
+		<td>处理时间</td>
+		<td>金额</td>
+		<td>处理状态</td>
+	</tr>
+		 
+		 <{foreach from=$drawbackloglist   item=items}>
+			<tr>
+				<td style='max-width:200px;line-height:30px'><{$items['reason']|default:'暂无处理说明'}></td>
+				<td><{$items['addtime']|date_format:"%Y-%m-%d %H:%M:%S"}></td>
+				<td><{$items['cost']}></td>
+				<td><{if $items['status']  == 0 }>待商家处理<{/if}>
+				    <{if $items['status']  == 1 }>用户取消退款<{/if}>
+					<{if $items['status']  == 2 }>商家同意退款<{/if}> 
+					<{if $items['status']  == 3 }>商家拒绝退款<{/if}> 
+					<{if $items['status']  == 4 }>退款成功<{/if}>
+				</td>					 	 
+			</tr> 
+		   <{/foreach}>
+	</table> 

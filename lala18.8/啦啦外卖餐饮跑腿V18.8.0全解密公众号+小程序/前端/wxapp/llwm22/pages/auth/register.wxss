@@ -1,0 +1,142 @@
+page {
+    background-color: #f5f5f5;
+    font-size: 14px;
+}
+
+.page-register {
+    padding-bottom: 50px;
+}
+
+.page-register .content {
+    margin-top: 10px;
+}
+
+.page-register .avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 40px auto 0px;
+    border: 1px solid #eee;
+}
+
+.page-register .avatar image {
+    width: 100%;
+    height: 100%;
+}
+
+.page-register .plateform-title {
+    text-align: center;
+    font-size: 15px;
+    margin: 10px 0 20px;
+    color: #4FAE52;
+}
+
+.page-register .content .list {
+    background: #fff;
+    padding: 3px 0;
+    padding-left: 15px;
+}
+
+.page-register .content .list .item {
+    padding: 10px 0;
+    font-size: 14px;
+}
+
+.page-register .content .list .item .item-title {
+    float: left;
+    display: inline-block;
+    width: 25%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    height: 24px;
+    line-height: 24px;
+}
+
+.page-register .content .list .item .item-inner {
+    float: left;
+    width: 65%;
+    position: relative;
+}
+
+.page-register .content .list .item .item-inner .item-remark {
+    position: absolute;
+    right: -20px;
+    top: 50%;
+    transform: translate(0,-50%);
+    color: #888;
+    z-index: 100;
+    padding: 2px 5px;
+    border-radius: 5px;
+}
+
+.page-register .content .list .item .item-inner .item-remark.active {
+    background-color: #4FAE52;
+    color: #fff;
+}
+
+.page-register .content .submit {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.page-register .content .submit .btn {
+    line-height: normal;
+}
+
+.page-register .photo {
+    background-color: #fff;
+    padding: 0 15px 10px;
+    box-sizing: border-box;
+    margin-top: 10px;
+}
+
+.page-register .photo .title {
+    padding: 10px 0;
+}
+
+.page-register .photo .photo-group {
+    width: 100%;
+}
+
+.page-register .photo .photo-group .photo-item {
+    width: 160px;
+    height: 100px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
+
+.page-register .photo .photo-group .photo-item image {
+    width: 100%;
+    height: 100%;
+}
+
+.page-register .agreement {
+    display: flex;
+    align-item: center;
+    padding: 10px 15px;
+    height: 45px;
+    box-sizing: border-box;
+}
+
+.page-register .agreement .agree-icon .icon {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 1px solid #ccc;
+    text-align: center;
+    line-height: 20px;
+    margin-right: 5px;
+    box-sizing: border-box;
+}
+
+.page-register .agreement .agree-icon .icon-check {
+    background-color: #4FAE52;
+    color: #fff;
+    border-color: #4FAE52;
+}
+
+.page-register .agreement .agree-text text {
+    color: #4FAE52;
+}

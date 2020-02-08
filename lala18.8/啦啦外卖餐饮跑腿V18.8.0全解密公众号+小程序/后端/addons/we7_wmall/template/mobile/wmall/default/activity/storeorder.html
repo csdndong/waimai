@@ -1,0 +1,341 @@
+{itemplate 'public/header'}
+<style>
+	.order .med{font-size: .8rem;}
+	.order .largest{font-size: 1.2rem;}
+	.order .grayest{color: #A0A0A0!important;}
+	.order .small{font-size: .6rem;}
+	.order .orange{color: #F5a623; margin-right: .2rem;}
+	.order .green{color: #99D465;}
+	.order .order-list-item{width: 98%; border: 1px solid #D5D5D6; margin: 0 auto; margin-top: .4rem; background-color: #fff;}
+	.order .order-list-item.eleme .order-title>.med{color: #2395ff;}
+	.order .order-list-item.eleme .order-title>.largest{color: #2395ff;}
+	.order .order-list-item.eleme .order-title:before{content: "饿"; color: #2395ff; font-size: 1.2rem;}
+	.order .order-list-item .order-info{position: relative;}
+	.order .order-list-item.meituan .order-title>.med{color: #FFB814;}
+	.order .order-list-item.meituan .order-title>.largest{color: #FFB814;}
+	.order .order-list-item.meituan .order-title:before{content: "美"; color: #FFB814; font-size: 1.2rem;}
+	.order .order-list-item .order-info{position: relative;}
+	.order .order-list-item .order-title{background: #F0F0F0; overflow: hidden; padding: .2rem .7rem; position: relative;}
+	.order .order-list-item .order-time{margin-left: .2rem; vertical-align: text-bottom; font-size: .6rem; color: #ABABAB;}
+	.order .order-list-item .order-status{ font-size: .6rem; color: #ABABAB; position: absolute; right: .7rem; bottom: .4rem;}
+	.order .order-list-item .order-reason{color: #139EBD; background: #E5F6FD; text-indent: -8px; padding-left: .7rem; font-size: .6rem; padding: .3rem .7rem;}
+	.order .order-list-item .order-reason i{margin-left: .7rem;}
+	.order .order-list-item .user-info{padding: .5rem .7rem; position: relative;}
+	.order .order-list-item .user-info .user-name{margin-top: .3rem; line-height: 1;}
+	.order .order-list-item .user-info .user-name .user-status{margin-left: .2rem;}
+	.order .order-list-item .user-info .user-name span{margin-left: .2rem;}
+	.order .order-list-item .user-info .user-phone{margin-top: .3rem; color: #ff2d4b; font-size: .75rem;}
+	.order .order-list-item .user-info .user-phone i{margin-top: -.1rem;}
+	.order .order-list-item .user-info .user-address{margin-top: .3rem;}
+	.order .order-list-item .user-info .user-address .search-address{font-size: .75rem;}
+	.order .order-list-item .user-info .user-address .distance{margin-left: .3rem; font-size: .75rem;}
+	.order .order-list-item .user-info .loc{position: absolute; right: .95rem; top: 12%; width: 1.4rem; height: 1.4rem; border: 1px solid #ff2d4b; text-align: center; line-height: 1.3rem; border-radius: 50%; display: inline-block;}
+	.order .order-list-item .user-info .loc i{font-size: .8rem; color: #FF2D4B;}
+	.order .order-list-item .delivery-section{padding: .5rem .7rem; position: relative;}
+	.order .order-list-item .delivery-section .delivery-name{font-size: .7rem; padding-top: .2rem;}
+	.order .order-list-item .delivery-section .delivery-status{margin-top: .2rem; font-size: .7rem;}
+	.order .order-list-item .delivery-section .more{color: #ABABAB; font-size: .7rem;}
+	.order .order-list-item .delivery-section .operate-box{position: absolute; right: .7rem; top: 22%;}
+	.order .order-list-item .delivery-section .operate-box a{display: inline-block; width: 1.4rem; height: 1.4rem; line-height: 1.3rem; text-align: center; border-radius: 50%; border: 1px solid #FF2D4B; color: #FF2D4B; margin-right: .2rem;}
+	.order .order-list-item .delivery-section .operate-box a i{font-size: .8rem;}
+	.order .order-list-item .goods-info{padding: .5rem .7rem; position: relative; padding-right: 0;}
+	.order .order-list-item .goods-info>.left{float: left; width: 7%;}
+	.order .order-list-item .goods-info>.left i{font-size: .8rem;}
+	.order .order-list-item .goods-info>.right{float: left; width: 93%; }
+	.order .order-list-item .goods-info>.right .goods-title{padding-right: .7rem;}
+	.order .order-list-item .goods-info .goods-title i{font-size: .8rem; margin-right: .1rem;}
+	.order .order-list-item .goods-info .goods-title .icon-unfold{margin-top: .1rem; color: #ff2d4b;}
+	.order .order-list-item .goods-info .goods-list{margin-top: .3rem; padding-right: .7rem;}
+	.order .order-list-item .goods-info .goods-list ul{padding-bottom: .5rem;}
+	.order .order-list-item .goods-info .goods-list ul li{font-size: .7rem; position: relative;}
+	.order .order-list-item .goods-info .goods-list ul li:before{content: ""; width: .3rem; height: .3rem; position: absolute; left: -.8rem; top: 50%; transform: translate(0, -50%); background-color: #A2A2A2; border-radius: 50%;}
+	.order .order-list-item .goods-info .goods-list .good-name{display: inline-block; width: 48%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
+	.order .order-list-item .goods-info .goods-list .good-num{display: inline-block; width: 18%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
+	.order .order-list-item .goods-info .goods-list .good-price{display: inline-block; width: 29%; text-align: right; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
+	.order .order-list-item .goods-info .goods-list .good-num.many{color: #F5a623;}
+	.order .order-list-item .goods-info .box-fee{color: #A0A0A0; font-size: .7rem; padding: .4rem 0; padding-right: .7rem;}
+	.order .order-list-item .goods-info .box-fee span{float: right; margin-right: .2rem;}
+	.order .order-list-item .goods-info .subtotal{padding: .4rem .7rem .4rem 0;}
+	.order .order-list-item .goods-info .subtotal .subtotal-box{font-size: .8rem; font-weight: 700; padding-bottom: .1rem;}
+	.order .order-list-item .goods-info .subtotal .subtotal-box span{float: right; margin-right: .1rem;}
+	.order .order-list-item .goods-info .subtotal .platform-fee{font-size: .7rem; color: #A0A0A0; padding-top: .2rem;}
+	.order .order-list-item .goods-info .subtotal .platform-fee span{float: right; margin-right: .1rem;}
+	.order .order-list-item .goods-info .subtotal .platform-fee a{color: #A0A0A0;}
+	.order .order-list-item .goods-info .subtotal .platform-fee a i{font-size: .7rem;}
+	.order .order-list-item .goods-info .total{margin-top: .2rem; padding-right: .7rem;}
+	.order .order-list-item .goods-info .total .clearfix .left{font-weight: 700; font-size: .8rem;}
+	.order .order-list-item .goods-info .total .clearfix .price{float: right; margin-right: .1rem; font-weight: 700; font-size: .8rem; margin-top: .1rem;}
+	.order .order-list-item .goods-info .total .grayest{font-size: .7rem; margin-top: .2rem;}
+	.order .order-list-item>.operate-box{padding-right: .7rem; padding-top: .4rem;}
+	.order .order-list-item>.operate-box a{float: right; text-align: center; padding: .2rem .3rem; font-size: .8rem; color: #FF2D4B; border: 1px solid #FF2D4B; border-radius: .15rem;}
+	.order .order-list-item>.operate-box a:first-child{margin-left: .3rem;}
+	.order .order-list-item .bottom{padding: .5rem .7rem; position: relative;}
+	.order .order-list-item .bottom .operate{float: left; width: 30%;}
+	.order .order-list-item .bottom .about-order{width: 65%; text-align: right; position: absolute; right: 0; top: 50%; transform: translate(0, -50%); margin-right: .7rem;}
+	.order .order-list-item .bottom .operate a{display: inline-block; float: left; width: 50%; text-align: center; color: #444; font-size: .7rem;}
+	.order .order-list-item .bottom .operate a i{color: #444444; font-size: .9rem;}
+	.order .order-list-item .bottom .operate a div{overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
+	.order .order-list-item .bottom .about-order .order-time{overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: .7rem}
+	.order .order-list-item .bottom .about-order .order-number{color: #ABABAB; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: .7rem}
+</style>
+
+<div class="page order">
+	<div class="content">
+		<div class="order-list">
+			<div class="order-list-item eleme">
+				<div class="order-info">
+					<div class="order-title">
+						<strong class="med">#</strong>
+						<strong class="largest">3</strong>
+						<span class="order-time">
+							<span class="med orange">立即送达</span>
+							建议11:30前送达
+						</span>
+						<div class="order-status">订单取消</div>
+					</div>
+					<div class="order-reason">
+						<i class="icon icon-time"></i>
+						取消原因：商家同意退款
+					</div>
+				</div>
+				<div class="user-info border-1px-b">
+					<div class="user-name">
+						<strong class="med">杨先生</strong>
+						<span class="user-status">
+							<span class="small grayest">#门店新客</span>
+							<span class="small grayest">#收藏店铺</span>
+						</span>
+					</div>
+					<div class="user-phone">
+						<i class="icon icon-telephone"></i>
+						<span>13453222285</span>
+					</div>
+					<div class="user-address">
+						<span class="search-address">
+							高唐县人民医院 (992)
+						</span>
+						<span class="distance">1.0km</span>
+					</div>
+					<a href="javascript:;" class="loc">
+						<i class="icon icon-locationfill"></i>
+					</a>
+				</div>
+				<div class="delivery-section border-1px-b">
+					<strong class="delivery-name">骑手: 张中雷</strong>
+					<div class="delivery-status">
+						<span class="time">11:20</span>
+						取消配送
+					</div>
+					<a href="javascript:;" class="more">
+						查看更多配送信息<i class="icon icon-right"></i>
+					</a>
+					<span class="operate-box">
+						<a href="javascript:;" class="loc">
+							<i class="icon icon-locationfill"></i>
+						</a>
+						<a href="javascript:;" class="tel">
+							<i class="icon icon-telephone"></i>
+						</a>
+						<a href="javascript:;" class="msg">
+							<i class="icon icon-messagefill"></i>
+						</a>
+					</span>
+				</div>
+				<div class="goods-info border-1px-b clearfix">
+					<div class="left">
+						<i class="icon icon-viewgallery"></i>
+					</div>
+					<div class="right">
+						<div class="goods-title">
+							<strong>商品</strong>
+							<a href="javascript:;" class="pull-right">
+								<i class="icon icon-unfold"></i>
+							</a>
+						</div>
+						<div class="goods-list border-1px-b">
+							<ul>
+								<li class="clearfix">
+									<span class="good-name">甜不辣</span>
+									<span class="good-num">x1</span>
+									<span class="good-price">¥3</span>
+								</li>
+								<li class="clearfix">
+									<span class="good-name">油麦菜</span>
+									<span class="good-num">x1</span>
+									<span class="good-price">¥3</span>
+								</li>
+								<li class="clearfix">
+									<span class="good-name">白菜</span>
+									<span class="good-num">x1</span>
+									<span class="good-price">¥3</span>
+								</li>
+								<li class="clearfix">
+									<span class="good-name">小煲特辣</span>
+									<span class="good-num">x1</span>
+									<span class="good-price">¥18</span>
+								</li>
+								<li class="clearfix">
+									<span class="good-name">米饭盒饭</span>
+									<span class="good-num many">x3</span>
+									<span class="good-price">¥3</span>
+								</li>
+							</ul>
+						</div>
+						<div class="box-fee border-1px-b">
+							餐盒费<span>¥1.00</span>
+						</div>
+						<div class="subtotal border-1px-b">
+							<div class="subtotal-box">
+								小计<span>¥43.0</span>
+							</div>
+							<div class="platform-fee">
+								平台服务费
+								<a href="javascript:;"><i class="icon icon-question1"></i></a>
+								<span>-¥8.40</span>
+							</div>
+						</div>
+						<div class="total">
+							<div class="clearfix">
+								<span class="left">本单预计收入</span>
+								<span class="price">¥ 14.4</span>
+							</div>
+							<div class="grayest">
+								本单顾客实际支付：¥22.00
+								<span class="green">(已支付)</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="operate-box clearfix">
+					<a href="javascript:;">部分退款</a>
+					<a href="javascript:;">取消订单</a>
+				</div>
+				<div class="bottom clearfix">
+					<div class="operate clearfix">
+						<a href="javascript:;" class="custom">
+							<i class="icon icon-service1"></i>
+							<div>客服</div>
+						</a>
+						<a href="javascript:;" class="stamp">
+							<i class="icon icon-print"></i>
+							<div>打印(1)</div>
+						</a>
+					</div>
+					<div class="about-order">
+						<div class="order-time">
+							08-25 11:00下单
+						</div>
+						<div class="order-number">
+							订单编号:123012301230123
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="order-list-item meituan">
+				<div class="order-info">
+					<div class="order-title">
+						<strong class="med">#</strong>
+						<strong class="largest">3</strong>
+						<span class="order-time">
+							<span class="med orange">立即送达</span>
+							建议11:30前送达
+						</span>
+						<div class="order-status">订单取消</div>
+					</div>
+					<div class="order-reason">
+						<i class="icon icon-time"></i>
+						取消原因：商家同意退款
+					</div>
+				</div>
+				<div class="user-info border-1px-b">
+					<div class="user-name">
+						<strong class="med">杨先生</strong>
+						<span class="user-status">
+							<span class="small grayest">#门店新客</span>
+							<span class="small grayest">#收藏店铺</span>
+						</span>
+					</div>
+					<div class="user-phone">
+						<i class="icon icon-telephone"></i>
+						<span>13453222285</span>
+					</div>
+					<div class="user-address">
+						<span class="search-address">
+							高唐县人民医院 (992)
+						</span>
+						<span class="distance">1.0km</span>
+					</div>
+					<a href="javascript:;" class="loc">
+						<i class="icon icon-locationfill"></i>
+					</a>
+				</div>
+				<div class="delivery-section border-1px-b">
+					<strong class="delivery-name">骑手: 张中雷</strong>
+					<div class="delivery-status">
+						<span class="time">11:20</span>
+						取消配送
+					</div>
+					<a href="javascript:;" class="more">
+						查看更多配送信息<i class="icon icon-right"></i>
+					</a>
+					<span class="operate-box">
+						<a href="javascript:;" class="loc">
+							<i class="icon icon-locationfill"></i>
+						</a>
+						<a href="javascript:;" class="tel">
+							<i class="icon icon-telephone"></i>
+						</a>
+						<a href="javascript:;" class="msg">
+							<i class="icon icon-messagefill"></i>
+						</a>
+					</span>
+				</div>
+				<div class="goods-info border-1px-b clearfix">
+					<div class="left">
+						<i class="icon icon-viewgallery"></i>
+					</div>
+					<div class="right">
+						<div class="goods-title">
+							<strong>商品</strong>
+							<a href="javascript:;" class="pull-right">
+								<i class="icon icon-unfold"></i>
+							</a>
+						</div>
+						<div class="total">
+							<div class="clearfix">
+								<span class="left">本单预计收入</span>
+								<span class="price">¥ 14.4</span>
+							</div>
+							<div class="grayest">
+								本单顾客实际支付：¥22.00
+								<span class="green">(已支付)</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="bottom clearfix">
+					<div class="operate clearfix">
+						<a href="javascript:;" class="custom">
+							<i class="icon icon-service1"></i>
+							<div>客服</div>
+						</a>
+						<a href="javascript:;" class="stamp">
+							<i class="icon icon-print"></i>
+							<div>打印(1)</div>
+						</a>
+					</div>
+					<div class="about-order">
+						<div class="order-time">
+							08-25 11:00下单
+						</div>
+						<div class="order-number">
+							订单编号:123012301230123
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{itemplate 'public/footer'}

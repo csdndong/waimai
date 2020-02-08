@@ -1,0 +1,199 @@
+{itemplate 'public/header'}
+<div class="uu-replace-main clearfix">
+	<!--左侧导航-->
+	<div class="order-nav">
+		<!--四个功能样式-->
+		<div class="secNav">
+			<div class="business-list">
+				<a href="javascript:void(0);" title="帮我买">
+					<div class="item active">
+						<h5>
+							<i class="iconfont"></i>
+						</h5>
+						<p>帮我买</p>
+					</div>
+				</a>
+				<a href="javascript:void(0);" title="帮我送">
+					<div class="item">
+						<h5>
+							<i class="iconfont"></i>
+						</h5>
+						<p>帮我送</p>
+					</div>
+				</a>
+				<a href="javascript:void(0);" title="帮我取">
+					<div class="item">
+						<h5>
+							<i class="iconfont"></i>
+						</h5>
+						<p>帮我取</p>
+					</div>
+				</a>
+				<a href="javascript:void(0);" title="代排队">
+					<div class="item">
+						<h5>
+							<i class="iconfont"></i>
+						</h5>
+						<p>代排队</p>
+					</div>
+				</a>
+
+			</div>
+		</div>
+	</div>
+
+	<!--右侧列表样式-->
+	<div class="order-form">
+		<form action="">
+			<div class="uuBusi">
+				<!--购买基本信息-->
+				<div class="infos-box infos-box1">
+					<span class="icon">1</span>
+					<div class="ucard" style="margin-bottom: 0;">
+						<label>购买内容</label>
+						<div class="tag category" id="goodstype">
+							<a href="javascript:;" class="selected">
+								随意购
+								<span class="icon">√</span>
+							</a>
+							<a href="javascript:;">咖啡</a>
+							<a href="javascript:;">香烟</a>
+							<a href="javascript:;">酒</a>
+							<a href="javascript:;">早餐</a>
+							<a href="javascript:;">宵夜</a>
+							<a href="javascript:;" >药品</a>
+							<a href="javascript:;" >生鲜</a>
+						</div>
+					</div>
+					<div class="ucard">
+						<label>收货地址</label>
+						<div class="tag">
+							<input type="text" class="inp w86" autocomplete="off" name="endaddress" id="endaddress" placeholder="请填写收货地址" title="收货地址">
+						</div>
+					</div>
+					<div class="ucard">
+						<label>备注地址</label>
+						<div class="tag">
+							<input type="text" name="endaddressdoor" autocomplete="off" id="endaddressdoor" class="inp w86" placeholder="请填写具体楼号及门牌号" title="备注地址">
+						</div>
+					</div>
+					<div class="ucard" style="padding-bottom:30px;margin-bottom:0">
+						<label>收货电话</label>
+						<div class="tag">
+							<input type="tel" maxlength="11" autocomplete="off" name="tel" id="tel" class="inp help-input" placeholder="请输入联系人手机号码">
+						</div>
+					</div>
+				</div>
+				<!--购买要求及备注-->
+				<div class="infos-box infos-box2" style="z-index: 9; margin-top: 20px;margin-bottom: 20px;">
+					<span class="icon">2</span>
+					<div class="ucard">
+						<label>购买地址</label>
+						<div class="tag">
+							<input type="text" name="startaddress" autocomplete="off" id="startaddress" class="inp w86" placeholder="请填写购买地址" title="购买地址">
+						</div>
+					</div>
+					<div class="ucard">
+						<label>备注地址</label>
+						<div class="tag">
+							<input type="text" name="startaddressdoor" autocomplete="off" id="startaddressdoor" class="inp w86" placeholder="请填写具体楼号及门牌号" title="备注地址">
+						</div>
+					</div>
+					<div class="ucard" style="height: 96px;">
+						<label>购买要求</label>
+						<div class="tag" style="position:relative;">
+							<textarea autocomplete="off" class="inp w100 textarea-large required maxText" name="details" id="details" placeholder="想买什么就买什么，请输入需要购买商品的名称和数量"></textarea>
+							<span style="position:absolute;font-size:12px;color:#bbbbbb;right:15px;bottom:0px;z-index:10;">最多80字</span>
+						</div>
+					</div>
+
+				</div>
+				<!--备注留言-->
+				<div class="infos-box infos-box3" style="padding-bottom: 0;z-index:7;">
+					<span class="icon">3</span>
+					<div class="ucard" style="margin-bottom:20px;">
+						<label>备注留言</label>
+						<div class="tag" style="position:relative;">
+							<textarea id="note" autocomplete="off" class="inp w100 textarea-large maxText" type="text" placeholder="请填写物品具体信息"></textarea>
+							<span style="position:absolute;font-size:12px;color:#bbbbbb;right:15px;bottom:0px;z-index:10;">最多80字</span>
+						</div>
+					</div>
+					<div class="ucard" style="line-height:none;">
+						<label>发货时间</label>
+						<div class="tag special help-input send-input" id="sendChoice">
+							<div class="sod_select">
+								<div class="sod_label sod_placeholder">立即发货</div>
+								<ul class="sod_list">
+									<li class="active selected" title="立即发货">立即发货</li>
+									<li title="预约时间">预约时间</li>
+									<li title="预约时间">预约时间</li>
+								</ul>
+								<div class="icons">
+								</div>
+							</div>
+							<div class="tips">
+								<div class="con warn" id="sendTimeWarn" style="display: block;">跑男接单后立即上门取货</div>
+							</div>
+						</div>
+					</div>
+					<div class="ucard" style="margin-bottom: 0;">
+						<a href="javascript:;" id="getMore" class="more-bg">
+							<i class="more-down"></i>
+							点击展开更多
+						</a>
+					</div>
+				</div>
+			</div>
+			<!--订单距离-->
+			<div class="uuPay" style="z-index:6;margin-top: 20px;">
+				<div class="infos-box infos-box4" style="margin-top: 0; padding-bottom: 30px;">
+					<span class="icon">4</span>
+					<div class="pay step1">
+						<ul class="details">
+							<li class="distance">
+								<b>订单距离</b>
+								<h3>
+									<span class="ShowKm">0</span>
+									公里
+								</h3>
+							</li>
+							<li class="money">
+								<b>跑腿费</b>
+								<h3>
+									<span class="FreightMoney">0</span>
+									元
+								</h3>
+							</li>
+						</ul>
+						<div class="ucard">
+							<div class="tag" style="width: 100%;">
+								<label>手机号码</label>
+								<input type="tel" id="usermobile" maxlength="11" autocomplete="off" class="inp" style="width: 69.8%;" placeholder="请填写手机号码">
+							</div>
+						</div>
+						<div class="ucard">
+							<div class="tag" style="width: 100%;">
+								<label>图片验证</label>
+								<input type="text" class="inp" id="usercode" autocomplete="off" style="width: 43.5%; float: left;" placeholder="请填写图片验证码">
+								<a href="javascript:;" class="verfy-img">
+									<img style="width: 80px; height: 38px;" src="https://www.uupt.com/Handler/Captcha.ashx?r=0.263036192152702"  id="Captcha">
+								</a>
+							</div>
+						</div>
+						<div class="ucard" style="margin-bottom:27px;">
+							<div class="tag" style="width: 100%;">
+								<label>短信验证</label>
+								<input type="tel" class="inp" id="usersmscode" style="width: 43.5%;" placeholder="请填写短信验证码">
+								<input type="button" class="inp state-success" style="width: 80px; margin-left: 6px;border: solid 1px #ff8b03;" id="sendSmsCode" value="发送验证码">
+							</div>
+						</div>
+						<div class="ucard" style="margin-bottom: 0;">
+							<input type="button" name="pay-sub" class="sub pay-sub" value="确认订单" id="login">
+						</div>
+					</div>
+					<div class="map"></div>
+			</div>
+		</form>
+	</div>
+</div>
+{itemplate 'public/footer'}

@@ -1,0 +1,575 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link rel="shortcut icon" href="<{$siteurl}>/upload/favicon/favicon-16x16.png" type="image/png" />
+<link rel="icon" href="<{$siteurl}>/upload/favicon/favicon-16x16.png" type="image/png" sizes="16x16" />
+<link rel="icon" href="<{$siteurl}>/upload/favicon/favicon-32x32.png" type="image/png" sizes="32x32" />
+<link rel="icon" href="<{$siteurl}>/upload/favicon/favicon-48x48.png" type="image/png" sizes="48x48" />
+<link rel="icon" href="<{$siteurl}>/upload/favicon/favicon-64x64.png" type="image/png" sizes="64x64" />
+<title><{$sitename}></title>
+<{block name="seokey"}>
+<meta name="Keywords" content="<{$keywords}>" />
+<{/block}>
+<{block name="seodes"}>
+<meta name="description" content="<{$description}>" />
+<{/block}>
+<{$metadata|stripslashes}>
+<script> 
+var siteurl = "<{$siteurl}>";
+var is_static ="<{$is_static}>";
+var controllername= '<{$controlname}>';
+</script>
+<link rel="stylesheet" href="<{$siteurl}>/templates/<{$tempdir}>/public/mnew7/css/map-n.css" />
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/jquerynew.js" type="text/javascript" language="javascript"></script>
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/allj.js" type="text/javascript" language="javascript"></script>
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/artDialog.js?skin=blue" type="text/javascript" language="javascript"></script>
+<script type="text/javascript" src="<{$map_comment_link}>webapi.amap.com/maps?v=1.3&key=<{$map_javascript_key}>&plugin=AMap.Geolocation,AMap.CitySearch"></script>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/jquery.cookie.js"></script>  
+</head><body style="overflow:auto;background:none;">
+<div class="guideTop">
+  <div class="guideContent"> <a href="<{$siteurl}>" > <img src="<{$sitelogo}>" /> </a>
+    <div class="mmeberinfo">
+      <ul>
+        <{if !empty($member['uid'])}>
+        <li><a  target="_bank" href="<{ofunc type=url link="/member/base"}>" >你好，<{$member['username']}></a></li>
+        <li style="width:2px;">|</li>
+        <li><a  target="_bank" href="<{ofunc type=url link="/member/loginout"}>" >退出</a></li>
+        <{else}>
+        <li><a  target="_bank" href="<{ofunc type=url link="/member/login"}>" >登录</a></li>
+        <li style="width:2px;">|</li>
+        <li><a target="_bank" href="<{ofunc type=url link="/member/regester"}>" >注册</a></li>
+        <{/if}>
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="guidebox"style="position:relative; height:480px;">
+  <div class="map" id="map">
+    <div class="top">
+      <div class="guider" style="visibility: visible;height:110px ;width:550px; "id="guider"> <img src="<{$siteurl}>/upload/images/guideBg.png" /> </div>
+      <div class="address clearfix" id="address" style="position:relative;" >
+         <div class="fr history-address m-shadow"> <a id="historylist" href="javascript:;" title="历史地址"> <span>历史地址</span> <i class="i-triangle-down"></i> </a>
+          <div class="  dialog-historyaddr" style="display: none;position: absolute;
+    top: 72px;">
+            <div class="map-dialog" style="left:750px; top: 75px;"> <i class="icon i-mapdialog-arr" style="left: 25px;"></i> 
+			<{if empty($cook_adrlistcookie)}>
+              <div class="content" style="width: 150px;">
+                <div class="address-warp">
+                  <ul>
+                    <li class="empty">暂无历史地址</li>
+                  </ul>
+                </div>
+              </div>
+              <{else}>
+              <div class="content">
+                <div class="address-warp">
+                  <ul id="historylistBox">
+                    <{foreach from=$cook_adrlistcookie key=myid item=items}>
+                    <{if $myid <= 5 && !empty($items)}> <a  style="width:240px; font-size:14px; color:#000000; height:50px; line-height:50px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    outline: 0!important; background:#fff; border-bottom: 1px solid #DEDEDE;"  class="name first" href="javascript:void(0)" title="<{$items[2]}>">
+                    <li  lng="<{$items[0]}>" lat="<{$items[1]}>" address="<{$items[2]}>" adcode="<{$items[3]}>"  style="padding:0px 10px;"  ><{$items[2]}></li>
+                    </a> <{/if}>		 
+                    <{/foreach}>
+                  </ul>
+                </div>
+              </div>
+              <{/if}> </div>
+          </div>
+        </div>
+        <div class="fl current-city m-shadow"  style="position:relative;"   > 
+			<a href="javascript:void(0);" class="city" id="selectcity"> 
+			<span id="cityNameText"  ><{if !empty($CITY_NAME)}><{$CITY_NAME}><{else}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<{/if}></span>  
+			</a> 
+			
+			 
+			
+			
+			<div class="dialog dialog-citylist" id="showMoreCityList" style="display:none;z-index:999999999999999;">
+			  <div class="map-dialog"  > <i class="icon i-mapdialog-arr" style="left: 58px;"></i>
+				<div class="content jspScrollable" style="height: auto; overflow: auto; padding: 0px; width: 733px;" >
+				  <div class="jspContainer" style="width: 733px; min-height: 200px;">
+					<div class="jspPane" style="padding: 15px 25px; width: 661px; top: 0px;">
+					  <div class="guess clearfix "><span class="fl">猜你在：</span><a id="guessCity"  data-cityid=""   data-name="" class="fl borderradius-2 city-target" href="javascript:void(0);"></a></div>
+					  <div id="input-city" class="search-city ct-deepgrey "> <span class="fl">直接搜索</span>
+						<input type="text" id="searchCityKey" class="input-city fl" value="" autocomplete="off" placeholder="城市名称">
+						<i class="icon i-search"></i>
+						<div id="city-content" style="display:none;" class="ct-deepgrey">
+							<ul>
+ 							</ul>
+						</div>
+					  </div>
+					 
+					  <div class="field clearfix " id="citylistBox"> 
+					  <{if !empty($citylist) }>
+						<ul class="clearfix">
+						<{foreach from=$citylist item=items }>
+						  <li><a  data-cityid="<{$items['adcode']}>"  data-name="<{$items['name']}>" class="city-target" href="javascript:void(0);"><{$items['name']}></a></li>
+						 <{/foreach}>
+						</ul>
+					 <{else}>
+						<ul class="clearfix">
+							<div style="color:#949494;">未开通其它城市...</div>
+						</ul>
+					<{/if}>
+					
+					  </div> 
+					</div> 
+				  </div>
+				</div>
+			  </div>
+			</div>
+
+			
+			
+			
+		</div>
+        <div class="fl address-input">
+          <div class="input-container clearfix m-shadow" style="position:relative;">
+            <input type="text" id="searchKeywords" placeholder="输入地址搜索周边商家" class="fl" />
+            <input type="hidden" name="cityname" id="cityname" value="<{if !empty($CITY_NAME)}><{$CITY_NAME}><{else}><{$cityname}><{/if}>" />
+            <input type="hidden"  name="cityid" value="<{if !empty($CITY_ID)}><{$CITY_ID}><{else}><{$default_cityid}><{/if}>" />
+            <a href="javascript:void(0);" class="fl" id="searchBtn">搜索</a> </div>
+			
+			
+			
+			
+			
+			
+			
+			
+			
+ <div class="search-show s-item search-sug" id="searchShowAdrList" style="display:none;" >
+  <ul id="ghWaimaiAdd" >			 
+	 
+</ul>
+</div>
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+        </div>
+      </div>
+    </div>
+    <div class="result hidden jspScrollable" id="search_result" style="overflow: hidden; padding: 0px; height: 100%; width: 300px;">
+      <div class="jspContainer" style="width: 300px; height: 280px;">
+        <div class="jspPane" style="padding: 0px; top: 0px; left: 0px; width: 300px;">
+          <div class="loading"></div>
+        </div>
+      </div>
+    </div>
+    <div class="container hidden" id="bd-map" style="overflow: hidden; position: relative; z-index: 0; color: rgb(0, 0, 0); text-align: left; background-color: rgb(243, 241, 236);"> </div>
+  </div>
+</div>
+<div style=" display:;">
+  <div style="height:370px;   background:#fff; text-align:center;"> <img style="padding-top:56px;" src="<{$siteurl}>/upload/images/guide_zhiyin.png" /> </div>
+  <div class="app-down" id="moui_1439793922133">
+    <div class="inner" id="moui_1439793922132">
+      <div class="app-phone" id="moui_1439793922160"></div>
+      <div class="app-code">
+        <div style="float:left;">
+          <P> <img style="width:124px; height:124px;" src="<{$siteurl}>/upload/app/m6wx_ewm.png" alt=""></P>
+          <p style="width:124px; color:#fff; text-align:center; margin-top:5px;">微信端扫描二维码</p>
+        </div>
+        <div  style="float:left; margin-left:20px;">
+          <P> <img style="width:124px; height:124px;" src="<{$siteurl}>/upload/app/m6app_ewm.png" alt=""></P>
+          <p style="width:124px; color:#fff; text-align:center; margin-top:5px;">手机客户端下载</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="clear:both;"></div>
+  <div class="guidefooter">
+    <P class="footlink" > <{if !empty($toplink)}>
+      <{$toplink = $toplink|unserialize}>
+      <{foreach from=$toplink key=myid item=items name=listname}> 
+	  <a href="<{$items['typeurl']}>" class=""  data="<{$items['typeurl']}>">
+	  <span style="line-height:16px;"><{$items['typename']}></span> <{if !$smarty.foreach.listname.last}><span> &nbsp;&nbsp;|&nbsp;&nbsp; </span><{/if}> </a> <{/foreach}>
+      <{/if}> </P>
+    <P class="Copyright">Copyright©2015 <{$sitename}>  | <{$beian}>   <{$footerdata|stripslashes}> </P>
+  </div>
+</div>
+<div class="mask" style="display:none;"></div>
+<div class="dialog dialog-failed" style="display: none;">
+  <table class="simple-dialog" style="left: 734px; top: 190px;">
+    <tbody>
+      <tr>
+        <td class="top-left"></td>
+        <td class="top-center"></td>
+        <td class="top-right"></td>
+      </tr>
+      <tr>
+        <td class="middle-left"></td>
+        <td class="middle-center"><div class="dialog-main"> <a href="javascript:;" class="notitle-close fr"><i class="icon i-cross"></i></a>
+            <div class="content"><i class="icon i-dialog-wrong"></i><span class="tips">请输入您的送餐地址！</span></div>
+          </div></td>
+        <td class="middle-right"></td>
+      </tr>
+      <tr>
+        <td class="bottom-left"></td>
+        <td class="bottom-center"></td>
+        <td class="bottom-right"></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div id="iCenter" style="display:none;"></div>
+ <script>
+var defaultCityName = '<{$cityname}>'; 
+var defaultCityID = '<{$default_cityid}>'; 
+ 
+var CITY_NAME = '<{$CITY_NAME}>';
+var location_cityname;
+var location_cityId;
+var cityname;
+var cityId;
+var adrlistcookie = new Array();
+$(function(){
+	 getlocation();
+	 
+	 <{if !empty($cook_adrlistcookie) }>
+		<{foreach from=$cook_adrlistcookie item=items }>
+			var adrtempary = new Array();
+			<{foreach from=$items item=itv }> 
+				adrtempary.push('<{$itv}>');
+			<{/foreach}>
+			adrlistcookie.push(adrtempary);
+		<{/foreach}>
+ 	<{/if}> 
+	
+});
+
+function getlocation(){
+	
+		//添加定位组件，用于获取用户当前的精确位置
+		var geolocation = new AMap.Geolocation({
+			showCircle: false, //不显示定位结果的圆
+			showMarker: false, //不显示定位结果的标记
+			showButton: false, //不显示组件的定位按钮
+			timeout: 5000 //浏览器定位超时时间5s
+		});
+		geolocation.getCurrentPosition(function(status, result) {
+			
+			 if (status == 'complete') {
+				onLocateSuccess(result); //定位成功
+			} else if (status == 'error') {
+				//定位失败
+				if (result.message.indexOf('Geolocation permission denied.') !== -1) {
+				//Geolocation permission denied.表示用户禁用了浏览器或者APP的定位权限或者关闭了手机的定位服务
+				//或者当前页面为非安全页面,Chrome或者IOS10等系统会禁用非安全页面的定位请求
+				//如果您的页面还没有支持HTTPS请尽快升级
+				//安全页面指的是支持HTTPS的Web站点，而且是通过https协议打开的页面。安全页面也包括本地页面
+					//diaerror('您好，请在系统的隐私设置中打开当前应用的定位权限。');
+					showCityInfo();
+				} else {
+					//diaerror('无法获取精确位置,将定位您所在的城市。');
+					showCityInfo();
+				}
+			onLocateFailed();
+			}
+		})
+		//定位失败之后进行城市定位
+		var onLocateFailed = function() {
+			geolocation.getCityInfo(function(status, result) {
+				if (status == 'complete') {
+					 
+					if( result.status == 1 && result.info == 'SUCCESS' ){
+						var center_lng = result.center.lng;
+						var center_lat = result.center.lat;
+						var location_adcode = result.adcode;
+						checkOpenCity(location_adcode);
+					}
+				} else if (status == 'error') {
+					//diaerror("获取位置失败");
+				}
+			})
+		};
+		//定位成功
+		var onLocateSuccess = function(result) {
+ 			 if( result.status == 1 && result.info == 'SUCCESS' ){
+				var location_lng = result.position.lng;
+				var location_lat = result.position.lat;
+				var location_adcode = result.addressComponent.adcode;
+				
+				location_cityname = result.addressComponent.city;
+			    location_cityId = result.addressComponent.adcode; 
+				
+  				checkOpenCity(location_adcode);
+			}
+		};
+
+	
+
+}
+
+ //获取用户所在城市信息
+    function showCityInfo() {
+        //实例化城市查询类
+        var citysearch = new AMap.CitySearch();
+        //自动获取用户IP，返回当前城市
+        citysearch.getLocalCity(function(status, result) {
+            if (status === 'complete' && result.info === 'OK') {
+				 
+                if (result && result.city && result.bounds) {
+			 
+                   location_cityname = result.city;
+					location_cityId = result.adcode;  
+  				    checkOpenCity(location_cityId);
+                }
+            } else {
+               // document.getElementById('tip').innerHTML = result.info;
+            }
+        });
+    }
+	
+	
+$("#historylist").click(function(){
+	$(".dialog-historyaddr").toggle();
+});
+
+function checkOpenCity(adcode){
+	var url= siteurl+'/index.php?ctrl=site&action=checkOpenCity&datatype=json&random=@random@';
+    url = url.replace('@random@', 1+Math.round(Math.random()*1000)); 
+    var bk = ajaxback(url,{'adcode':adcode}); 
+	if(bk.flag == false){
+ 		if( bk.content != '' ){ 
+			cityname = bk.content.name;
+			cityId = bk.content.adcode;  
+		}
+	}else{
+		diaerror(bk.content);
+	}
+	func_inputvalue();
+	
+}
+
+$("#selectcity").click(function(event){ 
+	$('#guessCity').text(location_cityname);
+	$('#guessCity').attr('data-cityid',location_cityId); 
+	$('#guessCity').attr('data-name',location_cityname); 
+	 $('#showMoreCityList').toggle();
+	 event.stopPropagation(); 
+});
+
+$("#showMoreCityList").click(function(event){ 
+ 	 event.stopPropagation(); 
+}); 
+$("body").click(function(){ 
+	 $('#showMoreCityList').hide(); 
+});
+  
+
+var biaoqianval = false;
+function bqzhi(){
+	biaoqianval  = false;
+}
+$("#searchCityKey").bind('click',function(e){
+searchAdCodelist();  
+});
+$("#searchCityKey").bind('keyup',function(e){
+					if(biaoqianval == false){
+						biaoqianval  = true;
+						setTimeout("bqzhi()", 500 );  
+							searchAdCodelist();	  
+					}
+}); 
+function searchAdCodelist(){ 
+	var searchval  = $("#searchCityKey").val();
+ 								if( searchval != '' && searchval != undefined ){
+									$('#city-content').show();
+									$('#city-content ul').html('');
+									var info = {'searchval':searchval}; 
+									var url = '<{ofunc type=url link="/site/getcitylist/datatype/json"}>';
+									  var backdata = ajaxback(url,info); 
+									  if(backdata.flag == false){ 
+											console.log(backdata.content);
+											var adrcodelist = backdata.content;
+											if( adrcodelist.length > 0 ){
+												var htmls = '';
+												$.each(adrcodelist, function(i, newobj) {
+												  htmls += '<li name="'+newobj.name+'"  adcode="'+newobj.adcode+'"  ><a href="javascript:void(0);" class="ca-deepgrey city-target active" data-pinyin="anda" data-cityid="231281">'+newobj.name+'</a></li>';
+ 												});
+												console.log(htmls);
+												$('#city-content ul').html(htmls);
+												
+												$('#city-content ul li').click(function(){
+													var adcode = $(this).attr('adcode');
+ 													var addname = $(this).attr('name');
+													if( adcode != ''  && addname != ''  ){  
+														cityname = addname;
+														cityId = adcode;
+														func_inputvalue();
+														$('#city-content').hide();
+														$('#func_inputvalue').hide();
+													}
+												});
+												
+											}else{
+												$('#city-content ul').html('<span  class="ca-deepgrey notfound">没有找到符合条件的城市</span>');
+ 											}
+											
+									  }else{
+ 										 diaerror(backdata.content);
+									  } 
+								} else{
+									$('#city-content').hide();
+								}
+
+
+} 
+
+$('#guessCity').click(function(){ 
+	cityId = $(this).attr('data-cityid');
+	cityname = $(this).attr('data-name');
+	func_inputvalue();  
+	$('#showMoreCityList').hide();
+});
+$('#citylistBox ul li a').click(function(){ 
+	cityId = $(this).attr('data-cityid');
+	cityname = $(this).attr('data-name');
+	func_inputvalue();  
+	$('#showMoreCityList').hide();
+});
+
+function func_inputvalue(){ 
+	 
+	 if( ( cityname == '' || cityname == undefined ) &&  ( cityId == '' || cityId == undefined ) ){
+		 cityname = defaultCityName;
+		 cityid = defaultCityID;
+	 }
+
+	 $('#cityNameText').text(cityname);
+	 $('input[name="cityname"]').val(cityname);
+	 $('input[name="cityid"]').val(cityId); 
+	 
+	 var searchval  = $("#searchKeywords").val();
+	 if( searchval != '' && searchval != undefined ){
+		func_searchinputAdr();
+	 }
+	 
+}
+ 
+$('#searchBtn').click(function(){
+	func_searchinputAdr();
+});
+ 
+ $("#searchKeywords").bind('keyup',function(e){
+					if(biaoqianval == false){
+						biaoqianval  = true;
+						setTimeout("bqzhi()", 500 );   
+						func_searchinputAdr();
+					}
+}); 
+function func_searchinputAdr(){
+		var searchval  = $("#searchKeywords").val();
+		var cityname  = $('input[name="cityname"]').val();
+		if( searchval != '' && searchval != undefined ){
+				var addresslist = '<{$map_comment_link}>restapi.amap.com/v3/place/text?&keywords='+searchval+'&city='+cityname+'&output=json&offset=20&page=1&key=<{$map_webservice_key}>&extensions=all&callback=showaddresslist';						 
+				$.getScript(addresslist); 
+		} 								 
+}
+
+function showaddresslist(data){
+ 	var datas = eval(data); 
+ 	if(datas.info == "OK"  && datas.status == 1  && datas.pois.length > 0 ){
+		$('#searchShowAdrList').show();
+		$('#searchShowAdrList ul').html('');
+		var addresslist = datas.pois;
+ 		var showhtmls = '';
+		if( addresslist != '' ){
+ 			$.each(addresslist, function(i, newobj) {
+			  showhtmls += '<li dataadcode="'+newobj.adcode+'"  dataname="'+newobj.name+'" datalnglat="'+newobj.location+'"    ><i></i><b>'+newobj.name+'</b></li>';
+ 			});
+			 $('#searchShowAdrList ul').append(showhtmls);
+ 			 $('#searchShowAdrList ul li').bind('click',function(){
+				 if( lockclick() ){
+					var adcode = $('input[name="cityid"]').val();
+					var lnglat = $(this).attr('datalnglat');
+					var address = $(this).attr('dataname');
+					if( lnglat != '' && address != '' && adcode != '' ){
+  						 
+						 var lnglatarr = lnglat.split(',');
+						 var lng = lnglatarr[0];
+						 var lat = lnglatarr[1];  
+						 var info = {'lng':""+lng+"",'lat':""+lat+"",'address':""+address+"",'adcode':""+adcode+""}; 
+						 var url = siteurl+'/index.php?ctrl=site&action=checkadrinfo&datatype=json';
+ 						 var backdata = ajaxback(url,info); 
+						 if(backdata.flag == false){ 
+								var temparr = new Array();
+								 temparr.push(lng); 
+								 temparr.push(lat); 
+								 temparr.push(address); 
+								 temparr.push(adcode); 
+								 adrlistcookie.push(temparr);
+								 var adrlistcookieList = adrlistcookie.join('#');
+								 $.cookie("cook_adrlistcookie",adrlistcookieList,{ expires: 365*10});
+								 location.href = siteurl;
+						 }else{
+ 								  diaerror(backdata.content);
+						}   
+					}
+				 }
+			 });
+		}else{
+			$('#searchShowAdrList ul').html('');
+			$('#searchShowAdrList').hide();
+ 		}
+		 
+	}else{
+		$('#searchShowAdrList ul').html('');
+			$('#searchShowAdrList').hide();
+ 	}
+}
+
+
+$('#historylistBox li').click(function(){
+	if( lockclick() ){
+ 					var adcode = $(this).attr('adcode');
+					var lng = $(this).attr('lng');
+					var lat = $(this).attr('lat');
+					var address = $(this).attr('address');
+					if( lat != '' && lng != '' && address != '' && adcode != '' ){   
+							var url= siteurl+'/index.php?ctrl=site&action=checkOpenCity&datatype=json&random=@random@';
+							url = url.replace('@random@', 1+Math.round(Math.random()*1000)); 
+							var bk = ajaxback(url,{'adcode':adcode}); 
+							if(bk.flag == false){
+								if( bk.content != '' ){
+									 adcode = bk.content.adcode;  
+									 var info = {'lng':""+lng+"",'lat':""+lat+"",'address':""+address+"",'adcode':""+adcode+""}; 
+									 var url = siteurl+'/index.php?ctrl=site&action=checkadrinfo&datatype=json';
+									 var backdata = ajaxback(url,info); 
+									 if(backdata.flag == false){  
+											 location.href = siteurl;
+									 }else{
+											  diaerror(backdata.content);
+									}   
+								}
+							}else{
+								diaerror(bk.content);
+							}
+						
+					}
+				 }
+});
+	 
+</script>
+
+
+
+
+
+
+
+
+</body>
+</html>

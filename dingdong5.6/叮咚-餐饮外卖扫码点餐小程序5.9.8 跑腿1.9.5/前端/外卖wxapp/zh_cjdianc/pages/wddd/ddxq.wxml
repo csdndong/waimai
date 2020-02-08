@@ -1,0 +1,216 @@
+<view class="head flex-row flex-y-center flex-x-center" style="background:{{color}}" wx:if="{{odinfo.order.type=='1'}}">
+    <view class="head1" wx:if="{{odinfo.order.state=='1'}}">待付款</view>
+    <view class="head1" wx:if="{{odinfo.order.state=='2'}}">等待商家接单</view>
+    <view class="head1" wx:if="{{odinfo.order.state=='3'}}">等待送达</view>
+    <view class="head1" wx:if="{{odinfo.order.state=='4'}}">订单已完成</view>
+    <view class="head1" wx:if="{{odinfo.order.state=='5'}}">订单已评价</view>
+    <view class="head1" wx:if="{{odinfo.order.state=='6'}}">订单已取消</view>
+    <view class="head1" wx:if="{{odinfo.order.state=='7'}}">商家拒绝接单</view>
+    <view class="head1" wx:if="{{odinfo.order.state=='8'}}">等待商家退款</view>
+    <view class="head1" wx:if="{{odinfo.order.state=='9'}}">商家已退款</view>
+    <view class="head1" wx:if="{{odinfo.order.state=='10'}}">商家拒绝退款</view>
+</view>
+<view class="head flex-col flex-y-center flex-x-center" style="background:{{color}}" wx:if="{{odinfo.order.type=='2'}}">
+    <view class="zwxx">{{odinfo.table.type_name}}({{odinfo.table.name}})</view>
+    <view class="head1" wx:if="{{odinfo.order.dn_state=='1'}}">待付款</view>
+    <view class="head1" wx:if="{{odinfo.order.dn_state=='2'}}">订单已完成</view>
+    <view class="head1" wx:if="{{odinfo.order.dn_state=='3'}}">订单已关闭</view>
+</view>
+<view class="ddinfo">
+    <view class="formbd">
+        <navigator class="flex-row flex-y-center sjname" openType="redirect" url="../seller/index?sjid={{odinfo.store.id}}">
+            <image src="{{odinfo.store.logo}}"></image>
+            <view class="flex-grow-1">
+        {{odinfo.store.name}}
+      </view>
+            <view class="flex-grow-0 flex-y-center">
+                <image src="../../img/blackjt.png" style="width:40rpx;height:40rpx;"></image>
+            </view>
+        </navigator>
+        <view class="cart-item flex-row flex-y-center" wx:for="{{odinfo.good}}" wx:key="*this">
+            <view class="xzhiding" wx:if="{{item.is_jc=='1'}}">加菜</view>
+            <view class="flex-grow-0 flex-y-center">
+                <image class="goods-pic" mode="aspectFill" src="{{item.img}}"></image>
+            </view>
+            <view class="flex-grow-1 flex-col">
+                <view class="flex-grow-1">
+                    <view class="goods-name">{{item.name}}</view>
+                    <view class="attr-list">
+                        <view class="attr-item">{{item.spec}}
+              </view>
+                    </view>
+                </view>
+                <view class="flex-grow-0 flex-row">
+                    <view class="flex-grow-1 num">×{{item.number}}</view>
+                    <view class="flex-grow-0 price">￥{{item.money}}</view>
+                </view>
+            </view>
+        </view>
+        <block wx:if="{{odinfo.order.type=='1'}}">
+            <view class="formbdyh flex-row flex-y-center">
+                <view class="flex-row flex-y-center flex-grow-1">
+                    <view class="yhhead bao">包</view>
+                    <view wx:if="{{odinfo.storeset.box_name!=''}}">{{odinfo.storeset.box_name}}</view>
+                    <view wx:else>包装费</view>
+                </view>
+                <view class="flex-grow-0">￥{{odinfo.order.box_money}}</view>
+            </view>
+            <view class="formbdyh flex-row flex-y-center">
+                <view class="flex-row flex-y-center flex-grow-1">
+                    <view class="yhhead pei">配</view>
+                    <view>配送费</view>
+                </view>
+                <view class="flex-grow-0" wx:if="{{odinfo.order.order_type=='1'}}">￥{{odinfo.order.ps_money}}</view>
+                <view class="flex-grow-0" style="color:#999;" wx:if="{{odinfo.order.order_type=='2'}}">到店自取无配送费</view>
+            </view>
+        </block>
+        <view class="formftyh">
+            <view class="formbdyh flex-row flex-y-center" wx:if="{{odinfo.order.zk_money!='0.00'}}">
+                <view class="flex-row flex-y-center flex-grow-1">
+                    <view class="yhhead te">折</view>
+                    <view>会员折扣</view>
+                </view>
+                <view class="flex-grow-0">-￥{{odinfo.order.zk_money}}</view>
+            </view>
+            <view class="formbdyh flex-row flex-y-center">
+                <view class="flex-row flex-y-center flex-grow-1">
+                    <view class="yhhead jian">减</view>
+                    <view>在线支付满减</view>
+                </view>
+                <view class="flex-grow-0">-￥{{odinfo.order.mj_money}}</view>
+            </view>
+            <view class="formbdyh flex-row flex-y-center" wx:if="{{odinfo.order.xyh_money!='0.00'}}">
+                <view class="flex-row flex-y-center flex-grow-1">
+                    <view class="yhhead xin">新</view>
+                    <view>新客户下单立减</view>
+                </view>
+                <view class="flex-grow-0">-￥{{odinfo.order.xyh_money}}</view>
+            </view>
+            <view class="weui-cells weui-cells_after-title" style="border-top: 1rpx solid #f4f4f4;font-size:11pt" wx:if="{{odinfo.order.yhq_money!='0.00'}}">
+                <navigator class="weui-cell weui-cell_access" hoverClass="weui-cell_active">
+                    <view class="weui-cell__hd">
+                        <image mode="aspectFit" src="../../img/personal/youhuiquan.png" style="margin-right: 15rpx;vertical-align: middle;width:40rpx; height: 40rpx;"></image>
+                    </view>
+                    <view class="weui-cell__bd">商家优惠券</view>
+                    <view class="">-￥{{odinfo.order.yhq_money}}</view>
+                </navigator>
+            </view>
+            <view class="weui-cells weui-cells_after-title" style="border-top: 1rpx solid #f4f4f4;font-size:11pt" wx:if="{{odinfo.order.yhq_money2!='0.00'}}">
+                <navigator class="weui-cell weui-cell_access" hoverClass="weui-cell_active">
+                    <view class="weui-cell__hd">
+                        <image mode="aspectFit" src="../../img/hb.png" style="margin-right: 15rpx;vertical-align: middle;width:40rpx; height: 40rpx;"></image>
+                    </view>
+                    <view class="weui-cell__bd">红包</view>
+                    <view class="">-￥{{odinfo.order.yhq_money2}}</view>
+                </navigator>
+            </view>
+            <view class="sfk flex-row flex-y-center">
+                <view class="sfk-fv flex-grow-0">实付款</view>
+                <view class="flex-grow-1 xiaoji">
+                    <view>已优惠￥{{odinfo.order.discount}}</view>
+                    <view>小计</view>
+                    <view>￥{{odinfo.order.money}}</view>
+                </view>
+            </view>
+        </view>
+        <view class="formft">
+            <view class="weui-cells weui-cells_after-title">
+                <view class="weui-cell weui-cell_access" hoverClass="weui-cell_active" wx:if="{{odinfo.storeset.is_cj=='1'}}">
+                    <view class="weui-cell__bd">{{odinfo.storeset.cj_name}}</view>
+                    <view class="weui-cell__ft">{{odinfo.order.tableware}}份</view>
+                </view>
+                <view class="weui-cell weui-cell_access" hoverClass="weui-cell_active" wx:if="{{odinfo.order.note!=''}}">
+                    <view class="weui-cell__bd" style="min-width:120rpx;">备注</view>
+                    <view class="weui-cell__ft">{{odinfo.order.note}}</view>
+                </view>
+                <view bindtap="maketel" class="weui-cell weui-cell_access" data-tel="{{odinfo.store.tel}}">
+                    <view class="weui-cell__hd">
+                        <image src="../../img/lxsj.png" style="margin-right: 5px;vertical-align: middle;width:30rpx; height: 30rpx;"></image>
+                    </view>
+                    <view class="weui-cell__bd lxsj">联系商家</view>
+                    <view catchtap="location" class="weui-cell__ft weui-cell__ft_in-access lxsj">地图导航</view>
+                </view>
+            </view>
+        </view>
+        <view class="formft" wx:if="{{odinfo.order.type=='1'}}">
+            <view class="weui-cells__title headtitle">配送信息</view>
+            <view class="weui-cells weui-cells_after-title">
+                <view class="weui-cell" wx:if="{{odinfo.order.order_type=='1'}}">
+                    <view class="weui-cell__bd">配送时间</view>
+                    <view class="weui-cell__ft">{{odinfo.order.delivery_time}}</view>
+                </view>
+                <view class="weui-cell" wx:if="{{odinfo.order.order_type=='2'}}">
+                    <view class="weui-cell__bd">买家自提</view>
+                    <view class="weui-cell__ft">自提时间：{{odinfo.order.delivery_time}}</view>
+                </view>
+                <view class="weui-cell" wx:if="{{odinfo.order.order_type=='1'}}">
+                    <view class="weui-cell__bd">收货地址</view>
+                    <view class="weui-cell__ft">{{odinfo.order.address}}</view>
+                </view>
+                <view class="weui-cell">
+                    <view class="weui-cell__bd">联系方式</view>
+                    <view class="weui-cell__ft">{{odinfo.order.name}}
+            <text wx:if="{{odinfo.order.sex=='1'}}">(先生)</text>
+                        <text wx:if="{{odinfo.order.sex=='2'}}">(女士)</text> {{odinfo.order.tel}}
+          </view>
+                </view>
+                <view class="weui-cell" wx:if="{{odinfo.order.order_type=='1'}}">
+                    <view class="weui-cell__bd">配送方式</view>
+                    <view class="weui-cell__ft">{{odinfo.storeset.ps_mode}}</view>
+                </view>
+            </view>
+        </view>
+        <view class="formft" wx:if="{{odinfo.order.state=='3'&&odinfo.order.type=='1'&&odinfo.storeset.ps_mode!='商家配送'}}">
+            <view class="weui-cells__title headtitle">骑手信息</view>
+            <view class="weui-cells weui-cells_after-title">
+                <view class="weui-cell">
+                    <view class="weui-cell__bd">配送骑手</view>
+                    <view class="weui-cell__ft flex-row flex-y-center" wx:if="{{odinfo.storeset.ps_mode=='达达配送'}}">
+                        <view bindtap="lxqs" class="flex-row flex-y-center lxqs" data-tel="{{odinfo.order.dd_info.dm_mobile}}">
+                            <image src="../../img/lxsj.png"></image>
+                            <view>{{odinfo.order.dd_info.dm_mobile}}</view>
+                        </view>
+                        <view>{{odinfo.order.dd_info.dm_name}}</view>
+                    </view>
+                    <view class="weui-cell__ft flex-row flex-y-center" wx:elif="{{odinfo.storeset.ps_mode=='快服务配送'}}">
+                        <view bindtap="lxqs" class="flex-row flex-y-center lxqs" data-tel="{{odinfo.order.kfw_info.courier_mobile}}">
+                            <image src="../../img/lxsj.png"></image>
+                            <view>{{odinfo.order.kfw_info.courier_mobile}}</view>
+                        </view>
+                        <view>{{odinfo.order.kfw_info.courier_name}}</view>
+                    </view>
+                    <view class="weui-cell__ft flex-row flex-y-center" wx:else>
+                        <view bindtap="lxqs" class="flex-row flex-y-center lxqs" data-tel="{{odinfo.order.pt_info.qs_tel}}">
+                            <image src="../../img/lxsj.png"></image>
+                            <view>{{odinfo.order.pt_info.qs_tel}}</view>
+                        </view>
+                        <view>{{odinfo.order.pt_info.qs_name}}</view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="formft">
+            <view class="weui-cells__title headtitle">订单详情</view>
+            <view class="weui-cells weui-cells_after-title">
+                <view class="weui-cell">
+                    <view class="weui-cell__bd">订单号</view>
+                    <view class="weui-cell__ft">{{odinfo.order.order_num}}
+            <text bindtap="copyText" class="copy" data-text="{{odinfo.order.order_num}}">复制</text>
+                    </view>
+                </view>
+                <view class="weui-cell">
+                    <view class="weui-cell__bd">支付方式</view>
+                    <view class="weui-cell__ft" wx:if="{{odinfo.order.pay_type=='1'}}">微信支付</view>
+                    <view class="weui-cell__ft" wx:if="{{odinfo.order.pay_type=='2'}}">余额支付</view>
+                    <view class="weui-cell__ft" wx:if="{{odinfo.order.pay_type=='4'}}">货到付款</view>
+                    <view class="weui-cell__ft" wx:if="{{odinfo.order.pay_type=='5'}}">餐后支付</view>
+                </view>
+                <view class="weui-cell">
+                    <view class="weui-cell__bd">下单时间</view>
+                    <view class="weui-cell__ft">{{odinfo.order.time}}</view>
+                </view>
+            </view>
+        </view>
+        <view class="formft"></view>
+    </view>
+</view>

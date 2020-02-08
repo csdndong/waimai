@@ -1,0 +1,3 @@
+<view class="ba_f pa">
+    <rich-text nodes="{{getSystem.rz_details}}"></rich-text>
+</view>

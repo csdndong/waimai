@@ -1,0 +1,78 @@
+<!--   time:2019-07-18 01:03:21 -->
+<include src="/zh_cjdianc/pages/commons/navbar/navbar.wxml" />
+<view class="head flex-col flex-y-center" style="background:{{color}}">
+	<image class="headimage" mode="aspectFill" src="{{storeinfo.store.logo}}"></image>
+	<view class="name">{{storeinfo.store.name}}</view>
+	<view class="name">到期时间：{{storeinfo.store.rzdq_time}}</view>
+	<view class="sycs">
+		<view>订单提醒可用</view>
+		<view class="sycsv1">
+			<image class="sycsimage" src="../../../img/seller/five.png"></image>
+			<view>{{sycs}}次</view>
+		</view>
+	</view>
+</view>
+<view class="weui-cells weui-cells_after-title" style="margin-top:0">
+	<navigator class="weui-cell" url="wytx">
+		<view class="weui-cell__hd">
+			<image src="../../../img/distribution/mx.png"></image>
+		</view>
+		<view class="weui-cell__bd">我要提现</view>
+		<view class="weui-cell__ft weui-cell__ft_in-access"></view>
+	</navigator>
+	<navigator class="weui-cell" url="sjzl">
+		<view class="weui-cell__hd">
+			<image src="../../../img/seller/sjzl.png"></image>
+		</view>
+		<view class="weui-cell__bd">门店信息</view>
+		<view class="weui-cell__ft weui-cell__ft_in-access"></view>
+	</navigator>
+</view>
+<view class="weui-cells weui-cells_after-title">
+	<view class="weui-cell">
+		<view class="weui-cell__hd">
+			<image src="../../../img/seller/zdjd.png"></image>
+		</view>
+		<view class="weui-cell__bd">自动接单<text style="color:#999;font-size:22rpx;margin-left:20rpx;">({{jdkgtext}})</text>
+		</view>
+		<view class="weui-cell__ft">
+			<switch bindchange="jdswitchChange" checked="{{jdkg}}"></switch>
+		</view>
+	</view>
+	<view class="weui-cell">
+		<view class="weui-cell__hd">
+			<image src="../../../img/seller/five.png"></image>
+		</view>
+		<view class="weui-cell__bd">语音播报<text style="color:#999;font-size:22rpx;margin-left:20rpx;">({{yykgtext}},自动接单关闭后有效)</text>
+		</view>
+		<view class="weui-cell__ft">
+			<switch bindchange="yyswitchChange" checked="{{yykg}}"></switch>
+		</view>
+	</view>
+	<navigator class="weui-cell" url="dpsz?szname=1">
+		<view class="weui-cell__hd">
+			<image src="../../../img/seller/dyj.png"></image>
+		</view>
+		<view class="weui-cell__bd" style="flex:1">打印设置</view>
+		<picker bindchange="bindCountryChange" range="{{countries}}" style="flex:2" value="{{countryIndex}}">
+			<view class="weui-cell__ft weui-cell__ft_in-access"></view>
+		</picker>
+	</navigator>
+	<navigator class="weui-cell" url="dpsz?szname=2">
+		<view class="weui-cell__hd">
+			<image src="../../../img/seller/yysj.png"></image>
+		</view>
+		<view class="weui-cell__bd">营业时间</view>
+		<view class="weui-cell__ft weui-cell__ft_in-access"></view>
+	</navigator>
+</view>
+<block wx:if="{{user_id==storeinfo.store.admin_id}}">
+	<form bindreset="formReset" bindsubmit="cartaddformSubmit" reportSubmit="true">
+		<view class="weui-btn-area">
+			<button class="weui-btn" formType="submit" style="background:{{color}}" type="primary">下单提醒按钮</button>
+		</view>
+	</form>
+</block>
+<view class="weui-btn-area">
+	<button bindtap="tcdl" class="weui-btn" style="background:{{color}}" type="primary">退出登录</button>
+</view>

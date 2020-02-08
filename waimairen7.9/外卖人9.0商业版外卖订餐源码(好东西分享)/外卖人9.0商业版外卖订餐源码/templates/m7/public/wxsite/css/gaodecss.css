@@ -1,0 +1,33 @@
+.titCons{
+    position: relative;  z-index: 9999999;  top: 0px; width:100%;  background:#FF6E6E; height:43px;
+}
+#searchKeywordss{
+    display:inline-block;
+    position: absolute; z-index: 999;width:72%;height:30px;margin-top:6px;margin-left:50px;border-radius: 5px;
+
+}
+.houtui{
+
+}
+.selADditem .txt {
+    padding: 5px 0;
+    border-bottom: 1px solid #ddd;
+    font-size:12px;
+}
+.selADditem {
+    padding-left: 29px;
+    background: url(../images/poi_icon.png) no-repeat 8px 15px;
+    background-size: 17px 23px;
+}
+.searchBoxs i{
+    display: block;
+    width: 4.7058%;
+    height: 14px;
+    background-image: url(../images/add01.png);
+    background-repeat: no-repeat;
+    background-size: 80%;
+    position: absolute;
+    z-index:99999999999999999999;
+    top: 14px;
+    left: 58px;
+}

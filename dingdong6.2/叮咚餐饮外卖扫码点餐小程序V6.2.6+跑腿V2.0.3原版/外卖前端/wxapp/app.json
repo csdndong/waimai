@@ -1,0 +1,156 @@
+{
+    "pages": [
+        "zh_cjdianc/pages/Liar/loginindex",
+        "zh_cjdianc/pages/index/index",
+        "zh_cjdianc/pages/index/spfl",
+        "zh_cjdianc/pages/index/sssj",
+        "zh_cjdianc/pages/car/car",
+        "zh_cjdianc/pages/car/xydtl",
+        "zh_cjdianc/pages/takeout/takeoutindex",
+        "zh_cjdianc/pages/takeout/takeoutform",
+        "zh_cjdianc/pages/smdc/smdcindex",
+        "zh_cjdianc/pages/smdc/smdcform",
+        "zh_cjdianc/pages/smdc/getdl",
+        "zh_cjdianc/pages/smdc/drdc",
+        "zh_cjdianc/pages/smdc/sharedrdc",
+        "zh_cjdianc/pages/smdc/smdcxgsp",
+        "zh_cjdianc/pages/takeout/note",
+        "zh_cjdianc/pages/wddz/bjdz",
+        "zh_cjdianc/pages/wddz/xzdz",
+        "zh_cjdianc/pages/my/index",
+        "zh_cjdianc/pages/my/kfzx",
+        "zh_cjdianc/pages/my/bzzx",
+        "zh_cjdianc/pages/my/myyhq",
+        "zh_cjdianc/pages/wddd/order",
+        "zh_cjdianc/pages/wddd/ddxq",
+        "zh_cjdianc/pages/wddd/pjdd",
+        "zh_cjdianc/pages/seller/index",
+        "zh_cjdianc/pages/seller/indextakeout",
+        "zh_cjdianc/pages/seller/infomation",
+        "zh_cjdianc/pages/seller/fukuan",
+        "zh_cjdianc/pages/seller/getnum",
+        "zh_cjdianc/pages/seller/getnumdl",
+        "zh_cjdianc/pages/Liar/Liar",
+        "zh_cjdianc/pages/ruzhu/index",
+        "zh_cjdianc/pages/ruzhu/info",
+        "zh_cjdianc/pages/ruzhu/xieyi",
+        "zh_cjdianc/pages/reserve/reserve",
+        "zh_cjdianc/pages/reserve/reserveinfo",
+        "zh_cjdianc/pages/reserve/order",
+        "zh_cjdianc/pages/reserve/reservetime",
+        "zh_cjdianc/pages/distribution/core",
+        "zh_cjdianc/pages/distribution/distribution",
+        "zh_cjdianc/pages/distribution/downline",
+        "zh_cjdianc/pages/distribution/ranking",
+        "zh_cjdianc/pages/distribution/tixian",
+        "zh_cjdianc/pages/distribution/detaulted",
+        "zh_cjdianc/pages/distribution/detault",
+        "zh_cjdianc/pages/distribution/index",
+        "zh_cjdianc/pages/distribution/jrhhr",
+        "zh_cjdianc/pages/integral/integralinfo/integralinfo",
+        "zh_cjdianc/pages/integral/record/record",
+        "zh_cjdianc/pages/integral/integral",
+        "zh_cjdianc/pages/integral/myintegral",
+        "zh_cjdianc/pages/hyk/hyk",
+        "zh_cjdianc/pages/hyk/kthy",
+        "zh_cjdianc/pages/wallet/wallet",
+        "zh_cjdianc/pages/wallet/walletmx",
+        "zh_cjdianc/pages/wallet/walletadd"
+    ],
+	"permission": {
+"scope.userLocation": {
+"desc": "你的位置信息将用于小程序位置接口的效果展示"
+}
+},
+    "window": {
+        "backgroundTextStyle": "light",
+        "navigationBarBackgroundColor": "#fff",
+        "navigationBarTitleText": "",
+        "navigationBarTextStyle": "black",
+        "backgroundColor": "#f4f4f4"
+    },
+    "subPackages": [
+        {
+            "root": "zh_cjdianc/pages/sjzx/",
+            "pages": [
+                "login",
+                "wmdd/wmdd",
+                "wmdd/wmddxq",
+                "sjzx/dpsz",
+                "sjzx/sjzl",
+                "sjzx/sjzx",
+                "sjzx/wytx",
+                "sjzx/txmx",
+                "sjtj/sjtj",
+                "spgl/cplb",
+                "spgl/bjcp",
+                "spgl/spfl",
+                "hx",
+                "qghx",
+                "dndd/dndd",
+                "dndd/dnddlb",
+                "dndd/dnddxq",
+                "dndd/dmfdd",
+                "dndd/pdlb",
+                "dndd/pdfl",
+                "dndd/pdxq",
+                "dndd/qgdd",
+                "dndd/yydd"
+            ]
+        },
+        {
+            "root": "zh_cjdianc/pages/xsqg/",
+            "pages": [
+                "xsqg",
+                "xsqgxq",
+                "qgform",
+                "order",
+                "yqgyh"
+            ]
+        },
+        {
+            "root": "zh_cjdianc/pages/collage/",
+            "pages": [
+                "group",
+                "qgform",
+                "yz_code",
+                "order",
+                "list",
+                "index",
+                "collageInfo",
+                "order_info"
+            ]
+        },
+        {
+            "root": "zh_cjdianc/pages/extra/",
+            "pages": [
+                "sgstore",
+                "wdsc",
+                "gsmy",
+                "weburl"
+            ]
+        },
+        {
+            "root": "zh_cjdianc/pages/qd/",
+            "pages": [
+                "qd",
+                "pm"
+            ]
+        }
+    ],
+    "navigateToMiniProgramAppIdList": [
+        "wx7c5c8af4851dd87e",
+        "wx2ef62300378e1579",
+        "wx4dddbb2c61fa6eea",
+        "wxb7cd032255c35074",
+        "wxf2a8ee49e79d7381",
+        "wx3e33a07eaadcdd40"
+    ],
+    "sitemapLocation": "sitemap.json",
+    "navigateToMiniProgramAppIdList": [
+        "wx7c5c8af4851dd87e",
+        "wx2ef62300378e1579",
+        "wx4dddbb2c61fa6eea",
+        "wxb7cd032255c35074"
+    ]
+}

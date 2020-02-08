@@ -1,0 +1,238 @@
+ <{extends file="<{$tempdir}>/public/wxsite.html"}>  
+ <{block name=extendcss}> 
+  <link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/weixinlunbo.css">   
+ <{/block}>
+<{block name=myScrolljs}> <!-- 
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/js/newweixin.js"></script> --> 
+<script> 
+		var myScroll;
+function loaded() {
+	myScroll = new iScroll('wrapper', {
+		useTransform: false,
+		onBeforeScrollStart: function (e) {
+			var target = e.target;
+			while (target.nodeType != 1) target = target.parentNode;
+
+			if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA')
+				e.preventDefault();
+		}
+	});
+}
+document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false); 
+document.addEventListener('DOMContentLoaded', function () { setTimeout(loaded, 200); }, false);
+</script>
+ <script>
+ 	$(function(){ 
+ 	      var bullets = document.getElementById('abdcd').getElementsByTagName('span');
+ 	      var slider =  Swipe(document.getElementById('slider'), {
+           auto: 3000,
+           continuous: true,
+           callback: function(pos) { 
+              var i = bullets.length;
+              while (i--) {
+                bullets[i].className = ' ';
+              }
+              bullets[pos].className = 'on'; 
+           }
+        });  
+}); 
+</script>
+
+<{/block}>
+
+<{block name=hearnav}><{/block}>
+<{block name=sitetitle}><{$sitename}><{/block}>
+<{block name=blockcontent}>  
+<style>
+body{ background:#eff0f0;}
+#dingcantype{background:#eff0f0;}
+#dingcantype li{background:#eff0f0; float:left; width:25%; text-align:center;}
+#dingcantype li img{ width:95%; height:auto; }
+.cl{clear:both;}
+.marginpx{background:#eff0f0;height:8px;}
+#dingcaninfo{background:#eff0f0; }
+#dingcaninfo li{background:#eff0f0; float:left; width:50%; text-align:center;}
+#dingcaninfo li img{ width:97%; height:auto; }
+
+#shoplist{background:#eff0f0; width:100%;margin:0 auto;background:#eff0f0; }
+.nearshop{background:#eff0f0; width:97%; color:#000000; background:#eff0f0; height:29px;padding:5px 0px; line-height:29px; font-size:24px; font-weight:bold;margin:0 auto;}
+.nearshop h1{ float:left; }
+.nearshop .moreshop{ float:right; text-align:center;  }
+.nearshop .moreshop img{ text-align:center;  }
+.nearshoplist{ width:100%; margin: 0 auto;}
+.nearshoplist{ width:95%; margin: 0 auto; }
+.nearshoplist li{  height:100px;background:#ffffff;margin-top:10px; border:1px solid #e2e2e2; padding:6px 0px;}
+.shoplistleft{float:left;}
+.shoplistMiddle{ margin-left:10px;float:left;}
+.shoplistright{float:right; color:#747474; font-size:14px; margin-right:6px; margin-top:36px;}
+.shopname{ margin-top:5px; font-size:18px; font-weight:bold; color:#000000;}
+.shopyingye{ color:#ff6e6e; font-size:16px; margin-top:13px;}
+.shopinfo{ color:#747474; font-size:14px; margin-top:3px;}
+.chakanmoreshop{height:42px; line-height:42px; margin-bottom:10px; text-align:center; border:none; }
+.chakanmoreshop a{ color:#ff6e6e; font-size:16px; }
+</style>
+	 <div id="wrapper" style="top:0px; bottom:0px; overflow:hidden;">
+	 
+<div>
+    <!--首页-->
+		
+                <!--首页幻灯-->
+                <section id="slider" class="swipe" style="visibility: visible;">
+  				<div class="swipe-wrap">
+  				  <{load_data assign="list" table="adv"    fileds="*"  limit="5" where="advtype='weixinlb'" }> 
+  				  <{foreach from=$list['list'] item=items}>
+  				   <div class="wrap" ><img <{ofunc type=img  link="<{$items['img']}>"}> width="100%" height="140" alt=""></div>
+  				  <{/foreach}>
+  				</div>
+  			 <div class="bgboxgo">
+  						<div class="botton-box mBxCm" id="abdcd">
+  							 <{foreach from=$list['list'] item=items}>
+  							    <span class="on"></span>
+  							 <{/foreach}>
+  					 </div>
+  				</div>
+  			</section>
+                <!--内容-->
+				<div class="marginpx cl" ></div>
+				<section>
+				<div  id="dingcantype">
+					<ul>
+						<li><a href=""><img src="<{$siteurl}>/templates/<{$tempdir}>/public/app/images/main_waimai.png" /></a></li>
+						<li><a href=""><img src="<{$siteurl}>/templates/<{$tempdir}>/public/app/images/main_dianc.png" /></a></li>
+						<li><a href=""><img src="<{$siteurl}>/templates/<{$tempdir}>/public/app/images/main_dianz.png" /></a></li>
+						<li><a href=""><img src="<{$siteurl}>/templates/<{$tempdir}>/public/app/images/main_cs.png" /></a></li>
+					</ul>
+				</div>	
+				
+				</section>
+				
+				<section>
+				<div id="dingcaninfo">
+					<ul>
+						<li><a href=""><img src="<{$siteurl}>/templates/<{$tempdir}>/public/app/images/main_gift.png" /></a></li>
+						<li><a href=""><img src="<{$siteurl}>/templates/<{$tempdir}>/public/app/images/main_shop.png" /></a></li>
+						
+					</ul>
+				</div>	
+			
+				</section>
+           <div class="cl" ></div>
+		   
+		   <section>
+		   <div id="shoplist">
+		   
+			<div class="nearshop">
+				<h1>附近商家</h1>
+				<div class="moreshop"><a href=""><img src="<{$siteurl}>/templates/<{$tempdir}>/public/app/images/shopmore.png" /></a></div>
+			</div>
+			<div class="nearshoplist">
+				<ul>
+					<li>
+					<a href="">
+						<div class="shoplistleft">
+							<img style="margin-top:8px; margin-left:5px;" width="80" height="80" <{ofunc type=img  link="<{$shoplogo}>"}> />
+						</div>
+						<div class="shoplistMiddle">
+							<p class="shopname">外卖人旗舰店</p>
+							<p class="shopyingye">【营业中】</p>
+							<p class="shopinfo">起送价0|配送费0|</p>
+						</div>
+						<div class="shoplistright">
+							<p>2700米</p>
+						</div>
+					</a>
+					</li>
+					    <div class="cl" ></div>
+					<li>
+					<a href="">
+						<div class="shoplistleft">
+							<img style="margin-top:8px; margin-left:5px;" width="80" height="80" <{ofunc type=img  link="<{$shoplogo}>"}> />
+						</div>
+						<div class="shoplistMiddle">
+							<p class="shopname">外卖人旗舰店</p>
+							<p class="shopyingye">【营业中】</p>
+							<p class="shopinfo">起送价0|配送费0|</p>
+						</div>
+						<div class="shoplistright">
+							<p>2700米</p>
+						</div>
+					</a>
+					</li>
+					 <div class="cl" ></div>
+					 <li>
+					<a href="">
+						<div class="shoplistleft">
+							<img style="margin-top:8px; margin-left:5px;" width="80" height="80" <{ofunc type=img  link="<{$shoplogo}>"}> />
+						</div>
+						<div class="shoplistMiddle">
+							<p class="shopname">外卖人旗舰店</p>
+							<p class="shopyingye">【营业中】</p>
+							<p class="shopinfo">起送价0|配送费0|</p>
+						</div>
+						<div class="shoplistright">
+							<p>2700米</p>
+						</div>
+					</a>
+					</li>
+					 <div class="cl" ></div><li>
+					<a href="">
+						<div class="shoplistleft">
+							<img style="margin-top:8px; margin-left:5px;" width="80" height="80" <{ofunc type=img  link="<{$shoplogo}>"}> />
+						</div>
+						<div class="shoplistMiddle">
+							<p class="shopname">外卖人旗舰店</p>
+							<p class="shopyingye">【营业中】</p>
+							<p class="shopinfo">起送价0|配送费0|</p>
+						</div>
+						<div class="shoplistright">
+							<p>2700米</p>
+						</div>
+					</a>
+					</li>
+					 <div class="cl" ></div><li>
+					<a href="">
+						<div class="shoplistleft">
+							<img style="margin-top:8px; margin-left:5px;" width="80" height="80" <{ofunc type=img  link="<{$shoplogo}>"}> />
+						</div>
+						<div class="shoplistMiddle">
+							<p class="shopname">外卖人旗舰店</p>
+							<p class="shopyingye">【营业中】</p>
+							<p class="shopinfo">起送价0|配送费0|</p>
+						</div>
+						<div class="shoplistright">
+							<p>2700米</p>
+						</div>
+					</a>
+					</li>
+					 <div class="cl" ></div><li>
+					<a href="">
+						<div class="shoplistleft">
+							<img style="margin-top:8px; margin-left:5px;" width="80" height="80" <{ofunc type=img  link="<{$shoplogo}>"}> />
+						</div>
+						<div class="shoplistMiddle">
+							<p class="shopname">外卖人旗舰店</p>
+							<p class="shopyingye">【营业中】</p>
+							<p class="shopinfo">起送价0|配送费0|</p>
+						</div>
+						<div class="shoplistright">
+							<p>2700米</p>
+						</div>
+					</a>
+					</li>
+					 <div class="cl" ></div>
+					 <li style="height:30px; line-height:30px; border:none;" class="chakanmoreshop"><a href="">查看更多店铺</a></li>
+					
+				</ul>
+			</div>
+		   
+		   </div>
+		   </section>
+
+</div>
+</div>
+
+<{/block}>
+
+  <{block name=footer}>
+
+<{/block}>

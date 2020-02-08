@@ -1,0 +1,113 @@
+ <html xmlns="http://www.w3.org/1999/xhtml"><head> 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+<meta http-equiv="Content-Language" content="zh-CN"> 
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+<meta content="all" name="robots"> 
+<meta name="description" content=""> 
+<meta content="" name="keywords"> 
+<title>分站管理系统</title>  
+<link rel="stylesheet" type="text/css" href="<{$siteurl}>/templates/<{$tempdir}>/public/css/admin1.css"> 
+<link rel="stylesheet" type="text/css" href="<{$siteurl}>/templates/<{$tempdir}>/public/css/index.css"> 
+ <script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/jquery.js" type="text/javascript" language="javascript"></script>
+ <script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/public.js" type="text/javascript" language="javascript"></script>
+ <script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/artDialog.js?skin=wmrPopup"></script>
+ <script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/template.min.js" type="text/javascript" language="javascript"></script>
+<{block name=extendjs}><{/block}>
+ <script>
+	var menu = null;
+	var siteurl = "<{$siteurl}>";
+	var is_static ="<{$is_static}>";
+	var ctrl ="<{$controlname}>";
+	var action ="<{$Taction}>";
+	var module ="<{$tmodule}>";
+	if(screen.width > 1359){
+		
+		$('.newtop').css('width',screen.width);
+		$('.newmain').css('width',screen.width);
+		$('.newfoot').css('width',screen.width);
+	}   
+$(".managShopCon .managShopBox .managShopMain .managShopList table .managShopChek input").click(function(){
+		var x = $(".managShopCon .managShopBox .managShopMain .managShopList table .managShopChek input").index(this);
+		$(".managShopCon .managShopBox .managShopMain .managShopList table .managShopChek i").eq(x).toggleClass("icon_checkbox02")
+		})
+	$(".managShopCon .managShopBox .managShopMain .managShopList table tbody tr td .managShopChek input").click(function(){
+		var x = $(".managShopCon .managShopBox .managShopMain .managShopList table tbody tr td .managShopChek input").index(this);
+		$(".managShopCon .managShopBox .managShopMain .managShopList table tbody tr").eq(x).toggleClass("mangSoLisBg")
+		})
+
+	$(".popLayDiseRspe ul li input").click(function(){
+		var x = $(".popLayDiseRspe ul li input").index(this)
+		$(".popLayDiseRspe ul li i").eq(x).toggleClass("popDisChe")
+		})
+</script> 
+<style>
+.homePageCon .homePageBox .homePageNav ul li{width:180px!important;}
+</style>
+</head> 
+<body style="background:#f5f5f5;"> 
+<div id="cat_zhe" class="cart_zhe" style="display:none;"></div>
+<div id="cat_tj" class="cart_out_cat" style="display:none;"> 数据提交中..</div>
+ 	 
+   
+
+<!--------------------------------------------------------------头部开始-------------------------------------------------------------->
+<div class="topCon">
+	<div class="topBox">
+		<div class="topLeft">
+			<div class="topLogo"><h1><a href="<{ofunc type=url link="/areaadminpage/system/module/index"}>"><img <{ofunc type=img link="<{$sitelogo}>" }>   alt="Logo"></a></h1></div>
+			<div class="topName"><a href="<{ofunc type=url link="/areaadminpage/system/module/index"}>"><h2>分站管理系统</h2></a></div>
+		</div>
+		<div class="topRight">
+			<div class="topBut">
+				<ul>
+					<li><a href="<{ofunc type=url link="/areaadminpage/order/module/adminfastfoods"}>"  ><i class="icon_daike"></i><span>代客下单系统</span></a></li>
+					<li><a href="javascript:;"  ><i class="icon_yhm"></i><span><{$admininfo['username']}></span></a></li>
+					<li><a href="javascript:;" onclick="modifypwd();" title="修改密码"><i class="icon_user"></i><span>修改密码</span></a></li>
+					<li><a href="<{ofunc type=url link="/member/agentadminloginout"}>" title="退出"><i class="icon_signout"></i><span>退出</span></a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+<!--------------------------------------------------------------头部结束-------------------------------------------------------------->
+
+<!--------------------------------------------------------------首页开始-------------------------------------------------------------->
+<!---------------------------功能分类--------------------------->
+<div class="homePageCon">
+	<div class="homePageBox">
+		<div class="homePageNav">
+			<ul>				
+				<li class="home_bg00"><a href="<{ofunc type=url link="/areaadminpage/area/module/adminpsset"}>" title="平台配送设置"><i class="icon_dpgl"></i><span>配送设置</span></a></li>
+				<li class="home_bg02"><a href="<{ofunc type=url link="/areaadminpage/shop/module/adminshoplist"}>" title="店铺管理"><i class="icon_dpgl"></i><span>店铺管理</span></a></li>
+				<li class="home_bg03"><a href="<{ofunc type=url link="/areaadminpage/order/module/orderlist"}>" title="订单管理"><i class="icon_ddgl"></i><span>订单管理</span></a></li>
+ 				<li class="home_bg05"><a href="<{ofunc type=url link="/areaadminpage/member/module/memberlistshop"}>" title="用户管理"><i class="icon_yhgl"></i><span>用户管理</span></a></li>
+				<li class="home_bg06"><a href="<{ofunc type=url link="/areaadminpage/analysis/module/trade_statisyic"}>" title="数据统计"><i class="icon_sjtj"></i><span>数据统计</span></a></li>
+				<li class="home_bg01"><a href="<{ofunc type=url link="/areaadminpage/weixin/module/indexstyle"}>" title="其它设置"><i class="icon_tjdp"></i><span>其它设置</span></a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+  
+<div style="clear:both;"></div>
+ 	
+<script>
+$(function(){ 
+ $('.show_page a').wrap('<li></li>');
+ $('.show_page').find('.current').eq(0).parent().css({'background':'#f60'}); 
+}); 
+</script>
+<style>
+ .search{width:1160px;margin:0 auto;}
+.tags{width:1160px;margin:0 auto;}
+
+</style>
+ <{block name=bodylist}><{/block}>
+   	         
+  
+</body>
+</html>
+
+
+
+
+

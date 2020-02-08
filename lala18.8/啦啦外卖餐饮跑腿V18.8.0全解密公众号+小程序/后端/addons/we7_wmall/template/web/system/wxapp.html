@@ -1,0 +1,58 @@
+{itemplate 'public/header'}
+{if $op == 'list'}
+<form action="" class="form-table form" method="post">
+	<div class="panel panel-table">
+		<div class="panel-body table-responsive js-table">
+			<div class="alert alert-warning">您最多可以授权{$max_wxapp}个小程序，现在已授权{$auth_num}个，<a target='_blank' href={$url}>现在去购买授权。</a></div>
+			{if empty($records)}
+				<div class="no-result">
+					<p>还没有相关数据</p>
+				</div>
+			{else}
+			<table class="table table-hover">
+				<thead>
+				<tr>
+<!--
+					<th>
+						<div class="checkbox checkbox-inline">
+							<input type="checkbox" name="ids[]" value=""/>
+							<label></label>
+						</div>
+					</th>
+-->
+					<th>公众号ID</th>
+					<th>所属公众号</th>
+					<th>小程序</th>
+					<th>生成时间</th>
+					<!--<th class="text-right">操作</th>-->
+				</tr>
+				</thead>
+				{loop $records $item}
+					<tr>
+		<!--				<td>
+							<div class="checkbox checkbox-inline">
+								<input type="checkbox" name="id[]" value="{$item['id']}"/>
+								<label></label>
+							</div>
+						</td>-->
+						<td>{$item['account_id']}</td>
+						<td>{$item['account_name']}</td>
+						<td>{$item['nick_name']}</td>
+						<td>{php echo date('Y-m-d H:i:s', $item['addtime'])}</td>
+						<!--<td class="text-right">
+							<a href="{php echo iurl('system/wxapp/del', array('id' => $item['id']))}" class="btn btn-default btn-sm js-remove" data-confirm="确定删除吗?">删除</a>
+						</td>-->
+					</tr>
+				{/loop}
+			</table>
+			<div class="btn-region clearfix">
+				<!--<div class="pull-left">
+					<a href="{php echo iurl('system/wxapp/del')}" class="btn btn-primary btn-danger js-batch" data-batch="remove" data-confirm="确定删除吗">删除</a>
+				</div>-->
+			</div>
+			{/if}
+		</div>
+	</div>
+</form>
+{/if}
+{itemplate 'public/footer'}

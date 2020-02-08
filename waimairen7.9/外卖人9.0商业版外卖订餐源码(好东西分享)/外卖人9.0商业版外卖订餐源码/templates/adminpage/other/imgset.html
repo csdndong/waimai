@@ -1,0 +1,89 @@
+ <{extends file="<{$tempdir}>/public/admin.html"}> 
+ <{block name=extendjs}>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js"></script>
+ <{/block}>
+ <{block name=controlname}>图片设置<{/block}>
+ <{block name=bodylist}> 
+	
+	  <div style="width:auto;overflow-x:hidden;overflow-y:auto;height:auto;">   
+          <div id="tagscontent">
+            <form method="post" name="form1" action="<{ofunc type=url link="/adminpage/other/module/saveimgset/datatype/json"}>" onsubmit="return subform('',this);">
+              <div>
+                <table border="0" cellspacing="2" cellpadding="4" class="list" name="table" id="table" width="100%">
+                  <tbody>
+             
+			 
+				<tr style="float: left;" onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <td class="left">是否启用图片服务器分离</td>
+                      <td>  
+						<input type="radio" name="is_img_service"  value="0"  <{if  $is_img_service ==0}>checked<{/if}>>不启用
+						<input type="radio" name="is_img_service"  value="1" <{if  $is_img_service ==1}>checked<{/if}> >启用
+ 					  </td>
+                    </tr>  
+			  
+                    <tr  style="float: left; <{if $is_img_service == 1 }> display:block; <{else}> display:none; <{/if}>  " id="imgserverBox" onmouseover="this.bgColor='#F5F5F5';"onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                      <td class="left">图片服务器域名</td>
+                      <td>	  
+                      	<input type="text" name="imgserver" id="imgserver" value="<{$imgserver|default:$siteurl}>" class="skey" style="width:250px;">  
+						
+                      </td>
+                    </tr>
+                    
+					
+					 
+                  </tbody>
+                </table>
+              </div>
+              <div class="blank20"></div>
+              <input type="hidden" name="tijiao" id="tijiao" value="do" class="skey" style="width:250px;">
+              <input type="hidden" name="saction" id="saction" value="mapset" class="skey" style="width:250px;">
+               <input type="submit" value="确认提交" class="button">  
+			   
+			   
+			   
+			   
+			   
+			   <div style="height:auto; padding-left: 150px;padding-top: 20px; line-height: 30px;" class="blank20">
+				<p><b style="color:red;font-size:15px">图片服务器设置注意事项：</b>
+				 
+				<p>1、默认不启用，不启动时候上传图片存放在当前系统上</p>
+				<p>2、如果启用，则需配置相关的服务器配置等，建议使用<span style="color:red;">独立域名</span>。（请慎重操作，具体配置和详细请咨询相关客服或售后专员）</p>
+				<p>3、如果启用，则实现图片分离，图片分离好处：减少请求数，加快网站打开速度；负载均衡，网页打开速度加快；</p><br />
+				<p>4、启用后请勿随便更换，避免导致图片显示不正常的现象</p><br />
+				<p>启用图片分离建议采用独立域名:</p>
+				<p>注意，这里是指独立域名，不是子域名哦，比如www.example.com图片服务器用了www.exampleimg.com的域名，而不是用二级域名img.example.com，当然也可以用二级域名。具体采用独立域名简单原因说明如下：</p>
+				<p>1、同一域名下浏览器的并发连接数有限制，我们如果给图片服务器配置独立的域名，那么在一个页面中加载图片时，就可以突破浏览器连接数的限制，理论上，增加一个独立域名，并发连接数加倍。</p>
+				<p>2、由于cookie的原因，对缓存不利</p>
+				<p>3、方便CDN同步</p>
+				 
+				 
+				
+				
+				
+				
+				</div>
+			   
+			   
+			   
+			   
+            </form>
+          </div>
+         
+           
+         </div>
+      
+    
+
+          </div> 
+ 
+ <script>
+ $('input[name="is_img_service"]').click(function(){
+	var checkid =  $('input[name="is_img_service"]:checked').val();
+	if(checkid==1){
+		$('#imgserverBox').show();
+	}else{
+		$('#imgserverBox').hide();
+	}
+ });
+ </script>
+ <{/block}>

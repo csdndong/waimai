@@ -1,0 +1,30 @@
+		</div>
+	</div>
+	<div class="footer">
+		<ul class="links container-fluid">
+			<li class="links_item">
+			<p class="copyright">
+				{if !empty($_W['we7_wmall']['global']['system']['copyright'])}
+					{$_W['we7_wmall']['global']['system']['copyright']}
+				{else}
+					{if empty($_W['setting']['copyright']['footerleft']) && empty($_W['setting']['copyright']['footerright'])}
+						Powered by <a href="http://www.we7.cc"><b>微擎</b></a> v{IMS_VERSION} &copy; 2014-2019 <a href="http://www.we7.cc">www.we7.cc</a>
+					{else}
+						{$_W['setting']['copyright']['footerleft']} {$_W['setting']['copyright']['footerright']}
+					{/if}
+				{/if}
+			</p>
+			</li>
+		</ul>
+	</div>
+	<div id="page-loading">
+		<div>
+			<div class="sk-spinner sk-spinner-three-bounce">
+				<div class="sk-bounce1"></div>
+				<div class="sk-bounce2"></div>
+				<div class="sk-bounce3"></div>
+			</div>
+		</div>
+	</div>
+{itemplate 'public/tiny'}
+{itemplate 'public/footer-base'}

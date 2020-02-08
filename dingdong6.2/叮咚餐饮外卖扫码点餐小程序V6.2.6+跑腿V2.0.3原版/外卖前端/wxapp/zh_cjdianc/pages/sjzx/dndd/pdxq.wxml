@@ -1,0 +1,42 @@
+<!--   time:2019-07-18 01:03:21 -->
+<view class="weui-cell bottom headtitle">
+	<view class="weui-cell__hd hdwidth">桌号分类</view>
+	<view class="weui-cell__bd">编号</view>
+	<view class="weui-cell__bd bdwidth">状态</view>
+	<view class="weui-cell__ft">
+		<view style="margin-left:40rpx;">操作</view>
+	</view>
+</view>
+<view class="weui-cells weui-cells_after-title">
+	<block wx:for="{{order_list}}" wx:key="{{item.id}}" wx:for-item="item" wx:for-index="index" >
+		<form bindreset="formReset" bindsubmit="formSubmit">
+			<view class="weui-cell bottom">
+				<view class="weui-cell__hd hdwidth">{{item.num}}</view>
+				<view class="weui-cell__bd">{{item.code}}</view>
+				<block wx:if="{{item.state=='1'}}">
+					<view class="weui-cell__bd bdwidth" style="color:{{color}}">排队中前面还有{{item.pdrs}}人</view>
+				</block>
+				<block wx:if="{{item.state=='2'}}">
+					<view class="weui-cell__bd bdwidth">已叫号</view>
+				</block>
+				<block wx:if="{{item.state=='3'}}">
+					<view class="weui-cell__bd bdwidth">已作废</view>
+				</block>
+				<view class="weui-cell__ft">
+					<image bindtap="sc" data-id="{{item.id}}" src="../../../img/icon/delete.png"></image>
+				</view>
+			</view>
+		</form>
+	</block>
+</view>
+<view class="jzz" hidden="{{mygd}}">
+	<image class="Rotation" src="../../../img/jzz.png"></image>
+	<view>加载中...</view>
+</view>
+<block wx:if="{{mygd}}">
+	<view class="jzwb">
+		<view class="hx"></view>
+		<view class="wz">加载完毕</view>
+		<view class="hx"></view>
+	</view>
+</block>

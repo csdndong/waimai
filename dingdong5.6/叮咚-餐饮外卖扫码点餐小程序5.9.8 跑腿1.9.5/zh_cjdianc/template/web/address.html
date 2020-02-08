@@ -1,0 +1,267 @@
+{template 'public/header'}
+{template 'public/comhead'}
+<!-- <link rel="stylesheet" type="text/css" href="../addons/zh_tcwq/template/public/ygcsslist.css"> -->
+<link rel="stylesheet" type="text/css" href="../addons/zh_cjdianc/template/public/ygcss.css">
+<link rel="stylesheet" type="text/css" href="../addons/zh_cjdianc/template/public/ygcsslist.css">
+<style type="text/css">
+    .store_list_img{width: 40px;height: 40px;background-color: pink;}
+    .yg5_tabel{border: none;outline: none;}
+    .yg5_tr3>td{border-bottom: 1px solid #efefef;padding: 5px 0px;text-align: center;}
+    .yg5_tr4>td{border-bottom: 1px solid #efefef;padding: 5px 0px;text-align: center;background: #f2f2f2;}
+    .yg5_tr2>td{padding: 10px 0px;border-bottom: 1px solid #efefef;text-align: center;
+        /*background-color: #EDF6FF;*/
+        
+    }
+    .yg5_tr1{border-bottom: 1px solid #efefef;font-weight: bold;text-align: center;
+    }
+    .fenleilist1{height: 35px;line-height: 35px;}
+    .yg5_tr3>td:nth-child(1),.yg5_tr1>td:nth-child(1){width: 80px;text-align: center;}
+    .yg5_tr3>td:nth-child(2),.yg5_tr1>td:nth-child(2){width: 80px;}
+    .yg5_tr3>td:nth-child(3),.yg5_tr1>td:nth-child(3){width: 120px;}
+    .yg5_tr3>td:nth-child(4),.yg5_tr1>td:nth-child(4){width: auto;}
+    .yg5_tr3>td:nth-child(5),.yg5_tr1>td:nth-child(5){width: auto;}
+    .yg5_tr3>td:nth-child(6),.yg5_tr1>td:nth-child(6){width: 120px;}
+    .yg5_tr3>td:nth-child(7),.yg5_tr1>td:nth-child(7){width: auto;}
+    .yg5_tr3>td:nth-child(8),.yg5_tr1>td:nth-child(8){width: 100px;}
+    /*.yg5_tr3>td:nth-child(9),.yg5_tr1>td:nth-child(9){width: auto;}*/
+    .yg5_tr3>td:nth-child(4){padding-left: 30px;}
+    .yg5_tr3:hover{background-color: #EDF6FF;}
+    .yg5_tr2:hover{background-color: #EDF6FF;}
+    .fxiala{font-size: 16px;cursor: pointer;opacity: 0.5;display: inline-block;width: 50px;height: 20px;text-align: center;}
+    .fxiala:hover{color: #333;opacity: 1;}
+    .collapse{transition: all 0.5s;}
+    .ygsave{margin-top: 50px;}
+    .storespan2{font-size: 14px;color: white;margin: 5px;position: relative;background-color: #44abf7;}
+    .storespan2:hover{color: #fff;}
+    .storespan2:hover .bianji{display: block;}
+    .feileibqbox{position: relative;margin-right: 15px;display: inline-block;padding: 5px;}
+    .feileibq2{position: absolute;top: -5px;right: -5px;cursor: pointer;}
+    .feileibq2>img{width: 25px;height: 25px;}
+    .feileibqremark{width: 80px;height: 20px;}
+    .storegrey3{width: 120px;height: 35px;padding: 0px 10px;border-radius: 10px;text-align: center;outline: none;}
+    .xgsuccess{position: absolute;top: 17%;left: 0%;z-index: 1080;display: none;}
+</style>
+
+<ul class="nav nav-tabs">
+    <span class="ygxian"></span>
+    <div class="ygdangq">当前位置:</div>    
+    <li class="active"><a href="{php echo $this->createWebUrl('address')}">收货地址管理</a></li>
+    <li><a href="{php echo $this->createWebUrl('addaddress')}">添加地区</a></li>
+</ul>
+<div class="main">
+    <!-- 门店列表部分开始 -->
+        <div class="panel panel-default ygdefault">
+            <div class="panel-heading wyheader">
+                收货地址
+            </div>
+            <div class="panel-body" style="padding: 0px 15px;">
+                <div class="row">
+                    <table class="yg5_tabel col-md-12">
+                        <tr class="yg5_tr1">
+                            <td>顺序</td>
+                            <td>地区名称</td>
+                            <td>状态</td>
+                            <td>操作</td>
+                        </tr>
+
+                        <tbody>
+                        {loop $list $row}
+                        <tr class="yg5_tr2">
+
+
+                            <td>{$row['num']}</td>
+                            <td>{$row['name']}</td>
+                            <td>{if $row['state']==1} <span class="label storeblue">  <a href="{php echo $this->createWebUrl('address', array('id' => $row['id'],'op'=>change,'state'=>2))}"   >启用</a></span>{elseif $row['state']==2} <span class="label storegrey"><a href="{php echo $this->createWebUrl('address', array('id' => $row['id'],'op'=>change,'state'=>1))}">禁用</a></span>{/if}</td>
+                            <td>
+
+                                <a href="{php echo $this->createWebUrl('addaddress', array('fid' => $row['id'],'level'=>2))}" class="storespan btn btn-xs">
+                                    <span class="fa fa-plus"></span>
+                                    <span class="bianji" style="left: -30px;">添加二级地区
+                                            <span class="arrowdown"></span>
+                                        </span>
+                                </a>
+                                <a href="{php echo $this->createWebUrl('addaddress', array('id' => $row['id']))}" class="storespan btn btn-xs">
+                                    <span class="fa fa-pencil"></span>
+                                    <span class="bianji">编辑
+                                        <span class="arrowdown"></span>
+                                    </span>
+                                </a>
+                                <a href="javascript:void(0);" class="storespan btn btn-xs" data-toggle="modal" data-target="#myModal{$row['id']}">
+                                    <span class="fa fa-trash-o"></span>
+                                    <span class="bianji">删除
+                                        <span class="arrowdown"></span>
+                                    </span>
+                                </a>
+                                <!-- <a class="btn btn-warning btn-xs" href="{php echo $this->createWebUrl('addstoretype', array('id' => $row['id']))}" title="编辑">改</a>&nbsp;&nbsp;
+                               <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#myModal{$row['id']}">删</button> -->
+                            </td>
+                            <td>
+                                <a class="fxiala" data-toggle="collapse" data-parent="#accordion" href="#collapse{$row['id']}">
+                                    <span class="fa fa-chevron-down"></span>
+                                </a>
+                            </td>
+                        </tr>
+                        <div class="modal fade" id="myModal{$row['id']}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title" id="myModalLabel" style="font-size: 20px;">提示</h4>
+                                    </div>
+                                    <div class="modal-body" style="font-size: 20px">
+                                        确定删除么？
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                        <a href="{php echo $this->createWebUrl('address', array('id' => $row['id'],'op'=>'delete'))}" type="button" class="btn btn-info" >确定</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <tr>
+                            <td colspan="4">
+                                <table id="collapse{$row['id']}" class="panel-collapse collapse" style="width: 80%; ">
+
+                                    {if empty($row['ej'])}
+                                    <tr class="yg5_tr4"><td colspan="8">暂无二级地区</td></tr>
+                                    {else}
+                                    {loop $row['ej'] $son}
+                                    <tr class="yg5_tr3">
+                                        <td></td>
+                                        <td style="width: 150px;">{$son['num']}</td>
+                                        <td style="text-align: left;width: 100px">--{$son['name']}</td>
+                                        <td style="width: 150px;">{if $son['state']==1} <span class="label storeblue">  <a href="{php echo $this->createWebUrl('address', array('id' => $son['id'],'op'=>change,'state'=>2))}"   >启用</a></span>{elseif $son['state']==2} <span class="label storegrey"><a href="{php echo $this->createWebUrl('address', array('id' => $son['id'],'op'=>change,'state'=>1))}">禁用</a></span>{/if}</td>
+                                        <td style="width: 300px;">
+                                            <a href="{php echo $this->createWebUrl('addaddress', array('fid' => $son['id'],'level'=>3))}" class="storespan btn btn-xs">
+                                                <span class="fa fa-plus"></span>
+                                                <span class="bianji" style="left: -30px;">添加三级地区
+                                                <span class="arrowdown"></span>
+                                            </span>
+                                            </a>
+                                            <a href="{php echo $this->createWebUrl('addaddress', array('id' => $son['id']))}" class="storespan btn btn-xs">
+                                                <span class="fa fa-pencil"></span>
+                                                <span class="bianji">编辑
+                                                <span class="arrowdown"></span>
+                                            </span>
+                                            </a>
+                                            <a href="#myModal{$son['id']}" class="storespan btn btn-xs" data-toggle="modal" data-target="#myModal{$son['id']}">
+                                                <span class="fa fa-trash-o"></span>
+                                                <span class="bianji">删除
+                                                <span class="arrowdown"></span>
+                                            </span>
+                                            </a>
+                                            <div class="modal fade" id="myModal{$son['id']}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                            <h4 class="modal-title" id="myModalLabel" style="font-size: 20px;">提示</h4>
+                                                        </div>
+                                                        <div class="modal-body" style="font-size: 20px">确定删除二级分类么？</div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                                            <a href="{php echo $this->createWebUrl('address', array('id' => $son['id'],'op'=>'delete'))}" type="button" class="btn btn-info" >确定</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td style="width: 100px;">
+                                            <a class="fxiala" data-toggle="collapse" data-parent="#accordion" href="#collapse{$son['id']}">
+                                                <span class="fa fa-chevron-down"></span>
+                                            </a>
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td colspan="5">
+                                            <table id="collapse{$son['id']}" class="panel-collapse collapse" style="width: 80%; padding-left: 10%">
+                                                {if empty($son['sj'])}
+                                                <tr class="yg5_tr4"><td colspan="8">暂无三级地区</td></tr>
+                                                {else}
+                                                {loop $son['sj'] $son2}
+                                                <tr class="yg5_tr3">
+                                                    <td></td>
+                                                    <td style="width: 150px;">{$son2['num']}</td>
+                                                    <td style="text-align: left; width: 100px">--{$son2['name']}</td>
+                                                    <td style="width: 150px;">{if $son2['state']==1} <span class="label storeblue">  <a href="{php echo $this->createWebUrl('address', array('id' => $son2['id'],'op'=>change,'state'=>2))}"   >启用</a></span>{elseif $son['state']==2} <span class="label storegrey"><a href="{php echo $this->createWebUrl('address', array('id' => $son['id'],'op'=>change,'state'=>1))}">禁用</a></span>{/if}</td>
+                                                    <td style="width: 300px;">
+
+                                                        <a href="{php echo $this->createWebUrl('addaddress', array('id' => $son2['id']))}" class="storespan btn btn-xs">
+                                                            <span class="fa fa-pencil"></span>
+                                                            <span class="bianji">编辑
+                                                            <span class="arrowdown"></span>
+                                                        </span>
+                                                        </a>
+                                                        <a href="#myModal{$son2['id']}" class="storespan btn btn-xs" data-toggle="modal" data-target="#myModal{$son2['id']}">
+                                                            <span class="fa fa-trash-o"></span>
+                                                            <span class="bianji">删除
+                                                            <span class="arrowdown"></span>
+                                                        </span>
+                                                        
+                                                        </a>
+                                                        
+                                                    </td>
+
+                                                </tr>
+                                                <div class="modal fade" id="myModal{$son2['id']}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                                            <div class="modal-dialog" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                                        <h4 class="modal-title" id="myModalLabel" style="font-size: 20px;">提示</h4>
+                                                                    </div>
+                                                                    <div class="modal-body" style="font-size: 20px">确定删除三级分类么？</div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                                                        <a href="{php echo $this->createWebUrl('address', array('id' => $son2['id'],'op'=>'delete'))}" type="button" class="btn btn-info" >确定</a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                {/loop}
+                                                {/if}
+                                            </table>
+                                        </td>
+                                    </tr>
+
+
+                                    {/loop}
+                                    {/if}
+                                </table>
+                            </td>
+                        </tr>
+
+
+
+
+
+
+
+
+
+
+                        {/loop}
+
+                        {if empty($list)}
+                        <tr class="yg5_tr2">
+                            <td colspan="6">
+                                暂无地址信息
+                            </td>
+                        </tr>
+                        {/if}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    {$pager}
+</div>
+<script type="text/javascript">
+    $(function(){
+        $("#frame-14").show();
+        $("#yframe-14").addClass("wyactive");
+    })
+</script>
+{template 'common/footer'}

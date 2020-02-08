@@ -1,0 +1,157 @@
+{itemplate 'public/header'}
+<link href="../addons/we7_wmall/plugin/wxapp/static/css/diy.web.css?t={php echo time();}" rel="stylesheet" type="text/css"/>
+<link href="../addons/we7_wmall/plugin/wxapp/static/css/diy.purview.css?t={php echo time();}" rel="stylesheet" type="text/css"/>
+<link rel="stylesheet" href="//apps.bdimg.com/libs/jqueryui/1.10.4/css/jquery-ui.min.css">
+{if $op == 'post'}
+<div class="clearfix">
+	<div class="alert alert-warning">
+		提醒：底部导航改动后需重新提交微信审核，并且审核通过后才可生效。
+	</div>
+	<div class="app-preview">
+		<div class="app-header"></div>
+		<div class="app-body">
+			<div class="title">自定义菜单</div>
+			<div class="main" id="app-preview">
+			</div>
+		</div>
+		<div class="app-footer"></div>
+	</div>
+	<div class="app-editor form-horizontal" id="app-editor">
+		<div class="editor-arrow"></div>
+		<div class="inner">
+		</div>
+	</div>
+</div>
+<div class="app-action">
+	<div class="action">
+		<nav class="btn btn-default btn-sm pull-left" id="gotop">返回顶部</nav>
+		<nav class="btn btn-primary btn-sm btn-save">保存导航</nav>
+	</div>
+</div>
+<script type="text/html" id="tpl-show-menu">
+	<div class="app-menu">
+		<(each data as item)>
+			<a class="tab-item" href="javascript:;" style="background: <(css.backgroundColor)>;">
+				<img class="item-icon" src="../addons/we7_wmall/plugin/wxapp/<(item.iconPath)>">
+				<span class="tab-label" style="color: <(css.color)>;"><(item.text)></span>
+			</a>
+		<(/each)>
+	</div>
+</script>
+
+<script type="text/html" id="tpl-edit-menu">
+	<div class="alert alert-danger" style="font-size: 18px;">
+		提醒：
+		{if check_plugin_perm('diypage') && empty($type)}
+			若底部导航采用小程序原生导航时，
+		{/if}
+		设置为底部导航的链接，页面中使用该链接跳转会失效。<br>
+		例如：若设置pages/home/index为底部导航链接，则在页面中无法跳转到pages/home/index。<br>
+		提醒：底部导航链接不支持参数设置。<br>
+		例如：导航链接设置为pages/home/index?id=1, '?id=1'为非法部分。
+		{if empty($type)}
+		<br><br>
+		提醒：小程序第一次打开时加载的页面为导航菜单设置的第一个页面，变更导航菜单的第一个页面的链接时，
+			{if check_plugin_perm('diypage')}无论底部导航采用小程序原生导航还是自定义导航，都{/if}需要重新提交微信审核才能生效
+		{/if}
+	</div>
+	{if check_plugin_perm('diypage') && empty($type)}
+	<div class="form-group">
+		<div class="col-sm-2 control-label">底部导航采用</div>
+		<div class="col-sm-10 color">
+			<label class="radio-inline"><input type="radio" name="type" value="0" class="diy-bind" data-bind="type" data-bind-init="true" <(if !type || type == '0')>checked="checked"<(/if)>> 小程序原生导航</label>
+			<label class="radio-inline"><input type="radio" name="type" value="1" class="diy-bind" data-bind="type" data-bind-init="true" <(if type == '1')>checked="checked"<(/if)> > 自定义导航</label>
+		</div>
+	</div>
+	{/if}
+	<(if !type || type == '0')>
+	<div class="form-group">
+		<div class="col-sm-2 control-label">背景颜色</div>
+		<div class="col-sm-10 color">
+			<div class="input-group">
+				<span class="input-group-addon">默认</span>
+				<input class="form-control input-sm diy-bind color" type="color" data-bind-child="css" data-bind="backgroundColor" value="<(css.backgroundColor)>" />
+				<span class="input-group-addon btn btn-default" onclick="$(this).prev().val('#ffffff').trigger('propertychange')">重置</span>
+			</div>
+		</div>
+	</div>
+	<div class="form-group">
+		<div class="col-sm-2 control-label">文字颜色</div>
+		<div class="col-sm-10 color">
+			<div class="input-group">
+				<span class="input-group-addon">默认</span>
+				<input class="form-control input-sm diy-bind color" type="color" data-bind-child="css" data-bind="color" value="<(css.color)>" />
+				<span class="input-group-addon btn btn-default" onclick="$(this).prev().val('#929292').trigger('propertychange')">重置</span>
+				<span class="input-group-addon">选中</span>
+				<input class="form-control input-sm diy-bind color" type="color" data-bind-child="css" data-bind="selectedColor" value="<(css.selectedColor)>" />
+				<span class="input-group-addon btn btn-default" onclick="$(this).prev().val('#ff2d4b').trigger('propertychange')">重置</span>
+			</div>
+		</div>
+	</div>
+	<div class="form-items" data-min="1" data-max="5">
+		<div class="inner">
+			<(each data as item index)>
+				<div class="item" data-id="<(index)>">
+					<span class="btn-del del-item" title="删除"></span>
+					<div class="item-body">
+						<div class="item-image">
+							<div class="tabbar-icon" id="icon-show-<(index)>">
+								<img src="../addons/we7_wmall/plugin/wxapp/<(item.iconPath)>">
+								<img src="../addons/we7_wmall/plugin/wxapp/<(item.selectedIconPath)>">
+							</div>
+							<div style="display: none" id="icon-input-<(index)>">
+								<input type="hidden" class="diy-bind" data-bind="iconPath" data-bind-child="data" data-bind-parent="<(index)>">
+								<input type="hidden" class="diy-bind" data-bind="selectedIconPath" data-bind-child="data" data-bind-parent="<(index)>">
+							</div>
+							<div class="select-icon js-selectWxappIcon" data-type="{$jsType}" data-input="#icon-input-<(index)>" data-element="#icon-show-<(index)>">选择图标</div>
+						</div>
+						<div class="item-form">
+							<div class="input-group">
+								<span class="input-group-addon">文字</span>
+								<input type="text" class="form-control input-sm diy-bind" value="<(item.text)>" placeholder="留空则不显示文字" data-bind-parent="<(index)>" data-bind-child="data" data-bind="text">
+							</div>
+							<div class="input-group">
+								<input type="text" class="form-control input-sm diy-bind" value="<(item.pagePath)>" placeholder="请选择链接或输入链接地址" id="pagePath-<(index)>" data-bind-parent="<(index)>" data-bind-child="data" data-bind="pagePath">
+								<span class="input-group-addon btn btn-default js-selectWxappLink" data-type="{$jsType}" data-input="#pagePath-<(index)>" data-scene="menu">选择链接</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			<(/each)>
+		</div>
+		<div class="btn btn-default btn-block" id="addItem"><i class="icon icon-plus"></i> 添加一个</div>
+		{if empty($type)}
+		<div class="form-group">
+			<div class="help-block">提醒：小程序第一次打开时加载的页面为导航菜单设置的第一个页面，变更导航菜单的第一个页面的链接时，{if check_plugin_perm('diypage')}无论底部导航采用小程序原生导航还是自定义导航，都{/if}需要重新提交微信审核才能生效</div>
+		</div>
+		{/if}
+	</div>
+	<(else)>
+	{if check_plugin_perm('diypage')}
+	<div class="form-group">
+		<div class="col-sm-2 control-label"></div>
+		<div class="col-sm-10 color">
+			<div class="help-block">若采用自定义底部导航，需先设置好底部导航菜单 <a href="{php echo iurl('diypage/vuemall');}" target="_blank">现在去设置</a></div>
+			<div class="help-block">提醒：小程序第一次打开时加载的页面为导航菜单设置的第一个页面，变更导航菜单的第一个页面的链接时，无论底部导航采用小程序原生导航还是自定义导航，都需要重新提交微信审核才能生效</div>
+		</div>
+		</div>
+	</div>
+	{/if}
+	<(/if)>
+</script>
+
+<script language="javascript">
+	var path = '../../plugin/wxapp/static/js/diy.menu';
+	irequire([path, 'tmodtpl'],function(diyMenu, tmodtpl){
+		diyMenu.init({
+			type: "{$_GPC['type']}",
+			tmodtpl: tmodtpl,
+			attachurl: "{$_W['attachurl']}",
+			id: '{php echo intval($_GPC["id"])}',
+			menu: {if !empty($menu)}{php echo json_encode($menu)}{else}null{/if}
+		});
+	});
+</script>
+{/if}
+
+{itemplate 'public/footer'}

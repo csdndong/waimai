@@ -1,0 +1,65 @@
+<{extends file="<{$tempdir}>/public/admin.html"}>
+<{block name=extendjs}>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js"></script>
+<{/block}>
+ <{block name=controlname}><{if empty($payinfo)}>添加<{else}>编辑<{/if}>支付方式-<{$apiinfo['name']|default:''}><{/block}>
+ <{block name=bodylist}>
+   <div style="width:98%;overflow-y:auto;white-space:nowrap;">
+         
+          <div class="tags">
+          <div id="tagscontent">
+            <form method="post" name="form1" action="<{ofunc type=url link="/adminpage/other/module/savepay/datatype/json"}>" onsubmit="return subform('<{ofunc type=url link="/adminpage/other/module/paylist/type/<{$checktype}>"}>',this);">
+              <input type="hidden" value="<{$idtype}>" name="idtype">
+			  <{if !is_array(info)}>
+			  <div>
+                <table border="0" cellspacing="2" cellpadding="4" class="list" name="table" id="table" width="100%">
+                  <tbody>
+				    <{foreach from=$info item=items}>
+					 <{if $items['type'] == 'textarea'}>
+					 <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <td class="left"><{$items['title']}>:</td>
+                      <td><textarea   name="<{$items['name']}>" style="width:500px;height:200px;"><{$items['values']}></textarea><{$items['desc']}></td>
+                    </tr>
+					 <{else}>
+                  	<tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <td class="left"><{$items['title']}>:</td>
+                      <td><input type="text" value="<{if isset($items['values'])}><{$items['values']}><{else}><{$setinfo[$items['name']]}><{/if}>" name="<{$items['name']}>"><{$items['desc']}></td>
+                    </tr>
+					<{/if}>
+                     <{/foreach}>
+	 	 
+                 
+                  </tbody>
+                </table>
+              </div>     
+
+			  <{/if}>
+			  
+               <input type="submit" value="提交安装" style='margin-left: 215px;height: 32px;width: 68px;color: #fff;background-color: #169bd5;border: none;border-radius: 5px;margin-top: 10px;' >
+            </form>
+          </div>
+        </div>
+        <div class="blank20"></div>
+
+      </div>
+      <div class="clear"></div>  
+    <div class="clear"></div>
+<script>
+	var dialogs ;
+ function upload(){  
+ 	  dialogs = art.dialog.open('<{ofunc type=url link="/adminpage/other/module/adminupload/func/uploadsucess"}>');
+ 	  dialogs.title('上传图片'); 
+ }
+ function uploadsucess(flag,obj,linkurl){
+ 	 if(flag == true){
+		dialogs.close();
+		upload();
+ 	 }else{ 
+ 		dialogs.close();
+ 	    $('input[name="imgurl"]').val(linkurl);
+   	    $('#imgurl').attr('src',linkurl); 
+   }
+ }  
+
+</script>	
+<{/block}>

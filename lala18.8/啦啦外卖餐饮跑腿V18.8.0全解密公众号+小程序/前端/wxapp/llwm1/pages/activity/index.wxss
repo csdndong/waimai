@@ -1,0 +1,128 @@
+page {
+    font-size: 14px;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+}
+
+::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    color: transparent;
+}
+
+.active-tab {
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 45px;
+    color: #333;
+    background-color: #fff;
+}
+
+.active-tab .tab-item {
+    display: inline-block;
+    height: 100%;
+    width: 50%;
+    margin: 0;
+    line-height: 45px;
+    text-align: center;
+    font-size: 14px;
+    position: relative;
+}
+
+.active-tab .tab-item.active {
+    color: #33aafc;
+}
+
+.active-tab .tab-item.active:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 0;
+    border-bottom: 2px solid #33aafc;
+}
+
+.content {
+    background: #fff;
+    margin-top: 45px;
+}
+
+.content .main .activity-col {
+    width: 100%;
+    padding-top: 16px;
+}
+
+.content .main .activity-col .col-left {
+    width: 20%;
+    display: inline-block;
+    text-align: center;
+    float: left;
+}
+
+.content .main .activity-col .col-left text {
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    color: #fff;
+    line-height: 28px;
+    text-align: center;
+    border-radius: 10px;
+    margin-top: 2px;
+    background-color: #ccc;
+    font-size: 17px;
+}
+
+.content .main .activity-col .col-left .text-red {
+    background-color: #FA4567;
+}
+
+.content .main .activity-col .col-left .text-green {
+    background-color: #63DC49;
+}
+
+.content .main .activity-col .col-left .text-yellow {
+    background-color: #FBA432;
+}
+
+.content .main .activity-col .col-right {
+    width: 78%;
+    display: inline-block;
+    float: left;
+    padding-bottom: 16px;
+}
+
+.content .main .activity-col .col-right .right-content {
+    position: relative;
+}
+
+.content .main .activity-col .col-right .right-content view {
+    margin: 0 0 8px;
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.content .main .activity-col .col-right .right-content text {
+    display: inline-block;
+    margin: 0;
+    font-size: 13px;
+    color: #8C8C8C;
+    width: 76%;
+}
+
+.content .main .activity-col .col-right button {
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 8px;
+    font-size: 12px;
+    line-height: 1;
+}
+
+.content .main .activity-col .col-right .add {
+    background-color: #2B96ED;
+}

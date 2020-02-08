@@ -1,0 +1,403 @@
+ <{extends file="<{$tempdir}>/public/wxsite.html"}>  
+<{block name=extendcss}> 
+ <link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/gift.css">
+<{/block}>
+ <{block name=extendjs}> 
+  <script src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/js/template.min.js"></script>    
+<{/block}>
+<{block name=myScrolljs}>
+<script> 
+		var myScroll;
+function loaded() {
+	myScroll = new iScroll('wrapper', {
+		useTransform: false,
+		onBeforeScrollStart: function (e) {
+			var target = e.target;
+			while (target.nodeType != 1) target = target.parentNode;
+
+			if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA')
+				e.preventDefault();
+		}
+	});
+}
+document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false); 
+document.addEventListener('DOMContentLoaded', function () { setTimeout(loaded, 200); }, false);
+</script>
+<script>
+ 	$(function(){
+ 	$('.loginbtn').click(function(){ 
+ 		var checkuname = $('#logEmailOrPhone').val();
+ 		if(checkuname != ''){
+ 		  
+  	 	showLoading();
+  	  	var info = {'uname':$('#logEmailOrPhone').val(),'pwd':$('#logPassword').val(),'logintype':'html5'}; 
+  	 	  var  url = siteurl+'/index.php?ctrl=member&action=login&datatype=json&random=@random@' 
+  	 	   $.ajax({ 
+             url: url.replace('@random@', 1+Math.round(Math.random()*1000)), 
+            dataType: "json", 
+            data:info, 
+            success:function(content) {   
+            	if(content.msg ==  false){
+					newhideLoading();
+                    window.location.href = '<{$web_extend_link|default:$siteurl}>';
+            	}else{ 
+					newhideLoading();
+            	   Tmsg(content.msg);
+              }
+            	
+            }, 
+            error:function(){
+            	newhideLoading();
+
+            } 
+         });  
+    }else{
+    	Tmsg('用户帐号不能为空');
+    }
+		  
+	 }); 
+	});
+
+ </script>
+ <script>
+ 	$(function(){
+ 	$('.intexbg1fastlogin').click(function(){ 	     
+ 		var phone = $('#phone').val();
+		var phoneyan = $('#phoneyan').val();
+		var invitecode = $('input[name="showinvitecode"]').val();
+ 		if(phone < 1){
+		     Tmsg('请输入手机号');
+			 return false;
+		}
+		if(phoneyan < 1){
+		     Tmsg('请输入验证码');
+			 return false;
+		} 	  
+  	 	showLoading(); 
+  	  	var info = {'phone':phone,'phoneyan':phoneyan,'invitecode':invitecode}; 
+  	 	  var  url = siteurl+'/index.php?ctrl=member&action=fastlogin&datatype=json&random=@random@' 
+  	 	   $.ajax({ 
+             url: url.replace('@random@', 1+Math.round(Math.random()*1000)), 
+            dataType: "json", 
+            data:info, 
+            success:function(content) {     
+            	if(content.error ==  false){
+					newhideLoading();
+					if(content.msg=='success1'){
+					    window.location.href= siteurl+'/index.php?ctrl=wxsite&action=updatepwdd';
+					}else{
+					    window.location.href= siteurl+'/index.php?ctrl=wxsite&action=member';
+					}
+                    
+            	}else{ 
+					newhideLoading();
+            	   Tmsg(content.msg);
+                }
+            	
+            }, 
+            error:function(){
+            	newhideLoading();
+            } 
+         });  
+  
+		  
+	 }); 
+	});
+
+ </script>
+<{/block}>
+ <{block name=hearnav}>
+<div class="toptitCon">
+ <div class="toptitBox">
+  <div class="toptitL"><i></i></div>
+  <div class="toptitC"><h3>登录</h3><span onclick="dolink('<{ofunc type=url link="/wxsite/reg"}>');"  style='color:#fff;position: absolute;top: 9px;right: 10px;font-size:80%'>立即注册</span></div>
+ </div>
+</div>
+<{/block}>
+<{block name=sitetitle}><{$sitename}><{/block}>
+<{block name=blockcontent}> 
+ <div id="wrapper" style="top:40px;">
+	<div id="scroller">
+<!--登录-->
+<div class="signinregistertit" >
+ <ul style='border:none;'>
+  <li class="ainregaA userloginbtn">账号密码登录</li>
+  <li class='fastloginbtn'>手机号快捷登录</li>
+ </ul>
+</div>
+<script>
+$('.userloginbtn').click(function(){
+    $('.userloginbtn').addClass('ainregaA');
+    $('.userlogin').show();
+	$('.fastloginbtn').removeClass('ainregaA');
+	$('.fastlogin').hide();
+})
+$('.fastloginbtn').click(function(){
+    $('.fastloginbtn').addClass('ainregaA');
+    $('.fastlogin').show();
+	$('.userloginbtn').removeClass('ainregaA');
+	$('.userlogin').hide();
+})
+</script>
+<!--输入用户名密码-->
+<!-------------------账号密码登录开始----------------------->
+<div class="signininput userlogin" style='border:none;'>
+ <ul>
+  <li><i class="signinuser"></i><input type="text"  id="logEmailOrPhone"  placeholder="账号"></li>
+  <li><i class="signinpassw"></i><input type="password" id="logPassword" placeholder="密码"></li>
+ </ul>
+</div>
+<div class="intexchabutt userlogin"  id ="userlogin" style='margin-top:15px;' ><input type="button" value="登录" style='border-radius: 5px;background-color:#cccccc!important' disabled="disabled" class="loginbtn" ><span  onclick="dolink('<{ofunc type=url link="/wxsite/forpwd"}>');"  class="sinzhmm">找回密码</span></div>
+<script>
+
+    document.getElementById("logEmailOrPhone").oninput = function () {
+                 check();
+     }
+   document.getElementById("logPassword").oninput = function () {
+		 check();
+	 }
+	function  check(){
+		var logEmailOrPhone = $("#logEmailOrPhone").val();
+		var logPassword = $("#logPassword").val();
+		var colorset = '<{$color}>';
+		if(colorset == 'yellow'){
+		    color = '#ff7600';
+		}else if(colorset == 'green'){
+		    color = '#00cd85';
+		}else{
+		    color = '#ff6e6e';
+		}
+		if((logEmailOrPhone =='') || (logPassword =='') ){     
+			$(".loginbtn").css("background-color","#cccccc"); 
+			$('.loginbtn').attr('disabled',"true");
+		}else{
+			$('.loginbtn').removeAttr("disabled"); 
+			$(".loginbtn").css("background-color",color); 
+		}
+	}	 
+		 
+		 
+</script>
+
+<!-------------------账号密码登录结束----------------------->
+
+<!-------------------手机快捷登录开始----------------------->
+<div class="signininput fastlogin" style='border:none;display:none'>
+ <ul>
+ 
+  <li><i class="signinpho"></i><input type="text" id="phone" value="" placeholder="手机号"><input type="button"  onclick="clickyanzheng();"  style='border-radius: 5px;display:inline-block;background-color:#cccccc;margin-top: 10px;' time="0" id="dosendbtn"  value="发送验证码" class="signmeinput"></li>
+    <li id="showgetcode" class="signmehide"><i class="signinmess"></i><input type="text" name="phoneyan" id="phoneyan"   value="" placeholder="验证码"></li> 
+  <li class="signmehide"><i class="signinmess"></i><input type="text"  placeholder="输入短信验证码"><input type="button" value="剩余120秒" class="signmeinput signmebg1"></li>
+  <li class="showinvitecode" style='display:none'><i class="signinmess"></i><input type="text" name="showinvitecode"  value="" placeholder="邀请码(可不填)"></li> 
+ </ul>
+</div>
+<div class="intexchabutt fastlogin" style='display:none;margin-top:15px;' ><input type="button" value="登录" style='border-radius: 5px;background-color:#cccccc!important' disabled="disabled" id="fastloginll"  class="intexbg1 intexbg1fastlogin"><span  onclick="dolink('<{ofunc type=url link="/wxsite/forpwd"}>');"  class="sinzhmm">找回密码</span></div>
+
+<script>
+	document.getElementById("phoneyan").oninput = function () {
+		checkfastlogin();
+	}
+	document.getElementById("dosendbtn").oninput = function () {
+		checkPhoneOver();
+	}
+	document.getElementById("phone").oninput = function () {
+		checkPhoneOver();
+	}
+	function  checkfastlogin(){
+		var phone = $("#phone").val();
+		var phoneyan = $("#phoneyan").val();
+		var colorset = '<{$color}>';
+		if(colorset == 'yellow'){
+		    color = '#ff7600';
+		}else if(colorset == 'green'){
+		    color = '#00cd85';
+		}else{
+		    color = '#ff6e6e';
+		}
+		if( (phone =='') || (phoneyan =='') ){  
+			$("#fastloginll").css('background-color',"#ccc!important"); 
+			$('#fastloginll').attr('disabled',"true");
+		}else{
+			$('#fastloginll').removeAttr("disabled"); 
+			$("#fastloginll").css("background-color",color); 
+		}
+	}	
+	function checkPhoneOver(){
+		var phonelen = $("#phone").val().length;
+		var colorset = '<{$color}>';
+			if(colorset == 'yellow'){
+				var color = '#ff7600';
+			}else if(colorset == 'green'){
+				var color = '#00cd85';
+			}else{
+				var color = '#ff6e6e';
+			}
+		//console.log(phonelen);
+		if(phonelen == 11){	
+            showinvitecode($("#phone").val());	
+			$('#dosendbtn').css('background-color',color);			
+		}else{
+		    $('.showinvitecode').hide();
+			$('#dosendbtn').css('background-color','#cccccc');
+		} 
+	}
+	function showinvitecode(phone){
+		var info = {'phone':phone}; 
+		var  url = siteurl+'/index.php?ctrl=member&action=checkinvitecode&datatype=json&random=@random@' 
+		$.ajax({ 
+			url: url.replace('@random@', 1+Math.round(Math.random()*1000)), 
+			dataType: "json", 
+			data:info, 
+			success:function(content) {             	 
+				if(content.error ==  false){
+				    $('.showinvitecode').show();
+				}else{ 
+				    $('.showinvitecode').hide();
+				}
+
+			}, 
+			error:function(){
+			    $('.showinvitecode').hide();
+			} 
+		});
+	 
+	
+	
+	
+	
+	
+	
+	}
+</script>
+<!-------------------手机快捷登录结束----------------------->
+		 <div style="height:10px;"></div>
+        <style>
+            .signinFast {
+                width: 100%;
+                padding-top:100px;
+                text-align: center;
+            }
+            .signinFast .xL {
+                width: 90px;
+                height: 2px;
+                background-color: #edecec;
+                display: block;
+                float: left;
+                margin-top: 9px;
+            }
+            .signinFast .xR {
+                width: 90px;
+                height: 2px;
+                background-color: #edecec;
+                display: block;
+                float: right;
+                margin-top: 9px;
+            }
+            .signinFast span {
+                line-height: 22px;
+                margin-right: 10px;
+                font-size: 14px;
+                color: #333333;
+            }
+            .signinFast span {
+                line-height: 22px;
+                margin-right: 10px;
+                font-size: 14px;
+                color: #333333;
+            }
+            .signinFast span {
+                line-height: 22px;
+                margin-right: 10px;
+                font-size: 14px;
+                color: #333333;
+            }
+            #logintype li{
+                float:left;
+                margin-left:20px;
+            }
+            #morelogin img{
+                width:60px;
+                height:60px;
+            }
+            #morelogin a{
+                margin-left:10px;
+            }
+			 
+.signininput ul li {
+    border-bottom: 1px solid #f5f5f5!important;     
+}
+ 
+        </style>
+        <{if $is_wx!=1 && !empty($is_installqq)}>
+        <div style="padding:0px 10px;">
+            <div class="signinFast">
+                <span class="xL"></span>
+                <span style="color:#cccccc;font-size:15px;">其它登录方式</span>
+                <span class="xR"></span>
+            </div>
+        </div>
+
+        <div style="text-align:center;width:100%;height:100px;margin-top:20px;" id="morelogin">
+            <a href="<{$siteurl}>/plug/login/qqphone/login.php"><img src="/templates/m7/public/wxsite/images/h5_QQ_login.png" alt=""></a>
+            <!--<a href=""><img src="/templates/m7/public/wxsite/images/h5_wx_login.png" alt=""></a>-->
+        </div>
+        <{/if}>
+	</div>
+</div>
+<script>
+$('#showgetcode').show();
+function noshow(msg){  
+    	Tmsg(msg);
+}
+//获取手机验证码
+function clickyanzheng(){ 	 
+	if(lockclick()){
+		 var tempurl = siteurl+'/index.php?ctrl=member&action=fastloginphone&random=@random@&phone=@phone@';
+		 tempurl = tempurl.replace('@random@', 1+Math.round(Math.random()*1000)).replace('@phone@',$('#phone').val());
+		 $.getScript(tempurl); 
+	}    
+}
+function showsend(phone,time){  
+  	$('input[name="phone"]').val(phone);
+        $('#dosendbtn').attr('time',time);
+        setTimeout("btntime();",0);   
+} 
+	function  btntime(){
+  
+	   var nowtime = Number($('#dosendbtn').attr('time'));
+        var colorset = '<{$color}>';
+		if(colorset == 'yellow'){
+		    color = '#ff7600';
+		}else if(colorset == 'green'){
+		    color = '#00cd85';
+		}else{
+		    color = '#ff6e6e';
+		}   
+	   if(nowtime > 0){
+	      $('#dosendbtn').attr('disabled',true);
+	      $('#dosendbtn').addClass('signmebg1');
+	      var c = Number(nowtime)-1;
+	       $('#dosendbtn').attr('time',c);
+	       var  mx = 120-(120 - Number(c));
+	        $('#dosendbtn').attr('value','剩余'+mx+'秒');
+             $("#dosendbtn").css("background-color",'#ccc'); 
+	         setTimeout("btntime();",1000);
+	   }else{
+	   	 $('#dosendbtn').attr('disabled',false);
+		 $('#dosendbtn').removeClass('signmebg1');
+         //$("#dosendbtn").css("background-color",color); 
+	   	 $('#dosendbtn').attr('value','重新发送');
+     }
+  
+}
+	
+	
+	
+
+ </script>
+
+
+
+
+
+ <{/block}>

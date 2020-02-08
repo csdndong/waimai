@@ -1,0 +1,116 @@
+<{extends file="<{$tempdir}>/public/wxsite.html"}>
+<{block name=extendcss}>
+<style>
+    html{font-size:62.5%;}
+    body{ -webkit-user-select:none;-webkit-text-size-adjust:none;font-size:18px; background-color:#f0f0f0; position:relative;}
+    body,ul,li,h1,h2,h3,h4,h5,h6,p,img,input,i,b,*{ margin:0px; padding:0px; list-style:none; border:0px;font-size: 100%;color:#666;font-family:'微软雅黑'; outline:none;}
+
+    .hide{ display:none;}
+
+    .titR i, .helpmepick i, .helpmeadded i, .helpmedistime ul li i, .helpmedisweiput i, .processCon i, .meseapplyCon i{ display:inline-block; background-repeat:no-repeat; background-size:100%;}
+    .reportCon{ width:100%; background-color:#fff; overflow:hidden;}
+    .reportCon .reportTit{ padding:0 2.7777%; line-height:47px; border-bottom:1px solid #d6d6d6;}
+    .reportCon .reportTit span{ font-size:1.6rem; color:#333333; margin-left:14px;}
+    .reportCon .reportTit i{ width:23px; height:20px; background-image:url(<{$siteurl}>/templates/<{$tempdir}>/public/images/icon_warning.png); display:inline-block; vertical-align:-2px; background-size:100%;}
+    .reportCon .reportProb{ width:100%;}
+    .reportCon .reportProb ul li{ line-height:43px; padding:0 2.7777%; border-bottom:1px solid #d6d6d6;}
+    .reportCon .reportProb ul li input{ width:16px; height:16px; -webkit-appearance:none; background-image:url(<{$siteurl}>/templates/<{$tempdir}>/public/images/icon_quan01.png); background-size:100%; display:inline-block; vertical-align:-3px;}
+    .reportCon .reportProb ul li .repoaA{ background-image:url(<{$siteurl}>/templates/<{$tempdir}>/public/images/icon_quan02.png);}
+    .reportCon .reportProb ul li span{ font-size:1.4rem; color:#666666; margin-left:10px;}
+    /*--------反馈问题--------*/
+    .reportFeedCon{ width:100%; margin:10px 0; border-top:1px solid #e6e6e6; border-bottom:1px solid #e6e6e6; background-color:#fff; overflow:hidden;}
+    .reportFeedCon .reportFeedText{ padding:10px 2.7777%; overflow:hidden;}
+    .reportFeedCon .reportFeedText textarea{ width:100%; height:100px; font-size:1.2rem; color:#333;}
+    .reportFeedCon .reportFeedInp{ padding:0 2.7777%; border-top:1px solid #e6e6e6; overflow:hidden;}
+    .reportFeedCon .reportFeedInp input{ width:100%; height:46px; font-size:1.2rem; color:#333;}
+    /*--------提交按钮--------*/
+    .recurorder{ width:94.4444%; padding:8px 10px; background-color:#fff; border-top:1px solid #e6e6e6;}
+    .recurorder input{ width:100%; height:34px; background-color:#ff6e6e; color:#fff; font-size:1.4rem; border-radius:3px;}
+</style>
+<{/block}>
+<{block name=extendjs}>
+<script>
+    function saveshopreport(){
+        showLoading();
+        var phone = $("#phone").val();
+        var shopname = $("#shopname").text();
+        var content = $("#content").val();
+        var typeidContent=$(".reportProb ul li input[name='typeidContent']:checked").val();
+        var info = {'typeidContent':typeidContent,'shopname':shopname,'content':content,'phone':phone};
+        var url = '<{ofunc type=url link="/wxsite/saveshopreport/datatype/json"}>';
+        var backdata = ajaxback(url,info);
+        if(backdata.flag == false){
+           
+			newhideLoading();
+			Tmsg('举报成功，请等待管理员处理');
+						 
+								 window.history.back();								 
+						 
+        }else{
+            newhideLoading();
+            Tmsg(backdata.content);
+        }
+    }
+    $(function(){
+        $(".reportProb ul li input").click(function(){
+            var x = $(".reportProb ul li input").index(this);
+            $(".reportProb ul li input").eq(x).addClass("repoaA");
+        });
+        $(".reportProb ul li input").mousedown(function(){
+               // var x = $(".reportProb ul li input").index(this);
+                $(".reportProb ul li input").removeClass("repoaA");
+        });
+    });
+</script>
+<{/block}>
+<{block name=myScrolljs}>
+<script>
+    var myScroll;
+    function loaded() {
+        myScroll = new iScroll('wrapper', {
+            useTransform: false,
+            onBeforeScrollStart: function (e) {
+                var target = e.target;
+                while (target.nodeType != 1) target = target.parentNode;
+
+                if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA')
+                    e.preventDefault();
+            }
+        });
+    }
+    document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
+    document.addEventListener('DOMContentLoaded', function () { setTimeout(loaded, 200); }, false);
+</script>
+
+<{/block}>
+<{block name=sitetitle}><{$sitename}><{/block}>
+<{block name=hearnav}>
+<div class="toptitCon">
+    <div class="toptitBox">
+        <div class="toptitL"  id="myaddress" ><i></i></div>
+        <div class="toptitC"><h3>举报商家</h3></div>
+    </div>
+</div>
+<{/block}>
+<{block name=blockcontent}>
+<div id="wrapper" style="top:40px;">
+    <div id="scroller">
+        <div class="reportCon">
+            <div class="reportTit"><i></i><span id="shopname"><{$shopname}></span></div>
+            <div class="reportProb">
+                <ul>
+                    <{foreach from=$typelist key=mykey item=items}>
+                    <li><input type="radio" name="typeidContent" value="<{$items}>"><span><{$items}></span></li>
+                    <{/foreach}>
+                </ul>
+            </div>
+        </div>
+        <div class="reportFeedCon">
+            <div class="reportFeedText"><textarea id="content" placeholder="输入详细情况，核实后有机会领奖励（必填）"></textarea></div>
+            <div class="reportFeedInp"><input type="text" id="phone" placeholder="输入您的手机号码（必填，此号码仅内部员工可见）"></div>
+        </div>
+        <!-------------------------提交按钮------------------------->
+        <div class="recurorder"><input type="button"  onclick="saveshopreport();" value="确认提交"></div>
+    </div>
+</div>
+<{/block}>

@@ -1,0 +1,217 @@
+ <{extends file="<{$tempdir}>/public/admin.html"}>
+   <{block name=extendjs}>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js"></script>
+ <{/block}>
+ <{block name=controlname}>短信设置<{/block}>
+ <{block name=bodylist}>
+<script>
+$(function(){
+var smst = '<{$smstype}>';
+if(smst == 2){
+	    $('.alidayu').hide();
+		$('.wmr').show();
+	}else{
+	    $('.alidayu').show();
+		$('.wmr').hide();
+	}
+
+})
+function doinfo(){
+    var type = $("#smstype option:selected").val();
+    if(type == 2){
+	    $('.alidayu').hide();
+		$('.wmr').show();
+	}else{
+	    $('.alidayu').show();
+		$('.wmr').hide();
+	}
+}
+</script>
+       <div style="width:auto;overflow-x:hidden;overflow-y:auto;">
+
+          <div id="tagscontent">
+            <form method="post" name="form1" action="<{ofunc type=url link="/adminpage/other/module/smssetsave/datatype/json"}>" onsubmit="return subform('',this);">
+              <div>
+              	<table border="0" cellspacing="2"   class="list" name="table" id="table1" width="100%">
+                  <tbody>
+				  
+				  
+				  
+                     <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                      <td class="left" width="20%">选择短信发送类型</td>   
+                      <td>
+                      	<select name="smstype" id="smstype" onchange="doinfo();">
+                       		   <option value="2" <{if $smstype == 2}>selected<{/if}> ><{$sitename}>短信接口</option>
+							   <option value="1" <{if $smstype == 1}>selected<{/if}> >阿里大于短信接口</option>
+                       </select>
+					   注：若网站未对接阿里大于短信服务，请不要选择阿里大于短信接口
+                       </td>
+                    </tr>
+                    <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff" >
+                      <td class="left">短信签名</td>
+                      <td><input type="text" name="msgqianming" id="msgqianming" value="<{$msgqianming}>" class="skey" style="width:100px;" /> 注：签名中不能含【】</td>
+                    </tr>
+                      
+					
+                      
+					
+				  
+				    <tr class='wmr' onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                      <td class="left">短信ID</td>
+                      <td><input type="text" name="sms86id" id="sms86id" value="<{$apiuid}>" class="skey" style="width:250px;"></td>
+                    </tr>
+					
+                     <tr class='wmr'  onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                      <td class="left">账号</td>
+                      <td><input type="text" name="sms86ac" id="sms86ac" value="<{$sms86ac}>" class="skey" style="width:250px;"></td>
+                    </tr>
+                    <tr  class='wmr'  onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                      <td class="left">密码</td>
+                      <td><input type="password" name="sms86pd" id="sms86pd" value="<{$sms86pd}>" class="skey" style="width:250px;"></td>
+                    </tr>
+                   <tr class='alidayu' onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <td class="left">系统消息【验证码】</td>
+                      <td><input type="text" name="alicode1" id="alicode1" value="<{$alicode1}>" class="skey" style="width:110px;">
+					  您好，尊敬的会员,验证码为：${code}，该验证码3分钟内有效，请勿泄漏于他人。
+					  </td>
+                    </tr>
+					<tr class='alidayu' onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <td class="left">用户注册【验证码】</td>
+                      <td><input type="text" name="alicode2" id="alicode2" value="<{$alicode2}>" class="skey" style="width:110px;">
+					  用户注册，验证码:${code}，该验证码3分钟内有效，请勿泄漏于他人。
+					  </td>
+                    </tr>
+					<tr class='alidayu' onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <td class="left">登录【验证码】</td>
+                      <td><input type="text" name="alicode3" id="alicode3" value="<{$alicode3}>" class="skey" style="width:110px;">
+					  登录，验证码:${code}，该验证码3分钟内有效，请勿泄漏于他人。
+					  </td>
+                    </tr>
+					<tr class='alidayu' onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <td class="left">找回密码【验证码】</td>
+                      <td><input type="text" name="alicode4" id="alicode4" value="<{$alicode5}>" class="skey" style="width:110px;">
+					  找回密码，验证码:${code}，该验证码3分钟内有效，请勿泄漏于他人。
+					  </td>
+                    </tr>
+					<tr class='alidayu' onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <td class="left">更换手机号【验证码】</td>
+                      <td><input type="text" name="alicode5" id="alicode5" value="<{$alicode5}>" class="skey" style="width:110px;">
+					  换绑手机号，验证码:${code}，该验证码3分钟内有效，请勿泄漏于他人。
+					  </td>
+                    </tr>
+					<tr class='alidayu' onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <td class="left">手机快捷登录【验证码】</td>
+                      <td><input type="text" name="alicode6" id="alicode6" value="<{$alicode6}>" class="skey" style="width:110px;">
+					 手机快捷登录，验证码:${code}，该验证码3分钟内有效，请勿泄漏于他人。 
+					  </td>
+                    </tr>
+					<tr class='alidayu' onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <td class="left">更换密码【验证码】</td>
+                      <td><input type="text" name="alicode7" id="alicode7" value="<{$alicode7}>" class="skey" style="width:110px;">
+					  更换密码，验证码:${code}，该验证码3分钟内有效，请勿泄漏于他人。
+					  </td>
+                    </tr>
+					<tr class='alidayu' onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <td class="left">下单【验证码】</td>
+                      <td><input type="text" name="alicode8" id="alicode8" value="<{$alicode8}>" class="skey" style="width:110px;">
+					  下单，验证码:${code}，该验证码3分钟内有效，请勿泄漏于他人。
+					  </td>
+                    </tr>
+					<tr class='alidayu' onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <td class="left">APP用户登录【验证码】</td>
+                      <td><input type="text" name="alicode9" id="alicode9" value="<{$alicode9}>" class="skey" style="width:110px;">
+					  APP用户登录，验证码${code}，该验证码3分钟内有效，请勿泄漏于他人。
+					  </td>
+                    </tr>
+					<tr class='alidayu' onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <td class="left">新绑定手机号【验证码】</td>
+                      <td><input type="text" name="alicode10" id="alicode10" value="<{$alicode10}>" class="skey" style="width:110px;">
+					  新绑定手机号，验证码${code}，该验证码3分钟内有效，请勿泄漏于他人。
+					  </td>
+                    </tr>
+					<tr class='alidayu' onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <td class="left">退款失败通知【短信通知】</td>
+                      <td><input type="text" name="alimsg1" id="alimsg1" value="<{$alimsg1}>" class="skey" style="width:110px;">
+					  抱歉，您提交的退款申请未通过，详情请咨询客服。
+					  </td>
+                    </tr>
+					<tr class='alidayu' onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <td class="left">退款成功【短信通知】</td>
+                      <td><input type="text" name="alimsg2" id="alimsg2" value="<{$alimsg2}>" class="skey" style="width:110px;">
+					  您的退款申请已经处理，请注意查收付款账户！
+					  </td>
+                    </tr>
+					<tr class='alidayu' onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <td class="left">关闭订单通知【短信通知】</td>
+                      <td><input type="text" name="alimsg3" id="alimsg3" value="<{$alimsg3}>" class="skey" style="width:110px;">
+					  编号为${dno}的订单被取消，原因${reason}，取消时间${time}。
+					  </td>
+                    </tr>
+					<tr class='alidayu' onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <td class="left">商家不制作订单通知【短信通知】</td>
+                      <td><input type="text" name="alimsg4" id="alimsg4" value="<{$alimsg4}>" class="skey" style="width:110px;">
+					  您在${sitename}的订单，由于${shopname}太忙，暂时无法接单。请选择其他商家，给您带来不便敬请谅解。
+					  </td>
+                    </tr>
+                    <tr class='alidayu' onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <td class="left">商家制作订单通知【短信通知】</td>
+                      <td><input type="text" name="alimsg5" id="alimsg5" value="<{$alimsg5}>" class="skey" style="width:110px;">
+					 订单${dno}，${shopname}已确认接单，请耐心等待。
+					  </td>
+                    </tr>
+					<tr class='alidayu' onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <td class="left">下单成功通知买家【短信通知】</td>
+                      <td><input type="text" name="alimsg6" id="alimsg6" value="<{$alimsg6}>" class="skey" style="width:110px;">
+					  尊敬的${buyername}，您已在${shopname}下单成功，订单编号${dno}。
+					  </td>
+                    </tr>
+					<tr class='alidayu' onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <td class="left">下单成功通知商家【短信通知】</td>
+                      <td><input type="text" name="alimsg7" id="alimsg7" value="<{$alimsg7}>" class="skey" style="width:110px;">
+					  尊敬的${shopname}，您有新的订单，请及时处理！
+					  </td>
+                    </tr>
+				
+
+
+				    <tr class='alidayu' onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <td class="left">Access Key ID</td>
+                      <td><input type="text" name="aliid" id="aliid" value="<{$aliid}>" class="skey" style="width:200px;">在阿里云控制台获取</td>
+                    </tr>
+					<tr class='alidayu' onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <td class="left">Access Key Secret</td>
+                      <td><input type="text" name="alisecret" id="alisecret" value="<{$alisecret}>" class="skey" style="width:200px;">在阿里云控制台获取</td>
+                    </tr>
+					<tr class='alidayu' onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <td class="left">短信签名</td>
+                      <td><input type="text" name="aliqm" id="aliqm" value="<{$aliqm}>" class="skey" style="width:200px;">
+					  注：该短信签名要与客户在阿里云-云通讯申请的短信签名保证绝对一致
+					  </td>
+                    </tr>   
+                     <tr class='alidayu' onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <td class="left">申请说明</td>
+                      <td> 
+					   公司自有产品外卖平台，在用户注册、登录、更换或找回密码等操作中，为了安全起见需要发送手机验证码，在用户下单过程中，为了给客户提供更好的服务，特申请阿里云短信服务让用户及时得到订单状态的变化信息，外卖平台网站：<{$siteurl}>
+					  </td>
+                    </tr>  				
+                  </tbody>
+                </table>
+               
+              </div>
+              <div class="blank20"></div>
+
+              <input type="hidden" name="tijiao" id="tijiao" value="do" class="skey" style="width:250px;">
+              <input type="hidden" name="saction" id="saction" value="siteset" class="skey" style="width:250px;">
+               <input type="submit" value="确认提交" class="button">
+
+            </form>
+          </div>
+
+         </div>
+     </div>
+ 
+ <style>
+ .left{text-align:right;    padding-right: 10px;}
+ 
+ </style>
+<{/block}>

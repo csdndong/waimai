@@ -1,0 +1,16 @@
+{itemplate 'public/header'}
+<div class="page clearfix">
+	<h2>平台入口</h2>
+	<form class="form-horizontal form form-validate" id="form1" action="" method="post" enctype="multipart/form-data">
+		<input type="hidden" name="op" value="{$op}"/>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">直接链接</label>
+			<div class="col-sm-9 col-xs-12">
+				<p class="form-control-static">
+					<a href="javascript:;" class="js-clip" data-href="{$cover['url']}">{$cover['url']}</a>
+				</p>
+			</div>
+		</div>
+	</form>
+</div>
+{itemplate 'public/footer'}

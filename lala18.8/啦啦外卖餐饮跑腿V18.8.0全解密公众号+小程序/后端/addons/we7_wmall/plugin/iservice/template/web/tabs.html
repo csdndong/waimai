@@ -1,0 +1,27 @@
+<div class="second-sidebar-title">{$_W['_plugin']['title']}</div>
+<div class="nav slimscroll">
+	<div class="menu-header">设置</div>
+	<ul class="menu-item">
+		<li {if $_W['_action'] == 'slide'}class="active"{/if}>
+			<a href="{php echo iurl('iservice/slide');}">幻灯片</a>
+		</li>
+		<li {if $_W['_action'] == 'category'}class="active"{/if}>
+			<a href="{php echo iurl('iservice/category');}">服务分类</a>
+		</li>
+		<li {if $_W['_action'] == 'diypage'}class="active"{/if}>
+			<a href="{php echo iurl('iservice/diypage');}">自定义页面</a>
+		</li>
+		<li {if $_W['_action'] == 'diyshop'}class="active"{/if}>
+			<a href="{php echo iurl('iservice/diyshop');}">页面设置</a>
+		</li>
+	</ul>
+	<div class="menu-header">服务</div>
+	<ul class="menu-item">
+		<li {if $_W['_action'] == 'provider'}class="active"{/if}>
+			<a href="{php echo iurl('iservice/provider');}">服务商</a>
+		</li>
+		<li {if $_W['_action'] == 'service'}class="active"{/if}>
+			<a href="{php echo iurl('iservice/service');}">服务列表</a>
+		</li>
+	</ul>
+</div>

@@ -1,0 +1,82 @@
+<form bindsubmit="onSubmit" reportSubmit="true">
+    <view class="goods-post">
+        <view class="tip">基本信息</view>
+        <view class="zan-panel">
+            <view bind:tap="onSelectGoodsImage" class="zan-cell zan-field goods-img">
+                <view class="zan-cell__hd zan-field__title">商品图片</view>
+                <image src="{{goodsTemp.thumb?goodsTemp.thumb_:'/static/img/add_pic.png'}}"></image>
+            </view>
+            <view class="zan-cell zan-field">
+                <view class="zan-cell__hd zan-field__title">商品名称</view>
+                <input class="zan-field__input zan-cell__bd" name="title" placeholder="请输入商品名称" placeholderClass="zan-field__placeholder" value="{{goodsTemp.title}}"></input>
+            </view>
+            <view class="zan-cell zan-field">
+                <view class="zan-cell__hd zan-field__title">价格</view>
+                <input class="zan-field__input zan-cell__bd" name="price" placeholder="给商品定个好价格" placeholderClass="zan-field__placeholder" value="{{goodsTemp.price}}"></input>
+            </view>
+            <view class="zan-cell zan-field">
+                <view class="zan-cell__hd zan-field__title">餐盒费</view>
+                <input class="zan-field__input zan-cell__bd" name="box_price" placeholderClass="zan-field__placeholder" value="{{goodsTemp.box_price}}"></input>
+            </view>
+            <view class="zan-cell zan-field">
+                <view class="zan-cell__hd zan-field__title">单位</view>
+                <input class="zan-field__input zan-cell__bd" name="unitname" placeholder="份/盘/斤" placeholderClass="zan-field__placeholder" value="{{goodsTemp.unitname}}"></input>
+            </view>
+            <view class="zan-cell zan-field">
+                <view class="zan-cell__hd zan-field__title">标签</view>
+                <input class="zan-field__input zan-cell__bd" maxlength="2" name="label" placeholder="热卖,新品,爆款等,不超过两个字" placeholderClass="zan-field__placeholder" value="{{goodsTemp.label}}"></input>
+            </view>
+        </view>
+        <view class="tip">商品设置</view>
+        <view class="zan-panel goods-setting">
+            <view class="zan-cell zan-cell--access">
+                <view class="zan-cell__bd">商品分类</view>
+                <view class="zan-cell__ft">
+                    <picker bindchange="onSelectCategory" range="{{categorys}}" rangeKey="title" value="{{index}}">
+						{{goodsTemp.category_title?goodsTemp.category_title:'请选择'}}
+					</picker>
+                </view>
+            </view>
+            <view class="zan-cell zan-cell--access">
+                <view class="zan-cell__bd">商品类型</view>
+                <view class="zan-cell__ft">
+                    <picker bindchange="onSelectType" range="{{type}}" rangeKey="title" value="{{index}}">
+						{{goodsTemp.type_title?goodsTemp.type_title:'请选择'}}
+					</picker>
+                </view>
+            </view>
+            <view class="zan-cell zan-cell--switch zan-field">
+                <view class="zan-cell__bd">上架</view>
+                <view class="zan-cell__ft">
+                    <switch bindchange="switch1Change" checked="{{goodsTemp.status==1?true:false}}" color="#33aafc" data-name="status" name="status"></switch>
+                </view>
+            </view>
+            <view class="zan-cell zan-cell--switch zan-field">
+                <view class="zan-cell__bd">热销</view>
+                <view class="zan-cell__ft">
+                    <switch bindchange="switch1Change" checked="{{goodsTemp.is_hot==1?true:false}}" color="#33aafc" data-name="is_hot" name="is_hot"></switch>
+                </view>
+            </view>
+        </view>
+        <view class="tip">商品描述</view>
+        <view class="zan-panel goods-desc">
+            <textarea name="description" placeholder="请输入商品描述" value="{{goodsTemp.description}}"></textarea>
+        </view>
+        <view class="tip">其他信息</view>
+        <view class="zan-panel">
+            <view class="zan-cell zan-field">
+                <view class="zan-cell__hd zan-field__title">总库存</view>
+                <input class="zan-field__input zan-cell__bd" name="total" placeholderClass="zan-field__placeholder" value="{{goodsTemp.total}}"></input>
+            </view>
+            <view class="zan-cell zan-field">
+                <view class="zan-cell__hd zan-field__title">排序</view>
+                <input class="zan-field__input zan-cell__bd" name="displayorder" placeholder="数字越大越靠前" placeholderClass="zan-field__placeholder" value="{{goodsTemp.displayorder}}"></input>
+            </view>
+        </view>
+        <view class="btn-group">
+            <button class="weui-btn" formType="submit" type="primary">保存</button>
+            <button bind:tap="onJsEvent" class="weui-btn" data-confirm="确定删除此商品吗?" data-event-type="jsPost" data-href="manage/goods/index/del?id={{goodsTemp.id}}" data-success-url="/pages/goods/index?cid={{item.cid}}" type="warn" wx:if="{{goodsTemp.id>0}}">删除</button>
+        </view>
+    </view>
+</form>
+<include src="../public/footer.wxml"></include>

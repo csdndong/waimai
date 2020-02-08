@@ -1,0 +1,340 @@
+{itemplate 'public/header'}
+{if $ta == 'index'}
+<div class="page clearfix">
+	<form class="form-horizontal form form-validate" id="form1" action="" method="post" enctype="multipart/form-data">
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span class="require"></span>可提现金额</label>
+			<div class="col-sm-9 col-xs-12">
+				<p class="form-control-static"><strong class="money greenest" style="font-size: 20px">{$account['amount']} </strong> 元</p>
+				{if $account['amount'] < $account['fee_limit']}
+					<div class="help-block">
+						<strong class="text-danger">当前账户余额小于最低提现金额({$account['fee_limit']}元)限制,不能提现</strong>
+					</div>
+				{/if}
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">提现账户</label>
+			<div class="col-sm-12 col-lg-6">
+				<div class="input-group">
+					{if !empty($account['wechat']) && !empty($account['wechat']['realname'])}
+						<div class="radio radio-inline" >
+							<input type="radio" value="weixin" name="channel" id="channel-weixin" {if $channel == 'weixin'}checked{/if}>
+							<label for="channel-weixin" class="toggle-role" data-target="channel-weixin">
+								微信账号: 真实姓名: <strong>{$account['wechat']['realname']}</strong> | 昵称: <strong>{$account['wechat']['nickname']}</strong>
+							</label>
+						</div>
+					{/if}
+					{if !empty($account['alipay']['account']) && !empty($account['alipay']['realname']) && $config['type']['alipay'] == 1}
+						<div class="radio radio-inline" style="margin-left: 0px;">
+							<input type="radio" value="alipay" name="channel" id="channel-alipay" {if $channel == 'alipay'}checked{/if}>
+							<label for="channel-alipay" class="toggle-role" data-target="channel-alipay">
+								支付宝账户: 真实姓名: <strong>{$account['alipay']['realname']}</strong> | 账号: <strong>{$account['alipay']['account']}</strong>
+							</label>
+						</div>
+					{/if}
+					{if !empty($account['bank']['account']) && !empty($account['bank']['realname']) && !empty($account['bank']['id']) && $config['type']['bank'] == 1}
+						<div class="radio radio-inline" style="margin-left: 0px;">
+							<input type="radio" value="bank" name="channel" id="channel-bank" {if $channel == 'bank'}checked{/if}>
+							<label for="channel-bank" class="toggle-role" data-target="channel-bank">
+								银行账户: 开户行: <strong>{$account['bank']['title']}</strong> | 卡号: <strong>{$account['bank']['account']}</strong>
+							</label>
+						</div>
+					{/if}
+					<div style="margin-top: 10px;">
+						<a href="{php echo iurl('store/finance/getcash/account');}">完善提现账户</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span class="require"></span>提现金额</label>
+			<div class="col-sm-12 col-lg-6">
+				<div class="input-group">
+					<input type="text" name="get_fee" value="{$config['get_fee']}" class="form-control" id="get-fee"/>
+					<span class="input-group-addon">元</span>
+				</div>
+				<div class="help-block" id="get-fee-info" style="color: #FF5A5A"></div>
+				<div class="help-block">
+					<strong>最低提现金额: {$account['fee_limit']}元</strong>
+					<br>
+					<strong>服务费收费标准: {$account['fee_rate']}%每笔，最低收取:{$account['fee_min']}元 {if $account['fee_max'] > 0}，最高收取:{$account['fee_max']}元{/if}</strong>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span class="require"></span>手续费</label>
+			<div class="col-sm-12 col-lg-6">
+				<div class="input-group">
+					<input type="number" readonly name="take_fee" value="0" class="form-control" id="take-fee"/>
+					<span class="input-group-addon">元</span>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span class="require"></span>实际到账金额</label>
+			<div class="col-sm-12 col-lg-6">
+				<div class="input-group">
+					<input type="text" readonly name="final_fee" value="0" class="form-control" id="final-fee"/>
+					<span class="input-group-addon">元</span>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<input type="hidden" name="token" value="{$_W['token']}">
+				<input type="submit" value="提交" class="btn btn-primary" disabled="disabled">
+			</div>
+		</div>
+	</form>
+</div>
+<script>
+$(function(){
+	$('#get-fee').keyup(function(){
+		$('#get-fee-info').html('');
+		$('#final-fee').val(0);
+		var take_fee = 0;
+		var amount = "{$account['amount']}";
+		var fee_rate = "{$account['fee_rate']}";
+		var fee_limit = "{$account['fee_limit']}";
+		var fee_max = "{$account['fee_max']}";
+		var fee_min = "{$account['fee_min']}";
+		var reg = /(^[1-9]\d*(\.\d{1,2})?$)|(^0(\.\d{1,2})?$)/;
+		if(!reg.test($(this).val())) {
+			$('form').attr('stop',1);
+			$('#get-fee-info').html('提现金额格式不正确');
+			return false;
+		}
+		var get_fee = parseInt($(this).val());
+		if(get_fee > 0) {
+			if(get_fee > amount) {
+				$('form').attr('stop',1);
+				$('#get-fee-info').html('超出账户可用余额');
+				return false;
+			}
+			if(get_fee < fee_limit) {
+				$('form').attr('stop',1);
+				$('#get-fee-info').html('提现金额低于最低提现金额');
+				return false;
+			}
+			take_fee = (get_fee * (fee_rate / 100)).toFixed(2);
+			take_fee = Math.max(take_fee, fee_min);
+			if(fee_max > 0) {
+				take_fee = Math.min(take_fee, fee_max);
+			}
+			$('#take-fee').val(take_fee);
+			var final_fee = get_fee - take_fee;
+			if(final_fee < 0 ) {
+				final_fee = 0;
+			}
+			$('#final-fee').val(final_fee);
+			$('input[type="submit"]').removeAttr('disabled');
+		}
+	});
+
+	$('#form1').submit(function(){
+		var get_fee = parseInt($('#get-fee').val());
+		if(!get_fee) {
+			$('form').attr('stop',1);
+			Notify.info('请输入提现金额');
+			return false;
+		}
+		$('form').attr('stop',0);
+	});
+});
+</script>
+{/if}
+
+{if $ta == 'account'}
+<div class="page clearfix">
+	<form class="form-horizontal form form-validate" id="form1" action="" method="post" enctype="multipart/form-data">
+		<ul class="nav nav-tabs" role="tablist">
+			<li role="presentation" {if $_GPC['type'] == 'wxapp' || !$_GPC['type']}class="active"{/if}><a href="#wxapp" aria-controls="wxapp" role="tab" data-toggle="pill">微信账户</a></li>
+			<li role="presentation" {if $_GPC['type'] == 'bank'}class="active"{/if}><a href="#bank" aria-controls="bank" role="tab" data-toggle="pill">银行账户</a></li>
+			<li role="presentation" {if $_GPC['type'] == 'alipay'}class="active"{/if}><a href="#alipay" aria-controls="alipay" role="tab" data-toggle="pill">支付宝账户</a></li>
+		</ul>
+		<div class="tab-content">
+			<div class="tab-pane {if $_GPC['type'] == 'wxapp' || !$_GPC['type']}active{/if}" role="tabpanel" id="wxapp">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">微信昵称</label>
+					<div class="col-sm-9 col-xs-12">
+						{php echo tpl_form_field_fans('wechat', $account['wechat'], 'getcash', true);}
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">姓名</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="wechat[realname]" value="{$account['wechat']['realname']}" class="form-control" placeholder="微信实名认证姓名" required="true"/>
+						<div class="help-block">请仔细填写账户信息，如果由于您填写错误导致资金流失，平台概不负责</div>
+					</div>
+				</div>
+			</div>
+			<div class="tab-pane {if $_GPC['type'] == 'bank'}active{/if}" role="tabpanel" id="bank">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">银行</label>
+					<div class="col-sm-9 col-xs-12">
+						<select class="form-control tpl-category-parent" name="bank_id">
+							<option value="0">请选择开户行</option>
+							{loop $bank_list $val}
+							<option value="{$val['id']}" {if $account['bank']['id'] == $val['id']}selected{/if}>{$val['title']}</option>
+							{/loop}
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">银行卡号</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="number" class="form-control" name="bank[account]" value="{$account['bank']['account']}">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">开户人姓名</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" class="form-control" name="bank[realname]" value="{$account['bank']['realname']}">
+					</div>
+				</div>
+			</div>
+			<div class="tab-pane {if $_GPC['type'] == 'alipay'}active{/if}" role="tabpanel" id="alipay">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">支付宝姓名</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" class="form-control" name="alipay[realname]" value="{$account['alipay']['realname']}">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">支付宝账号</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" class="form-control" name="alipay[account]" value="{$account['alipay']['account']}">
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-9 col-xs-9 col-md-9">
+					<input type="hidden" name="token" value="{$_W['token']}">
+					<input type="submit" value="提交" class="btn btn-primary">
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+<script>
+$(function(){
+	$('#form-account').submit(function(){
+		if(!$.trim($('input[name="wechat[openid]"]').val())) {
+			util.message('微信昵称不能为空');
+			return false;
+		}
+		if(!$.trim($(':text[name="wechat[realname]"]').val())) {
+			util.message('微信实名认证姓名不能为空');
+			return false;
+		}
+		return true;
+	});
+});
+</script>
+{/if}
+
+{if $ta == 'log'}
+<form action="./wmerchant.php" class="form-horizontal form-log">
+	{php echo tpl_form_filter_hidden('store/finance/getcash/log');}
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">提现状态</label>
+		<div class="col-sm-9 col-xs-12">
+			<div class="btn-group">
+				<a href="{php echo ifilter_url('status:0');}" class="btn {if $status == 0}btn-primary{else}btn-default{/if}">不限</a>
+				<a href="{php echo ifilter_url('status:2');}" class="btn {if $status == 2}btn-primary{else}btn-default{/if}">申请中</a>
+				<a href="{php echo ifilter_url('status:1');}" class="btn {if $status == 1}btn-primary{else}btn-default{/if}">提现成功</a>
+			</div>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">提现渠道</label>
+		<div class="col-sm-9 col-xs-12">
+			<div class="btn-group">
+				<a href="{php echo ifilter_url('channel:' . '');}" class="btn {if $channel == ''}btn-primary{else}btn-default{/if}">全部</a>
+				{loop $channels $getcash_channel}
+				<a href="{php echo ifilter_url('channel:' . $getcash_channel['type']);}" class="btn {if $channel == $getcash_channel['type']}btn-primary{else}btn-default{/if}">{$getcash_channel['text']}</a>
+				{/loop}
+			</div>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">其他</label>
+		<div class="col-sm-9 col-xs-12">
+			<div class="js-daterange" data-form=".form-log">
+				{php echo tpl_form_field_daterange('addtime', array('start' => date('Y-m-d H:i', $starttime), 'end' => date('Y-m-d H:i', $endtime)), true);}
+			</div>
+		</div>
+	</div>
+</form>
+<form action="" class="form-table form" method="post">
+	<div class="panel panel-table">
+		<div class="panel-body table-responsive js-table">
+			<table class="table table-hover">
+				<thead class="navbar-inner">
+				<tr>
+					<th>申请时间|订单号</th>
+					<th>账户</th>
+					<th>提现金额</th>
+					<th>手续费</th>
+					<th>到账金额</th>
+					<th>交易状态</th>
+					<th>提现渠道</th>
+				</tr>
+				</thead>
+				<tbody>
+				{loop $records $record}
+				<tr>
+					<td>
+						{php echo date('Y-m-d H:i', $record['addtime']);}
+						<br>
+						{$record['trade_no']}
+					</td>
+					<td>
+						{if $record['channel'] == 'weixin' || $record['channel'] == 'wxapp'}
+						<img src="{$record['account']['avatar']}" width="50" alt=""/>
+						<br>
+						<span class="label label-info label-br">昵称:{$record['account']['nickname']}</span>
+						<br>
+						<span class="label label-info label-br">姓名:{$record['account']['realname']}</span>
+						{elseif $record['channel'] == 'alipay'}
+						<span class="label label-info label-br">姓名:{$record['account']['realname']}</span><br>
+						<span class="label label-info label-br">支付宝账号:{$record['account']['account']}</span>
+						{elseif $record['channel'] == 'bank'}
+						<span class="label label-info label-br">姓名:{$record['account']['realname']}</span><br>
+						<span class="label label-info label-br">银行卡:{$record['account']['title']} {$record['account']['account']}</span>
+						{/if}
+					</td>
+					<td>{$record['get_fee']}元</td>
+					<td>{$record['take_fee']}元</td>
+					<td>{$record['final_fee']}元</td>
+					<td>
+						{if $record['status'] == 2}
+							<span class="label label-danger">申请中</span>
+						{elseif $record['status'] == 1}
+							<span class="label label-success">提现成功</span>
+							<br>
+							<span class="label label-info label-br">完成时间: {php echo date('Y-m-d H:i', $record['endtime'])}</span>
+						{elseif $record['status'] == 3}
+							<span class="label label-warning">已取消</span>
+							<br>
+							<span class="label label-info label-br">取消时间: {php echo date('Y-m-d H:i', $record['endtime'])}</span>
+						{/if}
+					</td>
+					<td>
+						{if $record['channel'] == 'weixin' || $record['channel'] == 'wxapp'}
+						<span class="{$channels['weixin']['css']}">{$channels['weixin']['text']}</span>
+						{else}
+						<span class="{$channels[$record['channel']]['css']}">{$channels[$record['channel']]['text']}</span>
+						{/if}
+					</td>
+				</tr>
+				{/loop}
+				</tbody>
+			</table>
+			{$pager}
+		</div>
+	</div>
+</form>
+{/if}
+{itemplate 'public/footer'}

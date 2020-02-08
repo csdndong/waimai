@@ -1,0 +1,272 @@
+.app-preview{float: left; width: 328px; border: 1px solid #ddd; border-radius: 10px; background: #fff; padding: 10px; overflow: hidden; margin-bottom: 100px;}
+.app-preview .app-header{height: 44px; background: #fff; position: relative;}
+.app-preview .app-header:before{content: ""; position: absolute; top: 15px; left: 112px; height: 8px; width: 8px; background: #ddd; border-radius: 8px;}
+.app-preview .app-header:after{content: ""; position: absolute; top: 15px; left: 128px; height: 8px; width: 50px; background: #ddd; border-radius: 8px;}
+.app-preview .title{height: 61px; background: url(../img/titlebar.png) 0 0 no-repeat; background-size: 100% auto; padding: 0 50px; font-size: 15px; color: #fff; text-align: center; line-height: 61px; cursor: default; overflow: hidden; display: block; white-space: nowrap; text-overflow: ellipsis;}
+.app-preview .main{position: relative; overflow: hidden; min-height: 400px; border: 1px solid #ddd; border-top: 0;}
+.app-preview .app-footer{height: 24px; width: 60px; margin: 15px auto 5px; border: 1px solid #ddd; border-radius: 5px;}
+#mealModal{display: block; width: 100%; margin: 0 0 40px 0; left: 0; right: 0; top: 10px; position: relative; overflow: visible;
+	background: #f5f5f5;}
+
+.app-editor{float: left; width: 600px; background: #fdfdfd; padding: 15px 10px; margin-left: 18px; border: 1px solid #ddd; border-radius: 5px; margin-top: 55px; margin-bottom: 100px;}
+.app-editor .editor-arrow{height: 0; position: relative;}
+.app-editor .editor-arrow:before{position: absolute; font-family: simsun; content: "◆"; top: 8px; left: -21px; display: block; width: 9px; height: 18px; font-size: 24px; color: #fdfdfd; z-index: 111;}
+.app-editor .editor-arrow:after{position: absolute; font-family: simsun; content: "◆"; top: 8px; left: -22px; color: #ddd; z-index: 11; display: block; width: 9px; height: 18px; font-size: 24px;}
+.app-editor .line{height: 10px; width: 100%; position: relative; margin: 5px 0;}
+.app-editor .line:before{height: 0; content: ''; position: absolute; bottom: 5px; left: 14px; right: 14px; border: 1px dashed #eee;}
+.app-editor .list-item{padding: 10px 0; background: #fff; border: 1px solid #e7eaec; border-radius: 3px;}
+.app-editor .form-group{border: 0; margin: 10px 0; padding: 0;}
+.app-editor .control-label{padding: 5px 0; text-align: right}
+.app-editor .form-items{margin: 0 14px;}
+.app-editor .form-items .col-sm-10.color{padding-right: 0;}
+.app-editor .form-items .item{background: #fff; padding: 10px; margin-bottom: 10px; overflow: hidden; border: 1px solid #e7eaec; border-radius: 3px;}
+.app-editor .form-items .item .item-image{height: 70px; min-width: 40px; max-width: 220px; background: #eee; float: left; margin-right: 10px; border: 1px solid #e7eaec; position: relative;}
+.app-editor .form-items .item .item-image img{height: 68px; max-width: 220px; display: block;}
+#app-editor .form-items .item .item-image .text{height: 20px; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); color: #fff; text-align: center; font-size: 12px; line-height: 20px; position: absolute; cursor: pointer;}
+.app-editor .form-items .item .btn-del{height: 0; width: 100%; display: block; position: relative;}
+.app-editor .form-items .item .btn-del:before{content: "×"; position: absolute; height: 16px; width: 16px; text-align: center; line-height: 14px; color: #fff; cursor: pointer; background: rgba(0,0,0,0.3); border-radius: 16px; top: -6px; right: -6px; z-index: 10;}
+.app-editor .form-items .item .input-group{margin-bottom: 0;}
+.app-editor .form-items .item .hour a.hour-add{position: relative; top: 5px;}
+.app-editor .form-items .item .hour a.hour-del{top: 11px;}
+.app-editor .form-items .item .hour-del:before{content: "×"; position: absolute; height: 16px; width: 16px; text-align: center; line-height: 14px; color: #fff; cursor: pointer; background: rgba(0,0,0,0.3); border-radius: 16px; top: -6px; right: -6px; z-index: 10;}
+.app-editor .form-items .item .category-container .col-sm-3{padding-left: 0;}
+.app-editor .form-items .item .category-container .category-item{position: relative; height: 80px; border: 1px solid #eee; margin-bottom: 10px;}
+.app-editor .form-items .item .category-container .category-item img{width: 100%; height: 80px;}
+.app-editor .form-items .item .category-container .category-item .title{position: absolute; height: 20px;left: 0; right: 0;bottom: -1px; background: rgba(0,0,0,0.5); color: #fff; text-align: center; font-size: 12px; line-height: 20px; cursor: pointer;}
+.app-editor .list-item .uid-container{padding: 0 14px; margin: 10px 0;}
+.app-editor .list-item .uid-container textarea{resize: none;}
+.app-action{width: 946px; background: #fdfdfd; left: 245px; border: 1px solid #ddd; border-radius: 3px; position: fixed; bottom: 0;  box-shadow: 0 0 8px rgba(0,0,0,0.1); z-index: 2000;}
+.app-action .action{padding: 10px; text-align: right; position: relative; font-size: 12px;}
+
+/*套餐红包样式*/
+#mealModal .flex-lr{
+	display: flex;
+	flex-flow: row nowrap;
+	align-items: center;
+	justify-content: space-between;
+}
+#mealModal .flex{
+	display: flex;
+	align-items: center;
+}
+#mealModal .ellipsis{
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+#mealModal .color-main{
+	color: #ff000f;
+}
+#mealModal .info{
+	background-color: #fff;
+}
+#mealModal .info .meal-info{
+	width: 100%;
+	background: url("../img/meal_title_bg.png") no-repeat top left/100% 100%;
+	text-align: center;
+	padding-bottom: 15px;
+}
+#mealModal .info .meal-info .tip{
+	font-size: 14px;
+	color: #997521;
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	padding: 60px 20px 20px 0;
+}
+#mealModal .info .meal-info .tip img{
+	width: 14px;
+	hegiht: 14px;
+}
+#mealModal .info .meal-info .meal-title{
+	font-size: 25px;
+	font-weight: 600;
+	color: #815A00;
+	font-family: '黑体';
+}
+#mealModal .info .meal-info .contain{
+	margin: 10px 0 20px;
+	color: #97731D;
+}
+#mealModal .info .meal-info .btn-buy{
+	height: 40px;
+	display: inline-flex;
+	align-items: center;
+	border-radius: 40px;
+	padding: 0 15px;
+	color: #97731D;
+	border: 1px solid #ffdee3;
+}
+#mealModal .info .meal-info .btn-buy .renminbi{
+	font-size: 12px;
+}
+#mealModal .info .meal-info .btn-buy .price{
+	font-size: 18px;
+	padding-right: 10px;
+}
+#mealModal .info .meal-info .btn-buy.haved{
+	background-color: #927D52;
+	color: #ffdee3;
+}
+#mealModal .info .use-limit{
+	padding: 10px 10px;
+	font-size: 13px;
+	color: #A99667;
+	box-sizing: border-box;
+}
+#mealModal .info .use-limit .limit-item{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	box-sizing: border-box;
+	max-width: 33.33%;
+}
+#mealModal .info .use-limit .limit-item img{
+	width: 40px;
+	height: 40px;
+}
+#mealModal .info .use-limit .limit-item .img{
+	position: relative;
+}
+#mealModal .info .use-limit .limit-item .img span{
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: #fff;
+}
+#mealModal .info .use-limit .limit-item .txt{
+	box-sizing: border-box;
+	width: 100%;
+	padding: 0 5px;
+}
+#mealModal .detail{
+	background-color: #fff;
+	margin-top: 10px;
+}
+#mealModal .detail .detail-title{
+	padding: 10px 10px;
+	color: #999;
+	font-size: 14px;
+}
+#mealModal .detail .detail-title .avail-num span{
+	color: #333;
+	font-size: 16px;
+}
+#mealModal .detail .redpacket-list{
+	box-sizing: border-box;
+	padding: 5px;
+	display: flex;
+	flex-flow: row wrap;
+}
+#mealModal .detail .redpacket-list .item-wrap{
+	box-sizing: border-box;
+	width: 50%;
+	padding: 5px;
+}
+#mealModal .detail .redpacket-list .item-wrap .redpacket-item{
+	padding: 10px;
+	background: url("../img/meal_redpacket_useful.png") no-repeat top left/100% 100%;
+	display: flex;
+	flex-flow: column nowrap;
+	justify-content: space-between;
+	font-size: 12px;
+	color: #999;
+}
+#mealModal .detail .redpacket-list .item-wrap .redpacket-item .name{
+	color: #333;
+	font-size: 15px;
+}
+#mealModal .detail .redpacket-list .item-wrap .redpacket-item .price span{
+	font-size: 20px;
+}
+#mealModal .detail .redpacket-list .item-wrap .redpacket-item .bottom{
+	margin-top: 10px;
+}
+#mealModal .detail .redpacket-list .item-wrap .redpacket-item.used{
+	background: url("../img/meal_redpacket_used.png") no-repeat top left/100% 100%;
+	color: #ccc;
+}
+#mealModal .detail .redpacket-list .item-wrap .redpacket-item.used .name,#mealModal .detail .redpacket-list .item-wrap .redpacket-item.used .price,#mealModal .detail .redpacket-list .item-wrap .redpacket-item.used .use-condition{
+	color: #ccc;
+}
+#mealModal .detail .exchange-list{
+	padding: 0 10px;
+}
+#mealModal .detail .exchange-list .exchange-item{
+	position: relative;
+	background: url("../img/meal_exchange.png") no-repeat top left/100% 100%;
+	margin-bottom: 10px;
+}
+#mealModal .detail .exchange-list .exchange-item .store{
+	width: 65%;
+	padding: 10px 10px 10px 15px;
+}
+#mealModal .detail .exchange-list .exchange-item .store .stars .appr-score {
+	display: inline-block;
+	background: url(//xs01.meituan.net/waimai_i/img/sprite/newstars.ae33dbae.png) no-repeat;
+	background-size: cover;
+	width: 10px;
+	height: 10px;
+	float: left;
+	margin-right: 4px;
+	background-position: 0 0;
+}
+#mealModal .detail .exchange-list .exchange-item .store .stars .appr-score-half {
+	background-position: -13px 0;
+}
+#mealModal .detail .exchange-list .exchange-item .store .stars .appr-score-gray {
+	background-position: -27px 0!important;
+}
+#mealModal .detail .exchange-list .exchange-item .store .star{
+	font-size: 13px;
+	color: #6F6E6B;
+	margin-left: 5px;
+}
+#mealModal .detail .exchange-list .exchange-item .store .activity{
+	font-size: 14px;
+	color: #6F6E6B;
+}
+#mealModal .detail .exchange-list .exchange-item .store .activity img{
+	width: 16px;
+	height: 16px;
+	margin-right: 5px;
+}
+#mealModal .detail .exchange-list .exchange-item .price{
+	width: 31%;
+	padding-right: 24px;
+	text-align: center;
+	color: #ff000f;
+	font-size: 14px;
+}
+#mealModal .detail .exchange-list .exchange-item .price span{
+	font-size: 30px;
+	font-weight: 500;
+	padding-left: 5px;
+}
+#mealModal .detail .exchange-list .exchange-item .price p{
+	margin-top: 10px;
+	color: #6F6E6B;
+}
+#mealModal .detail .exchange-list .exchange-item .exchange{
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	width: 24px;
+	line-height: 1.5;
+	text-align: center;
+	display: flex;
+	flex-flow: column nowrap;
+	justify-content: center;
+	align-items: center;
+	border-radius: 0 5px 5px 0;
+	font-size: 12px;
+	color: #fff;
+	background-color: #F12845;
+}

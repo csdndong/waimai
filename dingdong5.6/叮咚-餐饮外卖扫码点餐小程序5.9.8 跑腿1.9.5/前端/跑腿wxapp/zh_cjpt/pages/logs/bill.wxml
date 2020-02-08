@@ -1,0 +1,6 @@
+<view>
+    <view class="pa fon_30 t_c">{{NoticeDetails.question}}</view>
+    <view class="pa fon_24">
+        <rich-text nodes="{{NoticeDetails.answer}}"></rich-text>
+    </view>
+</view>

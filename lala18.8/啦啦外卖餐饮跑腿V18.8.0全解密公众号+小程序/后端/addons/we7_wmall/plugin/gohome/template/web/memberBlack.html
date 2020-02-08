@@ -1,0 +1,73 @@
+{itemplate 'public/header'}
+{if $op == 'list'}
+<form action="./index.php" class="form-horizontal form-filter" id="form1">
+	{php echo tpl_form_filter_hidden('gohome/memberBlack');}
+	<div class="form-group form-inline">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">筛选</label>
+		<div class="col-sm-9 col-xs-12">
+			<input class="form-control" name="keyword" id="" type="text" value="{$_GPC['keyword']}" placeholder="请输入用户昵称/姓名/UID">
+		</div>
+	</div>
+	<div class="form-group" style="border-bottom: none">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+		<div class="col-sm-9 col-xs-12">
+			<button class="btn btn-primary">筛选</button>
+		</div>
+	</div>
+</form>
+<form action="" class="form-table form" method="post">
+	<div class="panel panel-table">
+		<div class="panel-body table-responsive js-table">
+			{if empty($member_black)}
+			<div class="no-result">
+				<p>还没有相关数据</p>
+			</div>
+			{else}
+			<table class="table table-hover">
+				<thead>
+				<tr>
+					<th>用户UID</th>
+					<th>用户昵称</th>
+					<th>限制访问</th>
+					<th>备注</th>
+					<th>加入黑名单时间</th>
+					<th style="width:400px; text-align:right;">操作</th>
+				</tr>
+				</thead>
+				<tbody>
+				{loop $member_black $item}
+				<tr>
+					<td>
+						{$item['uid']}
+					</td>
+					<td>
+						<img src="{php echo tomedia($item['avatar']);}" alt="" width="50"/>
+						{$item['nickname']}
+					</td>
+					<td>
+						{$limit_visit[$item['plugin']]}
+					</td>
+					<td>
+						{$item['remark']}
+					</td>
+					<td>
+						{php echo date('Y-m-d H:i', $item['addtime'])}
+					</td>
+					<td style="text-align:right;">
+						<a href="{php echo iurl('gohome/memberBlack/del', array('uid' => $item['uid'], 'type' => $item['plugin']))}" class="btn btn-danger btn-sm js-post" data-confirm="确定移出黑名单吗?">移出黑名单</a>
+					</td>
+				</tr>
+				{/loop}
+				</tbody>
+			</table>
+			<div class="btn-region clearfix">
+				<div class="pull-right">
+					{$pager}
+				</div>
+			</div>
+			{/if}
+		</div>
+	</div>
+</form>
+{/if}
+{itemplate 'public/footer'}

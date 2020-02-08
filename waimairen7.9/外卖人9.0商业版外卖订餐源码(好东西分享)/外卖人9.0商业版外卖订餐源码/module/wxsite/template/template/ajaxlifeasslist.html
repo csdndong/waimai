@@ -1,0 +1,24 @@
+<{if !empty($noticelist) }>
+ 
+<div class="doorCon">
+	<ul>
+		<{foreach from=$noticelist item=items }>
+		
+    	<li onclick="dolink('<{ofunc type=url link="/wxsite/lifeass/id/<{$items['id']}>"}>');" >
+        	<div  style="width:90px;height:90px;" class="doorImg"><img style="width:90px;height:90px;" src="<{$items['img']}>"></div>
+            <div class="doortit">
+            	<h3><{$items['title']}></h3>
+                <span><{$items['describe']}></span>
+            </div>
+        </li>
+        <{/foreach}>
+    </ul>
+</div>
+<script>
+
+$(function(){ 
+ $(".doorCon li .doortit").css({'width':noticetitwidth+'px'});
+    
+}); 
+</script>
+<{/if}>

@@ -1,0 +1,171 @@
+{itemplate 'public/header'}
+<link rel="stylesheet" href="../addons/we7_wmall/plugin/wheel/static/css/index.css" />
+<div class="page page-wheel">
+	<input type="hidden" name="wheel_id" value="{$id}"/>
+	<input type="hidden" name="order_id" value="{$extra['order_id']}"/>	
+	<div class="bg-wheel">
+		<div class="content-wheel">
+			<div class="wheel-item item-1" >
+				<img class="wheel-img" src="{$wheel_data['data']['one']['imgurl']}">
+				<span class="wheel-text" style="color: {$wheel_data['data']['one']['color']}">{$wheel_data['data']['one']['text']}</span>
+			</div>
+			<div class="wheel-item item-2">
+				<img class="wheel-img" src="../addons/we7_wmall/plugin/wheel/static/img/huigu.png">
+				<span class="wheel-text">谢谢惠顾</span>
+			</div>
+			<div class="wheel-item item-3">
+				<img class="wheel-img" src="../addons/we7_wmall/plugin/wheel/static/img/huigu.png">
+				<span class="wheel-text">谢谢惠顾</span>
+			</div>
+			<div class="wheel-item item-8">
+				<img class="wheel-img" src="../addons/we7_wmall/plugin/wheel/static/img/huigu.png">
+				<span class="wheel-text">谢谢惠顾</span>
+			</div>
+			<div class="wheel-item item-9 start-draw">
+				<span class="draw-click">点击抽奖</span>
+				<span class="draw-go"><strong>GO!</strong></span>
+			</div>
+			<div class="wheel-item item-4">
+				<img class="wheel-img" src="{$wheel_data['data']['two']['imgurl']}">
+				<span class="wheel-text" style="color: {$wheel_data['data']['two']['color']}">{$wheel_data['data']['two']['text']}</span>
+			</div>
+			<div class="wheel-item item-7">
+				<img class="wheel-img" src="{$wheel_data['data']['three']['imgurl']}">
+				<span class="wheel-text" style="color: {$wheel_data['data']['three']['color']}">{$wheel_data['data']['three']['text']}</span>
+			</div>
+			<div class="wheel-item item-6">
+				<img class="wheel-img" src="../addons/we7_wmall/plugin/wheel/static/img/huigu.png">
+				<span class="wheel-text">谢谢惠顾</span>
+			</div>
+			<div class="wheel-item item-5">
+				<img class="wheel-img" src="../addons/we7_wmall/plugin/wheel/static/img/huigu.png">
+				<span class="wheel-text">谢谢惠顾</span>
+			</div>
+		</div>
+		<div class="info-wrap">
+			<div class="wrap-head"><a href="{php echo imurl('wheel/activity/record', array(), true);}" style="color: #000;">查看奖品</a></div>
+			<div class="wrap-text">
+				<div class="wrap-inner">
+					1.活动有效时间：
+					<span class="activity-info-content">{$wheel_data['params']['starttime']}~{$wheel_data['params']['endtime']}</span>
+				</div>
+				<div class="wrap-inner">
+					2.活动说明：
+					<span class="activity-info-content">
+						{loop $wheel_data['params']['desc'] $desc}
+							{$desc} </br>
+						{/loop}
+					</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	require(['tiny'], function(tiny){
+		var index = 1, //当前选中对象的位置
+				fast, //在哪个位置开始加速
+				num = 8, //共有多少个抽奖对象,
+				num_t = 4,
+				cycle, //转动多少圈
+				speed = 100, //开始时速度
+				flag = false, //正在抽奖标志
+				lucky, //中奖号码，实际应用由后台产生
+				award; //奖品名称
+		var cycle_default = 0;
+
+		function rand(Min, Max) {
+			var Range = Max - Min;
+			var Rand = Math.random();
+			return(Min + Math.round(Rand * Range));
+		}
+
+		$('.start-draw').click(function(){
+			var $this = $(this);
+			if($(this).hasClass('disabled')) {
+				return false;
+			}
+			if(flag) {
+				return false;
+			}
+			index = 1;              //当前选中对象的位置
+			fast = rand(5, 6);      //在哪个位置开始加速
+			cycle_default = cycle = rand(3, 5);      //转动多少圈
+			speed = 300;            //开始时速度
+			$this.addClass("disabled");
+			flag = true;
+			var wheel_id = $('input[name="wheel_id"]').val();
+			var order_id = $('input[name="order_id"]').val();
+			$.post(tiny.getUrl('wheel/activity/index'), {id: wheel_id, order_id: order_id}, function(data){
+				$this.removeClass("disabled");
+				var result = $.parseJSON(data);
+				if(result.message.errno == 0) {
+					luckNumber = lucky = result.message.luckyNum;
+					if(lucky == '1' || lucky == '4' || lucky == '7') {
+						prizeType = result.message.award.type;
+						awardId = result.message.id;
+					}
+					prizenote = result.message.message;
+					$('.content-wheel .wheel-item').eq(0).addClass('active').siblings().removeClass('active');
+					show_lottery();
+				} else {
+					$.toast(result.message.message);
+				}
+			});
+			return false;
+		});
+
+		//抽奖效果展示
+		function show_lottery() {
+			if (index > num) {
+				index = 1;
+				cycle--;
+			}
+			var c = num + 1;
+			var cycle_stop = lucky - num_t >= 0 ? 0 : 1;
+			var t_index = lucky - num_t >= 0 ? lucky - num_t > 0 ? lucky - num_t : 1 : c + (lucky - num_t);
+			var activeIndex = index - 1;
+			if(activeIndex != 1 && activeIndex != 4 && activeIndex != 7) {
+				$('.item-' + activeIndex).children('img').attr('src', '../addons/we7_wmall/plugin/wheel/static/img/huigu.png');
+				if(activeIndex == 0 && cycle != cycle_default) {
+					$('.item-8').children('img').attr('src', '../addons/we7_wmall/plugin/wheel/static/img/huigu.png');
+				}
+			}
+			$('.item-' + index).addClass("active").siblings().removeClass('active');
+			if(index != 1 && index != 4 && index != 7) {
+				$('.item-' + index).children('img').attr('src', '../addons/we7_wmall/plugin/wheel/static/img/huigu-active.png');
+			}
+			if (index > fast && cycle == cycle_default) {
+				speed = 100;//开始加速
+			}
+			if ((cycle == cycle_stop && index >= t_index) || cycle < cycle_stop) {
+				speed = speed + 200;//开始减速
+			}
+			if (cycle <= 0 && index == lucky) {//结束抽奖，选中号码
+				clearTimeout(lottery);
+				setTimeout(function () {
+					luck();
+				}, 1000);
+				flag = false;
+			} else {
+				index++;
+				lottery = setTimeout(show_lottery, speed);
+			}
+		}
+
+		function luck() {
+			$.toast(prizenote);
+			luckNumber = 0;
+			flag = false;
+			prizeType = 0;
+			prizenote = '';
+			$('.content-wheel .wheel-item').removeClass('active');
+			if(lucky != 1 && lucky != 4 && lucky != 7) {
+				$('.item-' + lucky).children('img').attr('src', '../addons/we7_wmall/plugin/wheel/static/img/huigu.png');
+			}
+		}
+	})
+</script>
+{itemplate 'public/footer'}
+

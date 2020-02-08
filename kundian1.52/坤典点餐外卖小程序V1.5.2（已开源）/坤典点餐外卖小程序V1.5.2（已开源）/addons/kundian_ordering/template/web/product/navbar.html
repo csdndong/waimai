@@ -1,0 +1,16 @@
+<ul class="nav nav-tabs">
+    <li {if $op=='product_list'}class="active"{/if} >
+        <a href="{url 'site/entry/product',array('m'=>'kundian_ordering','version_id'=>$_GPC['version_id'])}">商品管理</a>
+    </li>
+    <li {if $op=='product_type_list'}class="active"{/if} >
+        <a href="{url 'site/entry/product',array('m'=>'kundian_ordering','op'=>'product_type_list','version_id'=>$_GPC['version_id'])}">外卖分类</a>
+    </li>
+
+    <li {if $op=='goods_list'}class="active"{/if} >
+        <a href="{url 'site/entry/goods',array('m'=>'kundian_ordering','op'=>'goods_list','version_id'=>$_GPC['version_id'])}">点餐商品管理</a>
+    </li>
+    <li {if $op=='goods_type_list'}class="active"{/if} >
+        <a href="{url 'site/entry/goods',array('m'=>'kundian_ordering','op'=>'goods_type_list','version_id'=>$_GPC['version_id'])}">点餐分类</a>
+    </li>
+
+</ul>

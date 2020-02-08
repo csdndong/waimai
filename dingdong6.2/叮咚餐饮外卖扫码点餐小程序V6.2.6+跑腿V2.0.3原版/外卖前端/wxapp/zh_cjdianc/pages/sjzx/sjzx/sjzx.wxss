@@ -1,0 +1,17 @@
+.head{ width: 100%; height: 300rpx; color: #fff; position: relative; }
+.sycs{position: absolute;top: 30rpx;right: 30rpx;font-size: 25rpx;text-align: center;}
+.sycsv1{display: flex;flex-direction: row;align-items: center;justify-content: center;margin-top: 10rpx;}
+.sycsimage{width: 35rpx;height: 35rpx;margin-right: 20rpx;}
+.headimage{ width: 120rpx; height: 120rpx; margin-top: 30rpx; border-radius: 50%; border: 4rpx solid #fff; }
+.head .name{ margin-top: 20rpx; }
+.weui-select{ border-right: 0; font-size: 26rpx; }
+.weui-cells{ font-size:30rpx; margin-top: 20rpx; }
+.weui-cell{ padding: 20rpx 30rpx; }
+.weui-cell:before { border-top: 1rpx solid #efeff4; }
+.weui-cell__hd{ display: flex; justify-content: flex-start; align-items: center; }
+.weui-cell__hd image{ min-width: 40rpx; width: 40rpx; height: 40rpx; margin-right: 20rpx; }
+.wx-switch-input{width:45px !important;height:24px !important;}
+.wx-switch-input::before{width:44px !important;height: 24px !important;}
+.wx-switch-input::after{width: 22px !important;height: 22px !important;}
+.weui-btn-area{ margin: 50rpx 30rpx 30rpx; }
+.weui-btn-area .weui-btn{ font-size: 33rpx; }

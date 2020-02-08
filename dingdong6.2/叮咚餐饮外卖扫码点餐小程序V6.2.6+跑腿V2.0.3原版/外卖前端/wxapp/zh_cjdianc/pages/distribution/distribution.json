@@ -1,0 +1,6 @@
+{
+    "navigationBarTitleText": "我的佣金",
+    "usingComponents": {
+        "cardlist": "/zh_cjdianc/dist/cardlist/index"
+    }
+}

@@ -1,0 +1,87 @@
+ <{extends file="<{$tempdir}>/public/wxsite.html"}>  
+<{block name=extendcss}>  
+ <{/block}>
+ <{block name=myScrolljs}>
+<script> 
+var scroll1, scroll2;
+function loaded() { 
+	scroll1 = new iScroll('wrapper',{
+		useTransform: false,
+		onBeforeScrollStart: function (e) {
+			var target = e.target;
+			while (target.nodeType != 1) target = target.parentNode;
+
+			if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA'){
+				e.preventDefault();
+				}
+		}
+	});   
+ }
+
+document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
+document.addEventListener('DOMContentLoaded', function () { setTimeout(loaded, 200); }, false);
+</script>
+ 
+<{/block}>
+<{block name=hearnav}>
+<div class="toptitCon">
+ <div class="toptitBox">
+  <div class="toptitL returnmem"><i></i></div>
+  <div class="toptitC"><h3>商家审核</h3></div>
+ </div>
+</div>
+<script>
+	$(function(){
+		$('.returnmem').bind('click',function(){
+			var url = '<{ofunc type=url link="/wxsite/member"}>';
+			window.location.href= url;
+		});
+	});
+</script>
+<{/block}>
+<{block name=sitetitle}>商家审核<{/block}>
+ <{block name=blockcontent}>   
+ <div id="wrapper" style="top:40px;">
+	<div id="scroller">
+	
+	
+<!--------信息进度-------->
+<div class="processCon">
+ <i class="pro_03"></i>
+ <span class="proaL">商家资料</span>
+ <span class="proaC">账户信息</span>
+ <span class="proaR proaA" style="color:#fff!important;">网站审核</span>
+</div>
+ 
+ <{if !empty($shopinfo) }>
+  <{if $shopinfo['is_pass'] == 0 }>
+	<!--------申请待处理-------->
+	<div class="meseapplyCon">
+	  <i class="exa_03"></i>
+	 <h3>您的申请已经提交</h3>
+	 <span>请等待管理员处理</span>
+	</div>
+	<{/if}>
+	<{if $shopinfo['is_pass'] == 1 }>
+	<!--------申请通过-------->
+	<div class="meseapplyCon">
+	 <i class="exa_01"></i>
+	 <h3>您的申请已经通过</h3>
+	 <span>请等待市场经理到店审核</span>
+	</div>
+	<{/if}>
+	
+<{else}>
+<!--------申请失败-------->
+<div class="meseapplyCon">
+ <i class="exa_02"></i>
+ <h3>您的申请未通过</h3>
+ <span>详情请致电客服</span>
+</div>
+<div   onclick="dolink('<{ofunc type=url link="/wxsite/shopSettled/type/1"}>');"  class="mesedete" style="margin-top:20px; margin-bottom:20px;"><input type="button" onclick="nextSub();" value="再次申请"></div>
+	<{/if}>
+  </div>
+</div> 
+
+  
+<{/block}>

@@ -1,0 +1,117 @@
+{itemplate 'public/header'}
+<form action="./index.php?" class="form-horizontal form-filter" id="form1">
+	{php echo tpl_form_filter_hidden('system/slog/index');}
+	<input name="days" value="{$days}" type="hidden"/>
+	<input name="type" value="{$type}" type="hidden"/>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">错误类型</label>
+		<div class="col-sm-9 col-xs-12">
+			<div class="btn-group">
+				<a href="{php echo ifilter_url('type:');}" class="btn {if $type == ''}btn-primary{else}btn-default{/if}">不限</a>
+				<a href="{php echo ifilter_url('type:wxtplNotice');}" class="btn {if $type == 'wxtplNotice'}btn-primary{else}btn-default{/if}">微信模板消息</a>
+				<a href="{php echo ifilter_url('type:managerappJpush');}" class="btn {if $type == 'managerappJpush'}btn-primary{else}btn-default{/if}">商家App极光推送</a>
+				<a href="{php echo ifilter_url('type:deliveryerappJpush');}" class="btn {if $type == 'deliveryerappJpush'}btn-primary{else}btn-default{/if}">配送员App极光推送</a>
+				<a href="{php echo ifilter_url('type:plateformappJpush');}" class="btn {if $type == 'plateformappJpush'}btn-primary{else}btn-default{/if}">平台App极光推送</a>
+				<a href="{php echo ifilter_url('type:takeoutdispatcherror');}" class="btn {if $type == 'takeoutdispatcherror'}btn-primary{else}btn-default{/if}">外卖订单系统分配</a>
+				<a href="{php echo ifilter_url('type:alidayuSms');}" class="btn {if $type == 'alidayuSms'}btn-primary{else}btn-default{/if}">阿里大鱼短信消息</a>
+				<a href="{php echo ifilter_url('type:alidayuCall');}" class="btn {if $type == 'alidayuCall'}btn-primary{else}btn-default{/if}">阿里大鱼语音通知</a>
+				<a href="{php echo ifilter_url('type:ordergrant');}" class="btn {if $type == 'ordergrant'}btn-primary{else}btn-default{/if}">下单有礼</a>
+				<a href="{php echo ifilter_url('type:credit1Update');}" class="btn {if $type == 'credit1Update'}btn-primary{else}btn-default{/if}">下单送积分</a>
+				<a href="{php echo ifilter_url('type:credit2Update');}" class="btn {if $type == 'credit2Update'}btn-primary{else}btn-default{/if}">下单返余额</a>
+				<a href="{php echo ifilter_url('type:couponGrant');}" class="btn {if $type == 'couponGrant'}btn-primary{else}btn-default{/if}">优惠券</a>
+				<a href="{php echo ifilter_url('type:shareRedpacket');}" class="btn {if $type == 'shareRedpacket'}btn-primary{else}btn-default{/if}">分享红包</a>
+				<a href="{php echo ifilter_url('type:orderprint');}" class="btn {if $type == 'orderprint'}btn-primary{else}btn-default{/if}">请求打印接口</a>
+				<a href="{php echo ifilter_url('type:printnotify');}" class="btn {if $type == 'orderprint'}btn-primary{else}btn-default{/if}">打印回调</a>
+				<a href="{php echo ifilter_url('type:takeoutdispatcherror');}" class="btn {if $type == 'takeoutdispatcherror'}btn-primary{else}btn-default{/if}">外卖订单调度</a>
+				<a href="{php echo ifilter_url('type:locationerror');}" class="btn {if $type == 'locationerror'}btn-primary{else}btn-default{/if}">配送员定位失败</a>
+				<a href="{php echo ifilter_url('type:storeaccount');}" class="btn {if $type == 'storeaccount'}btn-primary{else}btn-default{/if}">商户入账失败</a>
+				<a href="{php echo ifilter_url('type:deliveryeraccount');}" class="btn {if $type == 'deliveryeraccount'}btn-primary{else}btn-default{/if}">配送员入账失败</a>
+				<a href="{php echo ifilter_url('type:agentaccount');}" class="btn {if $type == 'agentaccount'}btn-primary{else}btn-default{/if}">代理入账失败</a>
+				<a href="{php echo ifilter_url('type:yinsihao');}" class="btn {if $type == 'yinsihao'}btn-primary{else}btn-default{/if}">隐私号错误</a>
+			</div>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">创建时间</label>
+		<div class="col-sm-9 col-xs-12 js-daterange" data-form="#form1">
+			<div class="btn-group">
+				<a href="{php echo ifilter_url('days:-2');}" class="btn {if $days == -2}btn-primary{else}btn-default{/if}">不限</a>
+				<a href="{php echo ifilter_url('days:0');}" class="btn {if !$days}btn-primary{else}btn-default{/if}">今天</a>
+				<a href="{php echo ifilter_url('days:7');}" class="btn {if $days == 7}btn-primary{else}btn-default{/if}">最近7天</a>
+				<a href="{php echo ifilter_url('days:30');}" class="btn {if $days == 30}btn-primary{else}btn-default{/if}">最近30天</a>
+				<a href="javascript:;" class="btn js-btn-custom {if $days == -1}btn-primary{else}btn-default{/if}">自定义</a>
+			</div>
+			<span class="btn-daterange js-btn-daterange {if $days != -1}hide{/if}">
+				{php echo tpl_form_field_daterange('addtime', array('start' => date('Y-m-d H:i', $starttime), 'end' => date('Y-m-d H:i', $endtime)), true);}
+			</span>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">搜索</label>
+		<div class="col-sm-4 col-xs-4">
+			<input type="text" name="keyword" value="{$keyword}" class="form-control" placeholder="搜索错误简述">
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+		<div class="col-sm-4 col-xs-4">
+			<input type="submit" value="筛选" class="btn btn-primary">
+		</div>
+	</div>
+</form>
+<form action="" class="form-table form form-validate system-log" method="post">
+	<div class="panel panel-table">
+		<div class="panel-body table-responsive js-table">
+			{if empty($logs)}
+				<div class="no-result">
+					<p>还没有相关数据</p>
+				</div>
+			{else}
+				<table class="table table-hover">
+					<thead>
+					<tr>
+						<th width="40">
+							<div class="checkbox checkbox-inline">
+								<input type="checkbox" name="ids[]"/>
+								<label></label>
+							</div>
+						</th>
+						<th>id</th>
+						<th>错误类型</th>
+						<th>错误简述</th>
+						<th>错误信息</th>
+						<th>创建时间</th>
+						<th style="text-align: right">操作</th>
+					</tr>
+					</thead>
+					{loop $logs $log}
+						<tr>
+							<td>
+								<div class="checkbox checkbox-inline">
+									<input type="checkbox" name="ids[]" value="{$log['id']}"/>
+									<label></label>
+								</div>
+							</td>
+							<td>{$log['id']}</td>
+							<td>{$log['type']}</td>
+							<td style="cursor: pointer;">{$log['title']}</td>
+							<td>{$log['message']}</td>
+							<td>{php echo date('Y-m-d H:i', $log['addtime'])}</td>
+							<td align="right"><a href="{php echo iurl('system/slog/del', array('id' => $log['id']))}" class="btn btn-default btn-sm js-remove" data-confirm="删除后不可恢复，确定要删除吗？">删除</a></td>
+						</tr>
+					{/loop}
+				</table>
+				<div class="btn-region clearfix">
+					<div class="pull-left">
+						<a href="{php echo iurl('system/slog/del')}" class="btn btn-primary btn-danger js-batch" data-batch="remove" data-confirm="删除后将不可恢复，确定删除吗">删除</a>
+						<a href="{php echo iurl('system/slog/delAll')}" class="btn btn-warning js-post" data-confirm="删除后不可恢复,确定删除所有的记录吗?">删除所有记录</a>
+					</div>
+					<div class="pull-right">
+						{$pager}
+					</div>
+				</div>
+			{/if}
+		</div>
+	</div>
+</form>
+{itemplate 'public/footer'}

@@ -1,0 +1,228 @@
+<div class="second-sidebar-title">{$_W['_plugin']['title']}</div>
+<div class="nav slimscroll">
+	{ifp 'gohome.slide' || 'gohome.nav' || 'gohome.notice'}
+	<div class="menu-header">生活圈首页</div>
+	<ul class="menu-item">
+		{ifp 'gohome.slide'}
+		<li {if $_W['_router'] == 'gohome/slide/list'}class="active"{/if}>
+		<a href="{php echo iurl('gohome/slide/list');}">幻灯片</a>
+		</li>
+		{/if}
+		{ifp 'gohome.nav'}
+		<li {if $_W['_action'] == 'nav'}class="active"{/if}>
+		<a href="{php echo iurl('gohome/nav/list');}">导航图标</a>
+		</li>
+		{/if}
+		{ifp 'gohome.notice'}
+		<li {if $_W['_action'] == 'notice'}class="active"{/if}>
+		<a href="{php echo iurl('gohome/notice/list');}">公告</a>
+		</li>
+		{/if}
+	</ul>
+	{/if}
+	{ifp 'gohome.order'}
+	<div class="menu-header">订单</div>
+	<ul class="menu-item">
+		<li {if $_W['_action'] == 'order'}class="active"{/if}>
+			<a href="{php echo iurl('gohome/order/list');}">订单列表</a>
+		</li>
+	</ul>
+	{/if}
+	<div class="menu-header">数据</div>
+	<ul class="menu-item">
+		<li {if $_W['_router'] == 'gohome/statcenter/list'}class="active"{/if}>
+			<a href="{php echo iurl('gohome/statcenter/list');}">订单统计</a>
+		</li>
+	</ul>
+	{ifp 'kanjia.category' || 'kanjia.activity'}
+	<div class="menu-header">砍价</div>
+	<ul class="menu-item">
+		{ifp 'kanjia.category'}
+		<li {if $_W['_router'] == 'kanjia/category/list'}class="active"{/if}>
+			<a href="{php echo iurl('kanjia/category/list');}">活动分类</a>
+		</li>
+		{/if}
+		{ifp 'kanjia.activity'}
+		<li {if $_W['_router'] == 'kanjia/activity/list'}class="active"{/if}>
+			<a href="{php echo iurl('kanjia/activity/list');}">活动列表</a>
+		</li>
+		{/if}
+	</ul>
+	{/if}
+	{ifp 'pintuan.category' || 'pintuan.activity' || 'pintuan.basic'}
+	<div class="menu-header">拼团</div>
+	<ul class="menu-item">
+		{ifp 'pintuan.category'}
+		<li {if $_W['_router'] == 'pintuan/category/list'}class="active"{/if}>
+			<a href="{php echo iurl('pintuan/category/list');}">活动分类</a>
+		</li>
+		{/if}
+		{ifp 'pintuan.activity'}
+		<li {if $_W['_router'] == 'pintuan/activity/list'}class="active"{/if}>
+			<a href="{php echo iurl('pintuan/activity/list');}">活动列表</a>
+		</li>
+		{/if}
+	</ul>
+	{/if}
+	{ifp 'seckill.goods_category' || 'seckill.goods' || 'seckill.slide'}
+	<div class="menu-header">限时抢购</div>
+		<ul class="menu-item">
+			{ifp 'seckill.goods_category'}
+			<li {if $_W['_action'] == 'goods_category'}class="active"{/if}>
+				<a href="{php echo iurl('seckill/goods_category');}">活动分类</a>
+			</li>
+			{/if}
+			{ifp 'seckill.goods'}
+			<li {if $_W['_action'] == 'goods'}class="active"{/if}>
+				<a href="{php echo iurl('seckill/goods');}">活动列表</a>
+			</li>
+			{/if}
+<!--
+			{ifp 'seckill.slide'}
+			<li {if $_W['_action'] == 'slide'}class="active"{/if}>
+				<a href="{php echo iurl('seckill/slide');}">幻灯片管理</a>
+			</li>
+			{/if}
+-->
+		</ul>
+	{/if}
+	{ifp 'gohome.comment' || 'gohome.complain' || 'gohome.memberBlack'}
+	<div class="menu-header">售后</div>
+	<ul class="menu-item">
+		{ifp 'gohome.comment'}
+		<li {if $_W['_router'] == 'gohome/comment/list'}class="active"{/if}>
+			<a href="{php echo iurl('gohome/comment/list');}">订单评论</a>
+		</li>
+		{/if}
+		{ifp 'gohome.complain'}
+		<li {if $_W['_action'] == 'complain'}class="active"{/if}>
+			<a href="{php echo iurl('gohome/complain/list');}">投诉列表</a>
+		</li>
+		{/if}
+		{ifp 'gohome.memberBlack'}
+		<li {if $_W['_action'] == 'memberBlack'}class="active"{/if}>
+			<a href="{php echo iurl('gohome/memberBlack/list');}">黑名单</a>
+		</li>
+		{/if}
+	</ul>
+	{/if}
+	{ifp 'tongcheng.category' || 'tongcheng.slide' || 'tongcheng.information' || 'tongcheng.comment'}
+	<div class="menu-header">同城</div>
+	<ul class="menu-item">
+		{ifp 'tongcheng.category'}
+		<li {if $_W['_router'] == 'tongcheng/category/list'}class="active"{/if}>
+			<a href="{php echo iurl('tongcheng/category/list');}">分类列表</a>
+		</li>
+		{/if}
+		{ifp 'tongcheng.slide'}
+		<li {if $_W['_router'] == 'tongcheng/slide/list'}class="active"{/if}>
+			<a href="{php echo iurl('tongcheng/slide/list');}">幻灯片</a>
+		</li>
+		{/if}
+		{ifp 'tongcheng.information'}
+		<li {if $_W['_router'] == 'tongcheng/information/list'}class="active"{/if}>
+			<a href="{php echo iurl('tongcheng/information/list');}">帖子列表</a>
+		</li>
+		{/if}
+		{ifp 'tongcheng.comment'}
+		<li {if $_W['_router'] == 'tongcheng/comment/list'}class="active"{/if}>
+			<a href="{php echo iurl('tongcheng/comment/list');}">评论列表</a>
+		</li>
+		{/if}
+		{ifp 'tongcheng.information'}
+		<li {if $_W['_router'] == 'tongcheng/information/order_list'}class="active"{/if}>
+			<a href="{php echo iurl('tongcheng/information/order_list');}">订单列表</a>
+		</li>
+		{/if}
+		<li {if $_W['_router'] == 'tongcheng/statcenter/list'}class="active"{/if}>
+			<a href="{php echo iurl('tongcheng/statcenter/list');}">帖子统计</a>
+		</li>
+	</ul>
+	{/if}
+	{ifp 'haodian.settle' || 'haodian.category' || 'haodian.slide' || 'haodian.store'}
+	<div class="menu-header">好店</div>
+	<ul class="menu-item">
+		{ifp 'haodian.settle'}
+		<li {if $_W['_router'] == 'haodian/settle/list'}class="active"{/if}>
+		<a href="{php echo iurl('haodian/settle/list');}">入驻设置</a>
+		</li>
+		{/if}
+		{ifp 'haodian.slide'}
+		<li {if $_W['_router'] == 'haodian/slide/list'}class="active"{/if}>
+		<a href="{php echo iurl('haodian/slide/list');}">幻灯片</a>
+		</li>
+		{/if}
+		{ifp 'haodian.category'}
+		<li {if $_W['_router'] == 'haodian/category/list'}class="active"{/if}>
+		<a href="{php echo iurl('haodian/category/list');}">商户分类</a>
+		</li>
+		{/if}
+		{ifp 'haodian.store'}
+		<li {if $_W['_router'] == 'haodian/store/list'}class="active"{/if}>
+		<a href="{php echo iurl('haodian/store/list');}">商户列表</a>
+		</li>
+		<li {if $_W['_router'] == 'haodian/store/order_list'}class="active"{/if}>
+		<a href="{php echo iurl('haodian/store/order_list');}">付费入驻</a>
+		</li>
+		{/if}
+		{ifp 'haodian.storage'}
+		<li {if $_W['_router'] == 'haodian/storage/list'}class="active"{/if}>
+			<a href="{php echo iurl('haodian/storage/list');}">回收站</a>
+		</li>
+		{/if}
+	</ul>
+	{/if}
+	{ifp 'gohome.config' || 'gohome.poster' || 'tongcheng.basic'}
+	<div class="menu-header">设置</div>
+	<ul class="menu-item">
+		{ifp 'gohome.config'}
+			<li {if $_W['_action'] == 'config' && $_W['_op'] == 'activity'}class="active"{/if}>
+			<a href="{php echo iurl('gohome/config/activity');}">活动设置</a>
+			</li>
+			<li {if $_W['_action'] == 'config' && $_W['_op'] == 'serve_fee'}class="active"{/if}>
+			<a href="{php echo iurl('gohome/config/serve_fee');}">费率设置</a>
+			</li>
+			<li {if $_W['_router'] == 'gohome/config/share'}class="active"{/if}>
+			<a href="{php echo iurl('gohome/config/share');}">分享设置</a>
+			</li>
+		{/if}
+		{ifp 'gohome.poster'}
+			<li {if $_W['_action'] == 'poster'}class="active"{/if}>
+			<a href="{php echo iurl('gohome/poster/index');}">活动海报</a>
+			</li>
+		{/if}
+		{ifp 'tongcheng.basic'}
+		<li {if $_W['_router'] == 'tongcheng/basic/index'}class="active"{/if}>
+		<a href="{php echo iurl('tongcheng/basic/index');}">同城设置</a>
+		</li>
+		{/if}
+	</ul>
+	{/if}
+
+	{ifp 'gohome.cover'}
+	<div class="menu-header">入口</div>
+	<ul class="menu-item">
+		<li {if $_W['_action'] == 'cover' && $_W['_op'] == 'gohome'}class="active"{/if}>
+		<a href="{php echo iurl('gohome/cover/gohome');}">生活圈入口</a>
+		</li>
+		<li {if $_W['_action'] == 'cover' && $_W['_op'] == 'kanjia'}class="active"{/if}>
+		<a href="{php echo iurl('gohome/cover/kanjia');}">砍价入口</a>
+		</li>
+		<li {if $_W['_action'] == 'cover' && $_W['_op'] == 'pintuan'}class="active"{/if}>
+		<a href="{php echo iurl('gohome/cover/pintuan');}">拼团入口</a>
+		</li>
+		<li {if $_W['_action'] == 'cover' && $_W['_op'] == 'seckill'}class="active"{/if}>
+		<a href="{php echo iurl('gohome/cover/seckill');}">抢购入口</a>
+		</li>
+		<li {if $_W['_action'] == 'cover' && $_W['_op'] == 'tongcheng'}class="active"{/if}>
+		<a href="{php echo iurl('gohome/cover/tongcheng');}">同城入口</a>
+		</li>
+		<li {if $_W['_action'] == 'cover' && $_W['_op'] == 'haodian'}class="active"{/if}>
+		<a href="{php echo iurl('gohome/cover/haodian');}">好店入口</a>
+		</li>
+		<li {if $_W['_action'] == 'cover' && $_W['_op'] == 'haodian_settle'}class="active"{/if}>
+		<a href="{php echo iurl('gohome/cover/haodian_settle');}">好店入驻入口</a>
+		</li>
+	</ul>
+	{/if}
+</div>

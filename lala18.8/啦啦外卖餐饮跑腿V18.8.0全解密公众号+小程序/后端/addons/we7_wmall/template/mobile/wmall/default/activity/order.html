@@ -1,0 +1,64 @@
+{itemplate 'public/header'}
+<style>
+	.page-order{background-color: #EFEFEF;}
+	.page-order .rush-main{margin-top: 1rem;}
+	.page-order .rush-main-head{height: 1.4rem; padding: 0 .6rem; margin-bottom: .4rem;}
+	.page-order .rush-main-head .left{float: left; font-size: .8rem; font-weight: 600; height: 100%; line-height: 1.4rem;}
+	.page-order .rush-main-head .left .icon{display: inline-block; color: #FE4C45; font-size: 1rem; margin-right: .4rem;}
+	.page-order .rush-main-head .right{float: right; height: 100%; line-height: 1.4rem;}
+	.page-order .rush-main-head .right a{color: #777777; font-size: .7rem;}
+	.page-order .rush-main-head .right a .icon{font-size: .7rem; margin-left: -.2rem;}
+	.page-order .rush-main-body{width: 100%;}
+	.page-order .rush-main-body-wrap{width: 100%; white-space: nowrap; overflow-x: auto; overflow-y: hidden; webkit-overflow-scrolling: touch; position: relative;}
+	.page-order .rush-main-body-wrap .wrap-common:first-child{margin-left: .6rem;}
+	.page-order .rush-main-body-wrap .wrap-common{background-color: #fff; margin-right: .3rem; margin-bottom: .4rem; position: relative; width: 5.2rem; display: inline-block; padding: .5rem .5rem .3rem; height: 7.6rem;}
+	.page-order .rush-main-body-wrap .wrap-common .top .pic{text-align: center; height: 2.4rem;}
+	.page-order .rush-main-body-wrap .wrap-common .top .pic img{display: inline-block; width: 2.4rem; height:100%; border-radius: 100%;}
+	.page-order .rush-main-body-wrap .wrap-common .top .store-name{padding-top: .4rem; text-align: center;   color: #4B4B4B; font-size: .7rem; height: 2.3rem; max-height: 2.3rem; width: 100%; max-width: 100%; white-space:normal; word-break:break-all; overflow: hidden; margin-bottom: .4rem;}
+	.page-order .rush-main-body-wrap .wrap-common .bottom{text-align: center; padding: .3rem 0 .1rem; position: relative;}
+	.page-order .rush-main-body-wrap .wrap-common .bottom .btn{ color: #E9CD5F; font-size: .6rem; display: inline-block; border: 1px solid #E9CD5F; padding: .1rem .2rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 80%;}
+	.page-order .rush-main-body-wrap .wrap-common .bottom .dots{position: absolute; top: -.05rem; left:48%; width: .15rem; height: .15rem;background-color: #fff; display: inline-block; padding: 0 .2rem; }
+	.page-order .rush-main-body-wrap .wrap-common .bottom .dots span{position: absolute; top: 0; left: .11rem; width: .15rem; height: .15rem; border-radius: 50%; background-color: #e5e5e5; display: inline-block;}
+	.page-order .rush-main-body-wrap .more{width: 5.2rem; height: 7.6rem; display: inline-block; position: absolute; background-color: #fff; margin-left: .2rem; text-align: center; line-height: 7.6rem; color: #4B4B4B; font-size: .7rem;}
+</style>
+
+<div class="page page-order">
+	<div class="content">
+		<div class="rush-main">
+			<div class="rush-main-head clearfix">
+				<div class="left">
+					<div class="icon icon-favorite1"></div>
+					<span>最近常买</span>
+				</div>
+				<div class="right">
+					<a href="javascript:;">
+						查看{php echo count($store)}个商家
+						<span class="icon icon-right1"></span>
+					</a>
+				</div>
+			</div>
+			<div class="rush-main-body">
+				<div class="rush-main-body-wrap">
+					{loop $store $item}
+					<a href="javascript:;" class="wrap-common">
+						<div class="top">
+							<div class="pic">
+								<img src="{php echo tomedia($item['logo'])}" alt="">
+							</div>
+							<div class="store-name">{$item['title']}</div>
+						</div>
+						<div class="bottom border-1px-t">
+							<span class='dots'><span></span></span>
+							<div class="btn">买过{$item['num']}次</div>
+						</div>
+					</a>
+					{/loop}
+					<a href="javascript:;" class="more">
+						查看更多
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{itemplate 'public/footer'}

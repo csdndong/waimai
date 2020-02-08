@@ -1,0 +1,30 @@
+<form bindreset="formReset" bindsubmit="formSubmit" reportSubmit="true">
+    <view class="main" style="background:{{color}}">
+        <view class="top">
+            <image mode="aspectFill" src="{{storeinfo.logo}}"></image>
+            <view class="topname" style="color:{{color}}">{{storeinfo.name}}</view>
+        </view>
+        <view class="xx">
+            <view class="hyuan1" style="background:{{color}}"></view>
+            <view class="hyuan2" style="background:{{color}}"></view>
+        </view>
+        <view class="bottom" style="border-color:{{color}}">
+            <view class="pdlist">
+                <scroll-view scrollY="true" style="height:550rpx;background:#f5f5f5">
+                    <view bindtap="select" class="pdlistbd {{activeIndex==index?'czactive':''}}" data-index="{{index}}" style="background:{{activeIndex==index?color:''}};color:{{activeIndex==index?'#fff':''}}" wx:for="{{tableinfo}}">
+                        <view class="pdlistbdv">
+                            <view>{{item.typename}}</view>
+                        </view>
+                    </view>
+                </scroll-view>
+            </view>
+            <view class="footer">
+                <button formType="submit" style="background:{{color}}">立即取号</button>
+            </view>
+            <view class="flex-row flex-y-center cxqh">
+                <image src="../../img/bangz.png"></image>
+                <view>过号请重新取号，谢谢配合！</view>
+            </view>
+        </view>
+    </view>
+</form>

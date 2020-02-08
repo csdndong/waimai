@@ -1,0 +1,65 @@
+page {
+    font-size: 14px;
+    background-color: #f5f5f5;
+}
+
+.page-category {
+    padding-bottom: 50px;
+}
+
+.page-category .category-item {
+    width: 100%;
+    padding-left: 15px;
+    box-sizing: border-box;
+    line-height: 1;
+    background-color: #fff;
+    margin-bottom: 10px;
+}
+
+.page-category .category-item .inner {
+    padding: 10px 15px 10px 0;
+    width: 100%;
+    min-height: 53px;
+    box-sizing: border-box;
+}
+
+.page-category .category-item .children {
+    padding-left: 15px;
+}
+
+.page-category .category-item .inner .title {
+    font-size: 15px;
+    color: #000;
+}
+
+.page-category .category-item .inner .total {
+    font-size: 13px;
+    color: #535353;
+    margin-top: 5px;
+}
+
+.page-category .category-item .inner .icon {
+    color: #33aafc;
+    font-size: 20px;
+    margin-left: 10px;
+}
+
+.page-category .category-item .inner .add-icon {
+    border: 3rpx solid #33aafc;
+    width: 15px;
+    height: 16px;
+    line-height: 16px;
+    border-radius: 2px;
+    margin-left: 10px;
+}
+
+.page-category .category-item .inner .add-icon .icon {
+    margin-left: 0;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.page-category .footer-operate {
+    color: #33aafc;
+    font-size: 15px;
+}

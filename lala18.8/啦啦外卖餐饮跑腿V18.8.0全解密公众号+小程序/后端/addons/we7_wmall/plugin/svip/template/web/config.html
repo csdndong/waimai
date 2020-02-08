@@ -1,0 +1,64 @@
+{itemplate 'public/header'}
+<div class="page clearfix">
+	<h2>基础设置</h2>
+	<form class="form-horizontal form form-validate" id="form1" action="" method="post" enctype="multipart/form-data">
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">是否开启超级会员功能</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="radio radio-inline">
+					<input type="radio" name="status" id="status-1" value="1" {if $config['status'] == 1}checked{/if} require="true">
+					<label for="status-1">开启</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" name="status" id="status-0" value="0" {if !$config['status']}checked{/if} require="true">
+					<label for="status-0">关闭</label>
+				</div>
+				<div class="help-block">开启此选项后, 需要设置超级会员套餐.<a href="{php echo iurl('svip/setmeal/list');}" target="_blank">现在去配置</a></div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">会员每月最多可领取几个红包</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="number" name="exchange_max" value="{$config['exchange_max']}" class="form-control" required>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">商家红包最低金额</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="number" name="store_redpacket_min" value="{$config['store_redpacket_min']}" class="form-control" required>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">会员到期续费提醒</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="input-group">
+					<span class="input-group-addon">会员到期前</span>
+					<input type="number" name="notice_before_overtime" value="{$config['notice_before_overtime']}" class="form-control">
+					<span class="input-group-addon">天，微信模板消息通知顾客</span>
+				</div>
+				<div class="help-block">不填写或0，不进行微信模板消息通知</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">超级会员权益说明</label>
+			<div class="col-sm-9 col-xs-12">
+				{php echo tpl_ueditor('agreement_svip', $agreement_svip);}
+				<div class="help-block">设置超级会员权益说明</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">超级会员任务说明</label>
+			<div class="col-sm-9 col-xs-12">
+				{php echo tpl_ueditor('agreement_mission_svip', $agreement_mission_svip);}
+				<div class="help-block">设置超级会员任务说明</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<input type="hidden" name="token" value="{$_W['token']}">
+				<input type="submit" value="提 交" class="btn btn-primary">
+			</div>
+		</div>
+	</form>
+</div>
+{itemplate 'public/footer'}

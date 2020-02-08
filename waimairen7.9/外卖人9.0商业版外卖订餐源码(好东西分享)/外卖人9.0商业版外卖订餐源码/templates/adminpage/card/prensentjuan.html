@@ -1,0 +1,141 @@
+ <{extends file="<{$tempdir}>/public/admin.html"}>
+ <{block name=extendjs}>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js"></script>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/datepicker/WdatePicker.js"></script>
+ <{/block}>
+ <{block name=controlname}>优惠券赠送设置<{/block}>
+ <{block name=bodylist}>
+
+	   <div style="width:auto;overflow-x:hidden;overflow-y:auto">
+
+          <div id="tagscontent">
+            <form method="post" name="form1" action="<{ofunc type=url link="/adminpage/card/module/saveprensentjuan/datatype/json"}>" onsubmit="return subform('',this);">
+              <div>
+                <table border="0" cellspacing="2" cellpadding="4" class="list" name="table" id="table" width="100%">
+                  <tbody>
+                 
+                    <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                      <td class="left">关注微信送优惠券</td>
+                      <td>
+                      	<input type="checkbox" name="wx_juan" id="wx_juan" value="1"  <{if isset($wx_juan)&&$wx_juan== 1}>checked<{/if}>>勾选后关注微信赠送优惠券,最低消费金额<input type="text" name="wx_juanlimit" id="wx_juanlimit" value="<{$wx_juanlimit|default:1}>"  style="width:50px;">抵扣金额<input type="text" name="wx_juancost" id="wx_juancost" value="<{$wx_juancost|default:1}>"  style="width:50px;"> 优惠券有效天数量<input type="text" name="wx_juanday" id="wx_juanday" value="<{$wx_juanday|default:7}>"  style="width:50px;">天
+                      	</td>
+                    </tr>
+                    <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                      <td class="left">推广送优惠券</td>
+                      <td>
+                      	<input type="checkbox" name="tui_juan" id="tui_juan" value="1"  <{if isset($tui_juan)&&$tui_juan== 1}>checked<{/if}>>勾选后通过推广链接注册用户下单完成后，赠送推荐人优惠券最低消费金额<input type="text" name="tui_juanlimit" id="tui_juanlimit" value="<{$tui_juanlimit|default:1}>"  style="width:50px;">抵扣金额<input type="text" name="tui_juancost" id="tui_juancost" value="<{$tui_juancost|default:1}>"  style="width:50px;"> 优惠券有效天数量<input type="text" name="tui_juanday" id="tui_juanday" value="<{$tui_juanday|default:7}>"  style="width:50px;">天
+                      	</td>
+                    </tr>
+                    <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                      <td class="left">登录送优惠券</td>
+                      <td>
+                      	<input type="checkbox" name="login_juan" id="login_juan" value="1"  <{if isset($login_juan)&&$login_juan== 1}>checked<{/if}>> 勾选后 , 日期必填,
+                      	日期：<input type="text" name="login_data" id="login_data" value="<{$login_data|date_format:"%Y-%m-%d"}>"   class="Wdate datefmt" onFocus="WdatePicker({isShowClear:false,readOnly:true});"> 在此日期登录送优惠券  ,最低消费金额<input type="text" name="login_juanlimit" id="login_juanlimit" value="<{$login_juanlimit|default:1}>"  style="width:50px;">抵扣金额<input type="text" name="login_juancost" id="login_juancost" value="<{$login_juancost|default:1}>"  style="width:50px;"> 优惠券有效天数量<input type="text" name="login_juanday" id="login_juanday" value="<{$login_juanday|default:7}>"  style="width:50px;">
+                      	</td>
+                    </tr>
+
+				 	<tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                      <td class="left">注册送优惠券</td>
+                      <td>
+					  <input type="checkbox" name="regester_juan" id="regester_juan" value="1"  <{if isset($regester_juan)&&$regester_juan == 1}>checked<{/if}>>勾选注册后赠送优惠券（该规则也适用于手机号码首次快捷登录）
+					 
+                <a href="<{ofunc type=url link="/adminpage/card/module/addregjuan"}>" ><input type="button" value="添加注册赠送优惠券" class="button"></a> 
+				 
+                    </tr>
+					 
+					
+                  </tbody>
+                </table>
+              </div>
+              <div class="blank20"></div>
+              <input type="hidden" name="tijiao" id="tijiao" value="do" class="skey" style="width:250px;">
+              <input type="hidden" name="saction" id="saction" value="siteset" class="skey" style="width:250px;">
+               <input type="submit" value="确认提交" class="button">
+            </form>
+          </div>
+        </div>
+
+
+		
+		<div class="show_content_m_ti" style="margin-top:50px;">
+   	        	 	   <div class="showtop_t" id="positionname">注册赠送优惠券列表</div>
+   	        	 </div>
+           <div class="tags">
+
+
+
+          <div id="tagscontent">
+
+            <div id="con_one_1">
+
+              <div class="table_td" style="margin-top:10px;">
+
+              <form method="post" action="" onsubmit="return remind();" id="delform">
+
+                  <table border="0" cellspacing="2" cellpadding="4" class="list" name="table" id="table" width="100%">
+
+                    <thead>
+
+                      <tr>
+
+                        <th width="60px"><input type="checkbox" id="chkall" name="chkall" onclick="checkall()"></th>
+
+                          <th align="center">优惠券名称</th>
+                        <th align="center">限制金额</th> 
+                        <th align="center">优惠金额</th>
+                         <th align="center">开始时间</th>
+                         <th align="center">结束时间</th>
+                         <th align="center">开启状态</th>
+                        <th align="center">操作</th>
+
+                      </tr>
+
+                    </thead>
+
+                     <tbody>
+                   <{load_data assign="list" table="regsendjuan" showpage="true"  fileds="*"  }>
+                      <{foreach from=$list['list'] item=items}>
+                      <tr class="s_out" onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                        <td align="center" ><input type="checkbox" name="id[]" value="<{$items['id']}>"></td>
+                         <td align="center"> <{$items['name']}> </td>
+                        <td align="center" ><{$items['limitcost']}>元</td>
+                        <td align="center"><{$items['jiancost']}>元</td>
+                        <td align="center"><{$items['starttime']|date_format:"%Y-%m-%d"}></td>
+                        <td align="center"><{$items['endtime']|date_format:"%Y-%m-%d"}></td>
+                        <td align="center"><{if $items['is_open'] == 0  }>开启<{else}>关闭<{/if}></td>
+                        <td align="center">
+						
+ <a href="<{ofunc type=url link="/adminpage/card/module/addregjuan/id/<{$items['id']}>"}>"><img src="<{$siteurl}>/templates/<{$tempdir}>/public/images/admin/edit.jpg"></a>
+						
+    <a onclick="return remind(this);" href="<{ofunc type=url link="/adminpage/card/module/delregsendcard/id/<{$items['id']}>/datatype/json"}>"><img src="<{$siteurl}>/templates/<{$tempdir}>/public/images/admin/del.jpg"></a></td>
+                      </tr>
+                       <{/foreach}>
+
+                    </tbody>
+
+                  </table>
+
+                <div class="blank20"></div>
+
+                </form>
+
+                <div class="page_newc">
+                 	      <div class="select_page">
+                 	      	<a href="#" onclick="checkword(true);">全选</a>/<a href="#" onclick="checkword(false);">取消</a>
+                 	     <a onclick="return remindall(this);" href="<{ofunc type=url link="/adminpage/card/module/delcard/datatype/json"}>" class="delurl">删除</a>
+                  	     </div>
+                       <div class="show_page"><ul><{$list['pagecontent']}></ul></div>
+                 </div>
+
+                <div class="blank20"></div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+    </div>
+
+<!--newmain 结束-->
+ <{/block}>

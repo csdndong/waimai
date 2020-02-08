@@ -1,0 +1,37 @@
+ <{extends file="<{$tempdir}>/public/site.html"}>   
+<{block name=extendjs}>
+ <link rel="stylesheet" type="text/css" href="<{$siteurl}>/templates/<{$tempdir}>/public/css/newtop/base.css">
+ <link rel="stylesheet" type="text/css" href="<{$siteurl}>/templates/<{$tempdir}>/public/css/newtop/hotel.css">
+ <link rel="stylesheet" type="text/css" href="<{$siteurl}>/templates/<{$tempdir}>/public/css/newtop/font-awesome.min.css">
+ <link rel="stylesheet" type="text/css" href="<{$siteurl}>/templates/<{$tempdir}>/public/css/newtop/shoppingcart.css">
+ <{/block}>
+<{block name=sitetitle}>下单成功提示<{/block}>
+ <{block name=bodylist}>
+ <div class="hotelbookcompCon">
+	 <div class="hotelbookcompBox">
+		 <div class="hotelbookcompt">
+			 <{if $paysure==1}>
+			 <div class="hotelbookimg hotelbookimg1" style="background-image: url(/upload/images/paysusred.png);"></div>
+			 <h3>在线支付-支付成功</h3>
+			 <div style="clear: both;"></div>
+			 <{else if}>
+			 <div class="hotelbookimg" style="background-image: url(/upload/images/061.png);"></div>
+			 <h3>在线支付-支付失败</h3>
+			 <div style="clear: both;"></div>
+			 <h5 style="color:red;">失败原因:<{$reason}></h5>
+			 <{/if}>
+		 </div>
+		 <div class="hotelbookcompb">
+			 <ul class="hotelbookcompbh">
+				 <li>订单编号：<{$orderinfo['dno']}></li>
+				 <li>支付金额：<span>￥<{$orderinfo['allcost']}></span></li>
+			 </ul>
+			 <ul class="hotelbookcompxq">
+				 <li>您可以：</li>
+				 <li><a href="<{$siteurl}>">返回首页</a>|</li>
+				 <li><a href="<{$siteurl}>/index.php?ctrl=order&action=usersorder#orderview">查看订单</a></li>
+			 </ul>
+		 </div>
+	 </div>
+ </div>
+<{/block}>

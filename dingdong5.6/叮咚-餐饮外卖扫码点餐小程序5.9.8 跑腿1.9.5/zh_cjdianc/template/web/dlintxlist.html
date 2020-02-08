@@ -1,0 +1,128 @@
+{template 'public/header'}
+{template 'public/comhead'}
+<link rel="stylesheet" type="text/css" href="../addons/zh_cjdianc/template/public/ygcsslist.css">
+<style type="text/css">
+    .yg5_key>div{float: left;line-height: 34px;}
+    .store_td1{height: 45px;}
+    .store_list_img{width: 60px;height: 60px;}
+    .yg5_tabel{border-color: #e5e5e5;outline: 1px solid #e5e5e5;text-align: center;}
+    .yg5_tr2>td{padding: 15px;border: 1px solid #e5e5e5;}
+    .yg5_tr1>td{
+
+        border: 1px solid #e5e5e5;
+        background-color: #FAFAFA;
+
+        font-weight: bold;
+
+    }
+    .yg5_btn{background-color: #EEEEEE;color: #333;border: 1px solid #E4E4E4;border-radius: 6px;width: 100px;height: 34px;}
+    .check_img{width: 45px;height: 45px;}
+</style>
+
+
+<ul class="nav nav-tabs">
+  <span class="ygxian"></span>
+  <div class="ygdangq">当前位置:</div>
+  <li  {if $type=='all'} class="active" {/if}><a href="{php echo $this->createWebUrl2('dlintxlist',array('type'=>all));}">全部</a></li>
+  <li   {if $type=='wait'} class="active" {/if}><a href="{php echo $this->createWebUrl2('dlintxlist',array('type'=>wait,'state'=>1));}">待提现</a></li>
+  <li   {if $type=='now'} class="active" {/if}><a href="{php echo $this->createWebUrl2('dlintxlist',array('type'=>now,'state'=>2));}">提现通过</a></li>
+  <li   {if $type=='delivery'} class="active" {/if}><a href="{php echo $this->createWebUrl2('dlintxlist',array('type'=>delivery,'state'=>3));}">提现拒绝</a></li>
+</ul>
+<div class="main">
+
+    <div class="panel panel-default">
+
+        <div class="panel-heading">
+
+          提现明细
+
+        </div>
+
+        <div class="panel-body" style="padding: 0px 15px;">
+
+          <div class="row">
+
+            <table class="yg5_tabel col-md-12">
+
+              <tr class="yg5_tr1">
+
+                <td class="store_td1">申请日期</td>
+                <td class="store_td1">审核日期</td>
+                <td>提现金额</td>
+                <td>实际金额</td> 
+                <td>提现方式</td>
+                <td>提现账号</td>
+                <td>真实姓名</td>
+                <td >审核状态</td>    
+                      </tr>
+                      {loop $list $key $item}
+                      <tr class="yg5_tr2">
+                        <td >{$item['time']}</td>
+                         <td >{$item['sh_time']}</td>
+                        <td>{$item['tx_cost']}</td>
+                        <td>{$item['sj_cost']}</td>
+                        {if $item['type']==1}
+                        <td>
+                         支付宝
+                       </td>
+                       {elseif $item['type']==2}
+                       <td>
+                         微信
+                       </td>
+                       {elseif $item['type']==3}
+                       <td>
+                         银联
+                       </td>
+                       {/if}
+                        <td>{$item['username']}</td>
+                         <td>{$item['name']}</td>
+                       {if $item['state']==1}
+                       <td >
+                        <span class="label storered">待确认</span>
+                      </td >
+                      {elseif $item['state']==2}
+                      <td >
+                        <span class="label storeblue">已提现</span>
+                      </td>
+                      {elseif $item['state']==3}
+                      <td >
+                       <span class="label storegrey">已拒绝</span>
+                     </td>
+
+                     {/if}  
+                  </td>
+
+                </tr>
+
+                {/loop}
+                {if empty($list)}
+                <tr class="yg5_tr2">
+                  <td colspan="8">
+                    暂无提现信息
+                  </td>
+                </tr> 
+                {/if}        
+
+
+
+              </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="text-right we7-margin-top">
+{$pager}
+</div>
+<script type="text/javascript">
+    $(function(){
+        // $("#frame-6").addClass("in");
+        $("#frame-6").show();
+        $("#yframe-6").addClass("wyactive");
+    })
+</script>
+{template 'common/footer'}

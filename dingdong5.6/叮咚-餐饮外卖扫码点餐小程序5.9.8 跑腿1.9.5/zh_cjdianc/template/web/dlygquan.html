@@ -1,0 +1,213 @@
+{template 'public/header'}
+{template 'public/comhead'}
+
+<style type="text/css">
+	/*#frame-4{display: block;visibility: visible;}*/
+  .navback{width: 0}
+  .yg_back{margin-left: 136px}
+  .panel-default>.wyheader{background-color: #F3F3F3;}
+  .yg14{margin-top: 30px;}
+  .addtabel1{margin-left: 20px;}
+  .addtabel2{height: 34px;border: 1px solid #e5e5e5;}
+  .quan1{background-color: #F8F8F8;padding: 15px;height: 85px;border-radius: 6px;margin-right: 20px;}
+  .quan1:hover{background-color: #E8E8E8;}
+  .quan1_img{
+  	width: 55px;
+  	height: 55px;
+  	background-color: #FF6600;
+  	border-radius: 6px;
+  	font-size: 24px;
+  	color: white;
+  	line-height: 26px;
+  	float: left;
+  	overflow: hidden;
+  }
+  .quan1_img>img{width: 55px;height: 55px;}
+  .quan_title{
+  	border-left: 3px solid #44ABF7;
+  	margin-bottom: 15px;
+  	font-weight: bold;
+  	font-size: 15px;
+  }
+  .quan1_text{margin-left: 10px;float: left;}
+  .quan1_text>p:nth-child(1){font-size: 14px;font-weight: bold;}
+  .quan1_text>p:nth-child(2){font-size: 12px;color: #999;}
+  .quan_mar{margin-top: 20px;}
+  a:hover{color: #333;}
+  .quanyg{padding: 0px;margin-bottom: 20px;}
+</style>
+
+  <div class="panel panel-default yg14">
+
+        <div class="panel-heading wyheader">营销设置</div>
+
+        <div class="panel-body">
+
+<form class="form-horizontal" action="" method="POST">
+	
+	<div class="col-md-12 quan_title">营销类</div>
+	<div class="col-md-12">
+		<a href="{php echo $this->createWebUrl2('dlinjian')}">
+			<div class="col-md-3 quanyg">
+				<div class="quan1">
+					<div class="quan1_img">
+						<img src="../addons/zh_cjdianc/template/images/manjianhuodong.png">
+					</div>
+					<div class="quan1_text">
+						<p>满减活动</p>
+						<p>满减活动</p>
+					</div>
+				</div>
+			</div>
+		</a>
+				<a href="{php echo $this->createWebUrl2('dlincoupons')}">
+			<div class="col-md-3 quanyg">
+				<div class="quan1">
+					<div class="quan1_img">
+						<img src="../addons/zh_cjdianc/template/images/youhuiquan.png">
+					</div>
+					<div class="quan1_text">
+						<p>优惠券</p>
+						<p>优惠券</p>
+					</div>
+				</div>
+			</div>
+		</a>
+		<!-- <a href="{php echo $this->createWebUrl2('dlvoucher')}">
+			<div class="col-md-3 quanyg">
+				<div class="quan1">
+					<div class="quan1_img">
+						<img src="../addons/zh_cjdianc/template/images/zhekouquan.png">
+					</div>
+					<div class="quan1_text">
+						<p>代金券</p>
+						<p>代金券</p>
+					</div>
+				</div>
+			</div>
+		</a> -->
+			
+		<!-- <a href="{php echo $this->createWebUrl2('dlinjfset')}">
+			<div class="col-md-3 quanyg">
+				<div class="quan1">
+					<div class="quan1_img">
+						<img src="../addons/zh_cjdianc/template/images/jifen.png">
+					</div>
+					<div class="quan1_text">
+						<p>积分设置</p>
+						<p>积分设置</p>
+					</div>
+				</div>
+			</div>
+		</a> -->	
+	</div>
+
+	<div class="col-md-12 quan_title quan_mar">辅助类</div>
+	<div class="col-md-12">
+		<a href="{php echo $this->createWebUrl2('dlinsms')}">
+			<div class="col-md-3 quanyg">
+				<div class="quan1">
+					<div class="quan1_img">
+						<img src="../addons/zh_cjdianc/template/images/duanxintongdao.png">
+					</div>
+					<div class="quan1_text">
+						<p>短信通道</p>
+						<p>短信通道</p>
+					</div>
+				</div>
+			</div>
+		</a>
+<!-- 		<a href="{php echo $this->createWebUrl2('dldada')}">
+			<div class="col-md-3 quanyg">
+				<div class="quan1">
+					<div class="quan1_img">
+						<img src="../addons/zh_cjdianc/template/images/dada.png">
+					</div>
+					<div class="quan1_text">
+						<p>达达配送</p>
+						<p>达达配送</p>
+					</div>
+				</div>
+			</div>
+		</a>
+		<a href="{php echo $this->createWebUrl2('dlkfwset')}">
+			<div class="col-md-3 quanyg">
+				<div class="quan1">
+					<div class="quan1_img">
+						<img src="../addons/zh_cjdianc/template/images/kuai.png">
+					</div>
+					<div class="quan1_text">
+						<p>快服务</p>
+						<p>快服务</p>
+					</div>
+				</div>
+			</div>
+		</a> -->
+		<!-- 	<a href="{php echo $this->createWebUrl2('dlrrset')}">
+			<div class="col-md-3 quanyg">
+				<div class="quan1">
+					<div class="quan1_img">
+						<img src="../addons/zh_cjdianc/template/images/rr.png">
+					</div>
+					<div class="quan1_text">
+						<p>人人快递</p>
+						<p>人人快递</p>
+					</div>
+				</div>
+			</div>
+		</a> -->
+		<a href="{php echo $this->createWebUrl2('dllaoz')}">
+			<div class="col-md-3 quanyg">
+				<div class="quan1">
+					<div class="quan1_img">
+						<img src="../addons/zh_cjdianc/template/images/laoz.png">
+					</div>
+					<div class="quan1_text">
+						<p>自动接单</p>
+						<p>自动接单</p>
+					</div>
+				</div>
+			</div>
+		</a>
+		<a href="{php echo $this->createWebUrl2('dlmt')}">
+			<div class="col-md-3 quanyg">
+				<div class="quan1">
+					<div class="quan1_img">
+						<img src="../addons/zh_cjdianc/template/images/mt.png">
+					</div>
+					<div class="quan1_text">
+						<p>门店媒体</p>
+						<p>门店媒体</p>
+					</div>
+				</div>
+			</div>
+		</a>
+		<a href="{php echo $this->createWebUrl2('dlgoodrank')}">
+			<div class="col-md-3 quanyg">
+				<div class="quan1">
+					<div class="quan1_img">
+						<img src="../addons/zh_cjdianc/template/images/phb.png">
+					</div>
+					<div class="quan1_text">
+						<p>菜品排行</p>
+						<p>菜品排行</p>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+	<div class="col-md-12"><br/><br/><br/><br/><br/><br/></div>
+
+</form>
+
+</div>
+
+</div>
+<script type="text/javascript">
+    $(function(){
+        // $("#frame-4").addClass("in");
+        $("#frame-4").show();
+        $("#yframe-4").addClass("wyactive");
+    })
+</script>
+{template 'common/footer'}

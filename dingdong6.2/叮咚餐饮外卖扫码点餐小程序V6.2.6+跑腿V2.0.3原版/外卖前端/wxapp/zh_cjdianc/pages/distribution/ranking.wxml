@@ -1,0 +1,4 @@
+<!--   time:2019-07-18 01:07:53 -->
+<view style="padding:20rpx 30rpx;background:#fff;">
+	<rich-text nodes="{{fxset.instructions}}"></rich-text>
+</view>

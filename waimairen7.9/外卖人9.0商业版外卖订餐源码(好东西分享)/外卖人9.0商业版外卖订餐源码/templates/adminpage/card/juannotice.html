@@ -1,0 +1,219 @@
+<{extends file="<{$tempdir}>/public/admin.html"}> 
+<{block name=extendjs}>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js"></script>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/adminpage/public/js/colorpicker.js"></script>
+<link rel="stylesheet" type="text/css" href="<{$siteurl}>/templates/adminpage/public/css/colorpicker.css">
+<link href="<{$siteurl}>/templates/adminpage/public/css/phone.css" rel="stylesheet" type="text/css">
+        <{/block}>
+ <{block name=controlname}>优惠券弹窗设置<{/block}>
+ <{block name=bodylist}>
+   <div style="width:auto;overflow-x:hidden;overflow-y:auto;bottom:50px;">
+       <div class="page" style="height:800px;">
+           <div class="appAddtoCon">
+               <div class="appAddtoLeft">
+                   <div class="appAddtoImgCon">
+                       <div class="appAddtoImgBox" style='background-color:#999999'>
+                             <div style='width:100%;height:50%;margin-top:35%;'>
+							     <div style='width:80%;height:100%;margin:0 auto;' >
+								     <div style='width:100%;height:40%;'>
+									     <img   <{ofunc type=img link="<{$jntimg}>" }>   style='width:100%;height:100%' id="jntimgshow1"/>
+									 </div>
+									 <div style='width:100%;height:60%;background-color:<{$jntcolor}>;' class='jntcolor' >
+									     <div style='width:90%;height:100%;margin:0 auto;'>
+									           <div><img src='<{$siteurl}>/templates/m7/public/wxsite/images/juans1.png' style='width:100%;height:40%;padding-top:4%'></div>
+											   <div><img src='<{$siteurl}>/templates/m7/public/wxsite/images/juans2.png' style='width:100%;height:40%;padding-top:4%'></div>
+									     </div>
+									 </div>
+								 </div>
+							 </div>
+							  
+                       </div>
+                   </div>
+               </div>
+               <!---  js 调用模块 -->
+               <div id="showjscontent"></div>
+			   <div id="bgimg">
+			       <div class='bgimgtit'>优惠券弹窗设置</div>
+			       <span style="border:none;color: #666666;padding-left: 24px;">头部广告图：</span>
+				   <div class='bgimgshow'> <img   <{ofunc type=img link="<{$jntimg}>" }>  style='width:230px;height:130px' id="jntimgshow"/></div>
+			       <div class='bgimgcz'>
+						<span>浏览上传</span>						 
+						<input class="appfile" type="file" id="imgFile" name="imgFile" />
+                        <input type="hidden" id="jntimg" value='<{$jntimg}>' />	
+						<input type="hidden" id="jntcolor" value='<{$jntcolor}>' />							
+                        <div style="text-align: left;margin:20px 0 0 15px;"><span style="border:none">优惠券背景颜色：</span> <div id="is_rgb" onclick="CW();"></div> </div>						
+				        <div id="getcolor">
+							 <form action="" style="width: 245px;">								 
+								 <div class="form-item" style='display:none'><label for="color">Color:</label><input type="text" id="color" name="color" value="<{$jntcolor}>"   style="width:61%;"/></div><div id="picker"> </div>
+							 </form>
+						 </div>
+				   </div>
+				   <div style='text-align: center;'><span style='border: 1px solid #ccc;cursor: pointer;padding: 2px 5px;' onclick='saveimgandcolor();'>提交保存</span></div>
+			   </div>
+			
+           </div>
+       </div>
+<script type="text/javascript" charset="utf-8">
+	$(document).ready(function() { 
+	 $('#picker').farbtastic('#color');
+	});
+ </script>
+ 
+<script>   
+ var conc = "<{$jntcolor}>";   
+ $(".jntcolor").css("background-color",conc);
+ $("#jntcolor").val(conc);
+ $("#is_rgb").css("background-color",conc);
+ function CW(){		
+	$('#color').css('background-color',conc);
+	$('#color').val(conc);
+	$("#getcolor").show();    
+}
+function setIndexColor(c){	 
+	$(".jntcolor").css("backgroundColor",c);
+	$("#jntcolor").val(c);
+	$("#is_rgb").css("background-color",c);
+}
+function saveimgandcolor(){   
+    var jntimg = $('#jntimg').val();
+	var jntcolor = $('#jntcolor').val();
+        
+    var url = '<{$siteurl}>/index.php?ctrl=adminpage&action=card&module=saveimgandcolor&random=@random@&datatype=json';
+	   $.ajax({
+		   type: 'post',
+		   async:true,
+		   data:{'jntimg': jntimg,'jntcolor':jntcolor},
+		   url: url.replace('@random@', 1+Math.round(Math.random()*1000)),
+		   dataType: 'json',success: function(content) {
+			   if(content.error == false){
+				    alert(content.msg);
+			   }else{
+				   if(content.error == true){
+					   alert(content.msg);
+				   }else{
+					   alert(content);
+				   }
+			   }
+		   },
+		   error: function(content) {
+			   alert('数据提交失败');
+		   }
+   })
+
+
+}
+</script>	   
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/adminpage/public/js/ajaxfileupload.js"> </script>
+<script>
+  
+  
+
+   $("#imgFile").live("change", function (){
+	   ajaxFileUpload();
+	   $("#upload").replaceWith($("#upload").clone(true));
+   });
+  
+   function ajaxFileUpload(){
+	   $.ajaxFileUpload({
+		   url:'<{$siteurl}>/index.php?ctrl=adminpage&action=weixin&module=uploadapp&uploaddir=cx&datatype=json',
+		   secureuri:false,
+		   fileElementId:'imgFile',
+		   dataType: 'json',
+		   data:{'inputname':'imgFile'},
+		   success: function (data, status){
+			   if(typeof(data.error) != 'undefined'){
+				   if(data.error == false){
+					   $('#jntimg').val(data.msg);
+					   $('#jntimgshow').attr('src', data.msg);
+					   $('#jntimgshow1').attr('src', data.msg);
+				   }else{
+					   alert(data.msg);
+				   }
+			   }else{
+				   alert(data);
+			   }
+		   },
+		   error: function (data, status, e){   
+			   alert(e);
+		   }
+	   })
+	   return false;
+
+   }
+
+</script>
+
+   </div>
+   <style>
+.gourl,.gourltit{
+    width: 166px;
+    height: 28px;
+    line-height: 28px;
+    padding: 0 15px;
+    font-size: 14px;
+    color: #666666;
+    background-color: #fff;
+    border: 1px solid #e6e6e6;
+}
+#picker {
+    margin: 20px 50px;
+}
+#is_rgb {
+    cursor: pointer;
+    width: 80px;
+    height: 20px;
+    display: inline-block;
+    position: relative;
+    top: 4px;
+}
+.bgimgcz span {
+    padding:5px 10px;
+    width: 58px;
+    height: 28px;
+    line-height: 28px;  
+    text-align: center;
+    font-size: 14px;
+    color: #666666;
+    border: 1px solid #cccccc;
+}
+#imgFile{
+    width: 80px;
+    height: 30px;
+    padding: 0;
+    opacity: 0;
+    filter: Alpha(opacity=0);
+    position: absolute;
+    top: 9px;
+	background-color:red;
+    right: 100px;
+}
+#bgimg,#bgimg1{
+    display:inline-block;
+    background-color: yellow;
+    width: 280px;
+    height: 590px;       
+    margin-left: 20px;
+	border: 1px solid #d6d6d6;    
+    background-color: #fff;
+}
+.bgimgtit{
+    font-weight:bold;
+    width: 100%;
+    height: 36px;
+    line-height: 36px;
+    background-color: #f0f0f0;
+	text-align:center;
+	font-size: 15px;
+    color: #666666;	
+}
+.bgimgshow{
+    padding: 10px 0;
+    text-align:center;
+}
+.bgimgcz{
+    padding: 10px 0;
+	text-align:center;
+	position:relative
+}
+</style>
+<{/block}>>

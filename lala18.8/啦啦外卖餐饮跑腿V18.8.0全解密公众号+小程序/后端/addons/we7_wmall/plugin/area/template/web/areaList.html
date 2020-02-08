@@ -1,0 +1,124 @@
+{itemplate 'public/header'}
+<form action="./index.php?" class="form-horizontal form-filter">
+	{php echo tpl_form_filter_hidden('area/area/list');}
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">区域状态</label>
+		<input type="hidden" name="status" value="{$_GPC['status']}">
+		<div class="col-sm-9 col-xs-12">
+			<div class="btn-group">
+				<a href="{php echo ifilter_url('status:-1');}" class="btn {if $status == -1}btn-primary{else}btn-default{/if}">不限</a>
+				<a href="{php echo ifilter_url('status:1');}" class="btn {if $status == 1}btn-primary{else}btn-default{/if}">启用</a>
+				<a href="{php echo ifilter_url('status:0');}" class="btn {if $status == 0}btn-primary{else}btn-default{/if}">未启用</a>
+			</div>
+		</div>
+	</div>
+	<div class="form-group form-inline">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">其他</label>
+		<div class="col-sm-9 col-xs-12">
+			<input type="text" name="keyword" value="" class="form-control" placeholder="区域ID/区域名称">
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+		<div class="col-sm-9 col-xs-12">
+			<button class="btn btn-primary">筛选</button>
+		</div>
+	</div>
+</form>
+<form action="" class="form-table form" method="post">
+	<div class="panel panel-table">
+		<div class="panel-heading">
+			<a href="{php echo iurl('area/area/post');}" class="btn btn-primary btn-sm">添加区域</a>
+		</div>
+		<div class="panel-body table-responsive js-table">
+			{if empty($categorys)}
+			<div class="no-result">
+				<p>还没有相关数据</p>
+			</div>
+			{else}
+			<table class="table table-hover">
+				<thead class="navbar-inner">
+				<tr>
+					<th>
+						<div class="checkbox checkbox-inline">
+							<input type="checkbox" name="id[]"/>
+							<label></label>
+						</div>
+					</th>
+					<th>区域名称</th>
+					<th>排序</th>
+					<th>是否显示</th>
+					<th style="text-align:right;">操作</th>
+				</tr>
+				</thead>
+				<tbody>
+				{loop $categorys $item}
+				<tr>
+					<td>
+						<input type="hidden" name="ids[]" value="{$item['id']}">
+						<div class="checkbox checkbox-inline">
+							<input type="checkbox" name="id[]" value="{$item['id']}">
+							<label></label>
+						</div>
+					</td>
+					<td>
+						<input type="text" name="title[]" class="form-control width-100" value="{$item['title']}">
+					</td>
+					<td>
+						<input type="text" name="displayorder[]" class="form-control width-100" value="{$item['displayorder']}">
+					</td>
+					<td>
+						<input type="checkbox" class="js-checkbox" data-href="{php echo iurl('area/area/status', array('id' => $item['id']));}" data-name="status" value="{$item['status']}" {if $item['status'] == 1}checked{/if}>
+					</td>
+					<td style="text-align:right;">
+						<a href="{php echo iurl('area/area/child', array('parentid' => $item['id']))}" class="btn btn-default btn-sm">添加子区域</a>
+						<a href="{php echo iurl('area/area/post', array('id' => $item['id']))}" class="btn btn-default btn-sm">修改区域</a>
+						<a href="{php echo iurl('area/area/del', array('id' => $item['id']))}" class="btn btn-default btn-sm js-remove" title="删除" data-toggle="tooltip" data-placement="top" data-confirm="确定删除该区域吗?"><i class="fa fa-times"> </i></a>
+					</td>
+				</tr>
+				{if !empty($item['child'])}
+					{loop $item['child'] $row}
+						<tr>
+							<td>
+								<input type="hidden" name="ids[]" value="{$row['id']}">
+								<div class="checkbox checkbox-inline">
+									<input type="checkbox" name="id[]" value="{$row['id']}">
+									<label></label>
+								</div>
+							</td>
+							<td style="padding-left: 35px;">
+								<input type="text" name="title[]" class="form-control width-100" value="{$row['title']}">
+							</td>
+							<td>
+								<input type="text" name="displayorder[]" class="form-control width-100" value="{$row['displayorder']}">
+							</td>
+							<td>
+								<input type="checkbox" class="js-checkbox" data-href="{php echo iurl('area/area/status', array('id' => $row['id']));}" data-name="status" value="{$row['status']}" {if $row['status'] == 1}checked{/if}>
+							</td>
+							<td style="text-align:right;">
+								<a href="{php echo iurl('area/area/child', array('id' => $row['id']))}" class="btn btn-default btn-sm">修改区域</a>
+								<a href="{php echo iurl('area/area/del', array('id' => $row['id']))}" class="btn btn-default btn-sm js-remove" title="删除" data-toggle="tooltip" data-placement="top" data-confirm="确定删除该区域吗?"><i class="fa fa-times"> </i></a>
+							</td>
+						</tr>
+					{/loop}
+				{/if}
+				{/loop}
+				</tbody>
+			</table>
+			<div class="btn-region clearfix">
+				<div class="pull-left">
+					<input name="token" type="hidden" value="{$_W['token']}" />
+					<input type="submit" class="btn btn-primary btn-sm" value="提交修改">
+					{if $_W['is_agent']}
+					<a href="{php echo iurl('haodian/category/categoryagent')}" class="btn btn-default btn-sm js-batch" data-batch="modal">批量操作</a>
+					{/if}
+				</div>
+				<div class="pull-right">
+					{$pager}
+				</div>
+			</div>
+			{/if}
+		</div>
+	</div>
+</form>
+{itemplate 'public/footer'}

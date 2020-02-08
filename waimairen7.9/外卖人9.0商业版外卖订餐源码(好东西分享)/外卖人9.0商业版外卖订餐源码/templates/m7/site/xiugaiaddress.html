@@ -1,0 +1,87 @@
+<div style="overflow: hidden; position: absolute; width: 560px; height: 400px; left:50%; top: 50%; margin-top:-200px; margin-left:-280px; background-color: rgb(255, 255, 255);" class="mod-dialog-wrap">
+		<div class="addr-detail" id="new-address-section">   
+			<form id="addform">       
+				<table class="addr-table" border="0">           
+					<tbody>
+						<tr>                
+							<td valign="top">
+								<span class="l-label">姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名</span>
+							</td>                
+							<td>        
+            
+								<input type="hidden" value="<{$addinfo['id']}>" id="address_id" name="address_id">                   
+								<div class="form-group">                        
+									<div class="input-control">                            
+										<input type="text" name="contactname" id="yonghuming" placeholder="您的姓名" value="<{$addinfo['contactname']}>" class="placeholder-con yonghuming"> <span class="star">*</span>                       
+									</div>                        
+									<div class="error-msg v-hide yhm">请填写您的姓名，不能超过8个字符</div>                   
+								</div>                   
+								<div class="form-group">                       
+									<div class="input-control"  id="xingbie">                           
+										<div class="s-gender <{if $addinfo['sex'] ==1 }> selected  <{/if}> " data-gender="1">                                <i></i><span>先生</span>                            </div>  
+										<div class="s-gender  <{if $addinfo['sex'] ==2 }> selected  <{/if}> "  data-gender="2">                                <i></i><span>女士</span>                            </div>                        
+									</div>                       
+									<div class="error-msg v-hide">请选择您的性别</div>                    </div>                
+							</td>            
+					    </tr>           
+						<tr>                
+						<td valign="top"><span class="l-label">电&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;话</span></td>                
+						<td>                    
+						<div class="form-group">                        
+						<div class="input-control">                           
+						<input type="text" name="phone" id="shoujihao" placeholder="11位手机号" value="<{$addinfo['phone']}>" class="placeholder-con shoujihao">                            <span class="star">*</span>                       
+						</div>                        
+						<div class="error-msg v-hide sjh">请填写正确的手机号</div>                 
+						</div>               
+						</td>           
+						</tr>            
+				<!-- 		<tr>                
+							<td valign="top"><span class="l-label">位&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;置</span></td>                
+							<td>                   
+								<div class="form-group">     
+									<div class="input-control poi_address">   
+										<i class="addr-icon-input"></i>                          
+										<input type="text" name="sug_address" id="poi_address" placeholder="请输入小区、大厦或学校" value="" class="placeholder-con">                            
+										<span class="star">*</span>                                                        
+										<input type="hidden" name="hide_sug_address" value="-" id="hide_poi_address">                        
+									</div>                       
+									<div class="error-msg v-hide">请输入地址并在下拉框中进行选择</div>                     
+									<div class="s-search-container2 mod-search-hide mod-search-container"></div>                                        
+								</div>                
+							</td>           
+						</tr>  -->           
+						<tr>               
+							<td valign="top"><span class="l-label">详细地址</span></td>               
+							<td>                    
+								<div class="form-group">                        
+									<div class="input-control">                                                       
+										<input type="text" name="add_new" id="newaddress" placeholder="请输入门牌号等详细信息" value="<{if empty($addinfo['address'] )}><{$areainfo|default:''}><{else}><{$addinfo['address']}><{/if}>" class="placeholder-con newaddress">      <span class="star">*</span>                   
+									</div>                       
+									<div class="error-msg v-hide ndd">请输入门牌号等详细信息</div>                   
+								</div>                
+							</td>            
+						</tr>      
+				</tbody>
+			</table>       
+
+			<div class="form-group form-submit">           
+			<input type="button" class="saveBtn" onclick="newAddr();" data-node="saveBtn" value="保存">                            <input type="button" class="escBtn versa" value="取消">                   
+			</div>    
+			</form>
+			</div>
+			
+			</div>
+			
+			
+			
+<script>
+$(".escBtn").click(function(){
+	$(".mod-dialog-frame").hide();
+});
+
+$(".s-gender").click(function(){
+
+	$(this).addClass('selected').siblings().removeClass('selected');
+});
+</script>
+			

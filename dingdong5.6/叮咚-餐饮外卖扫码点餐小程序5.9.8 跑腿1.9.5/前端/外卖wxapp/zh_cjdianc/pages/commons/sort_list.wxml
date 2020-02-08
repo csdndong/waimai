@@ -1,0 +1,18 @@
+<template name="sort_list">
+    <view class="sort-list">
+        <view bindtap="onOverallTag" class="sort {{selected==0?'sort-active':''}}">
+            <view>{{sortSelected}}</view>
+            <image class="{{mask1Hidden?'sortimg':'sortimg1'}}" src="/zh_cjdianc/img/down1.png"></image>
+        </view>
+        <view bindtap="onTapTag" class="sort {{selected==1?'sort-active':''}}" data-index="1">
+      距离最近
+    </view>
+        <view bindtap="onTapTag" class="sort {{selected==2?'sort-active':''}}" data-index="2">
+      好评优先
+    </view>
+        <view bindtap="onFilter" class="sort {{issx?'sort-active':'sort-active2'}}">
+            <view>筛选</view>
+            <image class="sortimg" src="/zh_cjdianc/img/screen.png"></image>
+        </view>
+    </view>
+</template>

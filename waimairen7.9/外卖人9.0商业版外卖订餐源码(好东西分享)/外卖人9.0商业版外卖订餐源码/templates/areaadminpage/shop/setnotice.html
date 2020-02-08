@@ -1,0 +1,55 @@
+<html xmlns="http://www.w3.org/1999/xhtml"><head> 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+<meta http-equiv="Content-Language" content="zh-CN"> 
+<meta content="all" name="robots"> 
+<meta name="description" content=""> 
+<meta content="" name="keywords"> 
+<title>店铺佣金比例</title> 
+<link rel="stylesheet" type="text/css" href="<{$siteurl}>/templates/<{$tempdir}>/public/css/admin.css">
+ <link rel="stylesheet" type="text/css" href="<{$siteurl}>/templates/<{$tempdir}>/public/css/index.css"> 
+ <script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/jquery.js" type="text/javascript" language="javascript"></script>  
+ <script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/artDialog.js?skin=wmrPopup"></script>
+ <script>
+ $(function(){
+	$(".popLayCon .popLayBox .popLayOrdCon .popLayOrdNot ul li .popRada").click(function(){
+		var x = $(".popLayCon .popLayBox .popLayOrdCon .popLayOrdNot ul li .popRada").index(this);
+ 		$(".popLayCon .popLayBox .popLayOrdCon .popLayOrdNot ul li .popRadb").eq(x).toggleClass("popLayRadi")
+		})
+			
+	 
+});
+ </script>
+</head>
+<body >
+	 <form  method="post" name="upform" action="<{ofunc type=url link="/areaadminpage/shop/module/saveshoppnotice"}>" style="text-align:center;">  
+	 	
+		<div class="popLayCon ">
+ 
+	<div class="popLayBox">
+		<div class="popLayOrdCon">
+			<div class="popLayOrdNot">
+				<h4 style="text-align:left;">普通通知</h4>
+				<ul>
+					<li><input type="checkbox" name="pstype[]" value="1" <{if in_array('1',$noticetype)}>checked<{/if}> class="popRada"><i class="popRadb <{if in_array('1',$noticetype)}>popLayRadi<{/if}>"></i><span>短信</span></li>
+					<li><input type="checkbox" name="pstype[]" value="2"  <{if in_array('2',$noticetype)}>checked<{/if}> class="popRada"><i class="popRadb <{if in_array('2',$noticetype)}>popLayRadi<{/if}>"></i><span>邮箱</span></li>
+					<li><input type="checkbox" name="pstype[]" value="3"  <{if in_array('3',$noticetype)}>checked<{/if}> class="popRada"><i class="popRadb <{if in_array('3',$noticetype)}>popLayRadi<{/if}>"></i><span>app</span></li>
+   				</ul>
+			</div>
+			<div class="popLayOrdPri">
+				<ul>
+					<li><span>打印机密钥</span><input type="text" name="mKey" value="<{$mKey}>"></li>
+					<li><span>打印机编码</span><input type="text" name="machine_code" value="<{$machine_code}>" ></li>
+				</ul>
+			</div>
+			<div class="popLayOrdExp"><p>说明：当网站没设置 对应的方式， 即使在店铺设置后，也不启效</p></div>
+				  <input type="hidden" value="<{$shopid}>" name="shopid">
+			<div class="popLayOrdBut"><input type="submit" value="保存设置"></div>
+		</div>
+	</div>
+</div>
+		 
+	 	
+	 	
+  </form> 
+</body>
+</html>

@@ -1,0 +1,51 @@
+<scroll-view class="scrollView" scrollY="true">
+    <view>
+        <view class="dinner_Number">餐桌
+            <text class="cfFFD050 ml5">{{deskData.name}}</text>
+        </view>
+        <view class="select_group">
+            <view class="addBorderBpttom" wx:for="{{orderDetail}}" wx:for-index="Findex">
+                <view class="flexSb p20 f32 cf767676">
+                    <view class="flex">
+                        <image class="avator" src="../../../img/moren.png" wx:if="{{item.uid==0}}"></image>
+                        <image class="avator" src="{{item.userData.avatarurl}}" wx:else></image>
+                        <view class="ml20" wx:if="{{item.uid==0}}">服务员</view>
+                        <view class="ml20" wx:else>{{item.userData.nickname}}</view>
+                    </view>
+                    <view bindtap="displayAll" class="flex" data-id="{{item.uid}}">
+                        <view>{{item.goods_count}}份
+                            <text wx:if="{{item.is_up_goods}}">({{item.is_up_goods}}待上菜)</text>
+                        </view>
+                        <view class="iconfont icon-qianjin ml20 {{item.show?'transUp':'transleft'}}"></view>
+                    </view>
+                </view>
+                <view class="transition" style="height: {{item.show?item.items.length*280:0}}rpx; opacity:{{item.show?1:0}}">
+                    <view class="list_containner flexSb" wx:for="{{item.items}}" wx:for-item="order">
+                        <view class="flex ml30">
+                            <image class="itemImgSrc" src="{{order.cover}}"></image>
+                            <view class="f28 ml30">
+                                <view class="f34">{{order.goods_name}}</view>
+                                <view class="cffc0534 mt10 f38">
+                                    <text class="f24">￥</text>{{order.price}}</view>
+                            </view>
+                        </view>
+                        <view bindtap="selectItem" class="orderInfo_list_state cfbdbdbd" data-id="{{order.id}}" data-uid="{{item.uid}}" wx:if="{{order.status==0}}">
+                            <radio checked="{{order.selected}}" class="mt20" color="#ffd050"></radio>
+                            <view class="f26 mt80">x{{order.count}}</view>
+                        </view>
+                        <view class="orderInfo_list_state flex bgffe7a7" wx:if="{{order.status==2}}">已退菜</view>
+                        <view class="orderInfo_list_state flex bgffd050" wx:if="{{order.status==1}}">已上菜</view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="block100"></view>
+        <view class="footer flex" wx:if="{{desk_id}}">
+            <view>
+                <radio bindtap="selectAll" checked="{{checkAll}}" color="#ffd050" value="全选"></radio> 全选
+            </view>
+            <view bindtap="returnFoods" class="operation bgffe7a7">退菜</view>
+            <view bindtap="takeFood" class="operation bgffd050">上菜</view>
+        </view>
+    </view>
+</scroll-view>

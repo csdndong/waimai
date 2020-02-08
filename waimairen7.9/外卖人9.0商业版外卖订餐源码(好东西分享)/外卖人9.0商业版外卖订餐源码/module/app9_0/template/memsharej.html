@@ -1,0 +1,305 @@
+ <{extends file="<{$tempdir}>/public/wxsite.html"}>  
+<{block name=extendcss}> 
+ <link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/member_share_quan.css">  
+ <style>
+ body{   background:<{$shareinfo['color']}>!important;}
+ </style>
+<{/block}>
+ <{block name=extendjs}>  
+  <script> 
+		var myScroll;
+function loaded() {
+	myScroll = new iScroll('wrapper', {
+		useTransform: false,
+		onBeforeScrollStart: function (e) {
+			var target = e.target;
+			while (target.nodeType != 1) target = target.parentNode;
+
+			if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA')
+				e.preventDefault();
+		}
+	});
+}
+document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false); 
+document.addEventListener('DOMContentLoaded', function () { setTimeout(loaded, 200); }, false);
+</script>
+<{/block}>
+<{block name=sitetitle}><{$sitename}><{/block}>
+<{block name=hearnav}>
+<style>
+.toptitBox .toptitL{width: 2.625%;}
+ #IosBox{ background:#ff6e6e; height:30px; }
+</style>
+<div class="toptitCon">
+<div id="IosBox">
+</div>
+ <div class="toptitBox">
+  <div class="toptitL"><i onclick="window.waimai.goback();"></i></div>
+  <div class="toptitC"><h3>分享有礼</h3></div>
+ </div>
+</div>
+<{/block}>
+<{block name=footer}><{/block}>
+<{block name=myScrolljs}> 
+<script>
+$(function(){
+	if (/android/i.test(navigator.userAgent)){
+ 		$("#wrapper").css({'top':'70px'});
+	}
+
+	if (/ipad|iphone|mac/i.test(navigator.userAgent)){
+		$("#wrapper").css({'top':'70px'});
+	}
+});
+// 
+</script>
+<{/block}>
+<{block name=blockcontent}> 
+ <div id="wrapper" style="top:40px;bottom:0px;">
+	<div id="scroller">
+	
+
+	<div class="shareBanCon" style="height:auto;">
+			<img src="<{$siteurl}><{$shareinfo['bigimg']}>" />
+	</div>
+	
+ <{if $checkinfosendjuan  == 1 }>
+	<div class="shareBtnCon">
+			<input type="button" onclick="window.waimai.goshare('<{ofunc type=url link="/wxsite/memsharehb/key/<{$jiamiuidkey}>"}>','<{$shareinfo['title']}>','<{$shareinfo['describe']}>','<{$shareinfo['img']}>','<{$share_img}>');" value="马上分享  拿优惠券" class="shareBtn" />
+	</div>
+<{else}>
+	<div class="shareBtnCon">
+			<input type="button"  style="background:#ccc;" value="暂未开放  敬请期待" class="shareBtn" />
+	</div> 
+<{/if}>	
+	
+	<div class="shareRuleCon">
+			<div class="shareRule"  style="background:<{$shareinfo['actcolor']}>!important;" >
+				<h3><img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/share_tit.png" alt="活动规则" /></h3>
+				<div id="activerule" style="">
+						<{$shareinfo['avtrule']|htmlspecialchars_decode|default:'暂无说明'}>
+						 
+				</div>
+			</div>
+			<div class="shareRuleImg">
+				<img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/share_lh.png">
+			</div>
+		</div>
+
+   
+ 
+ <div style="height:20px;"></div>
+ 
+ </div> 
+ </div> 
+ <style>
+#activerule {
+padding: 15px 2.8571% 25px 2.8571%;
+}   
+ #activerule ul{    width: 100%!important;
+					margin: 0px!important; 
+					padding: 0px!important;}
+ #activerule img{ width:100%!important;}
+ </style>
+ 
+ 
+
+ <div id="zhezhao2" class="zhezhao2"  onclick="zhezhao2();" ></div>
+ <div id="zhehzuoshareimg">
+	 <img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/clicksharebg.png" />
+ </div>
+<style>
+#zhehzuoshareimg img {width:150px; }
+#zhehzuoshareimg{
+	position: absolute;z-index: 99999999999999999999;top:5px; right:25px; display:none;
+} 
+.zhezhao2 {
+   display:none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 99999999999999999999;
+  width:100%;
+  height:100%;
+  background-color: #000;
+  opacity: 0.5;
+  filter: alpha(opacity=50);
+}
+</style>
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/js/jweixin-1.0.0.js"></script>  
+ <script>
+function getshareinfo(){
+	
+}
+ 
+ <{if $checkinfosendjuan  == 1 }>
+ 
+   function clickshare(){
+		$("#zhezhao2").show();
+ 		$("#zhehzuoshareimg").show();
+ 	}
+	function zhezhao2(){
+		$("#zhezhao2").hide();
+ 		$("#zhehzuoshareimg").hide();
+	}
+	 
+ 
+ var sharelink = '<{ofunc type=url link="/wxsite/memsharehb/key/<{$jiamiuidkey}>"}>';
+ var sharetitle = '<{$shareinfo['title']}>';
+ var sharedesc = '<{$shareinfo['describe']}>';
+ var shareimgUrl = '<{$shareinfo['img']}>';
+ 
+ 
+     wx.config({
+      debug: false,
+      appId: '<{$signPackage['appId']}>',
+      timestamp: '<{$signPackage['timestamp']}>',
+      nonceStr: '<{$signPackage['nonceStr']}>',
+      signature: '<{$signPackage['signature']}>',
+      jsApiList: [
+        'checkJsApi',
+        'onMenuShareTimeline',
+        'onMenuShareAppMessage',
+        'onMenuShareQQ',
+        'onMenuShareWeibo',
+        'onMenuShareQZone'
+      ]
+  });
+  wx.ready(function(){
+   // 2. 分享接口
+  // 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
+ // document.querySelector('#onMenuShareAppMessage').onclick = function () {
+    wx.onMenuShareAppMessage({
+      title: sharetitle,
+      desc: sharedesc,
+      link: sharelink,
+      imgUrl: shareimgUrl,
+      trigger: function (res) {
+        // 不要尝试在trigger中使用ajax异步请求修改本次分享的内容，因为客户端分享操作是一个同步操作，这时候使用ajax的回包会还没有返回
+      //  Tmsg('用户点击发送给朋友');
+      },
+      success: function (res) {
+      //  Tmsg('分享成功');
+      },
+      cancel: function (res) {
+       // Tmsg('已取消');
+      },
+      fail: function (res) {
+      //  Tmsg(JSON.stringify(res));
+      }
+    });
+   // Tmsg('已注册获取“发送给朋友”状态事件');
+//};
+
+
+	 // 2.2 监听“分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
+	//  document.querySelector('#onMenuShareTimeline').onclick = function () {
+		wx.onMenuShareTimeline({
+		  title: sharetitle,
+		  desc: sharedesc,
+		  link: sharelink,
+		  imgUrl: shareimgUrl,
+		  trigger: function (res) {
+			// 不要尝试在trigger中使用ajax异步请求修改本次分享的内容，因为客户端分享操作是一个同步操作，这时候使用ajax的回包会还没有返回
+			//Tmsg('用户点击分享到朋友圈');
+		  },
+		  success: function (res) {
+		//	Tmsg('分享成功');
+		  },
+		  cancel: function (res) {
+		//	Tmsg('已取消');
+		  },
+		  fail: function (res) {
+		//	Tmsg(JSON.stringify(res));
+		  }
+		});
+	//	Tmsg('已注册获取“分享到朋友圈”状态事件');
+	//  };
+
+  // 2.3 监听“分享到QQ”按钮点击、自定义分享内容及分享结果接口
+ // document.querySelector('#onMenuShareQQ').onclick = function () {
+    wx.onMenuShareQQ({
+     title: sharetitle,
+      desc: sharedesc,
+      link: sharelink,
+      imgUrl: shareimgUrl,
+      trigger: function (res) {
+       // Tmsg('用户点击分享到QQ');
+      },
+      complete: function (res) {
+     //   Tmsg(JSON.stringify(res));
+      },
+      success: function (res) {
+     //   Tmsg('分享成功');
+      },
+      cancel: function (res) {
+     //   Tmsg('已取消');
+      },
+      fail: function (res) {
+     //   Tmsg(JSON.stringify(res));
+      }
+    });
+  //  Tmsg('已注册获取“分享到 QQ”状态事件');
+ // };
+  
+  // 2.4 监听“分享到微博”按钮点击、自定义分享内容及分享结果接口
+ // document.querySelector('#onMenuShareWeibo').onclick = function () {
+    wx.onMenuShareWeibo({
+    title: sharetitle,
+      desc: sharedesc,
+      link: sharelink,
+      imgUrl: shareimgUrl,
+      trigger: function (res) {
+    //    Tmsg('用户点击分享到微博');
+      },
+      complete: function (res) {
+     //   Tmsg(JSON.stringify(res));
+      },
+      success: function (res) {
+    //    Tmsg('分享成功');
+      },
+      cancel: function (res) {
+      //  Tmsg('已取消');
+      },
+      fail: function (res) {
+    //    Tmsg(JSON.stringify(res));
+      }
+    });
+  //  Tmsg('已注册获取“分享到微博”状态事件');
+//  };
+
+  // 2.5 监听“分享到QZone”按钮点击、自定义分享内容及分享接口
+ // document.querySelector('#onMenuShareQZone').onclick = function () {
+    wx.onMenuShareQZone({
+      title: sharetitle,
+      desc: sharedesc,
+      link: sharelink,
+      imgUrl: shareimgUrl,
+      trigger: function (res) {
+    //    Tmsg('用户点击分享到QZone');
+      },
+      complete: function (res) {
+   //     Tmsg(JSON.stringify(res));
+      },
+      success: function (res) {
+  //      Tmsg('分享成功');
+      },
+      cancel: function (res) {
+   //     Tmsg('已取消');
+      },
+      fail: function (res) {
+   //     Tmsg(JSON.stringify(res));
+      }
+    });
+ //   Tmsg('已注册获取“分享到QZone”状态事件');
+ // };
+
+});
+
+
+<{/if}>
+   </script> 
+ 
+<{/block}>

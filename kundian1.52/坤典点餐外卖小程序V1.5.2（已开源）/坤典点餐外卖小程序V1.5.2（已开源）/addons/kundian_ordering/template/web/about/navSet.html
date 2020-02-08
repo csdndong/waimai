@@ -1,0 +1,147 @@
+{template 'web/common/common'}
+{template 'web/about/navbar'}
+<link rel="stylesheet" type="text/css" href="../addons/kundian_ordering/resource/css/layui.css" />
+<link rel="stylesheet" type="text/css" href="../addons/kundian_ordering/resource/css/style.css" />
+<style>
+    .nav-item{
+        display: inline-block;
+        padding: 6px;
+        width: 100px;
+        height: 100px;
+        overflow: hidden;
+        position: relative;
+        vertical-align: middle;
+        float: left;
+    }
+    .nav-icon{
+        display: block;
+        width: 35px;
+        height: 35px;
+        margin: 0 auto 10px auto;
+    }
+    .nav-text{
+        display: block;
+        text-align: center;
+        font-size: .75rem;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+    .nav-delete{
+        background: rgba(255, 69, 68, 0.73);
+        border-radius: 0 0 2px 0;
+        right: 0;
+        left: auto;
+        position: absolute;
+        bottom: 0;
+        color: #fff !important;
+        font-size: .75rem;
+        width: 50%;
+        text-align: center;
+        display: block;
+        padding: 2px 0;
+        visibility: hidden;
+        opacity: 0;
+        transition: 200ms;
+    }
+    .nav-edit{
+        position: absolute;
+        bottom: 0;
+        color: #fff !important;
+        font-size: .75rem;
+        width: 50%;
+        text-align: center;
+        display: block;
+        padding: 2px 0;
+        visibility: hidden;
+        opacity: 0;
+        transition: 200ms;
+        background: rgba(0, 102, 212, 0.73);
+        border-radius: 0 0 0 2px;
+        left: 0;
+    }
+    .nav-item:hover .nav-delete,
+    .nav-item:hover .nav-edit {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .row{
+        width: 375px;height: 100px;
+    }
+    .row-1 .nav-item{width: 100%;}
+    .row-2 .nav-item{width: 50%;}
+    .row-3 .nav-item{width: 33.3%;}
+    .row-4 .nav-item{width: 25%;}
+    .row-5 .nav-item{width: 20%;}
+
+</style>
+<div class="layui-content">
+    <div id="app">
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <a class="layui-btn layui-btn-sm layui-btn-normal" href="{url 'site/entry/about',array('m'=>'kundian_ordering','op'=>'addNav','version_id'=>$_GPC['version_id'])}">增加</a>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                {if $list}
+                <div class="row row-{$count}">
+                    {loop $list $k $v}
+                    <div class="nav-item" style="background:{$v['color']}">
+                        <img src="{$v['icon']}" class="nav-icon" alt="">
+                        <div class="nav-text">{$v['title']}</div>
+                        <div class="nav-text">{$v['eng_title']}</div>
+                        <a class="nav-delete" data-index="{$v['id']}" href="javascript:">删除</a>
+                        <a class="nav-edit" href="{url 'site/entry/about',array('m'=>'kundian_ordering','op'=>'addNav','id'=>$v['id'],'version_id'=>$_GPC['version_id'])}" data-index="{$val['id']}">编辑</a>
+                    </div>
+                    {/loop}
+                </div>
+
+                {/if}
+            </div>
+        </div>
+        <div class="layui-form-item" style="margin-top: 70px;">
+            <div class="layui-input-block">
+                <!--<span style="color: gray;">提示：请尽量将小程序的第一个导航链接设置为首页!</span>-->
+            </div>
+        </div>
+
+    </div>
+</div>
+{template 'common/footer'}
+<script src="../addons/kundian_ordering/resource/js/jquery-1.11.1.min.js" charset="utf-8"></script>
+<script src="../addons/kundian_ordering/resource/layui.js" charset="utf-8"></script>
+<script>
+    layui.use(['form','laypage', 'layer'], function() {
+
+        $(".nav-delete").click(function () {
+            var url="{url 'site/entry/'.$_GPC['do'],array('m'=>$_GPC['m'],'op'=>'update_tabbar','version_id'=>$_GPC['version_id'])}"
+        })
+
+        //删除导航
+        $(".nav-delete").click(function () {
+            var that=$(this);
+            var id=$(this).attr("data-index");
+            layer.confirm('确认删除吗', {icon: 3, title:'确认'}, function(index){
+                $.ajax({
+                    type:"post",
+                    url:"{url 'site/entry/'.$_GPC['do'],array('m'=>$_GPC['m'],'op'=>'deleteNav','version_id'=>$_GPC['version_id'])}",
+                    data:{id:id},
+                    dataType:'json',
+                    success:function(res){
+                        if(res.status==1){
+                            layer.alert('删除成功');
+                            that.parent().remove();
+                        }else{
+                            layer.alert('删除失败');
+                        }
+                        layer.close(index);
+
+                    }
+                })
+
+            });
+        })
+    })
+</script>

@@ -1,0 +1,59 @@
+{itemplate 'public/header'}
+<div class="page clearfix" ng-controller="processor">
+	<form class="form-horizontal form" id="form1" action="" method="post" enctype="multipart/form-data">
+		<h2>{$superRedpacket['name']}</h2>
+		<div class="progress">
+			<div class="progress-bar progress-bar-danger" ng-style="style">
+				{{pragress}}
+			</div>
+		</div>
+		<span class="help-block">红包正在发送中，请勿关闭浏览器</span>
+<!--		<div class="alert alert-danger" ng-show="fails.length > 0">
+			<i class="fa fa-info-circle"></i> 有{{fails.length}}个顾客发送失败,您可以选择重新发送
+		</div>-->
+	</form>
+</div>
+<script>
+	require(['angular'], function(angular) {
+		var running = true;
+		window.onbeforeunload = function(e) {
+			if(running) {
+				return (e || window.event).returnValue = '正在发送红包中,确定离开页面吗?';
+			}
+		}
+		angular.module('app', []).controller('processor', function($scope, $http) {
+			$scope.uids = {php echo json_encode($superRedpacket['grant_object'])};
+			var total = $scope.uids.total;
+			var i = 0;
+			running = true;
+			var proc = function() {
+				var percent = (i / total).toFixed(2);
+				if(percent > 1) {
+					percent = 1
+				}
+				$scope.pragress = percent * 100 + "%";
+				$scope.style = {'width': percent * 100 + "%"};
+				if($scope.more == 0) {
+					running = false;
+					Notify.success('发送完成', "{php echo iurl('superRedpacket/grant/list')}");
+					return;
+				}
+				$http.post(location.href).success(function(data) {
+					i += 20;
+					if(data.message.errno != 0) {
+						Notify.error(data.message.message);
+						return;
+					}
+					$scope.more = data.message.message;
+					proc();
+				}).error(function() {
+					i += 20;
+					proc();
+				});
+			}
+			proc();
+		});
+		angular.bootstrap(document, ['app']);
+	});
+</script>
+{itemplate 'public/footer'}

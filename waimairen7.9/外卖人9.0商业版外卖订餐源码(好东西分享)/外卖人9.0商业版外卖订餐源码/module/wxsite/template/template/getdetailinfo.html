@@ -1,0 +1,671 @@
+ <{extends file="<{$tempdir}>/public/wxsite.html"}>  
+  <{block name=extendjs}> 
+  <script src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/js/template.min.js"></script>    
+    <script src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/js/wxshop.js"></script>  
+   <script src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/js/cart.js"></script>
+ <script src="<{$siteurl}>/js/Swiper/idangerous.swiper.js"></script>
+ <link rel="stylesheet"  href="<{$siteurl}>/js/Swiper/idangerous.swiper.css">
+  <link rel="stylesheet" href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/shopcart/css/font-awesome.min.css" />
+<link rel="stylesheet" href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/shopcart/css/index.css" />
+<link rel="stylesheet" href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/newshop/css/font-awesome.min.css" />
+<link rel="stylesheet" href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/newshop/css/index.css" />
+   <script> 
+		var myScroll;
+function loaded() {
+	myScroll = new iScroll('wrapper', {
+		useTransform: false,
+		onBeforeScrollStart: function (e) {
+			var target = e.target;
+			while (target.nodeType != 1) target = target.parentNode;
+
+			if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA')
+				e.preventDefault();
+		}
+	});
+}
+document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false); 
+document.addEventListener('DOMContentLoaded', function () { setTimeout(loaded, 200); }, false);
+</script>
+ <script>
+   	 var shopid = <{$shopinfo['id']}>;
+   	 var is_goshop = <{$shopdet['is_goshop']|default:0}>;
+   	 var checknext = false;
+   	 var shoplimitcost = '<{$shopdet['limitcost']}>';
+   	 var zuocart = '<{$siteurl}>/index.php?ctrl=wxsite&action=gowei&id=<{$id}>';
+   	 
+   	  $(function(){ 
+	$('.fa-angle-left').bind("click", function() {
+      history.back();
+   });
+
+	if( shoplimitcost == 0 ){
+		$("#addShopping").show();
+	}else{
+		$("#showlimit").show();
+	}
+
+  
+	  
+  		/*初始化样式*/
+  		   url = siteurl+'/index.php?ctrl=wxsite&action=cart&shopid='+shopid+'&datatype=json&random=@random@';
+        url = url.replace('@random@', 1+Math.round(Math.random()*1000));
+      	var bk = ajaxback(url,''); 
+      	 initshop(bk);
+      	 
+ 
+         <{if $shopshowtype == 'dingtai'}> 
+              ShowChangezuo();
+         <{/if}>
+  	});
+  	function myyanchi(){
+  		
+  		  checknext = false;
+  	}
+  	function sortitemclick(doid,obj){  
+  	  // var scroptop= $('#listto_'+doid).offset().top-40;// checktype == '1'?Number($("#sort_sh_"+doid).offset().top)-81:Number($("#sort_sh_"+doid).offset().top)-162;
+  	 // alert(doid);
+  	  //right_list
+  	   
+  	  var defaultheight = 0;
+  	  var listobj = $('.right_list_box');
+  	  for(var i=0;i<$(listobj).length;i++){
+  	   
+  	    if($(listobj).eq(i).attr('data') == doid){
+  	     
+  	       break;
+  	    }else{ 
+  	       defaultheight = Number(defaultheight)+Number($(listobj).eq(i).height());
+  	     }
+  	  }
+  	  $(obj).addClass('on').siblings().removeClass('on'); 
+  	  scroll2.scrollTo(0,Number(defaultheight)*-1,200,false); 
+ 
+    }
+  	function initshop(datas){ 
+ 
+  		 $('.onselect').removeClass('onselect');
+	         	 $('.righ_l_b_btn_moren').show();
+	         	 $('.righ_l_b_btn_hover').hide();
+	         	 $('.cartshuliang').hide();
+	         	 $('.right_l_btn_nub').val(0);
+	         	 $('.cartshuliang').text(0);
+	         	 $('#total_count').text(0);
+	         	 $('#total_money').text(0);
+	      if(datas.flag == false){    
+	         if($('#total_money').html() != undefined){ 
+	         	
+	         	    $('.qipao').text(0);
+	         	 $.each(datas.content.list, function(i,val){   
+	         	 	
+	         	 	 if($('#gidli_'+val.id).html() != undefined){  
+	         	 	 	  var typeid = $('#gidli_'+val.id).attr('typeid');
+  	                 $('#gidli_'+val.id).addClass('onselect');
+					  
+					               if($('#cp_'+val.typeid).html() != undefined){
+									   if($('#cp_'+val.typeid).find('.qipao').eq(0).html() != undefined){  
+										     var othershu = Number($('#cp_'+val.typeid).find('.qipao').eq(0).text())+Number(val.count);
+										    $('#cp_'+val.typeid).find('.qipao').eq(0).text(othershu);
+										  
+									   }else{ 
+										  $('#cp_'+val.typeid).append('<div class="qipao" style="position: absolute; margin-top: 5px; right: 5px; width: 16px; height: 16px; line-height: 13px; text-align: center; color: rgb(255, 255, 255); background-image: url(/upload/images/qipao.png); background-size: 16px; background-position: 0px 0px; background-repeat: no-repeat no-repeat;  display: inline-block;">'+val.count+'</div>');
+										}
+								  }
+    
+					 
+					 
+					 
+	                 
+	                 $('#gshu_'+val.id).val(val.count); 
+	                $('#gidli_'+val.id).find('.righ_l_b_btn_moren').eq(0).hide();
+	                $('#gidli_'+val.id).find('.righ_l_b_btn_hover').eq(0).show();
+					//alert('#gshu_'+val.id);
+	                 $('#gshu_'+val.id).show();
+	         	 	 } 
+	          	}); 
+				if(Number(datas.content.sumcount)>0){
+				 $('#total_count').show();
+				 $('.wmr_botcar_numbox').css('background-color','#ff6e6e');
+				 }else{
+				 $('#total_count').hide();
+				 $('.wmr_botcar_numbox').css('background-color','#cccccc');
+				 }
+	          	$('#total_count').text(datas.content.sumcount);
+				checkcartifempty();
+				var shijicost = datas.content.sum;
+	          	$('#total_money').text(shijicost.toFixed(2));
+				
+	          	if(Number(datas.content.sum) >= Number(shoplimitcost)){
+	          		 $('#showlimit input').val('');
+					 $("#addShopping").show();
+					 $("#showlimit").hide();
+					
+	          	}else{
+	          	        var checkcost = Number(shoplimitcost)-Number(datas.content.sum);
+						<{if $shopdet['is_goshop'] == 1  }>
+	          	        $('#showlimit input').val('还差'+checkcost+'元');
+						<{else}>
+	          	        $('#showlimit input').val('还差'+checkcost+'元');
+						<{/if}>
+						 $("#addShopping").hide();
+						$("#showlimit").show();
+	          	         
+	          	}
+        	 }else{
+					
+        	 }
+        }
+	 
+    }
+	
+	
+//加购物车动画
+function cartimg(obj,gid){
+	     $("#addload").show(); 
+        var pos =$(obj).offset();
+       var topval = pos.top;
+       $("#addload").css("top", topval + "px"); 
+       $("#addload").css("left", pos.left + "px");
+        $("#addload").css({'width':'15px','height':'15px'}); 
+       var target_ob = $('#total_count').offset();
+       var target_top = Number(target_ob.top);
+       var target_left = Number(target_ob.left);
+       $("#addload").animate({top:target_top,left:target_left, 'width':'0px','height':'0px'});   
+       $('#total_count').text(Number($('#total_count').text())+1);
+	   
+	   checkcartifempty();
+	   
+	          if($('#cp_'+$('#gidli_'+gid).attr('typeid')).find('.qipao').eq(0).html() != undefined){
+				  var othershu = Number($('#cp_'+$('#gidli_'+gid).attr('typeid')).find('.qipao').eq(0).text())+1;
+				 
+				  $('#cp_'+$('#gidli_'+gid).attr('typeid')).find('.qipao').eq(0).text(othershu);
+			   }else{ 
+				   $('#cp_'+$('#gidli_'+gid).attr('typeid')).append('<div class="qipao" style="position: absolute; margin-top: 5px; right: 5px; width: 16px; height: 16px; line-height: 13px; text-align: center; color: rgb(255, 255, 255); background-image: url(/upload/images/qipao.png); background-size: 16px; background-position: 0px 0px; background-repeat: no-repeat no-repeat;  display: inline-block;">1</div>');
+			   }
+			   
+	   
+	 //  	var shijicost = datas.content.sum;
+	   //       	$('#total_money').text(shijicost.toFixed(2));
+	   
+	   var sjcost111 = Number($('#total_money').text())+Number($(obj).attr('data-price'));
+	   
+	    	$('#total_money').text( sjcost111.toFixed(2) ); 
+	    	
+	    	if(Number($('#total_money').text()) >= Number(shoplimitcost)){
+	          		  $('#showlimit input').val('');
+					 $("#addShopping").show();
+					 $("#showlimit").hide();
+	          	}else{
+	          	        var checkcost = Number(shoplimitcost)-Number($('#total_money').text());
+	          	         <{if $shopdet['is_goshop'] == 1  }>
+	          	        $('#showlimit input').val('还差'+checkcost+'元');
+						<{else}>
+	          	        $('#showlimit input').val('还差'+checkcost+'元');
+						<{/if}>
+						 $("#addShopping").hide();
+						$("#showlimit").show();
+	          	        
+	          	}
+	    	
+	    	
+	    	$('#gidli_'+gid).find('.righ_l_b_btn_moren').hide();
+	    	$('#gidli_'+gid).find('.righ_l_b_btn_hover').show();
+	  //    var typeid = $(obj).attr('typeid');
+	  //    $('#typelist'+typeid).show();
+	 //     $('#typelist'+typeid).text(Number($('#typelist'+typeid).text())+1);
+	      $('#gidli_'+gid).addClass('onselect');
+	      $('#gshu_'+gid).val(Number($('#gshu_'+gid).val())+1); 
+		  $('#gshu_'+gid).show();
+		  $('#total_count').show();
+		  $('.wmr_botcar_numbox').css('background-color','#ff6e6e');
+	    	//if($(valse).is(':checked') == true)
+} 
+
+function removeonedish(gid,tshopid,num){ 
+
+	   showLoading();
+	   url = siteurl+'/index.php?ctrl=site&action=downcart&goods_id='+gid+'&shopid='+tshopid+'&num=1&datatype=json&random=@random@';
+	  	 url = url.replace('@random@', 1+Math.round(Math.random()*1000));
+    	var bk = ajaxback(url,'');
+	    if(bk.flag == false){ 
+	       if($('#total_money').html() != undefined){
+
+		   
+	         /*操作分类*/
+	         
+	          if($('#cp_'+$('#gidli_'+gid).attr('typeid')).find('.qipao').eq(0).html() != undefined){
+				  var othershu = Number($('#cp_'+$('#gidli_'+gid).attr('typeid')).find('.qipao').eq(0).text())-1;
+				 
+				  $('#cp_'+$('#gidli_'+gid).attr('typeid')).find('.qipao').eq(0).text(othershu);
+			   }else{ 
+				  //$('#cp_'+$('#gidli_'+gid).attr('typeid')).find('.qipao').append('<div class="qipao" style="position: absolute; top: 8px; right: 5px; width: 16px; height: 16px; line-height: 13px; text-align: center; color: rgb(255, 255, 255); background-image: url(/upload/images/qipao.png); background-size: 16px; background-position: 0px 0px; background-repeat: no-repeat no-repeat;">1</div>');
+			   }
+			 
+			 
+			 
+	         var typeid = $('#gidli_'+gid).attr('typeid'); 
+	         var notypenum = Number($('#typelist'+typeid).text()) -1; 
+	          $('#typelist'+typeid).text(notypenum);
+			  
+			  
+		//	  var shijicost = datas.content.sum;
+	   //       	$('#total_money').text(shijicost.toFixed(2));
+	   
+			  
+	         if(notypenum < 1){
+	             $('#typelist'+typeid).text(0);
+	             $('#typelist'+typeid).hide();
+	         } 
+	         notypenum = Number($('#total_count').text())-1;
+	         $('#total_count').text(notypenum);
+	         if(notypenum < 1){
+	         	  $('#total_count').text(0);
+				  $('#total_count').hide();
+				  $('.wmr_botcar_numbox').css('background-color','#cccccc')
+	         }
+			 
+			checkcartifempty();
+			 
+			 
+			 
+			 var sjcost222 = $('#total_money').text()-Number(   $('#gidli_'+gid).attr('data-price')   );
+	         notypenum = Number(sjcost222.toFixed(2)); 
+	          $('#total_money').text(notypenum);
+	         if(notypenum < 0){
+	         	$('#total_money').text(0);
+	         }
+	         	if(Number($('#total_money').text()) >= Number(shoplimitcost)){
+	          		 $('#showlimit input').val('');
+					 $("#addShopping").show();
+					 $("#showlimit").hide();
+	          	}else{
+	          	        var checkcost = Number(shoplimitcost)-Number($('#total_money').text());
+	          	         <{if $shopdet['is_goshop'] == 1  }>
+	          	        $('#showlimit input').val('还差'+checkcost+'元');
+						<{else}>
+	          	        $('#showlimit input').val('还差'+checkcost+'元');
+						<{/if}>
+						 $("#addShopping").hide();
+						$("#showlimit").show();
+	          	        
+	          	}
+	         notypenum = Number($('#gshu_'+gid).val()) -1;
+	          $('#gshu_'+gid).text(notypenum);
+	         if(notypenum < 1){
+				$('#cp_'+$('#gidli_'+gid).attr('typeid')).find('.qipao').eq(0).remove();
+	         	$('#gshu_'+gid).val(0);
+	         	$('#gidli_'+gid).removeClass('onselect');
+	         	$('#gidli_'+gid).find('.righ_l_b_btn_hover').hide(); 
+	         	$('#gidli_'+gid).find('.righ_l_b_btn_moren').show();
+				$('#gshu_'+gid).hide();
+				//$('#total_count').hide();
+	         	
+	         } 
+	   	   }else{ 
+				newhideLoading();
+	   	    	  freshcart();
+	   	   }
+	    }else{
+			newhideLoading();
+	    	Tmsg(bk.content);
+	    }
+
+}
+function checkcartifempty(){    //检查购物车是否为空
+      if( $('#total_count').html() == 0 ){
+			<!-- $(".ordeilpaymenshop").hide(); -->
+			$(".emptycartBg").show();
+			$(".ordeilpaymen").hide();
+			$(".emptyordeilpaymen").show();
+			$('#total_count').hide();
+			$('.wmr_botcar_numbox').css('background-color','#cccccc')
+		}else{
+			$(".ordeilpaymenshop").show();
+			$(".emptycartBg").hide();
+			$(".ordeilpaymen").show();
+			$(".emptyordeilpaymen").hide();
+			$('#total_count').show();
+			$('.wmr_botcar_numbox').css('background-color','#ff6e6e')
+		}
+
+} 
+  
+//添加店铺收藏
+function myFavorite(shopid,obj)
+{ 
+  var url = siteurl+'/index.php?ctrl=shop&action=addcollect&datatype=json&collectid='+shopid+'&type=0'; 
+  var backinfo = ajaxback(url,{});
+  if(backinfo.flag == false){ 
+     		$(obj).hide(); 
+     		$(obj).next().show(); 
+     	//	$('#CancelFavShop').show();
+   }else{ 
+   	Tmsg(backinfo.content); 
+  }
+}  
+//删除店铺收藏
+function delFav(shopid,obj)
+{ 
+	var url = siteurl+'/index.php?ctrl=shop&action=delcollect&datatype=json&collectid='+shopid+'&type=0'; 
+  var backinfo = ajaxback(url,{});
+  if(backinfo.flag == false){ 
+      $(obj).hide(); 
+	  $(obj).prev().show(); 
+     // $('#CancelFavShop').hide();
+   }else{ 
+   	 Tmsg(backinfo.content); 
+  }  
+}
+ function appendhtml(append,elmid){
+
+     $('#outdivshow').css({'height':kuangheight});
+//     myScroll = new iScroll('outdivshow', {hScrollbar:false, vScrollbar:true,bounce:false});
+
+ }
+ function checkshoprealimg(realid){
+     myScroll.scrollToElement('.sjsjdiv',100);
+     myScroll.destroy();
+     $('#mask1').show();
+     $('#popup1').show();
+     $('.ordeilpaymenCon').css('z-index',99);
+     var allheight = $(window).height();
+//     alert(c1);
+//     var top = $(elmid).offset().top;//元素相对于窗口的上边的偏移量
+//     alert(c2);
+     allheight = Number(allheight)-100;
+//     alert(c3);
+//     top = Number(top)+40;
+//     alert(1);
+//     var  kuangheight = allheight/1.5;
+     var kheight  =(allheight/1.5)/2;
+     var selfH=$('#popup1').height();
+     $('#popup1').css({'top':'50%'});
+//     $('#popup1').css({'margin-top':-selfH});
+//     alert(20000);
+     $('#popup1').css({'margin-top':-kheight});
+     var url = siteurl+'/index.php?ctrl=wxsite&action=showshoprealimg';
+     $.post(url, {'parent_id':realid},function (data, textStatus){
+         $('#popup1').html(data);
+     }, 'html');
+ }
+
+   	  </script>
+  <{/block}>
+ <{block name=hearnav}>
+ <!-- <div class="toptitCon">
+ <div class="toptitBox">
+  <div class="toptitL"><i></i></div>
+  <div class="toptitC"><h3 style="font-weight:bold; font-size:20px;"><{$shopinfo['shopname']}></h3></div>
+
+  <div <{if !empty($collect) }>style="display:none;"<{/if}>  onclick="myFavorite(<{$shopinfo['id']}>,this); "    class="toptitR"><i class="ordiscoll"></i></div>
+  <div <{if empty($collect) }>style="display:none;"<{/if}>  onclick="delFav(<{$shopinfo['id']}>,this);"   class="toptitR"><i class="ordiscoll1"></i></div>
+   
+ </div>
+</div> -->
+<div class="wmr_title_content">
+	<div class="wmr_title_left ">
+		<i class="fa fa-angle-left"></i>
+	</div>
+	<div class="wmr_title_center"><{$shopinfo['shopname']}></div>
+	<div class="wmr_title_right">
+		<img style='display:none' <{ofunc type=img  link="images/icon_titfx.png"}> />
+	</div>
+</div>  
+
+<!--链接-->
+<div class="ordislink">
+ <ul>
+  <li  onclick="dolink('<{ofunc type=url link="/wxsite/shopshow/typelx/<{$typelx}>/id/<{$shopinfo['id']}>"}>');">商品</li>
+  <li  onclick="dolink('<{ofunc type=url link="/wxsite/getshopcomment/typelx/<{$typelx}>/shopid/<{$shopinfo['id']}>"}>');"  >评价</li>
+  <li   class="ordislinkaA"  onclick="dolink('<{ofunc type=url link="/wxsite/getdetailinfo/typelx/<{$typelx}>/shopid/<{$shopinfo['id']}>"}>');" ">商家</li>
+ </ul>
+</div>
+
+<{/block}>
+<{block name=sitetitle}><{$sitename}><{/block}>
+<{block name=blockcontent}> 
+
+ <div id="wrapper" style="top:83px;">
+	<div id="scroller">
+		
+
+
+<!--商铺信息-->
+<div class="businessinfoCon">
+ <div class="businessinfoBox">
+  <ul class="businessinfo">
+   <li><img <{ofunc type=img  link="<{$shopinfo['shoplogo']|default:$shoplogo}>"}>></li>
+   <li>
+    <ul>
+     <li><h3 style='max-width:250px'><{$shopinfo['shopname']}></h3><a style="color:red;" href="<{ofunc type=url link="/wxsite/shopreport/shopid/<{$shopinfo['id']}>"}>">举报商家</a></li>
+	 <li><{section name=loop loop=$shopstart }><i class="fa fa-star"></i><{/section}><{section name=loop loop=5-$shopstart }><i class="fa fa-star" style="color:#C7C7C7;"></i><{/section}></li>
+      <li><span>起送价<{$shopdet['limitcost']}>元 | 配送费<{$psinfo['pscost']}>元</span></li>
+    </ul>
+   </li>
+  </ul>
+ </div>
+</div>
+<!--地址营业时间-->
+<div class="businessaddtim">
+ <ul>
+  <li  onclick="showmapinfo()"  >
+	<i class="businadd"></i><p><{$shopinfo['address']|default:'暂无填写商家地址'}></p>
+	
+<div class="placeorder_head_right">
+				<i style="float:right;" class="fa fa-angle-right"></i>
+			</div>	
+</li>
+  <li><i class="busintime"></i><p>营业时间：<{$shopinfo['starttime']}></p></li>
+  <li><i class="busintell"></i><p>商家电话：<a style="color:#368ed9;" href="tel:<{$shopinfo['phone']}>" ><{$shopinfo['phone']}></a></p></li>
+ </ul>
+</div>
+<!--商家实景-->
+<style type="text/css">
+    .sjsjspan1{position:relative;background:#000;color:#fff;width:35px; opacity: 0.5;display:block;font-size:12px;text-align:center;}
+   .sjsjspan2{position:absolute;background:#000;color:#fff;width:30px;bottom:0;right:0; opacity: 0.5;display:block;font-size:12px;height:20px;}
+   .popup1 {
+       display: block;
+       position: fixed;
+       z-index: 667;
+       background: #fff;
+       border: 1px solid #e5e5e5;
+       -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+       -moz-box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+       box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+       width: 100%;
+   }
+   #mask1 {
+       background: none repeat scroll 0 0 #000000;
+       height: 100%;
+       opacity: 0.8;
+       position: fixed;
+       width: 100%;
+       z-index: 666;
+       left: 0px;
+       top: 0px;
+       display: none;
+   }
+   .sj-container {
+      height: 71px;
+	  margin:15px 0; 
+    }
+	.sj-wrapper{height:71px;transform: translate3d(0px, 0px, 0px);transition-duration: 0.3s;}
+	.sj-slide{float:left;width:100%;height: 90px;position: relative;overflow: hidden;}
+	.ztimg{
+		background-image: none!important;
+		background-color: #ff6e6e!important;
+		text-align: center!important;
+		color: #fff!important;
+		font-weight: bold!important;
+	}
+</style>
+
+<div class="businnotCon">
+    <div class="businnotBox">
+        <div class="businnotit"><h3>商家实景</h3></div>
+        <div class="sj-container">
+         <{if !empty($shopreal)}>
+		 <div class="sj-wrapper">
+            <{foreach from=$shopreal key=key item =items}>
+            <{if !empty($items['shoprealimg'])}>
+            <div class="sj-slide" onclick="checkshoprealimg(<{$items['id']}>)" style="background:url(<{$items['shoprealimg'][0]['img']}>);background-size:100% 100%;">
+                <span class="sjsjspan1"><{$items['name']}></span>
+                <span class="sjsjspan2" align="center"><{$items['imgcount']}>张</span>
+            </div>
+            <{/if}>
+            <{/foreach}>
+		 </div>
+         <{else}>
+            <div class="businnotbrief">暂无信息</div>
+         <{/if}>
+        </div>
+    </div>
+</div>
+<script>
+function showmapinfo(){
+	<{if !empty($shopinfo['lng']) && !empty($shopinfo['lat'])  }>
+		var ua = window.navigator.userAgent.toLowerCase();
+	    if(ua.match(/MicroMessenger/i) == 'micromessenger'){ 
+					<{if  !empty($shopinfo['lat']) && !empty($shopinfo['lng']) }>
+					   wx.openLocation({
+							latitude: <{$shopinfo['lat']|default:0}>, // 纬度，浮点数，范围为90 ~ -90
+							longitude: <{$shopinfo['lng']|default:0}>, // 经度，浮点数，范围为180 ~ -180。
+							name: "<{$shopinfo['shopname']}>", // 位置名
+							address: "<{$shopinfo['address']}>", // 地址详情说明
+							scale: 14, // 地图缩放级别,整形值,范围从1~28。默认为最大
+							infoUrl: '' // 在查看位置界面底部显示的超链接,可点击跳转
+						});
+					<{else}>
+						Tmsg('商家未设置地图位置，暂时无法查看！');
+						return;				
+					<{/if}>					 
+			 }else{
+	
+	
+					location.href = '<{ofunc type=url link="/wxsite/showshopmap/shopid/<{$shopinfo['id']}>"}>';
+			
+			}
+			
+	<{else}>
+		Tmsg("该商家未设置位置！");
+	<{/if}>
+}
+</script>
+<script>
+  var mySwiperss = new Swiper('.sj-container',{
+ 	wrapperClass:'sj-wrapper', 
+	slideClass:'sj-slide',
+	slidesPerView: 4,
+	 mode : 'horizontal',
+    loop:false,
+	autoplay: 3000,
+    grabCursor: true,
+  });
+ $(function(){ 
+	var mainheight = $(window).height();//窗口高度
+	var mainwidths = $(window).width();//窗口宽度
+	$('.sj-slide').css('width',mainwidths+'px');
+	mySwiperss.reInit(0);
+	mySwiperss.swipeTo(0);
+  });
+ </script>
+        <script>
+            $(function(){
+                $("#mask1").click(function(){
+                    $("#mask1").hide();
+                    $("#popup1").hide();
+
+                     myScroll.destroy();
+                    myScroll = new iScroll('wrapper', {
+                        useTransform: false,
+                        onBeforeScrollStart: function (e) {
+                            var target = e.target;
+                            while (target.nodeType != 1) target = target.parentNode;
+
+                            if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA')
+                                e.preventDefault();
+                        }
+                    });
+
+                });
+                $("#popup1").click(function(){
+                    $("#mask1").hide();
+                    $("#popup1").hide();
+
+                    myScroll.destroy();
+                    myScroll = new iScroll('wrapper', {
+                        useTransform: false,
+                        onBeforeScrollStart: function (e) {
+                            var target = e.target;
+                            while (target.nodeType != 1) target = target.parentNode;
+
+                            if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA')
+                                e.preventDefault();
+                        }
+                    });
+                });
+            });
+
+        </script>
+
+
+<!--商家公告-->
+<{if !empty($shopinfo['notice_info']) }>
+<div class="businnotCon">
+ <div class="businnotBox">
+  <div class="businnotit"><h3>商家公告</h3></div>
+  <div class="businnot"><i></i><p><{$shopinfo['notice_info']|htmlspecialchars_decode|default:'暂无说明'}></p></div>
+ </div>
+</div>
+<{/if}>
+<{if !empty($psinfo['is_allow_ziti']) }>
+<div class="businnotCon">
+ <div class="businnotBox">
+  <div class="businnotit"><h3>商家服务</h3></div>
+  <div class="businnot"><i class='ztimg'>取</i><p>本店支持到店自取</p></div>
+ </div>
+</div>
+<{/if}>
+<!--商家活动-->
+<{if !empty($cxlist) }>
+<div class="businnotCon">
+ <div class="businnotBox">
+  <div class="businnotit"><h3>商家活动</h3></div>
+  <div class="businnotact">
+   <ul>
+   <{foreach from=$cxlist item=items}>
+    <li><i class="businj" style="background:url(<{$items['imgurl']}>) center no-repeat; background-size: 100%;"></i><p><{$items['name']}></p></li>
+	<{/foreach}>
+   </ul>
+  </div>
+ </div>
+</div>
+<{/if}>
+<!--商家简介-->
+<div class="businnotCon">
+ <div class="businnotBox">
+  <div class="businnotit"><h3>商家简介</h3></div>
+  <div class="businnotbrief"><{$shopinfo['intr_info']|htmlspecialchars_decode}></div>
+ </div>
+</div>
+<div style="height:10px;"></div>
+<!--------------------------------------------------------------------------商家结束-------------------------------------------------------------------------------------->
+</div></div>
+
+<script>
+$('.businnotbrief img').css('width','100%');
+</script>
+
+
+ <div id="mask1">
+ </div>
+ <div id="popup1" class="popup1" style="background:none; border:none;">
+     <!--<div class="popcontent" id="popcontent" style="width:70%;margin:0 auto;">
+
+
+
+     </div>-->
+ </div>
+
+
+
+<{/block}>

@@ -1,0 +1,76 @@
+<include src="../route/index.wxml"></include>
+<view class="container">
+    <view class="head rel">
+        <view class="ab" style="background:{{color}}">
+            <image class="ab" mode="aspectFill" src="../img/user_bg1.png" style="width:100%;height:80%;top:16rpx"></image>
+        </view>
+        <view class="ab pa_1">
+            <view class="dis_in logo">
+                <image mode="aspectFill" src="{{url}}{{qs.logo}}" style="width:100%;height:100%;"></image>
+            </view>
+            <view class="dis_in fon_30 color_f mar_l user_info">
+                <view>昵称： {{qs.name}}
+        </view>
+                <view>
+                    <image class="dis_in" mode="widthFix" src="../img/tel1.png"></image>
+                    <text class="dis_in mar_l"> {{qs.tel}}</text>
+                </view>
+                <view>
+                    <image class="dis_in" mode="widthFix" src="../img/email.png"></image>
+                    <text class="dis_in mar_l"> {{qs.email}}</text>
+                </view>
+            </view>
+        </view>
+        <view class="body ab">
+            <view class="job_status ba_f fon_30 color_0">
+                <view bindtap="sz" class="t_c" data-id="1">
+                    <image class="dis_in" mode="widthFix" src="../img/shangban.png" wx:if="{{qs.status==1}}"></image>
+                    <image class="dis_in" mode="widthFix" src="../img/shangban_1.png" wx:if="{{qs.status==2}}"></image>
+                    <text class="dis_in mar_l" style="color:{{qs.status==1?color:'#999'}};padding:8rpx 0 0 0;">上班</text>
+                </view>
+                <view bindtap="sz" class="t_c" data-id="2">
+                    <image class="dis_in" mode="widthFix" src="../img/xiuxi_1.png" wx:if="{{qs.status==1}}"></image>
+                    <image class="dis_in" mode="widthFix" src="../img/xiuxi.png" wx:if="{{qs.status==2}}"></image>
+                    <text class="dis_in mar_l" style="color:{{qs.status==2?color:'#999'}};padding:8rpx 0 0 0;">休息</text>
+                </view>
+            </view>
+            <swiper autoplay="true" class="mar_t ba_f pa" displayMultipleItems="1" duration="1000" interval="3000" vertical="true" wx:if="{{GetNotice.length>0}}">
+                <swiper-item bindtap="bill" data-id="{{item.id}}" wx:for="{{GetNotice}}">
+                    <view class="fon_28 color_6">
+                        <text class="wei">公告：</text>
+                        <text>{{item.question}}</text>
+                    </view>
+                </swiper-item>
+            </swiper>
+            <view bindtap="zj" class="mar_t ba_f bor_bottom Entrance fon_30 color_6">
+                <image class="dis_in" mode="aspectFill" src="../img/zijin.png"></image>
+                <text class="mar_l dis_in color_0">资金管理</text>
+            </view>
+            <view bindtap="tj" class="bor_bottom ba_f Entrance fon_30 color_6">
+                <image class="dis_in" mode="aspectFill" src="../img/tongji.png"></image>
+                <text class="mar_l dis_in color_0">订单统计</text>
+            </view>
+            <view bindtap="abnormal" class="bor_bottom ba_f Entrance fon_30 color_6">
+                <image class="dis_in" mode="aspectFill" src="../img/skip.png"></image>
+                <text class="mar_l dis_in color_0">异常订单</text>
+            </view>
+            <view bindtap="help" class="pa ba_f Entrance bor_bottom fon_30 color_6">
+                <image class="dis_in" mode="aspectFill" src="../img/shezhi.png"></image>
+                <text class="mar_l dis_in color_0">帮助中心</text>
+            </view>
+            <view bindtap="custom" class="pa ba_f Entrance fon_30 color_6">
+                <image class="dis_in" mode="aspectFill" src="../img/kefu.png"></image>
+                <text class="mar_l dis_in color_0">联系客服</text>
+            </view>
+            <view bindtap="platform" class="pa ba_f Entrance fon_30 color_6">
+                <image class="dis_in" mode="aspectFill" src="../img/platform.png"></image>
+                <text class="mar_l dis_in color_0">平台介绍</text>
+            </view>
+            <view bindtap="remove" class="pa ba_f Entrance fon_30 color_6">
+                <image class="dis_in" mode="aspectFill" src="../img/remove.png"></image>
+                <text class="mar_l dis_in color_0">退出登录</text>
+            </view>
+            <view style="height:120rpx;"></view>
+        </view>
+    </view>
+</view>

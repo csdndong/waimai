@@ -1,0 +1,140 @@
+.main {
+    width: 100%;
+    min-height: 100%;
+    padding-top: 100rpx;
+    overflow-y: hidden;
+}
+
+.top {
+    background: white;
+    margin: 0rpx 30rpx 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.top image {
+    width: 150rpx;
+    height: 150rpx;
+    border-radius: 50%;
+    margin-top: -75rpx;
+}
+
+.topname {
+    height: 100rpx;
+    line-height: 100rpx;
+    font-size: 35rpx;
+    font-weight: bold;
+}
+
+.xx {
+    margin: 0 20rpx;
+    position: relativel;
+}
+
+.hyuan1 {
+    position: absolute;
+    width: 50rpx;
+    height: 50rpx;
+    border-radius: 50%;
+    left: 5rpx;
+    margin-top: -20rpx;
+}
+
+.hyuan2 {
+    position: absolute;
+    width: 50rpx;
+    height: 50rpx;
+    border-radius: 50%;
+    right: 5rpx;
+    margin-top: -20rpx;
+}
+
+.bottom {
+    background: white;
+    margin: 0 30rpx;
+    padding: 30rpx;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-top: 5rpx dashed #d5d5d5;
+    border-bottom: 6rpx dotted #d5d5d5;
+}
+
+.pdlist {
+    width: 100%;
+    padding: 0 10rpx 20rpx;
+}
+
+.pdlisthd {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    color: #fff;
+    border-radius: 10rpx;
+    padding: 0rpx 30rpx;
+}
+
+.pdlisthd view {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 90rpx;
+}
+
+.pdlistbd {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-radius: 10rpx;
+    margin: 0rpx 30rpx;
+    border-bottom: 1rpx solid #eee;
+}
+
+.pdlistbdv {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 15rpx 0;
+}
+
+.pdlistbdv view:nth-child(1) {
+    font-size: 35rpx;
+}
+
+.pdlistbdv view:nth-child(2) {
+    font-size: 24rpx;
+    margin-top: 5rpx;
+}
+
+.footer {
+    position: relative;
+    border: none;
+}
+
+.footer button {
+    border-radius: 60rpx;
+}
+
+.cxqh {
+    color: #666;
+    margin-top: 30rpx;
+}
+
+.cxqh image {
+    width: 40rpx;
+    height: 40rpx;
+    margin-right: 20rpx;
+}
+
+.czactive {
+    background: #fff;
+    border: 1rpx solid #eee;
+}

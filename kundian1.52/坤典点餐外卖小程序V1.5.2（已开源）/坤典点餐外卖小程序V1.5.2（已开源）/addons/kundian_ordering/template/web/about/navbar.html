@@ -1,0 +1,24 @@
+<div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+    <ul class="layui-tab-title" rel="">
+        <a href="{url 'site/entry/about',array('m'=>'kundian_ordering',op=>'edit','version_id'=>$_GPC['version_id'])}">
+            <li {if $op=='edit'}class="layui-this"{/if}>关于我们</li>
+        </a>
+        <a href="{url 'site/entry/about',array('m'=>'kundian_ordering','op'=>'navSet','version_id'=>$_GPC['version_id'])}">
+            <li {if $op=='navSet'}class="layui-this"{/if}>首页导航设置(新)</li>
+        </a>
+        <a href="{url 'site/entry/about',array('m'=>'kundian_ordering','op'=>'shopImg','version_id'=>$_GPC['version_id'])}">
+            <li {if $op=='shopImg'}class="layui-this"{/if}>商家实景设置</li>
+        </a>
+        <a href="{url 'site/entry/about',array('m'=>'kundian_ordering','op'=>'pay_on_delivery','version_id'=>$_GPC['version_id'])}">
+            <li {if $op=='pay_on_delivery'}class="layui-this"{/if}>货到付款设置</li>
+        </a>
+        <a href="{url 'site/entry/about',array('m'=>'kundian_ordering','op'=>'business_mode','version_id'=>$_GPC['version_id'])}">
+            <li {if $op=='business_mode'}class="layui-this"{/if}>餐台模式设置</li>
+        </a>
+
+        <a href="{url 'site/entry/about',array('m'=>'kundian_ordering','op'=>'addressSet','version_id'=>$_GPC['version_id'])}">
+            <li {if $op=='addressSet'}class="layui-this"{/if}>地址设置</li>
+        </a>
+
+    </ul>
+</div>

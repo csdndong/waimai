@@ -1,0 +1,189 @@
+{itemplate 'public/header'}
+{if $op == 'list'}
+<form action="./index.php" class="form-horizontal form-filter">
+	{php echo tpl_form_filter_hidden('haodian/category/list');}
+	{if $_W['is_agent']}
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">选择代理区域</label>
+		<div class="col-sm-9 col-xs-12">
+			<select name="agentid" class="select2 js-select2 form-control width-130">
+				<option value="0">选择代理区域</option>
+				{loop $_W['agents'] $agent}
+				<option value="{$agent['id']}" {if $agentid == $agent['id']}selected{/if}>{$agent['area']}</option>
+				{/loop}
+			</select>
+		</div>
+	</div>
+	{/if}
+</form>
+<form action="" class="form-table form" method="post">
+	<div class="panel panel-table">
+		<div class="panel-heading">
+			<a href="{php echo iurl('haodian/category/post');}" class="btn btn-primary btn-sm">添加分类</a>
+		</div>
+		<div class="panel-body table-responsive js-table">
+			{if empty($categorys)}
+			<div class="no-result">
+				<p>还没有相关数据</p>
+			</div>
+			{else}
+			<table class="table table-hover">
+				<thead class="navbar-inner">
+				<tr>
+					<th>
+						<div class="checkbox checkbox-inline">
+							<input type="checkbox" name="id[]"/>
+							<label></label>
+						</div>
+					</th>
+					<th>分类ID</th>
+					<th>分类图片</th>
+					<th>分类名称</th>
+					{if $_W['is_agent']}
+						<th>所属城市</th>
+					{/if}
+					<th>开启状态</th>
+					<th>排序</th>
+					<th style="text-align:right;">操作</th>
+				</tr>
+				</thead>
+				<tbody>
+				{loop $categorys $item}
+				<tr>
+					<td>
+						<input type="hidden" name="ids[]" value="{$item['id']}">
+						<div class="checkbox checkbox-inline">
+							<input type="checkbox" name="id[]" value="{$item['id']}">
+							<label></label>
+						</div>
+					</td>
+					<td>
+						<strong>{$item['id']}</strong>
+					</td>
+					<td>
+						<img src="{php echo tomedia($item['thumb'])}" alt="" style="width: 50px;">
+					</td>
+					<td><input type="text" name="title[]" class="form-control width-100" value="{$item['title']}"></td>
+					{if $_W['is_agent']}
+						<td>{php echo toagent($item['agentid'])}</td>
+					{/if}
+					<td>
+						<input type="checkbox" class="js-checkbox" data-href="{php echo iurl('haodian/category/status', array('id' => $item['id']));}" data-name="status" value="{$item['status']}" {if $item['status'] == 1}checked{/if}>
+					</td>
+					<td>
+						<input type="text" name="displayorder[]" class="form-control width-100" value="{$item['displayorder']}">
+					</td>
+					<td style="text-align:right;">
+						<a href="{php echo iurl('haodian/category/post', array('parentid' => $item['id']))}" class="btn btn-default btn-sm">添加子分类</a>
+						<a href="{php echo iurl('haodian/category/post', array('id' => $item['id']))}" class="btn btn-default btn-sm">修改分类</a>
+						<a href="{php echo iurl('haodian/category/del', array('id' => $item['id']))}" class="btn btn-default btn-sm js-remove" title="删除" data-toggle="tooltip" data-placement="top" data-confirm="确定删除该分类吗?"><i class="fa fa-times"> </i></a>
+					</td>
+				</tr>
+					{if !empty($item['child'])}
+						{loop $item['child'] $row}
+						<tr>
+							<td>
+								<input type="hidden" name="ids[]" value="{$row['id']}">
+								<div class="checkbox checkbox-inline">
+									<input type="checkbox" name="id[]" value="{$row['id']}">
+									<label></label>
+								</div>
+							</td>
+							<td>
+								<strong>{$row['id']}</strong>
+							</td>
+							<td style="padding-left: 35px;">
+								<img src="{php echo tomedia($row['thumb'])}" alt="" style="width: 50px;">
+							</td>
+							<td><input type="text" name="title[]" class="form-control width-100" value="{$row['title']}"></td>
+							{if $_W['is_agent']}
+								<td>{php echo toagent($row['agentid'])}</td>
+							{/if}
+							<td>
+								<input type="checkbox" class="js-checkbox" data-href="{php echo iurl('haodian/category/status', array('id' => $row['id']));}" data-name="status" value="{$row['status']}" {if $row['status'] == 1}checked{/if}>
+							</td>
+							<td>
+								<input type="text" name="displayorder[]" class="form-control width-100" value="{$row['displayorder']}">
+							</td>
+							<td style="text-align:right;">
+								<a href="{php echo iurl('haodian/category/post', array('id' => $row['id']))}" class="btn btn-default btn-sm">修改分类</a>
+								<a href="{php echo iurl('haodian/category/del', array('id' => $row['id']))}" class="btn btn-default btn-sm js-remove" title="删除" data-toggle="tooltip" data-placement="top" data-confirm="确定删除该分类吗?"><i class="fa fa-times"> </i></a>
+							</td>
+						</tr>
+						{/loop}
+					{/if}
+				{/loop}
+				</tbody>
+			</table>
+			<div class="btn-region clearfix">
+				<div class="pull-left">
+					<input name="token" type="hidden" value="{$_W['token']}" />
+					<input type="submit" class="btn btn-primary btn-sm" value="提交修改">
+					{if $_W['is_agent']}
+						<a href="{php echo iurl('haodian/category/categoryagent')}" class="btn btn-default btn-sm js-batch" data-batch="modal">批量操作</a>
+					{/if}
+				</div>
+				<div class="pull-right">
+					{$pager}
+				</div>
+			</div>
+			{/if}
+		</div>
+	</div>
+</form>
+{/if}
+{if $op == 'post'}
+<div class="page clearfix">
+	<h2>编辑分类</h2>
+	<form class="form-horizontal form form-validate" style="max-width: 950px;" id="form1" action="" method="post" enctype="multipart/form-data">
+		<input type="hidden" name="parentid" value="{$_GPC['parentid']}">
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">排序</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="number" class="form-control" name="displayorder" value="{$category['displayorder']}">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">分类名称</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="text" class="form-control" name="title" value="{$category['title']}" required="true">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">分类图标</label>
+			<div class="col-sm-9 col-xs-12">
+				{php echo tpl_form_field_image('thumb', $category['thumb']);}
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">跳转链接</label>
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				{php echo tpl_form_field_tiny_wxapp_link('link', $category['link']);}
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">分类状态</label>
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<div class="radio radio-inline">
+					<input type="radio" name="status" value="1" id="category-status-1" {if $category['status'] == 1}checked{/if}>
+					<label for="category-status-1">启用</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" name="status" value="0" id="category-status-0" {if $category['status'] == 0}checked{/if}>
+					<label for="category-status-0">关闭</label>
+				</div>
+				<div class="help-block">
+					提示：分类不显示，其子分类也不显示
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<input type="hidden" name="token" value="{$_W['token']}">
+				<input type="submit" value="提交" class="btn btn-primary">
+			</div>
+		</div>
+	</form>
+</div>
+{/if}
+{itemplate 'public/footer'}

@@ -1,0 +1,60 @@
+<view class="head">
+    <view style="background:{{color}}"></view>
+    <view style="background:{{color}}"></view>
+</view>
+<view class="order_num udlr">
+    <view class="order_head pa_0 mar_t">
+        <view class="t_c color_f">
+            <view class="fon_30">总单量</view>
+            <view class="mar_t">
+                <text class="fon_50">{{Statistics.lj}}</text>
+                <text class="fon_30">单</text>
+            </view>
+        </view>
+        <view class="t_c color_f">
+            <view class="fon_30">总收入</view>
+            <view class="mar_t">
+                <text class="fon_50">{{MoneyStatistics.lj}}</text>
+                <text class="fon_30">元</text>
+            </view>
+        </view>
+    </view>
+    <view class="order_list pa_0">
+        <view bindtap="day_order" class="list_0 ba_f pa mar_t" data-num="{{Statistics.jr}}" data-price="{{MoneyStatistics.jr}}" data-type="0">
+            <view class="dis_in rel">
+                <image class="ab udlr" mode="widthFix" src="../img/today.png"></image>
+            </view>
+            <view class="dis_in t_c fon_30">
+                <view class="pa_0">
+                    <text class="fon_50">{{Statistics.jr}}</text>
+                    <text>单</text>
+                </view>
+                <view class="color_9 mar_t">今日单量</view>
+            </view>
+        </view>
+        <view bindtap="day_order" class="list_0 ba_f pa mar_t" data-num="{{Statistics.by}}" data-price="{{MoneyStatistics.by}}" data-type="1">
+            <view class="dis_in rel">
+                <image class="ab udlr" mode="widthFix" src="../img/month.png"></image>
+            </view>
+            <view class="dis_in t_c fon_30">
+                <view class="pa_0">
+                    <text class="fon_50">{{Statistics.by}}</text>
+                    <text>单</text>
+                </view>
+                <view class="color_9 mar_t">本月单量</view>
+            </view>
+        </view>
+        <view bindtap="day_order" class="list_0 ba_f pa mar_t" data-num="{{Statistics.lj}}" data-price="{{MoneyStatistics.lj}}" data-type="2">
+            <view class="dis_in rel">
+                <image class="ab udlr" mode="widthFix" src="../img/total.png"></image>
+            </view>
+            <view class="dis_in t_c fon_30">
+                <view class="pa_0">
+                    <text class="fon_50">{{Statistics.lj}}</text>
+                    <text>单</text>
+                </view>
+                <view class="color_9 mar_t">总单量</view>
+            </view>
+        </view>
+    </view>
+</view>

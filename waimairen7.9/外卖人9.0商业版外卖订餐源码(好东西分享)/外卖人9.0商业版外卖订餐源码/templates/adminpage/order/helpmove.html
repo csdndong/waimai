@@ -1,0 +1,97 @@
+<{extends file="<{$tempdir}>/public/admin.html"}> 
+<{block name=extendjs}>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js"></script>
+<style>
+    #showmodule li {
+        height: 800px;
+        width: 300px;
+        margin-right: 100px;
+        float: left;
+        text-align: left;
+        margin-left: 30px;
+        margin-top: 30px;
+    }
+</style>
+<{/block}>
+<{block name=controlname}>帮我送设置<{/block}>
+<{block name=bodylist}> 
+
+<div style="width:auto;overflow-x:hidden;overflow-y:auto"> 
+    <div id="tagscontent">
+
+        <div>
+            <table border="0" cellspacing="2" cellpadding="4" class="list" name="table" id="table" width="100%">
+
+                <thead>
+
+                    <tr>
+                        <th align="center">名称</th>                          
+                        <th align="center">图标</th>
+                        <th align="center">上传</th>                        
+                        <th align="center">排序</th>
+                        <th align="center">隐藏</th>
+                        <th align="center">操作</th> 
+                    </tr>
+
+                </thead> 
+                <tbody>  
+                    <{foreach from=$info key=myid item=items}>
+                    <form method="post" name="form1" action="<{ofunc type=url link="/adminpage/order/module/savehelpmove/datatype/json"}>" onsubmit="return subform('',this);">
+                    <tr class="s_out" onmouseover="this.bgColor = '#F5F5F5';" onmouseout="this.bgColor = 'ffffff';" bgcolor="#ffffff"> 
+                        
+                        <!--名称-->
+                        <td align="center">
+                            <input type="hidden" name="id" id="id<{$items['id']}>"  value="<{$items['id']}>">
+                            <input type="text" name="name" id="name<{$items['id']}>" value="<{$items['name']}>" style="width:80px;">
+                        </td>                        
+                        <!--图标-->
+                        <td align="center">
+                            <input type="hidden" name="img" id="img<{$items['id']}>"  value="<{$items['imgurl']}>">
+                            <img  <{ofunc type=img link="<{$items['imgurl']}>" }>  id="imgurl<{$items['id']}>"   style="width:100px;height:100px;"></td> 
+                        <!--上传按钮-->
+                        <td align="center"> <span style="cursor:pointer;" onclick="upload_gudings('<{$items['id']}>');">上传图片</span></td>                        
+                        <!--排序-->
+                        <td align="center" ><input type="text" name="orderid" id="orderid<{$items['id']}>" value="<{$items['orderid']}>" style="width:60px;"></td>
+                        <!--是否隐藏-->
+                        <td align="center" >
+                            <input type="radio" name="isnotsee"  value="1" <{if $items['isnotsee'] == 1 }> checked <{/if}> >是
+                            <input type="radio" name="isnotsee"  value="0" <{if $items['isnotsee'] == 0 }> checked <{/if}> >否
+                        </td>
+                        <!--操作-->
+                        <td align="center"><input type="submit" value="提交保存" class="button"></td> 
+                               
+                    </tr> 
+                    </form>
+                    <{/foreach}>
+                   
+                    
+                </tbody> 
+
+            </table>
+        </div>  
+    </div> 
+    
+
+
+    <script>  
+        function upload_gudings(modulename){
+        dialogs = art.dialog.open('<{ofunc type=url link="/adminpage/other/module/uploadapp/obj/' + modulename + '/uploaddir/paotui/func/uploadgsucess"}>');
+        dialogs.title('上传图片');
+        }
+        function uploadgsucess(flag, obj, linkurl){
+        if (flag == true){
+        alert(linkurl);
+        dialogs.close();
+        upload_gudings(obj);
+        } else{           
+        dialogs.close();
+        //提交数据并返回显示         
+        $('#imgurl' + obj).attr('src', linkurl);   
+        $('#img' + obj).val(linkurl);
+        }
+        }
+        
+    </script>
+</div> 
+</div>   
+<{/block}>

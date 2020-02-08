@@ -1,0 +1,57 @@
+page {
+    background-color: #f5f5f5;
+    font-size: 14px;
+}
+
+.page-getcash .useful-account {
+    background-color: #fff;
+    margin: 10px 0;
+    padding: 15px;
+    font-size: 16px;
+}
+
+.page-getcash .useful-account text {
+    color: #ff2d4b;
+}
+
+.page-getcash .getcash-operation {
+    background-color: #fff;
+    padding: 15px;
+}
+
+.page-getcash .getcash-operation .title {
+    margin-bottom: 5px;
+}
+
+.page-getcash .getcash-operation input {
+    border: 1px solid #e7e7e7;
+    border-radius: 3px;
+    padding-left: 6px;
+    margin-bottom: 10px;
+    height: 35px;
+}
+
+.page-getcash .getcash-operation .tip {
+    color: #999;
+    position: relative;
+    padding-left: 10px;
+    margin: 0;
+}
+
+.page-getcash .getcash-operation .tip:before {
+    content: "";
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    position: absolute;
+    left: 0;
+    background: #ccc;
+    top: 50%;
+    margin-top: -2.5px;
+}
+
+.page-getcash .getcash-btn {
+    padding: 0 15px;
+    box-sizing: border-box;
+    margin-top: 20px;
+}

@@ -1,0 +1,107 @@
+<html xmlns="http://www.w3.org/1999/xhtml"><head> 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+<meta http-equiv="Content-Language" content="zh-CN"> 
+<meta content="all" name="robots"> 
+<meta name="description" content=""> 
+<meta content="" name="keywords"> 
+<title>店铺标签选择</title> 
+<link rel="stylesheet" type="text/css" href="<{$siteurl}>/templates/<{$tempdir}>/public/css/admin.css">
+ <link rel="stylesheet" type="text/css" href="<{$siteurl}>/templates/<{$tempdir}>/public/css/index.css"> 
+
+ <script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/jquery.js" type="text/javascript" language="javascript"></script>  
+ <script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/artDialog.js?skin=wmrPopup"></script>
+ <script> 
+$(function(){
+		$(".popLayCon .popLayBox .popLayOrdCon .popLayOrdNot ul li .popChea").click(function(){
+		var x = $(".popLayCon .popLayBox .popLayOrdCon .popLayOrdNot ul li .popChea").index(this);
+ 		$(".popLayCon .popLayBox .popLayOrdCon .popLayOrdNot ul li .popcheb").eq(x).toggleClass("popLayRadi");
+		})
+		$(".popLayCon .popLayBox .popLayOrdCon .popLayOrdNot ul li .popRada").click(function(){
+		var x = $(".popLayCon .popLayBox .popLayOrdCon .popLayOrdNot ul li .popRada").index(this);
+ 		$(".popLayCon .popLayBox .popLayOrdCon .popLayOrdNot ul li .popRadb").eq(x).toggleClass("popLayRadi");
+		if($(".popLayCon .popLayBox .popLayOrdCon .popLayOrdNot ul li .popRadb").hasClass('popLayRadi')){
+			$(".popLayCon .popLayBox .popLayOrdCon .popLayOrdNot ul li .popRada").val(0);
+		}else{
+			$(".popLayCon .popLayBox .popLayOrdCon .popLayOrdNot ul li .popRada").val(1);
+		}
+		})
+});
+ </script>
+ <style>
+.popLayOrdNot ul {
+    padding: 10px 0!important;
+    overflow: hidden;
+}
+ </style>
+</head>
+<body>
+	 <form  method="post" name="upform" action="<{ofunc type=url link="/areaadminpage/shop/module/saveshopbq"}>" > 
+	 
+	 <div class="popLayCon    ">
+	 
+	<div class="popLayBox">
+		<div class="popLayOrdCon">
+			<div class="popLayOrdNot">
+				<ul>
+					<li><input type="checkbox"  name="is_recom" value="1" <{if $shopinfo['is_recom'] == 1}>checked<{/if}> class="popChea">
+					<i class="popcheb <{if $shopinfo['is_recom'] == 1}>popLayRadi<{/if}>" ></i> 
+					<span>首页推荐（勾选后在店铺列表中优先显示）</span></li>
+   				</ul>
+			</div>
+			
+			<div class="popLayOrdNot">
+				<ul>
+					<li><input type="checkbox"  name="isforyou" value="1" <{if $shopinfo['isforyou'] == 1}>checked<{/if}> class="popChea">
+					<i class="popcheb <{if $shopinfo['isforyou'] == 1}>popLayRadi<{/if}>" ></i> 
+					<span>优选商家（勾选后在为您优选商家中显示）</span></li>
+   				</ul>
+			</div>
+			<div class="popLayOrdNot">				 
+				<ul>
+					<li><input type="radio"  name="fis_hui" value="1" <{if $fastfood['is_hui'] == 1}>checked<{/if}> class="popRada"> 
+					<i class="popRadb <{if $fastfood['is_hui'] == 1}>popLayRadi<{/if}>"></i>  
+					<span>支持闪惠（勾选后该店铺可支持到店消费）</span></li> 
+   				</ul>
+			</div>
+		<input type='hidden' name='is_selfsitecx' value='1'>
+	   	 <{foreach from=$attrlist item=items}> 
+	   	   
+	<div class="popLayOrdNot">
+		   <h4><{$items['name']}></h4>
+	   	    <{foreach from=$items['det'] item=itv}> 
+                        	      <{if $items['type'] ==  'input'}>
+                        	         <{assign var=shownow value=$items['id']|cat:'-0'}>   
+                        <input type="input" value="<{$myattr[$shownow]|default:''}>" name="mydata<{$items['id']}>" class="ttext popChea">  
+                        	      <{elseif $items['type'] == 'img'}>
+                        	        <{assign var=shownow value=$items['id']|cat:'-'}>   
+                        	         <{assign var=shownow1 value=$shownow|cat:$itv['id']}>  
+                        <input  class="popChea" type="checkbox" value="<{$itv['id']}>" name="mydata<{$items['id']}>[]"  <{if isset($myattr[$shownow1])}>checked<{/if}> ><img src="<{$itv['name']}>" width=30px>  
+                        	      <{elseif $items['type'] == 'checkbox'}>
+                        	         <{assign var=shownow value=$items['id']|cat:'-'}>   
+                        	         <{assign var=shownow1 value=$shownow|cat:$itv['id']}>
+                      <input  class="popChea" type="checkbox" value="<{$itv['id']}>" name="mydata<{$items['id']}>[]" <{if isset($myattr[$shownow1])}>checked<{/if}> ><i class="popcheb <{if isset($myattr[$shownow1])}>popLayRadi<{/if}> "></i><{$itv['name']}>  
+                        	      <{elseif $items['type']=='radio'}>
+                        	           <{assign var=shownow value=$items['id']|cat:'-'}>   
+                        	         <{assign var=shownow1 value=$shownow|cat:$itv['id']}>  
+                      <input  class="popChea" type="radio" value="<{$itv['id']}>" name="mydata<{$items['id']}>" <{if isset($myattr[$shownow1])}>checked<{/if}>><i class="popRadb <{if isset($myattr[$shownow1])}>popLayRadi<{/if}> "></i><{$itv['name']}> <{$shownow1}>  
+                        	      <{/if}>
+                        	      
+                        	<{/foreach}> 
+                        	</div> 
+        <{/foreach}> 
+			
+			
+			
+			 
+			<div class="popLayOrdExp"><p>说明：当网站没设置 对应的方式， 即使在店铺设置后，也不启效</p></div>
+			 <input type="hidden" value="<{$shopid}>" name="shopid"> 
+			<div class="popLayOrdBut"><input type="submit" value="保存设置"></div>
+		</div>
+	</div>
+</div>
+	 
+	 
+  </form>
+ 
+</body>
+</html>

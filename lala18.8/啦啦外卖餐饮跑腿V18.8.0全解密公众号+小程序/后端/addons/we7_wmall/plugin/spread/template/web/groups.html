@@ -1,0 +1,362 @@
+{itemplate 'public/header'}
+{if $op == 'post'}
+<!-- 添加页面 -->
+<div class="page clearfix">
+	<h2>编辑推广员等级</h2>
+	<form class="form-horizontal form form-validate" id="form1" action="" method="post" enctype="multipart/form-data">
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">等级名称</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="text" class="form-control" name="title" value="{$ad['title']}">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">外卖推广佣金计算方式</label>
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<div class="radio radio-inline">
+					<input type="radio" name="commission_type" id="commission_type-ratio" value="ratio" {if $ad['commission_type'] == 'ratio' || !$ad['commission_type']}checked{/if} onclick="$('.commission-type').hide();$('.commission-type-ratio').show();">
+					<label for="commission_type-ratio">按比例</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" name="commission_type" id="commission_type-fixed" value="fixed" {if $ad['commission_type'] == 'fixed'}checked{/if} onclick="$('.commission-type').hide();$('.commission-type-fixed').show();">
+					<label for="commission_type-fixed">固定金额</label>
+				</div>
+			</div>
+		</div>
+		<div class="form-group commission-type commission-type-ratio" {if $ad['commission_type'] == 'fixed'} style="display:none"{/if}>
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="input-group">
+					<span class="input-group-addon">一级佣金比例</span>
+					<input type="text" class="form-control" name="commission1_ratio" value="{$ad['commission1']}">
+					<span class="input-group-addon js-random">%</span>
+				</div>
+				<div class="input-group" style="margin-top: 10px;">
+					<span class="input-group-addon">二级佣金比例</span>
+					<input type="text" class="form-control" name="commission2_ratio" value="{$ad['commission2']}">
+					<span class="input-group-addon js-random">%</span>
+				</div>
+			</div>
+		</div>
+		<div class="form-group commission-type commission-type-fixed" {if $ad['commission_type'] == 'ratio' || !$ad['commission_type']} style="display:none"{/if}>
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="input-group">
+					<span class="input-group-addon ">一级佣金</span>
+					<input type="text" class="form-control" name="commission1_fixed" value="{$ad['commission1']}">
+					<span class="input-group-addon">元</span>
+				</div>
+				<div class="input-group" style="margin-top: 10px;">
+					<span class="input-group-addon ">二级佣金</span>
+					<input type="text" class="form-control" name="commission2_fixed" value="{$ad['commission2']}">
+					<span class="input-group-addon">元</span>
+				</div>
+			</div>
+		</div>
+		{if check_plugin_perm('errander')}
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">跑腿推广佣金计算方式</label>
+				<div class="col-sm-9 col-xs-9 col-md-9">
+					<div class="radio radio-inline">
+						<input type="radio" name="paotui_commission_type" id="paotui_commission_type-ratio" value="ratio" {if $paotui['commission_type'] == 'ratio' || !$paotui['commission_type']}checked{/if} onclick="$('.paotui_commission-type').hide();$('.paotui_commission-type-ratio').show();">
+						<label for="paotui_commission_type-ratio">按比例</label>
+					</div>
+					<div class="radio radio-inline">
+						<input type="radio" name="paotui_commission_type" id="paotui_commission_type-fixed" value="fixed" {if $paotui['commission_type'] == 'fixed'}checked{/if} onclick="$('.paotui_commission-type').hide();$('.paotui_commission-type-fixed').show();">
+						<label for="paotui_commission_type-fixed">固定金额</label>
+					</div>
+					<div class="help-block">设置跑腿推广佣金，需要开启跑腿推广才能生效</div>
+				</div>
+			</div>
+			<div class="form-group paotui_commission-type paotui_commission-type-ratio" {if $paotui['commission_type'] == 'fixed'} style="display:none"{/if}>
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+				<div class="col-sm-9 col-xs-12">
+					<div class="input-group">
+						<span class="input-group-addon">一级佣金比例</span>
+						<input type="text" class="form-control" name="paotui_commission1_ratio" value="{$paotui['commission1']}">
+						<span class="input-group-addon js-random">%</span>
+					</div>
+					<div class="input-group" style="margin-top: 10px;">
+						<span class="input-group-addon">二级佣金比例</span>
+						<input type="text" class="form-control" name="paotui_commission2_ratio" value="{$paotui['commission2']}">
+						<span class="input-group-addon js-random">%</span>
+					</div>
+				</div>
+			</div>
+			<div class="form-group paotui_commission-type paotui_commission-type-fixed" {if $paotui['commission_type'] == 'ratio' || !$paotui['commission_type']} style="display:none"{/if}>
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+				<div class="col-sm-9 col-xs-12">
+					<div class="input-group">
+						<span class="input-group-addon ">一级佣金</span>
+						<input type="text" class="form-control" name="paotui_commission1_fixed" value="{$paotui['commission1']}">
+						<span class="input-group-addon">元</span>
+					</div>
+					<div class="input-group" style="margin-top: 10px;">
+						<span class="input-group-addon ">二级佣金</span>
+						<input type="text" class="form-control" name="paotui_commission2_fixed" value="{$paotui['commission2']}">
+						<span class="input-group-addon">元</span>
+					</div>
+				</div>
+			</div>
+		{/if}
+		{if check_plugin_perm('gohome')}
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">生活圈推广佣金计算方式</label>
+				<div class="col-sm-9 col-xs-9 col-md-9">
+					<div class="radio radio-inline">
+						<input type="radio" name="gohome_commission_type" id="gohome_commission_type-ratio" value="ratio" {if $gohome['commission_type'] == 'ratio' || !$gohome['commission_type']}checked{/if} onclick="$('.gohome_commission-type').hide();$('.gohome_commission-type-ratio').show();">
+						<label for="gohome_commission_type-ratio">按比例</label>
+					</div>
+					<div class="radio radio-inline">
+						<input type="radio" name="gohome_commission_type" id="gohome_commission_type-fixed" value="fixed" {if $gohome['commission_type'] == 'fixed'}checked{/if} onclick="$('.gohome_commission-type').hide();$('.gohome_commission-type-fixed').show();">
+						<label for="gohome_commission_type-fixed">固定金额</label>
+					</div>
+					<div class="help-block">设置生活圈推广佣金，需要开启生活圈推广才能生效</div>
+				</div>
+			</div>
+			<div class="form-group gohome_commission-type gohome_commission-type-ratio" {if $gohome['commission_type'] == 'fixed'} style="display:none"{/if}>
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+				<div class="col-sm-9 col-xs-12">
+					<div class="input-group">
+						<span class="input-group-addon">一级佣金比例</span>
+						<input type="text" class="form-control" name="gohome_commission1_ratio" value="{$gohome['commission1']}">
+						<span class="input-group-addon js-random">%</span>
+					</div>
+					<div class="input-group" style="margin-top: 10px;">
+						<span class="input-group-addon">二级佣金比例</span>
+						<input type="text" class="form-control" name="gohome_commission2_ratio" value="{$gohome['commission2']}">
+						<span class="input-group-addon js-random">%</span>
+					</div>
+				</div>
+			</div>
+			<div class="form-group gohome_commission-type gohome_commission-type-fixed" {if $gohome['commission_type'] == 'ratio' || !$gohome['commission_type']} style="display:none"{/if}>
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+				<div class="col-sm-9 col-xs-12">
+					<div class="input-group">
+						<span class="input-group-addon ">一级佣金</span>
+						<input type="text" class="form-control" name="gohome_commission1_fixed" value="{$gohome['commission1']}">
+						<span class="input-group-addon">元</span>
+					</div>
+					<div class="input-group" style="margin-top: 10px;">
+						<span class="input-group-addon ">二级佣金</span>
+						<input type="text" class="form-control" name="gohome_commission2_fixed" value="{$gohome['commission2']}">
+						<span class="input-group-addon">元</span>
+					</div>
+				</div>
+			</div>
+		{/if}
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">推广下线条件</label>
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<div class="radio radio-inline">
+					<input type="radio" name="group_become_child_limit" id="group_become_child_limit-1" value="1" {if $ad['become_child_limit'] == '1' || !$ad['become_child_limit']}checked{/if}>
+					<label for="group_become_child_limit-1">新顾客并且首次扫推广二维码</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" name="group_become_child_limit" id="group_become_child_limit-2" value="2" {if $ad['become_child_limit'] == '2'}checked{/if}>
+					<label for="group_become_child_limit-2">新顾客</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" name="group_become_child_limit" id="group_become_child_limit-3" value="3" {if $ad['become_child_limit'] == '3'}checked{/if}>
+					<label for="group_become_child_limit-3">首次扫推广二维码</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" name="group_become_child_limit" id="group_become_child_limit-4" value="4" {if $ad['become_child_limit'] == '4'}checked{/if}>
+					<label for="group_become_child_limit-4">所有顾客</label>
+				</div>
+				<span class="help-block">所有顾客：所有通过推广二维码或推广链接进入的顾客，不管新老顾客，是否已经被推广，都会成为推广下线。</span>
+				<span class="help-block">新顾客并且首次扫推广二维码：被推广人必须是平台新顾客，并且是首次扫推广二维码，没有推广上线包括二级上线，才可以成为推广下线。</span>
+				<span class="help-block">新顾客：被推广人必须是平台新顾客{if check_plugin_perm('errander')}；如果开启跑腿推广，顾客需要没有跑腿订单{/if}{if check_plugin_perm('gohome')}；如果开启生活圈推广，顾客需要没有生活圈订单{/if}。才可以成为推广下线。</span>
+				<span class="help-block">首次扫推广二维码：被推广人必须是首次扫推广二维码，没有推广上线包括二级上线，才可以成为推广下线。</span>
+				<span class="help-block">
+					<span class="text-danger">说明：新顾客条件采用“设置-优惠活动相关-新用户”的设置。</span>
+				</span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">顾客是否成为推广员下线</label>
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<div class="radio radio-inline">
+					<input type="radio" name="valid_period" id="valid_period-alltime" value="alltime" {if $ad['valid_period'] == 'alltime' || !$ad['valid_period']}checked{/if}>
+					<label for="valid_period-alltime">是（顾客以后下单都有提成）</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" name="valid_period" id="valid_period-once" value="once" {if $ad['valid_period'] == 'once'}checked{/if}>
+					<label for="valid_period-once">否（仅本次下单有提成）</label>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">等级升级设置</label>
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<div class="radio radio-inline">
+					<input type="radio" name="admin_update_rules" id="admin_update_rules_keep" value="keep" {if !$ad['admin_update_rules'] || $ad['admin_update_rules'] == 'keep'}checked{/if}>
+					<label for="admin_update_rules_keep">等级保持不变</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" name="admin_update_rules" id="admin_update_rules_only_up" value="only_up" {if $ad['admin_update_rules'] == 'only_up'}checked{/if}>
+					<label for="admin_update_rules_only_up">等级只升不降</label>
+				</div>
+				<div class="help-block"></div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">升级条件</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="input-group">
+					<span class="input-group-addon">
+						{if $config['group_update_mode'] == 'order_money'}
+							推广订单总额满
+						{elseif $config['group_update_mode'] == 'order_money_1'}
+							一级推广订单金额满
+						{elseif $config['group_update_mode'] == 'order_count'}
+							推广订单总数满
+						{elseif $config['group_update_mode'] == 'order_count_1'}
+							一级推广订单总数满
+						{elseif $config['group_update_mode'] == 'self_order_money'}
+							自购订单金额满
+						{elseif $config['group_update_mode'] == 'self_order_count'}
+							自购订单数量满
+						{elseif $config['group_update_mode'] == 'down_count'}
+							下线总人数满
+						{elseif $config['group_update_mode'] == 'down_count_1'}
+							一级总人数满
+						{/if}
+					</span>
+					<input type="number" class="form-control" name="group_condition" value="{$ad['group_condition']}" digits="true">
+					<span class="input-group-addon">
+						{if $config['group_update_mode'] == 'order_money' || $config['group_update_mode'] == 'order_money_1' || $config['group_update_mode'] == 'self_order_money'}
+							元
+						{elseif $config['group_update_mode'] == 'order_count' || $config['group_update_mode'] == 'order_count_1' || $config['group_update_mode'] == 'self_order_count'}
+							单
+						{elseif $config['group_update_mode'] == 'down_count' || $config['group_update_mode'] == 'down_count_1'}
+							人
+						{/if}
+					</span>
+				</div>
+				<div class="help-block"><span class="text-danger">由于推广上下线关系设置可以根据推广等级设置，推广员没有推广等级则不能推广下线，为保证任何推广员都可以推广平台，请设置最低推广等级无任何门槛限制。</span></div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<input type="hidden" name="token" value="{$_W['token']}">
+				<input type="submit" value="提交" class="btn btn-primary">
+			</div>
+		</div>
+	</form>
+</div>
+{else}
+<!-- 首页 -->
+<form action="" class="form-table">
+	<div class="panel panel-table">
+		<div class="panel-heading">
+			<a href="{php echo iurl('spread/groups/post');}" class="btn btn-primary btn-sm">添加推广员等级</a>
+		</div>
+		<div class="alert alert-info">
+			推广员等级的升级条件请在 基本设置-上下线关系及推广资格-推广员等级升级依据 中选择。 <a href="{php echo iurl('spread/config/basic')}" target="_blank">立即设置</a>
+			</br>
+			由于推广上下线关系设置可以根据推广等级设置，推广员没有推广等级则不能推广下线，为保证任何推广员都可以推广平台，请设置最低推广等级无任何门槛限制。
+		</div>
+		<div class="panel-body table-responsive js-table">
+			{if empty($groups)}
+			<div class="no-result">
+				<p>还没有相关数据</p>
+			</div>
+			{else}
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>名称</th>
+						<th>外卖佣金计算方式</th>
+						<th>外卖一级佣金</th>
+						<th>外卖二级佣金</th>
+						{if $_config_plugin['basic']['paotui_status'] == 1}
+							<th>跑腿佣金计算方式</th>
+							<th>跑腿一级佣金</th>
+							<th>跑腿二级佣金</th>
+						{/if}
+						{if $_config_plugin['basic']['gohome_status'] == 1}
+							<th>生活圈佣金计算方式</th>
+							<th>生活圈一级佣金</th>
+							<th>生活圈二级佣金</th>
+						{/if}
+						<th>升级条件</th>
+						<th class="text-right">操作</th>
+					</tr>
+				</thead>
+					{loop $groups $group}
+					<tr>
+						<td>{$group['id']}</td>
+						<td>{$group['title']}</td>
+						<td>
+							{if $group['commission_type'] == 'ratio' || !$group['commission_type']}
+								按比例（%）
+							{else}
+								固定（元）
+							{/if}
+						</td>
+						<td>{$group['commission1']}</td>
+						<td>{$group['commission2']}</td>
+						{if $_config_plugin['basic']['paotui_status'] == 1}
+							<td>
+								{if $group['data']['paotui']['commission_type'] == 'ratio' || !$group['data']['paotui']['commission_type']}
+								按比例（%）
+								{else}
+								固定（元）
+								{/if}
+							</td>
+							<td>{$group['data']['paotui']['commission1']}</td>
+							<td>{$group['data']['paotui']['commission2']}</td>
+						{/if}
+						{if $_config_plugin['basic']['gohome_status'] == 1}
+							<td>
+								{if $group['data']['gohome']['commission_type'] == 'ratio' || !$group['data']['gohome']['commission_type']}
+								按比例（%）
+								{else}
+								固定（元）
+								{/if}
+							</td>
+							<td>{$group['data']['gohome']['commission1']}</td>
+							<td>{$group['data']['gohome']['commission2']}</td>
+						{/if}
+						<td>
+							{if $config['group_update_mode'] == 'order_money'}
+								推广订单总额满
+							{elseif $config['group_update_mode'] == 'order_money_1'}
+								一级推广订单金额满
+							{elseif $config['group_update_mode'] == 'order_count'}
+								推广订单总数满
+							{elseif $config['group_update_mode'] == 'order_count_1'}
+								一级推广订单总数满
+							{elseif $config['group_update_mode'] == 'self_order_money'}
+								自购订单金额满
+							{elseif $config['group_update_mode'] == 'self_order_count'}
+								自购订单数量满
+							{elseif $config['group_update_mode'] == 'down_count'}
+								下线总人数满
+							{elseif $config['group_update_mode'] == 'down_count_1'}
+								一级总人数满
+							{/if}
+							{$group['group_condition']}
+							{if $config['group_update_mode'] == 'order_money' || $config['group_update_mode'] == 'order_money_1' || $config['group_update_mode'] == 'self_order_money'}
+								元
+							{elseif $config['group_update_mode'] == 'order_count' || $config['group_update_mode'] == 'order_count_1' || $config['group_update_mode'] == 'self_order_count'}
+								单
+							{elseif $config['group_update_mode'] == 'down_count' || $config['group_update_mode'] == 'down_count_1'}
+								人
+							{/if}
+						</td>
+						<td class="text-right">
+							<a href="{php echo iurl('spread/groups/post', array('id' => $group['id']))}" class="btn btn-default btn-sm" title="编辑" data-toggle="tooltip" data-placement="top" >编辑</a>
+							<a href="{php echo iurl('spread/groups/del', array('id' => $group['id']))}" class="btn btn-default btn-sm js-remove" data-confirm="确定删除该推广员?">删除</a>
+						</td>
+					</tr>
+					{/loop}
+			</table>
+			{/if}
+		</div>
+	</div>
+</form>
+{/if}
+{itemplate 'public/footer'}

@@ -1,0 +1,90 @@
+{itemplate 'public/header'}
+<form action="./index.php" class="form-horizontal form-filter" id="form1">
+	<div class="alert alert-warning">
+		提醒：没有进行时间筛选操作，数据为所有时间内的数据。差额为0表示账户正常，小于0表示账户多入账，大于0表示账户少入账。
+	</div>
+	{php echo tpl_form_filter_hidden('statcenter/check/index');}
+	<input type="hidden" name="days" value="{$days}"/>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">筛选时间</label>
+		<div class="col-sm-9 col-xs-12 js-daterange" data-form="#form1">
+			<span class="btn-daterange js-btn-daterange">
+				{php echo tpl_form_field_daterange('stat_day', array('start' => date('Y-m-d', $starttime), 'end' => date('Y-m-d', $endtime)));}
+			</span>
+		</div>
+	</div>
+	<div class="form-group clearfix form-inline">
+		<label class="col-xs-12 col-sm-2 col-md-2 control-label">其他</label>
+		<div class="col-sm-7 col-lg-8 col-xs-12">
+			{if $_W['is_agent']}
+				<select name="agentid" class="select2 js-select2 form-control width-130">
+					<option value="0">选择代理区域</option>
+					{loop $_W['agents'] $agent}
+						<option value="{$agent['id']}" {if $agentid == $agent['id']}selected{/if}>{$agent['area']}</option>
+					{/loop}
+				</select>
+			{/if}
+			<select name="sid" class="form-control select2 js-select2 width-130" id="select-sid">
+				<option value="0" {if !$sid}selected{/if}>全部门店</option>
+				{loop $stores $store}
+					<option value="{$store['id']}" {if $store['id'] == $sid}selected{/if}>{$store['title']}</option>
+				{/loop}
+			</select>
+		</div>
+	</div>
+</form>
+<form action="" class="form-table form" method="post">
+	<div class="panel panel-table">
+		<div class="panel-body table-responsive">
+			<table class="table table-bordered table-hover text-center" style="background: #fff">
+			<thead class="navbar-inner">
+			<tr>
+				<th>商户</th>
+				<th>外卖店内入账</th>
+				<th>买单入账</th>
+				<th>账户其他变动</th>
+				<th>提现总额</th>
+				<th>账户余额</th>
+				<th>差额</th>
+				<th>差额说明</th>
+				<th>操作</th>
+			</tr>
+			</thead>
+			<tbody>
+			{loop $data $item}
+				<tr>
+					<td><strong>{$item['title']}</strong></td>
+					<td>￥{php echo round($item['takeout_final_fee'], 2);}</td>
+					<td>￥{php echo round($item['paybill_final_fee'], 2);}</td>
+					<td>￥{php echo round($item['change_final_fee'], 2);}</td>
+					<td>￥{php echo round($item['getcash_final_fee'], 2);}</td>
+					<td>￥{php echo round($item['amount'], 2);}</td>
+					<td>
+						{if round($item['balance'], 2) == 0}
+							￥{php echo round($item['balance'], 2);}
+						{else if round($item['balance'], 2) > 0}
+							<span class="text-success">￥{php echo round($item['balance'], 2);}</span>
+						{else}
+							<span class="text-danger">￥{php echo round($item['balance'], 2);}</span>
+						{/if}
+					</td>
+					<td>
+						{if round($item['balance'], 2) > 0}
+							<span class="label label-success">应追加到商户 {php echo round($item['balance'], 2);} 元</span>
+						{else if round($item['balance'], 2) < 0}
+							<span class="label label-danger">应扣除商户 {php echo round(-$item['balance'], 2);} 元</span>
+						{/if}
+					</td>
+					<td>
+						{if round($item['balance'], 2) != 0}
+							<a href="{php echo iurl('statcenter/check/index', array('sid' => $item['id'], 'balance' => 1));}"  data-confirm="请先确认差额是否正确，确定平衡该商家账户吗?" class="btn btn-default js-post">多退少补</a>
+						{/if}
+					</td>
+				</tr>
+			{/loop}
+			</tbody>
+		</table>
+		</div>
+	</div>
+</form>
+{itemplate 'public/footer'}

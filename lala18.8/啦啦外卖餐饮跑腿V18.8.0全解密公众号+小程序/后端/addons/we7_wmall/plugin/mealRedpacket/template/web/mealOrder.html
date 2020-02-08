@@ -1,0 +1,194 @@
+{itemplate 'public/header'}
+{if $op == 'list'}
+	<form action="./index.php" class="form-horizontal form-filter">
+		{php echo tpl_form_filter_hidden('mealRedpacket/mealorder');}
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">兑换时间</label>
+			<div class="col-sm-4 col-xs-4">
+				{php echo tpl_form_field_daterange('addtime', array('start' => date('Y-m-d H:i', $starttime), 'end' => date('Y-m-d H:i', $endtime)), true);}
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">搜索</label>
+			<div class="col-sm-4 col-xs-4">
+				<input type="text" name="keyword" value="{$keyword}" class="form-control" placeholder="输入要搜索的昵称">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+			<div class="col-sm-4 col-xs-4">
+				<input type="submit" value="筛选" class="btn btn-primary">
+			</div>
+		</div>
+	</form>
+	<form action="" class="form-table form" method="post">
+		<div class="panel panel-table">
+			<div class="panel-body table-responsive js-table">
+				{if empty($meal_orders)}
+				<div class="no-result">
+					<p>还没有相关数据</p>
+				</div>
+				{else}
+				<table class="table table-hover">
+					<thead>
+					<tr>
+						<th width="40">
+							<div class="checkbox checkbox-inline">
+								<input type="checkbox">
+								<label></label>
+							</div>
+						</th>
+						<th>ID</th>
+						<th>购买用户信息</th>
+						<th style="text-align:center;">费用</th>
+						<th>支付状态</th>
+						<th>支付方式</th>
+						<th style="text-align: center">购买时间</th>
+						<th style="text-align: right">套餐详情</th>
+					</tr>
+					</thead>
+					<tbody>
+					{loop $meal_orders $meal_order}
+					<tr>
+						<td>
+							<div class="checkbox checkbox-inline">
+								<input type="checkbox" name="ids[]" value="{$meal_order['id']}">
+								<label></label>
+							</div>
+						</td>
+						<td>{$meal_order['id']}</td>
+						<td>
+							<img width="50" height="50" src="{php echo tomedia($meal_order['avatar'])}" alt=""/>
+							{$meal_order['nickname']}
+						</td>
+						<td style="text-align:center;">
+							¥{$meal_order['final_fee']}
+						</td>
+						<td>
+							{if $meal_order['is_pay'] == 1}
+							<span class="label label-success">已支付</span>
+							{else}
+							<span class="label label-danger">未支付</span>
+							{/if}
+						</td>
+						<td>
+							{if $meal_order['is_pay'] == 1 && $meal_order['pay_type']}
+							<span>{$pay_types[$meal_order['pay_type']]['text']}</span>
+							{else}
+							<span>未支付</span>
+							{/if}
+						</td>
+						<td align="center">{php echo date('Y-m-d H:i:s', $meal_order['addtime'])}</td>
+						<td align="right">
+							<a href="{php echo iurl('mealRedpacket/mealorder/detail', array('id' => $meal_order['id']));}" target="_blank" class="btn btn-primary btn-sm">详情</a>
+						</td>
+					</tr>
+					{/loop}
+					</tbody>
+				</table>
+				<div class="btn-region clearfix">
+					<div class="pull-right">
+						{$pager}
+					</div>
+				</div>
+				{/if}
+			</div>
+		</div>
+	</form>
+{/if}
+
+{if $op == 'detail'}
+	<div class="clearfix order-detail">
+		<div class="panel panel-display  ">
+			<div class="panel-heading"><h3>订单信息</h3></div>
+			<div class="panel-body form-horizontal">
+				<table class="table">
+					<tr>
+						<td width="130">订单号：</td>
+						<td>{$order['order_sn']}</td>
+					</tr>
+					<tr>
+						<td width="130">购买人UID：</td>
+						<td>{$order['uid']}</td>
+					</tr>
+					<tr>
+						<td width="130">购买人昵称：</td>
+						<td>{$order['nickname']}</td>
+					</tr>
+					<tr>
+						<td>购买时间：</td>
+						<td>{$order['addtime']}</td>
+					</tr>
+					<tr>
+						<td>订单金额：</td>
+						<td>¥{$order['final_fee']}</td>
+					</tr>
+					<tr>
+						<td>付款方式：</td>
+						<td>
+							{if !$order['is_pay']}
+								<span class="label label-danger">未支付</span>
+							{else}
+								<span>{$pay_types[$order['pay_type']]['text']}</span>
+							{/if}
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<div class="panel panel-display">
+			<div class="panel-heading"><h3>红包信息</h3></div>
+		</div>
+		{loop $order['data']['meal']['redpackets'] $redpacket}
+			<div class="col-md-3 padding-10">
+				<div class="panel panel-display">
+					<div class="panel-body">
+						<table class="table" style="min-height: 200px;">
+							<tr>
+								<td width="120">红包名称：</td>
+								<td>{$redpacket['name']}</td>
+							</tr>
+							<tr>
+								<td width="120">红包金额：</td>
+								<td>{$redpacket['discount']}</td>
+							</tr>
+							<tr>
+								<td width="120">使用条件：</td>
+								<td>消费满{$redpacket['condition']}元可用</td>
+							</tr>
+							<tr>
+								<td width="120">使用期限：</td>
+								<td>领取后{$redpacket['grant_days_effect']}天生效，有效期{$redpacket['use_days_limit']}天</td>
+							</tr>
+							{if $redpacket['times']}
+								<tr>
+									<td width="120">使用时间段：</td>
+									<td>
+										{loop $redpacket['times'] $time}
+											{$time['start_hour']}-{$time['end_hour']}<br>
+										{/loop}
+									</td>
+								</tr>
+							{/if}
+							{if $redpacket['categorys']}
+								<tr>
+									<td width="120">使用分类：</td>
+									<td>
+										{loop $redpacket['categorys'] $category}
+											{$category['title']}<br>
+										{/loop}
+									</td>
+								</tr>
+							{/if}
+							<tr>
+								<td></td>
+								<td></td>
+							</tr>
+						</table>
+					</div>
+				</div>
+			</div>
+		{/loop}
+	</div>
+{/if}
+{itemplate 'public/footer'}

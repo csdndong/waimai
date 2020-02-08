@@ -1,0 +1,152 @@
+ <{extends file="<{$tempdir}>/public/wxsite.html"}>  
+<{block name=extendcss}> 
+ <link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/wmr-red-enve.css">  
+<style>
+html{font-size: 26.6667px!important;}
+
+body{   background:<{$shareinfo['color']}>!important;}
+.content-bg{   background:<{$shareinfo['actcolor']}>!important;}
+input{border:none!important;}
+input[type='number'], input[type='tel'] {
+    height: 1.35rem;
+    width: 100%;
+    border: none;
+    font-size: .64rem;
+    text-align: center;
+}
+.share-infor .number {
+	margin: 20px 0px 3px;
+    width: 5.3rem!important;
+    color: #ef361e!important;
+    font-weight: bold!important;
+    text-align: center;}
+	.share-infor .number .rmb{font-weight:normal!important;}
+	.share-infor .number .rmb,.share-infor .number i{color: #ef361e!important;}
+.content2{margin-bottom:10px;}
+</style> 
+<{/block}>
+ <{block name=extendjs}>  
+  
+<{/block}>
+<{block name=sitetitle}><{$sitename}><{/block}>
+<{block name=hearnav}><{/block}>
+<{block name=footer}><{/block}>
+<{block name=myScrolljs}> 
+<{/block}>
+<{block name=blockcontent}> 
+ <div id="">
+
+
+ <div class="t-banner"><img <{ofunc type=img  link="<{$shareinfo['bigimg']}>"}> alt=""/></div>
+ 
+	 <{if !empty($juaninfo) && $status == 1 }>	 
+		 <{foreach from=$juaninfo item=items }>
+		 <section class="content2">
+				<div class="result resulth5">
+						<div class="result-inner-share">
+									<div class="share-sort"><i>红包</i></div>
+
+							<div class="share-infor">
+								<div class="number"><em class="rmb">￥</em><i><{$items['cost']}></i></div>
+									<div class="classify" style='margin-left: -30px;'>
+									 <{assign var=paytypearr value=","|explode:$items['paytype']}> 
+									<{if  in_array(1,$paytypearr ) &&  in_array(2,$paytypearr )  }>不限支付方式<{/if}>
+									<{if  in_array(1,$paytypearr ) &&  !(in_array(2,$paytypearr ))}>仅限在线支付订单使用<{/if}>
+									<{if  in_array(2,$paytypearr ) &&  !(in_array(1,$paytypearr ))}>仅限货到付款订单使用<{/if}>
+ 									满<{$items['limitcost']}>元可用</div>
+									<div class="favorable"></div>
+							</div>
+						</div>
+				</div>
+			</section>
+		<{/foreach}>
+    <{/if}>
+		 
+					<section class="content1">
+						<div class="opr">
+                            <{if $status == 0 || empty($juaninfo)}>
+							<div id="capture-tip" class="capture-tip" style="text-align:center;font-size:14px">活动已结束~</div>			
+							<{else}>
+							    <{if $canget == 1}> 
+								<div id="capture-tip" class="capture-tip" style="text-align:center;font-size:14px">送你<{count($juaninfo,0)}>张优惠券，快来领取吧~</div>
+								<input id="capture-btn" class="combtn borderradius-3" type="button" value="马上领取"/>
+								<{else}>
+								<div id="capture-tip" class="capture-tip" style="text-align:center;font-size:14px">您已领取过优惠券,不可重复领取噢~</div>
+								<input  class="combtn borderradius-3" style='background-color:#C7C7C7' disabled="disabled" type="button" value="马上领取"/>
+							    <{/if}>  
+							<{/if}>
+						</div>
+					</section>			 
+		
+ 
+<div class="content-bg">
+        <section class="rule">
+            <h4 class="sec-sub-title">活动规则</h4>
+			<div id="activerule" style="">
+			<{$shareinfo['avtrule']|htmlspecialchars_decode|default:'暂无说明'}>	
+	</div>
+	
+        </section>
+        
+		
+    </div>
+ 
+ 
+ <div style="height:20px;"></div>
+ 
+ </div> 
+ <style>
+#activerule {
+ width: 90%;
+    margin: .5rem auto 0;
+ }
+ #activerule ul{    width: 100%!important;
+					margin: 0px!important;}
+ #activerule img{ width:100%!important;}
+ </style>
+<script>
+$('#toggle-help').bind('click',function(){
+	if(lockclick()){
+		$("#help-main").toggle();
+	}
+});
+$("#capture-btn").bind('click',function(){
+	showLoading();
+	if(lockclick()){
+			
+			var phone = $("#phone-input").val();
+			var costarr = '<{$costarr}>';
+			var siteurl = '<{$siteurl}>';
+			 var historyphone = phone; 
+			 $.cookie('historyphone', historyphone, { expires: 30, path: '/' }); 
+			url = siteurl+'/index.php?ctrl=wxsite&action=receivgzwxjuan&datatype=json&random=@random@';
+			  url = url.replace('@random@', 1+Math.round(Math.random()*1000));
+			$.ajax({         //script定义
+					 url: url.replace('@random@', 1+Math.round(Math.random()*1000)),
+					 dataType: "json",
+					 async:true,
+					 data:{'costarr':costarr},
+					 success:function(content) { 
+						if(content.error ==  false){ 
+							newhideLoading();
+							window.location.href = siteurl+'/index.php?ctrl=wxsite&action=member';
+						}else{
+							newhideLoading();
+							$('#capture-tip').html('');
+							$('#capture-tip').html(content.msg);							
+						}
+					 },
+					 error:function(){
+						newhideLoading();
+						$('#capture-tip').html('获取失败~');
+					 }
+			}); 
+	}
+	
+});
+</script>  
+<{/block}>
+<{block name=sharetitle}><{$shareinfo['title']}><{/block}> 
+<{block name=sharedesc}><{$shareinfo['describe']|default:''}><{/block}>
+<{block name=shareimg}><{$siteurl}><{$shareinfo['img']}><{/block}>
+<{block name=sharelink}><{ofunc type=url link="/wxsite/memsharehb/key/<{$jiamiuidkey}>"}><{/block}>

@@ -1,0 +1,64 @@
+<view class="page-goods border-box">
+    <view class="wrapper border-box">
+        <scroll-view class="tags-list border-box" scrollY="true">
+            <view bind:tap="onToggleCategory" class="tag-item border-1px-b {{item.id==selectCategoryId?'active':''}}" data-id="{{item.id}}" wx:for="{{categorys}}">
+                <view class="tag-inner">{{item.title}}</view>
+            </view>
+        </scroll-view>
+        <scroll-view class="goods-list border-box" scrollY="true">
+            <view class="category-title">{{selectCategory.title}}({{selectCategory.goods_num}})</view>
+            <view class="goods-list-inner">
+                <view class="goods-item border-1px-b" wx:for="{{goodsItem}}">
+                    <view class="goods-info flex-lr">
+                        <view class="thumb">
+                            <view class="label" wx:if="{{item.label}}">{{item.label}}</view>
+                            <image src="{{item.thumb}}"></image>
+                            <view class="status" wx:if="{{item.status!=1}}">已下架</view>
+                        </view>
+                        <view class="info-inner">
+                            <view class="goods-title ellipsis">{{item.title}}</view>
+                            <view class="sailed flex">
+                                <text>已售：{{item.sailed}}</text>
+                                <text class="sailed-tip" wx:if="{{item.total==-1}}">不限库存</text>
+                                <text class="sail-total" wx:else>库存：{{item.total}}</text>
+                                <text class="sail-limit" wx:if="{{item.price<item.old_price}}">限时售卖</text>
+                            </view>
+                            <view class="price">
+                                <view class="price-text">外卖：¥<text>{{item.price}}</text>
+                                </view>
+                                <view class="type-title">店内：¥<text>{{item.ts_price}}</text>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="btn-group border-box">
+                        <view bind:tap="onChangeStatus" class="btn-item" data-cid="{{item.cid}}" data-id="{{item.id}}" data-index="{{index}}" data-type="total" wx:if="{{item.total!=0}}">售罄</view>
+                        <view bind:tap="onJsEvent" class="btn-item" data-event-type="jsUrl" data-url="pages/goods/post?id={{item.id}}">编辑</view>
+                        <view bind:tap="onChangeStatus" class="btn-item" data-cid="{{item.cid}}" data-id="{{item.id}}" data-index="{{index}}" data-type="status" data-value="{{item.status}}">{{item.status==1?'下架':'上架'}}</view>
+                    </view>
+                </view>
+            </view>
+            <view class="wui-loadmore wui-loadmore-nomore" wx:if="{{selectCategory.goods_num>0}}">
+                <view class="wui-loadmore-tips">我是有底线的</view>
+                <view class="wui-loadmore-line"></view>
+            </view>
+            <view class="no-data" wx:else>
+                <image class="no-coupon" src="/static/img/coupon_no_con.png"></image>
+                <text class="no-record">暂无商品</text>
+            </view>
+        </scroll-view>
+    </view>
+    <view class="footer-operate border-1px-t">
+        <view class="right">
+            <view bind:tap="onJsEvent" data-event-type="jsUrl" data-url="pages/category/index">
+                <text class="icon icon-list"></text>
+				管理分类
+			</view>
+            <view bind:tap="onJsEvent" data-event-type="jsUrl" data-url="pages/goods/post">
+                <text class="icon icon-plus"></text>
+				新建商品
+			</view>
+        </view>
+    </view>
+</view>
+<include src="../public/footer.wxml"></include>

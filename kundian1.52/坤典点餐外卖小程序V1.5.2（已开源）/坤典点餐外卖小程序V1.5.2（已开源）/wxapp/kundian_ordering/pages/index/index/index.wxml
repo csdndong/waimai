@@ -1,0 +1,47 @@
+<view class="index-slide">
+    <swiper autoplay="false" duration="1000" indicatorDots="false" interval="5000">
+        <swiper-item wx:for="{{slideData}}" wx:for-item="slide" wx:key="id">
+            <image bindtap="intoJump" class="slide-image" src="{{slide.src}}"></image>
+        </swiper-item>
+    </swiper>
+</view>
+<view class="navbar">
+    <view class="row row-{{navData.length}}">
+        <view bindtap="intoNav" class="row-li" data-path="{{item.path}}" style="background:{{item.color}}" wx:for="{{navData}}" wx:key="id">
+            <image src="{{item.icon}}"></image>
+            <text class="nav-title">{{item.title}}</text>
+            <text class="nav-title-eng">{{item.eng_title}}</text>
+        </view>
+    </view>
+</view>
+<view class="index-shop">
+    <view class="shop-title">
+        <text>商家信息</text>
+    </view>
+    <view class="shop-li">
+        <view class="li-left">
+            <text>营业时间</text>
+        </view>
+        <view class="li-right">
+            <text>{{aboutData.in_time}}</text>
+        </view>
+    </view>
+    <view bindtap="openAddress" class="shop-li">
+        <view class="li-left">
+            <text>商家地址</text>
+        </view>
+        <view class="li-right">
+            <text>{{aboutData.merchant_name}}</text>
+            <image src="../../../img/right.png"></image>
+        </view>
+    </view>
+    <view bindtap="doCall" class="shop-li">
+        <view class="li-left">
+            <text>商家电话</text>
+        </view>
+        <view class="li-right">
+            <text>{{aboutData.phone}}</text>
+            <image src="../../../img/right.png"></image>
+        </view>
+    </view>
+</view>

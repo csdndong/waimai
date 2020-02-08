@@ -1,0 +1,26 @@
+<view class="head t_c pa_0" style="background:{{color}}">
+    <view class="fon_24 color_e pa_0">可提现佣金(元)</view>
+    <view class="fon_60 color_f pa_0 wei">{{yjdata.ktxyj}}</view>
+    <view class="fon_24 color_e pa_0">累计收益佣金(元)</view>
+    <view class="fon_40 color_f pa_0">{{yjdata.ljyj}}</view>
+</view>
+<view class="pa ba_ff put_forward">
+    <view class="dis_in fon_24">
+        <view>已申请佣金(元)</view>
+        <view class="fon_36">{{yjdata.ddkyj}}</view>
+    </view>
+    <view class="dis_in fon_24">
+        <view>已提现佣金(元)</view>
+        <view class="fon_36">{{yjdata.ytxyj}}</view>
+    </view>
+</view>
+<view bindtap="detaulted" class="pa ba_ff mar_t list bor_bottom rel">
+    <image class="dis_in" mode="aspectFit" src="../../img/distribution/mx.png"></image>
+    <text class="dis_in fon_30">佣金明细</text>
+    <image class="ab ud" mode="aspectFill" src="../../img/blackjt.png"></image>
+</view>
+<view bindtap="detault" class="pa ba_ff list rel">
+    <image class="dis_in" mode="aspectFit" src="../../img/distribution/tx.png"></image>
+    <text class="dis_in fon_30">提现记录</text>
+    <image class="ab ud" mode="aspectFill" src="../../img/blackjt.png"></image>
+</view>

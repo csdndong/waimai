@@ -1,0 +1,167 @@
+{itemplate 'public/header'}
+{if $op == 'list'}
+<form action="./index.php" class="form-horizontal form-filter" id="form1">
+	{php echo tpl_form_filter_hidden('tongcheng/statcenter/list');}
+	<input type="hidden" name="days" value="{$days}"/>
+	<div class="form-group form-inline">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">筛选时间</label>
+		<div class="col-sm-9 col-xs-12 js-daterange" data-form="#form1">
+			<div class="btn-group">
+				<a href="{php echo ifilter_url('days:0');}" class="btn {if !$days}btn-primary{else}btn-default{/if}">今天</a>
+				<a href="{php echo ifilter_url('days:7');}" class="btn {if $days == 7}btn-primary{else}btn-default{/if}">最近7天</a>
+				<a href="{php echo ifilter_url('days:30');}" class="btn {if $days == 30}btn-primary{else}btn-default{/if}">最近30天</a>
+				<a href="javascript:;" class="btn js-btn-custom {if $days == -1}btn-primary{else}btn-default{/if}">自定义</a>
+			</div>
+			<span class="btn-daterange js-btn-daterange {if $days != -1}hide{/if}">
+				{php echo tpl_form_field_daterange('stat_day', array('start' => $starttime, 'end' => $endtime));}
+			</span>
+		</div>
+	</div>
+</form>
+<div class="clearfix">
+	<div class="panel panel-stat">
+		<div class="panel-heading">
+			<h3>总览</h3>
+		</div>
+		<div class="panel-body">
+			<div class="col-md-3">
+				<div class="title">
+					营业总额(元)
+					<i class="fa fa-info-circle" data-toggle="popover" data-placement="top" data-content="有效帖子的总金额。"></i>
+				</div>
+				<div class="num-wrapper">
+					<a class="num" href="javascript:;">
+						<span id="html-total-final-fee">￥--</span>
+					</a>
+				</div>
+			</div>
+			<div class="col-md-3">
+				<div class="title">
+					发帖收入
+					<i class="fa fa-info-circle" data-toggle="popover" data-placement="top" data-content="顾客发帖支付费用"></i>
+				</div>
+				<div class="num-wrapper">
+					<a class="num" href="javascript:;">
+						<span id="html-total-tiezi-price-fee">￥--</span>
+					</a>
+				</div>
+			</div>
+			<div class="col-md-3">
+				<div class="title">
+					帖子置顶收入
+					<i class="fa fa-info-circle" data-toggle="popover" data-placement="top" data-content="顾客置顶帖子支付费用"></i>
+				</div>
+				<div class="num-wrapper">
+					<a class="num" href="javascript:;">
+						<span id="html-total-tiezi-stick-fee">￥--</span>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="clearfix {if !$days}hide{/if}">
+	<div class="panel panel-trend">
+		<div class="panel-heading">
+			<h3>趋势图</h3>
+		</div>
+		<div class="panel-body">
+			<div id="chart-order-holder" style="width: 100%;height:400px;"></div>
+		</div>
+	</div>
+</div>
+<form action="" class="form-table form" method="post">
+	<div class="panel panel-table">
+		<div class="panel-body table-responsive">
+			<table class="table table-bordered table-hover text-center" style="background: #fff">
+				<thead class="navbar-inner">
+				<tr>
+					<th>账期</th>
+					<th>已发布帖子数</th>
+					<th>总营业额</th>
+					<th>发帖收入</th>
+					<th>帖子置顶收入</th>
+				</tr>
+				</thead>
+				<tbody>
+				{loop $records $record}
+				<tr>
+					<td><strong>{$record['stat_day']}</strong></td>
+					<td><strong>{php echo intval($total_records[$record['stat_day']]['total_success_order']);}</strong></td>
+					<td><span class="text-success">￥{$record['final_fee']}</span></td>
+					<td><span class="text-success">￥{$record['tiezi_price']}</span></td>
+					<td><span class="text-success">￥{$record['tiezi_stick_price']}</span></td>
+				</tr>
+				{/loop}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</form>
+<script type="text/javascript">
+	irequire(['echarts'], function(echarts){
+		var option = {
+			title: {
+				text: '营业趋势图'
+			},
+			tooltip : {
+				trigger: 'axis'
+			},
+			legend: {
+				data:[]
+			},
+			toolbox: {
+				feature: {
+					saveAsImage: {}
+				}
+			},
+			grid: {
+				left: '3%',
+				right: '4%',
+				bottom: '3%',
+				containLabel: true
+			},
+			xAxis : [{
+				type : 'category',
+				boundaryGap : false,
+				data :[1, 2, 3]
+			}],
+			yAxis : [
+				{
+					type : 'value'
+				}
+			],
+			series : []
+		};
+		var myChart = echarts.init($('#chart-order-holder')[0]);
+		myChart.setOption(option);
+		myChart.showLoading();
+		$.post(location.href, function(data){
+			myChart.hideLoading();
+			var result = $.parseJSON(data);
+			option.legend.data = result.message.message.titles;
+			var xAxis = {
+				type : 'category',
+				boundaryGap : false,
+				data : result.message.message.days
+			};
+			option.xAxis = xAxis;
+			$.each(result.message.message.fields, function(k, v){
+				var serie = {
+					name: result.message.message.titles[k],
+					type: 'line',
+					areaStyle: {normal: {}},
+					data: result.message.message[v]
+				};
+				option.series.push(serie);
+			});
+			myChart.setOption(option);
+			var stat = result.message.message.stat;
+			$('#html-total-final-fee').html('￥' + stat.total_final_fee);
+			$('#html-total-tiezi-price-fee').html('￥' + stat.total_tiezi_price_fee);
+			$('#html-total-tiezi-stick-fee').html(stat.total_tiezi_stick_fee);
+		});
+	});
+</script>
+{/if}
+{itemplate 'public/footer'}

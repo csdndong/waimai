@@ -1,0 +1,38 @@
+<view class="robbing pa ba_f" wx:for="{{list}}" wx:key="*this">
+    <view bindtap="order_info" class="robb_head" data-id="{{item.id}}">
+        <view style="background:#f9f9f9;height:50rpx;line-height:50rpx;padding:0 10rpx;">
+            <text class="fon_40" style="color:{{color}}">#{{item.origin_id}}</text>
+            <text class="fon_24 dis_in t_r">下单时间:{{item.time}}</text>
+        </view>
+    </view>
+    <view bindtap="order_info" class="order_info pa_0 bor_bottom" data-id="{{item.id}}" data-index="{{ac_index}}">
+        <view class="dis_in fon_28 color_f">
+            <text class="dis_in t_c" style="background:{{color}}">取</text>
+        </view>
+        <view class="dis_in fon_30">
+            <view>{{item.sender_name}}</view>
+            <view class="gobyndsingle color_6 fon_24 mar_t">{{item.sender_address}}</view>
+        </view>
+        <view class="dis_in color_6 fon_28 t_r">{{item.distance}}km</view>
+    </view>
+    <view bindtap="order_info" class="order_info pa_0 bor_bottom" data-id="{{item.id}}" data-index="{{ac_index}}">
+        <view class="dis_in fon_28 color_f">
+            <text class="dis_in t_c" style="background:orange">送</text>
+        </view>
+        <view class="dis_in fon_30">
+            <view class=" fon_24" style="line-height:50rpx;">{{item.receiver_address}}</view>
+        </view>
+        <view class="dis_in color_6 fon_28 t_r">{{item.distance1}}km</view>
+    </view>
+    <view bindtap="order_info" class="order_price fon_30 pa_0 color_3" data-id="{{item.id}}" data-index="{{ac_index}}">
+        <text class="dis_in fon_22" style="padding:3rpx 7rpx;color:#fff;background:{{color}};border-radius:5rpx;" wx:if="{{item.pay_type!=4}}">在线支付</text>
+        <text class="dis_in fon_22" style="padding:3rpx 7rpx;color:#fff;background:orange;border-radius:5rpx;" wx:if="{{item.pay_type==4}}">货到付款</text>
+        <text class="mar_l">订单金额:</text>
+        <text class="wei" style="color:{{color}}">￥{{item.goods_price}}</text>
+        <text class="mar_l">佣金:</text>
+        <text class="wei" style="color:red;">￥{{item.ps_money}}</text>
+    </view>
+    <view class="info_6">
+        <button style="background:#e5e5e5;color:#fff">已经取消</button>
+    </view>
+</view>

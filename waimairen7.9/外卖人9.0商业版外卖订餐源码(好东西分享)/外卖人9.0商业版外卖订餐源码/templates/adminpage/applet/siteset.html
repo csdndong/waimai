@@ -1,0 +1,172 @@
+ <{extends file="<{$tempdir}>/public/admin.html"}> 
+ <{block name=extendjs}>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js"></script>
+ <{/block}>
+ <{block name=controlname}>网站设置<{/block}>
+ <{block name=bodylist}> 
+	
+	  <div style="width:auto;overflow-x:hidden;overflow-y:auto;">   
+          <div id="tagscontent">
+            <form method="post" name="form1" action="<{ofunc type=url link="/adminpage/system/module/saveset/datatype/json"}>" onsubmit="return subform('',this);">
+              <div>
+                <table border="0" cellspacing="2" cellpadding="4" class="list" name="table" id="table" width="100%">
+                  <tbody>
+                    <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <td class="left">网站名称</td>
+                      <td><input type="text" name="sitename" id="sitename" value="<{$sitename}>" class="skey" style="width:150px;"></td>
+                    </tr>
+                    
+                    <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <td class="left">网站SEO描述</td>
+                      <td><input type="text" name="description" id="description" value="<{$description}>" class="skey" style="width:250px;"></td>
+                    </tr>
+                     <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                      <td class="left">网站SEO关键字</td>
+                      <td><input type="text" name="keywords" id="keywords" value="<{$keywords}>" class="skey" style="width:250px;"></td>
+                    </tr>
+                    <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                      <td class="left">公司名称</td>
+                      <td><input type="text" name="companyname" id="companyname" value="<{$companyname}>" class="skey" style="width:250px;"></td>
+                    </tr>
+                    <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                      <td class="left">网站地址</td>
+                      <td><input type="text" name="website" id="website" value="<{$website}>" class="skey" style="width:250px;"></td>
+                    </tr>
+                     
+                    <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                      <td class="left">备案号</td>
+                      <td><input type="text" name="beian" id="beian" value="<{$beian}>" class="skey" style="width:250px;"></td>
+                    </tr>
+                    <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                      <td class="left">客服电话</td>
+                      <td><input type="text" name="litel" id="litel" value="<{$litel}>" class="skey" style="width:250px;"></td>
+                    </tr>
+                   
+                    <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff" >
+                      <td class="left">佣金比例</td>
+                      <td><input type="text" name="yjin" id="yjin" value="<{$yjin}>" class="skey" style="width:50px;">整数,例如：5 表示佣金比例为订单总金额的5%</td>
+                    </tr>
+                    
+					  <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff" >
+                      <td class="left">短信签名</td>
+                      <td><input type="text" name="msgqianming" id="msgqianming" value="<{$msgqianming}>" class="skey" style="width:100px;">比如：【短信签名】</td>
+                    </tr>
+                     <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                      <td class="left">网站默认城市</td>
+                      <td><input type="text" name="cityname" id="cityname" value="<{$cityname}>" class="skey" style="width:100px;"></td>
+                    </tr>
+					
+					 <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                      <td class="left">绑定网站自营城市</td>
+                      <td>
+					   <select name="default_cityid">
+						<option value="0">请选择网站自营城市</option> 
+							 <{load_data assign="arealist" table="area"    fileds="*"  where=" parent_id=0 " orderby=" orderid asc " limit="1000" }>  
+								<{foreach from=$arealist['list'] key=myid  item=items}>  
+								   <option value="<{$items['adcode']}>" <{if $default_cityid == $items['adcode']}>selected<{/if}>><{$items['name']}></option>
+								<{/foreach}> 
+						  </select>
+					  </td>
+                    </tr>
+					
+					
+					
+					
+					<{if !empty($default_cityid) }>
+					
+					
+				 <!--  <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                      <td class="left" style="color:red;">设置相关数据全部绑定当前城市</td>
+                      <td><input type="button" id="bangdingDefCity" value="点击设置" class="skey" style="width:100px;" />
+					  <br /><span style="color:red;font-weight:bold;">提示：设置后无法撤销，请谨慎操作，如果不懂请咨询客服，点击设置会将以下数据自动绑定为上面所绑定的网站自营城市：广告、分类、店铺、配送员所属城市、网站通知、生活服务、跑腿信息设置、专题页管理</span>
+					  </td>
+                    </tr> -->
+					<script>
+					$('#bangdingDefCity').click(function(){
+					
+						if(confirm("确定要把相关数据绑定为当前城市吗?\n设置后无法撤销，请谨慎操作"))
+						 {
+						 
+						 
+						var url= siteurl+'/index.php?ctrl=adminpage&action=system&module=setCityDatas&datatype=json&random=@random@';
+						url = url.replace('@random@', 1+Math.round(Math.random()*1000)); 
+						var bk = ajaxback(url,{}); 
+						if(bk.flag == false){
+							diaerror("设置成功！");
+						}else{
+							diaerror(bk.content);
+						}
+						 
+						 
+						 
+						 }
+					
+					});
+					</script>
+					
+					<{/if}>
+         
+                    <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                      <td class="left">网站公告</td>
+                      <td><textarea name="notice"><{$notice}></textarea></td>
+                    </tr>
+					
+                    <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                      <td class="left">店铺公告</td>
+                      <td><textarea name="shopnotice"><{$shopnotice}></textarea>在店铺没有自行设置店铺公告的情况下,默认显示该公告</td>
+                    </tr>
+
+                    
+                    <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                      <td class="left">网站meta数据</td>
+                      <td><textarea name="metadata"><{$metadata|stripslashes}></textarea></td>
+                    </tr>
+                    <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="#ffffff">
+                      <td class="left">统计代码</td>
+                      <td><textarea name="footerdata"><{$footerdata|stripslashes}></textarea></td>
+                    </tr>
+					
+				 
+				 
+					 <tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff">
+                      <td class="left">启用配送宝</td>
+                      <td>  
+						<input type="radio" name="psbopen"  value="2" checked>不启用
+						<input type="radio" name="psbopen"  value="1" <{if isset($psbopen)&&$psbopen ==1}>checked<{/if}> >启用
+						&nbsp;&nbsp;&nbsp;(启用后才能为商家设置配送宝对接) 
+					  </td>
+                    </tr>  
+					<tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff" class="pspsb">
+                      <td class="left">自动对接配送宝域名</td>
+                      <td>
+                       <input type="text" name="autopsblink" value="<{$autopsblink|default:''}>" style="width:200px;">
+                      </td>
+                    </tr>  
+					<tr onmouseover="this.bgColor='#F5F5F5';" onmouseout="this.bgColor='ffffff';" bgcolor="ffffff" class="pspsb">
+                      <td class="left">自动对接配送宝key</td>
+                      <td>
+                       <input type="text" name="autopsbkey" value="<{$autopsbkey|default:''}>"  style="width:200px;">
+                      </td>
+                    </tr> 
+                  </tbody>
+                </table>
+              </div>
+              <div class="blank20"></div>
+              <input type="hidden" name="tijiao" id="tijiao" value="do" class="skey" style="width:250px;">
+              <input type="hidden" name="saction" id="saction" value="siteset" class="skey" style="width:250px;">
+               <input type="submit" value="确认提交" class="button">  
+            </form>
+          </div>
+         
+           
+         </div>
+      
+    
+
+          </div> 
+
+
+
+  
+<!--newmain 结束-->
+ <{/block}>

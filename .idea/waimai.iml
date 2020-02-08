@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="WEB_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/yunshangcheng/vendor/ecmoban" isTestSource="false" packagePrefix="ecmoban\" />
+      <sourceFolder url="file://$MODULE_DIR$/spec" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" />
+      <excludeFolder url="file://$MODULE_DIR$/yunshangcheng/vendor/PHPExcel/CachedObjectStorage" />
+      <excludeFolder url="file://$MODULE_DIR$/yunshangcheng/vendor/PHPExcel/CalcEngine" />
+      <excludeFolder url="file://$MODULE_DIR$/yunshangcheng/vendor/PHPExcel/Calculation" />
+      <excludeFolder url="file://$MODULE_DIR$/yunshangcheng/vendor/PHPExcel/Cell" />
+      <excludeFolder url="file://$MODULE_DIR$/yunshangcheng/vendor/PHPExcel/Chart" />
+      <excludeFolder url="file://$MODULE_DIR$/yunshangcheng/vendor/PHPExcel/Reader" />
+      <excludeFolder url="file://$MODULE_DIR$/yunshangcheng/vendor/PHPExcel/RichText" />
+      <excludeFolder url="file://$MODULE_DIR$/yunshangcheng/vendor/PHPExcel/Shared" />
+      <excludeFolder url="file://$MODULE_DIR$/yunshangcheng/vendor/PHPExcel/Style" />
+      <excludeFolder url="file://$MODULE_DIR$/yunshangcheng/vendor/PHPExcel/Worksheet" />
+      <excludeFolder url="file://$MODULE_DIR$/yunshangcheng/vendor/PHPExcel/Writer" />
+      <excludeFolder url="file://$MODULE_DIR$/yunshangcheng/vendor/PHPExcel/locale" />
+      <excludeFolder url="file://$MODULE_DIR$/yunshangcheng/vendor/aliyuncs/oss-sdk-php" />
+      <excludeFolder url="file://$MODULE_DIR$/yunshangcheng/vendor/composer" />
+      <excludeFolder url="file://$MODULE_DIR$/yunshangcheng/vendor/ecmoban/Upload" />
+      <excludeFolder url="file://$MODULE_DIR$/yunshangcheng/vendor/filp/whoops" />
+      <excludeFolder url="file://$MODULE_DIR$/yunshangcheng/vendor/riverslei/payment" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>

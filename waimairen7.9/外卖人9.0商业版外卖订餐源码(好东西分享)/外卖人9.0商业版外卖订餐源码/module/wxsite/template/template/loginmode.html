@@ -1,0 +1,189 @@
+<{extends file="<{$tempdir}>/public/wxsite.html"}>
+<{block name=extendcss}>
+
+<{/block}>
+<{block name=extendjs}>
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/js/wxshop.js"></script>
+<{/block}>
+<{block name=sitetitle}><{$sitename}><{/block}>
+<{block name=hearnav}><{/block}>
+<{block name=myScrolljs}>
+<{/block}>
+<{block name=blockcontent}>
+<style>
+    .web_content{
+        max-width: 500px;
+        height: 100%;
+        margin: 0 auto;
+        background-color: #fff;
+    }
+    .web_content.bg_gray{
+        background-color: #f0f0f0;
+    }
+    .wx_signin_content{
+        padding: 0 20px;
+    }
+    .wx_signin_head{
+        padding: 50px 0 24px;
+        text-align: center;
+        position: relative;
+    }
+
+    .wx_signin_head:after,
+    .wx_signin_other_box ul li:after{
+        content: '';
+        width: 100%;
+        height: 1px;
+        background-color: #e6e6e6;
+        transform: scaleY(.4);
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        z-index: 1;
+    }
+    .wx_signin_head img{
+        width: 65px;
+        height: 65px;
+        border-radius: 4px;
+    }
+    .wx_signin_head span{
+        margin-top: 2px;
+        font-size: 15px;
+        color: #333333;
+        display: block;
+    }
+    .wx_signin_prompt{
+        padding: 18px 0 0 0;
+        line-height: 22px;
+        text-align: center;
+        font-size: 15px;
+        color: #333333;
+    }
+
+    .wx_signin_btn input{
+        width: 100%;
+        height: 38px;
+        margin-top: 20px;
+        font-size: 15px;
+        background-color: transparent;
+        border: 1px solid #11850e;
+        border-radius: 4px;
+    }
+
+    .wx_signin_btn input:first-child{
+        color: #fff;
+        background-color: #19ad17;
+    }
+
+    .wx_signin_btn input:last-child{
+        color: #19ad17;
+        background-color: #fff;
+    }
+
+    .wx_signin_other_box ul li,
+    .wx_signin_other_btn{
+        line-height: 40px;
+        text-align: center;
+        font-size: 14px;
+        color: #333333;
+        background-color: #fff;
+    }
+
+    .wx_signin_other_box ul li{
+        position: relative;
+    }
+    .wx_signin_other_box ul li img{
+        width: 18px;
+        height: 18px;
+        margin-right: 6px;
+        vertical-align: -4px;
+    }
+    .wx_signinsj_box span{
+        font-size: 14px;
+        color: #333333;
+    }
+    .wx_signinsj_inp input{
+        width: 100%;
+        height: 29px;
+        font-size: 14px;
+        color: #333333;
+    }
+
+    .wx_signinsj_btn input{
+        width: 100%;
+        height: 40px;
+        font-size: 12px;
+        color: #ffffff;
+        background-color: #cccccc;
+        border: 1px solid #cccccc;
+        border-radius: 4px;
+    }
+
+    .wx_signinsj_btn.navaA input{
+        background-color: #19ad17;
+        border: 1px solid #11850e;
+    }
+</style>
+<div class="web_content">
+    <div class="wx_signin_content">
+        <div class="wx_signin_head">
+            <img <{ofunc type=img  link="<{$loginlogo}>"}> />
+            <span><{$sitename}></span>
+        </div>
+        <div class="wx_signin_prompt">账号太多记不住？</br>使用微信一键登录，安全又方便</div>
+        <div class="wx_signin_btn">
+            <{if $is_wxlogin==1}>
+            <input type="button" value="微信安全登录"   onclick="dolink('<{ofunc type=url link="/wxsite/setlogin"}>');"  />
+            <{/if}>
+            <input type="button" value="其它登录方式"  id="moerlogin" />
+            <!-- onclick="dolink('<{ofunc type=url link="/wxsite/login/ulogin/1"}>');"  -->
+        </div>
+    </div>
+</div>
+<style>
+    #parentdiv{
+        position:absolute;
+        top:0px;
+        left:0px;
+        width:100%;
+        height:100%;
+        z-index:888;
+        background: rgba(0,0,0,.3);
+
+    }
+   #loginmode{
+       position:fixed;
+       bottom:-150px;
+       width:100%;
+   }
+    #loginmode div{
+        height:44px;
+        width:100%;
+        background-color:#fff;
+        text-align:center;
+        line-height:40px;
+        color:#000;
+    }
+</style>
+<div id="parentdiv" style="display:none;">
+    <div id="loginmode">
+        <div onclick="dolink('<{ofunc type=url link="/wxsite/login/ulogin/1"}>');"><img src="/templates/m7/public/wxsite/images/iphone.png" style="width:18px;vertical-align:middle;position:relative;top:-2px;" alt="">&nbsp;&nbsp;&nbsp;账号登录</div>
+        <div onclick="dolink('<{$siteurl}>/plug/login/qqphone/login.php')" style="border-top:1px solid #e6e6e6;margin-bottom:8px;"><img src="/templates/m7/public/wxsite/images/qq.png" style="width:18px;vertical-align:middle;position:relative;top:-2px;" alt="">&nbsp;&nbsp;&nbsp;QQ登录</div>
+        <div id="close">取消</div>
+    </div>
+</div>
+<script>
+    $("#moerlogin").click(function(){
+        $("#parentdiv").show();
+        $("#loginmode").animate({bottom:'2px'},200);
+    })
+    $("#close").click(function(){
+        $("#parentdiv").hide();
+        $("#loginmode").css({bottom:'-150px'});
+    })
+    $("#parentdiv").click(function(){
+        $("#parentdiv").hide();
+        $("#loginmode").css({bottom:'-150px'});
+    })
+</script>
+<{/block}>

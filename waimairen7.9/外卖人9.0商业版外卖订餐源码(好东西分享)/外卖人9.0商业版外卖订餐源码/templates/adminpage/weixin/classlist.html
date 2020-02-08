@@ -1,0 +1,180 @@
+
+<div class="appAddtoRight home_1" style="height:630px;">
+<i class="app_tri"></i>
+<div class="appAddtoTit">
+	<i class="icon_edit"></i>
+	<h3>首页模块编辑<span style='font-size:12px'>(分类图标建议长宽比=1:1)</span></h3>
+</div>
+<div class="appAddtoSubj">
+	<table>
+		<thead>
+			<tr>
+				<td>图标</td>
+				<td>名称</td>
+				<td>排序</td>
+				<td>操作</td>
+			</tr>
+		</thead>
+	</table>
+</div>
+
+<div class="appAddtoModi">
+	<table>
+		<tbody>
+				<{if !empty($list)}>
+				<{foreach from = $list item=items}>
+				<tr cid="<{$items['id']}>" type="classlist">
+					<td>
+						<img class="yuan"  src="<{$items['img']}>"  />
+					</td>
+					<td>
+						<span class="name"><{$items['name']}></span>
+					</td>
+					<td>
+						<span class="orderid"><{$items['orderid']}></span>
+					</td>
+					<td>
+						<a class="appAddaL_bg" href="javascript:;">编辑</a>
+						<{if $items['is_show']==1}>
+						<a class="appAdda_bg02" href="javascript:;">隐藏</a>
+						<{else}>
+						<a class="appAdda_bg01" href="javascript:;">显示</a>
+						<{/if}>
+						</td>
+					<input type="hidden" class="link" value="<{$items['link']}>">
+					<input type="hidden" class="imgurl" value="<{$items['img']}>">
+					<input type="hidden" class="modeopt" value="<{$items['modeopt']}>">
+					<input type="hidden" class="id" value="<{$items['id']}>">
+					<input type="hidden" class="param" value="<{$items['param']}>">
+				</tr>
+				<{/foreach}>
+				<{/if}>
+		</tbody>
+	</table>
+</div>
+<div class="appAddtoPopuCon" style="height:284px;" >
+
+	<div class="appAddtoPopuCon" style="height:284px;">
+		<div class="appAddtoPopuTit">
+			<h4>编辑关键字模块</h4>
+		</div>
+		<div id="bottom_edit"  style="display:none;">
+			<div class="appAddtoPopuBox">
+				<div class="appAddtoPopuTop">
+					<form id="dosaveform">
+						<ul>
+							<input type="hidden" name="htmldataid" value="">
+							<li>
+								<span>名称：</span>
+								<input type="text" value="" name="name"/>
+							</li>
+							<li>
+								<span>链接方式：</span>
+								<input type="radio" value="1" name="modeopt"  class="mode" style="width:15px;float:none;" />模块选择
+								<input type="radio" value="2" name="modeopt" class="lk" style="width:15px;float:none;" />填写链接
+							</li>
+							<li style="display:none;" id="classlist">
+								<span >选择分类：</span>
+								<select name="optclasslist" id="optclasslist">
+								<{foreach from=$catlist item=itv}>
+									<option value="<{$itv['id']}>"><{$catarr[$itv['cattype']]}>-<{$itv['name']}></option>
+								<{/foreach}>
+								    <option value="marketlist">超市便利店</option>
+									<option value="lifehelp">生活服务</option>
+									<option value="shophui">到店消费</option>
+									<option value="paotui">跑腿</option>
+								</select>
+							</li>
+
+							<li style="display:none;" id="linkinput">
+								<span >链接：</span>
+								<input type="text" value="0" name="link"/>
+							</li>
+
+							<li >
+								<span>排序ID：</span>
+								<input type="text" value="0" name="i_orderid"/>
+								<b>排序</b>
+							</li>
+							<li>
+								<span>上传图片：</span>
+								<div class="appAddtoFile">
+									<input readonly="readonly" type="text" value="" name="i_img_url"/>
+									<span>浏览</span>
+									<input class="appfile" type="file" id="imgFile" name="imgFile"/>
+								</div>
+							</li>
+						</ul>
+						<input type="hidden" name="id" value="0">
+					</form>
+
+				</div>
+				<div class="appAddtoPopuBot">
+					<input type="button" value="保存修改" id="dosave"/>
+					<a href="javascript:;" id="doclose">取消</a>
+				</div>
+			</div>
+		</div>
+</div>
+</div>
+<script>
+	$(".appAddaL_bg").click(function(){
+		$('#bottom_edit').show();
+		$("input[name='name']").val($(this).parents("tr").find(".name").html());
+		$("input[name='i_img_url']").val( $(this).parents("tr").find(".imgurl").val());
+		$("input[name='i_orderid']").val($(this).parents("tr").find(".orderid").html());
+		$("input[name='id']").val($(this).parents("tr").find(".id").val());
+		$("input[name='link']").val($(this).parents("tr").find(".link").val());
+        var optval = $(this).parents("tr").find(".param").val()
+          $('select[name="optclasslist"]').find("option[value = '"+optval+"']").attr("selected",true); 
+		if($(this).parents("tr").find(".modeopt").val()==1){
+			$(".mode").attr("checked","checked");
+		}else{
+			$(".lk").attr("checked","checked");
+		}
+		togemode();
+	})
+	$("input[name='modeopt']").click(function(){
+		togemode();
+	})
+	$('#dosave').click(function(){
+		var url = '<{$siteurl}>/index.php?ctrl=adminpage&action=weixin&module=saveappindex&datatype=json&type=classlist';
+		$.ajax({
+			type: 'post',
+			async:false,
+			data:$('#dosaveform').serialize(),
+			url: url.replace('@random@', 1+Math.round(Math.random()*1000)),
+			dataType: 'json',success: function(content){
+				if(content.error == false){
+					alert('更新成功');
+					$('#showjscontent').html('');
+					var content = htmlback("<{$siteurl}>/index.php?ctrl=adminpage&action=weixin&module=classlist");
+					if(content.flag == false){
+						var getmoreContent =  $.trim(content.content);
+						$('#showjscontent').append(getmoreContent);
+					}
+				}else{
+					if(content.error == true){
+						alert(content.msg);
+					}else{
+						alert(content);
+					}
+				}
+			},
+			error: function(content){
+				alert('数据提交失败');
+			}
+		});
+	});
+	function togemode(){
+		var flag = $("input[name='modeopt']:checked").val();
+		if(flag==1){
+			$("#classlist").show();
+			$("#linkinput").hide();
+		}else{
+			$("#classlist").hide();
+			$("#linkinput").show();
+
+		}
+	}
+</script>

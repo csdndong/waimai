@@ -1,0 +1,282 @@
+ <{extends file="<{$tempdir}>/public/admin.html"}> 
+   <{block name=extendjs}>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js"></script>
+ <{/block}>
+ <{block name=controlname}>【<{$ztyinfo['name']}>】选择对象列表<{/block}>
+ <{block name=bodylist}>
+
+      <div style="width:auto;overflow-x:hidden;overflow-y:auto">  
+      	 
+      	<div class="search">
+      		 
+            
+            <div class="search_content">
+            	 
+            	 <form method="get" name="form1" action="<{ofunc type=url link="/adminpage/other/module/selectztyobj"}>">
+            	   <input type="hidden" name="ctrl" value="adminpage">
+            	   <input type="hidden" name="action" value="other">
+            	   <input type="hidden" name="id" value="<{$id}>">
+            	   <input type="hidden" name="module" value="selectztyobj">
+            	   <label>店铺名</label>
+            	   <input type="text" name="shopname" value="<{$shopname|default:''}>"> 
+				   
+				   <{if $ztyinfo['showtype'] == 0  }> 
+            	   <label>用户名：</label>
+            	   <input type="text" name="username" value="<{$username|default:''}>">                 
+                  <label>手机：</label>
+            	   <input type="text" name="phone" value="<{$phone|default:''}>">    
+            	  <{/if}>
+				  
+				  <{if $ztyinfo['showtype'] == 1  }> 
+				  
+				    <label>商品名</label>
+            	   <input type="text" name="name" value="<{$name|default:''}>"> 
+				  
+				   <{/if}>
+            	    <input type="submit" value="提交查询" class="button">  
+            	 </form>
+            </div>       
+        
+      	</div>
+      	<style>
+		.selectobjlist{height:auto!Important;padding:10px; border:none!Important;}
+		.selectobjlist li{ margin-right:0px!Important; width:25%!Important; text-align:left; float:left; height:auto;  }
+		</style>
+      	
+           <div class="tags">
+
+      	  
+          <div id="tagscontent">
+
+            <div id="con_one_1">
+
+              <div class="table_td" style="margin-top:10px;">
+
+              <form method="post" action="" onsubmit="return remind();"  id="delform">
+ 
+						<th width="60px; margin-left:10px;"><input style="margin-left:10px;" type="checkbox" id="chkall" name="chkall" onclick="checkall()"></th>
+
+                        <th align="center"><font color=red style="font-size:14px; font-weight:bold;">全选</font></th> 
+						
+			 
+			
+			 
+                    <ul class="selectobjlist">
+                       <{foreach from=$selectlist item=items}> 
+					   <{assign var=selectlistids value=","|explode:$ztyinfo['listids']}> 
+                         <li>
+						 <input   type="checkbox" name="id[]" <{if in_array($items['id'],$selectlistids)}>checked<{/if}>  onclick="dochoicethis(this);" value="<{$items['id']}>">
+						  
+					  <{if $ztyinfo['showtype'] == 1  }>
+					   <{$items['name']}>
+ 					  [<font color=red><{$items['shopname']}></font>,<font color=#0086ae><{$shoptype[$items['shoptype']]}></font>]</li> 
+					  <{/if}>
+					   <{if $ztyinfo['showtype'] == 0  }>
+ 					  <{$items['shopname']}>[<font color=red><{$shoptype[$items['shoptype']]}></font>]</li>
+					  <{/if}>
+                        <{/foreach}> 
+
+					</ul>
+ 
+				 
+			
+			
+			
+                <div class="blank20"></div>
+
+                 
+                </form>
+
+                <div class="page_newc">
+                 	     <div class="select_page"><a href="#" onclick="checkword(true);">全选</a>/<a href="#" onclick="checkword(false);">取消</a> </div>
+                       <div class="show_page"><ul>
+				 
+						<{$pagecontent}>
+					 
+						</ul></div>
+                 </div>
+
+                <div class="blank20"></div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        
+  </div>
+  
+  
+  
+  
+  
+ 
+</div>  
+<script>
+
+ function checkall()
+{ 
+	var checkinfo = $('#chkall').attr('checked');
+	if(checkinfo ==  true){
+	$("input[name='id[]']").attr("checked",true); 
+	}else{
+		$("input[name='id[]']").attr("checked",false); 
+	} 
+	doselectids();
+	
+}
+function checkword(flag)
+{ 
+		 $('#chkall').attr('checked',flag); 
+		 if(flag == true){
+			checkall();
+		 }else{
+		 
+		$("input[name='id[]']").attr("checked",false); 
+		 quxdoselectids();
+		 
+		 }
+		 
+		 
+	 
+}
+
+ function dochoicethis(obj){
+	var zjtype = 1;
+ 	if( $(obj).attr('checked') ){
+		 
+	}else{
+		zjtype = 2;
+	}
+	 
+	  var linkurl = '<{ofunc type=url link="/adminpage/other/module/saveselectztyobj/datatype/json"}>';
+	     $.ajax({
+                type: 'POST',
+                async:false,
+                url: linkurl.replace('@random@', 1+Math.round(Math.random()*1000)),
+                data: {'selectobjids':$(obj).val(),'id':<{$id}>,'zjtype':zjtype},
+               dataType: 'json',success: function(content) { 
+               	if(content.error == true)
+               	{
+               	   alert(content.msg);
+               	}else if(content.error == false)
+               	{
+               	   
+				//   window.location.reload();
+				   
+               	}else{
+               	  
+               	} 
+		           },
+               error: function(content) { 
+               	alert('操作失败');
+	             }
+      });  
+	 
+	//   doselectids();
+	   	     
+ }
+	  
+function doselectids(){
+	
+	
+	 var ids = ''; 
+		var flag = 0; 
+		var checkarray = new Array();
+ 			$("input[name='id[]']:checkbox").each(function(){ 
+		if (true == $(this).attr("checked")) { 
+			ids += $(this).attr('value')+','; 
+			checkarray.push($(this).attr('value'));
+			flag += 1; 
+		} 
+		}); 
+		if(checkarray.length < 1){
+			alert('请选择');
+			return false;
+		}
+		 
+		
+		
+		
+		if(0 < flag) { 
+			selectobjids = ids;
+		}else {  
+			selectobjids = '';
+		} 
+	 
+	     var linkurl = '<{ofunc type=url link="/adminpage/other/module/saveselectztyobj/datatype/json"}>';
+	     $.ajax({
+                type: 'POST',
+                async:false,
+                url: linkurl.replace('@random@', 1+Math.round(Math.random()*1000)),
+                data: {'selectobjids':checkarray.join(','),'id':<{$id}>,zjtype:'1'},
+               dataType: 'json',success: function(content) { 
+               	if(content.error == true)
+               	{
+               	   alert(content.msg);
+               	}else if(content.error == false)
+               	{
+               	   
+				//   window.location.reload();
+				   
+               	}else{
+               	  
+               	} 
+		           },
+               error: function(content) { 
+               	alert('操作失败');
+	             }
+      });  
+
+}
+
+
+
+  
+function quxdoselectids(){
+	
+	
+	 var ids = ''; 
+		 
+		var checkarray = new Array();
+ 			$("input[name='id[]']:checkbox").each(function(){ 
+		  
+			ids += $(this).attr('value')+','; 
+			checkarray.push($(this).attr('value'));
+		 
+	 
+		}); 
+		 
+		  
+	     var linkurl = '<{ofunc type=url link="/adminpage/other/module/saveselectztyobj/datatype/json"}>';
+	     $.ajax({
+                type: 'POST',
+                async:false,
+                url: linkurl.replace('@random@', 1+Math.round(Math.random()*1000)),
+                data: {'selectobjids':checkarray.join(','),'id':<{$id}>,zjtype:'2'},
+               dataType: 'json',success: function(content) { 
+               	if(content.error == true)
+               	{
+               	   alert(content.msg);
+               	}else if(content.error == false)
+               	{
+               	   
+				//   window.location.reload();
+				   
+               	}else{
+               	  
+               	} 
+		           },
+               error: function(content) { 
+               	alert('操作失败');
+	             }
+      });  
+
+}
+	</script>
+
+<!--newmain 结束-->
+<{/block}>

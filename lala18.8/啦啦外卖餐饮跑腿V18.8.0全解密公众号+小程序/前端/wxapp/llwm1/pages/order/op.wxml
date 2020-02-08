@@ -1,0 +1,40 @@
+<view class="page-reason">
+    <view class="weui-cells__title">
+        <block wx:if="{{type=='direct_deliveryer'}}">
+			选择配送员
+		</block>
+        <block wx:elif="{{type=='cancel'}}">
+			取消订单理由
+		</block>
+        <block wx:elif="{{type=='reply'}}">
+			催单回复
+		</block>
+    </view>
+    <view class="weui-cells weui-cells_after-title">
+        <radio-group bindchange="onChoose">
+            <block wx:if="{{type=='direct_deliveryer'}}">
+                <label class="weui-cell weui-check__label" wx:if="{{data}}" wx:for="{{data}}">
+                    <radio checked="{{checked==index?true:false}}" class="weui-check" value="{{index}}"></radio>
+                    <view class="weui-cell__bd">{{item.title}}</view>
+                    <view class="weui-cell__ft weui-cell__ft_in-radio">
+                        <icon class="weui-icon-radio" size="16" type="success_no_circle" wx:if="{{checked==index}}"></icon>
+                    </view>
+                </label>
+            </block>
+            <block wx:else>
+                <label class="weui-cell weui-check__label" wx:if="{{data}}" wx:for="{{data}}">
+                    <radio checked="{{checked==index?true:false}}" class="weui-check" value="{{index}}"></radio>
+                    <view class="weui-cell__bd">{{item}}</view>
+                    <view class="weui-cell__ft weui-cell__ft_in-radio">
+                        <icon class="weui-icon-radio" size="16" type="success_no_circle" wx:if="{{checked==index}}"></icon>
+                    </view>
+                </label>
+            </block>
+        </radio-group>
+        <view class="other-reason" wx:if="{{type=='reply'}}">
+            <textarea bindblur="onInput" placeholder="请输入回复" value="{{reply}}"></textarea>
+        </view>
+    </view>
+    <button bind:tap="onSubmit" class="weui-btn" type="primary">提交</button>
+</view>
+<include src="../public/footer.wxml"></include>

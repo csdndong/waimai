@@ -1,0 +1,114 @@
+<include src="/zh_cjdianc/pages/commons/navbar/navbar.wxml"></include>
+<import src="/zh_cjdianc/pages/commons/sort_list.wxml"></import>
+<view bindtap="mask1Cancel" class="mask {{mask1Hidden?'':'maskactive'}}">
+    <view class="maskbody">
+        <template is="sort_list" data="{{selected:selected,sortSelected:sortSelected,issx:issx,mask1Hidden:mask1Hidden}}"></template>
+        <view class="overall-sort-list">
+            <view bindtap="sortSelected" class="overall-sort" data-index="0" data-sortindex="{{index}}" wx:for="{{sortList}}" wx:key="*this">{{item.sort}}</view>
+        </view>
+    </view>
+</view>
+<view bindtap="mask2Cancel" class="mask {{mask2Hidden?'':'maskactive'}}">
+    <view class="maskbody">
+        <template is="sort_list" data="{{selected:selected,sortSelected:sortSelected,issx:issx,mask1Hidden:mask1Hidden}}"></template>
+        <scroll-view class="filterList" scrollY="true">
+            <view class="filterList-characteristic-title">商家特色(多选)</view>
+            <view class="filterList-characteristic-items">
+                <view catchtap="characteristicSelected" class="filterList-characteristic-item {{characteristicSelected[index]==true?'characteristic-selected':''}}" data-index="{{index}}" data-name="{{item.text}}" wx:for="{{characteristicList}}" wx:key="*this">{{item.text}}</view>
+            </view>
+            <view class="filterList-discount-title">优惠活动(单选)</view>
+            <view class="filterList-discount-items">
+                <view catchtap="discountSelected" class="filterList-discount-item {{discountSelected==index?'discount-selected':''}}" data-index="{{index}}" wx:for="{{discountList}}" wx:key="*this">
+                    <text class="filterList-discount-item-icon" style="background:{{item.iconColor}}">{{item.icon}}</text> {{item.text}}
+          </view>
+            </view>
+        </scroll-view>
+        <view class="filterList-footer">
+            <view catchtap="clearSelectedNumb" class="filterList-footer-delect">清除筛选</view>
+            <view bindtap="finish" class="filterList-footer-finish" wx:if="{{selectedNumb!=0}}">完成
+        <view class="filterList-footer-finish-number" hidden="{{selectedNumb==0}}">{{selectedNumb}}
+        </view>
+            </view>
+            <view class="filterList-footer-finish" style="background:#efeff4" wx:else>完成</view>
+        </view>
+    </view>
+</view>
+<view class="main">
+    <view class="tjsj">
+        <template is="sort_list" data="{{selected:selected,sortSelected:sortSelected,issx:issx,mask1Hidden:mask1Hidden}}"></template>
+        <view bindtap="tzsjxq" class="sjlb flex-row {{item.is_yy==2&&mdxx.isyykg==1?'bszz':''}}" data-sjid="{{item.id}}" wx:if="{{item.aa1!=NaN}}" wx:for="{{storelist}}" wx:key="*this">
+            <view class="sjleft flex-grow-0">
+                <image class="sjleftimg" src="{{item.logo}}"></image>
+                <view class="xzhiding" wx:if="{{item.is_brand=='1'}}">
+          品牌
+        </view>
+            </view>
+            <view class="sjright flex-grow-1 flex-col">
+                <view class="sjright1 flex-row flex-y-center">
+                    <view class="sjright1-l gobyndsingle">{{item.name}}</view>
+                    <view class="isyy" wx:if="{{item.is_yy==2&&mdxx.isyykg==1}}">休息中</view>
+                </view>
+                <view class="sjright2 flex-bet flex-y-center">
+                    <view class="flex-row flex-grow-1 flex-y-center">
+                        <view class="pingjia_fenshu3">
+                            <view class="kximg">
+                                <image src="../../img/i-star.png"></image>
+                            </view>
+                            <view class="sximg" style="width: {{item.sales*20}}%">
+                                <image src="../../img/i-stars.png"></image>
+                            </view>
+                        </view>
+                        <view class="pingfen">{{item.sales}}</view>
+                        <view class="recommed_midel">月售{{item.score}}单</view>
+                    </view>
+                    <view class="sjright2-r flex-grow-0 flex-row flex-y-center" wx:if="{{item.is_ps=='1'}}">
+                        <view class="sjright2-r1">{{item.ps_mode}}</view>
+                        <view class="sjright2-r2">准时达</view>
+                    </view>
+                </view>
+                <view class="sjright3 flex-bet flex-y-center">
+                    <view class="flex-row flex-y-center">
+                        <view class="sjright3text" style="padding-left:0" wx:if="{{item.is_ps=='1'}}">起送￥{{item.start_at}}</view>
+                        <view class="sjright3text" style="border-right:0" wx:if="{{item.is_ps=='1'}}">配送￥{{item.ps_money}}起</view>
+                        <view class="sjright3text" style="border-right:0" wx:if="{{item.is_ps!='1'}}">人均￥{{item.capita}}/人</view>
+                    </view>
+                    <view class="flex-row flex-y-center">
+                        <view class="sjright3text" style="border-right:{{item.is_ps=='1'?'':0}}" wx:if="{{item.is_ps!='1'}}">离你{{item.aa}}</view>
+                        <view class="sjright3text" wx:if="{{item.is_ps=='1'}}">{{item.aa}}</view>
+                        <view class="sjright3text" style="border-right:0;padding-right:0" wx:if="{{item.is_ps=='1'}}">{{item.ps_time}}</view>
+                    </view>
+                </view>
+                <view class="sjright4" wx:if="{{item.mj.length>0&&item.xyh_open=='1'}}">
+                    <view class="sjright4-l flex-grow-1" wx:if="{{item.mj.length>0}}">
+                        <view class="flex-row">
+                            <view class="mj">减</view>
+                            <view class="gobyndsingle">
+                                <text wx:for="{{item.mj}}" wx:for-item="i">满{{i.full}}减{{i.reduction}},</text>
+                            </view>
+                        </view>
+                        <view class="flex-row" wx:if="{{item.xyh_open=='1'}}">
+                            <view class="xyh">新</view>
+                            <view class="gobyndsingle">新用户下单立减{{item.xyh_money}}元</view>
+                        </view>
+                    </view>
+                    <view class="sjright4-r flex-grow-0">
+                        <image class="sjright4-rimg {{item.open?'show':'close'}}" src="../../img/down.png"></image>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="jzz" hidden="{{mygd}}">
+            <image class="Rotation" src="../../img/jzz.png"></image>
+            <view>加载中...</view>
+        </view>
+        <view class="kong" wx:if="{{storelist.length==0&&mygd}}">
+            <image src="../../img/wushuju.png"></image>
+            <view>暂无相关数据</view>
+        </view>
+        <view class="jzwb" wx:if="{{mygd}}">
+            <view class="hx"></view>
+            <view class="wz">加载完毕</view>
+            <view class="hx"></view>
+        </view>
+    </view>
+</view>

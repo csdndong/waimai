@@ -1,0 +1,6 @@
+{
+    "navigationBarTitleText": "分销说明",
+    "usingComponents": {
+        "cardlist": "/zh_cjdianc/dist/cardlist/index"
+    }
+}

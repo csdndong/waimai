@@ -1,0 +1,48 @@
+<view class="container">
+    <view class="order_statu pa">
+        <view class="dis_in">
+            <view class="fon_34" style="color:{{color}}" wx:if="{{order_info.state==1}}">待接单</view>
+            <view class="fon_34" style="color:{{color}}" wx:if="{{order_info.state==2}}">待取餐</view>
+            <view class="fon_34" style="color:{{color}}" wx:if="{{order_info.state==3}}">配送中</view>
+            <view class="fon_34" style="color:{{color}}" wx:if="{{order_info.state==4}}">已完成</view>
+            <view class="fon_34" style="color:{{color}}" wx:if="{{order_info.state==5}}">已取消</view>
+            <view class="fon_28 color_9">下单时间：{{order_info.time}}</view>
+        </view>
+        <view class="dis_in t_r">
+            <image mode="widthFix" src="../img/process.png" wx:if="{{order_info.state==3||order_info.state==2||order_info.state==1}}"></image>
+            <image mode="widthFix" src="../img/plete.png" wx:if="{{order_info.state==4||order_info.state==5}}"></image>
+        </view>
+    </view>
+    <view class="ba_f pa">
+        <view class="t_c fon_50" style="color:{{color}}">￥{{order_info.ps_money}}</view>
+        <view class="t_c fon_30 order_price color_6">
+            <text></text>
+            <text class="pa_1">配送费</text>
+            <text></text>
+        </view>
+        <view class="bor_bottom pa_0 fon_30 mar_t list_info">
+            <view class="dis_in color_9">姓名</view>
+            <view class="dis_in">{{order_info.receiver_name}}</view>
+        </view>
+        <view class="bor_bottom pa_0 fon_30 list_info">
+            <view class="dis_in color_9">下单时间</view>
+            <view class="dis_in">{{order_info.time}}</view>
+        </view>
+        <view class="bor_bottom pa_0 fon_30 list_info">
+            <view class="dis_in color_9">订单地址</view>
+            <view class="dis_in">{{order_info.receiver_address}}</view>
+        </view>
+        <view class="bor_bottom pa_0 fon_30 list_info">
+            <view class="dis_in color_9">订单号</view>
+            <view class="dis_in">{{order_info.order_id}}</view>
+        </view>
+        <view class="bor_bottom pa_0 fon_30 list_info">
+            <view class="dis_in color_9">运单号</view>
+            <view class="dis_in">{{order_info.ps_num}}</view>
+        </view>
+        <view class="pa_0 fon_30 list_info">
+            <view class="dis_in color_9">订单备注</view>
+            <view class="dis_in">{{order_info.note||'无'}}</view>
+        </view>
+    </view>
+</view>

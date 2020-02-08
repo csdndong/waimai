@@ -1,0 +1,97 @@
+{itemplate 'public/header'}
+{if $op == 'list'}
+<form action="./index.php?" class="form-horizontal form-filter">
+	{php echo tpl_form_filter_hidden('svip/order/list');}
+	<input type="hidden" name="meal_id" value="{$meal_id}"/>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">套餐类型</label>
+		<div class="col-sm-9 col-xs-12">
+			<div class="btn-group">
+				<a href="{php echo ifilter_url('meal_id:0');}" class="btn {if $meal_id == 0}btn-primary{else}btn-default{/if}">不限</a>
+				{loop $meals $meal}
+					<a href="{php echo ifilter_url('meal_id:' . $meal['id']);}" class="btn {if $meal_id == $meal['id']}btn-primary{else}btn-default{/if}">{$meal['title']}</a>
+				{/loop}
+			</div>
+		</div>
+	</div>
+	<div class="form-group form-inline">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">其他</label>
+		<div class="col-sm-9 col-xs-12">
+			<div style="display: inline-block">
+				{php echo itpl_form_field_daterange('addtime', array('placeholder' => '购买时间'));}
+			</div>
+			<input type="text" name="keyword" value="{$_GPC['keyword']}" class="form-control" placeholder="会员姓名/电话">
+			<input type="text" name="uid" value="{if !empty($_GPC['uid'])}{$_GPC['uid']}{/if}" class="form-control" placeholder="用户UID">
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+		<div class="col-sm-9 col-xs-12">
+			<button class="btn btn-primary">筛选</button>
+		</div>
+	</div>
+</form>
+<form action="" class="form-table form" method="post">
+	<div class="panel panel-table">
+		<div class="panel-body table-responsive js-table">
+			{if empty($orders)}
+				<div class="no-result">
+					<p>还没有相关数据</p>
+				</div>
+			{else}
+				<table class="table table-hover">
+					<thead class="navbar-inner">
+					<tr>
+						<th>顾客UID</th>
+						<th>顾客</th>
+						<th>购买套餐</th>
+						<th>费用</th>
+						<th>支付方式</th>
+						<th>套餐开始时间<br/>套餐结束时间</th>
+						<th>购买时间</th>
+					</tr>
+					</thead>
+					<tbody>
+					{loop $orders $order}
+					<tr>
+						<td>{$order['uid']}</td>
+						<td>
+							<img src="{$order['avatar']}" alt="" width="50"/>
+							{$order['realname']}
+						</td>
+						<td>
+							<span class="label label-info">
+								{$order['meal']['title']}
+							</span>
+						</td>
+						<td>{$order['final_fee']}元</td>
+						<td>
+							<span class="{$order['pay_type_all']['css']}">{$order['pay_type_all']['text']}</span>
+						</td>
+						<td>
+							<span class="label label-success">
+								{$order['starttime_cn']}
+							</span>
+							<br/>
+							<span class="label label-danger label-br">
+								{$order['endtime_cn']}
+							</span>
+							{if $order['endtime'] <= time()}
+								<br/>
+								<span class="label label-warning label-br">已到期</span>
+							{/if}
+						</td>
+						<td>
+							{$order['paytime_cn']}
+						</td>
+					</tr>
+					{/loop}
+					</tbody>
+				</table>
+				{$pager}
+			{/if}
+		</div>
+	</div>
+</form>
+{/if}
+{itemplate 'public/footer'}

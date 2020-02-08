@@ -1,0 +1,125 @@
+<!--   time:2019-07-18 01:03:21 -->
+<form bindreset="formReset" bindsubmit="formSubmit" reportSubmit="true">
+	<block wx:if="{{szname==1}}">
+		<view class="weui-cells weui-cells_after-title">
+			<view class="weui-cell">
+				<view class="weui-cell__hd">
+					<image src="../../../img/seller/dyj.png"></image>
+				</view>
+				<view class="weui-cell__bd" style="flex:1">打印设置</view>
+				<picker bindchange="bindCountryChange" range="{{countries}}" style="flex:2" value="{{countryIndex}}">
+					<view class="weui-cell__ft"></view>
+				</picker>
+			</view>
+		</view>
+		<view class="weui-cells weui-cells_after-title">
+			<view class="weui-cell weui-cell_switch">
+				<view class="weui-cell__hd">打印方式</view>
+				<view class="weui-cell__bd">
+					<radio-group class="dyfs" name="radiodyfs">
+						<view class="dyfs">
+							<view>整单打印</view>
+							<radio checked="{{dyfs}}" value="1"></radio>
+						</view>
+						<view class="dyfs">
+							<view>分单打印</view>
+							<radio checked="{{!dyfs}}" value="2"></radio>
+						</view>
+					</radio-group>
+				</view>
+			</view>
+			<view class="weui-cell weui-cell_switch">
+				<view class="weui-cell__hd">打印时间</view>
+				<view class="weui-cell__bd">
+					<radio-group class="dyfs" name="radiodysj">
+						<view class="dyfs">
+							<view>下单打印</view>
+							<radio checked="{{dysj}}" value="1"></radio>
+						</view>
+						<view class="dyfs">
+							<view>接单打印</view>
+							<radio checked="{{!dysj}}" value="2"></radio>
+						</view>
+					</radio-group>
+				</view>
+			</view>
+		</view>
+	</block>
+	<block wx:if="{{szname==2}}">
+		<view class="weui-cells weui-cells_after-title">
+			<view class="weui-cell">
+				<view class="weui-cell__hd">
+					<image src="../../../img/seller/yysj.png"></image>
+				</view>
+				<view class="weui-cell__bd">营业时间</view>
+				<view class="weui-cell__ft"></view>
+			</view>
+		</view>
+		<view class="weui-cells weui-cells_after-title">
+			<view class="weui-cell weui-cell_switch">
+				<view class="weui-cell__hd">是否营业</view>
+				<view class="weui-cell__bd">
+					<radio-group class="dyfs" name="radiosfyy">
+						<view class="dyfs">
+							<view>营业</view>
+							<radio checked="{{sfyy}}" value="2"></radio>
+						</view>
+						<view class="dyfs">
+							<view>休息</view>
+							<radio checked="{{!sfyy}}" value="1"></radio>
+						</view>
+					</radio-group>
+				</view>
+			</view>
+		</view>
+		<view class="weui-cells weui-cells_after-title">
+			<view class="weui-cell weui-cell_input">
+				<view class="weui-cell__hd">
+					<view class="weui-label">上午营业时间</view>
+				</view>
+				<view class="weui-cell__bd">
+					<picker bindchange="bindTimeChange" mode="time" name="time" value="{{time}}">
+						<view class="weui-input">{{time}}</view>
+					</picker>
+				</view>
+				<view class="weui-cell__ft weui-cell__ft_in-access"></view>
+			</view>
+			<view class="weui-cell weui-cell_input">
+				<view class="weui-cell__hd">
+					<view class="weui-label">上午结束时间</view>
+				</view>
+				<view class="weui-cell__bd">
+					<picker bindchange="bindTimeChange1" mode="time" name="time1" value="{{time1}}">
+						<view class="weui-input">{{time1}}</view>
+					</picker>
+				</view>
+				<view class="weui-cell__ft weui-cell__ft_in-access"></view>
+			</view>
+			<view class="weui-cell weui-cell_input">
+				<view class="weui-cell__hd">
+					<view class="weui-label">下午营业时间</view>
+				</view>
+				<view class="weui-cell__bd">
+					<picker bindchange="bindTimeChange2" mode="time" name="time2" value="{{time2}}">
+						<view class="weui-input">{{time2}}</view>
+					</picker>
+				</view>
+				<view class="weui-cell__ft weui-cell__ft_in-access"></view>
+			</view>
+			<view class="weui-cell weui-cell_input">
+				<view class="weui-cell__hd">
+					<view class="weui-label">下午结束时间</view>
+				</view>
+				<view class="weui-cell__bd">
+					<picker bindchange="bindTimeChange3" mode="time" name="time3" value="{{time3}}">
+						<view class="weui-input">{{time3}}</view>
+					</picker>
+				</view>
+				<view class="weui-cell__ft weui-cell__ft_in-access"></view>
+			</view>
+		</view>
+	</block>
+	<view class="weui-btn-area">
+		<button class="weui-btn" formType="submit" style="background:{{color}}" type="primary">提交</button>
+	</view>
+</form>

@@ -1,0 +1,212 @@
+<{extends file="<{$tempdir}>/public/diswxsite.html"}>  
+<{block name=extendcss}> 
+<link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/distribution.css">   
+<link href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<{/block}>
+ <{block name=extendjs}>  
+   <script src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/js/template.min.js"></script>    
+<{/block}>
+<{block name=myScrolljs}>
+<{/block}>
+<{block name=sitetitle}><{$sitename}><{/block}>
+<{block name=hearnav}>
+ <div class="content">
+	<div class="toptitCon">
+		<div class="toptitBox">
+			<div class="toptitL"><i></i></div>
+			<div class="toptitC">
+				<h3>提现</h3>
+			</div>
+			<div class="toptitR"></div>
+		</div>
+	</div>
+	<div class="putforward_head_content">
+		<div class="putforward_head_top">
+			<small>￥</small>
+			<div class="putforward_head_inp"><input type="text" name='txcost' placeholder="请输入提现金额" /></div>
+			<span  class='alltx' onclick='alltx();' style='font-weight:bold'>全部提现</span>
+		</div>
+		<div class="putforward_head_bottom">
+			<span>最多可提现<{number_format($member['fxcost'],2)}>元<{if $minfxtxcost > 0}>，最低提现<{number_format($minfxtxcost,2)}>元<{/if}><{if $fxfeelv > 0}><font class='is_shoufei' style='display:none'>，需收手续费<{$fxfeelv}>%<{else}>无手续费<{/if}></font></span>			 
+		</div>
+	</div>
+	<div class="h_10"></div>
+	<div class="putforward_title_content">
+		<span>提现方式</span>
+	</div>
+	<div class="putforward_mode_content">
+		<ul>
+			<li>
+				<div class="putforward_mode_left">
+					<div class="putforward_mode_icon"><img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/distribution/zhye.png" /></div>
+					<div class="putforward_mode_name">
+						<span>账户余额</span>
+						<small>申请成功后将自动转入账户余额</small>
+					</div>
+				</div>
+				<div class="putforward_mode_right">
+					<input name="putforward" type="radio" data='1' checked />
+				</div>
+			</li>
+			<li>
+				<div class="putforward_mode_left">
+					<div class="putforward_mode_icon"><img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/distribution/zfb.png" /></div>
+					<div class="putforward_mode_name">
+						<span>支付宝</span>
+						<small>推荐已经开通支付宝账户的用户使用</small>
+					</div>
+				</div>
+				<div class="putforward_mode_right">
+					<input name="putforward" type="radio" data='2' />
+				</div>
+			</li>
+			<li>
+				<div class="putforward_mode_left">
+					<div class="putforward_mode_icon"><img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/distribution/yhk.png" /></div>
+					<div class="putforward_mode_name">
+						<span>银行卡</span>
+						<small>推荐已绑定银行卡的用户使用</small>
+					</div>
+				</div>
+				<div class="putforward_mode_right">
+					<input name="putforward" type="radio" data='3' />
+				</div>
+			</li>
+		</ul>
+	</div>
+	<div class="payinfo_content">
+		<div class="payinfo_box pay_zfb">
+			<div class="h_10"></div>
+			<ul>
+				<li>
+					<div class="payinfo_left"><span>支付宝账户：</span></div>
+					<div class="payinfo_right">
+						<div class="payinfo_inp"><input type="text" name='zfbaccount' placeholder="请输入支付宝账户" /></div>
+					</div>
+				</li>
+				<li>
+					<div class="payinfo_left"><span>收款人姓名：</span></div>
+					<div class="payinfo_right">
+						<div class="payinfo_inp"><input type="text" name='zfbusername' placeholder="请输入支付宝姓名" /></div>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<div class="payinfo_box pay_yh">
+			<div class="h_10"></div>
+			<ul>
+				<li>
+					<div class="payinfo_left"><span>持卡人：</span></div>
+					<div class="payinfo_right">
+						<div class="payinfo_inp"><input type="text" name='cardusername' placeholder="请输入持卡人姓名" /></div>
+					</div>
+				</li>
+				<li>
+					<div class="payinfo_left"><span>卡号：</span></div>
+					<div class="payinfo_right">
+						<div class="payinfo_inp"><input type="text" name='cardnumber'  placeholder="请输入银行卡号" /></div>
+					</div>
+				</li>
+				<li>
+					<div class="payinfo_left"><span>开户行：</span></div>
+					<div class="payinfo_right">
+						<div class="payinfo_inp"><input type="text" name='bankname' placeholder="请输入开户银行名称" /></div>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div class="putforward_btn_content">
+		<div class="putforward_btn_box" onclick="dotx();"><span class="active">确认提现</span></div>
+	</div>
+</div>
+<script>
+ 
+    function dotx(){
+		showLoading();
+		var txcost = $('input[name="txcost"]').val();  
+		var txtype = $('input[name="putforward"]:checked').attr('data');
+		var zfbaccount = $('input[name="zfbaccount"]').val();    
+		var zfbusername = $('input[name="zfbusername"]').val();
+		var cardusername = $('input[name="cardusername"]').val();
+		var cardnumber = $('input[name="cardnumber"]').val();
+		var bankname = $('input[name="bankname"]').val();
+		if(txtype == 2 ){
+		    if(zfbaccount == ''){
+			   Tmsg('请输入支付宝账户');
+			   return false;
+			}
+		    if(zfbusername == ''){
+			   Tmsg('请输入支付宝姓名');
+			   return false;
+			}
+		}
+		if(txtype == 3 ){
+		    if(cardusername == ''){
+			   Tmsg('请输入持卡人姓名');
+			   return false;
+			}
+		    if(cardnumber == ''){
+			   Tmsg('请输入银行卡号');
+			   return false;
+			}
+			if(bankname == ''){
+			   Tmsg('请输入开户银行名称');
+			   return false;
+			}
+		}
+		 $.ajax({
+			url:'<{ofunc type=url link="/wxsite/dofxtx/datatype/json"}>',
+			data:{'txcost':txcost,'txtype':txtype,'zfbaccount':zfbaccount,'zfbusername':zfbusername,'cardusername':cardusername,'cardnumber':cardnumber,'bankname':bankname},
+			dataType: 'json',
+			success:function (data, status){	  		 
+				if(data.error == false){
+					newhideLoading();
+					Tmsg('申请提现成功');                     			
+					window.location.href = '<{ofunc type=url link="/wxsite/distribution_center"}>'	;
+				}else{
+					newhideLoading();
+					Tmsg(data.msg);		
+				}			
+			},
+			error: function (data, status){
+				newhideLoading();
+				Tmsg('提现失败');
+			  }
+		});
+		
+	}
+    
+    $('input[name="putforward"]').live('click',function(){
+	    var type = $(this).attr('data');
+		if(type == '1'){
+		    $('.pay_zfb').hide();
+			$('.pay_yh').hide();
+			$('.is_shoufei').hide();
+		}
+		if(type == '2'){
+		    $('.pay_zfb').show();
+			$('.pay_yh').hide();
+			$('.is_shoufei').show();
+		}
+	    if(type == '3'){
+		    $('.pay_zfb').hide();
+			$('.pay_yh').show();
+			$('.is_shoufei').show();
+		}
+	})		 
+ 
+function alltx(){
+    var allcost = '<{$member["fxcost"]|default:"0.00"}>';
+	if(Number(allcost) > 0){
+	}else{
+	    Tmsg('账户暂无余额');
+		return false;
+	}
+	$('input[name="txcost"]').val(allcost);
+}
+</script>
+ 
+<{/block}>
+ 
+ 

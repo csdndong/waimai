@@ -1,0 +1,576 @@
+{template 'web/common/common'}
+{template 'web/desk/navbar'}
+<link rel="stylesheet" type="text/css" href="../addons/kundian_ordering/resource/css/style.css" />
+<link rel="stylesheet" type="text/css" href="../addons/{php echo $_GPC['m']}/resource/swal/dist/sweetalert2.min.css" />
+<style>
+    .detail-border{height: 600px;border:1px solid #f4f4f4;padding-top: 10px;}
+    .detail-border .form-group input{width: 140px;height: 30px;display: initial;}
+    .detail-order{width: 100%;height: auto;max-height: 350px;overflow: auto}
+    .detail-btm{width: 100%;height: 120px;border-top: 1px solid #F4F4F4;padding-top: 10px;}
+    .detail-btm .btm{width: 100%;text-align: right;}
+    .detail-order .do img{width: 20px;height: 20px;margin-right: 5px;margin-left: 5px;cursor: pointer;}
+    .btm-line{border-bottom:1px solid #f4f4f4;}
+    .goods-type{width: 100%;height: auto;border-bottom: 1px solid #F4F4F4;overflow: hidden;padding-bottom: 10px;margin-bottom: 5px;}
+    .goods-type .type-ul{width: auto;padding: 5px 10px 5px 10px;height: 30px;float: left;background: #aba8a8;color: white;border-radius: 5px;margin-right: 5px;cursor:pointer;}
+    .goods-type .active{background: #fc8535;color: white;}
+    .goods{width: 100%;height: 530px;border:1px solid #F4F4F4;padding-top: 10px;overflow: auto;}
+    .goods .goods-ul{width: 100px;height: 100px;float: left;margin-left: 5px;border-radius: 5px;border:1px solid #d2d2d2;text-align: center;padding-top: 10px;margin-bottom: 5px;}
+    .goods .jia img{width: 20px;height: 20px;position: relative;right: -32px;cursor:pointer;}
+    .goods .sale-out img{width: 50px;height: 50px;position: relative;top:-24px;right: -19px;}
+    .goods .sale-out{background: #f3f3f3;}
+    .desk-mask{width: 100%;height: 100%;background: black;opacity: 0.5;position: fixed;top: 0;z-index: 9}
+    .desk-accounts{width: 27%;height: 466px;position: fixed;top: 200px;margin-left: 30%;background: white;z-index: 99;padding-top: 20px;}
+    .pay-method{width: 90%;margin-left: 5%;height: 100px;}
+    .pay-method .pay-title{width: 100px;height: 100px;float: left;text-align: center;line-height: 100px;}
+    .pay-method .pay-ul{width: 100px;height: 40px;float: left;margin-left: 10px;text-align: center;line-height: 40px;background: #F4F4F4;border-radius: 5px;margin-top: 10px;cursor: pointer}
+    .pay-method .pay-active{background: #fc8535;color: white;}
+    .totalPrice{width: 100%;margin-top: 30px;text-align: center;}
+    .sure-pay{width: 100%;margin-top: 20px;text-align: center}
+    .sure-pay .btn{margin-top: 30px;width: 200px;}
+    .pay-li{float: left;width: 320px;}
+    .desk-accounts img{width:17px;height: 17px;position: relative;left: 94%;top: -12px;cursor: pointer}
+    .search input{width: 220px;height: 35px;}
+</style>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            订餐详情（{$deskData['id']}号桌）
+        </h3>
+    </div>
+    <div class="panel-body">
+        <div class="col-sm-4 detail-border">
+            <input type="hidden" value="{$deskData['id']}" name="desk_id">
+            <input type="hidden" value="{$orderData['id']}" name="order_id">
+            <div class="form-group">
+                <label for="person">就餐人数</label>
+                <input type="number" class="form-control" id="person" value="{$orderData['person_count']}" name="person" placeholder="就餐人数">
+            </div>
+            <div class="form-group btm-line">
+                <label for="person_price">餐  位  费</label>
+                <input type="number" class="form-control" id="person_price" value="{$orderData['person_price']}" name="person_price" placeholder="餐  位  费">
+                <p style="color: gray;margin-left: 53px;">若不收取餐位费则不需填写</p>
+            </div>
+            <!--左边订单列表-->
+            <div class="detail-order">
+                <table class="table table-hover">
+                    <thead class="navbar-inner">
+                    <tr>
+                        <th>#ID</th>
+                        <th>菜品名称</th>
+                        <th>金额</th>
+                        <th>数量</th>
+                        <th class="option">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody id="level-list" class="cartData">
+                    {loop $orderDetail $index $item}
+                    <tr>
+                        <td><div class="type-parent">{$item['goods_id']}</div></td>
+                        <td><div class="type-parent">{$item[goods_name]}</div></td>
+                        <td><div class="type-parent">{$item['price']}</div></td>
+                        <td class="do">
+                            {if $item['status']==0}
+                            <img data-goodsid="{$item['goods_id']}" class="reduceGoods" src="{$_W['siteroot']}addons/kundian_ordering/resource/img/jian1.png" alt="">
+                            <span>{$item['count']}</span>
+                            <img data-goodsid="{$item['goods_id']}" class="plusGoods" src="{$_W['siteroot']}addons/kundian_ordering/resource/img/jia.png" alt="">
+                            {else if $item['status']==1}
+                            已上菜({$item['count']}份)
+                            {else if $item['status']==2}
+                            <i style='color: red'>已退菜({$item['count']}份)</i>
+                            {/if}
+
+                        </td>
+                        <td>
+                            {if $item['status']==0}
+                            <button class="btn serve-goods">上菜</button>
+                            <button class="btn returned">退菜</button>
+                            {/if}
+                        </td>
+                        <!--<td class="ticket check-in">否</td>-->
+                    </tr>
+                    {/loop}
+                    </tbody>
+                </table>
+            </div>
+            <!--左边底部操作-->
+            <div class="detail-btm">
+                <p>就餐时间：{$orderData['create_time']}</p>
+                <p>消费合计：￥<span id="totalPrice">{$total_price}</span></p>
+                <div class="btm">
+                    <!--<button type="button" class="btn btn-info" id="addOrder">下单</button>-->
+                    <button type="button" class="btn btn-success" id="settleAccounts">结账</button>
+                    <button type="button" class="btn btn-success" id="print_ticket">出票</button>
+                </div>
+            </div>
+        </div>
+
+        <!--商品列表-->
+        <div class="col-sm-8 detail-border">
+            <div class="goods-type">
+                <div class="type-ul active">全部</div>
+                {loop $goodsType $index $item}
+                    <div class="type-ul" data-typeid="{$item['id']}">{$item['type_name']}</div>
+                {/loop}
+            </div>
+            <!--搜索框-->
+            <div class="search">
+                <input type="text" placeholder="商品编号" name="goods_number">
+                <input type="text" placeholder="商品名称" name="goods_name">
+                <button type="button" id="searchGoods" class="btn btn-success">搜索</button>
+            </div>
+            <div class="goods">
+                {loop $goodsData $index $goods}
+                    {if $goods['count']>1}
+                        <div class="goods-ul jia">
+                            <p>{$goods['goods_name']}</p>
+                            <p>￥{$goods['price']}</p>
+                            <img class="addGoods" data-goodsid="{$goods['id']}" src="{$_W['siteroot']}addons/kundian_ordering/resource/img/jia.png" alt="">
+                        </div>
+                    {else}
+                        <div class="goods-ul sale-out">
+                            <p>{$goods['goods_name']}</p>
+                            <p>￥{$goods['price']}</p>
+                            <img src="{$_W['siteroot']}addons/kundian_ordering/resource/img/sale-out.png" alt="">
+                        </div>
+                    {/if}
+                {/loop}
+            </div>
+        </div>
+
+    </div>
+
+</div>
+{template 'common/footer'}
+<div class="desk-mask" style="display: none;"></div>
+<div class="desk-accounts" style="display: none;">
+    <img class="closeThis" src="{$_W['siteroot']}addons/kundian_ordering/resource/img/close.png" alt="关闭">
+    <div class="pay-method">
+        <div class="pay-title">支付方式</div>
+            <div class="pay-li">
+                <div class="pay-ul pay-active" data-paymethod="现金支付">现金支付</div>
+                <div class="pay-ul" data-paymethod="支付宝">支付宝</div>
+                <div class="pay-ul" data-paymethod="微信支付">微信支付</div>
+                <div class="pay-ul" data-paymethod="银行卡">银行卡</div>
+            </div>
+    </div>
+    <div style="clear: both;"></div>
+    <div class="totalPrice">
+        <p>总价：<span class="lastPrice">￥{$total_price}</span></p>
+        <p style="font-size: 18px;color: red">应收金额：<span class="lastPrice">￥{$total_price}</span></p>
+    </div>
+
+    <div class="sure-pay">
+        <div><input type="checkbox" id="is_print_order" name="is_print_order" value="1"><label for="is_print_order">是否打印订单</label></div>
+        <div>
+            <span>打印次数</span>
+            <select name="print_count" id="print_count" style="width: 150px;height: 30px;">
+                <option value="1">1次</option>
+                <option value="2">2次</option>
+                <option value="3">3次</option>
+            </select>
+        </div>
+        <button type="button" class="btn btn-success" id="surePay">确认结账</button>
+    </div>
+</div>
+
+<script>
+    require(["../addons/{php echo $_GPC['m']}/resource/swal/dist/sweetalert2.min.js"],function(){
+        $(function(){
+            var addDish_{$deskData['id']} = "";     //加菜
+            var cartData=new Array();       //需要下单的数据
+            var goodsData=new Array();      //当前页面的所有商品信息
+            //点击分类获取商品信息
+            $(".type-ul").click(function () {
+                $(".type-ul").removeClass('active');
+                $(this).addClass("active");
+                var type_id=$(this).attr("data-typeid");
+                var url="{url 'site/entry/'.$_GPC['do'],array('m'=>$_GPC['m'],'op'=>'getGoodsData','version_id'=>$_GPC['version_id'])}";
+                var data={
+                    'type_id':type_id,
+                }
+                getAjaxData(data,url,1);
+            })
+
+            //模糊查询商品信息
+            $("#searchGoods").click(function () {
+                var goods_number=$("input[name='goods_number']").val();
+                var goods_name=$("input[name='goods_name']").val();
+                var url="{url 'site/entry/'.$_GPC['do'],array('m'=>$_GPC['m'],'op'=>'getGoodsData','version_id'=>$_GPC['version_id'])}";
+                var data={
+                    'goods_number':goods_number,
+                    'goods_name':goods_name,
+                }
+                getAjaxData(data,url,1);
+
+            })
+
+            //点击商品加入到左边列表中
+            $(".goods").on('click','.addGoods',function () {
+                var goods_id=$(this).attr("data-goodsid");
+                var order_id=$("input[name='order_id']").val();
+                operationOrder(order_id,goods_id,1);
+            })
+
+            $("input[name='person']").blur(function () {
+                var person=$("input[name='person']").val();
+                var person_price=$("input[name='person_price']").val();
+                var order_id=$("input[name='order_id']").val();
+                $.ajax({
+                    url:"{url 'site/entry/'.$_GPC['do'],array('m'=>$_GPC['m'],'op'=>'operationOrderPerson','version_id'=>$_GPC['version_id'])}",
+                    type:"post",
+                    data:{order_id:order_id,person_price:person_price,person:person},
+                    dataType:'json',
+                    success:function (res) {
+                        if(res.code==1){
+                            $("#totalPrice").html(res.total_price);
+                            $(".lastPrice").html(res.total_price);
+                        }
+                    }
+                })
+            })
+            $("input[name='person_price']").blur(function () {
+                var person=$("input[name='person']").val();
+                var person_price=$("input[name='person_price']").val();
+                var order_id=$("input[name='order_id']").val();
+                $.ajax({
+                    url:"{url 'site/entry/'.$_GPC['do'],array('m'=>$_GPC['m'],'op'=>'operationOrderPerson','version_id'=>$_GPC['version_id'])}",
+                    type:"post",
+                    data:{order_id:order_id,person_price:person_price,person:person},
+                    dataType:'json',
+                    success:function (res) {
+                        if(res.code==1){
+                            $("#totalPrice").html(res.total_price);
+                            $(".lastPrice").html(res.total_price);
+                        }
+                    }
+                })
+
+            })
+
+            //左边减少商品数量
+            $(".cartData").on('click','.reduceGoods',function () {
+                var goods_id=$(this).attr('data-goodsid');
+                var order_id=$("input[name='order_id']").val();
+                operationOrder(order_id,goods_id,-1);
+            })
+            //左边增加商品数量
+            $(".cartData").on('click','.plusGoods',function () {
+                var goods_id=$(this).attr('data-goodsid');
+                var order_id=$("input[name='order_id']").val();
+                operationOrder(order_id,goods_id,1);
+            })
+
+            //退菜
+            $(".cartData").on('click','.returned',function () {
+                var goods_id = $(this).parents('tr').find('img').attr('data-goodsid');
+                var order_id=$("input[name='order_id']").val();
+                var url = "{url 'site/entry/'.$_GPC['do'],array('m'=>$_GPC['m'],'op'=>'serveGoods','version_id'=>$_GPC['version_id'])}";
+                $.post(url,{goods_id:goods_id,order_id:order_id,type:'returned'},function (res) {
+                    if(res==200){
+                        refreshLocal(goods_id);//刷新出票数据
+                       location.reload();return;
+                    }
+                    swal('操作失败');
+                })
+            })
+
+            //上菜
+            $(".cartData").on('click','.serve-goods',function () {
+                var goods_id = $(this).parents('tr').find('img').attr('data-goodsid');
+                var order_id=$("input[name='order_id']").val();
+                var url = "{url 'site/entry/'.$_GPC['do'],array('m'=>$_GPC['m'],'op'=>'serveGoods','version_id'=>$_GPC['version_id'])}";
+                $.post(url,{goods_id:goods_id,order_id:order_id},function (res) {
+                    if(res==200){
+                        refreshLocal(goods_id);//刷新出票数据
+                        location.reload();return;
+                    }
+                    swal('操作失败');
+                })
+
+            })
+
+
+            //选择支付方式
+            $(".pay-ul").click(function () {
+                $(".pay-ul").removeClass("pay-active");
+                $(this).addClass("pay-active");
+            })
+
+            //隐藏弹框
+            $(".closeThis").click(function () {
+                $('.desk-accounts').hide();
+                $('.desk-mask').hide();
+            })
+
+            //显示结账弹框
+            $("#settleAccounts").click(function () {
+                $('.desk-accounts').show();
+                $('.desk-mask').show();
+            })
+
+            //确认结账
+            $("#surePay").click(function () {
+                swal({
+                    title: '提示',
+                    text: "确定结账吗?",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: '确认',
+                    cancelButtonText: '取消',
+                }).then(function(isConfirm) {
+                    //支付方式
+                    var pay_method=$(".pay-active").attr("data-paymethod");
+                    var order_id=$("input[name='order_id']").val();     //订单号
+                    var is_print_order=$("input[name='is_print_order']:checked").val();
+                    var print_count=$("#print_count").val();
+                    if (isConfirm) {
+                        $.ajax({
+                            type:"post",
+                            url:"{url 'site/entry/'.$_GPC['do'],array('m'=>$_GPC['m'],'op'=>'settleAccounts','version_id'=>$_GPC['version_id'])}",
+                            data:{pay_method:pay_method,order_id:order_id,is_print_order:is_print_order,print_count:print_count},
+                            dataType:'json',
+                            success:function(res){
+                                if(res.status==1){
+                                    swal('操作成功!', '操作成功!', 'success');
+                                    localStorage.addDish_{$deskData['id']} = ""; //出票数据置空
+                                    window.location="{url 'site/entry/'.$_GPC['do'],array('m'=>$_GPC['m'],'op'=>'desk_list','version_id'=>$_GPC['version_id'])}";
+                                }else{
+                                    swal('操作失败!', '操作失败!', 'error');
+                                }
+                            }
+                        })
+                    }
+                })
+            })
+
+            function getAjaxData(data,url,type) {
+                $.ajax({
+                    type:"post",
+                    url:url,
+                    data:data,
+                    dataType:'json',
+                    success:function(res){
+                        var data=res;
+                        //type=1  //根据分类获取的商品信息数据
+                        if(type==1){
+                            goodsData=data;
+                            var goods_str='';
+                            data.forEach(function (val,index) {
+                                if(val['count']>1){
+                                    goods_str+='<div class="goods-ul jia">';
+                                    goods_str+='<p>'+val['goods_name']+'</p>';
+                                    goods_str+='<p>￥'+val['price']+'</p>';
+                                    goods_str+='<img class="addGoods" data-goodsid="'+val['id']+'" src="{$_W['siteroot']}addons/kundian_ordering/resource/img/jia.png" alt="">';
+                                    goods_str+='</div>';
+                                }else{
+                                    goods_str+='<div class="goods-ul sale-out">';
+                                    goods_str+='<p>'+val['goods_name']+'</p>';
+                                    goods_str+='<p>￥'+val['price']+'</p>';
+                                    goods_str+='<img src="{$_W['siteroot']}addons/kundian_ordering/resource/img/sale-out.png" alt="">';
+                                    goods_str+='</div>';
+                                }
+                            })
+                            $(".goods").html(goods_str);
+                        }
+                    }
+                })
+            }
+            //组合右边数据
+            function combCartHtml($data) {
+                var cart_str='';
+                $data.forEach(function (val,index) {  //循环组装数据
+                    cart_str+='<tr>';
+                    cart_str+='<td><div class="type-parent">'+val['goods_id']+'</div></td>';
+                    cart_str+='<td><div class="type-parent">'+val['goods_name']+'</div></td>';
+                    cart_str+='<td><div class="type-parent">'+val['price']+'</div></td>';
+                    cart_str+='<td class="do">';
+                    if(val['status']==0){
+                        cart_str+='<img data-goodsid="'+val['goods_id']+'" class="reduceGoods" src="{$_W['siteroot']}addons/kundian_ordering/resource/img/jian1.png" alt="">';
+                        cart_str+='<span>'+val['count']+'</span>';
+                        cart_str+='<img data-goodsid="'+val['goods_id']+'" class="plusGoods" src="{$_W['siteroot']}addons/kundian_ordering/resource/img/jia.png" alt="">';
+                        cart_str+='<td><button class="btn serve-goods">上菜</button> <button class="btn returned">退菜</button></td>';
+                    }else if(val['status']==1){
+                        cart_str+="已上菜("+val['count']+"份)";
+                    }else  if(val['status']==2){
+                        cart_str+="<i style='color: red'>已退菜("+val['count']+"份)</i>";
+                    }
+                    cart_str+='</td>';
+                    cart_str+='</tr>';
+                })
+                $(".cartData").html(cart_str);
+            }
+
+            //刷新出票数据
+            function refreshLocal(goods_id){
+                var tmp = localStorage.addDish_{$deskData['id']};
+                if(typeof tmp=='undefined'||tmp==""||tmp==[]){
+                    return ;
+                }
+                var obj =JSON.parse(tmp);
+                $.each(obj,function (k,v) {
+                    if(v.goods_id==goods_id){
+                        delete obj.splice(k,1)
+                    }
+                })
+                localStorage.addDish_{$deskData['id']} = JSON.stringify(obj);
+            }
+
+            /**
+             * 订单操作
+             * @param order_id
+             * @param goods_id
+             * @param type
+             */
+            function operationOrder(order_id,goods_id,type){
+                if(typeof goods_id!='number'){
+                    var goods_id = goods_id.replace('\'','');
+                }
+                var desk_id = "{$deskData['id']}"-0;
+                var localData = localStorage.addDish_{$deskData['id']};
+                var tmp = [];
+                var hasCount = false;
+                //记录加菜
+                if(typeof localData=="undefined"||localData==[]||localData==""){
+                    //console.log(type);
+                    if(type==1){
+                        tmp[0] = {
+                            desk_id: desk_id,
+                            goods_id: goods_id,
+                            count: 1
+                        };
+                        localStorage.addDish_{$deskData['id']} = JSON.stringify(tmp);
+                    }
+                }else{
+                    tmp = JSON.parse(localStorage.addDish_{$deskData['id']});
+                    $.each(tmp,function (k,v) {
+                        if(v.desk_id==desk_id && v.goods_id==goods_id && v.count>0){
+                            tmp[k].count = (type==1)? tmp[k].count+1 : tmp[k].count-1;
+                            hasCount = true;
+                            return ;
+                        }
+                    });
+                    //console.log(hasCount)
+                    if(hasCount==false){
+                        var newDish = {
+                            desk_id: desk_id,
+                            goods_id: goods_id,
+                            count: 1
+                        };
+                        tmp.push(newDish)
+                    }
+                    localStorage.addDish_{$deskData['id']} = JSON.stringify(tmp);
+                }
+
+                $.ajax({
+                    url:"{url 'site/entry/'.$_GPC['do'],array('m'=>$_GPC['m'],'op'=>'operationOrder','version_id'=>$_GPC['version_id'])}",
+                    type:"post",
+                    data:{order_id:order_id,goods_id:goods_id,type:type},
+                    dataType:'json',
+                    success:function (res) {
+                        if(res.orderDetail){
+                            var orderDetail=res.orderDetail;
+                            combCartHtml(orderDetail);
+                            $("#totalPrice").html(res.total_price);
+                            $(".lastPrice").html(res.total_price);
+
+                        }
+                    }
+                })
+            }
+
+            /**
+             * 出票
+             */
+            $("#print_ticket").click(function () {
+                var localData = localStorage.addDish_{$deskData['id']};
+                if(typeof localData=="undefined"||localData=='[]'||localData==""){
+                    swal('没有出票数据，数据已出票或被清空');
+                    return false;
+                }
+
+                //console.log(typeof localStorage.addDish_{$deskData['id']})
+                var tds = '';
+                var data = JSON.parse(localStorage.addDish_{$deskData['id']});
+                var url = "{url 'site/entry/'.$_GPC['do'],array('m'=>$_GPC['m'],'op'=>'printFood','version_id'=>$_GPC['version_id'])}";
+                var order_id = $("input[name='order_id']").val();
+                data[0].order_id = order_id-0;
+                data[0].type = 'view';
+                $.post(url,{printInfo:data},function(e){
+                        if(e.length<14){
+                            swal('没有出票数据');
+                            return false;
+                        }
+                    //console.log('ggggggggggggg')
+                        data[0]['type'] = '';
+                        var obj = JSON.parse(e);
+                    $.each(obj.data,function (k,v) {
+                        tds += '<tr>'+
+                            '<td><div class="type-parent">'+(k+1)+'</div></td>'+
+                            '<td><div class="type-parent">'+v.goods_name+'</div></td>'+
+                            '<td><div class="type-parent">'+v.price+'</div></td>'+
+                            '<td class="do">'+
+                            '<span>'+v.count+'</span>'+
+                            '</td>'+
+                            '</tr>';
+                    });
+
+                    var html = '<div class="detail-order">' +
+                        '<table class="table table-hover">' +
+                        '<thead class="navbar-inner"></thead>'+
+                        '<tr><th>#ID</th>'+
+                        '<th>菜品名称</th>'+
+                        '<th>金额</th>'+
+                        '<th>数量</th>'+
+                        '</tr>'+
+                        '<tbody class="cartData">' +
+                        tds+
+                        '</tbody>'+
+                        '</table>'+
+                        '备注：<input type="text" id="getPs">'+
+                        '</div> ';
+                    swal({
+                        title: '<i>出票预览({$deskData["id"]}号桌)</i> ',
+                        html: html,
+                        showCloseButton: true,
+                        showCancelButton: true,
+                        confirmButtonColor: '#ccc',
+                        cancelButtonColor: '#449d44',
+                        confirmButtonText:
+                            '清空出票',
+                        cancelButtonText:
+                            '立即出票',
+                    }).then(function (e) {
+                        //console.log(e)
+                        if(e!==false && e!==true){
+                            return ;
+                        }
+                        if(e){
+                            localStorage.addDish_{$deskData['id']} = [];
+                            return ;
+                        }
+                        if(data.length==0||data==""){
+                            swal('没有数据可以出票');
+                        }
+                        data[0].type = '';
+                        data[0].getPs = $("#getPs").val();
+                        $.ajax({
+                            url:url,
+                            data: {printInfo:data},
+                            type:'POST',
+                            success:function (res) {
+                                if(res==200){
+                                    localStorage.addDish_{$deskData['id']} = "";
+                                    swal('当前菜品已出票');
+                                    return ;
+                                }
+                            }
+                        });
+                    });
+                });
+            })
+        })
+    })
+
+</script>

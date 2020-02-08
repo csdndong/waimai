@@ -1,0 +1,78 @@
+<{extends file="<{$tempdir}>/public/wxsite.html"}>
+<{block name=extendcss}>
+<!--<link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/checkindex.css">-->
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/js/jquery.js"></script>
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/js/cart.js"></script>
+<{/block}>
+<{block name=loadinghide}>
+<script>
+
+
+    var scroll;
+    function loaded() {
+        scroll = new iScroll('transition',{hScrollbar:false, vScrollbar:false,bounce:false});
+    }
+
+    document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
+    document.addEventListener('DOMContentLoaded', function () { setTimeout(loaded, 200); }, false);
+
+    var click_button = false;
+    function doubleclick(){
+        click_button = false;
+    }
+    function lockclick(){
+        if(click_button == false){
+            click_button = true;
+            setTimeout("doubleclick()", 300);
+            return true;
+        }else{
+            return false;
+        }
+    }
+    $(function(){
+        $('.toptitBox .toptitL').bind("click", function() {
+            history.back();
+        });
+        $(".homeHelpBox .homeHelpTit").click(function(){
+            if(lockclick()){
+                var x = $(".homeHelpBox .homeHelpTit").index(this);
+                $(".homeHelpBox .homeHelpNr").eq(x).toggle();
+                $(".homeHelpBox .homeHelpTit").eq(x).toggleClass("hoHeTiaA");
+                myScroll.refresh();
+            }
+
+        });
+    });
+
+</script>
+<{/block}>
+<{block name=hearnav}>
+
+<div class="toptitCon">
+    <div class="toptitBox">
+        <div class="toptitL"><a href="#"><i></i></a></div>
+        <div class="toptitC"><h3 style="font-weight: bold;">帮助手册</h3></div>
+        <div class="toptitR"><a href="#"><i class="search"></i></a></div>
+    </div>
+</div>
+
+<{/block}>
+<{block name=sitetitle}><{$sitename}><{/block}>
+<{block name=blockcontent}>
+<div id="wrapper" style="top:50px;">
+<div class="homeHelpCon">
+    <{load_data assign="list" table="helpcenter" showpage="true"    orderby = "orderid asc"}>
+    <{foreach from=$list['list'] item=items}>
+    <div class="homeHelpBox">
+        <div class="homeHelpTit"><h3><{$items['title']}></h3><i class="fa fa-angle-down"></i></div>
+        <div class="homeHelpNr hide">
+            <div class="homeHelp">
+                <span><{$items['title']}></span>
+                <p><{$items['content']}></p>
+            </div>
+        </div>
+    </div>
+    <{/foreach}>
+</div>
+</div>
+<{/block}>

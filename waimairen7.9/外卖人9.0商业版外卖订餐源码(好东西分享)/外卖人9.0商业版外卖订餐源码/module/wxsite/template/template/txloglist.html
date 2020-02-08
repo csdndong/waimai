@@ -1,0 +1,14 @@
+<{if !empty($loglist)}>
+	<{foreach from=$loglist item=items}>	
+		<li style='padding-bottom:8px;' onclick="dolink('<{ofunc type=url link="/wxsite/fxtxdet/id/<{$items['id']}>"}>');">
+		    <div class="putforward_recordlist_left">
+				<span>佣金提现</span>
+				<div class="putforward_recordlist_process">
+					<small><{$items['status']}></small>
+					<small><{$items['addtime']}></small>
+				</div>
+			</div>
+			<div class="putforward_recordlist_right"><span>-<{$items['cost']}></span></div>
+		</li>
+	<{/foreach}>
+<{/if}>

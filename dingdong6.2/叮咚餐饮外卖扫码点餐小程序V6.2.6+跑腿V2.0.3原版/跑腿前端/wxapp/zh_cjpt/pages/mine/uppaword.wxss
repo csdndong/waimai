@@ -1,0 +1,27 @@
+.list>view {
+    width: 17%;
+}
+
+.list>input {
+    width: 60%;
+}
+
+.btn_0 {
+    right: 20rpx;
+    height: 60rpx;
+    color: #fff;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.btn_1 {
+    height: 80rpx;
+    width: 95%;
+    margin-top: 100rpx;
+}
+
+image {
+    width: 33rpx;
+    height: 40rpx;
+    margin-left: 20rpx;
+}

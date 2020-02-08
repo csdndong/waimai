@@ -1,0 +1,157 @@
+<html xmlns="http://www.w3.org/1999/xhtml"><head> 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+<meta http-equiv="Content-Language" content="zh-CN"> 
+<meta content="all" name="robots"> 
+<meta name="description" content=""> 
+<meta content="" name="keywords"> 
+<title>百度地图</title> 
+<link rel="stylesheet" type="text/css" href="<{$siteurl}>/templates/<{$tempdir}>/public/css/admin.css">  
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/jquery.js" type="text/javascript" language="javascript"></script>   
+<style>
+	#alldiv{height:550px;width:850px;}
+  .leftdiv{float:left;border-right:1px solid #ddd;height:550px;width:350px;} 
+  .title_class{height:20px;width:350px;background-color:#f60;color:#fff;}
+  .title_class li{height:20px;line-height:20px;float:left;text-align:center;}
+  .title_class li.username{width:180px;} 
+  .title_class li.phone{width:100px;}
+  .title_class li.count{width:70px;}
+  .content_class ul{height:30px;line-height:30px;width:350px;}
+  .content_class ul li{float:left;height:30px;line-height:30px;}
+  .content_class ul li.username{width:180px;overflow:hidden;} 
+  .content_class ul li.phone{width:100px;overflow:hidden;}
+  .content_class ul li.count{width:70px;overflow:hidden;text-align:center;}
+  .content_class ul.on{background-color:#ccc;}
+  .content_class ul:hover{background-color:#ddd;}
+  .content_class{height:530px;width:350px;OVERFLOW-Y: auto;OVERFLOW-X: hidden;}
+   .rightdiv{float:left;border-right:1px solid #ddd;height:550px;width:498px;}
+  .title_ordclass{height:20px;width:498px;background-color:#f60;color:#fff;}
+  .title_ordclass li{height:20px;line-height:20px;float:left;text-align:center;} 
+  .title_ordclass li.shopname{width:148px;overflow:hidden;}
+  .title_ordclass li.addressa{width:200px;overflow:hidden;}
+  .title_ordclass li.posttime{width:100px;overflow:hidden;}
+  .content_ordclass{height:300px;width:498px;OVERFLOW-Y: auto;OVERFLOW-X: hidden;}
+  .content_ordclass ul{height:30px;line-height:30px;width:498px;}
+  .content_ordclass ul li{float:left;height:30px;line-height:30px;}
+  .content_ordclass ul li.shopname{width:148px;overflow:hidden;}
+  .content_ordclass ul li.addressa{width:200px;overflow:hidden;}
+  .content_ordclass ul li.posttime{width:100px;overflow:hidden;text-align:center;}
+  .content_ordclass ul:hover{background-color:#ddd;}
+  .content_ordbottom{background-color:#ddd;height:230px;width:498px;color:#666;}
+  .content_ordbottom div{padding:5px;height:20px;line-height:20px;}
+  .content_ordbottom div.buttons{text-align:center;background-color:#f60;color:#fff;font-weight:bold;width:200px;margin-left:100px;}
+  
+	</style>
+</head>
+<script>
+	 var siteurl = '<{$siteurl}>';
+</script>
+<body style="background:none;width:870px;height:550px;">
+	 
+  <div id="alldiv">
+	  <div class="leftdiv">
+	  	 
+	  	<div class="title_class">
+	  		  <ul>
+	  		  	<li class="username">用户名</li> 
+	  		  	<li class="phone">手机</li>
+	  		  	<li class="count">当天次数</li>
+	  		  </ul>
+	  	</div>
+	  	<div class="content_class">
+	  		<{foreach from=$memberlist item=items}>
+	  		   <ul id="user_<{$items['uid']}>"> 
+	  		   	<li class="username"><input type="radio" name="uid" value="1" data="<{$items['uid']}>" userdata="<{$items['username']}>" phonedata="<{$items['phone']}>" emaildata="<{$items['email']}>"><{$items['username']}></li> 
+	  		  	<li class="phone"><{$items['phone']}></li>
+	  		  	<li class="count"><{$items['shuliang']}></li>
+	  		  </ul>
+	  		 <{/foreach}>
+	  	</div>
+	  	<div style="clear:both;"></div>
+	  </div>
+	  <div class="rightdiv">
+	    <div class="title_ordclass">
+	  		  <ul> 
+	  		  	<li class="shopname">店铺名</li> 
+	  		  	<li class="addressa">配送地址</li> 
+	  		  	<li class="posttime">配送时间</li> 
+	  		  </ul>
+	  	</div>
+	  	<div class="content_ordclass" id="orderlistdata">
+	  	</div>
+	  	<div class="content_ordbottom" style="display:none;">
+	  		<div>店铺地址:<{$orderinfo['shopaddress']}></div>
+	  		<div>配送地址:<{$orderinfo['buyeraddress']}></div>
+	  		<div>配送员邮件:<font id="useremail"></font></div> 
+	  		<div>配送员电话:<font id="userephone"></font></div> 
+	  		<input type="hidden" name="userid" value="0" id="userid">
+	  		<input type="hidden" name="orderid" value="<{$orderinfo['id']}>" id="orderid">
+	  		<{if empty($orderinfo['uid'])}>
+	  	     <div class="buttons"><span onclick="dopass();">确认使用该配送员</span></div> 
+	  		<{/if}>
+	  		<div id="id_showstatus"></div>
+	  		<div>
+	  	</div>
+	  
+	  </div>
+	
+	
+	
+	</div> 
+ <script type="text/javascript">
+$(function(){ 
+	//用户被选中事件
+  $('input[name="uid"]').bind("click", function() {   
+  	$('.content_ordbottom').show(); 
+  	 var uid = $(this).attr('data'); 
+  	 $('#useremail').text($(this).attr('emaildata'));
+  	 $('#userephone').text($(this).attr('phonedata'));
+  	 $('#userid').val(uid);
+  	 $('#user_'+uid).addClass('on').siblings().removeClass('on');
+  	
+  	 $.post(siteurl+'/index.php?ctrl=adminpage&action=psuser&module=selectorder', {'uid':uid},function (data, textStatus){  
+	          	$('#orderlistdata').html(data);  
+	   }, 'html');  
+  });
+});
+function dopass(){
+	$('.buttons').hide();
+	$('#id_showstatus').show();
+	$('#id_showstatus').text('数据提交中');
+	url = '<{ofunc type=url link="/adminpage/order/module/ordercontrol/random/@random@/type/psyuan/datatype/json"}>';
+	$.ajax({
+     type: 'post',
+     async:true,
+     data:{'userid':$('#userid').val(),'id':$('#orderid').val()},
+     url: url.replace('@random@', 1+Math.round(Math.random()*1000)), 
+     dataType: 'json',success: function(content) {   
+     	$('#cat_zhe').toggle();
+	      $('#cat_tj').toggle();
+     	if(content.error == false){ 
+     		parent.selectdo('成功');
+     	}else{
+     		
+     		if(content.error == true)
+     		{
+     			$('.buttons').show();
+	$('#id_showstatus').hide();
+     			 alert(content.msg);
+     		}else{
+     			$('.buttons').show();
+	$('#id_showstatus').hide();
+	        alert(content); 
+     		}
+     	} 
+		},
+    error: function(content) { 
+    	$('.buttons').show();
+	$('#id_showstatus').hide();
+    	diaerror('鏁版嵁鑾峰彇澶辫触'); 
+	  }
+   });   
+}
+
+ 
+</script>
+ 
+</body>
+</html>

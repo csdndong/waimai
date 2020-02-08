@@ -1,0 +1,104 @@
+<view class="page-order">
+    <view class="buttons-tab border-1px-b">
+        <view bind:tap="onChangeStatus" class="tabs {{status==0?'active':''}}" data-status="0">全部</view>
+        <view bind:tap="onChangeStatus" class="tabs {{status==1?'active':''}}" data-status="1">待核销</view>
+        <view bind:tap="onChangeStatus" class="tabs {{status==2?'active':''}}" data-status="2">已核销</view>
+        <view bind:tap="onChangeStatus" class="tabs {{status==3?'active':''}}" data-status="3">已取消</view>
+    </view>
+    <view class="content" wx:if="{{!orders.empty}}">
+        <view class="order-list">
+            <view class="order-item" wx:for="{{orders.data}}">
+                <view class="order-nt">
+                    <view class="order-number">{{item.id}}</view>
+                    <view class="order-status {{item.status_color}}">{{item.status_cn}}</view>
+                </view>
+                <view class="recieve-info">
+                    <view class="info-name">{{item.username}}</view>
+                    <view catch:tap="onJsEvent" class="info-tel" data-event-type="jsPhone" data-phoneNumber="{{item.mobile}}">{{item.mobile}}</view>
+                </view>
+                <view class="divide">
+                    <view class="divide-line"></view>
+                </view>
+                <view class="goods-info">
+                    <view class="info-title">
+                        <view class="left">商品</view>
+                        <view bind:tap="onShowGoods" class="right" data-index="{{index}}">
+                            <view class="unfold">{{item.showGoods?'收起':'展开'}}</view>
+                            <view class="icon {{item.showGoods?'icon-fold':'icon-unfold'}}"></view>
+                        </view>
+                    </view>
+                </view>
+                <view class="goods-list">
+                    <view class="goods-item" wx:if="{{item.showGoods}}">
+                        <view class="goods-tn">
+                            <view class="title">{{item.goods_title}}</view>
+                            <view class="goods-num">x{{item.goods_num}}</view>
+                        </view>
+                        <view class="price">¥{{item.final_fee}}</view>
+                    </view>
+                    <view class="box-fee">
+						支付方式
+						<text>{{item.pay_type_cn}}</text>
+                    </view>
+                    <view class="subtotal">
+                        <view class="content">
+                            <view class="left">本单预计收入</view>
+                            <view class="right">¥{{item.final_fee}}</view>
+                        </view>
+                        <view class="h-line"></view>
+                    </view>
+                </view>
+                <view class="total-fee">
+                    <view class="left">顾客实际支付：</view>
+                    <view class="right">¥180.00</view>
+                </view>
+                <view class="divide" wx:if="{{item.is_pay==1&&item.status==1}}">
+                    <view class="divide-line"></view>
+                </view>
+                <view class="action" wx:if="{{item.is_pay==1&&item.status==1}}">
+                    <view bind:tap="onShowPopup" class="confirm" data-id="{{item.id}}">核销取货</view>
+                    <view bind:tap="onJsEvent" class="cancel" data-confirm="确认取消该订单吗" data-event-type="jsPost" data-url="manage/seckill/order/status?type=cancel&id={{item.id}}">取消订单</view>
+                </view>
+                <view class="order-info">
+                    <view class="info-inner">
+                        <view class="left">
+                            <view class="addtime">
+                                <text class="title">下单时间</text>
+                                <text>{{item.addtime_cn}}</text>
+                            </view>
+                            <view class="order_sn">
+                                <text class="title">下单单号</text>
+                                <text>{{item.order_sn}}</text>
+                                <text bind:tap="onJsEvent" class="copy" data-event-type="jsCopy" data-text="{{item.order_sn}}">复制</text>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="wui-loadmore" wx:if="{{!orders.loaded}}">
+            <view class="wui-loading"></view>
+            <view class="wui-loadmore-tips">正在加载中</view>
+        </view>
+    </view>
+    <view class="no-data" wx:else>
+        <image class="no-coupon" src="/static/img/coupon_no_con.png"></image>
+        <text class="no-record">暂无数据</text>
+    </view>
+    <view class="zan-popup code-popup {{showPopup?'zan-popup--show':''}}">
+        <view bindtap="onShowPopup" class="zan-popup__mask"></view>
+        <view class="zan-popup__container popup-example--center">
+            <form bindsubmit="onReceive" reportSubmit="true">
+                <view class="popup-body">
+                    <view class="tip">请输入兑换码(6位数字)</view>
+                    <input name="code" placeholder="请输入兑换码" type="number"></input>
+                </view>
+                <view class="popup-footer">
+                    <view bindtap="onShowPopup" class="cancel">取消</view>
+                    <button formType="submit">确定</button>
+                </view>
+            </form>
+        </view>
+    </view>
+</view>
+<include src="../public/footer.wxml"></include>

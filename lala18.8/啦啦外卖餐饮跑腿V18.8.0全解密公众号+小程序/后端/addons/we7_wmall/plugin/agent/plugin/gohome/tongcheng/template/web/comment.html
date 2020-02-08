@@ -1,0 +1,91 @@
+{itemplate 'public/header'}
+{if $op == 'list'}
+<style>
+	.col-sm-8{padding:0;}
+	.social-feed-box{border:1px solid #e7eaec;background-color:#fff;margin:15px 0;}
+	.social-feed-box .comment-avatar{padding:15px 15px 0;display:flex;flex-flow: row nowrap;align-items: center;justify-content: flex-start;}
+	.comment-avatar .avatar{width: 50px;height: 50px;}
+	.comment-avatar .avatar img{width: 100%;height: 100%;}
+	.comment-avatar .user-info{padding-left: 20px;}
+	.comment-avatar .user-info .time{color: #888;font-size:13px;padding-top: 5px;}
+	.social-feed-box .user-comment{padding:15px;}
+	.social-feed-box .user-reply{border-top: 1px solid #e7eaec;padding: 10px 15px;background: #f9f9f9;}
+	.user-reply .reply:first-child{margin-top:0;}
+	.user-reply .reply{position:relative;margin-top:15px;display:flex;flex-flow: row nowrap;align-items: center;justify-content: flex-start;}
+	.user-reply .reply .img{width:40px;height:40px;}
+	.user-reply .reply .img img{width: 100%;height: 100%;}
+	.user-reply .reply .reply-right{padding-left:20px;width: 90%;}
+	.user-reply .reply .reply-right .reply-content{color: #676a6c;}
+	.user-reply .reply .icon-close{font-size: 18px;color: #ff2d4b;padding-left:15px;}
+	.social-feed-box .comment-btn{border-top: 1px solid #e7eaec;background-color: #fff;padding:10px 15px;text-align: right;}
+</style>
+<form action="./wagent.php?" class="form-horizontal form-filter col-sm-8" id="form-comment">
+	{php echo tpl_form_filter_hidden('tongcheng/comment');}
+	<div class="form-group form-inline">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">搜索</label>
+		<div class="col-sm-9 col-xs-12">
+			<div style="display: inline-block">
+				{php echo tpl_form_field_daterange('addtime', array('start' => date('Y-m-d H:i', $starttime), 'end' => date('Y-m-d H:i', $endtime)));}
+			</div>
+			<input type="text" name="tid" value="{$_GPC['tid']}" class="form-control" placeholder="请输入帖子ID">
+			<input type="text" name="keyword" value="{$_GPC['keyword']}" class="form-control" placeholder="请输入评论内容/帖子内容">
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+		<div class="col-sm-9 col-xs-12">
+			<button class="btn btn-primary">筛选</button>
+		</div>
+	</div>
+</form>
+<div class="clearfix order-list">
+	<div class="col-sm-8">
+		{if !empty($comments)}
+			{loop $comments $item}
+			<div class="social-feed-box">
+				<div class="comment-avatar">
+					<div class="avatar">
+						<img src="{$item['avatar']}" alt="">
+					</div>
+					<div class="user-info">
+						<div>{$item['nickname']}</div>
+						<div class="time">{php echo date('Y-m-d H:i', $item['addtime'])}</div>
+					</div>
+				</div>
+				<div class="user-comment">
+					<p>{$item['content']}</p>
+				</div>
+				{if !empty($item['reply'])}
+				<div class="user-reply">
+					{loop $item['reply'] $reply}
+					<div class="reply">
+						<div class="img">
+							<img src="{$reply['from_avatar']}" alt="">
+						</div>
+						<div class="reply-right">
+							<div>{$reply['from_nickname']} 回复 {$reply['to_nickname']}</div>
+							<div class="reply-content">{$reply['content']}</div>
+						</div>
+						<a class="icon icon-close js-post" href="{php echo iurl('tongcheng/comment/del', array('id' => $reply['id']))}" data-confirm="确定删除该回复?"></a>
+					</div>
+					{/loop}
+				</div>
+				{/if}
+				<div class="comment-btn">
+					<a href="{php echo iurl('tongcheng/comment/delete', array('id' => $item['id']))}" class="btn btn-danger btn-sm js-post" data-confirm="确定删除该评论?">删除评论</a>
+					<a href="{php echo iurl('tongcheng/information/detail', array('id' => $item['tid']))}" class="btn btn-default btn-sm">帖子详情</a>
+				</div>
+			</div>
+			{/loop}
+		{else}
+		<div class="no-result">
+			<p>还没有相关数据</p>
+		</div>
+		{/if}
+	</div>
+	<div class="col-md-12">
+		{$pager}
+	</div>
+</div>
+{/if}
+{itemplate 'public/footer'}

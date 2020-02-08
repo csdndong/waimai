@@ -1,0 +1,18 @@
+<ul class="nav nav-tabs">
+    <li {if $op=='desk_list'}class="active"{/if} >
+        <a href="{url 'site/entry/desk',array('m'=>'kundian_ordering',op=='desk_list','version_id'=>$_GPC['version_id'])}">餐 台</a>
+    </li>
+    <li {if $op=='desk_table'}class="active"{/if} >
+        <a href="{url 'site/entry/desk',array('m'=>'kundian_ordering','op'=>'desk_table','version_id'=>$_GPC['version_id'])}">餐桌列表</a>
+    </li>
+    <li {if $op=='order'}class="active"{/if} >
+        <a href="{url 'site/entry/desk',array('m'=>'kundian_ordering','op'=>'order','version_id'=>$_GPC['version_id'])}">点餐订单</a>
+    </li>
+    <li {if $op=='desk_print_set'}class="active"{/if} >
+        <a href="{url 'site/entry/desk',array('m'=>'kundian_ordering','op'=>'desk_print_set','version_id'=>$_GPC['version_id'])}">打印机设置</a>
+    </li>
+    <li {if $op=='desk_pay_set'}class="active"{/if} >
+        <a href="{url 'site/entry/desk',array('m'=>'kundian_ordering','op'=>'desk_pay_set','version_id'=>$_GPC['version_id'])}">支付设置</a>
+    </li>
+
+</ul>

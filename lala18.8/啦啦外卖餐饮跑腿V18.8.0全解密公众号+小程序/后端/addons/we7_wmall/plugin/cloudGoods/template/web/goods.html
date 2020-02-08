@@ -1,0 +1,447 @@
+{itemplate 'public/header'}
+{if $op =='post'}
+<div class="page clearfix">
+	<form class="form-horizontal form form-validate" id="form1" action="" method="post" enctype="multipart/form-data">
+		<h2>编辑商品</h2>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">商品名称</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="text" class="form-control" name="title" value="{$good['title']}" required="true">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">商品编号</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="text" class="form-control" name="number" value="{$good['number']}">
+				<div class="help-block">此项可选填,便于商品查找</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">商品分类</label>
+			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+				<select class="form-control tpl-category-parent" name="category_id">
+					<option value="0">请选择商品分类</option>
+					{loop $goodscategory $goods}
+					<option value="{$goods['id']}" {if $good['category_id'] == $goods['id']}selected{/if}>{$goods['title']}</option>
+					{/loop}
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">商品类型</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="radio radio-inline">
+					<input type="radio" name="type" id="type-1" value="1" {if $good['type'] == 1  || !$good['type']}checked{/if}>
+					<label for="type-1">外卖</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" name="type" id="type-2" value="2" {if $good['type'] == 2}checked{/if}>
+					<label for="type-2">店内</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" name="type" id="type-3" value="3" {if $good['type'] == 3}checked{/if}>
+					<label for="type-3">外卖加店内</label>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">商品缩略图</label>
+			<div class="col-sm-9 col-xs-12">
+				{php echo tpl_form_field_image('thumb', $good['thumb']);}
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">商品幻灯片</label>
+			<div class="col-sm-9 col-xs-12">
+				{php echo tpl_form_field_multi_image('slides', $good['slides']);}
+				<div class="help-block">推荐大小: 640*230, 最多不能超过4张图片</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">外卖价格</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="input-group">
+					<div class="input-group-addon">外卖现价</div>
+					<input type="text" class="form-control" name="price" value="{$good['price']}">
+					<div class="input-group-addon">外卖原价</div>
+					<input type="text" class="form-control" name="old_price" value="{$good['old_price']}">
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">店内价格</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="input-group">
+					<div class="input-group-addon">店内价格</div>
+					<input type="text" class="form-control" name="ts_price" value="{$good['ts_price']}">
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span class="require"> 启用规格</span></label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="checkbox checkbox-inline">
+					<input type="checkbox" name="is_options" id="is-options-1" value="1" {if $good['is_options'] == 1}checked{/if} onclick="$('#options').toggle();">
+					<label for="is-options-1">启用</label>
+				</div>
+				<br>
+				<div id="options" {if $good['is_options']}style="display:block"{/if}>
+					<div class="tpl">
+						{if !empty($good['options'])}
+						{loop $good['options'] $row}
+						<div class="input-group">
+							<span class="input-group-addon">规格名称</span>
+							<input type="hidden" name="options[id][]" value="{$row['id']}">
+							<input type="text" name="options[name][]" value="{$row['name']}" class="form-control" placeholder="规格名称">
+							<span class="input-group-addon">价格</span>
+							<input type="text" name="options[price][]" value="{$row['price']}" class="form-control" placeholder="价格">
+							<span class="input-group-addon">库存</span>
+							<input type="text" name="options[total][]" value="{$row['total']}" class="form-control" placeholder="库存">
+							<span class="input-group-addon">排序</span>
+							<input type="text" name="options[displayorder][]" value="{$row['displayorder']}" class="form-control" placeholder="排序">
+							<span class="input-group-addon"><a href="javascript:;" class="delOptions"><i class="fa fa-times"></i></a></span>
+						</div>
+						{/loop}
+						{else}
+						<div class="input-group">
+							<span class="input-group-addon">规格名称</span>
+							<input type="hidden" name="options[id][]" value="">
+							<input type="text" name="options[name][]" class="form-control" placeholder="规格名称">
+							<span class="input-group-addon">价格</span>
+							<input type="text" name="options[price][]" class="form-control" placeholder="价格">
+							<span class="input-group-addon">库存</span>
+							<input type="text" name="options[total][]" class="form-control" placeholder="库存" value="-1">
+							<span class="input-group-addon">排序</span>
+							<input type="text" name="options[displayorder][]" class="form-control" placeholder="排序" value="0">
+							<span class="input-group-addon"><a href="javascript:;" class="delOptions"><i class="fa fa-times"></i></a></span>
+						</div>
+						{/if}
+					</div>
+					<a href="javascript:;" class="addOptions"><i class="fa fa-plus-circle"></i> 添加规格</a>
+					<span class="help-block">-1为库存无限制. 排序数字越大越靠前</span>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">总库存</label>
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<input type="text" class="form-control" name="total" value="{$good['total']}" required="true" number="true">
+				<div class="help-block">-1为库存无限制。<span>注意:启用库存后,这里的总库存将失效，库存以规格的库存为准</span></div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">商品属性</label>
+			<div class="col-sm-9 col-xs-12">
+				<div id="attrs-container">
+					{if !empty($good['attrs'])}
+					{loop $good['attrs'] $attr}
+					<div class="attr-item">
+						<div class="col-md-3">
+							<input type="text" name="attrs[name][]" class="form-control" value="{$attr['name']}" placeholder="列如:辣度">
+						</div>
+						<div class="col-md-8">
+							<input type="text" name="attrs[label][]" class="form-control" value="{$attr['label']}" placeholder="列如:微辣">
+						</div>
+						<div class="col-md-1">
+							<span class="attrs-delete"><i class="fa fa-remove"></i></span>
+						</div>
+					</div>
+					{/loop}
+					{/if}
+				</div>
+				<a class="btn btn-primary btn-sm add-attr" href="javascript:;">添加商品属性</a>
+				<span class="help-block">列如：属性名称可以设为辣度，属性标签可以设为微辣，中辣等。输入多个属性标签时用英文状态的逗号隔开。</span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">餐盒价格</label>
+			<div class="col-sm-9 col-xs-12">
+				<div class="input-group">
+					<input type="text" class="form-control" name="box_price" value="{$good['box_price']}">
+					<span class="input-group-addon">元</span>
+				</div>
+				<div class="help-block">设置餐盒费</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">商品单位</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="text" class="form-control" name="unitname" value="{$good['unitname']}" required="true">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">简单描述</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="text" class="form-control" name="content" value="{$good['content']}">
+				<div class="help-block">该信息显示在商品列表页面, 字数控制在30个以内</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">自定义标签</label>
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<input type="text" class="form-control" name="label" value="{$good['label']}">
+				<div class="help-block">可设置为：热卖，新品，爆款等。只能设置一个，不超过两个字</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">是否上架</label>
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<div class="radio radio-inline">
+					<input type="radio" name="status" id="status-1" value="1" {if $good['status'] == 1 || !isset($good['status'])}checked{/if}>
+					<label for="status-1">上架</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" name="status" id="status-0" value="0" {if $good['status'] == 0}checked{/if}>
+					<label for="status-0">下架</label>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">设置为热销</label>
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<div class="radio radio-inline">
+					<input type="radio" name="is_hot" id="is-hot-1" value="1" {if $good['is_hot'] == 1}checked{/if}>
+					<label for="is-hot-1">设置</label>
+				</div>
+				<div class="radio radio-inline">
+					<input type="radio" name="is_hot" id="is-hot-0" value="0" {if !$good['is_hot']}checked{/if}>
+					<label for="is-hot-0">不设置</label>
+				</div>
+				<div class="help-block">设为热销后,将在门店信息列表页显示</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">排序</label>
+			<div class="col-sm-9 col-xs-12">
+				<input type="number" class="form-control" name="displayorder" value="{$good['displayorder']}">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">商品详情</label>
+			<div class="col-sm-9 col-xs-12">
+				{php echo tpl_ueditor('description', $good['description']);}
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-9 col-xs-9 col-md-9">
+				<input type="hidden" name="token" value="{$_W['token']}">
+				<input type="submit" value="提交" class="btn btn-primary">
+			</div>
+		</div>
+	</form>
+</div>
+<script type="text/javascript">
+	$(function() {
+		$('#form1').submit(function(){
+			var is_options = $(':checkbox[name="is_options"]').prop('checked');
+			if(is_options) {
+				var name_flag = price_flag = false;
+				$.each($(':text[name="options[name][]"]'), function(){
+					if(!$.trim($(this).val())) {
+						name_flag = true;
+					}
+					if(!$.trim($(this).next().next().val())) {
+						price_flag = true;
+					}
+				});
+				if(name_flag) {
+					Notify.info('存在没有设置名称的规格项');
+					$('form').attr('stop',1);
+					return false;
+				}
+				if(price_flag) {
+					Notify.info('存在没有设置价格的规格项');
+					$('form').attr('stop',1);
+					return false;
+				}
+			}
+			$('form').attr('stop',0);
+			return false;
+		});
+
+		$('.addOptions').click(function(){
+			var html = '<div class="input-group">'+
+					'<span class="input-group-addon">规格名称</span>'+
+					'<input type="hidden" name="options[id][]" value="">'+
+					'<input type="text" name="options[name][]" class="form-control" placeholder="规格名称">'+
+					'<span class="input-group-addon">价格</span>'+
+					'<input type="text" name="options[price][]" class="form-control" placeholder="价格">'+
+					'<span class="input-group-addon">库存</span>'+
+					'<input type="text" name="options[total][]" class="form-control" value="-1" placeholder="库存">'+
+					'<span class="input-group-addon">库存预警</span>'+
+					'<input type="text" name="options[total_warning][]" class="form-control" value="0" placeholder="库存预警">'+
+					'<span class="input-group-addon">排序</span>'+
+					'<input type="text" name="options[displayorder][]" class="form-control" value="0" placeholder="排序">'+
+					'<span class="input-group-addon"><a href="javascript:;" class="" onclick="$(this).parent().parent().remove();"><i class="fa fa-times"></i></a></span>'+
+					'</div>';
+			$('#options .tpl').append(html);
+		});
+
+		$('.delOptions').click(function(){
+			$(this).parent().parent().remove();
+		});
+
+		$(document).on('click', '.add-attr', function() {
+			var length = $('#attrs-container .attr-item').length;
+			if(length >= 10) {
+				Notify.info('最多可添加10个属性');
+				return false;
+			}
+			var html = '<div class="attr-item">'+
+					'		<div class="col-md-3">'+
+					'			<input type="text" name="attrs[name][]" class="form-control" placeholder="列如:辣度">'+
+					'		</div>'+
+					'		<div class="col-md-8">'+
+					'			<input type="text" name="attrs[label][]" class="form-control" placeholder="列如:微辣">'+
+					'		</div>'+
+					'		<div class="col-md-1">'+
+					'			<span class="attrs-delete"><i class="fa fa-remove"></i></span>'+
+					'		</div>'+
+					'	</div>';
+			$('#attrs-container').append(html);
+		});
+		$(document).on('click', '.attrs-delete', function() {
+			$(this).parent().parent().remove();
+		});
+	});
+</script>
+{/if}
+{if $op == 'index'}
+<form action="./index.php" class="form-horizontal form-filter">
+	{php echo tpl_form_filter_hidden('cloudGoods/goods/index');}
+	<div class="form-group form-inline">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">筛选</label>
+		<div class="col-sm-9 col-xs-12">
+			<select name="category_id" id="cid" class="form-control select2">
+				<option value="">商品分类</option>
+				{loop $goodscategory $goodcate}
+				<option value="{$goodcate['id']}" {if $goodcate['id'] == $_GPC['category_id']}selected{/if}>{$goodcate['title']}</option>
+				{/loop}
+			</select>
+			<div class="input-group">
+				<span class="input-group-addon">名称</span>
+				<input class="form-control" name="keyword" id="" type="text" value="{$_GPC['keyword']}" placeholder="商品名称或编号">
+			</div>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">商品类型</label>
+		<div class="col-sm-9 col-xs-12">
+			<div class="btn-group">
+				<a class="btn {if $type == ''}btn-primary{else}btn-default{/if}" href="{php echo iurl('cloudGoods/goods/index/post', array('type' => ''))}">不限</a>
+				<a class="btn {if $type == '1'}btn-primary{else}btn-default{/if}" href="{php echo iurl('cloudGoods/goods/index/post', array('type' => '1'))}">外卖</a>
+				<a class="btn {if $type == '2'}btn-primary{else}btn-default{/if}" href="{php echo iurl('cloudGoods/goods/index/post', array('type' => '2'))}">店内</a>
+				<a class="btn {if $type == '3'}btn-primary{else}btn-default{/if}" href="{php echo iurl('cloudGoods/goods/index/post', array('type' => '3'))}">店内加外卖</a>
+			</div>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+		<div class="col-sm-9 col-xs-12">
+			<button class="btn btn-primary">筛选</button>
+		</div>
+	</div>
+</form>
+<form action="" class="form-table form form-validate" method="post">
+	<div class="panel panel-table">
+		<div class="panel-heading">
+			<a href="{php echo iurl('cloudGoods/goods/post');}" class="btn btn-primary btn-sm">添加商品</a>
+		</div>
+		{if empty($goodsinfo)}
+			<div class="no-result">
+				<p>还没有相关数据</p>
+			</div>
+		{else}
+		<div class="panel-body table-responsive js-table">
+			<table class="table table-hover">
+				<thead class="navbar-inner">
+					<tr>
+						<th width="30">
+							<div class="checkbox checkbox-inline">
+								<input type="checkbox">
+								<label></label>
+							</div>
+						</th>
+						<th>id</th>
+						<th>缩略图</th>
+						<th>价格</th>
+						<th>餐盒费</th>
+						<th>库存</th>
+						<th>排序</th>
+						<th>商品名称</th>
+						<th>所属分类</th>
+						<th>商品类型</th>
+						<th>是否上架</th>
+						<th style="width:150px; text-align:right;">操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					{loop $goodsinfo $goods}
+					<tr>
+						<td>
+							<input type="hidden" name="ids[]" value="{$goods['id']}">
+							<div class="checkbox checkbox-inline">
+								<input type="checkbox" name="id[]" value="{$goods['id']}">
+								<label></label>
+							</div>
+						</td>
+						<td>
+							<strong>{$goods['id']}</strong>
+						</td>
+						<td>
+							<img src="{php echo tomedia($goods['thumb']);}" width="38" style="border-radius: 3px;">
+						</td>
+						<td>
+							<input type="text" name="prices[]" class="form-control width-100" value="{$goods['price']}">
+						</td>
+						<td>
+							<input type="text" name="box_prices[]" class="form-control width-100" value="{$goods['box_price']}">
+						</td>
+						<td>
+							<input type="text" name="totals[]" class="form-control width-100" value="{$goods['total']}">
+						</td>
+						<td>
+							<input type="text" name="displayorders[]" class="form-control width-100" value="{$goods['displayorder']}">
+						</td>
+						<td>
+							<input type="text" name="titles[]" class="form-control width-100" value="{$goods['title']}">
+						</td>
+						<td>
+							{$goodscategory[$goods['category_id']]['title']}
+						</td>
+						<td>
+							{if $goods['type'] == '1'}
+								<span class="label label-danger">外卖</span>
+							{elseif $goods['type'] == '2'}
+								<span class="label label-primary">店内</span>
+							{elseif $goods['type'] == '3'}
+								<span class="label label-success">店内加外卖</span>
+							{/if}
+						</td>
+						<td>
+							<input type="checkbox" class="js-checkbox" data-href="{php echo iurl('cloudGoods/goods/status', array('id' => $goods['id']));}" data-name="status" value="{$goods['status']}" {if $goods['status'] == 1}checked{/if}>
+						</td>
+						<td>
+							<a href="{php echo iurl('cloudGoods/goods/post', array('id' => $goods['id']))}" class="btn btn-default btn-sm" title="编辑" data-toggle="tooltip" data-placement="top"><i class="fa fa-edit"> </i></a>
+							<a href="{php echo iurl('cloudGoods/goods/del', array('id' => $goods['id']))}" class="btn btn-default btn-sm js-remove" title="删除" data-toggle="tooltip" data-placement="top" data-confirm="删除后将不可恢复，确定删除吗?"><i class="fa fa-times"> </i></a>
+							<a href="{php echo iurl('cloudGoods/goods/copy', array('id' => $goods['id']))}" class="btn btn-default btn-sm js-post" data-confirm="确定复制吗?">复制</a>
+						</td>
+					</tr>
+				{/loop}
+				</tbody>
+			</table>
+			<div class="btn-region clearfix">
+				<div class="pull-left">
+					<input type="submit" class="btn btn-primary btn-sm" value="提交修改">
+					<a href="{php echo iurl('cloudGoods/goods/del')}" class="btn btn-danger btn-sm js-batch" data-batch="remove" data-confirm="确定删除选中的商品吗?">批量删除</a>
+				</div>
+				<div class="pull-right">
+					{$pager}
+				</div>
+			</div>
+		</div>
+		{/if}
+	</div>
+</form>
+{/if}
+{itemplate 'public/footer'}

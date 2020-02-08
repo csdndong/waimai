@@ -1,0 +1,19 @@
+@import"/zh_cjdianc/pages/sjzx/wmdd/wmdd.wxss";
+.topnav{ width: 25%; }
+.dbbtn{ width: 100%; position: fixed;bottom: 0; padding:20rpx; display: flex; flex-direction: row; align-items: center; justify-content: space-around; background: #fff; border-top: 1rpx solid #e5e5e5; }
+.dbbtn button{ width: 80%; font-size: 30rpx; color: #999; }
+.datebtn{ width: 100%; padding:30rpx; display: flex; flex-direction: row; align-items: center; justify-content: space-around; background: #fff; border-top: 1rpx solid #e5e5e5; }
+.datebtn button{ width: 40%; font-size: 30rpx; color: #999; }
+.head{ position: fixed; z-index: 1; width: 100%; top: 80rpx; display: flex;flex-direction: row;align-items: center;background: #fff;padding: 20rpx 0;border-bottom: 1rpx solid #e5e5e5;border-top: 1rpx solid #e5e5e5; }
+.main{ padding-top: 250rpx; }
+.sxlb{ position: fixed;background: #fff;height: 80rpx; z-index: 9; width: 100%; top: 0; display: flex;flex-direction: row;align-items: center}
+.sxlbv{width: 50%;display: flex;flex-direction: row;justify-content: space-around;align-items: center;height: 80rpx;z-index: 9;background: #fff;}
+.sxlbv image{width: 40rpx;height: 40rpx;}
+.sorting-list{ position: absolute; top: 80rpx; left: 0; width: 100%; background-color: #fff; z-index: 1; font-size: 14px; }
+.sorting-item { height: 80rpx; line-height: 80rpx; padding: 0 40rpx; border-bottom: 1rpx solid #ddd; }
+.chioce-list-show { top: 80rpx; animation: slide 500ms; }
+@keyframes slide { 0% { top: -500rpx; }
+100% { top: 80rpx; }
+}.chioce-list-hide { display: none !important; }
+.mask{ position: fixed; top:0; bottom: 0; right: 0; left: 0; background-color: #000; opacity: 0.55; z-index: 1; }
+.bold{font-weight: bolder;}

@@ -1,0 +1,38 @@
+<view class="container">
+    <view class="head">
+        <swiper autoplay="auto" circular="true" class="swiper" duration="500" indicatorActiveColor="{{color}}" indicatorColor="#ccc" indicatorDots="true" interval="5000">
+            <swiper-item wx:for="{{imgArray}}" wx:key="*this">
+                <image bindtap="jumps" data-appid="{{item.appid}}" data-id="{{item.id}}" data-name="{{item.title}}" data-src="{{item.src}}" data-type="{{item.item}}" data-wb_src="{{item.src2}}" mode="aspectFill" src="{{item.logo}}"></image>
+            </swiper-item>
+        </swiper>
+    </view>
+    <view class="nav ba_f mar_t">
+        <swiper autoplay="auto" circular="true" class="swiper" duration="500" indicatorActiveColor="{{color}}" indicatorColor="#f7f7f7" indicatorDots="true" interval="5000" style="height:{{height}}rpx;">
+            <swiper-item wx:for="{{nav_array}}" wx:key="*this">
+                <view bindtap="nav_child" class="dis_in nav_li" data-id="{{item.id}}" wx:for="{{item}}" wx:key="*this">
+                    <image mode="aspectFill" src="{{item.img}}"></image>
+                    <view class="t_c fon_28 gobyndsingle">{{item.name}}</view>
+                </view>
+            </swiper-item>
+        </swiper>
+    </view>
+    <view class="mar_t">
+        <view bindtap="index" class="shop_list pa bor_bottom" data-id="{{item.id}}" data-storeid="{{item.store_id}}" wx:for="{{group_list}}" wx:key="*this">
+            <view class="dis_in">
+                <image mode="aspectFill" src="{{item.logo}}"></image>
+            </view>
+            <view class="dis_in">
+                <view class="fon_30 gobyndsingle" style="font-weight:bold">{{item.name}}</view>
+                <view class="fon_24 color_6 gobyndsingle mdtp">
+                    <image mode="aspectFill" src="../../img/tabdn.png"></image>
+                    <view class="fon_30" style="line-height:50rpx;">{{item.store_name}}</view>
+                </view>
+                <view>
+                    <text class="fon_24" style="color:{{color}}">{{item.people}}人团</text>
+                    <text class="fon_36 mar_l  color_6" style="color:{{color}}">￥{{item.pt_price}}</text>
+                    <text class="fon_28 mar_l" style="background:{{color}};color:#fff;padding:10rpx 20rpx;float:right;border-radius:10rpx;">去参团</text>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>

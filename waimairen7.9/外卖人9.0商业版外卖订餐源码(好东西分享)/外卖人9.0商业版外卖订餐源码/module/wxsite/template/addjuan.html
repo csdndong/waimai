@@ -1,0 +1,80 @@
+ <{extends file="<{$tempdir}>/public/wxsite.html"}>  
+<{block name=extendcss}> 
+ <link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/gift.css">
+<{/block}>
+ <{block name=extendjs}> 
+  <script src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/js/template.min.js"></script>    
+<{/block}>
+<{block name=myScrolljs}>
+<script> 
+		var myScroll;
+function loaded() {
+	myScroll = new iScroll('wrapper', {
+		useTransform: false,
+		onBeforeScrollStart: function (e) {
+			var target = e.target;
+			while (target.nodeType != 1) target = target.parentNode;
+
+			if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA')
+				e.preventDefault();
+		}
+	});
+}
+document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false); 
+document.addEventListener('DOMContentLoaded', function () { setTimeout(loaded, 200); }, false);
+</script>
+<{/block}>
+ <{block name=hearnav}>
+<div class="toptitCon">
+ <div class="toptitBox">
+  <div class="toptitL"><i></i></div>
+  <div class="toptitC"><h3>添加优惠券</h3></div>
+ </div>
+</div>
+<{/block}>
+<{block name=sitetitle}><{$sitename}><{/block}>
+<{block name=blockcontent}> 
+ <div id="wrapper" style="top:40px;">
+	<div id="scroller">
+		
+ <div class="sendcode">
+ <ul>
+  <li><input type="text" placeholder="请输入券号" id="card" name="card" value="" class="sendcodeinp1"></li>
+  <li><input type="password" placeholder="请输入优惠券密码" id="password" name="password" value="" class="sendcodeinp1"></li>
+   </ul>
+</div>
+<div class="intexchabutt"><input type="button" value="确认提交" id="nextzhpwd" onclick="subaddjuan();" datauid="0" class="intexbg1"></div>
+
+
+		 <div style="height:10px;"></div>
+	</div>
+</div>
+ <script>
+ function subaddjuan(){
+ 	showLoading();
+	url = siteurl+'/index.php?ctrl=card&action=exchangjuan&datatype=json&random=@random@';
+     	  url = url.replace('@random@', 1+Math.round(Math.random()*1000));
+        $.ajax({         //script定义
+                 url: url.replace('@random@', 1+Math.round(Math.random()*1000)),
+                 dataType: "json",
+                 async:true,
+                 data:{'card':$("#card").val(),'password':$("#password").val()},
+                 success:function(content) { 
+                 	if(content.error ==  false){
+					newhideLoading();
+					 Tmsg('添加成功');												
+					 window.location.href=  siteurl+'/index.php?ctrl=wxsite&action=juan' ;
+ 	
+                 	}else{
+					newhideLoading();
+                 		Tmsg(content.msg);
+                 	}
+                 },
+                 error:function(){
+                  newhideLoading();
+                 }
+        }); 
+ 
+ }
+ </script>
+<{/block}>

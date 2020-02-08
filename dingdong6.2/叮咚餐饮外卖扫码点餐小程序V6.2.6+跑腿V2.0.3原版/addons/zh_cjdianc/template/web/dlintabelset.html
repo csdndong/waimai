@@ -1,0 +1,162 @@
+{template 'public/header'}
+
+{template 'public/comhead'}
+
+<link rel="stylesheet" type="text/css" href="../addons/zh_cjdianc/template/public/ygcss.css">
+
+<style type="text/css">
+
+    .ygmargin{color: #999;margin-top: 10px;}
+    input[type="radio"] + label::before {
+        content: "\a0"; /*不换行空格*/
+        display: inline-block;
+        vertical-align: middle;
+        font-size: 16px;
+        width: 1em;
+        height: 1em;
+        margin-right: .4em;
+        border-radius: 50%;
+        border: 2px solid #ddd;
+        text-indent: .15em;
+        line-height: 1; 
+    }
+    input[type="radio"]:checked + label::before {
+        background-color: #44ABF7;
+        background-clip: content-box;
+        padding: .1em;
+        border: 2px solid #44ABF7;
+    }
+    input[type="radio"] {
+        position: absolute;
+        clip: rect(0, 0, 0, 0);
+    }
+</style>
+
+<ul class="nav nav-tabs">
+
+    <span class="ygxian"></span>
+
+    <div class="ygdangq">当前位置:</div>    
+
+    <li class="active"><a href="javascript:void(0);">餐桌设置</a></li>
+
+</ul>
+
+<div class="main">
+
+    <form action="" method="post" class="form-horizontal form" enctype="multipart/form-data" id="invitative">
+
+        <div class="panel panel-default ygdefault">
+
+            <div class="panel-heading wyheader">
+
+                餐桌设置
+
+            </div>
+
+            <div class="panel-body">
+
+
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">餐后支付</label>
+                    <div class="col-sm-9">
+                        <label class="radio-inline">
+                            <input type="radio" id="emailwy3" name="is_chzf" value="1" {if $info['is_chzf']==1 || empty($info['is_chzf'])}checked{/if} />
+                            <label for="emailwy3">开启</label>
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" id="emailwy4" name="is_chzf" value="2" {if $info['is_chzf']==2}checked{/if} />
+                            <label for="emailwy4">关闭</label>
+                        </label>
+                        <div class="ygmargin">* 注意：如果只开启餐后支付堂内扫码点餐只能线下付款</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">微信支付</label>
+                    <div class="col-sm-9">
+                        <label class="radio-inline">
+                            <input type="radio" id="emailwy1" name="is_wxzf" value="1" {if $info['is_wxzf']==1 || empty($info['is_wxzf'])}checked{/if} />
+                            <label for="emailwy1">开启</label>
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" id="emailwy2" name="is_wxzf" value="2" {if $info['is_wxzf']==2}checked{/if} />
+                            <label for="emailwy2">关闭</label>
+                        </label>
+                        <div class="ygmargin">* 注意：二者必须开启一个</div>
+                    </div>
+                </div>
+
+                        <div class="form-group">
+
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">餐桌状态判断</label>
+                    <div class="col-sm-9">
+                        <label class="radio-inline">
+                            <input type="radio" id="emailwy5" name="is_czztpd" value="1" {if $info['is_czztpd']==1 || empty($info['is_czztpd'])}checked{/if} /><label for="emailwy5">开启</label>
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" id="emailwy6" name="is_czztpd" value="2" {if $info['is_czztpd']==2}checked{/if} />
+                            <label for="emailwy6">关闭</label>
+                        </label>
+                        <div class="ygmargin">* 注意：关闭后则不判断餐桌是否开台</div>
+                    </div>
+                </div>
+                 <div class="form-group">
+
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">预约桌位</label>
+                    <div class="col-sm-9">
+                        <label class="radio-inline">
+                            <input type="radio" id="is_yyzw" name="is_yyzw" value="1" {if $info['is_yyzw']==1 || empty($info['is_yyzw'])}checked{/if} /><label for="is_yyzw">开启</label>
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" id="is_yyzw2" name="is_yyzw" value="2" {if $info['is_yyzw']==2}checked{/if} />
+                            <label for="is_yyzw2">关闭</label>
+                        </label>
+                        <div class="ygmargin">* 注意：关闭后用户预约则没有选择桌位选项,也不会收取桌位预付款</div>
+                    </div>
+                </div>
+
+                   <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">仅限当日预定</label>
+                    <div class="col-sm-9">
+                        <label class="radio-inline">
+                            <input type="radio" id="is_ydtime5" name="is_ydtime" value="1" {if $info['is_ydtime']==1 || empty($info['is_ydtime'])}checked{/if} /><label for="is_ydtime5">开启</label>
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" id="is_ydtime6" name="is_ydtime" value="2" {if $info['is_ydtime']==2}checked{/if} />
+                            <label for="is_ydtime6">关闭</label>
+                        </label>
+                        <div class="ygmargin">* 注意：关闭后则不判断餐桌是否开台</div>
+                    </div>
+                </div> 
+
+
+            </div>
+
+        </div>
+
+        
+
+        <div class="form-group">
+            <input type="submit" name="submit" value="保存设置" class="btn col-lg-3" style="color: white;background-color: #44ABF7;" />
+            <input type="hidden" name="token" value="{$_W['token']}" />
+            <input type="hidden" name="id" value="{$item['id']}" />
+
+        </div>
+
+    </form>
+
+</div>
+
+<script type="text/javascript">
+
+    $(function(){
+
+        $("#frame-3").show();
+
+        $("#yframe-3").addClass("wyactive");
+
+    })
+
+</script>
+{template 'common/footer'}
+

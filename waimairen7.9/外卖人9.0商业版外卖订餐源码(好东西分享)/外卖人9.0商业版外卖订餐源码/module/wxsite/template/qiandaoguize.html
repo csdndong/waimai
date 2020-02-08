@@ -1,0 +1,106 @@
+ <{extends file="<{$tempdir}>/public/wxsite.html"}>  
+<{block name=extendcss}> 
+ <link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/gift.css">
+<{/block}>
+ <{block name=extendjs}> 
+  <script src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/js/template.min.js"></script>    
+<{/block}>
+<{block name=myScrolljs}>
+
+<script> 
+var status ="<{$data['status']}>";
+if(status){
+	$(".bottom-bar-warp").css("display","none");
+}
+var myScroll;
+function loaded() {
+	myScroll = new iScroll('wrapper', {
+		useTransform: false,
+		onBeforeScrollStart: function (e) {
+			var target = e.target;
+			while (target.nodeType != 1) target = target.parentNode;
+
+			if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA')
+				e.preventDefault();
+		}
+	});
+}
+document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false); 
+document.addEventListener('DOMContentLoaded', function () { setTimeout(loaded, 200); }, false);
+</script>
+<{/block}>
+ <{block name=hearnav}>
+<div class="toptitCon">
+ <div class="toptitBox">
+  <div class="toptitL"><i></i></div>
+  <div class="toptitC"><h3>签到规则</h3></div>
+ </div>
+</div>
+<{/block}>
+<{block name=sitetitle}><{$sitename}><{/block}>
+<{block name=blockcontent}> 
+ <div id="wrapper" style="top:40px;">
+	<div id="scroller">
+<!--积分标题-->
+<div class="interuletit">
+ <ul>
+  <li data="gift" class="giftnavqiehuangz" style="border:0px solid red;margin-left:-30px"><i class="interulegz2"></i><span style="color:Red;">签到规则</span></li>
+ </ul>
+</div>
+
+<!-- 积分明细 -->
+ 
+<div class="interdetailCon">
+<{foreach from=$giftlog item=items}>
+ <div class="interdetailBox">
+  <ul class="interdetail">
+   <li>
+    <ul class="interdetailt">
+     <li><{$items['title']}></li>
+     <li class="intdetr">
+	 <{if $items['addtype'] == 1 }><span class="intespcl1">+<{$items['result']}></span><{/if}><{if $items['addtype'] == 2 }><span class="intespcl2">-<{$items['result']}></span><{/if}></li>
+    </ul>
+   </li>
+   <li>
+    <ul class="interdetailb">
+     <li><{$items['addtime']|date_format:"%Y-%m-%d %H:%M"}></li>
+     <li class="intdetr"></li>
+    </ul>
+   </li>
+  </ul>
+ </div>
+ <{/foreach}>
+</div>
+
+<!--签到规则-->
+<div class="interuleCon" style="display:block;">
+ <div class="interuleBox">
+  <p>
+  	<pre style="margin-top:-15px;">
+	<b><{$qiandaoguize}></b>
+	</pre>
+   </p>
+ </div>
+</div>
+		 <div style="height:10px;"></div>
+	</div>
+</div>
+
+ <script>
+
+	$(".giftnavqiehuangz").ready(function(){
+	 		$(".interuletit li").removeClass('interuleaA');
+			$(".giftnavqiehuandet").find('i').removeClass('interulemx2');
+			$(".giftnavqiehuandet").find('i').addClass('interulemx1');
+			
+			 $(this).addClass('interuleaA');
+			 $(this).find('i').removeClass('interulegz2');
+			 $(this).find('i').addClass('interulegz1');
+			 $(".interuleCon").show();
+		 
+	});
+
+ 	
+ </script>
+  
+<{/block}>

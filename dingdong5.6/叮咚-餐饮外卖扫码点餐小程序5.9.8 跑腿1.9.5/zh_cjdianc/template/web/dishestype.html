@@ -1,0 +1,188 @@
+{template 'public/header'}
+{template 'public/comhead'}
+<link rel="stylesheet" type="text/css" href="../addons/zh_cjdianc/template/public/ygcsslist.css">
+<style type="text/css">
+    .yg14{margin-top: 30px;}
+    .navback{width: 0}
+    .yg_back{margin-left: 136px}
+    .store_td1{height: 45px;}
+    .yg5_tabel{border-color: #e5e5e5;outline: 1px solid #e5e5e5;}
+    .yg5_tr2>td{padding: 10px 20px;border: 1px solid #e5e5e5;text-align: center;}
+    .yg5_tr1>th{
+        border: 1px solid #e5e5e5;
+        background-color: #FAFAFA;
+        font-weight: bold;
+        text-align: center;
+    }
+    .tab{border-bottom: 1px solid #cdcdcd;overflow: hidden;}
+    .tab li{float: left;padding:10px;}
+    .tab li.on{border-bottom: 2px solid #44ABF7;color:#44ABF7}
+        .main{position: relative;}
+    .navback{width: 0}
+    .yg_back{margin-left: 136px;}
+    .ygrow{margin-top: 20px;font-size: 12px;}
+    .ygmartop{margin-top: 30px;font-size: 12px;}
+    .ygmartop2{margin-bottom: 10px;}
+    .yg5_key>div{float: left;line-height: 34px;}
+    .store_td1{height: 45px;}
+    .store_list_img{width: 60px;height: 60px;}
+    .list_tabel>tbody>tr>td{vertical-align: middle;text-align: center;height: 50px}
+    .list_tabel tr{border-bottom: 1px solid #cdcdcd;}
+    .yg5_btn{background-color: #EEEEEE;color: #333;border: 1px solid #E4E4E4;border-radius: 6px;width: 100px;height: 34px;}
+    .yg5_btn2{background-color: white;color: #333;border: 1px solid white;border-radius: 6px;width: 100px;height: 34px;}
+    .yg13_img{width: 50px;height: 50px;border-radius: 4px;}
+    .yg_name{width: 30%;height: 34px;line-height: 34px;color: #333;float: left;background-color: white;border: 1px solid #E4E4E4;text-align: center;}
+    .yg_left{float: left;}
+    .form-control{width: 70%;}
+    .ygseledi{width: 60%;}
+    .dishes{display: flex;align-items: center;}
+    .dishes_font{font-size: 20px;}
+    .dishes_inp{width: 195px;height: 23px;border: none;}
+    .dishes_inp2{margin-right: 20px;}
+    .input_box{border: 2px solid #5bc0de;border-radius: 4px;padding: 5px;margin-right: 10px;background-color: #5bc0de;color: white;}
+    .store_inp{margin-left: 5px;}
+    .dish_left{margin-right: 20px;}
+/*    .dish_btn>button,.dish_btn>a{margin-bottom: 10px;}
+*/    .ygboxl{margin-bottom: 15px;}
+    .top_tip{display: flex;background: #fff;padding-left: 20px}
+/*    .nav_box{border-right: 1px solid #cdcdcd;padding: 0;text-align: center;height: 820px;background: #fff}
+*/    
+    .nav_box{
+        left: 0;
+        top: 0;
+        bottom: 0;
+        color: #333;
+        border-right: 1px solid #efefef;
+        text-align: center;
+        position: absolute;
+        background: #fff;
+        z-index:;   
+        width: 130px;
+    }
+    .nav_name{overflow: hidden;}
+    .nav_name li{padding:10px 0;}
+    .nav_name li.active{background:#F5F7F9;color:#44abf7;background: #edf6ff}
+    .nav_name li:hover{background:#F5F7F9;background: #edf6ff}
+    .tab{border-bottom: 1px solid #cdcdcd;overflow: hidden;padding-left: 20px;}
+    .tab li{float: left;padding:10px;}
+    .tab li.on{border-bottom: 2px solid #44ABF7;color:#44ABF7}
+    .th th{font-size: 14px;font-weight: normal;padding: 10px 30px;background: #FAFAFA}
+    .img{width: 50px;height: 50px;background: #ccc; display: block;margin: 10px auto;}
+    .all_style{padding: 3px 10px}
+    .orange{background: #FF7F50;color: #fff;}
+    .orange:hover{color: #fff;}
+</style>
+<ul class="tab">
+<!--    <span class="ygxian"></span>
+    <div class="ygdangq">当前位置:</div>  --> 
+    <li><a href="{php echo $this->createWebUrl('dishes2')}">商品列表</a></li>
+    <li class="on"><a href="{php echo $this->createWebUrl('dishestype')}">商品分类</a></li>
+</ul>
+<div class="top_tip">
+        <div class="dishes">
+            <a class="btn storewarning  dish_left" href="{php echo $this->createWebUrl('adddishestype')}">添加分类</a>
+            <form method="post" action="" enctype="multipart/form-data" class="dishes">     
+        <div class="input_box"><input  type="file" name="file_stu" class="dishes_inp"/></div>
+        <input type="hidden" name="token" value="{$_W['token']}"/>
+        <input type="submit" name="submit2"  value="导入" class="dishes_inp2 btn btn-info btn-sm" />
+    </form>
+        <a class="btn btn-sm btn-info ms_mb" href="{$_W['siteroot']}addons/zh_cjdianc/excel/dishestype.xls">下载导入模板</a>
+        </div>
+
+    </div>
+
+
+<div class="main"> 
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            分类列表
+        </div>
+        <div class="panel-body" style="padding: 0px 15px;">
+            <div class="row">              
+                <table class="yg5_tabel col-md-12">
+                    <tr class="yg5_tr1">
+                    <th class="store_td1">id</th>
+                        <th>分类名称</th>
+                        <th>状态</th>
+                        <th>查看</th>
+                        <th>操作</th>
+                    </tr>
+                     {loop $list $key $item}
+              <tr class="yg5_tr2">
+              <td>
+                {$item['id']}
+                </td>
+
+               
+                <td>
+                {$item['type_name']}
+                </td>
+                <td>
+                {if $item['is_open']==1}
+                <a href="{php echo $this->createWebUrl('dishestype',array('op'=>'upd','state'=>2,'id'=>$item['id']));}" class="btn storeblue btn-xs"  >显示</a>
+                {elseif $item['is_open']==2}
+                <a  href="{php echo $this->createWebUrl('dishestype',array('op'=>'upd','state'=>1,'id'=>$item['id']));}" class="btn storegrey btn-xs" >隐藏</a>
+                {/if}
+                </td>
+                <td>
+                    <a href="{php echo $this->createWebUrl('adddishestype',array('id'=>$item['id']));}" class="storespan btn btn-xs">
+                        <span class="fa fa-pencil"></span>
+                        <span class="bianji">编辑
+                            <span class="arrowdown"></span>
+                        </span>                  
+                    </a>
+                    <!-- <a class="btn btn-warning btn-sm" href="{php echo $this->createWebUrl('adddishestype',array('id'=>$item['id']));}">编辑</a> -->
+                </td>
+                <td>
+                    <a href="javascript:void(0);" class="storespan btn btn-xs" data-toggle="modal" data-target="#myModal{$item['id']}">
+                        <span class="fa fa-trash-o"></span>
+                        <span class="bianji">删除
+                            <span class="arrowdown"></span>
+                        </span>
+                    </a>
+                    <!-- <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#myModal{$item['id']}">删</button> -->
+                
+                </td>
+               <!--  <td> {$pager}</td> -->
+              </tr>
+              <div class="modal fade" id="myModal{$item['id']}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel" style="font-size: 20px;">提示</h4>
+                        </div>
+                        <div class="modal-body" style="font-size: 20px">
+                            确定删除么？
+                        </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                            <a href="{php echo $this->createWebUrl('dishestype', array('op'=>'del','id'=>$item['id']));}" type="button" class="btn btn-info" >确定</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+               {/loop}
+               
+              {if empty($list)}
+             <tr class="yg5_tr2">
+                <td colspan="5">
+                  尚未添加分类
+                </td>
+              </tr>
+             
+              {/if}
+          </table>
+        </div>
+      </div>
+    </div>
+  
+</div>
+<script type="text/javascript">
+    $(function(){
+        // $("#frame-2").addClass("in");
+        $("#frame-2").show();
+        $("#yframe-2").addClass("wyactive");
+    })
+</script>
+{template 'common/footer'}

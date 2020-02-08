@@ -1,0 +1,13 @@
+<{load_data assign="stationinfo" table="stationadmininfo" where="`cityid`=<{$admininfo['cityid']}>"  type="one"}> 
+<div class="managShopClas">
+				<ul>
+					<!--<li <{if $Taction == 'shop' && $tmodule == 'cateset'  }> class="maShClaA" <{/if}>  ><a href="<{ofunc type=url link="/areaadminpage/shop/module/cateset"}>">分类管理</a></li>-->
+					<li <{if $Taction == 'analysis' && $tmodule == 'trade_statisyic'  }> class="maShClaA" <{/if}>  ><a href="<{ofunc type=url link="/areaadminpage/analysis/module/trade_statisyic"}>">交易统计</a></li>
+					<li <{if $Taction == 'analysis' && $tmodule == 'trade_log'  }> class="maShClaA" <{/if}> ><a href="<{ofunc type=url link="/areaadminpage/analysis/module/trade_log"}>">交易记录</a></li>
+ 					<li <{if $Taction == 'analysis' && $tmodule == 'area_statisyic'  }> class="maShClaA" <{/if}> ><a href="<{ofunc type=url link="/areaadminpage/analysis/module/area_statisyic"}>">分站统计</a></li>
+ 					<li <{if $Taction == 'analysis' && $tmodule == 'shop_statisyic'  }> class="maShClaA" <{/if}> ><a href="<{ofunc type=url link="/areaadminpage/analysis/module/shop_statisyic"}>">商家统计</a></li>
+ 					<!--<li <{if $Taction == 'analysis' && $tmodule == 'mem_statisyic'  }> class="maShClaA" <{/if}> ><a href="<{ofunc type=url link="/areaadminpage/analysis/module/mem_statisyic"}>">会员统计</a></li>-->
+                    <li <{if $Taction == 'analysis' && $tmodule == 'js_statisyic' }> class="maShClaA" <{/if}> ><a href="<{ofunc type=url link="/areaadminpage/analysis/module/js_statisyic"}>">结算统计</a></li>
+				</ul>
+			</div>
+			

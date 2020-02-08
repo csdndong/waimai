@@ -1,0 +1,104 @@
+.bg_img {
+    width: 100%;
+    height: 267rpx;
+    bottom: 0;
+}
+
+.head {
+    width: 100%;
+    height: 500rpx;
+}
+
+.head>view:nth-child(1) {
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+}
+
+.head>view:nth-child(2) {
+    width: 200rpx;
+    height: 200rpx;
+    border-radius: 50%;
+    z-index: 100;
+}
+
+.head>view:nth-child(3) {
+    width: 90%;
+    height: 340rpx;
+    background: #fff;
+    border-radius: 20rpx;
+    bottom: -260rpx;
+    z-index: 1000;
+}
+
+.login>view:nth-child(1) {
+    width: 90%;
+    height: 100rpx;
+    margin: 0 auto 0;
+    line-height: 100rpx;
+}
+
+.login>view:nth-child(2) {
+    width: 90%;
+    height: 80rpx;
+    margin: 0 auto 0;
+    line-height: 80rpx;
+}
+
+.login>view:nth-child(3) {
+    width: 90%;
+    height: 80rpx;
+    margin: 0 auto 0;
+    line-height: 80rpx;
+}
+
+.login>view input {
+    width: 70%;
+}
+
+.login>view image {
+    width: 30rpx;
+    height: 39rpx;
+}
+
+button {
+    width: 60%;
+    height: 90rpx;
+    line-height: 90rpx;
+    border-radius: 45rpx;
+    margin-top: 40rpx;
+}
+
+.footer>image {
+    width: 40rpx;
+    height: 40rpx;
+    border-radius: 50%;
+}
+
+.footer {
+    width: 100%;
+    height: 40rpx;
+    position: fixed;
+    bottom: 100rpx;
+}
+
+.wechat_login {
+    width: 90%;
+    border-radius: 10rpx;
+    height: 40rpx;
+    position: fixed;
+    bottom: 180rpx;
+    color: rgb(26,187,14);
+}
+
+.wechat_login image {
+    width: 40rpx;
+    height: 40rpx;
+    margin-right: 20rpx;
+}
+
+.img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}

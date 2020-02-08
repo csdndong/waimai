@@ -1,0 +1,116 @@
+/*幸运大转盘*/
+.wheel-info {
+	background: url(../img/background.png) no-repeat;
+	background-size: 100% 100%;
+	text-align: center;
+	box-sizing: border-box;
+	padding-top: 1px;
+}
+.wheel-info .content-wheel {
+	width: 17.5rem;
+	height: 17.5rem;
+	margin: 0 auto;
+	margin-top: 12rem;
+	background: url(../img/wheel-background.png) no-repeat;
+	background-size: 100% 100%;
+	display: flex;
+	flex-wrap: wrap;
+	padding: 0.6rem 0 0 0.46rem;
+	box-sizing: border-box;
+}
+.wheel-info .content-wheel .thanks-join {
+	width: 5rem;
+	height: 5rem;
+	background: #fff;
+	border-radius: 0.128rem;
+	text-align: center;
+	margin-left: 0.4rem;
+	box-sizing: border-box;
+	cursor: pointer;
+}
+.wheel-info .content-wheel .thanks-join .wheel-img {
+	width: 2.5rem;
+	height: 2.7rem;
+	margin: 0 auto;
+	margin-top: 0.384rem;
+	display: block;
+	vertical-align: top;
+}
+.wheel-info .content-wheel .thanks-join .wheel-text {
+	font-size: 12px;
+	color: #ff2d4b;
+	padding-top: 3px;
+}
+.wheel-info .content-wheel .wheel-item {
+	width: 5rem;
+	height: 5rem;
+	background: #fff;
+	border-radius: 0.128rem;
+	text-align: center;
+	margin-left: 0.4rem;
+	box-sizing: border-box;
+	cursor: pointer;
+}
+.wheel-info .content-wheel .wheel-item .wheel-img {
+	width: 2.5rem;
+	height: 2.7rem;
+	margin: 0 auto;
+	margin-top: 0.384rem;
+	display: block;
+	vertical-align: top;
+}
+.wheel-info .content-wheel .wheel-item .wheel-text {
+	font-size: 12px;
+	color: #f87a7c;
+	padding-top: 3px;
+}
+.wheel-info .content-wheel .start-draw {
+	width: 5rem;
+	height: 5rem;
+	background: #ffeb18;
+	border-radius: 0.128rem;
+	text-align: center;
+	margin-left: 0.4rem;
+	box-sizing: border-box;
+	cursor: pointer;
+}
+.wheel-info .content-wheel .start-draw .draw-click {
+	font-size: 12px;
+	color: #ff0007;
+	margin-top: 1.2rem;
+	display: inline-block;
+}
+.wheel-info .content-wheel .start-draw .draw-click .draw-go {
+	font-size: 12px;
+	color: #ff0007;
+	display: inline-block;
+	font-weight: 600;
+}
+.wheel-info .info-wrap {
+	width: 17.5rem;
+	padding-top: 0.5rem;
+	margin: 0 auto;
+	overflow: hidden;
+}
+.wheel-info .info-wrap .wrap-head {
+	color: #000;
+	text-align: right;
+	font-size: 14px
+}
+.wheel-info .info-wrap .wrap-text {
+	margin-top: 0.5rem;
+	font-size: 12px;
+	color: #000;
+	text-align: left;
+}
+.wheel-info .info-wrap .wrap-text .wrap-inner {
+	margin-bottom: 0.4rem;
+	cursor: pointer;
+	line-height: 1.5em;
+	display: inline-block;
+}
+.wheel-info .info-wrap .wrap-text .wrap-inner .activity-info-content {
+	margin-left: 1rem;
+	cursor: pointer;
+	display: block;
+}

@@ -1,0 +1,63 @@
+.head image {
+    width: 100%;
+    height: 700rpx;
+    background: orange;
+}
+
+.body {
+    background: #fff;
+    padding: 40rpx 0;
+}
+
+.body>button {
+    width: 70%;
+    margin: 0 auto 0;
+    height: 100rpx;
+    font-size: 30rpx;
+    text-align: center;
+    line-height: 100rpx;
+    border-radius: 5rpx;
+}
+
+.body>button:nth-child(1) {
+    color: #fff;
+    background: orange;
+    margin-bottom: 40rpx;
+}
+
+.body>button:nth-child(2) {
+    border: 2rpx solid orange;
+    background: none;
+}
+
+.footer {
+    display: flex;
+    background: #fff;
+}
+
+.footer>view {
+    flex: 3;
+    box-sizing: border-box;
+}
+
+.footer>view view:nth-child(1) {
+    border-right: 2rpx solid #e5e5e5;
+}
+
+.sele_fixed>view:nth-child(2) {
+    width: 300rpx;
+    height: 300rpx;
+    background: #fff;
+}
+
+.sele_fixed {
+    animation: sele_fixed 5s;
+}
+
+@keyframes sele_fixed {
+    from {
+    }
+
+    to {
+    }
+}

@@ -1,0 +1,72 @@
+page {
+    font-family: "微软雅黑";
+}
+
+.bg {
+    top: 0;
+    width: 100%;
+    z-index: -1000;
+}
+
+.search {
+    width: 100%;
+    border-radius: 15rpx;
+    padding: 10rpx 0;
+}
+
+.search>input {
+    width: 70%;
+    margin-left: 20rpx;
+}
+
+.search icon {
+    right: 20rpx;
+    top: 20rpx;
+}
+
+.order_census {
+    display: flex;
+    border-radius: 15rpx;
+}
+
+.order_census>view {
+    flex: 2;
+}
+
+.order_census>view:nth-child(1) {
+    border-right: 2rpx solid #e5e5e5;
+}
+
+.order_list {
+    height: 150rpx;
+}
+
+.order_list>view {
+    height: 100%;
+}
+
+.order_list>view:nth-child(1) {
+    width: 63%;
+}
+
+.order_list>view:nth-child(2) {
+    width: 20%;
+}
+
+.order_list>view:nth-child(3) {
+    width: 16%;
+    background: rgb(254,104,49);
+}
+
+.order_num>view:nth-child(1) {
+    padding: 0rpx 10rpx;
+}
+
+.order_num>view {
+    height: 50rpx;
+    line-height: 50rpx;
+}
+
+.statu_img>image {
+    width: 135rpx;
+}

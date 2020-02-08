@@ -1,0 +1,249 @@
+{itemplate 'public/header'}
+<form action="./wagent.php" class="form-horizontal form-filter" id="form1">
+	{php echo tpl_form_filter_hidden('statcenter/takeoutOrderChannel/index');}
+	<input type="hidden" name="days" value="{$days}"/>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">筛选时间</label>
+		<div class="col-sm-9 col-xs-12 js-daterange" data-form="#form1">
+			<div class="btn-group">
+				<a href="{php echo ifilter_url('days:0');}" class="btn {if !$days}btn-primary{else}btn-default{/if}">今天</a>
+				<a href="{php echo ifilter_url('days:7');}" class="btn {if $days == 7}btn-primary{else}btn-default{/if}">最近7天</a>
+				<a href="{php echo ifilter_url('days:30');}" class="btn {if $days == 30}btn-primary{else}btn-default{/if}">最近30天</a>
+				<a href="javascript:;" class="btn js-btn-custom {if $days == -1}btn-primary{else}btn-default{/if}">自定义</a>
+			</div>
+			<span class="btn-daterange js-btn-daterange {if $days != -1}hide{/if}">
+				{php echo tpl_form_field_daterange('stat_day', array('start' => $starttime, 'end' => $endtime));}
+			</span>
+		</div>
+	</div>
+	<div class="form-group clearfix form-inline">
+		<label class="col-xs-12 col-sm-2 col-md-1 control-label">其他</label>
+		<div class="col-sm-7 col-lg-8 col-xs-12">
+			<select name="sid" class="form-control select2 js-select2 width-130" id="select-sid">
+				<option value="0" {if !$sid}selected{/if}>全部门店</option>
+				{loop $stores $store}
+				<option value="{$store['id']}" {if $store['id'] == $sid}selected{/if}>{$store['title']}</option>
+				{/loop}
+			</select>
+		</div>
+	</div>
+</form>
+<div class="clearfix">
+	<div class="panel panel-stat">
+		<div class="panel-heading">
+			<h3>总览</h3>
+		</div>
+		<div class="panel-body">
+			<div class="col-md-2">
+				<div class="title">
+					总订单数
+				</div>
+				<div class="num-wrapper">
+					<a class="num" href="javascript:;">
+						<span id="html-total-success-order">0</span>
+					</a>
+				</div>
+			</div>
+			<div class="col-md-10">
+				{loop $channels $key $channel}
+				<div class="col-md-2">
+					<div class="title">
+						总{$channel}订单数
+					</div>
+					<div class="num-wrapper">
+						<a class="num" href="javascript:;">
+							<span id="html-total-{$key}-order">0</span>
+						</a>
+						<span class="info" id="html-per-total-{$key}-order">占比：100%</span>
+					</div>
+				</div>
+				{/loop}
+			</div>
+		</div>
+	</div>
+</div>
+<div class="clearfix">
+	<div class="col-lg-12 padding-0">
+		<div class="panel panel-trend">
+			<div class="panel-heading">
+				<h3>订单来源百分比</h3>
+			</div>
+			<div class="panel-body">
+				<div id="chart-order-holder-pie" style="width: 100%;height:400px;"></div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="clearfix {if !$days}hide{/if}">
+	<div class="panel panel-trend">
+		<div class="panel-heading">
+			<h3>趋势图</h3>
+		</div>
+		<div class="panel-body">
+			<div id="chart-order-holder" style="width: 100%;height:400px;"></div>
+		</div>
+	</div>
+</div>
+<form action="" class="form-table form" method="post">
+	<div class="panel panel-table">
+		<div class="panel-body table-responsive">
+			<table class="table table-bordered table-hover text-center" style="background: #fff">
+				<thead class="navbar-inner">
+				<tr>
+					<th>账期</th>
+					<th>成交单数</th>
+					{loop $channels $channel}
+					<th>{$channel}下单单数/{$channel}下单占比</th>
+					{/loop}
+				</tr>
+				</thead>
+				<tbody>
+				{loop $records $record}
+				<tr>
+					<td><strong>{$record['stat_day']}</strong></td>
+					<td><span>{$record['total_success_order']}</span></td>
+					<td><span>{$record['order_eleme']}</span> / <span class="text-danger">{$record['pre_order_eleme']}%</span></td>
+					<td><span>{$record['order_meituan']}</span> / <span class="text-danger">{$record['pre_order_meituan']}%</span></td>
+					<td><span>{$record['order_wxapp']}</span> / <span class="text-danger">{$record['pre_order_wxapp']}%</span></td>
+					<td><span>{$record['order_wap']}</span> / <span class="text-danger">{$record['pre_order_wap']}%</span></td>
+					<td><span>{$record['order_h5app']}</span> / <span class="text-danger">{$record['pre_order_h5app']}%</span></td>
+					<td><span>{$record['order_plateformCreate']}</span> / <span class="text-danger">{$record['pre_order_plateformCreate']}%</span></td>
+				</tr>
+				{/loop}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</form>
+<script type="text/javascript">
+	irequire(['echarts'], function(echarts){
+		// 趋势图
+		var option = {
+			title: {
+				text: '下单方式趋势图'
+			},
+			tooltip : {
+				trigger: 'axis'
+			},
+			legend: {
+				data:[]
+			},
+			toolbox: {
+				feature: {
+					saveAsImage: {}
+				}
+			},
+			grid: {
+				left: '3%',
+				right: '4%',
+				bottom: '3%',
+				containLabel: true
+			},
+			xAxis : [{
+				type : 'category',
+				boundaryGap : false,
+				data :[1, 2, 3]
+			}],
+			yAxis : [
+				{
+					type : 'value'
+				}
+			],
+			series : []
+		};
+		// 饼图
+		var option1 = {
+			title : {
+				text: '订单来源百分比',
+				x:'center'
+			},
+			tooltip : {
+				trigger: 'item',
+				formatter: "{a} <br/>{b} : {c} ({d}%)"
+			},
+			legend: {
+				orient: 'vertical',
+				left: 'left',
+				data: []
+			},
+			series : [
+				{
+					name: '直接访问',
+					type: 'pie',
+					radius : '55%',
+					center: ['50%', '60%'],
+					data:[],
+					itemStyle: {
+						emphasis: {
+							shadowBlur: 10,
+							shadowOffsetX: 0,
+							shadowColor: 'rgba(0, 0, 0, 0.5)'
+						}
+					}
+				}
+			]
+		};
+		var myChart = echarts.init($('#chart-order-holder')[0]);
+		var myChartPie = echarts.init($('#chart-order-holder-pie')[0]);
+		$.post(location.href, function(data){
+			// 趋势图
+			var result = $.parseJSON(data);
+			console.log(result);
+			option.legend.data = result.message.message.titles;
+			var xAxis = {
+				type : 'category',
+				boundaryGap : false,
+				data : result.message.message.days
+			};
+			option.xAxis = xAxis;
+			$.each(result.message.message.fields, function(k, v){
+				var serie = {
+					name: result.message.message.titles[k],
+					type: 'line',
+					areaStyle: {normal: {}},
+					data: result.message.message[v]
+				};
+				option.series.push(serie);
+			});
+			myChart.setOption(option);
+			var stat = result.message.message.stat;
+			$('#html-total-success-order').html(stat.total_success_order);
+
+			$('#html-total-eleme-order').html(stat.total_eleme_order);
+			$('#html-per-total-eleme-order').html('占比：'+stat.per_total_eleme_order+'%');
+
+			$('#html-total-meituan-order').html(stat.total_meituan_order);
+			$('#html-per-total-meituan-order').html('占比：'+stat.per_total_meituan_order+'%');
+
+			$('#html-total-wxapp-order').html(stat.total_wxapp_order);
+			$('#html-per-total-wxapp-order').html('占比：'+stat.per_total_wxapp_order+'%');
+
+			$('#html-total-wap-order').html(stat.total_wap_order);
+			$('#html-per-total-wap-order').html('占比：'+stat.per_total_wap_order+'%');
+
+			$('#html-total-h5app-order').html(stat.total_h5app_order);
+			$('#html-per-total-h5app-order').html('占比：'+stat.per_total_h5app_order+'%');
+
+			$('#html-total-plateformCreate-order').html(stat.total_plateformCreate_order);
+			$('#html-per-total-plateformCreate-order').html('占比：'+stat.per_total_plateformCreate_order+'%');
+
+			// 饼图
+			pieData = result.message.message;
+			pieData.titles.shift();
+			option1.legend.data = pieData.titles;
+			var legendData=[
+				{value:pieData.stat.total_eleme_order, name:'饿了么订单'},
+				{value:pieData.stat.total_meituan_order, name:'美团订单'},
+				{value:pieData.stat.total_wxapp_order, name:'小程序订单'},
+				{value:pieData.stat.total_wap_order, name:'H5订单'},
+				{value:pieData.stat.total_h5app_order, name:'顾客APP订单'},
+				{value:pieData.stat.total_plateformCreate_order, name:'后台创建订单'}
+			];
+			option1.series[0].data = legendData;
+			myChartPie.setOption(option1);
+		});
+	});
+</script>
+
+
+{itemplate 'public/footer'}

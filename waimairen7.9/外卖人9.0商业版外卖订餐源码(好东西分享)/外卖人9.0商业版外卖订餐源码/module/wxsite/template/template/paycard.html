@@ -1,0 +1,107 @@
+ <{extends file="<{$tempdir}>/public/wxsite.html"}>  
+<{block name=extendcss}> 
+ <link rel="stylesheet"  href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/css/address.css">  
+<{/block}>
+ <{block name=extendjs}> 
+ <script> 
+		var myScroll;
+		var outdiv = false;
+		var myScroll2;
+function loaded() {
+	 
+	myScroll = new iScroll('memcard', {
+		useTransform: false,
+		bounce:false,
+		onBeforeScrollStart: function (e) {
+			var target = e.target;
+			while (target.nodeType != 1) target = target.parentNode;
+
+			if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA')
+				e.preventDefault();
+		}
+	});
+  
+  
+}
+document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false); 
+document.addEventListener('DOMContentLoaded', function () { setTimeout(loaded, 200); }, false);
+</script>
+<{/block}>
+<{block name=sitetitle}><{$sitename}><{/block}>
+<{block name=footer}><{/block}>
+<{block name=hearnav}><header style="position: fixed;display:block;"><div class="return"></div>账户充值</header><{/block}>
+<{block name=blockcontent}> 
+<style>
+.memjieshao{position:relative;background: #f6f6f6 ; margin-top:15px; height:42px; line-height:42px; color:#333333; padding-left:20px; font-size:16px; border:1px solid #dddddd;border-top-left-radius:8px;border-top-right-radius:8px; }
+.memjieshao:hover,.memjifen:hover{ background:#ececec;}
+.memjifen{position:relative;text-align:center;background:#f6f6f6; height:42px; line-height:42px; color:#333333; padding-left:20px; font-size:16px; border:1px solid #dddddd; border-top:none;border-bottom-left-radius:8px;border-bottom-right-radius:8px; }
+.memshuoming{ padding:0px 10px; background:#fff;color:#333333; border:1px solid  #dddddd; height:42px; line-height:42px; border-radius:8px;}
+.memshuoming input{ width:100%; height:100%; border:none; font-size:16px; height:42px; line-height:42px; border-radius:8px;}
+.payli{margin-top:25px;width:100%; border:none; border-radius:0px; height:42px; line-height:42px; background:none;}
+.wxpay{width:50%; cursor:pointer; height:42px; text-align:center; float:left; font-size:16px;  background:url(<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/wxpayBg.png) #ff6f06 10px center no-repeat; background-size:20px; color:#fff;}
+.zhifubaopay{width:49.0%; cursor:pointer; height:42px; text-align:center; float:right; font-size:16px;  background:url(<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/zhifubaoBg.png) #ff6f06 10px center no-repeat; background-size:20px; color:#fff;}
+.cardhaopay{width:50%; cursor:pointer; height:42px; text-align:center; float:left; font-size:16px;  background:url(<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/czhikaBg.png) #ff6f06 10px center no-repeat; background-size:20px; color:#fff;}
+
+</style>
+  <div style="height:42px;"></div>
+  <div class="container" id="memcard"  style="position:relative;">
+
+  	 <div id="">
+		<div style="width:100%;height:130px;  background:#f6f6f6; text-align:center;color:#333333; font-size:16px; border-bottom:1px solid  #dddddd;">
+			<p style="padding-top:20px;">余额</p>
+			<p style=" color:#e94d1c; margin-top:30px;">￥<span style=" font-size:34px; font-weight:bold;"><{$member['cost']}></span></p>
+		</div>
+  	 	<section id="" style="background:none; position:absolute;width:100%; padding:0px; top:140px; z-index:9;">
+
+  	 		<ul class="" style="width:90%; margin:0 auto;">
+
+				
+				<li class="memshuoming">
+					<input type="text" name="Sum" id="Sum" value="" placeholder="请输入充值金额(金额不能小于10元)" />
+				</li>
+				
+				<li class="payli">
+					<p id="" class="wxpay" style="">微信充值</p>
+					<p id="nextpay" class="zhifubaopay">支付宝充值</p>
+
+				</li>
+				
+				<a href="<{ofunc type=url link="/wxsite/paybangcard"}>"><li class="payli" style="margin-top:10px;">
+					<p id="" class="cardhaopay" style="width:100%;">使用充值卡进行充值</p>
+
+				</li></a>
+				
+				<li style="margin-top:40px;">
+				  <{load_data assign="list" table="adv"    fileds="*"  limit="1" where="advtype='paycardad'" }> 
+  				  <{foreach from=$list['list'] item=items}>
+				<a style="width:100%;" href="<{$items['linkurl']}>" ><img style="width:100%; height:135px;" <{ofunc type=img  link="<{$items['img']}>"}> /></a> 
+				  <{/foreach}>
+				</li>
+				
+  	 			</ul></section>
+
+  	 </div>
+  	 </div>
+
+	
+<script>
+	 
+
+	$('#nextpay').click(function(){
+		
+		
+		if( $('#Sum').val() == '' ){
+			Tmsg('充值金额不能小于10！');
+		} else{
+			var newlink = '<{ofunc type=url link="/wxsite/payonline/cost/@cost@"}>';
+			var showlink = newlink.replace('@cost@',$('#Sum').val());
+			//Sum
+			window.open(showlink);  
+		}
+		
+		
+	});
+ 
+</script>
+
+<{/block}>

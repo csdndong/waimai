@@ -1,0 +1,235 @@
+ <{extends file="<{$tempdir}>/public/shopcenter.html"}>
+<{block name=extendjs}>
+<script type="text/javascript" language="javascript" src="<{$siteurl}>/templates/<{$tempdir}>/public/js/artdialog/plugins/iframeTools.js"></script>
+<script src="<{$siteurl}>/templates/<{$tempdir}>/public/js/datepicker/WdatePicker.js" type="text/javascript" language="javascript"></script>
+
+<{/block}>
+ <{block name=bodylist}>
+        <div class="conWaiSet fr">
+            <div class="shopSetTop">
+            	<span><{if empty($cxinfo)}>添加<{else}>编辑<{/if}>促销规则列表</span>
+            </div>
+           <form id="loginForm" method="post" action="<{ofunc type=url link="/shopcenter/savecxrule/datatype/json"}>" >
+                 <div class="jutiSet">
+             <!---------------------促销类型开始----------------------->
+					<div class="serxuanze">
+                    	<div class="xuanze_left">
+                        	<span>促销类型：</span>
+                        </div>
+                        <div class="xuanze_right">
+                        	<select name="controltype" id="controltype" onchange="changetxt(this)" style="margin-top:10px;">
+								<option value="1"   selected >满赠活动</option>
+                                <option value="2"   <{if $cxinfo['controltype'] == 2}>selected<{/if}>>满减活动</option>
+                                <option value="3"   <{if $cxinfo['controltype'] == 3}>selected<{/if}>>折扣活动</option>
+                                <{if $sendtype == 1}> 							
+								<option value="4"   <{if $cxinfo['controltype'] == 4}>selected<{/if}>>免配送费</option>
+								<{/if}>								 
+						    </select>
+                        </div>
+                        <div class="cl"></div>
+                    </div>
+			 <!----------------------促销类型结束---------------------->
+			
+			 <!----------------------活动规则开始---------------------->
+                    <div class="serxuanze" style='height: fit-content;'>
+                    	<div class="xuanze_left">
+                        	<span>活动规则：</span>
+                        </div>
+				<!--------1满赠活动--------->
+                        <div class="xuanze_right action action_1" style='display:none' >
+                        	订单满 
+							<input type="text" style=" width:50px;margin-top:5px;height:30px;line-height:30px;" id="limitcontent_1" name="limitcontent_1" value="<{$cxinfo['limitcontent']}>" >
+							 元，赠送 
+							<input type="text" placeholder="请输入赠品名称及赠送数量" style=" width:200px;margin-top:5px;height:30px;line-height:30px;" id="presenttitle" name="presenttitle" value="<{$cxinfo['presenttitle']}>" >
+                        </div>						
+				<!--------2满赠活动--------->
+						<div class="xuanze_right action action_2" style='height:auto;display:none' >
+                        	
+						<{assign var=limitcontent value=","|explode:$cxinfo['limitcontent']}>
+					    <{assign var=controlcontent value=","|explode:$cxinfo['controlcontent']}>
+					 <{foreach from=$limitcontent key=keys item=items}>
+					      <{if $keys==0}>
+							订单满 <input type="text" style=" width:50px;margin-top:5px;height:30px;line-height:30px;" id="limitcontent_2" name="limitcontent_2[]" value="<{$items}>" >
+                             减 <input type="text" style=" width:50px;margin-top:5px;height:30px;line-height:30px;" id="controlcontent_2" name="controlcontent_2[]" value="<{$controlcontent[$keys]}>" ><span class='addmj' style="color: red;margin-left: 20px;">+添加规则</span>
+						  <{/if}>
+					 <{/foreach}>  
+					 <{foreach from=$limitcontent key=keys item=items}>
+					      <{if $keys > 0}>
+					         <span id="count_<{$keys}>"><br>订单满 <input type="text" style=" width:50px;margin-top:5px;height:30px;line-height:30px;" id="limitcontent_2" name="limitcontent_2[]" value="<{$items}>" >
+                             减 <input type="text" style=" width:50px;margin-top:5px;height:30px;line-height:30px;" id="controlcontent_2" name="controlcontent_2[]" value="<{$controlcontent[$keys]}>" ><span data="<{$keys}>" class="delmj" style="color:red; margin-left: 20px;">删除</span></span>
+				           <{/if}>
+					  <{/foreach}>
+							
+                        </div>
+				<!--------3折扣活动--------->				
+						<div class="xuanze_right action action_3"  style='display:none' >
+                        	订单满 
+							<input type="text" style=" width:50px;margin-top:5px;height:30px;line-height:30px;" id="limitcontent_3" name="limitcontent_3" value="<{$cxinfo['limitcontent']}>" >
+                            元，享受
+							<input type="text" style=" width:50px;margin-top:5px;height:30px;line-height:30px;" id="controlcontent_3" name="controlcontent_3" value="<{$cxinfo['controlcontent']}>" > 折优惠 
+                        </div>
+				<!--------4免配送费--------->				 
+						<div class="xuanze_right action action_4"  style='display:none' >
+                        	订单满 <input type="text" style=" width:50px;margin-top:5px;height:30px;line-height:30px;" id="limitcontent_4" name="limitcontent_4" value="<{$cxinfo['limitcontent']}>" >
+                            元，免基础配送费 （不包含附加配送费，减免的配送费全部由店铺自行承担）
+                        </div>			 
+						 
+                        <div class="cl"></div>
+                    </div>
+             <!----------------------活动规则结束---------------------->
+                    <div class="serxuanze">
+                    	<div class="xuanze_left">
+                        	<span>具体时间：</span>
+                        </div>
+                        <div class="xuanze_right">
+                        	<input type="radio" name="limittype" value="1" checked>不限制 
+                        	<input type="radio" name="limittype" value="2" <{if $cxinfo['limittype']==2}>checked<{/if}>>每周
+                        	<input type="radio" name="limittype" value="3" <{if $cxinfo['limittype']==3}>checked<{/if}>>自定义
+
+
+                        </div>
+                        <div class="cl"></div>
+                    </div>
+
+                     <div class="serxuanze" id="limittime1" style="display:none;">
+                    	<div class="xuanze_left">
+                        	<span>选择星期：</span>
+                        </div>
+                        <div class="xuanze_right">
+                        	<{assign var=mysign value=","|explode:$cxinfo['limittime']}>
+                        	<{assign var=signshu value="1"}>
+                          <{section name=loop  loop=7}>
+                  	          <input type="checkbox" name="limittime1[]" value="<{$signshu}>" <{if in_array($signshu,$mysign)}>checked<{/if}>> 星期<{if $signshu == 7}>天<{else}><{$signshu}><{/if}>
+                  	          <{$signshu=$signshu+1}>
+                         <{/section}>
+                        </div>
+                        <div class="cl"></div>
+                    </div>
+
+                    <div id="limittime2">
+
+
+                    	 
+                        	  	     <div class="serxuanze">
+                    	  <div class="xuanze_left">
+                        	<span>选择时间：</span>
+                        </div>
+                        <div class="xuanze_right">
+                        	从 <input class="Wdate datefmt" type="text" name="starttime" id="starttime" value="<{$cxinfo['starttime']|date_format:"%Y-%m-%d"}>"  onFocus="WdatePicker({isShowClear:false,readOnly:true});" />
+                        	至 <input class="Wdate datefmt" type="text" name="endtime" id="endtime" value="<{$cxinfo['endtime']|date_format:"%Y-%m-%d"}>"  onFocus="WdatePicker({isShowClear:false,readOnly:true});" />
+                        </div>
+                         <div class="cl"></div>
+                      </div>
+                        	  	    
+                    </div>
+                    <{if $cxinfo['status'] == 1 && $cxinfo['limittype'] < 3 ||($cxinfo['limittype']==3 && $cxinfo['endtime']>time() && $cxinfo['starttime']< time() ) }>
+                      <div class="serxuanze">
+                    	<div class="xuanze_left">
+                        	<span>是否撤销：</span>
+                        </div>
+                        <div class="xuanze_right">
+                        	<input type="radio" name="status" value="1" <{if $cxinfo['status'] == 1}> checked<{/if}>>否
+                        	<input type="radio" name="status" value="0" >是&nbsp;&nbsp;&nbsp;&nbsp;（活动撤销后将变为已结束状态，不可编辑，请谨慎操作）
+                        </div>
+                        <div class="cl"></div>
+                    </div>
+					<{else}>
+					     <input type="hidden" name="status" value="1" }>
+                    <{/if}>	
+
+                    
+                    <br><br>
+
+                   <input type="hidden" name="cxid" value="<{$cxinfo['id']}>">
+
+                  	 <div class="settijiao">
+
+                          <div class="xuanze_right hc_login_btn_div">保存</div>
+
+
+                        <div class="cl"></div>
+                    </div>
+
+
+       			 </div>
+       			 </form>
+
+
+
+        </div>
+        <div class="cl"></div>
+
+<script>
+    var mynomenu='basecx';
+	var type = <{$cxinfo['controltype']|default:0}>; 			
+	
+	if(type>0){	
+		$('.action').hide();
+		$('.action_'+type).show();
+	}else{	 
+		$('.action').hide();
+		$('.action_1').show();
+	}
+	 
+	
+	$('.addmj').live('click',function(){
+	    var mjcount = $(".delmj").length;
+		if(mjcount < 3){
+		    var mjhtml='<span id="count_'+mjcount+'"><br>订单满 <input type="text" style=" width:50px;margin-top:5px;height:30px;line-height:30px;" id="limitcontent_2" name="limitcontent_2[]" value="" > 减 <input type="text" style=" width:50px;margin-top:5px;height:30px;line-height:30px;" id="controlcontent_2" name="controlcontent_2[]" value="" ><span data="'+mjcount+'" class="delmj" style="color:red; margin-left: 20px;">删除</span></span>';   
+		$('.action_2').append(mjhtml);
+		}else{
+		    alert('最多只能添加4条满减规则');
+		    return false;
+		}		
+	})
+	$('.delmj').live('click',function(){
+	    var data = $(this).attr('data');		
+		$('#count_'+data).remove();
+	})
+
+ </script>
+
+
+<script type="text/javascript">
+	$(function(){
+		$("input[name='limittype']:checked").trigger("click");
+		$('#controltype').trigger('change');
+	});
+	
+	function removetime2(obj){
+		$(obj).parent().parent().remove();
+	}
+	$("input[name='limittype']").click(function(){
+		var dovalue = $(this).val();
+		if(dovalue ==  2){
+			 $('#limittime1').show();
+			 $('#limittime2').hide();
+		}else{
+			 if(dovalue == 3){
+			 $('#limittime1').hide();
+			  $('#limittime2').show();
+		}else{
+			 $('#limittime1').hide();
+			  $('#limittime2').hide();
+		  }
+		}
+	});
+	function changetxt(obj){
+		var controltype = $(obj).find("option:selected").val();
+		if(controltype == 4){
+		    $('.shopps').hide()
+			$('.platbili').hide()
+		}else{
+		    $('.shopps').show()
+			$('.platbili').show()
+		}
+		$('.action').hide();
+        $('.action_'+controltype).show();
+         	
+	}
+	$('.hc_login_btn_div').click(function(){		 
+	  subform('<{ofunc type=url link="/shopcenter/cxrule"}>',$('#loginForm'));
+	});
+
+</script>
+<{/block}>

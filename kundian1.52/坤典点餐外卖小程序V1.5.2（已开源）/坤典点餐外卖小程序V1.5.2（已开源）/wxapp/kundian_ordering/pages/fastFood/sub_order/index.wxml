@@ -1,0 +1,63 @@
+<view class="has-fast-food top-sel">
+    <text class="text-fast"> 是否打包：</text>
+    <switch bindchange="isPackage"></switch>
+</view>
+<form bindsubmit="formSubmit">
+    <view class="order-ul">
+        <view class="ul-top">
+            <image src="{{aboutData.logo_img}}"></image>
+            <text>{{aboutData.merchant_name}}</text>
+        </view>
+        <view class="ul">
+            <view class="ul-li" wx:for="{{cartData}}" wx:for-item="val">
+                <view class="li-left">
+                    <image src="{{val.cover}}"></image>
+                </view>
+                <view class="li-center">
+                    <text class="name">{{val.product_name}}</text>
+                    <text class="count">X {{val.selectNum}}</text>
+                </view>
+                <view class="li-right">
+                    <text class="price">￥{{val.price}}</text>
+                    <text class="old-price" wx:if="{{val.old_price-0}}">￥{{val.old_price}}</text>
+                    <text class="old-price" wx:else>￥{{val.price}}</text>
+                </view>
+            </view>
+        </view>
+        <view class="peisong-money" wx:if="{{isPackage}}">
+            <text class="title">打包费</text>
+            <text class="value">￥{{aboutData['package_price']}}</text>
+        </view>
+        <view class="sel-token">
+            <view class="section">
+                <view class="section_title">支付方式</view>
+                <picker bindchange="bindPickerChange" range="{{array}}" value="{{index}}">
+                    <view class="picker">
+            {{array[index]}}
+          </view>
+                </picker>
+            </view>
+            <image class="time-jiantou" src="../../../img/right.png"></image>
+        </view>
+        <view class="clear"></view>
+        <view class="total">
+            <text class="total-price" wx:if="{{isPackage}}">￥{{filters.toFix(totalPrice+aboutData.package_price-0)}}</text>
+            <text class="total-price" wx:else>￥{{totalPrice}}</text>
+            <text>共计：</text>
+        </view>
+        <view class="remark">
+            <input name="remark" placeholder="备注"></input>
+        </view>
+    </view>
+    <view class="footer">
+        <view class="left">
+            <text>待支付:</text>
+            <text class="dai-price" wx:if="{{isPackage}}">￥{{filters.toFix(totalPrice+aboutData.package_price-0)}}</text>
+            <text class="dai-price" wx:else>￥{{totalPrice}}</text>
+        </view>
+        <view class="right">
+            <button formType="submit">提交订单</button>
+        </view>
+    </view>
+</form>
+<wxs module="filters" src="addmul.wxs" />

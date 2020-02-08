@@ -1,0 +1,1036 @@
+<link rel="stylesheet" href="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/newcss/loadindexcontentcss.css" />
+<!----------------------红包优惠券开始---------------------->
+<{if !empty($juaninfo)}>
+<div class="bagcoupons_content"  >
+	<div class="bagcoupons_box">
+		<div class="bagcoupons_main">
+			<div class="bagcoupons_head">
+				<img   <{ofunc type=img  link="<{$jntimg}>"}>   />
+			</div>
+			<div class="bagcoupons_list" style='background:<{$jntcolor}>!important;'>
+				<ul>
+				   <{foreach from=$juaninfo key=keys item=items}>
+					<li>
+						<div class="bagcoupons_list_left">
+							<h3>
+							     <{if $items['spotordtype'] == '1,2,3' || $items['spotordtype'] == ''}>全场通用
+								 <{elseif $items['spotordtype'] == '1' }>外卖频道下单专享
+								 <{elseif $items['spotordtype'] == '2' }>超市频道下单专享 
+								 <{elseif $items['spotordtype'] == '3' }>跑腿频道下单专享
+								 <{elseif $items['spotordtype'] == '1,2' }>外卖、超市频道下单专享
+								 <{elseif $items['spotordtype'] == '1,3' }>外卖、跑腿频道下单专享
+								 <{elseif $items['spotordtype'] == '2,3' }>超市、跑腿频道下单专享
+								 <{else}>后台群发优惠券
+								 <{/if}>
+							</h3>
+							<p>有效期至<{$items['endtime']|date_format:"%Y-%m-%d"}></p>
+						</div>
+						<div class="bagcoupons_list_line">
+							<img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/bagcoupons_line.png" />
+						</div>
+						<div class="bagcoupons_list_right">
+							<h4>&yen;<{$items['cost']}></h4>
+							<small>满<{$items['limitcost']}>使用</small>
+						</div>
+					</li>
+					<{/foreach}>	 
+				</ul>
+			</div>
+			<div class="bagcoupons_close" onclick='closejuan();'>
+				<img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/images/bagcoupons_close.png" />
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+function closejuan(){    
+	var url = siteurl+'/index.php?ctrl=wxsite&action=closejuan&datatype=json&random=@random@';   
+	$.ajax({ 
+		dataType: "json",  
+		url: url.replace('@random@', 1+Math.round(Math.random()*1000)),  
+		success: function(content) {    
+			if(content.error == false){  
+				 $('.bagcoupons_content').hide();
+			} 
+		}, 		 
+	}); 
+}
+</script>
+<{/if}>
+<!----------------------红包优惠券结束---------------------->
+<style>
+#index_cart{position: relative;right: 0px;padding-bottom: 10px;}
+.fixed{position: fixed;bottom: 75px;right: 5px;z-index: 999999999999;}
+#index_cart div{width: 13px;height: 13px;background: red;font-size: 10px;line-height: 13px;text-align: center;color: #fff;border-radius: 20px;position: absolute;right: 0;}
+.fixed img{width:40px;height:40px;}
+.wxkefu_showino{display:none;}
+#wx_closed{position:absolute;z-index:999999999999999;top:30px;right:30px;}
+#wxkefu_showino{position:absolute;z-index:999999999999999;left:50%;margin-left:-100px;top:50%;margin-top:-172px;}
+#wxkefu_showino p{font-size:16px; color:#FFF;height:35px;line-height:35px;}
+#wx-zhezhao {background: none repeat scroll 0 0 #000000;	 opacity: 0.7;filter: alpha(opacity=70);position: fixed;width: 100%;height: 100%;z-index: 99999099;left: 0px;top: 0px;}
+ 
+</style>
+<div class='fixed'>
+	<div id="index_cart"  onclick="dolink('<{ofunc type=url link="/wxsite/index_cart"}>');" >
+		<{if $cart_count > 0}><div><{$cart_count}></div><{/if}>
+		<img src="<{$siteurl}>/templates/m7/public/images/index_cart.png"    />
+	</div>
+	<{if !empty($platpssetinfo) && $platpssetinfo['wxkefu_open']  == 1 }> 
+	<div id="wx_kefu" >
+		<img  <{ofunc type=img  link="<{$platpssetinfo['wxkefu_logo']|default:'/upload/images/weixin_icon.png'}>"}>    />
+	</div>
+	 
+</div>
+<div class="wxkefu_showino">
+	<div id="wx_closed"><img style="width:35px;height:35px;"  <{ofunc type=img  link="/upload/images/wx_closed.png"}> /></div> 
+	<div id="wxkefu_showino" style="text-align:center;">
+		<p style="height:200px;"><img style="width:200px;height:200px;"     <{ofunc type=img  link="<{$platpssetinfo['wxkefu_ewm']}>"}>    /></p>
+		<p style="margin-top:5px;">长按上方二维码添加好友</p>
+		<{if !empty($platpssetinfo['wxkefu_phone'])}>
+			<p>或者拨打电话直接联系我们</p>
+			<p style="height:65px;margin-top:5px;"><a href="tel:<{$platpssetinfo['wxkefu_phone']}>" ><img style="width:65px;height:65px;" <{ofunc type=img  link="/upload/images/wx_phone.png"}> /></a></p>
+		<{/if}>
+	</div>
+	<div id="wx-zhezhao"></div>
+</div>
+<script>
+$(function(){
+	$('#wx_kefu').bind('click',function(event){
+ 		$('.wxkefu_showino').show();
+		unScroll();
+	});
+	$('#wx_closed').bind('click',function(){
+ 		$('.wxkefu_showino').hide();
+		removeUnScroll();
+	});
+	
+	
+function unScroll(event) {
+document.body.style.overflow='hidden'; 
+}
+function removeUnScroll() {
+   document.body.style.overflow='auto';
+}	
+});
+</script>
+<{else}> 
+</div>
+<{/if}> 
+<div id="dev_wrapper"  style="  display:;width:100%;  overflow-x:hidden; overflow-y:scroll;"> 
+<div id="dev_scroller"  > 
+<div  class=" " >
+<div class=" "> 
+<{load_data assign="advlist" table="adv"    fileds="*" orderby="sort asc" limit="5" where="advtype='weixinlb' and  module='<{$sitetemp}>'  and is_show = 1  and cityid='<{$CITY_ID}>'   " }>
+<{if !empty($advlist['list']) }>
+
+	 
+        <div class="device" style="padding-top:10px;padding-left:4px">
+			<div class="swiper-container-lb swiper-container-lb3" style="position: relative;">
+				<div class="swiper-wrapper-lb swiper-wrapper-lb3">
+					<{foreach from=$advlist['list'] item=items}>
+					<div class="swiper-slide-lb swiper-slide-lb3">
+						<a href="<{$items['linkurl']}>" target="_top">
+						    <img class='xximg' <{ofunc type=img  link="<{$items['img']}>"}>style="height:100px;margin-left:7px;" alt="">
+						</a>
+					</div>
+					<{/foreach}>
+				</div>
+				<div class="pagination2 pagination" style='bottom: 15px;'></div>
+			</div>
+ 				 
+ 		</div>
+		<script>
+		   var cnum1 = '<{count($advlist["list"])}>';
+			if(cnum1 > 1){
+				flag1 = true;
+			}else{
+				flag1 = false;
+			} 
+			var mySwiper3 = new Swiper('.swiper-container-lb3',{
+				wrapperClass:'swiper-wrapper-lb3',
+				slideClass:'swiper-slide-lb3',
+				pagination: '.pagination2',
+				loop:flag1,
+				autoplay: 3000,
+				mode : 'horizontal', // or 'vertical'
+				grabCursor: true,
+				paginationClickable: true
+			});
+			$(function(){
+				var mainheight = $(window).height();//窗口高度
+				var mainwidth = $(window).width();//窗口宽度
+				$('.swiper-container-lb3,.swiper-slide-lb3,.swiper-slide-lb3').css('width',mainwidth+'px');
+				$('.swiper-slide-lb3 img').css('width',mainwidth-22+'px');
+				mySwiper3.reInit();
+				mySwiper3.swipeTo(0);
+			});
+		</script>
+     
+ 
+    <script>
+	    w = $(window).width();
+		sw = (w-24)*5/17;
+	    $('.xximg').css('height',sw+'px');
+		$('.imgsss').css('height',sw+'px');	
+	</script>
+
+<{else}>
+    <div style="height:33px;"></div>
+<{/if}>
+
+	<{if !empty($moretypelist) }>
+	<!--分类部分-->
+	<div class="categoryContainer" style="padding:0;">
+		<div class="swiper-container swiper-container-class" style='padding-top:0px; <{if $flinfo["is_show"] == 1 && !empty($flinfo["imgurl"])}>background-image: url(<{$flinfo["imgurl"]}>);background-repeat: no-repeat;background-size: 100% 100%;<{/if}>'>
+			<div class="swiper-wrapper-cate"  >
+				<{foreach from=$moretypelist key=keys item=items}>
+				<{if $keys%10 ==0}>
+				<div class="swiper-slide-cate" style=' '>
+					<ul>
+						<{/if}>
+						<li style="height:78px;">
+						<a <{if  $items['ajaxflag'] != 1 }> data-ajax="false" <{/if}>  href="<{$items['catelink']}>"   data-transition="slide" target="_top" >
+						<p><img  <{ofunc type=img  link="<{$items['img']}>"}>  style="width:44px;height:44px;"   class="category_img"></p>
+						<p style="margin-top:-5px;"><span style="height:22px;line-height:22px;color:<{$flinfo['color']|default:'#000'}>"><{$items['name']}></span> </p>
+						</a>
+						</li>
+						<{if $keys%10 == 9}>
+					</ul>
+				</div>
+				<{/if}>
+				<{/foreach}>
+				<{if $keys%10 != 9}>
+				</ul>
+			</div>
+			<{/if}>
+		</div>
+		<div class="pagination-class" style="<{if count($moretypelist) <= 8 }>display:none;<{/if}>text-align:center;position:absolute;width:100%;bottom:2px;"></div>
+	</div>
+            <script>
+        var mySwipers = new Swiper('.swiper-container-class',{
+            wrapperClass:'swiper-wrapper-cate',
+            slideClass:'swiper-slide-cate',
+            pagination: '.pagination-class',
+            grabCursor: true,
+            paginationClickable: true
+        });
+        $(function(){
+            var mainheight = $(window).height();//窗口高度
+            var mainwidth = $(window).width();//窗口宽度
+            $('.swiper-container-class,.swiper-slide,.swiper-slide').css('width',mainwidth+'px');
+            mySwipers.reInit();
+            mySwipers.swipeTo(0);
+			<{if count($moretypelist)>8}>
+				$('.swiper-wrapper-cate').css('height','165px');
+				$('.swiper-slide-cate').css('height','165px');
+			<{/if}>
+        });
+    </script>
+<{/if}>
+<{if $flxinfo['is_show'] == 1}>
+	<{if $flxinfo['is_gourl'] == 1 && !empty($flxinfo['gourl'])}>
+	    <a href="<{$flxinfo['gourl']}>" target="_top"><img <{ofunc type=img  link="<{$flxinfo['imgurl']}>"}>   alt="" id='flximg' style="width:100%;height:200px"></a> 
+	<{else}>	
+ 		<img  <{ofunc type=img  link="<{$flxinfo['imgurl']}>"}>   id='flximg' style="width:100%;height:200px">
+	<{/if}>
+<script>
+$(function(){
+	var flximgW = $(window).width();//窗口宽度
+	var flximgH = flximgW*3/5;
+    $('#flximg').css('height',flximgH); 
+})
+</script>		
+<{/if}>
+<!-- 通知 -->
+<{load_data assign="notice" table="information"  type="one"  fileds="*"  limit="1" where="type=1 and ( cityid = '<{$CITY_ID}>' or cityid = 0  )  "  orderby="addtime desc"  }> 
+<{if !empty($notice) }>
+<a href="<{ofunc type=url link="/wxsite/noticelist"}>"   data-transition="slide"  >
+
+<div class="ordisprompt" style="background:#fff;display:none; " >
+ <ul style='padding-bottom: 7px;padding-top: 7px;border-top: 1px solid #ebebeb;margin-top:<{if $is_showflximg == 1}>4px<{else}> 8px;<{/if}>'>
+  <li class="noticeText" style="width:24px!important;margin-left:-5px;"><img src="/templates/<{$tempdir}>/public/wxsite/images/icon_lb04.png" alt="" style="width:78%;"></li>
+  <li id="gonggaoshow" style="margin-left:5px; float:left;  ">
+  <div id="marqueenotice"     style="display:none;">
+  <marquee align="middle" behavior="scroll" loop="-1" scrollamount="4" width="100%"    direction="left"    ><{$notice['title']}></marquee>
+  </div>
+  <div id="notice" style="text-align:left;"    ><{$notice['title']}></div>
+  </li>
+ </ul>
+
+</div>
+</a>
+ 
+<script>
+$(function(){
+	$(".ordisprompt").show();
+	var getscreenwidth = $(window).width();
+	var gongdongWidth = getscreenwidth-67;
+	$("#gonggaoshow").css('width',gongdongWidth-10+'px');
+	var gonggaoshow = Number($("#notice").text().length)*16;
+	var screenwidth = document.body.clientWidth-20;
+	if( gonggaoshow >= screenwidth ){
+		$("#marqueenotice").show();
+		$("#notice").hide();
+	}else{
+		$("#marqueenotice").hide();
+		$("#notice").show();
+	}
+});
+</script>
+<{/if}>
+
+</div>
+
+<!--未登录情况下注册送红包-->
+<{if empty($uid) && !empty(<{$regimg}> )}>
+<div style='width: 100%;padding: 0 2% 5px;background: #fff;'>
+    <img onclick="dolink('<{ofunc type=url link="/wxsite/reg"}>');"   <{ofunc type=img  link="<{$regimg}>"}>    alt="" style="width:96%;height:70px;">
+</div>
+<{/if}>
+<div style='height:10px;width:100%;'></div>
+<!-- 专题页 -->
+<div class="advertisement" style='margin-top:0'>
+	<{if $ztymode['type']==1}>
+	<ul id="zty_style1">
+		<{foreach from=$ztylist key=key item=items}>
+		<li onclick="dolink('<{ofunc type=url link="/wxsite/specialpage/id/<{$items['id']}>"}>');"  ><img  <{ofunc type=img  link="<{$items['indeximg']}>"}>   ></li>
+		<{/foreach}>
+	</ul>
+	<{/if}>
+	<{if $ztymode['type']==2}>
+	<ul id="zty_style2">
+		<{foreach from=$ztylist key=key item=items}>
+		<li onclick="dolink('<{ofunc type=url link="/wxsite/specialpage/id/<{$items['id']}>"}>');"  ><img  <{ofunc type=img  link="<{$items['indeximg']}>"}>  ></li>
+		<{/foreach}>
+	</ul>
+	<{/if}>
+	<{if $ztymode['type']==3}>
+	<ul id="zty_style3" >
+		<{foreach from=$ztylist key=key item=items}>
+		<li onclick="dolink('<{ofunc type=url link="/wxsite/specialpage/id/<{$items['id']}>"}>');"  ><img   <{ofunc type=img  link="<{$items['indeximg']}>"}>  ></li>
+		<{/foreach}>
+	</ul>
+	<{/if}>
+</div>
+<{load_data assign="advlist2" table="adv"  orderby="sort asc"  fileds="*"  limit="5" where="advtype='weixinlb2' and  module='<{$sitetemp}>'  and is_show=1  and cityid='<{$CITY_ID}>'  " }>
+<{if !empty($advlist2['list']) }>
+
+	<{if count($advlist2['list']) > 1}> 
+
+			<div class="device" style="padding-left:4px">
+			<div class="swiper-container-lb swiper-container-lb2" style="position: relative;">
+				<div class="swiper-wrapper-lb swiper-wrapper-lb2">
+					<{foreach from=$advlist2['list'] item=items}>
+					<div class="swiper-slide-lb swiper-slide-lb2"><a href="<{$items['linkurl']}>" target="_top"><img <{ofunc type=img  link="<{$items['img']}>"}>style="height:114px;margin-left:7px;" alt="" class='imgsss'></a></div>
+					<{/foreach}>
+				</div>
+				<div class="pagination2 pagination"></div>
+			</div>
+ 				 
+ 		</div>
+		<script>
+		   var cnum1 = '<{count($advlist2["list"])}>';
+			if(cnum1 > 1){
+				flag1 = true;
+			}else{
+				flag1 = false;
+			} 
+			var mySwiper2 = new Swiper('.swiper-container-lb2',{
+				wrapperClass:'swiper-wrapper-lb2',
+				slideClass:'swiper-slide-lb2',
+				pagination: '.pagination2',
+				loop:flag1,
+				autoplay: 3000,
+				mode : 'horizontal', // or 'vertical'
+				grabCursor: true,
+				paginationClickable: true
+			});
+			$(function(){
+				var mainheight = $(window).height();//窗口高度
+				var mainwidth = $(window).width();//窗口宽度
+				$('.swiper-container-lb2,.swiper-slide-lb2,.swiper-slide-lb2').css('width',mainwidth+'px');
+				$('.swiper-slide-lb2 img').css('width',mainwidth-22+'px');
+				mySwiper2.reInit();
+				mySwiper2.swipeTo(0);
+			});
+		</script>
+	<{else}>
+<div class="device" style="padding-bottom:6px;">
+		<div   style="position: relative;">
+			<div  >
+				<{foreach from=$advlist2['list'] item=items}>
+				<div  ><a href="<{$items['linkurl']}>" target="_top"><img   <{ofunc type=img  link="<{$items['img']}>"}>  style="height:114px;margin-left:2%;width:96%" alt=""></a></div>
+				<{/foreach}>
+			</div>
+		</div>
+		 
+	</div>
+	 
+
+	<{/if}>
+	
+<{/if}>
+
+<{if !empty($fyshoplist) && !empty($advlist2['list']) && !empty($ztylist) }>
+    <div style="height:10px;"></div>
+<{/if}>
+
+	<!-- 优选商家开始 -->
+<{if !empty($fyshoplist) }>
+<div class="foryou_content">
+	<div class="foryou_title">
+		<h3 style="font-size:16px;font-weight:bold;">为您优选</h3>
+		<i></i>
+	</div>
+	<div class="foryou_list">
+		<ul>
+			<{foreach from=$fyshoplist item=items }>
+			<li>
+			<{if $items['shoptype']  == 1 }>
+				<a href="<{ofunc type=url link="/wxsite/shopshow/typelx/mk/id/<{$items['id']}>"}>"  target="_top" >
+			<{else}>
+				<a href="<{ofunc type=url link="/wxsite/shopshow/typelx/wm/id/<{$items['id']}>"}>"  target="_top" >
+			<{/if}>
+				<img  <{ofunc type=img  link="<{$items['shoplogo']}>"}>  />
+				<span style="font-size:14px;display:block"><{$items['shopname']}></span>
+				</a>
+			</li>
+			<{/foreach}>
+		</ul>
+	</div>
+</div>
+<{/if}>
+<!-- 优选商家结束 -->
+
+<script> 
+    var can_show = true;
+    var page = 1;
+    var catid = <{$typeid|default:0}>;
+    var order = 0;
+    var qsjid = 0;
+	var sendtype = 0;
+	var cxtype = 0;
+	var isxl = 0;
+	var juli = 0;
+    var typeid = <{$typeid|default:0}>;
+    var search_input = '<{$search_input|default:' '}>';
+/*=====================选择排序=======================*/
+        $('#zhpx li').bind('click',function(){
+			showLoading();
+            $(this).addClass('navaA').siblings().removeClass('navaA');
+			$('.paixu').removeClass('navaA');
+            $('#zhpx').hide();	
+            $('#shade_html').hide();
+            $("#dev_wrapper").css("overflow-y","scroll");			
+			$('.paixu').html($(this).attr('catename')+'<i class="fa fa-caret-down"></i>');	
+			var sd = $("#miaodian").offset();
+	        $("#dev_wrapper").scrollTop(Number($("#dev_wrapper").scrollTop())+Number(sd.top)-36);
+            order = $(this).attr('orderid'); // 0综合排序 1好评优先 2起送价最低                     
+			page = 1;
+            freshpage();
+            //defaultSwiper.refresh();
+        });
+
+		/*=======================销量最高========================*/
+		  $('.xiao').bind('click',function(){
+			showLoading();
+		  	var sd = $("#miaodian").offset();
+	        $("#dev_wrapper").scrollTop(Number($("#dev_wrapper").scrollTop())+Number(sd.top)-36);
+			  if($('.xiao').hasClass('navaA')){
+				 $('.xiao').removeClass('navaA');                  			 
+			  }else{
+				 $('.xiao').addClass('navaA'); 
+                 $('.allshop').removeClass('navaA');
+				 $('.shoptype').hide(); 
+				 $('.allshop i').addClass('fa-caret-down');
+				 $('.allshop i').removeClass('fa-caret-up');
+				 $('.shaixuan').removeClass('navaA');
+				 $('.wmr_listfilter_listTow').hide(); 
+				 $('.allshop').removeClass('navaA');  
+				 $('.zhpx').hide(); 
+				 $('.paixu i').addClass('fa-caret-down');
+				 $('.paixu i').removeClass('fa-caret-up');
+				 $('.paixu').removeClass('navaA'); 
+				 $('.juli').removeClass('navaA');
+                 order = 3; 				 
+			  }	
+            	$('#shade_html').hide();  
+            page = 1;
+            
+            freshpage();  
+		  })
+		  /*=======================距离最近========================*/
+		  $('.juli').bind('click',function(){
+		  showLoading();
+		  	var sd = $("#miaodian").offset();
+	        $("#dev_wrapper").scrollTop(Number($("#dev_wrapper").scrollTop())+Number(sd.top)-36);
+			  if($('.juli').hasClass('navaA')){
+				 $('.juli').removeClass('navaA');                  			 
+			  }else{
+				 $('.juli').addClass('navaA'); 
+                 $('.allshop').removeClass('navaA');
+				 $('.shoptype').hide(); 
+				 $('.allshop i').addClass('fa-caret-down');
+				 $('.allshop i').removeClass('fa-caret-up');
+				 $('.shaixuan').removeClass('navaA');
+				 $('.wmr_listfilter_listTow').hide(); 
+				 $('.allshop').removeClass('navaA');  
+				 $('.zhpx').hide(); 
+				 $('.paixu i').addClass('fa-caret-down');
+				 $('.paixu i').removeClass('fa-caret-up');
+				 $('.paixu').removeClass('navaA'); 
+				 $('.xiao').removeClass('navaA');
+				 $('.oversx').removeClass('navaA');
+                 order = 4; 				 
+			  }	
+            	$('#shade_html').hide();  
+            page = 1;
+            
+            freshpage();  
+		  })
+		/*=======================筛选=========================*/  
+		  $('.oversx').bind('click',function(){
+		  showLoading();
+			  $('.wmr_listfilter_listTow').hide();	
+			  $('.shaixuan').removeClass('navaA');
+			  $('.xiao').removeClass('navaA'); 
+			  $('.juli').removeClass('navaA');
+              $("#shade_html").hide();
+			  $("#dev_wrapper").css("overflow-y","scroll");
+			  var sd = $("#miaodian").offset();
+	        $("#dev_wrapper").scrollTop(Number($("#dev_wrapper").scrollTop())+Number(sd.top)-36);
+              sendtype = $('#sendtype li.navaA').attr('data');
+			  //console.log(sendtype);return false;
+		      cxtype = $('#yhhd li.navaA').attr('data');
+			  page = 1; 
+              freshpage();			  
+              
+		  })
+
+		function freshpage(){//刷新函数
+		showLoading();
+        page =1;
+        pageend = false; 
+		var ajaxurl = '<{ofunc type=url link="/wxsite/indexshoplistdata"}>'; 
+				$.ajax({
+				   type: 'POST',
+				   async:true,
+				   url: ajaxurl,
+				   data: {'typelx':'<{$typelx|default:0}>','areaid':'<{$areaid|default:0}>','search_input':search_input,'order':order,'qsjid':qsjid,'isxl':isxl,'juli':juli,'sendtype':sendtype,'cxtype':cxtype,'page':page},
+				   dataType: 'html',success: function(content){
+						  $('#shoplist').html('');
+						  $('#shoplist').append(content);
+						  $('#shoplist').append('<div id="maodian89"></div>');
+							if($.trim(content) == ''){
+							    content = '<center class="loadingtext"><div style="color:#ccc;height:42px;line-height:42px;font-size:13px; text-align: center;">没有符合条件的商家~~</div> </center> ';
+		                        $('#shoplist').append(content); 
+								$("#lodingmore").show();
+								$('#lodingmore .moreLoading i').addClass('iconOverload');
+								$('.emptyshop').css('display','block');
+								$("#lodingmore span").text("没有符合条件的商家~~");
+								 
+							}
+							newhideLoading();
+						// refreshSwiper();
+				  },
+				  error: function(content){
+						 Tmsg('获取失败...');
+						 newhideLoading();
+				   }
+				  }); 
+		
+        $('#loading').hide();
+       // hidefresh();
+        //setTimeout("hidefresh()",50);
+    }
+	function freshpagemore(){//刷新函数
+		showLoading();
+        page = page + 1;
+        pageend = false; 
+		var ajaxurl = '<{ofunc type=url link="/wxsite/indexshoplistdata"}>'; 
+				$.ajax({
+				   type: 'POST',
+				   async:true,
+				   url: ajaxurl,
+				   data: {'typelx':'<{$typelx|default:0}>','areaid':'<{$areaid|default:0}>','search_input':search_input,'order':order,'qsjid':qsjid,'isxl':isxl,'juli':juli,'sendtype':sendtype,'cxtype':cxtype,'page':page},
+				   dataType: 'html',success: function(content){
+						  $('.loadingtext').remove();
+						  $('.loadingtext div').text('加载完毕');
+						  $('#shoplist').append(content);
+						  $('#shoplist').append('<div id="maodian89"></div>');
+							if($.trim(content) == ''){
+								$("#maodian89").remove();								
+								$("#lodingmore").show();
+								content = '<center class="loadingtext"><div style="color:#ccc;height:42px;line-height:42px;font-size:13px; text-align: center;">—————  我也是有底线的  —————</div> </center> ';
+		                        $('#shoplist').append(content); 
+								$('#lodingmore .moreLoading i').addClass('iconOverload');
+								$('.emptyshop').css('display','block');
+								$("#lodingmore span").text("没有符合条件的商家~~");
+								
+							}
+							newhideLoading();
+						// refreshSwiper();
+				  },
+				  error: function(content){
+						 Tmsg('获取失败...');
+						 newhideLoading();
+				   	  }
+				  }); 
+		
+        $('#loading').hide();
+    }
+
+ $(function(){
+
+  $('.paixu').bind('click',function(){
+
+  		var sd = $("#miaodian").offset();
+		var xx = $(".wmr_listfilter_content").offset();
+
+
+      if($('.paixu').hasClass('navaA')){
+	     $('.paixu').removeClass('navaA');
+		 $('.zhpx').hide();
+		 $('#shade_html').hide();
+         $('.paixu i').addClass('fa-caret-down');
+		 $('.paixu i').removeClass('fa-caret-up');
+
+	  }else{
+	     $('.paixu').addClass('navaA');
+		 $('.zhpx').show();
+		 $('#shade_html').show();
+		 $('.wmr_listfilter_box').show();
+		 $('.paixu i').removeClass('fa-caret-down');
+		 $('.paixu i').addClass('fa-caret-up');
+		 $('.allshop').removeClass('navaA');
+		 $('.shoptype').hide();
+         $('.allshop i').addClass('fa-caret-down');
+		 $('.allshop i').removeClass('fa-caret-up');
+		 $('.shaixuan').removeClass('navaA');
+		 $('.wmr_listfilter_listTow').hide();
+		 $('.allshop').removeClass('navaA');
+		 $('.xiao').removeClass('navaA');
+		 $('.juli').removeClass('navaA');
+
+	  }
+	  if(xx.top > 36){
+		  $("#dev_wrapper").scrollTop(Number($("#dev_wrapper").scrollTop())+Number(sd.top)-36);
+		  $("#dev_wrapper").css("overflow-y","hidden");
+	  }
+
+	  if($('.paixu').hasClass('navaA')){
+		  $("#dev_wrapper").css("overflow-y","hidden");
+	  }else{
+		  $("#dev_wrapper").css("overflow-y","scroll");
+	  }
+  })   
+	
+  $('.shaixuan').bind('click',function(){
+
+	  $("#dev_wrapper").scrollTop(3000);
+
+  		var sd = $("#miaodian").offset();
+		var xx = $(".wmr_listfilter_content").offset();
+
+      if($('.shaixuan').hasClass('navaA')){
+	     $('.shaixuan').removeClass('navaA');
+		 $('.wmr_listfilter_listTow').hide();
+		 $('#shade_html').hide();
+	  }else{
+	     $('.shaixuan').addClass('navaA');
+		 $('.wmr_listfilter_listTow').show();
+		 $('.wmr_listfilter_box').show();
+         $('.allshop').removeClass('navaA');
+		 $('.shoptype').hide();
+		 $('#shade_html').show();
+         $('.allshop i').addClass('fa-caret-down');
+		 $('.allshop i').removeClass('fa-caret-up');
+		 $('.zhpx').hide();
+         $('.paixu i').addClass('fa-caret-down');
+		 $('.paixu i').removeClass('fa-caret-up');
+		 $('.paixu').removeClass('navaA');
+		 $('.xiao').removeClass('navaA');
+		 $('.juli').removeClass('navaA');
+	  }
+
+	  if(xx.top > 36){
+		  $("#dev_wrapper").scrollTop(Number($("#dev_wrapper").scrollTop())+Number(sd.top)-36);
+		  $("#dev_wrapper").css("overflow-y","hidden");
+	  }
+	  if($('.shaixuan').hasClass('navaA')){
+		  $("#dev_wrapper").css("overflow-y","hidden");
+	  }else{
+		  $("#dev_wrapper").css("overflow-y","scroll");
+	  }
+  }) 
+  
+  $('#sendtype li').bind('click',function(){
+  		
+     if($(this).hasClass('navaA')){
+		$(this).removeClass('navaA');
+	  }else{
+		$(this).addClass('navaA').siblings().removeClass('navaA');
+	  }
+  })
+  $('#yhhd li').bind('click',function(){
+  	
+     if($(this).hasClass('navaA')){
+		$(this).removeClass('navaA');
+	  }else{
+		$(this).addClass('navaA').siblings().removeClass('navaA');
+	  }
+  })
+  $('.clearsx').bind('click',function(){
+  		
+      $('#yhhd li').removeClass('navaA'); 
+	  $('#sendtype li').removeClass('navaA'); 
+	  $('.shaixuan').removeClass('navaA'); 	   
+	   
+  })
+	 
+	var wheight = $(window).height();
+
+	$("#shade_html").height(wheight+'px');
+})
+
+
+	$("#dev_wrapper").scroll(function(){
+
+		//窗口高度
+		widowH = $(window).height();
+		//底部导航高度
+		bottomH = $('.bottom-bar-warp').height();
+		//当前面10个店铺加载完之后锚点滑动到底部导航上面的时候  开始执行相应的分页加载操作
+		//此时锚点距离窗口最顶端的距离为
+		flagH = widowH - bottomH;
+		if(document.getElementById("maodian89")){
+			var maodian89 = $("#maodian89").offset();
+			console.log(maodian89.top);
+			console.log(flagH);
+			//当滑动到锚点刚过底部导航顶部的时候   进行
+			if(maodian89.top < flagH+7){
+				$("#maodian89").remove();
+				content = '<center class="loadingtext"><div style="color:#ccc;height:42px;line-height:42px;font-size:13px; text-align: center;">加载中...</div> </center> ';
+				$('#shoplist').append(content);
+				setTimeout(freshpagemore(),5000);
+			}
+        }
+		var thistimeout       
+		$(".fixed").animate({right:'-20px'}, 200);		 
+		clearTimeout(thistimeout);
+		thistimeout = setTimeout("changgeposition()",200);
+
+		
+	})
+
+	$('#shade_html').bind('click',function(){
+		$('.paixu').removeClass('navaA');
+		$('.paixu i').removeClass('fa-caret-up');
+		$('.paixu i').addClass('fa-caret-down');
+		$('.xiao').removeClass('navaA');
+		$('.juli').removeClass('navaA');
+		$('.shaixuan').removeClass('navaA');
+        $('#shade_html').hide();
+        $('.wmr_listfilter_box').hide();
+        $("#dev_wrapper").css("overflow-y","scroll");
+         
+    });
+    function changgeposition(){
+	    $(".fixed").stop(true);		 
+		$(".fixed").animate({right:'5px'}, 200);		 
+	}
+
+
+</script>
+<div class="homscrbusinCon" style='margin-bottom:40px'>
+  
+ <div class="foryou_title" style='height:18px;line-height: 18px;padding: 10px 0 0 0;'>
+	<h3 style="font-size:16px;font-weight:bold;">附近商家</h3>
+	<i style='top:70%'></i>
+</div>
+ 
+ <div id="miaodian"></div>
+ <div class="wmr_listfilter_content" style="position:sticky;position: -webkit-sticky;position: -moz-sticky;position: -ms-sticky;top:-1px;z-index:99;">
+	<div class="wmr_listfilter_tit">
+		<ul>
+			<li class="paixu">综合排序<i class="fa fa-caret-down"></i></li>
+			<li class='xiao'>销量最高</li>
+			<li class='juli'>距离最近</li>
+			<li class='shaixuan'>筛选<i class="fa fa-filter"></i></li>
+		</ul>
+	</div>
+	<div id="shade_html" style="position:absolute;width:100%;background: rgba(0,0,0,.3);z-index:50;display:none;"></div>
+	<div class="wmr_listfilter_box "  style='top:48px'>
+		<div class="wmr_listfilter_listOne hide zhpx" id='zhpx'>
+			<ul style="margin-left:2%;">
+				<li catename="综合排序" orderid="0" class="">综合排序</li> 				 
+				<li catename="好评优先" orderid="1" class="">好评优先</li> 
+				<li catename="起送价最低" orderid="2" class="">起送价最低</li> 
+			</ul>
+		</div>
+		
+		<div class="wmr_listfilter_listTow hide">
+			<div class="wmr_listfilter_fun">
+				<h3>配送方式</h3>
+				<ul id='sendtype'>
+					<li data='2'>
+						<img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/newshop/images/icon_wzps.png" />
+						<span>网站配送</span>
+					</li>
+					<li data='1' class="wmr_ps1">
+						<img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/newshop/images/icon_dpps.png" />
+						<span>店铺配送</span>
+					</li>
+					<{if $is_allow_ziti==1}>
+					<li data='3' class="wmr_ps1">
+						<img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/newshop/images/icon_ddzt.png" />
+						<span>到店自取</span>
+					</li>
+					<{/if}>
+				</ul>
+			</div>
+			<div class="wmr_listfilter_fun">
+				<h3>优惠活动</h3>
+				<ul id='yhhd'>
+					<li data='2'>
+						<img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/newshop/images/icon_jian.png" />
+						<span>限时满减</span>
+					</li>
+					<li data='3'>
+						<img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/newshop/images/icon_zhe.png" />
+						<span>促销打折</span>
+					</li>
+					<li data='1'>
+						<img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/newshop/images/icon_zeng.png" />
+						<span>送赠品</span>
+					</li>
+					<li data='4'>
+						<img src="<{$siteurl}>/templates/<{$tempdir}>/public/wxsite/newshop/images/icon_mian.png" />
+						<span>免配送费</span>
+					</li>
+				</ul>
+			</div>
+			<div style="height: 18px;background-color: #fafafa;"></div>
+			<div class="wmr_listfilter_btn">
+				<span class='clearsx'>清除筛选</span>
+				<span class='oversx'>完成</span>
+			</div>
+		</div>
+	</div>
+    
+</div>
+ <div class="homeNeashopBox">
+  <ul id="shoplist">
+   <{if !empty($shoplist) }>    
+        <{foreach from=$shoplist item=items }>
+			<li>
+				<{if $items['shoptype']  == 1 }>
+				<a href="<{ofunc type=url link="/wxsite/shopshow/typelx/mk/id/<{$items['id']}>"}>" target="_top"  >
+				<{else}>
+				<a href="<{ofunc type=url link="/wxsite/shopshow/typelx/wm/id/<{$items['id']}>"}>" target="_top"   >
+				<{/if}>
+				<div class="homeNeaImg">
+					<img style="width:74px;height:74px;"   <{ofunc type=img  link="<{$items['shoplogo']}>"}>    />
+				</div>
+				</a>
+				<div class="homeNeaRig">
+					<{if $items['shoptype']  == 1 }>
+					<a href="<{ofunc type=url link="/wxsite/shopshow/typelx/mk/id/<{$items['id']}>"}>" target="_top">
+					<{else}>
+					<a href="<{ofunc type=url link="/wxsite/shopshow/typelx/wm/id/<{$items['id']}>"}>"  target="_top" >
+					<{/if}>
+					<div class="homeNeaTop">
+						<div class="homeNeaInfo">
+							<div class="homeNeaName"><h3><{$items['shopname']}></h3></div>
+							<div class="homeNeaEval">
+								<{section name=total loop=<{round($items['point'])}> }><i class="fa fa-star"></i><{/section}>
+								<{section name=total loop=5-<{round($items['point'])}> }><i class="fa fa-star"  style="color:#C7C7C7;margin-left: -2px;"></i><{/section}>								 
+								<span style='color:#808080'>已售<{$items['ordercount']}>单</span>
+							</div>
+							<div class="homeNeaTim">
+								<span><{$items['juli']}></span>
+								<{if !empty($items['arrivetime']) }>
+								<b>|</b><span><{$items['arrivetime']}>分钟送达</span>
+								<{/if}>
+							</div>
+							<{if $items['opentype'] == 3  }>
+							<div class="homeNeaCoLab">
+
+								<span>预定中,<{$items['pstime']}>开始配送</span>
+							</div>
+							<{elseif $items['opentype'] == 2}>
+
+							<{else}>
+							<div class="homeNeaCoLab">
+								<span class="homeNeaCoaA">休息中，暂不接受预定</span>
+							</div>
+							<{/if}>
+
+						</div>
+						<div class="homeNeaCost">
+							<div class="homeNeaCo">
+								<span><b style="font-size:10px;">￥</b><b style="font-size:14px;font-weight: 900;"><{$items['limitcost']}></b>&nbsp;起送</span>
+								<span><b style="font-size:10px;">￥</b><b style="font-size:14px;font-weight: 900;"><{$items['pscost']}></b>&nbsp;配送费</span>
+							</div>
+							
+							<{if $items['sendtype'] ==1 }>
+							<div class="homeNeaLab"><img  <{ofunc type=img  link="<{$shoppsimg}>"}>      /></div>				
+							<{else}>
+							<div class="homeNeaLab"><img  <{ofunc type=img  link="<{$psimg}>"}>    /></div>
+							<{/if}>
+							<{if $items['is_show_ztimg'] ==1 }>
+							<div class="homeNeaLab" style='padding-right: 5px;'><img   <{ofunc type=img  link="<{$ztimg}>"}>    /></div>		
+							<{/if}>
+						</div>
+					</div>
+					</a>
+
+					<{if $open_wxcx == 1}>
+					<{if !empty($items['cxlist'] ) }>
+					<div class="homeNeaBot" id="showcs<{$items['id']}>">
+						<div class="homeNeaBotShow cx_maxh">
+							<{foreach from=$items['cxlist'] item=itv }>
+							<span><i class="icon_jian" style="background-image:url(<{$itv['imgurl']}>);width:14px; height:14px; float:left; margin:5px 5px 0 0; background-size:100%;"></i><{$itv['name']}></span>
+							 <{/foreach}>
+						</div>
+						<{if count($items['cxlist']) > 2 }>
+						<div class="homeNeaBotUp" onclick="showcx(<{$items['id']}>);">
+							<b><{count($items['cxlist'])}>个活动</b>
+							<i class="fa fa-sort-down"></i>
+						</div>
+						<{/if}>
+					</div>
+					<{/if}>
+					<{/if}>
+
+				</div>
+			</li>
+        <{/foreach}> 
+    <div id='maodian89'></div>		
+	<{if $open_wxcx == 1}>
+	<script>
+	function cx_maxh(id){
+		if( lockclick() ){
+			if($("#cx_"+id).hasClass("cx_maxh")){
+				$("#cx_"+id).removeClass('cx_maxh');
+				$("#cx_"+id+" .fa-caret-down").addClass('flipy');
+				
+			}else{
+				$("#cx_"+id).addClass('cx_maxh');
+				$("#cx_"+id+" fa-caret-down").removeClass('flipy');
+				
+			}
+		}
+	}
+	function showcx(id){
+		if( lockclick() ){
+			if($("#showcs"+id+" .homeNeaBotShow").hasClass("cx_maxh")){
+				$("#showcs"+id+" .homeNeaBotShow").removeClass('cx_maxh');
+				$("#showcs"+id+" .homeNeaBotUp i").toggleClass("fa-sort-up");
+				$("#showcs"+id+" .homeNeaBotUp b").addClass('bColor');
+				
+			}else{
+				$("#showcs"+id+" .homeNeaBotShow").addClass('cx_maxh');
+				$("#showcs"+id+" .homeNeaBotUp i").toggleClass("fa-sort-up");
+				$("#showcs"+id+" .homeNeaBotUp b").removeClass('bColor');
+				
+			}
+		}
+	}
+	</script>
+	<{/if}>		
+<{else}>
+<center style='height:50px;;line-height:50px;font-size:13px;color:#a9a9a9;'>附近暂未覆盖商家，敬请期待...</center>			
+<{/if}>    
+  </ul>
+ </div>
+<center style='display:none'><div style="color:#ccc;height:42px;line-height:42px;font-size:13px; text-align: center;">—————&nbsp;&nbsp;我是有底线的&nbsp;&nbsp;—————</div> </center> 
+</div>
+<!---------------------------------------------------------------------------首页结束----------------------------------------------------------------------------------->
+ </div>
+ </div>
+</div>
+<script>
+var defaultSwiper; //默认的滚动控件名
+var holdPosition = 0;
+var maxposition = 0;
+var page =1;
+var pageend = false;
+var dev_wrapper_height = 0;
+var loadflag = true;
+ var scrollflag = true;
+ var tempscrooll = 0;
+$(function(){ 
+	
+	var mainheight = $(window).height();//窗口高度 
+	var mainwidth = $(window).width();//窗口宽度 
+	var wrapperHeight = mainheight-50; 
+//	Tmsg(wrapperHeight);
+  var wxbglogo_height = $('#wxbglogo').height(); 
+ // $('#dev_wrapper').css('marginTop','-'+wxbglogo_height+'px');
+ var tempscrooll = 0;
+ $('#dev_wrapper').css('maxHeight',wrapperHeight+'px');
+		
+ 		$("#dev_wrapper").scroll(function() {
+			//console.log(1);
+		   var dev_scrollTop = $('#dev_wrapper').scrollTop() ;
+			 //Tmsg(dev_scrollTop);
+			if( dev_scrollTop >= 100 ){
+                $("#wxbglogo").hide();
+				$('.home_change_head_top').addClass('navaA'); 
+			}else{
+                $("#wxbglogo").hide();
+				$('.home_change_head_top').removeClass('navaA');
+			}
+			var xiangcha =  dev_scrollTop%wrapperHeight;
+ 			if( xiangcha <= 60  ){
+				
+			}
+			 
+		//	var xc = dev_wrapper_height-dev_scrollTop;
+	  		 
+		});
+
+		 
+});   
+</script>
+<style>
+.swiper-slide-cate{float: left;}
+.zhengrefu{text-align:center; margin-top:-10px;} 
+.swiper-containeraa{ position: absolute;z-index: 10;}
+.swiper-scrollbar{position: relative;-ms-touch-action: none;background: rgba(0,0,0,0.1)}
+.swiper-scrollbar-drag{height: 100%;width: 100%;position: relative;background: rgba(0,0,0,0.5); }
+.swiper-scrollbar-cursor-drag{cursor: move;}
+.device{width: 100%;height: 114px;background:#fff;position: relative;}
+.swiper-slide-lb{height:114px;float:left;}
+.swiper-slide-lb img{height:114px;}
+.swiper-container-lb{height:114px;width: 100%;}
+.content-slide{padding: 20px;color: #fff;}
+.pagination{ position: absolute;left: 0;text-align: center;bottom:0px;width: 100%;z-index:1;}
+.swiper-pagination-switch{display: inline-block;width: 4px; height: 2px;background: rgba(255,255,255,.6);;margin: 0 4px;cursor: pointer;z-index:9999}
+.swiper-active-switch{background: #FD5959;}
+.bagcoupons_content{width: 100%;height: 100%;background: rgba(0,0,0,.7);position: fixed;top: 0;left: 0;z-index: 999999;}
+.bagcoupons_box{width: 100%;height: 100%;display: -webkit-box;display: -moz-box;-webkit-box-align: center;-moz-box-align: center;-webkit-box-pack: center;-moz-box-pack: center;}
+.bagcoupons_main{padding: 0 8.3333%;position: relative;}
+.bagcoupons_head{width: 100%;}
+.bagcoupons_head img{width: 100%;display: block;}
+.bagcoupons_list{padding: 0 5%;background: -ms-linear-gradient(top, #f43933, #e20153);background: -moz-linear-gradient(top, #f43933, #e20153);background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#f43933), to(#e20153));background: -webkit-linear-gradient(top, #f43933, #e20153);background: -o-linear-gradient(top, #f43933, #e20153);}
+.bagcoupons_list ul{padding-bottom: 1px;position: relative;top: -10px;}
+.bagcoupons_list ul li{margin-bottom: 6px;display: -webkit-box;display: -moz-box;}
+.bagcoupons_list_left,
+.bagcoupons_list_right{height: 75px;display: -webkit-box;display: -moz-box;-webkit-box-orient: vertical;-moz-box-orient: vertical;-webkit-box-pack: center;-moz-box-pack: center;background-color: #fff;}
+.bagcoupons_list_left{padding: 0 10px;-webkit-box-flex: 1;-moz-box-flex: 1;}
+.bagcoupons_list_left h3{line-height: 16px;font-size: 14px;color: #333;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;overflow : hidden;}
+.bagcoupons_list_left p{margin-top: 6px;font-size: 12px;color: #808080;}
+.bagcoupons_list_line{height: 75px;}
+.bagcoupons_list_line img{height: 75px;}
+.bagcoupons_list_right{width: 86px;-webkit-box-align: center;-moz-box-align: center;}
+.bagcoupons_list_right h4{font-size: 30px;color: #ff0000;font-weight: normal;}
+.bagcoupons_list_right h4:first-letter{font-size: 14px;}
+.bagcoupons_list_right small{font-size: 12px;color: #808080;display: block;}
+.bagcoupons_close{width: 32px;height: 32px;margin-top: ;margin: 24px auto 0;}
+.bagcoupons_close img{width: 100%;height: 100%;
+}
+
+ 
+</style>

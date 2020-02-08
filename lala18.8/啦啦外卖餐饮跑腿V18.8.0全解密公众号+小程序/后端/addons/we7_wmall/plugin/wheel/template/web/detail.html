@@ -1,0 +1,117 @@
+{itemplate 'public/header'}
+<form action="./index.php" class="form-horizontal form-filter" xmlns="http://www.w3.org/1999/html">
+	{php echo tpl_form_filter_hidden('wheel/activity/detail');}
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">是否中奖</label>
+		<div class="col-sm-9 col-xs-12">
+			<div class="btn-group">
+				<a href="{php echo ifilter_url('status:0');}" class="btn {if $status == 0}btn-primary{else}btn-default{/if}">不限</a>
+				<a href="{php echo ifilter_url('status:1');}" class="btn {if $status == 1}btn-primary{else}btn-default{/if}">中奖</a>
+				<a href="{php echo ifilter_url('status:2');}" class="btn {if $status == 2}btn-primary{else}btn-default{/if}">未中奖</a>
+			</div>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">中奖筛选</label>
+		<div class="col-sm-9 col-xs-12">
+			<div class="btn-group">
+				<a href="{php echo ifilter_url('type:'. '');}" class="btn {if $type == ''}btn-primary{else}btn-default{/if}">不限</a>
+				<a href="{php echo ifilter_url('type: one');}" class="btn {if $type == 'one'}btn-primary{else}btn-default{/if}">一等奖</a>
+				<a href="{php echo ifilter_url('type: two');}" class="btn {if $type == 'two'}btn-primary{else}btn-default{/if}">二等奖</a>
+				<a href="{php echo ifilter_url('type: three');}" class="btn {if $type == 'three'}btn-primary{else}btn-default{/if}">三等奖</a>
+			</div>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">搜索</label>
+		<div class="col-sm-4 col-xs-4">
+			<input type="text" name="uid" value="{$uid}" class="form-control" placeholder="用户uid">
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+		<div class="col-sm-4 col-xs-4">
+			<input type="submit" value="筛选" class="btn btn-primary">
+		</div>
+	</div>
+</form>
+<form action="" class="form-table form" method="post">
+	<div class="panel panel-table">
+		<div class="panel-body table-responsive js-table">
+			{if empty($records)}
+				<div class="no-result">
+					<p>还没有相关数据</p>
+				</div>
+			{else}
+				<table class="table table-hover">
+					<thead class="navbar-inner">
+					<tr>
+						<th width="40">
+							<div class="checkbox checkbox-inline">
+								<input type="checkbox" name="ids[]"/>
+								<label></label>
+							</div>
+						</th>
+						<th>uid</th>
+						<th>头像</th>
+						<th>昵称</th>
+						<th>手机</th>
+						<th>中奖情况</th>
+						<th>奖品类型</th>
+						<th>奖项详情</th>
+						<th>是否发放</th>
+						<th>抽奖时间</th>
+						<th style="width:350px; text-align:right;">操作</th>
+					</tr>
+					</thead>
+					<tbody>
+						{loop $records $item}
+							<tr>
+								<td>
+									<div class="checkbox checkbox-inline">
+										<input type="checkbox" name="ids[]" value="{$item['id']}"/>
+										<label></label>
+									</div>
+								</td>
+								<td>{$item['uid']}</td>
+								<td>{$item['uid']}</td>
+								<td>{$item['uid']}</td>
+								<td>{$item['uid']}</td>
+								<td>
+									{$awards_rank[$item['type']]}
+								</td>
+								<td>{$item['uid']}</td>
+								<td>
+									{if $item['award_type'] == 'redpacket'}
+										{loop $item['award_value'] $da}
+											{$da}
+										{/loop}
+									{else}
+										{$item['award_value']}
+										{if $item['award_type'] == 'credit1'}
+											积分
+										{/if}
+										{if $item['award_type'] == 'credit2'}
+											元
+										{/if}
+									{/if}
+								</td>
+								<td>{$item['status']}</td>
+								<td>{php echo date('Y-m-d H:i:s', $item['addtime'])}</td>
+								<td style="text-align:right;">
+									<a href="{php echo iurl('wheel/record/status', array('id' => $item['id']))}" class="btn btn-default btn-sm">设为已发放</a>
+								</td>
+							</tr>
+						{/loop}
+					</tbody>
+				</table>
+				<div class="btn-region clearfix">
+					<div class="pull-right">
+						{$pager}
+					</div>
+				</div>
+			{/if}
+		</div>
+	</div>
+</form>
+{itemplate 'public/footer'}

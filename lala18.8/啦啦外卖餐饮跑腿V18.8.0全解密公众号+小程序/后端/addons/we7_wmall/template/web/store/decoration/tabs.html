@@ -1,0 +1,40 @@
+<div class="second-sidebar-title">
+	装修
+</div>
+<div class="nav slimscroll">
+	<div class="menu-header">模板</div>
+	<ul class="menu-item">
+		<li {if $_W['_op'] == 'template' && $_W['_ta'] == 'index'}class="active"{/if}>
+		<a href="{php echo iurl('store/decoration/template');}">模板配置</a>
+		</li>
+	</ul>
+	<div class="menu-header">招牌</div>
+	<ul class="menu-item">
+		<li {if $_W['_op'] == 'sign'}class="active"{/if}>
+		<a href="{php echo iurl('store/decoration/sign');}">门店招牌</a>
+		</li>
+	</ul>
+	<div class="menu-header">海报</div>
+	<ul class="menu-item">
+		<li {if $_W['_op'] == 'shopPage'}class="active"{/if}>
+			<a href="{php echo iurl('store/decoration/shopPage');}">商品海报</a>
+		</li>
+	</ul>
+	<div class="menu-header">首页</div>
+	<ul class="menu-item">
+		{if check_plugin_exist('wxapp')}
+			<li {if $_W['_op'] == 'home' && $_W['_ta'] == 'index'}class="active"{/if}>
+				<a href="{php echo iurl('store/decoration/home/index');}">门店首页</a>
+			</li>
+			<li {if $_W['_ta'] == 'list'}class="active"{/if}>
+				<a href="{php echo iurl('store/decoration/menu/list');}">门店底部菜单</a>
+			</li>
+			<li {if $_W['_ta'] == 'setting'}class="active"{/if}>
+				<a href="{php echo iurl('store/decoration/menu/setting');}">底部菜单设置</a>
+			</li>
+		{/if}
+		<li {if $_W['_ta'] == 'cover'}class="active"{/if}>
+			<a href="{php echo iurl('store/decoration/home/cover');}">链接和二维码</a>
+		</li>
+	</ul>
+</div>

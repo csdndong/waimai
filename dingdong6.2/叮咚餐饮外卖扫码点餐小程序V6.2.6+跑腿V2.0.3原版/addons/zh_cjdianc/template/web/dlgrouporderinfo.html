@@ -1,0 +1,246 @@
+{template 'public/header'}
+{template 'public/comhead'}
+<style type="text/css">
+	.info{padding: 30px;}
+	.progress{height: 5px;}
+	.infoul>li{padding: 0px;position: relative;}
+	.infoul>li>div:nth-child(1){margin-bottom: 15px;margin-left: -15px;}
+	.info_gou{width: 20px;height: 20px;color: white;border-radius: 50%;text-align: center;line-height: 20px;position: absolute;top: 27px;left: 0px;}
+	.info_grey{background-color: #e6e6e6;}
+	.info_green{background-color: #44ABF7;}
+	.progress-bar-yg{background-color: #44ABF7;}
+	.info_left{border-right: 1px solid #ccc;}
+	.info_right{padding: 15px;}
+	.info_left_title{font-size: 14px;font-weight: bold;}
+	.info_left_content>p>span:nth-child(1),.info_left_content2>p>span:nth-child(1){color: #999999;margin-right: 10px;}
+	.info_left_content{border-bottom: 1px dashed #ccc;padding-left: 100px;padding-top: 15px;}
+	.info_left_content2{padding-left: 100px;padding-top: 15px;padding-bottom: 5px;}
+	.info_right_top{border-bottom: 1px dashed #ccc;height: 238px;line-height: 30px;padding-bottom: 15px;}
+	.info_right_type{font-size: 14px;font-weight: bold;margin-left: 15px;}
+	.info_right_type>span{font-size: 18px;}
+	.gantan{color: #0077DD;border: 1px solid #0077DD;width: 30px;height: 30px;border-radius: 50%;text-align: center;line-height: 30px;font-size: 22px;font-weight: bold;}
+	.info1{height: 32px;}
+	.info1>div{float: left;}
+	.font1{color: #FF6600;font-size: 16px;font-weight: bold;}
+	.beizhu{margin: 10px 0px;}
+	.content1>div{float: left;}
+	.content1>div:nth-child(1){width: 90px;text-align: right;color: #999;margin-right: 10px;}
+	.content_inp{width: 122px;height: 32px;border:1px solid #ccc;padding: 0px 10px;}
+	.info_right_bot{padding: 10px 0px;}
+	.content_font{text-align: right;color: #999;}
+	.store_td1{height: 45px;}
+	.store_list_img{width: 60px;height: 60px;}
+	.yg5_tabel{border-color: #e5e5e5;outline: 1px solid #e5e5e5;text-align: center;}
+	.yg5_tr1{width: 100%;}
+	.yg5_tr2>td{padding: 15px;border: 1px solid #e5e5e5;}
+	.yg5_tr1>td{
+		border: 1px solid #e5e5e5;
+		padding-left: 15px;
+		background-color: #FAFAFA;
+		font-weight: bold;
+	}
+	.yg5_tr3>td{font-weight: bold;height: 45px;}
+	.yg5_tr3>td:nth-child(1){text-align: right;padding-right: 50px;}
+	.rizhi{margin-top: 20px;}
+	.rizhi>li{width: 100%;border-top: 1px solid #ccc;height: 80px;padding:15px 20px 10px 20px;}
+	.rizhip{font-size: 13px;font-weight: bold;}
+	.rizhip>span:nth-child(1){margin-right: 10px;}
+	.rizhip2{margin-left: 20px;}
+	.label-orderinfo{background-color: #44ABF7;color: white;}
+	.ygmain{font-size: 12px;}
+
+	.progess>text{
+		display: inline-block;
+		vertical-align: middle;
+	}
+	.line{
+		width: 35%;
+		height: 4px;
+		background: #f7f7f7;
+		animation: two 2s;
+	}
+	.line_0{
+		width: 35%;
+		height: 4px;
+		animation: first 2s;
+		background:rgb(68,171,247);
+	}
+	.circular{
+		width: 70px;
+		height: 70px;
+		line-height: 70px;
+		color: #fff;
+		font-size: 12px;
+		border-radius: 50%;
+		background: rgb(68,171,247);
+	}
+	.t_c{
+		text-align: center;
+	}
+	@keyframes first
+	{
+		from {width : 0;}
+		to {width: 35%;background:rgb(68,171,247);}
+	}
+	@keyframes two
+	{
+		from {width : 0;}
+		to {width: 35%;background:#f7f7f7;}
+	}
+</style>
+
+<div class="main ygmain">
+	<div class="panel panel-default">
+		<div class="panel-body">
+			<a class="btn label-orderinfo" href="{php echo $this->createWebUrl2('dlgrouporder');}"><i class="fa fa-refresh"></i>返回订单管理</a>
+		</div>
+	</div>
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			订单号：{$item['order_num']}
+		</div>
+		<div class="panel-body" style="padding: 0px 15px;">
+			<div class="row info">
+				<!-- 交易完成状态 -->
+				{if $item['state']==3}
+				<div class="t_c progess">
+					<text class="circular">买家下单</text><text class="line line_0"></text><text class="circular">买家付款</text><text class="line_0"></text><text class="circular">交易完成</text>
+				</div>
+				{/if}
+				<!-- 交易完成状态 -->
+				<!-- 商家发货 -->
+				{if $item['state']==4}
+				<div class="t_c progess">
+					<text class="circular">买家下单</text><text class=" line_0"></text><text class="circular">买家付款</text><text class="line_0"></text><text class="circular">交易关闭</text>
+				</div>
+				{/if}
+				{if $item['state']==5}
+				<div class="t_c progess">
+					<text class="circular">买家下单</text><text class=" line_0"></text><text class="circular">买家付款</text><text class="line_0"></text><text class="circular">交易失效</text>
+				</div>
+				{/if}
+				<!-- 商家发货 -->
+				<!-- 买家付款 -->
+				{if $item['state']==2}
+				<div class="t_c progess">
+					<text class="circular">买家下单</text><text class="line line_0"></text><text class="circular">买家付款</text><text class="line"></text><text class="circular">交易完成</text>
+				</div>
+				{/if}
+				<!-- 买家付款 -->
+				<!-- 下单 -->
+				{if $item['state']==1}
+				<div class="t_c progess">
+					<text class="circular">买家下单</text><text class=" line"></text><text class="circular">买家付款</text><text class="line"></text><text class="circular">交易完成</text>
+				</div>
+				{/if}
+				<!-- 下单 -->
+			</div>
+		</div>
+	</div>
+	<div class="panel panel-default">        
+		<div class="panel-body" style="padding: 15px 30px;">
+			<div class="row">
+				<div class="col-md-6 info_left">
+					<div class="info_left_title">订单信息</div>
+					<div class="info_left_content">
+						{if $item['group_id']>0}
+						<p><span>团ID</span>{$item['group_id']}</p>
+						{/if}
+						<p><span>订单编号：</span>{$item['order_num']}</p>
+						{if $item['pay_type']==1}
+						<p><span>支付流水：</span>{$item['code']}</p>
+						{/if}
+						<p><span>付款类型</span>
+							{if $item['pay_type']==1}
+							<span class="label label-orderinfo"> 微信支付</span>
+							{elseif $item['pay_type']==2}
+							<span class="label label-orderinfo"> 余额支付</span>
+							{/if}
+							{if $item['state']==1}（<span style="color: #B22222;">未付款</span>）{/if}</p>
+						</div>
+						<div class="info_left_content">
+							<p><span>下单时间：</span>{php echo date('Y-m-d H:i:s',$item['time'])}</p>
+							<p><span>买家信息：</span>{$item['nick_name']}</p>
+							<p><span>收货信息：</span>{$item['receive_name']}--{$item['receive_tel']}--{$item['receive_address']}</p>
+							{if $item['pay_time']}
+							<p><span>付款时间：</span>{php echo date('Y-m-d H:i:s',$item['pay_time'])}</p>
+							{/if}
+						</div>                    
+						<div class="info_left_content2">
+							<p><span>买家留言：</span>{if $item['note']}{$item['note']}{else}无{/if}</p>
+						</div>
+					</div>
+					<div class="col-md-6 info_right">
+						<div class="info_right_top">
+							<div class="col-md-12 info1">
+								<div class="gantan"><span class="fa fa-exclamation"></span></div>
+								<div class="info_right_type">订单状态：{if $item['state']==1}
+									<span  style="color:red" >待付款</span>
+									{elseif $item['state']==2}
+									<span  style="color:orange" >已付款</span>
+									{elseif $item['state']==3}
+									<span  style="color:orange" >已完成</span>
+									{elseif $item['state']==4}
+									<span  style="color:green" >已关闭</span>
+									{elseif $item['state']==5}
+									<span  style="color:gray" >已失效</span>
+									{/if}</div>
+								</div>
+								<div class="content1 col-md-12">
+									<div>总金额：</div>
+									<div class="font1">¥{$item['money']}</div>
+								</div>
+								<div class="content1 col-md-12">
+									<div>&nbsp;</div>
+									<div>（货价{$item['price']}*{$item['goods_num']}）</div>
+								</div>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- 商品清单部分 -->
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					商品清单
+				</div>
+				<div class="panel-body" style="padding: 0px 15px;">
+					<div class="row">
+						<table class="yg5_tabel col-md-12">
+							<tr class="yg5_tr1">
+								<td class="col-md-2 store_td1">菜品名称</td>
+								<td class="col-md-2 store_td1">菜品类型</td>
+								<td class="col-md-2">图片</td>
+								<td class="col-md-2">单价</td>
+								<td class="col-md-2">数量</td>
+								<td class="col-md-2">小计(元）</td>
+							</tr>
+
+							<tr class="yg5_tr2">
+								<td>{$item['goods_name']}</td>  
+								<td>{$item['goods_type']}</td>                   
+								<td><img height="40" src="{$item['logo']}"></td>
+								<td>¥{$item['price']}</td>
+								<td>{$item['goods_num']}</td>
+								<td>¥{php echo number_format($item['price']*$item['goods_num'],2)}</td>
+							</tr>
+
+							<tr class="yg5_tr3">
+								<td colspan="5">合计：</td>
+								<td colspan="1">¥{$item['money']}</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<script type="text/javascript">
+			$(function(){
+        // $("#frame-1").addClass("in");
+        $("#frame-11").show();
+        $("#yframe-11").addClass("wyactive");
+    })
+</script>
+{template 'common/footer'}

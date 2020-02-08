@@ -1,0 +1,63 @@
+page {
+    font-size: 14px;
+    box-sizing: border-box;
+    width: 100%;
+    background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    color: transparent;
+}
+
+.content {
+    position: relative;
+    background-color: #fff;
+}
+
+.content .wui-form-preview-hd {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    padding: 10px 15px;
+    line-height: 50px;
+}
+
+.content .wui-form-preview-hd .wui-form-preview-label {
+    font-size: 17px;
+    color: #999;
+}
+
+.content .wui-form-preview-hd .wui-form-preview-value {
+    font-style: normal;
+    font-size: 26px;
+    color: #3d4145;
+}
+
+.content .wui-form-preview-bd {
+    padding: 10px 15px;
+    font-size: 14px;
+    text-align: right;
+    color: #999;
+    line-height: 2;
+}
+
+.content .wui-form-preview-bd .wui-form-preview-item {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.content .wui-form-preview-bd .wui-form-preview-item .wui-form-preview-label {
+    font-size: 14px;
+    color: #999;
+}
+
+.content .wui-form-preview-bd .wui-form-preview-item .wui-form-preview-value {
+    font-size: 14px;
+    color: #999;
+}

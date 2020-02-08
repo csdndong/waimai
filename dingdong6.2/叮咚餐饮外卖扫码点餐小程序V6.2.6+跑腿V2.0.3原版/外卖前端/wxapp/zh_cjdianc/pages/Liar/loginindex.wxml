@@ -1,0 +1,18 @@
+<!--   time:2019-07-18 01:07:52 -->
+<block wx:if="{{kpggimg.length==0}}">
+	<view class="main" style="background:{{color}}">
+		<image src=""></image>
+	</view>
+</block>
+<block wx:if="{{kpggimg.length>0}}">	<view class="main">
+		<swiper circular="true" class="swiper" duration="500" indicatorActiveColor="#34AAFF" indicatorColor="white" indicatorDots="true" interval="5000">
+			<block wx:for="{{kpggimg}}" wx:key="unique" wx:for-item="item" wx:for-index="index" >
+				<swiper-item bindtap="tzweb" data-index="{{index}}">
+					<image bindtap="jumps" class="img" data-appid="{{item.appid}}" data-id="{{item.id}}" data-name="{{item.title}}" data-src="{{item.src}}" data-type="{{item.item}}" data-wb_src="{{item.src2}}" src="{{item.logo}}"></image>
+				</swiper-item>
+			</block>
+		</swiper>
+		<view bindtap="tggg" class="tggg">
+			<text style="color:{{color}};margin-right:10rpx;font-size:26rpx;">({{second}}s)</text>跳过		</view>
+	</view>
+</block>

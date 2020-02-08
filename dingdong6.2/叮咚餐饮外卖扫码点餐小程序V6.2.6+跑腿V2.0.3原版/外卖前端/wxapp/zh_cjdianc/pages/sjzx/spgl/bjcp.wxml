@@ -1,0 +1,200 @@
+<!--   time:2019-07-18 01:03:22 -->
+<form bindreset="formReset" bindsubmit="formSubmit">
+	<view class="container1">
+		<view class="head">
+			<view bindtap="choose" class="left">
+				<image class="img" mode="aspectFill" src="{{logo}}"></image>
+			</view>
+			<view class="right">
+				<view class="weui-cell weui-cell_input">
+					<view class="weui-cell__hd">
+						<view class="weui-label">商品排序：</view>
+					</view>
+					<view class="weui-cell__bd">
+						<input class="weui-input" name="sppx" placeholder="从小到大排序" type="number" value="{{sppx}}"></input>
+					</view>
+				</view>
+				<view class="weui-cell weui-cell_input">
+					<view class="weui-cell__hd">
+						<view class="weui-label">商品名称：</view>
+					</view>
+					<view class="weui-cell__bd">
+						<input class="weui-input" name="spmc" placeholder="输入商品名称" value="{{spmc}}"></input>
+					</view>
+				</view>
+			</view>
+		</view>
+		<view class="main">
+			<view class="bd">
+				<view class="left">商品分类：</view>
+				<view class="right">
+					<view class="weui-cell weui-cell_input">
+						<view class="weui-cell__bd">
+							<picker bindchange="spflChange" range="{{spfl}}" rangeKey="type_name" value="{{spflIndex}}">
+								<view class="weui-select" style="border-right:none">{{spfl[spflIndex].type_name}}</view>
+							</picker>
+						</view>
+					</view>
+				</view>
+			</view>
+			<view class="bd">
+				<view class="left">商品类型：</view>
+				<view class="right">
+					<view class="weui-cell weui-cell_input" style="border:none">
+						<view class="weui-cell__bd">
+							<picker bindchange="spxxChange" range="{{spxx}}" value="{{spxxIndex}}">
+								<view class="weui-select" style="border-right:none">{{spxx[spxxIndex]}}</view>
+							</picker>
+						</view>
+					</view>
+				</view>
+			</view>
+		</view>
+		<view class="main">
+			<view class="kcsl">
+				<view class="bd">
+					<view class="left">商品库存：</view>
+					<view class="right">
+						<view class="weui-cell weui-cell_input">
+							<view class="weui-cell__bd">
+								<input class="weui-input" name="cpkc" type="number" value="{{cpkc}}"></input>
+							</view>
+						</view>
+					</view>
+				</view>
+				<view class="bd">
+					<view class="left">商品销量：</view>
+					<view class="right">
+						<view class="weui-cell weui-cell_input">
+							<view class="weui-cell__bd">
+								<input class="weui-input" name="yxsl" type="number" value="{{yxsl}}"></input>
+							</view>
+						</view>
+					</view>
+				</view>
+			</view>
+			<view class="kcsl">
+				<view class="bd">
+					<view class="left">外卖价格：</view>
+					<view class="right">
+						<view class="weui-cell weui-cell_input">
+							<view class="weui-cell__bd">
+								<input class="weui-input" name="wmjg" type="digit" value="{{wmjg}}"></input>
+							</view>
+							<view class="weui-cell__ft">元</view>
+						</view>
+					</view>
+				</view>
+				<view class="bd">
+					<view class="left">原价：</view>
+					<view class="right">
+						<view class="weui-cell weui-cell_input">
+							<view class="weui-cell__bd">
+								<input class="weui-input" name="yj" type="digit" value="{{yj}}"></input>
+							</view>
+							<view class="weui-cell__ft">元</view>
+						</view>
+					</view>
+				</view>
+			</view>
+			<view class="kcsl">
+				<view class="bd">
+					<view class="left">店内价格：</view>
+					<view class="right">
+						<view class="weui-cell weui-cell_input">
+							<view class="weui-cell__bd">
+								<input class="weui-input" name="dnjg" type="digit" value="{{dnjg}}"></input>
+							</view>
+							<view class="weui-cell__ft">元</view>
+						</view>
+					</view>
+				</view>
+				<view class="bd">
+					<view class="left">包装费用：</view>
+					<view class="right">
+						<view class="weui-cell weui-cell_input">
+							<view class="weui-cell__bd">
+								<input class="weui-input" name="bzfy" type="digit" value="{{bzfy}}"></input>
+							</view>
+							<view class="weui-cell__ft">元</view>
+						</view>
+					</view>
+				</view>
+			</view>
+			<view class="kcsl">
+				<view class="bd">
+					<view class="left">限购份数：</view>
+					<view class="right">
+						<view class="weui-cell weui-cell_input">
+							<view class="weui-cell__bd">
+								<input class="weui-input" name="xgfs" type="number" value="{{xgfs}}"></input>
+							</view>
+						</view>
+					</view>
+				</view>
+				<view class="bd">
+					<view class="left">起售份数：</view>
+					<view class="right">
+						<view class="weui-cell weui-cell_input">
+							<view class="weui-cell__bd">
+								<input class="weui-input" name="qsfs" type="number" value="{{qsfs}}"></input>
+							</view>
+						</view>
+					</view>
+				</view>
+			</view>
+			<view class="bd">
+				<view class="left">商品简介：</view>
+				<view class="right">
+					<view class="weui-cell weui-cell_input" style="border:none;padding: 10px 10px;">
+						<view class="weui-cell__bd">
+							<input class="weui-input" name="spjj" placeholder="请输入商品简介" value="{{spjj}}"></input>
+						</view>
+					</view>
+				</view>
+			</view>
+		</view>
+		<view class="main">
+			<view class="bd">
+				<view class="left">商品状态：</view>
+				<view class="right">
+					<view class="weui-cell weui-cell_switch">
+						<view class="weui-cell__bd" style="padding-left:15px;">{{sjxj[sjxjIndex]}}</view>
+						<view class="weui-cell__ft">
+							<switch bindchange="switchChange" checked="{{sjxjIndex==0}}"></switch>
+						</view>
+					</view>
+				</view>
+			</view>
+			<view class="bd">
+				<view class="left">商品属性：</view>
+				<view class="right">
+					<checkbox-group bindchange="checkboxChange" class="spsx">
+						<block wx:for="{{checkboxItems}}" wx:key="value" wx:for-item="item" wx:for-index="index" >
+							<label class="weui-cell weui-check__label" style="border:none">
+								<checkbox checked="{{item.checked}}" class="weui-check" value="{{item.value}}"></checkbox>
+								<view class="weui-cell__hd weui-check__hd_in-checkbox">
+									<block wx:if="{{!item.checked}}">
+										<icon class="weui-icon-checkbox_circle" size="23" type="circle"></icon>
+									</block>
+									<block wx:if="{{item.checked}}">
+										<icon class="weui-icon-checkbox_success" size="23" type="success"></icon>
+									</block>
+								</view>
+								<view class="weui-cell__bd">{{item.name}}</view>
+							</label>
+						</block>
+					</checkbox-group>
+				</view>
+			</view>
+		</view>
+		<view class="button">
+			<block wx:if="{{!isbj}}">
+				<button class="weui-btn" disabled="{{disabled}}" formType="submit" style="background:{{color}}" type="primary">添加商品</button>
+			</block>
+			<block wx:if="{{isbj}}">
+				<button class="weui-btn" disabled="{{disabled}}" formType="submit" style="background:{{color}}" type="primary">重新提交</button>
+			</block>
+		</view>
+	</view>
+</form>
